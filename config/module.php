@@ -2,8 +2,8 @@
 return [
     'modules' => array(
         "admin",
-       /* "resources",
-        "assessment",
+       "resources",
+       /*  "assessment",
         "reports",
         "dashboard"*/
     ),

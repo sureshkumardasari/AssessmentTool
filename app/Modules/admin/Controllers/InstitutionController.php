@@ -56,28 +56,39 @@ class InstitutionController extends BaseController {
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 
-		$id = $parent_id = 0;
-		$name = '';
+		$country_arr = ['1'=>'India'];
+		$id = $parent_id = $country_id = 0;
+		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 
-		return view('admin::institution.edit',compact('id','parent_id','name','inst_arr'));
+		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state','country_arr','phoneno','pincode','inst_arr'));
 	}
 
 	public function edit($id = 0)
 	{
+		$country_arr = ['1'=>'India'];
 		if(isset($id) && $id > 0)
 		{
 			$institution = $this->institution->find($id);
 			$id = $institution->id; 
 			$parent_id = $institution->parent_id; 
 			$name = $institution->name; 
+
+			$country_id = $institution->country_id; 
+			$address1 = $institution->address1; 
+			$address2 = $institution->address2; 
+			$address3 = $institution->address3; 
+			$city = $institution->city; 
+			$state = $institution->state; 
+			$phoneno = $institution->phoneno;
+			$pincode = $institution->pincode;
 		}
 		else
 		{
-			$id = $parent_id = 0;
-			$name = '';
+			$id = $parent_id = $country_id = 0;
+			$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 		}
 
-		return view('admin::institution.edit',compact('id','parent_id','name'));
+		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state','country_arr','phoneno','pincode'));
 	}
 
 	public function update($id = 0)

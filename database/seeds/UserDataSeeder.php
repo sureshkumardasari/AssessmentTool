@@ -15,6 +15,8 @@ class UserDataSeeder extends Seeder {
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
 			'institution_id' => '1',
+			'added_by' => '1',
+			'updated_by' => '1',
    		]);
 
 		DB::table('roles')->insert([
@@ -34,6 +36,8 @@ class UserDataSeeder extends Seeder {
 			'parent_id' => '0',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
+			'added_by' => '1',
+			'updated_by' => '1',
 		]);
   	}
 

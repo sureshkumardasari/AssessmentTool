@@ -19,6 +19,8 @@ class ModifyUsersTable extends Migration {
             $table->integer('role_id')->nullable();
             $table->string('enrollno', 30)->nullable();
             $table->enum('status', ['Yes', 'No'])->default('Yes')->nullable();
+            $table->integer('added_by')->nullable();
+			$table->integer('updated_by')->nullable();
 		});
 	}
 
@@ -36,6 +38,8 @@ class ModifyUsersTable extends Migration {
 			$table->dropColumn('role_id');
 			$table->dropColumn('status');
 			$table->dropColumn('enrollno');
+			$table->dropColumn('added_by');
+			$table->dropColumn('updated_by');
 		});
 	}
 

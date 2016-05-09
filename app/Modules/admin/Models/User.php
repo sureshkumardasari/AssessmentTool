@@ -70,10 +70,12 @@ class User extends Model {
 			{
 				$obj->password = bcrypt($params['password']);
 			}	
+			$obj->updated_by = Auth::user()->id;
 		}
 		else
 		{
 			$obj->password = bcrypt($params['password']);
+			$obj->added_by = Auth::user()->id;
 		}
 		$obj->name = $params['name'];
 		$obj->email = $params['email'];

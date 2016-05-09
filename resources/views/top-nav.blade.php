@@ -25,8 +25,8 @@
 					<li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
-			            <li><a href="{{ url('/subject') }}">Subjects</a></li>
-			            <li><a href="{{ url('/lesson') }}">Lessons</a></li>
+			            <li><a href="{{ url('/resources/subject') }}">Subjects</a></li>
+			            <li><a href="{{ url('/resources/lesson') }}">Lessons</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/quesion') }}">Question</a></li>
 			            <li><a href="{{ url('/passage') }}">Passages</a></li>
