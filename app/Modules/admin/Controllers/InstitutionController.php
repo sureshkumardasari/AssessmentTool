@@ -46,7 +46,7 @@ class InstitutionController extends BaseController {
 	 */
 	public function index($parent_id = 0)
 	{
-		$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		$institutions = $this->institution->getInstitutions($parent_id);
         return view('admin::institution.list',compact('institutions'));
 	}
