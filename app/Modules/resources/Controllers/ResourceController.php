@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Subject;
 use App\Modules\Resources\Models\Lesson;
+use App\Modules\Resources\Models\Category;
 
 class ResourceController extends BaseController {
 
@@ -45,6 +46,9 @@ class ResourceController extends BaseController {
 
 		$obj = new Lesson();
 		$this->lesson = $obj;
+
+		$obj = new Category();
+		$this->category = $obj;
 	}
 
 	/**
@@ -61,7 +65,7 @@ class ResourceController extends BaseController {
 	{
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
 		$inst_arr = $this->institution->getInstitutions();	
-		$category = $this->subject->getCategory();
+		$category = $this->category->getCategory();
 
 		$subjects = $this->subject->getSubject();
         return view('resources::subject.list',compact('inst_arr', 'subjects','category'));
@@ -70,7 +74,7 @@ class ResourceController extends BaseController {
 	public function subjectadd()
 	{		
 		$inst_arr = $this->institution->getInstitutions();
-		$category = $this->subject->getCategory();
+		$category = $this->category->getCategory();
 
 		$id = $institution_id = $category_id = 0;
 		$name = '';
@@ -80,7 +84,7 @@ class ResourceController extends BaseController {
 	public function subjectedit($id = 0)
 	{		
 		$inst_arr = $this->institution->getInstitutions();
-		$category = $this->subject->getCategory();
+		$category = $this->category->getCategory();
 
 		if(isset($id) && $id > 0)
 		{
@@ -121,7 +125,7 @@ class ResourceController extends BaseController {
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
 		$inst_arr = $this->institution->getInstitutions();	
 		$subjects = $this->subject->getSubject();	
-		$category = $this->subject->getCategory();
+		$category = $this->category->getCategory();
 
 		$lessons = $this->lesson->getLesson();
         return view('resources::lesson.list',compact('inst_arr', 'lessons','subjects','category'));
@@ -131,7 +135,7 @@ class ResourceController extends BaseController {
 	{		
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
-		$category = $this->subject->getCategory();
+		$category = $this->category->getCategory();
 
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$name = '';
@@ -142,7 +146,7 @@ class ResourceController extends BaseController {
 	{		
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
-		$category = $this->subject->getCategory();
+		$category = $this->category->getCategory();
 
 		if(isset($id) && $id > 0)
 		{
@@ -177,5 +181,59 @@ class ResourceController extends BaseController {
 			$this->lesson->deletelesson($id);
 		}
 		return redirect('/resources/lesson');
+	}
+
+	public function category($parent_id = 0)
+	{
+		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
+		$inst_arr = $this->institution->getInstitutions();
+		$category = $this->category->getCategory();
+        return view('resources::category.list',compact('inst_arr','category'));
+	}
+
+	public function categoryadd()
+	{		
+		$inst_arr = $this->institution->getInstitutions();
+
+		$id = $institution_id = 0;
+		$name = '';
+		return view('resources::category.edit',compact('id','institution_id','name','inst_arr'));
+	}
+
+	public function categoryedit($id = 0)
+	{		
+		$inst_arr = $this->institution->getInstitutions();
+
+		if(isset($id) && $id > 0)
+		{
+			$obj = $this->category->find($id);
+			$id = $obj->id; 
+			$institution_id = $obj->institution_id; 
+			$name = $obj->name; 
+		}
+		else
+		{
+			$id = $institution_id = 0;
+			$name = '';
+		}
+		return view('resources::category.edit',compact('id','institution_id','name','inst_arr'));
+	}
+
+	public function categoryupdate($id = 0)
+	{
+		$params = Input::All();
+		//var_dump($params);
+		$this->category->updatecategory($params);
+
+		return redirect('/resources/category');
+	}
+
+	public function categorydelete($id = 0)
+	{
+		if($id > 0)
+		{
+			$this->category->deletecategory($id);
+		}
+		return redirect('/resources/category');
 	}
 }

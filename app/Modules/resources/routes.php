@@ -25,4 +25,10 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('lessonedit/{id}', array('as' => 'edit', 'uses'=>'ResourceController@lessonedit'));
     Route::get('lessondel/{id}', array('as' => 'delete', 'uses'=>'ResourceController@lessondelete'));
     Route::post('lessonupdate', array('as' => 'update', 'uses'=>'ResourceController@lessonupdate'));
+
+    Route::get('category', array('as' => 'list', 'uses'=>'ResourceController@category'));
+    Route::get('categoryadd', array('as' => 'add', 'uses'=>'ResourceController@categoryadd'));
+    Route::get('categoryedit/{id}', array('as' => 'edit', 'uses'=>'ResourceController@categoryedit'));
+    Route::get('categorydel/{id}', array('as' => 'delete', 'uses'=>'ResourceController@categorydelete'));
+    Route::post('categoryupdate', array('as' => 'update', 'uses'=>'ResourceController@categoryupdate'));
 });
