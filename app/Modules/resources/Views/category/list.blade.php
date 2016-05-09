@@ -3,8 +3,13 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
+			<ul class="nav nav-tabs" role="tablist">
+			    <li class="active"><a href="{{ url('/resources/category') }}">Category</a></li>
+		        <li><a href="{{ url('/resources/subject') }}">Subjects</a></li>
+		        <li><a href="{{ url('/resources/lesson') }}">Lessons</a></li>
+			</ul>
 			<div class="panel panel-default">
-				<div class="panel-heading">Category
+				<div class="panel-heading">&nbsp;<!-- Category -->
 					<a href="{{ url('/resources/categoryadd/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
 

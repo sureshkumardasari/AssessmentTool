@@ -105,11 +105,32 @@ class UserController extends BaseController {
 
 	public function update($institutionId = 0)
 	{
+		$post = Input::All();
+        $validator = Validator::make($post, [
+                'institution_id' =>'required|not_in:0',
+                'role_id' =>'required|not_in:0',
+                'name' => 'required|min:3|unique:users',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|confirmed|min:6',
+                'enrollno' =>'required']
+        );
+        if ($validator->fails())
+        {
+            return Redirect::back()->withInput()->withErrors($validator);
+        }
+        else {
+            $params = Input::All();
+            //var_dump($params);
+            $this->user->updateUser($params);
+
+            return redirect('/user');
+        }
+        /*
 		$params = Input::All();
 		//var_dump($params);
 		$this->user->updateUser($params);
 
-		return redirect('/user');
+		return redirect('/user');*/
 	}
 
 	public function delete($userid = 0)
