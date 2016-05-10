@@ -112,13 +112,21 @@ class UserController extends BaseController {
                 'role_id' =>'required|not_in:0',
                 'name' => 'required|min:3|unique:users',
                 'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|confirmed|min:6',
                 'enrollno' =>'required'];
 
 		if($post['id'] > 0)
 		{
 			$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
 			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
+
+			if($post['password'] != NULL)
+			{
+				$rules['password'] = 'confirmed|min:6';
+			}	
+		}
+		else
+		{
+			$rules['password'] = 'required|confirmed|min:6';
 		}
         
         $validator = Validator::make($post, $rules);
