@@ -104,6 +104,34 @@ class ResourceController extends BaseController {
 
 	public function subjectupdate($id = 0)
 	{
+		$post = Input::All();
+
+		$rules = [
+			'institution_id' => 'required|not_in:0',
+			'category_id' => 'required|not_in:0',
+			'name' => 'required|min:3|unique:subject',];
+
+		if ($post['id'] > 0)
+		{
+			$rules['name'] = 'required|min:3|unique:subject,name,' . $post['id'];
+		}
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		} else
+		{
+			$params = Input::All();
+			//var_dump($params);
+			$this->subject->updateSubject($params);
+
+			return redirect('/resources/subject');
+		}
+	}
+
+	public function subjectupdateold($id = 0)
+	{
 		$params = Input::All();
 		//var_dump($params);
 		$this->subject->updateSubject($params);
@@ -167,6 +195,35 @@ class ResourceController extends BaseController {
 
 	public function lessonupdate($id = 0)
 	{
+		$post = Input::All();
+
+		$rules = [
+			'institution_id' => 'required|not_in:0',
+			'category_id' => 'required|not_in:0',
+			'subject_id' => 'required|not_in:0',
+			'name' => 'required|min:3|unique:lesson',];
+
+		if ($post['id'] > 0)
+		{
+			$rules['name'] = 'required|min:3|unique:lesson,name,' . $post['id'];
+		}
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		} else
+		{
+			$params = Input::All();
+			//var_dump($params);
+			$this->lesson->updatelesson($params);
+
+			return redirect('/resources/lesson');
+		}
+	}
+
+	public function lessonupdateold($id = 0)
+	{
 		$params = Input::All();
 		//var_dump($params);
 		$this->lesson->updatelesson($params);
@@ -220,6 +277,30 @@ class ResourceController extends BaseController {
 	}
 
 	public function categoryupdate($id = 0)
+	{
+		$post = Input::All();
+
+		$rules = [
+			'institution_id' => 'required|not_in:0',
+			'name' => 'required|min:3|unique:category',];
+
+		if ($post['id'] > 0) {
+			$rules['name'] = 'required|min:3|unique:category,name,' . $post['id'];
+		}
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
+		} else {
+			$params = Input::All();
+			//var_dump($params);
+			$this->category->updatecategory($params);
+
+			return redirect('/resources/category');
+		}
+	}
+
+	public function categoryupdateold($id = 0)
 	{
 		$params = Input::All();
 		//var_dump($params);

@@ -10,7 +10,7 @@
 			</ul>
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
-					<a href="{{ url('/resources/lessonadd/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
+					<a href="{{ url('/resources/lessonadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
 
 				<div class="panel-body">

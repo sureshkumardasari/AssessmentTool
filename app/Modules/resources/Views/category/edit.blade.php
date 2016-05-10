@@ -1,6 +1,10 @@
 @extends('default')
 
 @section('content')
+<?php
+	$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $institution_id;
+	$name =  (old('name') != NULL) ? old('name') : $name;
+?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -21,7 +25,7 @@
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/categoryupdate') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id">
@@ -32,7 +36,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Name</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="name" value="{{ $name }}">

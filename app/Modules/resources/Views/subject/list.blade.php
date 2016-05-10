@@ -10,11 +10,11 @@
 			</ul>
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Subjects -->
-					<a href="{{ url('/resources/subjectadd/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
+					<a href="{{ url('/resources/subjectadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
 				
 				<div class="panel-body">
-					<div class="form-group">
+					<div class="form-group col-md-4">
 						<label class="col-md-4 control-label">Institution</label>
 						<div class="col-md-6">
 							<select class="form-control" name="institution_id">
@@ -25,7 +25,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group col-md-4">
 						<label class="col-md-4 control-label">Category</label>
 						<div class="col-md-6">
 							<select class="form-control" name="category_id">
@@ -34,6 +34,13 @@
 								<option value="{{ $id }}">{{ $val }}</option>
 								@endforeach
 							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-2">
+						<div class="col-md-6">
+							<button type="button" class="btn btn-primary">
+									Go
+								</button>
 						</div>
 					</div>
 					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">

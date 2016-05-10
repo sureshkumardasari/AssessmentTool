@@ -93,6 +93,42 @@ class InstitutionController extends BaseController {
 
 	public function update($id = 0)
 	{
+		$post = Input::All();
+
+		$rules = [
+			/*'parent institution_id' => 'required|not_in:0',*/
+			'name' => 'required|min:3|unique:institution',
+			'address1' => 'required',
+			'city' => 'required',
+			'state' => 'required',
+			'country_id' => 'required|not_in:0',
+			'pincode' => 'required',
+			'phoneno' => 'required',];
+
+		if($post['id'] > 0)
+		{
+			$rules['name'] = 'required|min:3|unique:institution,name,' . $post['id'];
+
+		}
+
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		else
+		{
+			$params = Input::All();
+			//var_dump($params);
+			$this->institution->updateInstitution($params);
+
+			return redirect('/user/institution');
+		}
+	}
+	
+	public function updateold($id = 0)
+	{
 		$params = Input::All();
 		//var_dump($params);
 		$this->institution->updateInstitution($params);

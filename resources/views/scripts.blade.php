@@ -12,6 +12,19 @@
 		    $('#top-link-block').removeClass('hidden');
 		}
 		$(document).ready(function() {
-		    $('.datatableclass').DataTable();
+		    $('.datatableclass').DataTable({
+		    	language: {
+			        paginate: {
+			            previous: '‹',
+			            next:     '›'
+			        },
+			        aria: {
+			            paginate: {
+			                previous: 'Previous',
+			                next:     'Next'
+			            }
+			        }
+			    }
+		    });
 		} );	
 	</script>

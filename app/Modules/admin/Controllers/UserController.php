@@ -191,6 +191,33 @@ class UserController extends BaseController {
 
 	public function roleupdate($id = 0)
 	{
+		$post = Input::All();
+		$rules = [
+			'name' => 'required|min:3|unique:roles',
+		];
+		if($post['id'] > 0)
+		{
+			$rules['name'] = 'required|min:3|unique:roles,name,' . $post['id'];
+		}
+
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		else
+		{
+			$params = Input::All();
+			//var_dump($params);
+			$this->user->updateRole($params);
+
+			return redirect('/user/role');
+		}
+	}
+	
+	public function roleupdateold($id = 0)
+	{
 		$params = Input::All();
 		//var_dump($params);
 		$this->user->updateRole($params);
