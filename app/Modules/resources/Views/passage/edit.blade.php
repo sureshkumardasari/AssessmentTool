@@ -1,8 +1,12 @@
 @extends('default')
-@section('content')
+@section('header-assets')
+@parent
 {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
-{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}  
+{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}    
 {!! HTML::script(asset('assets/js/passage.js')) !!}
+@stop
+@section('content')
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
