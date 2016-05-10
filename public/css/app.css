@@ -6238,3 +6238,7 @@ label,
 .left{
   float: left;
 }
+.form-group.required .control-label:after { 
+   content:"*";
+   color:red;
+}

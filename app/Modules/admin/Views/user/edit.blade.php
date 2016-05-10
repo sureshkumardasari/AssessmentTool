@@ -1,6 +1,17 @@
 @extends('default')
 
 @section('content')
+
+<?php
+	$role_id = (old('role_id') != NULL) ? old('role_id') : $role_id; 
+	$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $institution_id; 
+	$name =  (old('name') != NULL) ? old('name') : $name; 
+	$email = (old('email') != NULL) ? old('email') : $email; 
+	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
+	$status = (old('status') != NULL) ? old('status') : $status; 
+	$password = (old('password') != NULL) ? old('password') : $password; 
+?>
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -22,7 +33,7 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id">
@@ -34,7 +45,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Role</label>
 							<div class="col-md-6">
 								<select class="form-control" name="role_id">
@@ -46,42 +57,42 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Name</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="name" value="{{ $name }}">
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
 								<input type="email" class="form-control" name="email" value="{{ $email }}">
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Confirm Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Enrollment No.</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Status</label>
 							<div class="col-md-6">
 								<input type="radio" class="" name="status" id="status_yes" value="Yes" {{ ($status == "" || $status == "Yes") ? 'checked="checked"' : '' }}>Active 

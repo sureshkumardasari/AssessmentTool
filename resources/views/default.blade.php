@@ -26,6 +26,17 @@
         @include('top-nav')
     @show
 
+	<!-- breadcrumb -->	
+	<div class="container">
+		<div class="row">
+		    @section('breadcrumb')
+                {{ breadcrumb() }}
+                <div class="clr"></div>
+            @show
+		</div>
+	</div>
+	<!-- breadcrumb -->
+
 	@yield('content')
 
 	@section('footer')
