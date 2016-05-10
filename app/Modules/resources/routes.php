@@ -31,4 +31,10 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('categoryedit/{id}', array('as' => 'category-edit', 'uses'=>'ResourceController@categoryedit'));
     Route::get('categorydel/{id}', array('as' => 'category-delete', 'uses'=>'ResourceController@categorydelete'));
     Route::post('categoryupdate', array('as' => 'category-update', 'uses'=>'ResourceController@categoryupdate'));
+
+    Route::get('passage', array('as' => 'list', 'uses'=>'PassageController@passage'));
+    Route::get('passageadd', array('as' => 'add', 'uses'=>'PassageController@passageadd'));
+    Route::get('passageedit/{id}', array('as' => 'edit', 'uses'=>'PassageController@passageedit'));
+    Route::get('passagedel/{id}', array('as' => 'delete', 'uses'=>'PassageController@passagedelete'));
+    Route::post('passageupdate', array('as' => 'update', 'uses'=>'PassageController@passageupdate'));
 });

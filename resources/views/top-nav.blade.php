@@ -30,7 +30,7 @@
 			            <li><a href="{{ url('/resources/lesson') }}">Lessons</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/quesion') }}">Question</a></li>
-			            <li><a href="{{ url('/passage') }}">Passages</a></li>
+			            <li><a href="{{ url('/resources/passage') }}">Passages</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/assessment') }}">Assessments</a></li>
 			          </ul>

@@ -148,6 +148,8 @@ return [
 		'App\Providers\RouteServiceProvider',
 		'App\Modules\ServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
+		'Illuminate\Html\HtmlServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
 	],
 
 	/*
@@ -201,7 +203,7 @@ return [
         'Excel' 	=> 'Maatwebsite\Excel\Facades\Excel',
         'Image' 	=> 'Intervention\Image\Facades\Image',
         'QrCode'	=> 'SimpleSoftwareIO\QrCode\Facades\QrCode',
-        'Debugbar' 	=> 'Barryvdh\Debugbar\Facade'
+        'Debugbar' 	=> 'Barryvdh\Debugbar\Facade',
 	],
 
 ];
