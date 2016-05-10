@@ -9,6 +9,7 @@
 namespace App\Modules\Admin\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Model {
 	/**

@@ -106,14 +106,23 @@ class UserController extends BaseController {
 	public function update($institutionId = 0)
 	{
 		$post = Input::All();
-        $validator = Validator::make($post, [
+		
+		$rules = [
                 'institution_id' =>'required|not_in:0',
                 'role_id' =>'required|not_in:0',
                 'name' => 'required|min:3|unique:users',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:6',
-                'enrollno' =>'required']
-        );
+                'enrollno' =>'required'];
+
+		if($post['id'] > 0)
+		{
+			$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
+			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
+		}
+        
+        $validator = Validator::make($post, $rules);
+        
         if ($validator->fails())
         {
             return Redirect::back()->withInput()->withErrors($validator);
