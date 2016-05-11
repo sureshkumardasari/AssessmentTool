@@ -4,7 +4,7 @@ $( document ).ready(function() {
     	var instId = $(this).val();
     	$targetList = $('div#user-list');	
     	var data = $( "#institution_id,#role_id" ).serializeArray();
-    	console.log('selecte instId ' + instId);
+    	//console.log('selecte instId ' + instId);
     	$.ajax({
 			type: "GET",
 			data: data,
@@ -21,7 +21,7 @@ $( document ).ready(function() {
 		});
     });
     $('.searchfilter').on("click",function(e){    	
-    	console.log('searchfilter ');
+    	//console.log('searchfilter ');
     	$(this)
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
         $('.searchfilter-body').toggleClass('hide show');

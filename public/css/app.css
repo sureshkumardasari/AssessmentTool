@@ -6234,6 +6234,7 @@ label,
 }
 .right{
   float: right;
+  margin-right: 10px;
 }
 .left{
   float: left;

@@ -20,6 +20,7 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('del/{id}', array('as' => 'userdelete', 'uses'=>'UserController@delete'));
     Route::post('update', array('as' => 'userupdate', 'uses'=>'UserController@update'));
     Route::get('search', array('as' => 'usersearch', 'uses'=>'UserController@searchByInstitution'));
+    Route::get('userBulkUpload', array('as' => 'userBulkUpload', 'uses'=>'UserController@userBulkUpload'));
 
     Route::get('institution', array('as' => 'institution-list', 'uses'=>'InstitutionController@index'));
 	Route::get('institutionadd', array('as' => 'institution-add', 'uses'=>'InstitutionController@add'));

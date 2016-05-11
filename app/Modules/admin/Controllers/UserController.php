@@ -253,4 +253,9 @@ class UserController extends BaseController {
 		}
 		return redirect('/user/role');
 	}
+
+	public function userBulkUpload()
+	{
+		echo "hello";
+	}
 }
