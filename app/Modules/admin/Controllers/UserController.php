@@ -256,6 +256,8 @@ class UserController extends BaseController {
 
 	public function userBulkUpload()
 	{
-		echo "hello";
+		$InstitutionObj = new Institution();
+		$inst_arr = $InstitutionObj->getInstitutions();
+		return view('admin::user.bulkupload',compact('inst_arr'));
 	}
 }

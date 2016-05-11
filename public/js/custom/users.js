@@ -27,4 +27,9 @@ $( document ).ready(function() {
         $('.searchfilter-body').toggleClass('hide show');
     });
 
+	$('#userimport_institution_id').on("change",function(){
+		var thisVal = $(this).val();
+		var msg = (thisVal > 0) ? 'Institution Id is "' +thisVal+ '"' : "";
+		$(".UserImportInstitutionId").text(msg);
+	});
 });
