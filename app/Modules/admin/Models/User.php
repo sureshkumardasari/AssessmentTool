@@ -20,7 +20,7 @@ class User extends Model {
 	protected $table = 'users';
 	protected $primaryKey = 'id';
 
-	public function getUsers($institution_id = 0)
+	public function getUsers($institution_id = 0, $role_id = 0)
 	{
 		//$users = User::get();
 		$query = DB::table('Users as u')
@@ -35,6 +35,10 @@ class User extends Model {
         if($institution_id > 0)
         {
         	$query->where("u.institution_id", $institution_id);
+        }
+        if($role_id > 0)
+        {
+        	$query->where("u.role_id", $role_id);
         }
 
         $users = $query->get();

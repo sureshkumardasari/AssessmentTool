@@ -54,8 +54,28 @@ class UserController extends BaseController {
 		$users=$this->user->getUsers($institution_id);
 		//dd($users);
         
-        return view('admin::user.list',compact('users'));
+        $InstitutionObj = new Institution();
+		$inst_arr = $InstitutionObj->getInstitutions();
+		$roles_arr = $this->user->getRoles();
+
+        //return view('admin::user.list',compact('users'));
+        return view('admin::user.list', compact('inst_arr','roles_arr'))
+        ->nest('usersList', 'admin::user._list', compact('users'));
 	}
+
+	public function searchByInstitution($institution_id = 0, $role_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$role_id = (isset($params['role_id'])) ? $params['role_id'] : $role_id;
+
+		$users=$this->user->getUsers($institution_id, $role_id);
+		//dd($users);
+        
+        $from = 'search';
+        return view('admin::user._list', compact('users', 'from'));
+	}
+
     public function profile()
 	{
 			$userid = Auth::user()->id;

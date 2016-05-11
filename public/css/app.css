@@ -6242,3 +6242,6 @@ label,
    content:"*";
    color:red;
 }
+.clear {
+    clear: both;
+}
