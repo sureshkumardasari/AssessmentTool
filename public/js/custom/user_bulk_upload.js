@@ -5,8 +5,7 @@
  */
 
         $(function () {
-			$(".custom_slct").SumoSelect();
-
+			
             $(document).on('change', '.user-file', function () {
                 var fileName = $(this).val();
                 if ( fileName ) {
@@ -20,11 +19,12 @@
 	    });
             
             function downloadTemplate(type){
+                var institution_id = $('#userimport_institution_id').val();
                 $('.error-log').empty();
                 $.ajax({
                 type: "GET",
                 url: bulkUserTemplate,
-                data: {userType:type},
+                data: {userType:type, institution_id:institution_id},
                 dataType: 'json',
                 success: function( data ){
                     if ( data ) {
@@ -39,11 +39,10 @@
 
             $('.uploadBtn').off("click").on("click",function(){
                             
-                organizationId = $("select[name='organizationId']").val();
-                institutionId = $("select[name='institutionId']").val();
-                userType =$("select[name='userType']").val();
-                if(organizationId == 0){
-                    $('.error-log').html("<p class='error'>Please select an organization</p>");
+                institutionId = $("#userimport_institution_id").val();
+                userType = 'student';
+                if(institutionId == 0){
+                    $('.error-log').html("<p class='error'>Please select an institution</p>");
                     return;
                 }
                 if($('.user-file').val() == ''){
@@ -63,7 +62,6 @@
                   formData.append('file', file[0].files[0]);
  
                 formData.append("_token", $(".hidden-token").val());
-                formData.append("organizationId", organizationId);
                 formData.append("institutionId", institutionId);
                 formData.append("userType", userType);
                 // Set up the request.
@@ -100,14 +98,8 @@
                         else if(result.status == 'success'){
                             
                             $('.error-log').empty();
-                            
-                            if ( isFromInstitionPage ) {
-
-                                window.location.replace( institutionViewUrl );
-                            } else {
-
-                                parent.window.location.reload();
-                            }
+                            alert(result.msg);
+                            parent.window.location.reload();
                         }
                     }
                 }
@@ -117,38 +109,25 @@
                 xhr.send(formData); 
             })
 
-            $( "select[name='organizationId']" ).off('change').on('change', function() {
-            id = $(this).val();
-            $.ajax({
-            type: "GET",
-            url: childInstitutionUrl,
-            data: {Id: id},
-            dataType: 'text',
-            beforeSend: function() {                
-            }, success: function( data ){
-                if ( data ) {
-                    $("select[name='institutionId']").empty().append(data);
-                    $("select[name='institutionId']")[0].sumo.unload();
-                    $("select[name='institutionId']").SumoSelect();  
-                };
-            }, complete: function() {
-            }
-          });
-        });
+            
+function toggleMsg(msg) {
+    if ($('.userSuccMSG').is(':hidden')) {
+        $('.userSuccMSG').html(msg);
+        $('.userSuccMSG').css('display', 'block');
+        $('.userSuccMSG').css("top", 320 + "px");
+        $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
+    } else {
+        $('.userSuccMSG').hide();
+    }
+    ;
+}
 
+function showMsg(msg) {
+    $('.userSuccMSG').html(msg);
+    $('.userSuccMSG').css('display', 'block');
+    $('.userSuccMSG').css("top", 320 + "px");
+    $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
+    
+    $('.userSuccMSG').fadeOut(4000);        
 
-function downloadInstituteIdsXcl(urlStr){
-    var institutionIdVal = $('#select2Institution').select2('val');
-    console.log(institutionIdVal);
-    $.ajax({
-        type: "GET",
-        url: urlStr,
-        data: {institutionId: institutionIdVal},
-        dataType: 'json',
-        success: function( data ){
-            if ( data.response == 'success' ) {
-                window.location.href=data.file_name;
-            };
-        }
-    });
 }

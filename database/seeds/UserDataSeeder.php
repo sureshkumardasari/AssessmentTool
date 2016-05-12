@@ -25,6 +25,13 @@ class UserDataSeeder extends Seeder {
 			'display_name' => 'Admin',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
+		],
+		[
+			'id' => '2',
+			'name' => 'student',
+			'display_name' => 'Student',
+			'created_at' => new DateTime,
+			'updated_at' => new DateTime,
 		]);
 		DB::table('role_user')->insert([
 			'user_id' => '1',

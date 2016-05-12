@@ -21,7 +21,9 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::post('update', array('as' => 'userupdate', 'uses'=>'UserController@update'));
     Route::get('search', array('as' => 'usersearch', 'uses'=>'UserController@searchByInstitution'));
     Route::get('userBulkUpload', array('as' => 'userBulkUpload', 'uses'=>'UserController@userBulkUpload'));
-
+    Route::get('bulkusertemplate', array('as'=>'bulkUserTemplate','uses'=>'UserController@bulkUserTemplate'));
+    Route::post('bulkuserupload', array('as'=>'bulkUserUpload','uses'=>'UserController@bulkUserUpload'));
+    
     Route::get('institution', array('as' => 'institution-list', 'uses'=>'InstitutionController@index'));
 	Route::get('institutionadd', array('as' => 'institution-add', 'uses'=>'InstitutionController@add'));
     Route::get('institutionedit/{id}', array('as' => 'institution-edit', 'uses'=>'InstitutionController@edit'));

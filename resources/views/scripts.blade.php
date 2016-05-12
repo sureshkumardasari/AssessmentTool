@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="{{ asset('/plugins/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')}}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ asset('/plugins/fancybox/source/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
 
+	<script src="{{ asset('/js/jquery.form.js')}}"></script>
+
 	<script type="text/javascript">
 		// Only enable if the document has a long scroll bar
 		// Note the window height + offset
