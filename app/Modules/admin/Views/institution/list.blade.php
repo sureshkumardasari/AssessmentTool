@@ -9,7 +9,7 @@
 				</div>
 
 				<div class="panel-body">
-					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="institutionstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Name</th>
