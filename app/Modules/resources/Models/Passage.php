@@ -62,6 +62,9 @@ class Passage extends Model {
 		}
 		$obj->id = $params['id'];
 		$obj->title = $params['name'];
+		$obj->passage_text = $params['passage_text'];
+		$obj->passage_lines = $params['passage_lines'];
+		$obj->status = $params['status'];
 		$obj->save();	
 	}
 }

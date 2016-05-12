@@ -58,8 +58,8 @@ class PassageController extends BaseController {
 		//$inst_arr = $this->institution->getInstitutions();
 
 		$id = 0;
-		$name = $passage_text = $passage_lines = $status = '';
-		return view('resources::passage.edit',compact('id','name','passage_text','passage_lines','status'));
+		$passage = new passage();
+		return view('resources::passage.edit',compact('passage'));
 	}
 
 	public function passageedit($id = 0)
@@ -68,23 +68,20 @@ class PassageController extends BaseController {
 
 		if(isset($id) && $id > 0)
 		{
-			$obj = $this->passage->find($id);
-			$id = $obj->id; 
-			//$institution_id = $obj->institution_id; 
-			$name = $obj->title; 
+			$passage = $this->passage->find($id);		
 		}
 		else
 		{
-			$id = 0;
-			$name = '';
+			$passage = Input::All();			
 		}
-		return view('resources::passage.edit',compact('id','name'));
+		
+		return view('resources::passage.edit',compact('passage'));
 	}
 
 	public function passageupdate($id = 0)
 	{
 		$params = Input::All();
-		//var_dump($params);
+		
 		$this->passage->updatepassage($params);
 
 		return redirect('/resources/passage');
