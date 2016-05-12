@@ -16,7 +16,7 @@
 				                <td>{{ $user->email }}</td>
 				                <td>{{ $user->Instname }}</td>
 				                <td>{{ $user->rolename }}</td>
-				                <td>{{ ($user->status == 'Yes') ? 'Active' : 'Inactive' }}</td>
+				                <td>{{ $user->status }}</td>
 				                <td>
 				                	<a href="{{ url('/user/edit/'.$user->id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
 									<a href="{{ url('/user/del/'.$user->id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					

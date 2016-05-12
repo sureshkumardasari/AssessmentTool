@@ -21,7 +21,7 @@ use Illuminate\Http\JsonResponse;
 use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Admin\Models\Role;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class UserController extends BaseController {
@@ -95,11 +95,14 @@ class UserController extends BaseController {
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
+		$country_arr = ['1'=>'India'];
 
-		$id = $institution_id = $role_id = 0;
+		$id = $institution_id = $role_id = $country_id = 0;
 		$name = $email = $status = $enrollno = $password = '';
+		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = '';
 
-		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'));
+		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'
+			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name'));
 	}
 	public function edit($userid = 0)
 	{
@@ -107,8 +110,8 @@ class UserController extends BaseController {
 		$params = Input::All();
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-
 		$roles_arr = $this->user->getRoles();
+		$country_arr = ['1'=>'India'];
 
 		if(isset($userid) && $userid > 0)
 		{
@@ -121,14 +124,27 @@ class UserController extends BaseController {
 			$enrollno = $user->enrollno; 
 			$status = $user->status;
 			$password = $user->password;
+
+			$first_name = $user->first_name; 
+			$last_name = $user->last_name; 
+			$address1 = $user->address1; 
+			$address2 = $user->address2; 
+			$address3 = $user->address3; 
+			$city = $user->city; 
+			$state = $user->state; 
+			$phoneno = $user->phoneno;
+			$pincode = $user->pincode;
+			$country_id = $user->country_id;
 		}
 		else
 		{
-			$id = $institution_id = $role_id = 0;
+			$id = $institution_id = $role_id = $country_id = 0;
 			$name = $email = $status = $enrollno = $password = '';
+			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = '';
 		}
 
-		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'));
+		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'
+			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name'));
 	}
 
 	public function update($institutionId = 0)
@@ -138,13 +154,21 @@ class UserController extends BaseController {
 		$rules = [
                 'institution_id' =>'required|not_in:0',
                 'role_id' =>'required|not_in:0',
-                'name' => 'required|min:3|unique:users',
+                //'name' => 'required|min:3|unique:users',
+                'first_name' =>'required|min:3',
+                'last_name' =>'required',
                 'email' => 'required|email|max:255|unique:users',
-                'enrollno' =>'required'];
+                'enrollno' =>'required',
+                'address1' =>'required',
+                'city' =>'required',
+                'state' =>'required',
+                'phoneno' =>'required',
+                'pincode' =>'required',
+                'country_id' =>'required'];
 
 		if($post['id'] > 0)
 		{
-			$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
+			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
 			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
 
 			if($post['password'] != NULL)
@@ -295,9 +319,12 @@ class UserController extends BaseController {
         $file = $request->file('file');
         $destFileName = '';
 
-        $validator = \Validator::make(['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())], ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
+        $fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
+
+        $validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
+        
         if ($validator->fails()) {
-            $errorArray = array('status' => 'error', 'msg' => 'Invalid file');
+            $errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
             return json_encode($errorArray);
         }
 
@@ -315,14 +342,15 @@ class UserController extends BaseController {
             $errorArray = array('status' => 'error', 'msg' => 'File does not exist');
             return json_encode($errorArray);
         }
-         $this->errorArray=array();
-        //return  $some=$this->fileupload($destPath,$destFileName, $institutionId);
-         return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+        
+        $this->errorArray=array();
+        return  $some=$this->fileupload($destPath,$destFileName, $institutionId);
+        // return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
     }
-    public function fileupload($destPath,$destFileName ,$organizationId, $institutionId){
+    public function fileupload($destPath,$destFileName, $institutionId){
 
         $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','username','password','first_name','last_name','gender','email','status','address','city','state','zip'];
+        $orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','gender','phone','status','address','city','state','country','pin','role'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
 
         $uploadedFileHeaders = [];
@@ -330,6 +358,7 @@ class UserController extends BaseController {
             $uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
         }
         $headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
+        
         if(!empty($headerDifference)){
             $error = array('status' => 'error', 'msg' => 'Invalid file.');
             return json_encode($error);
@@ -345,9 +374,7 @@ class UserController extends BaseController {
             $rowCount = $phpExcel->getHighestRow();
             $emptyFile = true;
             if ($rowCount > 1) {
-                if (!in_array($fileType, User::$profileTypeOptions)) {
-                    $this->errorArray[] = array('Row #' => '', 'Error Description' => 'You have tried to upload a file with invalid fields.');
-                } else {
+                 
                     $phpExcel = $results->setActiveSheetIndex(0);
                     $firstSheet = $results->get()[0];
                     foreach ($firstSheet as $key => $row) {
@@ -369,7 +396,7 @@ class UserController extends BaseController {
                             User::createBulkUser($fileType, $row, $institutionId);
                         }
                     }
-                }
+                
             } else {
 
                 $this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');

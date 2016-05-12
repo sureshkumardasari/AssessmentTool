@@ -20,7 +20,7 @@
             <div class="form-group required">
                 <label class="col-md-5 control-label">Choose File(.xls)</label>
                 <div class="col-md-10">
-                    <input type="file" class="user-file" name="importfile">
+                    <input type="file" class="user-file" name="file">
                 </div>
             </div>
             <p class="error-log"></p>

@@ -15,10 +15,23 @@ class ModifyUsersTable extends Migration {
 		Schema::table('users', function(Blueprint $table)
 		{
 			//
+			$table->string('first_name', 250);
+			$table->string('last_name', 250);
+
 			$table->integer('institution_id')->nullable();
             $table->integer('role_id')->nullable();
             $table->string('enrollno', 30)->nullable();
-            $table->enum('status', ['Yes', 'No'])->default('Yes')->nullable();
+            $table->enum('status', ['Active', 'Inactive'])->default('Active')->nullable();
+            $table->enum('gender', ['Male', 'Female'])->nullable();
+            $table->string('address1', 250);
+			$table->string('address2', 250);
+			$table->string('address3', 250);
+			$table->string('city', 250);
+			$table->string('state', 250);
+			$table->string('phoneno', 250);
+			$table->string('pincode', 10);
+			$table->integer('country_id')->nullable();
+
             $table->integer('added_by')->nullable();
 			$table->integer('updated_by')->nullable();
 		});
@@ -40,6 +53,16 @@ class ModifyUsersTable extends Migration {
 			$table->dropColumn('enrollno');
 			$table->dropColumn('added_by');
 			$table->dropColumn('updated_by');
+
+			$table->dropColumn('address1');
+			$table->dropColumn('address2');
+			$table->dropColumn('address3');
+			$table->dropColumn('city');
+			$table->dropColumn('state');
+			$table->dropColumn('phoneno');
+			$table->dropColumn('pincode');
+			$table->dropColumn('country_id');
+
 		});
 	}
 

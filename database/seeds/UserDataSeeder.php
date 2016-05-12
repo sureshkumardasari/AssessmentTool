@@ -10,7 +10,7 @@ class UserDataSeeder extends Seeder {
 			'email' => 'admin@gmail.com',
 			'name' => 'Admin',
 			'password' => bcrypt('abc123'),
-			'status' => 'Yes',
+			'status' => 'Active',
 			'role_id' => '1',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
@@ -19,7 +19,7 @@ class UserDataSeeder extends Seeder {
 			'updated_by' => '1',
    		]);
 
-		DB::table('roles')->insert([
+		DB::table('roles')->insert([[
 			'id' => '1',
 			'name' => 'admin',
 			'display_name' => 'Admin',
@@ -32,7 +32,14 @@ class UserDataSeeder extends Seeder {
 			'display_name' => 'Student',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
-		]);
+		],
+		[
+			'id' => '3',
+			'name' => 'teacher',
+			'display_name' => 'Teacher',
+			'created_at' => new DateTime,
+			'updated_at' => new DateTime,
+		]]);
 		DB::table('role_user')->insert([
 			'user_id' => '1',
 			'role_id' => '1',

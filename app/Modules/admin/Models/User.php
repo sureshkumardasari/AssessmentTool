@@ -19,6 +19,8 @@ use \PHPExcel,
     //\PHPExcel_Cell,
     //\PHPExcel_Style_Alignment
     //\PHPExcel_Cell_DataType;
+use \Validator;
+use Illuminate\Support\Facades\Input;
 
 class User extends Model {
 	/**
@@ -91,12 +93,24 @@ class User extends Model {
 			$obj->password = bcrypt($params['password']);
 			$obj->added_by = Auth::user()->id;
 		}
-		$obj->name = $params['name'];
+		$obj->name = $params['first_name'] . ' ' . $params['last_name'];
 		$obj->email = $params['email'];
 		$obj->enrollno = $params['enrollno'];
 		$obj->role_id = $params['role_id'];
 		$obj->institution_id = $params['institution_id'];
-		$obj->status = $params['status'];		
+		$obj->status = $params['status'];
+
+		$obj->first_name = $params['first_name'];
+		$obj->last_name = $params['last_name'];
+		$obj->address1 = $params['address1'];
+		$obj->address2 = $params['address2'];
+		$obj->address3 = $params['address3'];
+		$obj->city = $params['city'];
+		$obj->state = $params['state'];
+		$obj->phoneno = $params['phoneno'];
+		$obj->pincode = $params['pincode'];
+		$obj->country_id = $params['country_id'];
+
 		$obj->save();	
 
 		$roleobj = DB::select(DB::raw("delete from role_user where user_id = '".$obj->id."'"));
@@ -172,12 +186,12 @@ class User extends Model {
 	    	'Password' => array(),
 	        'First Name' => array(),
 	        'Last Name' => array(),
-	        //'Gender' => array('options' => array('Male', 'Female', 'Unknown')),
-	        'Phone No' => array(),      
+	        'Gender' => array('options' => array('Male', 'Female')),
+	        'Phone' => array(),      
 	        'Status' => array('options' => array('Active', 'Inactive')),
 	        'Address' => array(),
 	        'City' => array(),
-	        'State' => array('options' => array(), 'validation' => 'state'),
+	        'State' => array(),
 	        'Country' => array(),
 	        'Pin' => array(),
 	        'Role' => array('options' => ['student'])
@@ -294,5 +308,82 @@ class User extends Model {
 	    }
 
 	    return $columns;
+	}
+
+	public static function validateBulUpload($fileType, $data, $index) {
+	    $error = array();
+
+	    $dataArr = $data->toArray();
+	    $validationRule = [
+	        'institutionid' => 'required|numeric|exists:Institution,id',
+	        //'username' => 'required|unique:users,UserName|max:50|regex:/^[a-zA-Z0-9@._]+$/',
+	        'enrollment_no' => 'required',
+	        'email' => 'email|max:50',
+	        'password' => ['required','min:8','max:50','at_least_one_upper_case','at_least_one_lower_case','at_least_one_number','not_contains:'.$dataArr['first_name'].','.$dataArr['last_name']],
+	        'first_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
+	        //'middle_name' => 'max:50|regex:/^[a-zA-Z\s-\']+$/',
+	        'last_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
+	        'gender' => 'required|in:Male,Female',	        
+	        // 'phone' => 'required_without:primary_phone|regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+	        'phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+	        // 'primary_phone' => 'required_without:phone|regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+	        //'primary_phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+	        //'primary_phone_type' => 'required_with:primary_phone',
+	        // 'email' => 'email|required|max:50',	        
+	        'status' => 'required|in:Active,Inactive',
+	        // 'address' => 'max:100|required',
+	        'address' => 'max:100',
+	        // 'city' => 'max:50|required',
+	        'city' => 'max:50',
+	        // 'state' => 'required',
+	        // 'zip' => 'numeric|max:99999|required',
+	        'pin' => 'numeric|max:99999',
+	    ];	    
+
+	    $messages = [
+	        'first_name.regex' => 'The :attribute field accepts only Alpha, space, - and \'',
+	        'last_name.regex' => 'The :attribute field accepts only Alpha, space, - and \'',	        
+	        'phone.regex' => 'The :attribute field should be in format (999) 999-9999.',
+	        'password.min' => 'The password must be at least 8 characters',
+	        'password.at_least_one_upper_case' => 'The :attribute field must have at least one uppercase character',
+	        'password.at_least_one_lower_case' => 'The :attribute field must have at least one lowercase character',
+	        'password.at_least_one_number' => 'The :attribute field must have at least one number',
+	        'password.not_contains' => 'The :attribute field must not contains first name, last name or username',
+	    ];
+
+	    $validator = Validator::make($dataArr, $validationRule, $messages);
+
+	    if ($validator->fails()) {
+	        $messages = $validator->messages();
+	        foreach ($messages->all() as $row) {
+	            $error[] = array('Row #' => $index, 'Error Description' => $row);
+	        }
+	    }
+
+	    return $error;
+	}
+	public static function createBulkUser($fileType, $row, $institutionId)
+	{
+		//dd($row);
+		$obj = new self;
+		$obj->password = bcrypt($row->password);
+		$obj->added_by = Auth::user()->id;
+		$obj->name = $row->first_name . ' ' . $row->last_name;
+		$obj->email =  $row->email;
+		$obj->enrollno = $row->enrollment_no;
+		$obj->role_id = 2; //$row->role_id;
+		$obj->institution_id = $row->institutionid;
+		$obj->status = $row->status;
+
+		$obj->first_name = $row->first_name;
+		$obj->last_name = $row->last_name;
+		$obj->address1 = $row->address;
+		$obj->city = $row->city;
+		$obj->state = $row->state;
+		$obj->phoneno = $row->phone;
+		$obj->pincode = $row->pin;
+		$obj->country_id = 1;
+
+		$obj->save();
 	}
 }

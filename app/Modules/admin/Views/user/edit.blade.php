@@ -58,9 +58,16 @@
 						</div>
 
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Name</label>
+							<label class="col-md-4 control-label">First Name</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ $name }}">
+								<input type="text" class="form-control" name="first_name" value="{{ $first_name }}">
+							</div>
+						</div>
+
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Last Name</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="last_name" value="{{ $last_name }}">
 							</div>
 						</div>
 
@@ -91,12 +98,66 @@
 								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
 							</div>
 						</div>
-
+						<!--  -->
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Address1</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="address1" value="{{ $address1 }}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Address2</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="address2" value="{{ $address2 }}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Address3</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="address3" value="{{ $address3 }}">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">City</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="city" value="{{ $city }}">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">State</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="state" value="{{ $state }}">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Country</label>
+							<div class="col-md-6">
+								<select class="form-control" name="country_id">
+									<option value="0">Select</option>
+									@foreach($country_arr as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Pincode</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="pincode" value="{{ $pincode }}">
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Phone No.</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}">
+							</div>
+						</div>
+						<!--  -->
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Status</label>
 							<div class="col-md-6">
-								<input type="radio" class="" name="status" id="status_yes" value="Yes" {{ ($status == "" || $status == "Yes") ? 'checked="checked"' : '' }}>Active 
-								<input type="radio" class="" name="status" id="status_no" value="No" {{ ($status == "No") ? 'checked="checked"' : '' }}>Inactive 
+								<input type="radio" class="" name="status" id="status_yes" value="Active" {{ ($status == "" || $status == "Active") ? 'checked="checked"' : '' }}>Active 
+								<input type="radio" class="" name="status" id="status_no" value="Inactive" {{ ($status == "Inactive") ? 'checked="checked"' : '' }}>Inactive 
 							</div>
 						</div>
 
