@@ -37,4 +37,5 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('passageedit/{id}', array('as' => 'edit', 'uses'=>'PassageController@passageedit'));
     Route::get('passagedel/{id}', array('as' => 'delete', 'uses'=>'PassageController@passagedelete'));
     Route::post('passageupdate', array('as' => 'update', 'uses'=>'PassageController@passageupdate'));
+    Route::get('view/passage/{id?}', ['as' => 'viewPassage', 'uses' => 'PassageController@view']);
 });

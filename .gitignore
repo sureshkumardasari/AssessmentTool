@@ -19,3 +19,4 @@ public/data/assessment_pdf/
 composer.phar
 composer.lock
 public/data/grades-pdf/
+public/plugins/tinymce/plugins/tiny_mce_wiris/

@@ -98,4 +98,15 @@ class PassageController extends BaseController {
 		}
 		return redirect('/resources/passage');
 	}
+
+	public function view($id = null) {       
+       $name = $passage_text = $passage_lines = $status = '';
+        if (empty($id)) {
+            return view('resources::passage.view',compact('id','name','passage_text','passage_lines','status'));
+        } else {
+            $passage = Passage::find($id);
+            //        dd($passage->subjects);
+            return view('resources::passage.view', compact('passage'));
+        }
+    }
 }

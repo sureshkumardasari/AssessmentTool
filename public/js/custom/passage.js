@@ -31,7 +31,7 @@ $(document).ready(function () {
     }
     tinymce.init({
         selector: '#passage_text',
-         width : isMacintosh() ? 560 :597,
+         width : isMacintosh() ? 560 :610,
         height : 200,
         auto_focus:false,
         statusbar : false,
