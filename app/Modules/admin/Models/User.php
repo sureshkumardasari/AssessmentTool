@@ -325,7 +325,8 @@ class User extends Model {
 	        'last_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
 	        'gender' => 'required|in:Male,Female',	        
 	        // 'phone' => 'required_without:primary_phone|regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
-	        'phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+	        //'phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+	        'phone' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
 	        // 'primary_phone' => 'required_without:phone|regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
 	        //'primary_phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
 	        //'primary_phone_type' => 'required_with:primary_phone',
@@ -336,14 +337,14 @@ class User extends Model {
 	        // 'city' => 'max:50|required',
 	        'city' => 'max:50',
 	        // 'state' => 'required',
-	        // 'zip' => 'numeric|max:99999|required',
-	        'pin' => 'numeric|max:99999',
+	        // 'zip' => 'numeric|max:999999|required',
+	        'pin' => 'numeric|max:999999',
 	    ];	    
 
 	    $messages = [
 	        'first_name.regex' => 'The :attribute field accepts only Alpha, space, - and \'',
 	        'last_name.regex' => 'The :attribute field accepts only Alpha, space, - and \'',	        
-	        'phone.regex' => 'The :attribute field should be in format (999) 999-9999.',
+	        'phone.regex' => 'The :attribute field should be in format 9999999999.',
 	        'password.min' => 'The password must be at least 8 characters',
 	        'password.at_least_one_upper_case' => 'The :attribute field must have at least one uppercase character',
 	        'password.at_least_one_lower_case' => 'The :attribute field must have at least one lowercase character',
@@ -362,7 +363,7 @@ class User extends Model {
 
 	    return $error;
 	}
-	public static function createBulkUser($fileType, $row, $institutionId)
+	public static function createBulkUser($role_id, $row, $institutionId)
 	{
 		//dd($row);
 		$obj = new self;
@@ -371,7 +372,7 @@ class User extends Model {
 		$obj->name = $row->first_name . ' ' . $row->last_name;
 		$obj->email =  $row->email;
 		$obj->enrollno = $row->enrollment_no;
-		$obj->role_id = 2; //$row->role_id;
+		$obj->role_id = $role_id;
 		$obj->institution_id = $row->institutionid;
 		$obj->status = $row->status;
 
@@ -385,5 +386,7 @@ class User extends Model {
 		$obj->country_id = 1;
 
 		$obj->save();
+		
+		$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (".$obj->id.",".$obj->role_id.")"));
 	}
 }

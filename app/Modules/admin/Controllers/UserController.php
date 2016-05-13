@@ -17,7 +17,7 @@ use View;
 use Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-
+use \Session;
 use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Admin\Models\Role;
@@ -311,6 +311,8 @@ class UserController extends BaseController {
 	public function bulkUserUpload(Request $request) {        
         
         $institutionId = $request->input('institutionId');
+        $userType = $request->input('userType');
+
         if (empty($institutionId)) {
             $institutionId = Auth::user()->institution_id;
         }
@@ -344,10 +346,16 @@ class UserController extends BaseController {
         }
         
         $this->errorArray=array();
-        return  $some=$this->fileupload($destPath,$destFileName, $institutionId);
+        return  $some=$this->fileupload($destPath,$destFileName, $institutionId, $userType);
         // return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
     }
-    public function fileupload($destPath,$destFileName, $institutionId){
+    public function fileupload($destPath,$destFileName, $institutionId, $userType){
+    	$role_id = 0;
+    	if($userType == 'student' || $userType == 'Student')
+    	{
+    		$obj = new Role()->where('name',strtolower($userType))->select('id')->get();
+    		$role_id = $obj->id;
+    	}
 
         $uploadSuccess = false;
         $orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','gender','phone','status','address','city','state','country','pin','role'];
@@ -393,7 +401,7 @@ class UserController extends BaseController {
                         if (count($status) > 0) {
                             $this->errorArray = array_merge($this->errorArray, $status);
                         } else {
-                            User::createBulkUser($fileType, $row, $institutionId);
+                            User::createBulkUser($role_id, $row, $institutionId);
                         }
                     }
                 

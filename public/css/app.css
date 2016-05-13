@@ -6246,3 +6246,6 @@ label,
 .clear {
     clear: both;
 }
+.error-log{
+  color: red;
+}
