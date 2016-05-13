@@ -353,8 +353,9 @@ class UserController extends BaseController {
     	$role_id = 0;
     	if($userType == 'student' || $userType == 'Student')
     	{
-    		$obj = new Role()->where('name',strtolower($userType))->select('id')->get();
-    		$role_id = $obj->id;
+    		$obj = new Role();
+    		$res = $obj->where('name',strtolower($userType))->select('id')->get();
+    		$role_id = $res->id;
     	}
 
         $uploadSuccess = false;
