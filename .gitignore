@@ -15,6 +15,7 @@
 public/data/files/
 public/data/reports/
 public/data/grades/
+public/data/uploaded_images/
 public/data/assessment_pdf/
 composer.phar
 composer.lock
