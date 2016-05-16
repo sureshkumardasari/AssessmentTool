@@ -18,11 +18,15 @@ class PassageTable extends Migration {
 			$table->increments('id');
 			$table->string('title', 250)->unique();
 			$table->text('passage_text');
+			$table->text('passage_lines');
 			$table->integer('subject_id')->nullable();
 			$table->integer('lesson_id')->nullable();
 			$table->integer('institute_id')->nullable();
 			$table->enum('status', ['0', '1']);
 			$table->timestamps();
+			$table->integer('added_by')->nullable();
+			$table->integer('updated_by')->nullable();
+
 		});
 	}
 
