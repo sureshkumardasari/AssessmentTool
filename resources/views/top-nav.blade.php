@@ -29,7 +29,7 @@
 			            <li><a href="{{ url('/resources/subject') }}">Subjects</a></li>
 			            <li><a href="{{ url('/resources/lesson') }}">Lessons</a></li>
 			            <li role="separator" class="divider"></li>
-			            <li><a href="{{ url('/quesion') }}">Question</a></li>
+			            <li><a href="{{ url('/resources/question') }}">Question</a></li>
 			            <li><a href="{{ url('/resources/passage') }}">Passages</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/assessment') }}">Assessments</a></li>
