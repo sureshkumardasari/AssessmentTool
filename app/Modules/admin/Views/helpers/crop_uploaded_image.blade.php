@@ -36,7 +36,7 @@
     {!! Form::close() !!}
 @endif
 <!--Form to upload profilepic using ajax-->
-<section class="msgs_box hide" id='container'>
+<section class="msgs_box" id='container' style="display:none;">
     <section class="drop_downs no-bdr">
         <!--place your body content here.-->
         <div class="score_pop w895 mb0">
@@ -47,7 +47,7 @@
                 <div class="clr"></div>
                 </p>
                 <p class="mb23 pt40">
-                    <img id="image_loader_popup" style="position:absolute; margin-left: 70px; margin-top: 97px;" src="/assets/images/fancybox_loading@2x.gif"/>
+                    <img id="image_loader_popup" style="position:absolute; margin-left: 70px; margin-top: 97px;" src="{{asset('/images/fancybox_loading@2x.gif')}}"/>
                 <div id="preview-pane">
                     <div class="preview-container">
                         @if(!empty($pic_data['image']) && !empty($image400x400fromS3))

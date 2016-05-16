@@ -1,5 +1,11 @@
 @extends('default')
 
+@section('header-assets')
+@parent
+{!! HTML::script(asset('/js/jquery.Jcrop.js')) !!}
+<link href="{{ asset('/css/jquery.Jcrop.css') }}" rel='stylesheet' type='text/css'>
+@stop
+
 @section('content')
 
 <?php
@@ -10,7 +16,39 @@
 	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
 	$status = (old('status') != NULL) ? old('status') : $status; 
 	$password = (old('password') != NULL) ? old('password') : $password; 
+
+	/*if($profile_picture != NULL)
+	{
+		$profile_picture = asset('/data/uploaded_images/128x128/'.$profile_picture);
+	}
+	else
+	{
+		$profile_picture = asset('/images/profile_pic.jpg');	
+	}*/	
 ?>
+<style>
+		.image_add{
+			width: 86px;
+			cursor: pointer;
+			position: absolute;
+			top: 215px;
+			left: 93px;
+			margin-left: -23px;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 25px;
+			z-index: 1;
+			-webkit-box-shadow: 0px 3px 0px 0px #dddddd;
+			-moz-box-shadow: 0px 3px 0px 0px #dddddd;
+			box-shadow: 0px 3px 0px 0px #dddddd;
+			font: 17px "droid_sansbold";
+			color: #6d6f75;
+			line-height: 30px;
+			height: 30px;
+			text-align: center;
+			background-color: #dddddd;
+		}
+	</style>
 
 <div class="container-fluid">
 	<div class="row">
@@ -28,9 +66,14 @@
 							</ul>
 						</div>
 					@endif
-
+					<div class="col-md-3">
+						<img src="{{ $profile_picture }}" width="128" height="128" alt="profile image" id="photo" />						
+					</div>
+					{!! cropUploadedImage($pic_data) !!}
+					{!! imageUpload($pic_data) !!}
+					<div class="col-md-6">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/user/update') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="_token" class="hidden-token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
 
 						<div class="form-group required">
@@ -169,6 +212,7 @@
 							</div>
 						</div>
 					</form>
+					</div>
 				</div>
 			</div>
 		</div>

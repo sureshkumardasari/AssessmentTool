@@ -31,7 +31,8 @@ class ModifyUsersTable extends Migration {
 			$table->string('phoneno', 250);
 			$table->string('pincode', 10);
 			$table->integer('country_id')->nullable();
-
+			$table->string('pic_coords', 50);
+			$table->string('profile_picture', 250);
             $table->integer('added_by')->nullable();
 			$table->integer('updated_by')->nullable();
 		});
@@ -62,7 +63,8 @@ class ModifyUsersTable extends Migration {
 			$table->dropColumn('phoneno');
 			$table->dropColumn('pincode');
 			$table->dropColumn('country_id');
-
+			$table->dropColumn('pic_coords');
+			$table->dropColumn('profile_picture');
 		});
 	}
 

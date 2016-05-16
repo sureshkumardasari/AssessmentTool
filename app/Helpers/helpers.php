@@ -4,8 +4,10 @@ use Zizaco\Entrust\EntrustFacade;
 use Zizaco\Entrust\Entrust;
 //use \App\Modules\Accounts\Models\Institution;
 use \DB;
-//use mikehaertl\wkhtmlto\Pdf;
-//use Maatwebsite\Excel\Facades\Excel;
+use mikehaertl\wkhtmlto\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use Intervention\Image\Facades\Image;
+
 /**
  * breadcrumb()
  * The purpose of this method is to make breadcrumb interactive.
@@ -764,7 +766,7 @@ function makeZipFile(array $params) {
  *
  */
 
-function sendEmail($subject, $message, $toEmail, $toName = null, $from = 'aatester@rdia.com', $bcc = '', $attachment = null, $reference_module = null, $institution_id = null) {
+function sendEmail($subject, $message, $toEmail, $toName = null, $from = 'srevu@appstekcorp.com', $bcc = '', $attachment = null, $reference_module = null, $institution_id = null) {
 
     $mailQue = new App\Models\MailQue();
     $result = false;
@@ -798,7 +800,7 @@ function sendEmail($subject, $message, $toEmail, $toName = null, $from = 'aatest
  */
 
 function imageUpload($pic_data = array(), $params = array('name' => 'image', 'id' => 'image', 'class' => 'uploadImage')) {
-    return view('accounts::helpers.imageUpload', compact('params', 'pic_data'));
+    return view('admin::helpers.imageUpload', compact('params', 'pic_data'))->__tostring() ;
 }
 
 /*
@@ -810,9 +812,16 @@ function imageUpload($pic_data = array(), $params = array('name' => 'image', 'id
 function cropUploadedImage($pic_data = []) {
     $image400x400fromS3 = '';
     if(!empty($pic_data['image'])){
-        $image400x400fromS3 = getS3ViewUrl($pic_data['image'], 'user_profile_pic_400');
+        if(getenv('s3storage'))
+        {
+            $image400x400fromS3 = getS3ViewUrl($pic_data['image'], 'user_profile_pic_400');
+        }
+        else
+        {
+            $image400x400fromS3 = asset('/data/uploaded_images/400x400/'.$pic_data['image']);
+        }
     }
-    return view('accounts::helpers.crop_uploaded_image', compact('pic_data','image400x400fromS3'));
+    return view('admin::helpers.crop_uploaded_image', compact('pic_data','image400x400fromS3'))->__tostring() ;
 }
 
 function gradeFormat($grade) {
@@ -835,4 +844,72 @@ function gradeFormat($grade) {
     }
 
     return $grade;
+}
+/**
+ * Functino responsible to resize and upload image
+ * 
+ * @param string $orignialPath : Original Path to Upload
+ * @param string $imageName : Name of the Image
+ * @param string $resizedPath : Resized Image Path
+ * 
+ * @param integer $width  The target width for the image
+ * @param integer $height The target height for the image
+ * @param boolean $ratio  Determines if the image ratio should be preserved
+ * @param boolean $upsize Determines whether the image can be upsized
+ * 
+ * @return type Array
+ */
+function resizeImage($orignialPath, $imageName, $resizedPath = null, $width = null, $height = null, $ratio = false, $upsize = true
+) {
+    if (!is_dir($resizedPath)) {
+        @mkdir($resizedPath, 0777, true);
+    }
+    // open an image file
+    $img = Image::make($orignialPath . '/' . $imageName);
+    // resize the uploaded ad image with respect to showable size
+    if (!empty($resizedPath)) {
+//            $img->resize($width, $height, $ratio, $upsize);
+        $img->resize($width, $height, function ($constraint) use($ratio, $upsize) {
+            if ($ratio)
+                $constraint->aspectRatio();
+            if ($upsize)
+                $constraint->upsize();
+        });
+    }
+    // save resized image
+    $img->save($resizedPath . $imageName);
+    // $filePath = $resizedPath.$imageName;
+    // $s3 = new \App\Models\S3();
+    // $s3->uploadByPath( $filePath, 'user_profile_pic_400');
+    // unlink($filePath);
+    return $imageName;
+}
+
+function cropImage($inputs, $savePath, $resizeImage = array()) {
+    $coords = $inputs['coords'];
+    $imageName = $inputs['image_name'];
+    
+    if(getenv('s3storage'))
+    {
+        $s3 = new \App\Models\S3();
+        $imageFromS3 = $s3->getFileUrl($imageName, 'user_profile_pic_400');
+    }
+    else
+    {
+         $imageFromS3 = asset('/data/uploaded_images/400x400/'.$imageName);
+    }
+
+    $img = Image::make($imageFromS3);
+    $img->crop($coords['w'], $coords['h'], $coords['x'], $coords['y']);
+    $img->save($savePath . $imageName);
+    if (!empty($resizeImage)) {
+        foreach ($resizeImage as $folder => $size) {
+            $resizePath = public_path() . '/data/uploaded_images/' . $folder . '/';
+            if (!is_dir($resizePath)) {
+                mkdir($resizePath, 0777, true);
+            }
+            $dimensions = explode('x', $size);
+            resizeImage($savePath, $imageName, $resizePath, $dimensions[0], $dimensions[1], false, false);
+        }
+    }
 }

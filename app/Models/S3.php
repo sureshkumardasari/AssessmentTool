@@ -5,33 +5,33 @@ use Config;
 class S3 {
 
 	private $disk;
-	private $bucket = 'rdia/';
+	private $bucket = 'appstek/';
 	private $directories = [
-		'grades' 						=> 'rdia/@environment@/data/grades/',
-		'programs_academic_calendar' 	=> 'rdia/@environment@/data/programs_academic_calendar/',
-		'programs_syllabus_file_path' 	=> 'rdia/@environment@/data/programs_syllabus_file_path/',
-		'resource_file_path' 			=> 'rdia/@environment@/data/files/',
-		'resource_scorm_path' 			=> 'rdia/@environment@/data/scorm-files/',
-		'messages_path' 				=> 'rdia/@environment@/data/message-attachments/',
-		'question_attachments' 			=> 'rdia/@environment@/data/question_attachments/',
-		'reports' 						=> 'rdia/@environment@/data/reports/',
-        'assessment_fixedform_path' 	=> 'rdia/@environment@/data/assessment_pdf/',
-        'assessment_pdf_images' 		=> 'rdia/@environment@/data/assessment_pdf_images/',
-        'assessment_pdf' 				=> 'rdia/@environment@/data/assessment_pdf/',
-        'subsection_pdf' 				=> 'rdia/@environment@/data/subsection-pdf/',
-        'user_profile_pic_orignal' 		=> 'rdia/@environment@/data/uploaded_images/orignal/',
-        'user_profile_pic_103'    		=> 'rdia/@environment@/data/uploaded_images/103x103/',
-        'user_profile_pic_128'    		=> 'rdia/@environment@/data/uploaded_images/128x128/',
-        'user_profile_pic_192'    		=> 'rdia/@environment@/data/uploaded_images/192x192/',
-        'user_profile_pic_200'    		=> 'rdia/@environment@/data/uploaded_images/200x200/',
-        'user_profile_pic_400'    		=> 'rdia/@environment@/data/uploaded_images/400x400/',
-        'user_profile_pic_48'    		=> 'rdia/@environment@/data/uploaded_images/48x48/',
-        'user_profile_pic_80'    		=> 'rdia/@environment@/data/uploaded_images/80x80/',
-        'user_profile_pic_croped'    	=> 'rdia/@environment@/data/uploaded_images/croped/',
-        'user_profile_pic_thumbnail'    => 'rdia/@environment@/data/uploaded_images/400x400/',
-        'resource_scorm_extracted_path' => 'rdia/@environment@/data/scorm-files/extracted/',
-        'bubblesheet_print' => 'rdia/@environment@/data/bubblesheet_print/',
-        'preslug_apperson_files' => 'rdia/@environment@/data/preslug_apperson_files/'
+		'grades' 						=> 'appstek/@environment@/data/grades/',
+		'programs_academic_calendar' 	=> 'appstek/@environment@/data/programs_academic_calendar/',
+		'programs_syllabus_file_path' 	=> 'appstek/@environment@/data/programs_syllabus_file_path/',
+		'resource_file_path' 			=> 'appstek/@environment@/data/files/',
+		'resource_scorm_path' 			=> 'appstek/@environment@/data/scorm-files/',
+		'messages_path' 				=> 'appstek/@environment@/data/message-attachments/',
+		'question_attachments' 			=> 'appstek/@environment@/data/question_attachments/',
+		'reports' 						=> 'appstek/@environment@/data/reports/',
+        'assessment_fixedform_path' 	=> 'appstek/@environment@/data/assessment_pdf/',
+        'assessment_pdf_images' 		=> 'appstek/@environment@/data/assessment_pdf_images/',
+        'assessment_pdf' 				=> 'appstek/@environment@/data/assessment_pdf/',
+        'subsection_pdf' 				=> 'appstek/@environment@/data/subsection-pdf/',
+        'user_profile_pic_orignal' 		=> 'appstek/@environment@/data/uploaded_images/orignal/',
+        'user_profile_pic_103'    		=> 'appstek/@environment@/data/uploaded_images/103x103/',
+        'user_profile_pic_128'    		=> 'appstek/@environment@/data/uploaded_images/128x128/',
+        'user_profile_pic_192'    		=> 'appstek/@environment@/data/uploaded_images/192x192/',
+        'user_profile_pic_200'    		=> 'appstek/@environment@/data/uploaded_images/200x200/',
+        'user_profile_pic_400'    		=> 'appstek/@environment@/data/uploaded_images/400x400/',
+        'user_profile_pic_48'    		=> 'appstek/@environment@/data/uploaded_images/48x48/',
+        'user_profile_pic_80'    		=> 'appstek/@environment@/data/uploaded_images/80x80/',
+        'user_profile_pic_croped'    	=> 'appstek/@environment@/data/uploaded_images/croped/',
+        'user_profile_pic_thumbnail'    => 'appstek/@environment@/data/uploaded_images/400x400/',
+        'resource_scorm_extracted_path' => 'appstek/@environment@/data/scorm-files/extracted/',
+        'bubblesheet_print' => 'appstek/@environment@/data/bubblesheet_print/',
+        'preslug_apperson_files' => 'appstek/@environment@/data/preslug_apperson_files/'
 	];
 
 	public function __construct() {

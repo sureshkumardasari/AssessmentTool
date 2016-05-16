@@ -22,8 +22,8 @@ use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Admin\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
-
-
+use App\Model\S3;
+use App\Modules\Admin\Requests\imageRequest;
 class UserController extends BaseController {
 
 	/*
@@ -99,10 +99,12 @@ class UserController extends BaseController {
 
 		$id = $institution_id = $role_id = $country_id = 0;
 		$name = $email = $status = $enrollno = $password = '';
-		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = '';
-
+		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
+		
+		$profile_picture = $this->getProfilePicURL();
+		$pic_data = [];
 		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'
-			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name'));
+			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name','profile_picture','pic_data'));
 	}
 	public function edit($userid = 0)
 	{
@@ -112,7 +114,7 @@ class UserController extends BaseController {
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 		$country_arr = ['1'=>'India'];
-
+		$pic_data = [];
 		if(isset($userid) && $userid > 0)
 		{
 			$user = $this->user->find($userid);
@@ -135,16 +137,19 @@ class UserController extends BaseController {
 			$phoneno = $user->phoneno;
 			$pincode = $user->pincode;
 			$country_id = $user->country_id;
+			//$profile_picture = $user->profile_picture;
+			$profile_picture = $this->getProfilePicURL($user->profile_picture);
+			$pic_data = ['coords' => $user->pic_coords, 'image' => $user->profile_picture, 'id' => $user->id];
 		}
 		else
 		{
 			$id = $institution_id = $role_id = $country_id = 0;
 			$name = $email = $status = $enrollno = $password = '';
-			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = '';
+			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
 		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'
-			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name'));
+			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name', 'profile_picture','pic_data'));
 	}
 
 	public function update($institutionId = 0)
@@ -440,5 +445,124 @@ class UserController extends BaseController {
         //}
 
 
+    }
+
+    function getProfilePicURL($profile_picture = '')
+    {
+    	if($profile_picture != NULL)
+		{
+			if(getenv('s3storage'))
+			{
+				$profile_pic = getS3ViewUrl($profile_picture, 'user_profile_pic_128');
+			}
+			else
+			{
+				$profile_pic = asset('/data/uploaded_images/128x128/'.$profile_picture);
+			}			
+		}
+		else
+		{
+			$profile_pic = asset('/images/profile_pic.jpg');	
+		}
+		return $profile_pic;
+    }
+
+    /**
+     * Processing user profile pic.
+     *
+     * @return json.
+     * @author Sireesha
+     */
+    public function uploadImage(Request $request, imageRequest $imageRequest) {
+        $fileName = '';
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $dimensions = getimagesize($file);
+        $fileName = time() . '.' . $extension;
+        $destinationPath = public_path('/data/uploaded_images/orignal/');
+        
+        if (!file_exists('data/uploaded_images/orignal/')) {
+            mkdir('data/uploaded_images/orignal/', 0777, true);
+        }
+        $file->move($destinationPath, $fileName);
+        
+        $resizePath = public_path() . '/data/uploaded_images/400x400/';
+        if ($dimensions[0] > 400 || $dimensions[1] > 400) {
+            resizeImage($destinationPath, $fileName, $resizePath, 400, 400, $ratio = true);
+        } else {
+            copy($destinationPath . $fileName, $resizePath . $fileName);
+        }
+
+        // Move the file to S3
+        $orignalFilePath = $destinationPath.$fileName;
+        $resizedFilePath = $resizePath.$fileName;
+
+        $resized_pic_url = asset('/data/uploaded_images/400x400/'.$fileName);
+        if(getenv('s3storage'))
+		{
+	        $s3 = new \App\Models\S3();
+	        $s3->uploadByPath( $orignalFilePath, 'user_profile_pic_orignal');
+	        $s3->uploadByPath( $resizedFilePath, 'user_profile_pic_400');
+	        $orignal_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_orignal');
+	        $resized_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_400');
+
+	        unlink($orignalFilePath);
+	        unlink($resizedFilePath);
+	    }
+
+        // unlink($filePath);
+        return json_encode(array('filename' => $fileName, 'file_path'=>$resized_pic_url));
+    }
+
+    /**
+     * croping and resizing user selected area of pic and updating profile info if editing user.
+     *
+     * @return json.
+     * @author Sireesha
+     */
+    public function saveCrop(Request $request) {
+        $inputs = $request->input();
+        $savePath = 'data/uploaded_images/croped/';
+        if (!file_exists('data/uploaded_images/croped/')) {
+            mkdir('data/uploaded_images/croped/', 0777, true);
+        }
+        $resizeArray = array('192x192' => '192x192', '128x128' => '128x128', '48x48' => '48x48', '80x80' => '80x80', '103x103' => '103x103');
+        
+        cropImage($inputs, $savePath, $resizeArray);
+        
+        $coords = implode(',', array_except($inputs['coords'], array('x2', 'y2')));
+        $inputs['coords'] = $coords;
+        if (!empty($inputs['user_id'])) {
+            $user = User::find($inputs['user_id']);
+            $user->profile_picture = $inputs['image_name'];
+            $user->pic_coords = $inputs['coords'];
+            $user->save();
+        }
+        $resizeArray = array('192x192' => 'user_profile_pic_192', '128x128' => 'user_profile_pic_128', '48x48' => 'user_profile_pic_48', '80x80' => 'user_profile_pic_80', '103x103' => 'user_profile_pic_103');
+        
+        if(getenv('s3storage'))
+		{
+	        if (!empty($resizeArray)) {
+	            $s3 = new \App\Models\S3();
+	            foreach ($resizeArray as $folder => $s3Path) {
+	                $resizedPath = public_path() . '/data/uploaded_images/' . $folder . '/'.$inputs['image_name'];
+	                $s3->uploadByPath( $resizedPath, $s3Path);
+	                unlink($resizedPath);
+	            }
+	            $image192x192fromS3 = $s3->getFileUrl($inputs['image_name'], 'user_profile_pic_192');
+	            $inputs['image_path_s3'] = $image192x192fromS3;
+	        }
+	    }
+	    else
+	    {
+	    	if (!empty($resizeArray)) {
+	            foreach ($resizeArray as $folder => $s3Path) {
+	                $resizedPath = public_path() . '/data/uploaded_images/' . $folder . '/'.$inputs['image_name'];
+	            }
+	            $image192x192fromS3 = asset('/data/uploaded_images/192x192/'.$inputs['image_name']);
+	            $inputs['image_path_s3'] = $image192x192fromS3;
+	        }
+	    }
+        return new JsonResponse($inputs);
     }
 }

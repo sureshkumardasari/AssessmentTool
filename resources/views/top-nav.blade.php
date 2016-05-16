@@ -53,7 +53,7 @@
 						<li><a href="{{ url('/auth/register') }}">Register</a></li>
 					@else
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ asset('/images/profile_pic.jpg') }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ asset($profile_picture) }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('/user/profile') }}">Profile</a></li>
 								<li role="separator" class="divider"></li>

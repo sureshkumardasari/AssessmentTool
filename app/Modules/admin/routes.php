@@ -23,6 +23,8 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('userBulkUpload', array('as' => 'userBulkUpload', 'uses'=>'UserController@userBulkUpload'));
     Route::get('bulkusertemplate', array('as'=>'bulkUserTemplate','uses'=>'UserController@bulkUserTemplate'));
     Route::post('bulkuserupload', array('as'=>'bulkUserUpload','uses'=>'UserController@bulkUserUpload'));
+    Route::post('upload_image', array('as' => 'upload_image', 'uses' => 'UserController@uploadImage'));
+    Route::post('save_crop', array('as' => 'save_crop', 'uses' => 'UserController@saveCrop'));
     
     Route::get('institution', array('as' => 'institution-list', 'uses'=>'InstitutionController@index'));
 	Route::get('institutionadd', array('as' => 'institution-add', 'uses'=>'InstitutionController@add'));

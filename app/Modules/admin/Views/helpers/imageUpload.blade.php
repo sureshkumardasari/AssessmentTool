@@ -130,11 +130,18 @@
 <?php 
 $image192x192fromS3 = '';
 if(!empty($pic_data['image'])){
-    $image192x192fromS3 = getS3ViewUrl($pic_data['image'], 'user_profile_pic_192');
+    if(getenv('s3storage'))
+    {   
+        $image192x192fromS3 = getS3ViewUrl($pic_data['image'], 'user_profile_pic_192');
+    }
+    else
+    {
+        $image192x192fromS3 = asset('/data/uploaded_images/192x192/'.$pic_data['image']);
+    }
 }
 ?>
 <div style="width: 200px;">
-    <img id="image_loader" class="hide" style="margin-left: -118px;margin-top: 66px;" src="/assets/images/fancybox_loading@2x.gif"/>
+    <img id="image_loader" class="hide" style="margin-left: -118px;margin-top: 66px;" src="{{asset('/images/fancybox_loading@2x.gif')}}"/>
         @if(empty($pic_data['image']) || empty($image192x192fromS3))
         @else
             <a href="javascript:void(0)" style='top:202px !important;' class="pic_button change_button launchEdit">
@@ -210,6 +217,7 @@ if(!empty($pic_data['image'])){
         });
         if(type != 'image_new'){
             $("#launch_resizer").click();
+            //$('#container').toggleClass('hide show');
         }
     }
     $('#saveImage').click(function () {
@@ -217,7 +225,7 @@ if(!empty($pic_data['image'])){
         $.ajax({
             type:'post',
             url:'{{route('save_crop')}}',
-            data:{coords:coords, image_name:$("#uploaded_image_name").val(), user_id:$("#image_user_id").val()},
+            data:{coords:coords, image_name:$("#uploaded_image_name").val(), user_id:$("#image_user_id").val(), "_token":$(".hidden-token").val()},
             dataType:'json',
             success: function(response){
                 $("#coords").val(response.coords);
