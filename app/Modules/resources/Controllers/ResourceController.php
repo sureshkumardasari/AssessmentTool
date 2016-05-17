@@ -68,7 +68,9 @@ class ResourceController extends BaseController {
 		$category = $this->category->getCategory();
 
 		$subjects = $this->subject->getSubject();
-        return view('resources::subject.list',compact('inst_arr', 'subjects','category'));
+        //return view('resources::subject.list',compact('inst_arr', 'subjects','category'));
+        return view('resources::subject.list',compact('inst_arr','category'))
+        ->nest("subjectsList", 'resources::subject._list', compact('subjects'));
 	}
 
 	public function subjectadd()
@@ -156,7 +158,9 @@ class ResourceController extends BaseController {
 		$category = $this->category->getCategory();
 
 		$lessons = $this->lesson->getLesson();
-        return view('resources::lesson.list',compact('inst_arr', 'lessons','subjects','category'));
+        //return view('resources::lesson.list',compact('inst_arr', 'lessons','subjects','category'));
+        return view('resources::lesson.list',compact('inst_arr','subjects','category'))
+        ->nest("lessonsList", 'resources::lesson._list', compact('lessons'));
 	}
 
 	public function lessonadd()
@@ -245,7 +249,9 @@ class ResourceController extends BaseController {
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
 		$inst_arr = $this->institution->getInstitutions();
 		$category = $this->category->getCategory();
-        return view('resources::category.list',compact('inst_arr','category'));
+        //return view('resources::category.list',compact('inst_arr','category'));
+        return view('resources::category.list',compact('inst_arr'))
+        ->nest("categoryList", 'resources::category._list', compact('category'));
 	}
 
 	public function categoryadd()
@@ -317,4 +323,46 @@ class ResourceController extends BaseController {
 		}
 		return redirect('/resources/category');
 	}
+
+	public function lessonsearch($institution_id = 0, $category_id = 0, $subject_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
+		$subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
+
+		$lessons=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
+		//dd($users);
+        
+        $from = 'search';
+        return view('resources::lesson._list', compact('lessons', 'from'));
+	}
+
+	public function subjectsearch($institution_id = 0, $category_id = 0, $subject_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
+		$subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
+
+		$subjects=$this->subject->getSubject($institution_id, $category_id);
+		//dd($users);
+        
+        $from = 'search';
+        return view('resources::subject._list', compact('subjects', 'from'));
+	}
+
+	public function categorysearch($institution_id = 0, $category_id = 0, $subject_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
+		$subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
+
+		$category=$this->category->getCategory($institution_id);
+		//dd($category);
+        
+        $from = 'search';
+        return view('resources::category._list', compact('category', 'from'));
+	}		
 }

@@ -67,15 +67,21 @@
 						</div>
 					@endif
 					<div class="col-md-3">
-						<img src="{{ $profile_picture }}" width="128" height="128" alt="profile image" id="photo" />						
-					</div>
-					{!! cropUploadedImage($pic_data) !!}
-					{!! imageUpload($pic_data) !!}
+						<div class="form-group">
+							<img src="{{ $profile_picture }}" width="128" height="128" alt="profile image" id="photo" />
+						</div>
+						<div class="form-group">
+							{!! cropUploadedImage($pic_data) !!}
+							{!! imageUpload($pic_data) !!}	
+						</div>										
+					</div>					
 					<div class="col-md-6">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/user/update') }}">
 						<input type="hidden" name="_token" class="hidden-token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
-
+						<input type="hidden" value="{{ !empty($pic_data['coords'])?$pic_data['coords']:'' }}" name="pic_coords" id="pic_coords">
+						<input type="hidden" value="{{ !empty($pic_data['image'])?$pic_data['image']:'' }}" name="profile_picture" id="profile_picture">
+						<input type="hidden" value="{{ !empty($pic_data['id'])?$pic_data['id'] : 0 }}" name="image_user_id" id="image_user_id">
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">

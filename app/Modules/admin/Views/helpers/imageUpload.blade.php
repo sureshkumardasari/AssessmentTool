@@ -142,19 +142,16 @@ if(!empty($pic_data['image'])){
 ?>
 <div style="width: 200px;">
     <img id="image_loader" class="hide" style="margin-left: -118px;margin-top: 66px;" src="{{asset('/images/fancybox_loading@2x.gif')}}"/>
-        @if(empty($pic_data['image']) || empty($image192x192fromS3))
-        @else
-            <a href="javascript:void(0)" style='top:202px !important;' class="pic_button change_button launchEdit">
-                Edit
-                <input type='button' style="margin: 0 0 10px;" class="" />
-            </a>
-        @endif
+    @if(empty($pic_data['image']) || empty($image192x192fromS3))
+    @else
+    <a href="javascript:void(0)" style='top:202px !important;' class="pic_button change_button launchEdit btn btn-primary btn-sm">Edit</a>
+    @endif
 </div>
 <a class="fancybox hide" id='launch_resizer' href="#container"></a>
 
-<input type="hidden" value="{{ !empty($pic_data['coords'])?$pic_data['coords']:'' }}" name="coords" id="coords">
-<input type="hidden" value="{{ !empty($pic_data['image'])?$pic_data['image']:'' }}" name="uploaded_image_name" id="uploaded_image_name">
-<input type="hidden" value="{{ !empty($pic_data['id'])?$pic_data['id'] : 0 }}" name="image_user_id" id="image_user_id">
+<input type="hidden" value="{{ !empty($pic_data['coords']) ? $pic_data['coords']:'' }}" name="coords" id="coords">
+<input type="hidden" value="{{ !empty($pic_data['image']) ? $pic_data['image']:'' }}" name="uploaded_image_name" id="uploaded_image_name">
+<input type="hidden" value="{{ !empty($pic_data['id']) ? $pic_data['id'] : 0 }}" name="image_user_id" id="image_user_id">
 @if(!empty($pic_data["coords"]))
     <?php $coords = explode(',', $pic_data["coords"]); ?>
 @endif
@@ -228,13 +225,16 @@ if(!empty($pic_data['image'])){
             data:{coords:coords, image_name:$("#uploaded_image_name").val(), user_id:$("#image_user_id").val(), "_token":$(".hidden-token").val()},
             dataType:'json',
             success: function(response){
+                $("#pic_coords").val(response.coords);
+                $("#profile_picture").val(response.image_name);
+                
                 $("#coords").val(response.coords);
                 $("#uploaded_image_name").val(response.image_name);
 //                $('#photo').replaceWith('<img id="photo" src="' + '{{asset("data/uploaded_images/192x192")}}/' + response.image_name + '?'+Math.floor(Math.random()*1000)+'" />');
                 $('#photo').attr('src',response.image_path_s3+ '?'+Math.floor(Math.random()*1000));
                 coords = response.coords;
                 // if(response.user_id == 0){
-                    $('.change_button').replaceWith("<a href='javascript:void(0)' style='top:215px !important;' class='pic_button change_button launchEdit'>Edit<input type='button' style='margin: 0 0 10px;' class='' /></a>")
+                    $('.change_button').replaceWith("<a href='javascript:void(0)' style='top:215px !important;' class='pic_button change_button launchEdit btn btn-primary btn-sm'>Edit</a>")
                 // }
                 $.fancybox.close();
             }

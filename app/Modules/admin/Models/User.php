@@ -110,7 +110,9 @@ class User extends Model {
 		$obj->phoneno = $params['phoneno'];
 		$obj->pincode = $params['pincode'];
 		$obj->country_id = $params['country_id'];
-
+		$obj->profile_picture = $params['profile_picture'];
+        $obj->pic_coords = $params['pic_coords'];
+        
 		$obj->save();	
 
 		$roleobj = DB::select(DB::raw("delete from role_user where user_id = '".$obj->id."'"));

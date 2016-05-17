@@ -6256,3 +6256,9 @@ footer {
     position: relative;
     width: 100%;
 }
+.error{
+  color:red; 
+}
+.pointer{
+    cursor: pointer;
+}

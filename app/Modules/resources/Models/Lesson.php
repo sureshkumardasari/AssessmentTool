@@ -26,7 +26,7 @@ class Lesson extends Model {
 		$obj = new Lesson();
 		if($institution_id > 0 || $subject_id > 0 || $subject_id > 0)
 		{
-			$lessons = $obj->where("subject_id", $subject_id)->orWhere('institution_id', $institution_id)->orWhere('category_id', $category_id)->lists('name', 'id');
+			$lessons = $obj->where("subject_id", $subject_id)->where('institution_id', $institution_id)->where('category_id', $category_id)->lists('name', 'id');
 		}
 		else
 		{

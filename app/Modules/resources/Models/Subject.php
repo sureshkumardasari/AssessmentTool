@@ -20,13 +20,13 @@ class Subject extends Model {
 	protected $table = 'subject';
 	protected $primaryKey = 'id';
 
-	public function getSubject($institution_id = 0)
+	public function getSubject($institution_id = 0, $category_id = 0)
 	{
 		//$users = User::get();
 		$obj = new Subject();
-		if($institution_id > 0)
+		if($institution_id > 0 || $category_id > 0)
 		{
-			$subjects = $obj->where("institution_id", $institution_id)->lists('name', 'id');
+			$subjects = $obj->where("institution_id", $institution_id)->where("category_id", $category_id)->lists('name', 'id');
 		}
 		else
 		{

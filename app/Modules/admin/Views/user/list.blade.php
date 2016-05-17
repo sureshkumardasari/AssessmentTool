@@ -18,8 +18,8 @@
 				<div class="panel-body">
 
 					<div class="panel panel-default">
-						<div class="panel-heading">Advanced Filters
-							<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right searchfilter" aria-hidden="true"></span></a>
+						<div class="panel-heading searchfilter pointer">Advanced Filters
+							<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
 						</div>
 
 						<div class="panel-body searchfilter-body hide">

@@ -19,18 +19,21 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('subjectedit/{id}', array('as' => 'subject-edit', 'uses'=>'ResourceController@subjectedit'));
     Route::get('subjectdel/{id}', array('as' => 'subject-delete', 'uses'=>'ResourceController@subjectdelete'));
     Route::post('subjectupdate', array('as' => 'subject-update', 'uses'=>'ResourceController@subjectupdate'));
+    Route::get('subjectsearch', array('as' => 'subject-search', 'uses'=>'ResourceController@subjectsearch'));
 
     Route::get('lesson', array('as' => 'lesson-list', 'uses'=>'ResourceController@lesson'));
 	Route::get('lessonadd', array('as' => 'lesson-add', 'uses'=>'ResourceController@lessonadd'));
     Route::get('lessonedit/{id}', array('as' => 'lesson-edit', 'uses'=>'ResourceController@lessonedit'));
     Route::get('lessondel/{id}', array('as' => 'lesson-delete', 'uses'=>'ResourceController@lessondelete'));
     Route::post('lessonupdate', array('as' => 'lesson-update', 'uses'=>'ResourceController@lessonupdate'));
+    Route::get('lessonsearch', array('as' => 'lesson-search', 'uses'=>'ResourceController@lessonsearch'));
 
     Route::get('category', array('as' => 'category-list', 'uses'=>'ResourceController@category'));
     Route::get('categoryadd', array('as' => 'category-add', 'uses'=>'ResourceController@categoryadd'));
     Route::get('categoryedit/{id}', array('as' => 'category-edit', 'uses'=>'ResourceController@categoryedit'));
     Route::get('categorydel/{id}', array('as' => 'category-delete', 'uses'=>'ResourceController@categorydelete'));
     Route::post('categoryupdate', array('as' => 'category-update', 'uses'=>'ResourceController@categoryupdate'));
+    Route::get('categorysearch', array('as' => 'category-search', 'uses'=>'ResourceController@categorysearch'));
 
     Route::get('passage', array('as' => 'list', 'uses'=>'PassageController@passage'));
     Route::get('passageadd', array('as' => 'add', 'uses'=>'PassageController@passageadd'));
