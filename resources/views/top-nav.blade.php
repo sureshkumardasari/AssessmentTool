@@ -52,8 +52,25 @@
 						<li><a href="{{ url('/auth/login') }}">Login</a></li>
 						<li><a href="{{ url('/auth/register') }}">Register</a></li>
 					@else
+					<?php
+					if(Auth::user()->profile_picture != NULL)
+					{
+						if(getenv('s3storage'))
+						{
+							$profile_picture = getS3ViewUrl(Auth::user()->profile_picture, 'user_profile_pic_128');
+						}
+						else
+						{
+							$profile_picture = asset('/data/uploaded_images/128x128/'.Auth::user()->profile_picture);
+						}			
+					}
+					else
+					{
+						$profile_picture = asset('/images/profile_pic.jpg');	
+					}
+					?>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ asset($profile_picture) }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('/user/profile') }}">Profile</a></li>
 								<li role="separator" class="divider"></li>

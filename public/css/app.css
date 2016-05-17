@@ -6249,3 +6249,10 @@ label,
 .error-log{
   color: red;
 }
+footer {
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    position: relative;
+    width: 100%;
+}
