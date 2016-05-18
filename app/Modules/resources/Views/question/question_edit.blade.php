@@ -24,15 +24,14 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/questionupdate') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/question_update_submit') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
 						<div class="form-group">
 							<label class="col-md-2 control-label">Institution</label>
 							<div class="col-md-10">
-								<select class="form-control" name="institution_id">
-									<option value="0">Select</option>
-									@foreach($inst_arr as $id=>$val)
+								<select class="form-control" name="institution_id" id="institution_id">
+ 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
@@ -42,8 +41,7 @@
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
 								<select class="form-control" name="category_id">
-									<option value="0">Select</option>
-									@foreach($category as $id=>$val)
+ 									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
@@ -53,8 +51,7 @@
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
 								<select class="form-control" name="subject_id">
-									<option value="0">Select</option>
-									@foreach($subjects as $id=>$val)
+ 									@foreach($subjects as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
@@ -64,8 +61,7 @@
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
 								<select class="form-control" name="question_type">
-									<option value="0">Select</option>
-									@foreach($qtypes as $id=>$val)
+ 									@foreach($qtypes as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
@@ -76,8 +72,7 @@
 							<label class="col-md-2 control-label">Passage</label>
 							<div class="col-md-10">
 								<select class="form-control" name="passage" id="passage">
-									<option value="0">Select</option>
-									@foreach($passage as $id=>$val)
+ 									@foreach($passage as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
@@ -87,13 +82,17 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Title</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" name="question_title" value="{{ $name }}">
+								@foreach($questions as $questions_title)
+								<input type="text" class="form-control" name="question_title" value="{{ $questions_title['title'] }}">
+								@endforeach
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Text</label>
 							<div class="col-md-10">
-								<textarea class="form-control" id="question_textarea" name="question_textarea"></textarea>
+								@foreach($questions as $questions_text)
+								<textarea class="form-control" id="question_textarea" data-type='tinymce' data-name='Question Text' name="question_textarea">{!! htmlspecialchars($questions_text['qst_text']) !!}</textarea>
+								@endforeach
 							</div>
 						</div>
 
