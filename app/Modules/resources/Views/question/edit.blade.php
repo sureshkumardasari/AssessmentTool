@@ -102,7 +102,7 @@
 			            	<label class="mr20 mt8 w200"></label>
 			            </p>
 			            <p class="w815 fltL">
-			                <a href="javascript:void(0)" class="upload_btn clr mb10 mr5 mt10 fltR create_answer">Add New Answer</a>
+			                <a href="javascript:void(0)" class="upload_btn clr btn btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
 			            </p>
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">
@@ -114,7 +114,7 @@
 						</div>
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
+							<div class="col-md-6 col-md-offset-6">
 								<button type="submit" class="btn btn-primary">
 									Submit
 								</button>

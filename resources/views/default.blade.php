@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Assessment Tool</title>
-	<!-- <link href="{{ asset('/css/style.css') }}" rel='stylesheet' type='text/css'>
-	<link href="{{ asset('/css/common.css') }}" rel='stylesheet' type='text/css'> -->
+	<link href="{{ asset('/css/style.css') }}" rel='stylesheet' type='text/css'>
+	<!-- <link href="{{ asset('/css/common.css') }}" rel='stylesheet' type='text/css'> -->
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
 	<!-- Fonts -->
