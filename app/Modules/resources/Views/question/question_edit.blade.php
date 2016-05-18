@@ -3,7 +3,7 @@
 @parent
 {!! HTML::script(asset('assets/js/common.js')) !!}
 {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
-{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}    
+{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
 {!! HTML::script(asset('assets/js/question.js')) !!}
 @stop
 @section('content')
