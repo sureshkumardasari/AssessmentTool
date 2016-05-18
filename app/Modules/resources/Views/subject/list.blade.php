@@ -25,11 +25,12 @@
 						</div>
 
 						<div class="panel-body searchfilter-body hide">
-
+							<form class="form-inline" role="form">
 							<div class="form-group">
 								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
-									<select class="form-control" name="institution_id">
+									<input type="hidden" name="page" id="page" value="subject">
+									<select class="form-control" name="institution_id" id="institution_id">
 										<option value="0">Select</option>
 										@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
@@ -40,21 +41,36 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
-									<select class="form-control" name="category_id">
+									<select class="form-control" name="category_id" id="category_id">
+										<option value="0">Select</option>
+										{{--
 										<option value="0">Select</option>
 										@foreach($category as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
-										@endforeach
+										@endforeach--}}
 									</select>
 								</div>
-							</div>							
+							</div>	
+							<div class="form-group">
+								<div class="col-md-6 col-md-offset-4">
+									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
+										Go
+									</button>
+								</div>
+							</div>
+							<div class="form-group" id="loadingdiv"></div>	
+							</form>					
 						</div>
 					</div>
 					<!-- filters start -->
-					<div id="subject-list"> {!! $subjectsList !!} </div>	
+					<div id="subject-list" style="min-height:50px;"> {!! $subjectsList !!} </div>	
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+  	var searchRoute = "{{URL::route('subject-search')}}";
+  	var categoryRoute = "{{URL::route('getcategory')}}";
+</script>
 @endsection

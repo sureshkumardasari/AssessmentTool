@@ -1,5 +1,8 @@
 @extends('default')
-
+@section('header-assets')
+@parent
+{!! HTML::script(asset('/js/custom/resources.js')) !!}
+@stop
 @section('content')
 
 <?php
@@ -32,7 +35,8 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id">
+								<input type="hidden" name="page" id="page" value="subjectedit">
+								<select class="form-control" name="institution_id" id="institution_id">
 									<option value="0">Select</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -43,11 +47,11 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Category</label>
 							<div class="col-md-6">
-								<select class="form-control" name="category_id">
+								<select class="form-control" name="category_id" id="category_id">
 									<option value="0">Select</option>
-									@foreach($category as $id=>$val)
+									{{--@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+									@endforeach--}}
 								</select>
 							</div>
 						</div>
@@ -71,4 +75,7 @@
 		</div>
 	</div>
 </div>
+<script>
+  	var categoryRoute = "{{URL::route('getcategory')}}";
+</script>
 @endsection

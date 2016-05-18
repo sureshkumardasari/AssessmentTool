@@ -20,6 +20,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('subjectdel/{id}', array('as' => 'subject-delete', 'uses'=>'ResourceController@subjectdelete'));
     Route::post('subjectupdate', array('as' => 'subject-update', 'uses'=>'ResourceController@subjectupdate'));
     Route::get('subjectsearch', array('as' => 'subject-search', 'uses'=>'ResourceController@subjectsearch'));
+    Route::get('getsubject', array('as' => 'getsubject', 'uses'=>'ResourceController@getsubject'));
 
     Route::get('lesson', array('as' => 'lesson-list', 'uses'=>'ResourceController@lesson'));
 	Route::get('lessonadd', array('as' => 'lesson-add', 'uses'=>'ResourceController@lessonadd'));
@@ -27,6 +28,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('lessondel/{id}', array('as' => 'lesson-delete', 'uses'=>'ResourceController@lessondelete'));
     Route::post('lessonupdate', array('as' => 'lesson-update', 'uses'=>'ResourceController@lessonupdate'));
     Route::get('lessonsearch', array('as' => 'lesson-search', 'uses'=>'ResourceController@lessonsearch'));
+    Route::get('getlesson', array('as' => 'getlesson', 'uses'=>'ResourceController@getlesson'));
 
     Route::get('category', array('as' => 'category-list', 'uses'=>'ResourceController@category'));
     Route::get('categoryadd', array('as' => 'category-add', 'uses'=>'ResourceController@categoryadd'));
@@ -34,7 +36,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('categorydel/{id}', array('as' => 'category-delete', 'uses'=>'ResourceController@categorydelete'));
     Route::post('categoryupdate', array('as' => 'category-update', 'uses'=>'ResourceController@categoryupdate'));
     Route::get('categorysearch', array('as' => 'category-search', 'uses'=>'ResourceController@categorysearch'));
-
+    Route::get('getcategory', array('as' => 'getcategory', 'uses'=>'ResourceController@getcategory'));
+    
     Route::get('passage', array('as' => 'list', 'uses'=>'PassageController@passage'));
     Route::get('passageadd', array('as' => 'add', 'uses'=>'PassageController@passageadd'));
     Route::get('passageedit/{id}', array('as' => 'edit', 'uses'=>'PassageController@passageedit'));

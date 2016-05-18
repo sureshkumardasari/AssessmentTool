@@ -22,30 +22,28 @@ class Category extends Model {
 
 	public function getCategory($institution_id = 0)
 	{
-		//$users = User::get();
-		$obj = new Category();
+		//$obj = new Category();
+		$obj = DB::table('category'); 
+		
 		if($institution_id > 0)
 		{
-			$subjects = $obj->where("institution_id", $institution_id)->lists('name', 'id');
-		}
-		else
-		{
-			$subjects = $obj->lists('name', 'id');
-		}
+			$obj->where('institution_id', $institution_id);								
+		}			
+		$category = $obj->lists('name', 'id');
 		
-		return $subjects;
+		return $category;
 	}
 
 	public function getCategoryInfo($id = 0)
 	{
-		$subject = Category::find($id);
-		return $subject;
+		$category = Category::find($id);
+		return $category;
 	}
 
 	public function deleteCategory($id = 0)
 	{
-		$subject = Category::find($id);
-		$subject->delete();
+		$category = Category::find($id);
+		$category->delete();
 	}
 
 	public function updateCategory($params = 0)

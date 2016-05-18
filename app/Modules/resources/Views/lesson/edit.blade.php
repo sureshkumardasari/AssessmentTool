@@ -1,5 +1,8 @@
 @extends('default')
-
+@section('header-assets')
+@parent
+{!! HTML::script(asset('/js/custom/resources.js')) !!}
+@stop
 @section('content')
 
 <?php
@@ -33,7 +36,8 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id">
+								<input type="hidden" name="page" id="page" value="lessonedit">
+								<select class="form-control" name="institution_id" id="institution_id">
 									<option value="0">Select</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -44,22 +48,22 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Category</label>
 							<div class="col-md-6">
-								<select class="form-control" name="category_id">
+								<select class="form-control" name="category_id" id="category_id">
 									<option value="0">Select</option>
-									@foreach($category as $id=>$val)
+									{{--@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+									@endforeach--}}
 								</select>
 							</div>
 						</div>
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Subject</label>
 							<div class="col-md-6">
-								<select class="form-control" name="subject_id">
+								<select class="form-control" name="subject_id" id="subject_id">
 									<option value="0">Select</option>
-									@foreach($subjects as $id=>$val)
+									{{--@foreach($subjects as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+									@endforeach--}}
 								</select>
 							</div>
 						</div>
@@ -83,4 +87,8 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 		</div>
 	</div>
 </div>
+<script>  	
+  	var categoryRoute = "{{URL::route('getcategory')}}";
+  	var subjectRoute = "{{URL::route('getsubject')}}";
+</script>
 @endsection

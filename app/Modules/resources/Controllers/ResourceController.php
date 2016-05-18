@@ -364,5 +364,33 @@ class ResourceController extends BaseController {
         
         $from = 'search';
         return view('resources::category._list', compact('category', 'from'));
+	}	
+
+	public function getcategory($institution_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$category=$this->category->getCategory($institution_id);
+		return json_encode($category);
+	}	
+
+	public function getsubject($institution_id = 0, $category_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
+		$subjects=$this->subject->getSubject($institution_id, $category_id);
+		return json_encode($subjects);
+	}
+
+	public function getlesson($institution_id = 0, $category_id = 0, $subject_id = 0)
+	{
+		$params = Input::All();
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
+		$subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
+
+		$lesson=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
+		return json_encode($lesson);
 	}		
 }
