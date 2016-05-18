@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Resources\Controllers;
 
+use App\Modules\Resources\Models\QuestionAnswer;
 use Illuminate\Support\Facades\Auth;
 
 use Zizaco\Entrust\EntrustFacade;
@@ -18,6 +19,7 @@ use App\Modules\Resources\Models\Lesson;
 use App\Modules\Resources\Models\Category;
 use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\QuestionType;
+use App\Modules\Resources\Models\Passage;
 
 class QuestionController extends BaseController {
 
@@ -57,6 +59,9 @@ class QuestionController extends BaseController {
 
 		$obj = new QuestionType();
 		$this->question_type = $obj;
+
+		$obj = new Passage();
+		$this->passage = $obj;
 	}
 
 	/**
@@ -77,7 +82,6 @@ class QuestionController extends BaseController {
 		$inst_arr = $this->institution->getInstitutions();	
 		$subjects = $this->subject->getSubject();	
 		$category = $this->category->getCategory();
-
 		$questions = $this->question->getQuestions();
         return view('resources::question.list',compact('inst_arr', 'questions','subjects','category'));
 	}
@@ -87,8 +91,9 @@ class QuestionController extends BaseController {
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
+		$passage = $this->passage->getPassage();
 		$qtypes = $this->question_type->getQuestionTypes();
-		
+
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$name = '';
 
@@ -96,20 +101,108 @@ class QuestionController extends BaseController {
 		$oldAnswers = array(); //$question->answers->toArray();
         $answersLisitng = view('resources::question.partial.listing_answers', compact('oldAnswers'));
 
-		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id', 'qtypes', 'answersLisitng'));
+		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id', 'qtypes', 'answersLisitng'));
+	}
+
+	public function questionupdate($id = 0)
+	{
+		$post = Input::All();
+
+		$rules = [
+			'institution_id' => 'required|not_in:0',
+			'category_id' => 'required|not_in:0',
+			'subject_id' => 'required',
+			'question_type' => 'required',
+			'question_title' => 'required',
+ 			'question_textarea' => 'required',];
+
+		if ($post['id'] > 0)
+		{
+			$rules['question_title'] = 'required|min:3|unique:question,name,' . $post['id'];
+		}
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		} else
+		{
+			$params = Input::All();
+  			$this->question->updateQuestion($params);
+
+			return redirect('/resources/question');
+		}
+ 	}
+	public function questionSubmit(){
+		$post = Input::All();
+
+		$rules = [
+			'institution_id' => 'required|not_in:0',
+			'category_id' => 'required|not_in:0',
+			'subject_id' => 'required',
+			'question_type' => 'required',
+			'question_title' => 'required',
+			'question_textarea' => 'required',];
+
+		$validator = Validator::make($post, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		} else
+		{
+			$params = Input::All();
+ 			$questions = Question::where('id',$params['id'])->get()->toArray();
+			if($questions){
+				$obj=Question::find($params['id']);
+ 				$obj->title = $params['question_title'];
+				$obj->qst_text = $params['question_textarea'];
+				$obj->question_type_id = $params['question_type'];
+				$obj->subject_id = $params['subject_id'];
+				$obj->lesson_id = $params['institution_id'];
+				$obj->passage_id = $params['passage'];
+				$obj->institute_id = $params['institution_id'];
+ 				if($obj->save());{
+					$explanation = $params['explanation'];
+					$is_correct = $params['is_correct'];
+					foreach ($params['answer_textarea'] as $key => $value) {
+
+						$answer = new QuestionAnswer();
+						if (isset($params['answerIds'][$key]) && !empty($params['answerIds'][$key])) {
+							$answer = QuestionAnswer::find($params['answerIds'][$key]);
+							if (empty($answer)) {
+								$answer = new QuestionAnswer();
+							}
+						}
+						$last_id=$obj->id;
+						$answer->question_id = $last_id;
+						$answer->ans_text = $value;
+						$answer->explanation = $explanation[$key];
+						$answer->order_id = ($key+1);
+						$answer->is_correct = (($is_correct[$key] == "true") ? "YES" : "NO");
+						$answer->save();
+
+					}
+				}
+ 			}else{
+
+			}
+			return redirect('/resources/question');
+		}
 	}
 
 	public function questionedit($id = 0)
-	{		
+	{
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
-
+		$passage = $this->passage->getPassage();
+		$qtypes = $this->question_type->getQuestionTypes();
 		if(isset($id) && $id > 0)
 		{
-			$obj = $this->lesson->find($id);
-			$id = $obj->id; 
-			$institution_id = $obj->institution_id; 
+			$obj = $this->question->find($id);
+			$id = $obj->id;
+			$institution_id = $obj->institution_id;
 			$subject_id = $obj->subject_id; 
 			$category_id = $obj->category_id; 
 			$name = $obj->name; 
@@ -119,7 +212,19 @@ class QuestionController extends BaseController {
 			$id = $institution_id = $subject_id = $category_id = 0;
 			$name = '';
 		}
-		return view('resources::lesson.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id'));
+		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
+			->where('question_answers.question_id',$id)
+			->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
+			->get()->toArray();
+ 		$questions = Question::where('id',$id)->get()->toArray();
+  		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers'));
+
+		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'qtypes', 'oldAnswers','answersLisitng'));
+
+
+//
+//   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
+//			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
 	}
 
 	public function lessonupdate($id = 0)

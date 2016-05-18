@@ -10,6 +10,7 @@ namespace App\Modules\Resources\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Modules\Resources\Models\QuestionAnswer;
 
 class Question extends Model {
 	/**
@@ -70,5 +71,50 @@ class Question extends Model {
 		$obj->institution_id = $params['institution_id'];
 		$obj->category_id = $params['category_id'];
 		$obj->save();	
+	}
+	public function updateQuestion($params = 0)
+	{
+   		$obj = new Question();
+		if($params['id'] > 0)
+		{
+			$obj = Question::find($params['id']);
+			$obj->updated_by = Auth::user()->id;
+		}
+		else
+		{
+			$obj->added_by = Auth::user()->id;
+		}
+		$obj->title = $params['question_title'];
+		$obj->qst_text = $params['question_textarea'];
+		$obj->question_type_id = $params['question_type'];
+		$obj->subject_id = $params['subject_id'];
+		$obj->lesson_id = $params['institution_id'];
+		$obj->passage_id = $params['passage'];
+		$obj->institute_id = $params['institution_id'];
+		$obj->status = '';
+		$obj->difficulty_id ='';
+ 		if($obj->save());{
+		$explanation = $params['explanation'];
+		$is_correct = $params['is_correct'];
+ 		foreach ($params['answer_textarea'] as $key => $value) {
+
+			$answer = new QuestionAnswer();
+			if (isset($params['answerIds'][$key]) && !empty($params['answerIds'][$key])) {
+				$answer = QuestionAnswer::find($params['answerIds'][$key]);
+				if (empty($answer)) {
+					$answer = new QuestionAnswer();
+				}
+			}
+			$last_id=$obj->id;
+			$answer->question_id = $last_id;
+			$answer->ans_text = $value;
+			$answer->explanation = $explanation[$key];
+			$answer->order_id = ($key+1);
+			$answer->is_correct = (($is_correct[$key] == "true") ? "YES" : "NO");
+			$answer->save();
+
+		}
+	}
+
 	}
 }
