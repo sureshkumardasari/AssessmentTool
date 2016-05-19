@@ -35,6 +35,13 @@ class AuthController extends Controller {
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
+
+	/**
+	 * Handle a login request to the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function postLogin(Request $request)
 	{
 		$this->validate($request, [
@@ -64,5 +71,28 @@ class AuthController extends Controller {
 	protected function getFailedLoginMessage()
 	{
 		return 'These credentials do not match our records.';
+	}
+
+	/**
+	 * Handle a registration request for the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postRegister(Request $request)
+	{
+		$validator = $this->registrar->validator($request->all());
+
+		if ($validator->fails())
+		{
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
+
+		//$this->auth->login($this->registrar->create($request->all()));
+		//$this->redirectTo = '/user/profile';
+		$this->registrar->create($request->all());
+		return redirect($this->redirectPath());
 	}
 }
