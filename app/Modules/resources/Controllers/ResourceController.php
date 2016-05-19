@@ -75,19 +75,20 @@ class ResourceController extends BaseController {
 
 	public function subjectadd()
 	{		
-		$inst_arr = $this->institution->getInstitutions();
-		$category = $this->category->getCategory();
-
 		$id = $institution_id = $category_id = 0;
 		$name = '';
+
+		$institution_id = (old('institution_id') != NULL && old('institution_id') > 0) ? old('institution_id') : 0;
+		$category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : 0;
+
+		$inst_arr = $this->institution->getInstitutions();
+		$category = $this->category->getCategory($institution_id);
+		
 		return view('resources::subject.edit',compact('id','institution_id','name','inst_arr','category','category_id'));
 	}
 
 	public function subjectedit($id = 0)
 	{		
-		$inst_arr = $this->institution->getInstitutions();
-		$category = $this->category->getCategory();
-
 		if(isset($id) && $id > 0)
 		{
 			$obj = $this->subject->find($id);
@@ -101,6 +102,13 @@ class ResourceController extends BaseController {
 			$id = $institution_id = $category_id = 0;
 			$name = '';
 		}
+
+		$institution_id = (old('institution_id') != NULL && old('institution_id') > 0) ? old('institution_id') : $institution_id;
+		$category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : $category_id;
+
+		$inst_arr = $this->institution->getInstitutions();
+		$category = $this->category->getCategory($institution_id);
+
 		return view('resources::subject.edit',compact('id','institution_id','name','inst_arr','category','category_id'));
 	}
 
@@ -164,10 +172,14 @@ class ResourceController extends BaseController {
 	}
 
 	public function lessonadd()
-	{		
+	{	
+		$institution_id = (old('institution_id') != NULL && old('institution_id') > 0) ? old('institution_id') : 0;
+		$category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : 0;
+		$subject_id = (old('subject_id') != NULL && old('subject_id') > 0) ? old('subject_id') : 0;
+
 		$inst_arr = $this->institution->getInstitutions();
-		$subjects = $this->subject->getSubject();
-		$category = $this->category->getCategory();
+		$category = $this->category->getCategory($institution_id);
+		$subjects = $this->subject->getSubject($institution_id, $category_id);		
 
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$name = '';
@@ -194,6 +206,15 @@ class ResourceController extends BaseController {
 			$id = $institution_id = $subject_id = $category_id = 0;
 			$name = '';
 		}
+
+		$institution_id = (old('institution_id') != NULL && old('institution_id') > 0) ? old('institution_id') : $institution_id;
+		$category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : $category_id;
+		$subject_id = (old('subject_id') != NULL && old('subject_id') > 0) ? old('subject_id') : $subject_id;
+
+		$inst_arr = $this->institution->getInstitutions();
+		$category = $this->category->getCategory($institution_id);
+		$subjects = $this->subject->getSubject($institution_id, $category_id);		
+
 		return view('resources::lesson.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id'));
 	}
 
