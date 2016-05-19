@@ -30,10 +30,10 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Institution</label>
 							<div class="col-md-10">
-								<select class="form-control" name="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id">
 									<option value="0">Select</option>
 									@foreach($inst_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{$val}}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -41,10 +41,10 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
-								<select class="form-control" name="category_id">
+								<select class="form-control" name="category_id" id="category_id">
 									<option value="0">Select</option>
 									@foreach($category as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $val }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -52,10 +52,10 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
-								<select class="form-control" name="subject_id">
+								<select class="form-control" name="subject_id" id="subject_id">
 									<option value="0">Select</option>
 									@foreach($subjects as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $val}}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -63,10 +63,10 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
-								<select class="form-control" name="question_type">
+								<select class="form-control" name="question_type" id="question_type">
 									<option value="0">Select</option>
 									@foreach($qtypes as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $val }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -78,7 +78,7 @@
 								<select class="form-control" name="passage" id="passage">
 									<option value="0">Select</option>
 									@foreach($passage as $id=>$val)
-										<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+										<option value="{{ $val }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -126,4 +126,21 @@
 		</div>
 	</div>
 </div>
-@endsection
+<?php
+if (count($errors) > 0){?>
+<script>
+	var oldvalues = '{{old('institution_id')}}';
+	var catoldvalues = '{{old('category_id')}}';
+	var suboldvalues = '{{old('subject_id')}}';
+	var question_type = '{{old('question_type')}}';
+	var question_textarea = '{{old('question_textarea')}}';
+	var passage = '{{old('passage')}}';
+ 	$('#institution_id').val(oldvalues);
+	$('#category_id').val(catoldvalues);
+	$('#subject_id').val(suboldvalues);
+	$('#question_type').val(question_type);
+	$('#question_textarea').val(question_textarea);
+	$('#passage').val(passage);
+</script>
+<?php }?>
+ @endsection

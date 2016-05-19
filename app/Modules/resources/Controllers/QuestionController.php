@@ -107,20 +107,31 @@ class QuestionController extends BaseController {
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
-
+ 		$messages=[
+			'answerIds.required'=>'The Answer field is required',
+			'subject_id.required'=>'The Subject field is required',
+			'category_id.required'=>'The Category field is required',
+			'institution_id.required'=>'The Institution field is required',
+     		];
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
 			'subject_id' => 'required',
 			'question_type' => 'required',
 			'question_title' => 'required',
+			'answerIds' => 'required',
  			'question_textarea' => 'required',];
 
 		if ($post['id'] > 0)
 		{
 			$rules['question_title'] = 'required|min:3|unique:question,name,' . $post['id'];
 		}
-		$validator = Validator::make($post, $rules);
+		if ($post['question_type']==1 && count($post['answerIds']) < 2)
+		{
+			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required');
+ 		}
+
+		$validator=Validator::make($post,$rules,$messages);
 
 		if ($validator->fails())
 		{
@@ -128,7 +139,7 @@ class QuestionController extends BaseController {
 		} else
 		{
 			$params = Input::All();
-  			$this->question->updateQuestion($params);
+			$this->question->updateQuestion($params);
 
 			return redirect('/resources/question');
 		}
