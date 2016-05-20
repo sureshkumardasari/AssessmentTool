@@ -28,6 +28,7 @@ class CreateAssignmentTable extends Migration {
 			$table->enum('delivery_method', ['online','print']);
 			$table->integer('added_by')->nullable();
 			$table->integer('updated_by')->nullable();
+			$table->enum('status', ['0','1']);
 			$table->timestamps();
 		});
 	}
