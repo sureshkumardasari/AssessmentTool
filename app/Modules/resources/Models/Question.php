@@ -84,14 +84,15 @@ class Question extends Model {
 		{
 			$obj->added_by = Auth::user()->id;
 		}
-		$obj->title = $params['question_title'];
+ 		$obj->title = $params['question_title'];
 		$obj->qst_text = $params['question_textarea'];
 		$obj->question_type_id = $params['question_type'];
 		$obj->subject_id = $params['subject_id'];
-		$obj->lesson_id = $params['institution_id'];
+		$obj->category_id = $params['category_id'];
+		$obj->lesson_id = $params['lessons_id'];
 		$obj->passage_id = $params['passage'];
 		$obj->institute_id = $params['institution_id'];
-		$obj->status = '';
+ 		$obj->status =  $params['status'];
 		$obj->difficulty_id ='';
  		if($obj->save());{
 		$explanation = $params['explanation'];

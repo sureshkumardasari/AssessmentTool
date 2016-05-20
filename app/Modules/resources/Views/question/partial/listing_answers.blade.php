@@ -30,8 +30,8 @@
             <p class='exp_links Lht30 mt15 mr0 fltR'><i class='del icons mr10 delBtn' id='del_{{ uniqid() }}'></i> Delete</p>
             <p class='exp_links mt20 mr30 fltR'><i class='{{ ($key == "0") ? "down" : "up" }} icons mr20 upDownBtn'></i>{{ ($key == "0") ? "Move Down" : "Move Up" }}</p>
             <div class='clr'></div>
-        </div>  
-        </div>               
+        </div>
+        </div>
         <div class='clr'></div>
     </div>
 </div>

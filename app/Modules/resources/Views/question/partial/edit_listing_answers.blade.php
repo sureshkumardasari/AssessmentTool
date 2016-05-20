@@ -8,6 +8,7 @@
         <label class='mr20 mt8 w200 question_answer_count'>Answer #{{$ans_count}}<i>*</i></label>
         <input type="hidden" name="answerIds[]" class='hanswerId' value="{{ $answer['id'] }}">
         <i class='{{ ($answer["is_correct"] == "YES") ? "switch_on" : "switch_off" }} icons L0 correct' data-answer_selection=''></i>
+            {{--<input id="input-1" type="checkbox" {{ ($answer["is_correct"] == "YES") ? "checked" : "" }}  offLabel="<span class='glyphicon glyphicon-remove'>" onLabel="<span class='glyphicon glyphicon-ok'>">--}}
         <input type='hidden' name='is_correct[]' value='{{ ($answer["is_correct"] == "YES") ? "true" : "false" }}'/>
         </div>
         <div class='col-md-10'>
