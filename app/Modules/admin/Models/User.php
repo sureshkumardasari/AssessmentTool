@@ -62,6 +62,17 @@ class User extends Model {
 		return $user;
 	}
 
+	public function getRoleIdByRole($userType = '')
+	{
+		if($userType != '')
+		{
+			$roles = DB::table('Roles')->where("name", $userType)->get();
+			return $roles[0]->id;
+		}
+		else
+			return 0;
+	}
+
 	public function getRoles()
 	{
 		$roles = DB::table('Roles')->lists('name', 'id');

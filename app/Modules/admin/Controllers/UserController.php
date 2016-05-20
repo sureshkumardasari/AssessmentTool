@@ -357,12 +357,10 @@ class UserController extends BaseController {
     public function fileupload($destPath,$destFileName, $institutionId, $userType){
     	$role_id = 0;
     	if($userType == 'student' || $userType == 'Student')
-    	{
-    		$obj = new Role();
-    		$res = $obj->where('name',strtolower($userType))->select('id')->get();
-    		$role_id = $res->id;
+    	{    		
+    		$role_id = $this->user->getRoleIdByRole($userType);
     	}
-
+    	//dd($role_id );
         $uploadSuccess = false;
         $orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','gender','phone','status','address','city','state','country','pin','role'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
@@ -381,7 +379,7 @@ class UserController extends BaseController {
         // if ($uploadSuccess != false) {
         $errorArray = array();
         //                    try{
-        $output = Excel::load($destPath . '/' . $destFileName, function($results) use ($institutionId) {
+        $output = Excel::load($destPath . '/' . $destFileName, function($results) use ($role_id, $institutionId) {
             $phpExcel = $results->setActiveSheetIndex(1);
             $fileType = $phpExcel->getCell('D1')->getValue();
             $phpExcel = $results->setActiveSheetIndex(0);
