@@ -19,8 +19,8 @@ class CreateAssignmentTable extends Migration {
 			$table->text('description');
 			$table->integer('assessment_id')->nullable();
 			$table->integer('institution_id')->nullable();
-			$table->date('startdate');
-			$table->date('enddate');
+			$table->dateTime('startdate');
+			$table->dateTime('enddate');
 			$table->enum('neverexpires', ['0','1']);
 			$table->enum('launchtype', ['proctor','system']);
 			$table->integer('proctor_user_id')->nullable();
