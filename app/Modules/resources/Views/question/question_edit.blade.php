@@ -5,6 +5,7 @@
 {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
 {!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
 {!! HTML::script(asset('assets/js/question.js')) !!}
+
 @stop
 @section('content')
 <div class="container-fluid">
@@ -27,32 +28,32 @@
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/question_update_submit') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Institution</label>
 							<div class="col-md-10">
 								<select class="form-control" name="institution_id" id="institution_id">
  									@foreach($inst_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $questions[0]['institute_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
 								<select class="form-control" name="category_id">
  									@foreach($category as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $questions[0]['category_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
 								<select class="form-control" name="subject_id">
  									@foreach($subjects as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $questions[0]['subject_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -62,7 +63,7 @@
 							<div class="col-md-10">
 								<select class="form-control" name="question_type">
  									@foreach($qtypes as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $questions[0]['question_type_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -73,7 +74,7 @@
 							<div class="col-md-10">
 								<select class="form-control" name="passage" id="passage">
  									@foreach($passage as $id=>$val)
-										<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+										<option value="{{ $id }}" {{ ($id == $questions[0]['passage_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -82,10 +83,8 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Title</label>
 							<div class="col-md-10">
-								@foreach($questions as $questions_title)
-								<input type="text" class="form-control" name="question_title" value="{{ $questions_title['title'] }}">
-								@endforeach
-							</div>
+  								<input type="text" class="form-control" name="question_title" value="{{ $questions[0]['title']}}">
+ 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Text</label>
@@ -125,4 +124,7 @@
 		</div>
 	</div>
 </div>
+<script>
+//	$('#institution_id').val($('#institution_ids').val());
+</script>
 @endsection

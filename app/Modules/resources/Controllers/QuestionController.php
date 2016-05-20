@@ -91,6 +91,7 @@ class QuestionController extends BaseController {
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
+		$lessons = $this->lesson->getLesson();
 		$passage = $this->passage->getPassage();
 		$qtypes = $this->question_type->getQuestionTypes();
 
@@ -100,23 +101,25 @@ class QuestionController extends BaseController {
 		// old answers listing
 		$oldAnswers = array(); //$question->answers->toArray();
         $answersLisitng = view('resources::question.partial.listing_answers', compact('oldAnswers'));
-
-		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id', 'qtypes', 'answersLisitng'));
+		$questions = Question::get()->toArray();
+ 		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersLisitng','questions'));
 	}
 
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
- 		$messages=[
+		$messages=[
 			'answerIds.required'=>'The Answer field is required',
 			'subject_id.required'=>'The Subject field is required',
 			'category_id.required'=>'The Category field is required',
+			'lessons_id.required'=>'The Lessons field is required',
 			'institution_id.required'=>'The Institution field is required',
      		];
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
 			'subject_id' => 'required',
+			'lessons_id' => 'required',
 			'question_type' => 'required',
 			'question_title' => 'required',
 			'answerIds' => 'required',
@@ -146,7 +149,12 @@ class QuestionController extends BaseController {
  	}
 	public function questionSubmit(){
 		$post = Input::All();
-
+ 		$messages=[
+			'answerIds.required'=>'The Answer field is required',
+			'subject_id.required'=>'The Subject field is required',
+			'category_id.required'=>'The Category field is required',
+			'institution_id.required'=>'The Institution field is required',
+		];
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
@@ -155,15 +163,18 @@ class QuestionController extends BaseController {
 			'question_title' => 'required',
 			'question_textarea' => 'required',];
 
-		$validator = Validator::make($post, $rules);
-
+		$validator=Validator::make($post,$rules,$messages);
+		if ($post['question_type']==1 && count($post['answerIds']) < 2)
+		{
+			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required');
+		}
 		if ($validator->fails())
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
 			$params = Input::All();
- 			$questions = Question::where('id',$params['id'])->get()->toArray();
+  			$questions = Question::where('id',$params['id'])->get()->toArray();
 			if($questions){
 				$obj=Question::find($params['id']);
  				$obj->title = $params['question_title'];
@@ -228,7 +239,7 @@ class QuestionController extends BaseController {
 			->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
 			->get()->toArray();
  		$questions = Question::where('id',$id)->get()->toArray();
-  		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers'));
+		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers'));
 
 		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'qtypes', 'oldAnswers','answersLisitng'));
 
@@ -237,7 +248,9 @@ class QuestionController extends BaseController {
 //   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
 //			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
 	}
-
+	public function questiondelete(){
+		return "delete";
+	}
 	public function lessonupdate($id = 0)
 	{
 		$params = Input::All();
@@ -308,5 +321,26 @@ class QuestionController extends BaseController {
 			$this->category->deletecategory($id);
 		}
 		return redirect('/resources/category');
+	}
+	public function categoryList($id){
+		$category=	Institution::join('category','institution.id','=','category.institution_id')
+			->where('institution.id','=',$id)
+			->select('category.id','category.name')
+			->get();
+ 		return $category;
+ 	}
+	public function subjectList($id){
+		$subject=	Category::join('subject','category.id','=','subject.category_id')
+			->where('category.id','=',$id)
+			->select('subject.id','subject.name')
+			->get();
+		return $subject;
+	}
+	public function lessonsList($id){
+ 		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
+			->where('subject.id','=',$id)
+			->select('lesson.id','lesson.name')
+			->get();
+ 		return $lessons;
 	}
 }
