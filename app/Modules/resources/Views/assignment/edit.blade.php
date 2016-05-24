@@ -102,7 +102,7 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" >Proctor </label>
 							<div class="col-md-6">
-								<select class="form-control" name="proctor_id">
+								<select class="form-control" id="proctor_id" name="proctor_id">
 									<option value="0">Select</option>
 									@foreach($proctor_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $assignment->proctor_user_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -114,8 +114,7 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Proctor Instructions </label>
 							<div class="col-md-6">
-								<textarea class="form-control" id="proctor_instructions
- " name="proctor_instructions">{{ $assignment->proctor_instructions
+								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions">{{ $assignment->proctor_instructions
   }}</textarea>
 							</div>
 						</div>
@@ -165,44 +164,22 @@ $(function () {
     $('#enddatetime').datetimepicker();
 });
 
-/*$("input[name='launchtype']").click(function () {
-    setLaunchType(this);
-});
-*/
 $('input:radio[name="launchtype"]').change(
     function(){
     	//alert($(this).is(':checked'))
         if ($(this).is(':checked') && $(this).val() == 'system') {
             // append goes here
             // $('#proctor_id').select('disable');
-              $('#proctor_id').prop('disabled', false);
-        }
+              $('#proctor_id').prop('disabled', true);
+              $('#proctor_instructions').prop('readonly', true);  
+          }
         else
-        {
-        	$('#proctor_id').prop('disabled', true);
+        {        	
+        	$('#proctor_id').prop('disabled', false);
+        	$('#proctor_instructions').prop('readonly', false);
         }
     });
 
-/*function setLaunchType(element) {
-    var optionText = element.val();
-    alert(optionText)
-    if (optionText.toLowerCase().indexOf("system") >= 0) {
-        $('#launchType').val('system');
-        //var currentLabel = $('.proctor-label').html();
-       // currentLabel = currentLabel.toString();
-       // $('.proctor-label').html(currentLabel.replace('<i>*</i>', ''));
-        $('#proctor_id').select2('disable');
-    }
-    else {
-        $('#launchType').val('proctor');
-       // var currentLabel = $('.proctor-label').html();
-       // currentLabel = currentLabel.toString();
-       // if (currentLabel.indexOf('<i>*</i>') == -1) {
-       //     $('.proctor-label').html(currentLabel + '<i>*</i>');
-       // }
-        $('#proctor_id').select2('enable');
-    }*/
-}
-        </script
+ </script
 
 @endsection
