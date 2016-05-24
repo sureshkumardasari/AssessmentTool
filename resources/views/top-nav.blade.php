@@ -22,6 +22,7 @@
 				@else
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+					<li><a href="{{ url('/resources/myassignment') }}">My Assignments</a></li>
 					<li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
@@ -33,6 +34,7 @@
 			            <li><a href="{{ url('/resources/passage') }}">Passages</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/resources/assessment') }}">Assessments</a></li>
+			            <li><a href="{{ url('/resources/assignment') }}">Assignments</a></li>
 			          </ul>
 			        </li>
 			        <li class="dropdown">

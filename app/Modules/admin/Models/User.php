@@ -56,6 +56,17 @@ class User extends Model {
 		return $users;
 	}
 
+	public function getUsersOptionList($institution_id = 0, $role_id = 0)
+	{
+		$data = array();
+		$users = $this->getUsers($institution_id, $role_id);//->toArray();
+
+		foreach ($users as $key => $value) {
+			$data[$value->id] = $value->username;
+		}
+		return $data;
+	}
+
 	public function getUserInfo($user_id = 0)
 	{
 		$user = User::find($user_id);
