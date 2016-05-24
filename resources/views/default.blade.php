@@ -10,13 +10,13 @@
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
 	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<link href="{{ asset('/css/fonts.googleapis.css') }}" rel='stylesheet' type='text/css'>
 
     
     <link href="{{ asset('/css/dataTables.bootstrap.min.css') }}" rel='stylesheet' type='text/css'>
 
     @section('header-assets')
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="{{ asset('/js/jquery.min.js') }}"></script>
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
