@@ -33,6 +33,7 @@
 			            <li><a href="{{ url('/resources/passage') }}">Passages</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/resources/assessment') }}">Assessments</a></li>
+			            <li><a href="{{ url('/resources/assignment') }}">Assignments</a></li>
 			          </ul>
 			        </li>
 			        <li class="dropdown">

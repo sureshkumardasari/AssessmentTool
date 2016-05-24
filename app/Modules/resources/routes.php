@@ -59,4 +59,12 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     //assessments
     Route::get('assessment', array('as' => 'list', 'uses'=>'AssessmentController@index'));
     Route::get('assessmentcreate', array('as' => 'create', 'uses'=>'AssessmentController@assessmentcreate'));
+
+    
+    Route::get('assignment', array('as' => 'list', 'uses'=>'AssignmentController@assignment'));
+    Route::get('assignmentadd', array('as' => 'add', 'uses'=>'AssignmentController@assignmentadd'));
+    Route::get('assignmentedit/{id}', array('as' => 'edit', 'uses'=>'AssignmentController@assignmentedit'));
+    Route::get('assignmentdel/{id}', array('as' => 'delete', 'uses'=>'AssignmentController@assignmentdelete'));
+    Route::post('assignmentupdate', array('as' => 'update', 'uses'=>'AssignmentController@assignmentupdate'));
+    Route::get('view/assignment/{id?}', ['as' => 'viewAssignment', 'uses' => 'AssignmentController@view']);
 });
