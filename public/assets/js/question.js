@@ -250,7 +250,9 @@ var me = null;
             $('.create_answer').on('click', function() {
                 var template = _self.createAnswerTemplate();
                     $(template).appendTo('.answers');
-
+                     $('.ans-chk').checkboxpicker({html: true,
+                      offLabel: '<span class="glyphicon glyphicon-remove">',
+                      onLabel: '<span class="glyphicon glyphicon-ok">'});
                     var lastTempId = $('.answer_container').last().find('textarea[name="answer_textarea[]"]').attr('id');
                     var subjects = $("select[name='subjects[]']").val();
 
@@ -875,18 +877,13 @@ var me = null;
                 var count = $('.answer_container').size() + 1,
                     moveDir = (count == 1) ? 'down' : 'up',
                     randomId = Math.random().toString().split('.')[1];
-                $('#input-1').checkboxpicker({
-                    html: true,
-                    offLabel: '<span class="glyphicon glyphicon-remove">',
-                    onLabel: '<span class="glyphicon glyphicon-ok">'
-                });
-                $(':checkbox').checkboxpicker();
+                
                 var template = "<div class='answer_container mb40'>" +
                     "<div class='mb18 mr10 mt20 pos_rel'>" +
                     "<div class='col-md-2'><label class='mr20 mt8 w200 question_answer_count'>Answer #" + count + "<i>*</i></label>" +
                     "<input type='hidden' name='answerIds[]' class='hanswerId' value=''>" +
-                    "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
-                        //"<input id='input-1' type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
+                    // "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
+                    "<input id='input-1' class='ans-chk' type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
                     "<input type='hidden' name='is_correct[]' value='false'/>" +
                     "</div><div class='col-md-10'><p style='w93 fltL'>" +
                     "<textarea name='answer_textarea[]' id='answer_textarea_" + randomId + "' class='required' data-type='tinymce' data-name='Answer Text' data-read_only='false'></textarea>" +
@@ -1306,6 +1303,9 @@ var me = null;
                 $.each(answers, function (index, elem) {
                     var template = _self.createAnswerTemplate();
                     $(template).appendTo('.answers');
+                     $('.ans-chk').checkboxpicker({html: true,
+                      offLabel: '<span class="glyphicon glyphicon-remove">',
+                      onLabel: '<span class="glyphicon glyphicon-ok">'});
 
                     var lastTempId = $('.answer_container').last().find('textarea[name="answer_textarea[]"]').attr('id');
                     $('.answer_container').last().find('.correct').data('answer_selection', elem);
@@ -1314,6 +1314,12 @@ var me = null;
                     ( mathMCE ) ? _self.configureAnswertextTinyMCEReadOnly('bold,italic,underline |,tiny_mce_wiris_formulaEditor', lastTempId) : _self.configureAnswertextTinyMCEReadOnly('bold,italic,underline', lastTempId);
 
                     tinyMCE.get(lastTempId).setContent(elem);
+
+                    $('#input-1').checkboxpicker({
+                      html: true,
+                      offLabel: '<span class="glyphicon glyphicon-remove">',
+                      onLabel: '<span class="glyphicon glyphicon-ok">'
+                    });
                 });
             }
 

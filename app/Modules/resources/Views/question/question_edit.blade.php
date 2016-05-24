@@ -5,7 +5,7 @@
 {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
 {!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
 {!! HTML::script(asset('assets/js/question.js')) !!}
-
+{!! HTML::script(asset('assets/js/bootstrap-checkbox.min.js')) !!}
 @stop
 @section('content')
 <div class="container-fluid">
@@ -41,7 +41,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
-								<select class="form-control" name="category_id">
+								<select class="form-control" name="category_id" id="category_id">
  									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['category_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -51,7 +51,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
-								<select class="form-control" name="subject_id">
+								<select class="form-control" name="subject_id" id="subject_id">
  									@foreach($subjects as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['subject_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -61,7 +61,7 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
-								<select class="form-control" name="question_type">
+								<select class="form-control" name="question_type" id="question_type">
  									@foreach($qtypes as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['question_type_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -83,7 +83,7 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Title</label>
 							<div class="col-md-10">
-  								<input type="text" class="form-control" name="question_title" value="{{ $questions[0]['title']}}">
+  								<input type="text" class="form-control" name="question_title" id="question_title" value="{{ $questions[0]['title']}}">
  							</div>
 						</div>
 						<div class="form-group">
@@ -100,7 +100,7 @@
 			            	<label class="mr20 mt8 w200"></label>
 			            </p>
 			            <p class="w815 fltL">
-			                <a href="javascript:void(0)" class="upload_btn clr mb10 mr5 mt10 fltR create_answer">Add New Answer</a>
+			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary mb10 mr5 mt10 fltR create_answer">Add New Answer</a>
 			            </p>
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">
@@ -112,7 +112,7 @@
 						</div>
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
+							<div class="col-md-6 col-md-offset-6">
 								<button type="submit" class="btn btn-primary">
 									Submit
 								</button>
@@ -124,7 +124,5 @@
 		</div>
 	</div>
 </div>
-<script>
-//	$('#institution_id').val($('#institution_ids').val());
-</script>
+@include('resources::question.qst_js_validation')
 @endsection

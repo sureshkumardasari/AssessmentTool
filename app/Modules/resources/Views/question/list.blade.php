@@ -7,12 +7,11 @@
 			    <li><a href="{{ url('/resources/category') }}">Category</a></li>
 		        <li><a href="{{ url('/resources/subject') }}">Subjects</a></li>
 		        <li><a href="{{ url('/resources/lesson') }}">Lessons</a></li>
-
 		        <li class="active"><a href="{{ url('/resources/question') }}">Questions</a></li>
 			</ul>
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
-					<a href="{{ url('/resources/questionadd/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
+					<a href="{{ url('/resources/questionadd/') }}" class="btn btn-primary btn-sm right" ><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
 				@if (count($errors) > 0)
 					<div class="alert alert-danger">
@@ -82,5 +81,4 @@
 		</div>
 	</div>
 </div>
-
 @endsection

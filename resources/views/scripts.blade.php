@@ -5,7 +5,6 @@
 	
 	<script src="{{ asset('/js/jquery.dataTables.min.js')}}"></script>
 	<script src="{{ asset('/js/dataTables.bootstrap.min.js')}}"></script>
-	{!! HTML::script(asset('assets/js/bootstrap-checkbox.min.js')) !!}
 			<!-- Add mousewheel plugin (this is optional) -->
 	<script type="text/javascript" src="{{ asset('/plugins/fancybox/lib/jquery.mousewheel-3.0.6.pack.js')}}"></script>
 
@@ -37,6 +36,6 @@
 			        }
 			    }
 		    });
-			$(':checkbox').checkboxpicker();
+
 		} );	
 	</script>
