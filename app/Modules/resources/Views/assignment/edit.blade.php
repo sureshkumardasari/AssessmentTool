@@ -2,9 +2,9 @@
 
 @section('header-assets')
 @parent
-{!! HTML::style('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css') !!}
-{!! HTML::script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js') !!}
-{!! HTML::script('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js') !!}
+{!! HTML::style(asset('/css/bootstrap-datetimepicker.min.css')) !!}
+{!! HTML::script(asset('/js/moment.min.js')) !!}
+{!! HTML::script(asset('/js/bootstrap-datetimepicker.min.js')) !!}
 @stop
 @section('content')
 
