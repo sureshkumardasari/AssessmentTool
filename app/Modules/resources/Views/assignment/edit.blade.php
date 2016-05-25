@@ -5,6 +5,7 @@
 {!! HTML::style(asset('/css/bootstrap-datetimepicker.min.css')) !!}
 {!! HTML::script(asset('/js/moment.min.js')) !!}
 {!! HTML::script(asset('/js/bootstrap-datetimepicker.min.js')) !!}
+{!! HTML::script(asset('/js/dual-list-box.min.js')) !!}
 @stop
 @section('content')
 
@@ -131,6 +132,15 @@
 							</div>
 						</div>
 
+						<div class="form-group">
+							<label class="col-md-3 control-label" ></label>
+							<div class="col-md-6">
+								<div id="dual-list-box" class="form-group row">
+						            <select id="student_ids" name="student_ids[]" multiple="multiple" data-title="Students" data-source="{{ url('/user/usersjson') }}" data-value="id" data-text="username" data-horizontal="false"></select>
+						        </div>
+							</div>
+						</div>
+
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Delivary Method </label>
 							<div class="col-md-6">
@@ -159,6 +169,9 @@
 </div>
 
 <script type="text/javascript">
+//var selected = new Array(1,2,3);
+ $('#student_ids').DualListBox();
+
 $(function () {
     $('#startdatetime').datetimepicker();
     $('#enddatetime').datetimepicker();

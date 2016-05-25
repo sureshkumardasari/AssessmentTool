@@ -71,6 +71,13 @@ class UserController extends BaseController {
         ->nest('usersList', 'admin::user._list', compact('users'));
 	}
 
+	public function usersJson()
+	{
+		$users=$this->user->getUsers();
+
+		return json_encode($users);
+	}
+
 	public function searchByInstitution($institution_id = 0, $role_id = 0)
 	{
 		$params = Input::All();
