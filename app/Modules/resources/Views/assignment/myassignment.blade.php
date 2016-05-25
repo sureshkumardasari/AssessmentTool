@@ -19,6 +19,7 @@
 						        <thead>
 						            <tr>
 						                <th>Name</th>
+						                <th>Start Date Time</th><th>End Date Time</th>
 						                <th></th>
 						            </tr>
 						        </thead>
@@ -26,8 +27,10 @@
 						            @foreach( $myassignment['Available'] as $row )
 						            <tr>				                
 						                <td>{{ $row->name }}</td>
+						                <td>{{ msg_date_format($row->startdatetime) }}</td>
+						                <td>{{ ($row->neverexpires == '1') ? 'Never Expires' : msg_date_format($row->enddatetime) }}</td>
 						                <td>
-						                	<a href="{{ url('/resources/assignmentedit/'.$row->id) }}" class="btn btn-default btn-sm">Available</a>														
+						                	<a href="{{ url('/resources/taketest/'.$row->id.'/'.$row->assessment_id) }}" class="btn btn-default btn-sm">Take Test</a>														
 										</td>
 						            </tr>
 						            @endforeach				            
@@ -39,6 +42,7 @@
 						        <thead>
 						            <tr>
 						                <th>Name</th>
+						                <th>Start Date Time</th><th>End Date Time</th>
 						                <th></th>
 						            </tr>
 						        </thead>
@@ -46,9 +50,9 @@
 						            @foreach( $myassignment['Upcoming'] as $row )
 						            <tr>				                
 						                <td>{{ $row->name }}</td>
-						                <td>
-						                	<a href="{{ url('/resources/assignmentedit/'.$row->id) }}" class="btn btn-default btn-sm">Upcoming</a>														
-										</td>
+						                <td>{{ msg_date_format($row->startdatetime) }}</td>
+						                <td>{{ ($row->neverexpires == '1') ? 'Never Expires' : msg_date_format($row->enddatetime) }}</td>
+						                <td>Upcoming</td>
 						            </tr>
 						            @endforeach				            
 						        </tbody>

@@ -111,6 +111,7 @@ class Assignment extends Model {
                                         ->where('assignment_user.status', '<>', 'completed')
                                         ->where('assignment.delivery_method', '=', 'online')
                                         ->where('assignment.launchtype','=', 'system')
+                                        ->select('assignment.id','assignment.assessment_id','assignment.name','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires')
                                         ->get();
         // upcoming tests
         $_data['Upcoming'] = DB::table('assessment')
@@ -124,6 +125,7 @@ class Assignment extends Model {
                                         ->where('assignment_user.status','<>','inprogress')
                                         ->where('assignment.delivery_method', '=', 'online')
                                         ->where('assignment.launchtype','=', 'system')
+                                        ->select('assignment.id','assignment.assessment_id','assignment.name','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires')
                                         ->get();
 
         $proctorlaunchtestupcoming = DB::table('assessment')
@@ -135,6 +137,7 @@ class Assignment extends Model {
             ->where('assignment_user.status','=','upcoming')
             ->where('assignment.delivery_method', '=', 'online')
             ->where('assignment.launchtype','=', 'proctor')
+            ->select('assignment.id','assignment.assessment_id','assignment.name','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires')
             ->get();
 
         $proctorlaunchtestavailable = DB::table('assessment')
@@ -149,6 +152,7 @@ class Assignment extends Model {
             ->whereRaw('(assignment_user.status = \'test\') OR ((assignment_user.status=\'inprogress\')  )')
             ->where('assignment.delivery_method', '=', 'online')
             ->where('assignment.launchtype','=', 'proctor')
+            ->select('assignment.id','assignment.assessment_id','assignment.name','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires')
             ->get();
 
         $_data['Upcoming'] += $proctorlaunchtestupcoming;
