@@ -71,7 +71,7 @@ class Assignment extends Model {
 		$obj->proctor_instructions = $params['proctor_instructions'];
 		$obj->institution_id = $params['institution_id'];
 		$obj->delivery_method = $params['delivery_method'];
-		$obj->status = $params['status'];
+		$obj->status = 'upcoming';//$params['status'];
 		//$obj->save();	
 
 		if($obj->save()){
@@ -95,4 +95,66 @@ class Assignment extends Model {
 		}
 
 	}
+
+	public function getTests($user_id = 0, $category_id = 0) {
+
+        $data = array();
+        $user_id = ($user_id > 0) ? $user_id : Auth::user()->id;
+        // available tests
+        $_data['Available'] = DB::table('assessment')
+                                        ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+                                        ->join('assignment_user', 'assignment.id', '=', 'assignment_user.assignment_id')
+                                        //->where('assessment.category_id', $category_id)
+                                        ->whereRaw('((assignment.startdatetime <= \''. date('Y-m-d H:i:s') .'\'')
+                                        ->whereRaw('assignment.enddatetime >= \''. date('Y-m-d H:i:s') .'\' AND assignment.neverexpires = \'1\') OR (assignment.startdatetime <= \''. date('Y-m-d H:i:s') .'\' AND (assignment.neverexpires = \'0\')))')
+                                        ->where('assignment_user.user_id', $user_id)
+                                        ->where('assignment_user.status', '<>', 'completed')
+                                        ->where('assignment.delivery_method', '=', 'online')
+                                        ->where('assignment.launchtype','=', 'system')
+                                        ->get();
+        // upcoming tests
+        $_data['Upcoming'] = DB::table('assessment')
+                                        ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+                                        ->join('assignment_user', 'assignment.id', '=', 'assignment_user.assignment_id')
+                                        //->where('assessment.category_id', $category_id)
+                                        ->whereRaw('(assignment.startdatetime > \''. date('Y-m-d H:i:s') .'\')') 
+                                        ->where('assignment_user.user_id', $user_id)
+                                        ->where('assignment_user.status', '<>', 'completed')
+                                        ->where('assignment_user.status', '<>', 'test')
+                                        ->where('assignment_user.status','<>','inprogress')
+                                        ->where('assignment.delivery_method', '=', 'online')
+                                        ->where('assignment.launchtype','=', 'system')
+                                        ->get();
+
+        $proctorlaunchtestupcoming = DB::table('assessment')
+            ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+            ->join('assignment_user', 'assignment.id', '=', 'assignment_user.assignment_id')
+            //->where('assessment.category_id', $category_id)
+            ->whereRaw('((assignment.enddatetime >= \''. date('Y-m-d H:i:s') .'\' AND assignment.neverexpires = \'1\') OR  (assignment.neverexpires = \'0\'))')
+            ->where('assignment_user.user_id', $user_id)
+            ->where('assignment_user.status','=','upcoming')
+            ->where('assignment.delivery_method', '=', 'online')
+            ->where('assignment.launchtype','=', 'proctor')
+            ->get();
+
+        $proctorlaunchtestavailable = DB::table('assessment')
+            ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+            ->join('assignment_user', 'assignment.id', '=', 'assignment_user.assignment_id')
+            //->where('assessment.category_id', $category_id)
+            //->whereRaw('("assignment"."Status" = \'Instructions\') OR ("assignment"."Status" = \'Test\')')
+            ->whereRaw('((assignment.startdatetime <= \''. date('Y-m-d H:i:s') .'\'')
+            ->whereRaw('assignment.enddatetime >= \''. date('Y-m-d H:i:s') .'\' AND assignment.neverexpires = \'1\') OR (assignment.startdatetime <= \''. date('Y-m-d H:i:s') .'\' AND (assignment.neverexpires = \'0\')))')
+            ->where('assignment_user.user_id', $user_id)
+            ->where('assignment_user.status', '<>', 'completed')
+            ->whereRaw('(assignment_user.status = \'test\') OR ((assignment_user.status=\'inprogress\')  )')
+            ->where('assignment.delivery_method', '=', 'online')
+            ->where('assignment.launchtype','=', 'proctor')
+            ->get();
+
+        $_data['Upcoming'] += $proctorlaunchtestupcoming;
+        $_data['Available'] += $proctorlaunchtestavailable;
+
+        $data = $_data;         
+        return $data;
+    }
 }

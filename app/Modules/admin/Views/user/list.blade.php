@@ -14,6 +14,7 @@
 					<a href="{{ url('/user/add/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add </a>
 
 					<a href="{{ route('userBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
+					<a href="{{ URL::to('user/downloadExcelforusers/xls') }}"><button class="btn btn-primary btn-sm right">Download XLS</button></a>
 				</div>
 				<div class="panel-body">
 

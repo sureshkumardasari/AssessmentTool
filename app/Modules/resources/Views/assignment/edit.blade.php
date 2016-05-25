@@ -151,13 +151,13 @@
 							</div>
 						</div>
 
-						<div class="form-group required">
+						<!-- <div class="form-group required">
 							<label class="col-md-3 control-label">Status</label>
 							<div class="col-md-6">
 								<input type="radio" class="" name="status" id="status_yes" value="1" {{ ($assignment->status == 1 ) ? 'checked="checked"' : '' }}> Active 
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0" {{ ($assignment->status == 0) ? 'checked="checked"' : '' }}> Inactive 
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">							
 								<button type="submit" class="btn btn-primary">Submit</button>

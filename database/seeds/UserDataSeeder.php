@@ -8,6 +8,7 @@ class UserDataSeeder extends Seeder {
 		DB::table('users')->insert([
 			'id' => '1',
 			'email' => 'admin@gmail.com',
+			'first_name' => 'Admin',
 			'name' => 'Admin',
 			'password' => bcrypt('abc123'),
 			'status' => 'Active',

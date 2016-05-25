@@ -18,6 +18,8 @@ class CreateAssignmentUserTable extends Migration {
 			$table->integer('assessment_id')->nullable();
 			$table->integer('assignment_id')->nullable();
 			$table->integer('user_id')->nullable();
+			$table->enum('status', ['upcoming', 'inprogress', 'test', 'completed','instructions'])->default('upcoming');
+			$table->enum('gradestatus', ['notstarted', 'inprogress', 'completed','archieve'])->default('notstarted');
 			$table->timestamps();
 		});
 	}

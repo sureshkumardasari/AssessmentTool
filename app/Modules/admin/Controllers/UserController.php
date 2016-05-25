@@ -570,4 +570,19 @@ class UserController extends BaseController {
 	    }
         return new JsonResponse($inputs);
     }
+
+    public function downloadExcel($type)
+    {
+       $data = Institution::join('users', 'institution.id', '=', 'users.institution_id')
+            ->join('roles','roles.id','=','users.role_id')
+            ->select('institution_id','email','institution.name as Instname','roles.name as rolesname','first_name','last_name','status','enrollno','users.created_at','users.address1','users.city','users.state','users.phoneno','users.pincode','users.country_id')
+            ->get()->toArray();
+         return Excel::create('user.list', function ($excel) use ($data)
+         {
+          //dd($data);
+            $excel->sheet('mySheet', function ($sheet) use ($data) {
+            $sheet->fromArray($data);
+            });
+         })->download($type);
+    }
 }

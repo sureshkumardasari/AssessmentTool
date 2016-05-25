@@ -67,4 +67,5 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('assignmentdel/{id}', array('as' => 'delete', 'uses'=>'AssignmentController@assignmentdelete'));
     Route::post('assignmentupdate', array('as' => 'update', 'uses'=>'AssignmentController@assignmentupdate'));
     Route::get('view/assignment/{id?}', ['as' => 'viewAssignment', 'uses' => 'AssignmentController@view']);
+    Route::get('myassignment/{userid}', array('as' => 'myassignment', 'uses'=>'AssignmentController@myassignment'));
 });

@@ -146,4 +146,11 @@ class AssignmentController extends BaseController {
             return view('resources::assignment.view', compact('assignment'));
         }
     }
+
+    public function myassignment($user_id = 0)
+    {
+        $myassignment = $this->assignment->getTests();
+        //var_dump($myassignment);
+        return view('resources::assignment.myassignment', compact('myassignment'));
+    }
 }
