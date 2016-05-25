@@ -136,7 +136,9 @@
 							<label class="col-md-3 control-label" ></label>
 							<div class="col-md-6">
 								<div id="dual-list-box" class="form-group row">
-						            <select id="student_ids" name="student_ids[]" multiple="multiple" data-title="Students" data-source="{{ url('/user/usersjson') }}" data-value="id" data-text="username" data-horizontal="false"></select>
+						            <select id="student_ids" name="student_ids[]" multiple="multiple" data-title="Students" data-source="{{ url('/user/usersjson') }}" data-value="id" data-text="username" data-horizontal="false">
+
+						            </select>
 						        </div>
 							</div>
 						</div>
@@ -170,7 +172,7 @@
 
 <script type="text/javascript">
 //var selected = new Array(1,2,3);
- $('#student_ids').DualListBox();
+ $('#student_ids').DualListBox('',<?=$assignmentUsersJson?>);
 
 $(function () {
     $('#startdatetime').datetimepicker();

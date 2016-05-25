@@ -72,6 +72,27 @@ class Assignment extends Model {
 		$obj->institution_id = $params['institution_id'];
 		$obj->delivery_method = $params['delivery_method'];
 		$obj->status = $params['status'];
-		$obj->save();	
+		//$obj->save();	
+
+		if($obj->save()){
+
+			$last_id=$obj->id;
+
+			$users = AssignmentUser::find($last_id);
+			if($users)
+				$users->delete();	
+
+	 		foreach ($params['student_ids'] as $key => $value) {
+
+				$user_assign = new AssignmentUser();
+							
+				$user_assign->assessment_id = $params['assessment_id'];
+				$user_assign->assignment_id = $last_id;
+				$user_assign->user_id = $value;							
+				$user_assign->save();
+
+			}
+		}
+
 	}
 }
