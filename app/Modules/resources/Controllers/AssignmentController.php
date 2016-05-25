@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Assignment;
+use App\Modules\Resources\Models\AssignmentUser;
 
 class AssignmentController extends BaseController {
 
@@ -39,6 +40,9 @@ class AssignmentController extends BaseController {
 
 		$obj = new User();
 		$this->user = $obj;
+
+		$obj = new AssignmentUser();
+		$this->assignmentuser = $obj;
 	}
 
 	/**
@@ -68,11 +72,11 @@ class AssignmentController extends BaseController {
 		$id = 0;
 		$assignment = new assignment();
 
-		$assessments_arr = array(0=>"Assessment-1",1=>"Assessment-2");
+		$assessments_arr = array(1=>"Assessment-1",2=>"Assessment-2");
 
 
 		$assessment_id = 0;
-		
+		  
 		$institution_arr = $this->institution->getInstitutions();	
 		$institution_id = 0;
 
@@ -90,21 +94,26 @@ class AssignmentController extends BaseController {
 
 		if(isset($id) && $id > 0)
 		{
-			$assignment = $this->assignment->find($id);		
+			$assignment = $this->assignment->find($id);
+
+			$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($id);	
+			//print_r($assignmentUsersArr);
+			echo $assignmentUsersJson = json_encode($assignmentUsersArr);
 		}
 		else
 		{
-			$assignment = Input::All();			
+			$assignment = Input::All();		
+			$assignmentUsersJson	= "[{}}";
 		}
 		
-		$assessments_arr = array(0=>"Assessment-1",1=>"Assessment-2");
+		$assessments_arr = array(1=>"Assessment-1",2=>"Assessment-2");
 		
 		
 		$institution_arr = $this->institution->getInstitutions();			
 
 		$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,3);// for proctor displaying teachers
 		
-		return view('resources::assignment.edit',compact('assignment','assessments_arr','proctor_arr','institution_arr'));
+		return view('resources::assignment.edit',compact('assignment','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
 
 	public function assignmentupdate($id = 0)
