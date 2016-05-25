@@ -85,7 +85,9 @@ class AssignmentController extends BaseController {
 
 		//var_dump($proctor_arr); die();
 
-		return view('resources::assignment.edit',compact('assignment','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id'));
+		$assignmentUsersJson	= "[{}]";
+
+		return view('resources::assignment.edit',compact('assignment','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
 	}
 
 	public function assignmentedit($id = 0)
@@ -98,12 +100,12 @@ class AssignmentController extends BaseController {
 
 			$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($id);	
 			//print_r($assignmentUsersArr);
-			echo $assignmentUsersJson = json_encode($assignmentUsersArr);
+			$assignmentUsersJson = json_encode($assignmentUsersArr);
 		}
 		else
 		{
 			$assignment = Input::All();		
-			$assignmentUsersJson	= "[{}}";
+			$assignmentUsersJson	= "[{}]";
 		}
 		
 		$assessments_arr = array(1=>"Assessment-1",2=>"Assessment-2");

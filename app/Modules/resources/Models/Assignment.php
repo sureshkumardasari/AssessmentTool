@@ -67,8 +67,8 @@ class Assignment extends Model {
 		$obj->startdatetime = gmdate("Y-m-d H:i:s", strtotime($params['startdatetime']));//$params['startdatetime'];
 		$obj->enddatetime = gmdate("Y-m-d H:i:s", strtotime($params['enddatetime']));//$params['enddatetime'];
 		$obj->launchtype = $params['launchtype'];
-		$obj->proctor_user_id = $params['proctor_id'];
-		$obj->proctor_instructions = $params['proctor_instructions'];
+		$obj->proctor_user_id = (isset($params['proctor_id'])) ? $params['proctor_id'] : 0;
+		$obj->proctor_instructions = (isset($params['proctor_instructions'])) ? $params['proctor_instructions'] : '';
 		$obj->institution_id = $params['institution_id'];
 		$obj->delivery_method = $params['delivery_method'];
 		$obj->status = 'upcoming';//$params['status'];
