@@ -22,7 +22,7 @@ class ModifyUsersTable extends Migration {
             $table->integer('role_id')->nullable();
             $table->string('enrollno', 30)->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active')->nullable();
-            $table->enum('gender', ['Male', 'Female'])->nullable();
+			$table->enum('gender', ['Male', 'Female']);
             $table->string('address1', 250);
 			$table->string('address2', 250);
 			$table->string('address3', 250);

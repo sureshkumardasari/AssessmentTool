@@ -102,15 +102,15 @@ class UserController extends BaseController {
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
-		$country_arr = ['1'=>'India'];
+		$country_arr = $this->user->getcountries();
 
 		$id = $institution_id = $role_id = $country_id = 0;
-		$name = $email = $status = $enrollno = $password = '';
+		$name = $email = $status =$gender = $enrollno = $password = '';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
-		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'
+		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
 			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name','profile_picture','pic_data'));
 	}
 	public function edit($userid = 0)
@@ -120,7 +120,8 @@ class UserController extends BaseController {
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
-		$country_arr = ['1'=>'India'];
+		$country_arr = $this->user->getcountries();
+
 		$pic_data = [];
 		if(isset($userid) && $userid > 0)
 		{
@@ -132,6 +133,8 @@ class UserController extends BaseController {
 			$email = $user->email; 
 			$enrollno = $user->enrollno; 
 			$status = $user->status;
+			$gender =$user->gender;
+
 			$password = $user->password;
 
 			$first_name = $user->first_name; 
@@ -155,7 +158,7 @@ class UserController extends BaseController {
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
-		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','enrollno','inst_arr','roles_arr','password'
+		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
 			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name', 'profile_picture','pic_data'));
 	}
 
@@ -369,7 +372,7 @@ class UserController extends BaseController {
     	}
     	//dd($role_id );
         $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','gender','phone','status','address','city','state','country','pin','role'];
+        $orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','phone','status','address','city','state','gender','country','pin','role'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
 
         $uploadedFileHeaders = [];
@@ -575,7 +578,9 @@ class UserController extends BaseController {
     {
        $data = Institution::join('users', 'institution.id', '=', 'users.institution_id')
             ->join('roles','roles.id','=','users.role_id')
-            ->select('institution_id','email','institution.name as Instname','roles.name as rolesname','first_name','last_name','status','enrollno','users.created_at','users.address1','users.city','users.state','users.phoneno','users.pincode','users.country_id')
+		   ->join('countries','countries.country_name','=','users.country_id')
+            ->select('institution_id','email','institution.name as Instname','roles.name as rolesname','country_name', 'first_name','last_name','status','gender',
+				'enrollno','users.created_at','users.address1','users.city','users.state','users.phoneno','users.pincode','users.country_id')
             ->get()->toArray();
          return Excel::create('user.list', function ($excel) use ($data)
          {

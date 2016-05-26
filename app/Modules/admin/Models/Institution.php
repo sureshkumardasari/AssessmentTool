@@ -48,7 +48,11 @@ class Institution extends Model {
 		$institution = Institution::find($id);
 		$institution->delete();
 	}
-
+	public  function getcountries()
+	{
+		$countries = DB::table('countries')->lists('country_name', 'id');
+		return $countries;
+	}
 	public function updateInstitution($params = 0)
 	{
 		$obj = new Institution();

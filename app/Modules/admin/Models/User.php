@@ -123,7 +123,7 @@ class User extends Model {
 		$obj->role_id = $params['role_id'];
 		$obj->institution_id = $params['institution_id'];
 		$obj->status = $params['status'];
-
+		$obj->gender = $params['gender'];
 		$obj->first_name = $params['first_name'];
 		$obj->last_name = $params['last_name'];
 		$obj->address1 = $params['address1'];
@@ -160,7 +160,11 @@ class User extends Model {
 		$obj->name = $params['name'];
 		$obj->save();	
 	}
-
+	public  function getcountries()
+	{
+		$countries= DB::table('countries')->lists('country_name','id');
+		return $countries;
+	}
 	public function bulkUserTemplate($filename, $userType, $instituteId = null, $addSubjects = false, $findInstituteId = false) {
 
 	    $objPHPExcel = new PHPExcel();
@@ -179,7 +183,7 @@ class User extends Model {
 	            $institues = $institue->where('Id', $instituteId)->lists('Id');
 	        }
 	    }
-
+		$countries= $this->getcountries();
 	//Create Validation for School and State
 	    $objWorkSheet = $objPHPExcel->createSheet(1); //Setting index when creating
 	    $indexSchool = 1;
@@ -218,7 +222,7 @@ class User extends Model {
 	        'Address' => array(),
 	        'City' => array(),
 	        'State' => array(),
-	        'Country' => array(),
+			'Country' =>array('options' => $countries),
 	        'Pin' => array(),
 	        'Role' => array('options' => ['student'])
 	    );
@@ -401,7 +405,7 @@ class User extends Model {
 		$obj->role_id = $role_id;
 		$obj->institution_id = $row->institutionid;
 		$obj->status = $row->status;
-
+		$obj->gender =$row->gender;
 		$obj->first_name = $row->first_name;
 		$obj->last_name = $row->last_name;
 		$obj->address1 = $row->address;
@@ -409,7 +413,7 @@ class User extends Model {
 		$obj->state = $row->state;
 		$obj->phoneno = $row->phone;
 		$obj->pincode = $row->pin;
-		$obj->country_id = 1;
+		$obj->country_id = $row->country;
 
 		$obj->save();
 		
