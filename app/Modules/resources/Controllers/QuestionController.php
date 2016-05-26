@@ -248,8 +248,10 @@ class QuestionController extends BaseController {
 //   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
 //			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
 	}
-	public function questiondelete(){
-		return "delete";
+	public function questiondelete()
+	{
+		
+		return ('delete');
 	}
 	public function lessonupdate($id = 0)
 	{
