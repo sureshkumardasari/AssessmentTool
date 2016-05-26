@@ -41,7 +41,9 @@ class User extends Model {
             ->join('Roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
             //})->select('Users.name', 'Users.email','Institution.name', 'Roles.name')->get();
-            })->select(DB::raw('u.name as username, u.email,u.status, u.id'));
+            //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
+            })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
+
 
         if($institution_id > 0)
         {
