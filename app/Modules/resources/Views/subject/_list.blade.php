@@ -11,7 +11,7 @@
 				                <td>{{ $name }}</td>
 				                <td>
 				                	<a href="{{ url('/resources/subjectedit/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="{{ url('/resources/subjectdel/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
+									<a href="javascript:;" data-ref="{{ url('/resources/subjectdel/'.$id) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
 				            @endforeach				            
@@ -37,4 +37,5 @@
 	    });
 	});
 	@endif
-</script>	
+</script>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
