@@ -9,7 +9,7 @@
 
 							jQuery.fancybox({
 								'modal' : true,
-								'content' : "<div style=\"margin:1px;width:240px;\">"+msg+"<div style=\"text-align:center;margin-top:10px;\"><input id=\"fancyconfirm_cancel\" style=\"margin:10px;padding:0px;\" type=\"button\" value=\"Cancel\"><input id=\"fancyConfirm_ok\" style=\"margin:10px;padding:0px;\" type=\"button\" value=\"Ok\"></div></div>",
+								'content' : "<div style=\"margin:1px;width:240px;\">"+msg+"<div style=\"text-align:center;margin-top:10px;\"><input id=\"fancyConfirm_ok\" style=\"margin:10px;padding:5px 25px;\" type=\"button\" value=\"Ok\"><input id=\"fancyconfirm_cancel\" style=\"margin:10px;padding:5px 10px;\" type=\"button\" value=\"Cancel\"></div></div>",
 								'beforeShow' : function() {
 									jQuery("#fancyconfirm_cancel").click(function() {
 										$.fancybox.close();
