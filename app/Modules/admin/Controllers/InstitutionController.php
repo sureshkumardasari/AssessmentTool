@@ -56,7 +56,7 @@ class InstitutionController extends BaseController {
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 
-		$country_arr = ['1'=>'India'];
+		$country_arr = $this->institution->getcountries();
 		$id = $parent_id = $country_id = 0;
 		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 
@@ -65,7 +65,7 @@ class InstitutionController extends BaseController {
 
 	public function edit($id = 0)
 	{
-		$country_arr = ['1'=>'India'];
+		$country_arr = $this->institution->getcountries();
 		if(isset($id) && $id > 0)
 		{
 			$institution = $this->institution->find($id);

@@ -208,8 +208,18 @@
 								<input type="radio" class="" name="status" id="status_yes" value="Active" {{ ($status == "" || $status == "Active") ? 'checked="checked"' : '' }}>Active 
 								<input type="radio" class="" name="status" id="status_no" value="Inactive" {{ ($status == "Inactive") ? 'checked="checked"' : '' }}>Inactive 
 							</div>
+							</div>
+						<div>
+							<label class="col-md-4 control-label">Gender</label>
+							<div class="col-md-6">
+								<input type="radio" name="gender"
+									   <?php if (isset($users->gender) && $users->gender=="male") echo "checked='checked'";?>
+									   value="male">Male
+								<input type="radio" name="gender"
+									   <?php if (isset($users->gender) && $users->gender=="female") echo "checked='checked'";?>
+									   value="female">Female
+							</div>
 						</div>
-
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
