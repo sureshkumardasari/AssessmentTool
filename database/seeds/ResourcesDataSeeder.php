@@ -44,7 +44,8 @@ class ResourcesDataSeeder extends Seeder {
 			'updated_at' => new DateTime,
 			'added_by' => '1',
 			'updated_by' => '1',
-		][
+		],
+		[
 			'id' => '3',
 			'name' => 'subject3',
 			'institution_id' => '1',
@@ -76,7 +77,8 @@ class ResourcesDataSeeder extends Seeder {
 			'updated_at' => new DateTime,
 			'added_by' => '1',
 			'updated_by' => '1',
-		][
+		],
+		[
 			'id' => '3',
 			'name' => 'lesson3',
 			'institution_id' => '1',
