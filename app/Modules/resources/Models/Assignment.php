@@ -60,14 +60,15 @@ class Assignment extends Model {
 		{
 			$obj->added_by = Auth::user()->id;				
 		}
+		
 		$obj->id = $params['id'];
 		$obj->name = $params['name'];
 		$obj->description = $params['assignment_text'];
 		$obj->assessment_id = $params['assessment_id'];
-		$obj->startdatetime = gmdate("Y-m-d H:i:s", strtotime($params['startdatetime']));//$params['startdatetime'];
-		$obj->enddatetime = (isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? gmdate("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '';
+		$obj->startdatetime = date("Y-m-d H:i:s", strtotime($params['startdatetime']));//$params['startdatetime'];
+		$obj->enddatetime = (isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? date("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '';
 		//gmdate("Y-m-d H:i:s", strtotime($params['enddatetime']));//$params['enddatetime'];
-		$obj->neverexpires = $params['never'];
+		$obj->neverexpires = (isset($params['never'])) ?  $params['never'] : 0;
 		$obj->launchtype = $params['launchtype'];
 		$obj->proctor_user_id = (isset($params['proctor_id'])) ? $params['proctor_id'] : 0;
 		$obj->proctor_instructions = (isset($params['proctor_instructions'])) ? $params['proctor_instructions'] : '';
@@ -75,7 +76,7 @@ class Assignment extends Model {
 		$obj->delivery_method = $params['delivery_method'];
 		$obj->status = 'upcoming';//$params['status'];
 		//$obj->save();	
-
+		
 		if($obj->save()){
 
 			$last_id=$obj->id;
@@ -84,15 +85,18 @@ class Assignment extends Model {
 			if($users)
 				$users->delete();	
 
-	 		foreach ($params['student_ids'] as $key => $value) {
+			if(isset($params['student_ids']))
+			{
+		 		foreach ($params['student_ids'] as $key => $value) {
 
-				$user_assign = new AssignmentUser();
-							
-				$user_assign->assessment_id = $params['assessment_id'];
-				$user_assign->assignment_id = $last_id;
-				$user_assign->user_id = $value;							
-				$user_assign->save();
+					$user_assign = new AssignmentUser();
+								
+					$user_assign->assessment_id = $params['assessment_id'];
+					$user_assign->assignment_id = $last_id;
+					$user_assign->user_id = $value;							
+					$user_assign->save();
 
+				}
 			}
 		}
 

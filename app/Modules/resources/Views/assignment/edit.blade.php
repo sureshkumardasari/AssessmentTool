@@ -10,7 +10,7 @@
 @section('content')
 
 <?php 
- $dtFormat = 'm/d/Y - g:i a';
+ $dtFormat = 'Y/m/d g:i:s A';
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -65,7 +65,7 @@
 							<label class="col-md-3 control-label">Start Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control" name="startdatetime" value="{{ date($dtFormat, strtotime($assignment->startdatetime))}}">
+								<input type="text" class="form-control date" id="startdatetime" name="startdatetime" value="{{ ($assignment->startdatetime) ? date($dtFormat, strtotime($assignment->startdatetime)) : ''}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -77,7 +77,7 @@
 							<label class="col-md-3 control-label">End Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control" id="enddatetime" name="enddatetime" value="{{ date($dtFormat, strtotime($assignment->enddatetime))}}">
+								<input type="text" class="form-control date" id="enddatetime" name="enddatetime" value="{{ ($assignment->enddatetime) ? date($dtFormat, strtotime($assignment->enddatetime)) : ''}}}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -175,8 +175,8 @@
  $('#student_ids').DualListBox('',<?=$assignmentUsersJson?>);
 
 $(function () {
-    $('#startdatetime').datetimepicker();
-    $('#enddatetime').datetimepicker();
+    $('.date').datetimepicker({format: 'YYYY/MM/DD hh:mm:ss A'});
+    //$('#enddatetime').datetimepicker();
 });
 
 var dates = $("input[id$='startdatetime'], input[id$='enddatetime']");
