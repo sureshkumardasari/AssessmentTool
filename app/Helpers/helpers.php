@@ -9,6 +9,33 @@ use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
 
 /**
+ * Generates random bullets based on passed $type
+ *
+ * @param $type string 'default' || 'alternate'
+ * @return array of bullets
+ *
+ */
+function generateBullets($type) {
+
+    $ansOptions = [];
+    // Index 0 - Represents the even question mapping
+    // Index 1 - Represents the odd question mapping
+    if (strtolower($type) == 'alternate') {
+        $ansOptions = [
+            ['A', 'B', 'C', 'D', 'E'],
+            ['F', 'G', 'H', 'J', 'K']
+        ];
+    } else {
+        $ansOptions = [
+            ['A', 'B', 'C', 'D', 'E'],
+            ['A', 'B', 'C', 'D', 'E']
+        ];
+    }
+
+    return $ansOptions;
+}
+
+/**
  * breadcrumb()
  * The purpose of this method is to make breadcrumb interactive.
  * This method is being used in main layout.

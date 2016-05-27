@@ -26,6 +26,8 @@ class CreateAssessmentTable extends Migration {
 			$table->integer('totaltime')->nullable();
 			$table->enum('unlimitedtime', ['0','1']);
 
+			$table->text('header');
+			$table->text('footer');
 			$table->text('titlepage');
 			$table->text('direction');
 			$table->text('begin_instruction');

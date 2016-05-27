@@ -3,8 +3,8 @@ return [
     'modules' => array(
         "admin",
        "resources",
-       /*  "assessment",
-        "reports",
+        "assessment",
+       /* "reports",
         "dashboard"*/
     ),
 ];

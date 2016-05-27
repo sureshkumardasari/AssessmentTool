@@ -30,6 +30,7 @@
 .panel-default > .panel-heading {
     background-color: {{$bg_color}};
     color: {{$font_color}};
+    font-weight: bolder;
 }
 .panel-heading.searchfilter{
   background-color: #f5f5f5;

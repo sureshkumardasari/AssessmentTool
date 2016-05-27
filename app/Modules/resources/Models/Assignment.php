@@ -98,7 +98,7 @@ class Assignment extends Model {
 
 	}
 
-	public function getTests($user_id = 0, $category_id = 0) {
+	public function getTestsold($user_id = 0, $category_id = 0) {
 
         $data = array();
         $user_id = ($user_id > 0) ? $user_id : Auth::user()->id;
@@ -164,39 +164,20 @@ class Assignment extends Model {
         return $data;
     }
 
-    public function getTestsById($id, $ffId) {
+    public function getTests($user_id = 0) {
         
-        $deliveryId = Option::getOptionId('Delivery_Method', 'Online');
+        $delivery_method = 'online';
+        $user_id = ($user_id > 0) ? $user_id : Auth::user()->id;
 
-        $assessmentStatus =  Assessment::join('AssessmentAssignment', 'Assessments.Id', '=', 'AssessmentAssignment.assessmentId')
-                                        ->join('AssessmentAssignmentUsers', 'AssessmentAssignment.Id', '=', DB::raw('"AssessmentAssignmentUsers"."AssignmentId" AND "AssessmentAssignmentUsers"."UserId" = '. Auth::user()->id))
-                                        ->join('AssignmentSubsections', 'AssignmentSubsections.AssignmentId', '=', 'AssessmentAssignment.Id', 'left')
-                                        ->join('Subsections as sub', 'AssignmentSubsections.SubsectionId', '=', 'sub.Id', 'left')
-                                        ->where('AssessmentAssignment.DeliveryMethodId', $deliveryId)
-                                        ->where('Assessments.TestTypeId', $id)
-                                        ->where('AssessmentAssignmentUsers.UserId', Auth::user()->id)                            
-                                        ->where('AssessmentAssignmentUsers.Type', 'User')
-                                        ->where('Assessments.CategoryId', $ffId)
-                                        ->whereNull('AssessmentAssignment.deleted_at')
-                                        ->orderBy("Assessments.Id", "DESC")
-                                        ->orderBy("AssessmentAssignment.Id", "DESC")
-                                        ->orderBy("AssessmentAssignment.Name", "ASC")
-                                        ->orderBy("sub.SortOrder", "ASC")
-                                        ->select(["sub.SortOrder","AssessmentAssignment.Name", "AssessmentAssignmentUsers.Status AS AssignmentStatus", "Assessments.Id AS AssessmentsId",  "AssessmentAssignment.Id AS AssessmentAssignmentId", \DB::raw('"AssessmentAssignment"."StartDate" + "AssessmentAssignment"."StartTime" AS "StartDateTime"'), \DB::raw('"AssessmentAssignment"."EndDate" + "AssessmentAssignment"."EndTime" AS "EndDateTime"'), "AssessmentAssignment.Expires", "AssessmentAssignment.LaunchTypeId", "AssignmentSubsections.SubsectionId AS SectionId", "AssessmentAssignment.LaunchTypeId"])
-                                       // ->whereNull('sub.ParentId')
-                                        ->get()
-                                        ->toArray();
-
-
-        foreach ($assessmentStatus as $key => $status) {            
-            $subsection =   SubsectionUserStatus::where('AssessmentId', $status['AssessmentsId'])
-                                                ->where('AssessmentAssignmentId', $status['AssessmentAssignmentId'])
-                                                ->where('SubsectionId', $status['SectionId'])
-                                                ->where('UserId', Auth::user()->id)
-                                                ->first();
-            $assessmentStatus[$key]['SectionStatus'] = (!empty($subsection)) ? $subsection->Status : '';
-        }
-
+        $assessmentStatus =  DB::table('assessment')->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+                                        ->join('assignment_user', 'assignment.id', '=', DB::raw('assignment_user.assignment_id AND assignment_user.user_id = '. $user_id))
+                                        ->where('assignment.delivery_method', $delivery_method)
+                                        ->where('assignment_user.user_id', $user_id)                            
+                                        ->orderBy("assessment.id", "DESC")
+                                        ->orderBy("assignment.id", "DESC")
+                                        ->orderBy("assignment.name", "ASC")
+                                        ->select(["assignment.name", "assignment_user.status AS AssignmentStatus", "assessment.id AS AssessmentsId",  "assignment.id AS AssignmentId", "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])
+                                        ->get();
         return $assessmentStatus;
     }
 }
