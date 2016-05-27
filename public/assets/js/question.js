@@ -1955,7 +1955,34 @@ var me = null;
 (function($) {
 
     $(document).ready(function(){
-
+        $(".check-all-question").on("click", function(){
+            if ($('#questions'+'  .check-all-question').is(':checked')) {
+                $('#questions'+'  .parent-grid .check-question').prop('checked', true);
+            }else{
+                $('#questions'+'  .parent-grid .check-question').prop('checked', false);
+            }
+        })
+        $(".check-all-passage").on("click", function(){
+            if ($('#passages'+'  .check-all-passage').is(':checked')) {
+                $('#passages'+'  .parent-grid .check-passage').prop('checked', true);
+            }else{
+                $('#passages'+'  .parent-grid .check-passage').prop('checked', false);
+            }
+        });
+        $(".check-all-selected-question").on("click", function(){
+             if ($('#selected-questions'+'  .check-all-selected-question').is(':checked')) {
+                 $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', true);
+            }else{
+                $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', false);
+            }
+        })
+        $(".check-selected-passages").on("click", function(){
+            if ($('#passages'+'  .check-all-passage').is(':checked')) {
+                $('#passages'+'  .parent-grid .check-passage').prop('checked', true);
+            }else{
+                $('#passages'+'  .parent-grid .check-passage').prop('checked', false);
+            }
+        });
         question.init();
 
         // if question is saved
@@ -1989,4 +2016,69 @@ var me = null;
     }
 })(jQuery);
 
-    
+function addOrRemoveInGrid(elem, type) {
+    var selectedTab = $('li.tab.active').children('a').attr('data-tab');
+    window.selectedTab =selectedTab;
+    var checkboxName = window.selectedTab.split('-')[0];
+    qbankIds = [];
+    passageIds = [];
+    filesGroupIds = [];
+    QuestionIds=[];
+    RemoveQuestionIds=[];
+    if (type == 'add') {
+           $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
+               $(this).removeClass('check-question').addClass('check-selected-question');
+                var closestUl = $(this).closest('tr');
+                if(checkboxName == 'question'){
+                  if(closestUl.find('td').eq(1).text() != ''){
+                         qbankIds.push(closestUl.find('td').eq(1).text())
+                   }
+                }
+               QuestionIds.push($(this).val())
+                $(this).attr('name',checkboxName+'[]');
+                $(this).attr('checked', false)
+                var selected = closestUl.clone();
+               $(this).closest('tr').remove();
+               $('#selected-questions'+' .child-grid').append(selected);
+            });
+        $('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',QuestionIds).appendTo('#selected-questions'+' .child-grid');
+        $('#passages'+'  .parent-grid tr').each(function () {
+             var closestUl = $(this).closest('ul');
+            if(checkboxName == 'question'){
+                if(closestUl.find('td').eq(2).text() != ''){
+                    qbankIds.push(this.value)
+                }
+            }
+            if(checkboxName == 'passage'){
+                if(closestUl.find('td').eq(3).text() != 0){
+                    passageIds.push(this.value)
+                }
+            }
+            $(this).attr('name',checkboxName+'[]');
+            $(this).attr('checked', false)
+            var selected = closestUl.clone();
+            $(this).closest('ul').remove();
+            $('#' + window.selectedTab + ' div.child-grid').append(selected);
+        });
+        }
+    else {
+         $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
+             var removeIds=[];
+             $(this).removeClass('check-selected-question').addClass('check-question');
+             var closestUl = $(this).closest('tr');
+            if(checkboxName == 'question'){
+                  if(closestUl.find('td').eq(1).text() != ''){
+                     removeIds.push(closestUl.find('td').eq(1).text())
+                }
+            }
+             RemoveQuestionIds.push(this.value);
+            $(this).attr('name',checkboxName+'[]');
+            $(this).attr('checked', false)
+            var selected = closestUl.clone();
+            $(this).closest('tr').remove();
+            $('#questions'+' .parent-grid').append(selected);
+             $('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
+        });
+
+    }
+ }

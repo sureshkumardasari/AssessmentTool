@@ -54,15 +54,15 @@
 				            </tr>
 				        </thead>
 				        <tbody>
-				            @foreach( $questions as $id => $name )
+				            @foreach( $assessment as $name )
 				            <tr>				                
-				                <td>{{ $name }}</td>
+				                <td>{{ $name['name'] }}</td>
 				                <td>
-				                	<a href="{{ url('/resources/questionedit/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="{{ url('/resources/questiondel/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
+				                	<a href="{{ url('/resources/assessmentedit/'.$name['id']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+									<a href="{{ url('/resources/assessmentdel/'.$name['id']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
-				            @endforeach				            
+				            @endforeach				            ;
 				        </tbody>
 				    </table>
 				</div>
