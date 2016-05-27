@@ -41,5 +41,20 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('roleadd', array('as' => 'role-add', 'uses'=>'UserController@roleadd'));
     Route::get('roleedit/{id}', array('as' => 'role-edit', 'uses'=>'UserController@roleedit'));
     Route::get('roledel/{id}', array('as' => 'role-delete', 'uses'=>'UserController@roledelete'));
-    Route::post('roleupdate', array('as' => 'role-update', 'uses'=>'UserController@roleupdate'));           
+    Route::post('roleupdate', array('as' => 'role-update', 'uses'=>'UserController@roleupdate'));
+
+
+
+
+
+    Route::get('branding/brandview',['as'=>'brandview','uses'=>'BrandingController@display']);
+Route::post('branding/brandd','BrandingController@create');
+Route::get('branding/brand','BrandingController@index');
+Route::get('branding/{id}/edit','BrandingController@edit');
+Route::get('deleted/{id}','BrandingController@destroy');
+Route::post('brandupdate/{id}','BrandingController@update');
+   
+
+
+Route::post('add-catagory','BrandingController@store');           
 });

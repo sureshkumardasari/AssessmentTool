@@ -1,5 +1,5 @@
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
+	<nav class="navbar navbar-default" id="hbc">
+		<div class="container-fluid" >
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-collapse-1">
 					<span class="sr-only">Toggle Navigation</span>
@@ -39,8 +39,8 @@
 			        </li>
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
-			          <ul class="dropdown-menu">
-			          	<li><a href="{{ url('/user/branding') }}">Branding</a></li>
+			          <ul class="dropdown-menu"> 
+                       <li><a href="{{ url('/user/branding/brandview') }}">Branding</a></li>
 			          	<li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>
 			            <li role="separator" class="divider"></li>
