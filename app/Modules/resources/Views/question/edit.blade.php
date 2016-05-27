@@ -25,7 +25,7 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" id="qst_form" role="form" method="POST" action="{{ url('/resources/questionupdate') }}">
+					<form class="form-horizontal" name="qst_form" id="qst_form" role="form" method="POST" action="{{ url('/resources/questionupdate') }}">
 						<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
 						<div class="form-group required">
