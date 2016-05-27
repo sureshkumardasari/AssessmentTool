@@ -111,7 +111,7 @@ class AssessmentAssignmentController extends BaseController {
 
     	$path = public_path('data/assessment_pdf_images/assessment_'.$aId);
 
-    	$filesCount = 2;//$this->getFilesCount($id);
+    	$filesCount = 0;//$this->getFilesCount($id);
 
     	$bulletType = '';
     	// get question based on subsection id
