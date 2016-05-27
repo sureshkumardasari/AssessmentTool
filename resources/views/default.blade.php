@@ -14,7 +14,9 @@
 
     
     <link href="{{ asset('/css/dataTables.bootstrap.min.css') }}" rel='stylesheet' type='text/css'>
-
+    @section('style')
+        @include('style')
+    @show
     @section('header-assets')
 	<script src="{{ asset('/js/jquery.min.js') }}"></script>
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
