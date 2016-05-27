@@ -60,7 +60,12 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     //assessments
     Route::get('assessment', array('as' => 'list', 'uses'=>'AssessmentController@index'));
     Route::get('assessmentcreate', array('as' => 'create', 'uses'=>'AssessmentController@assessmentcreate'));
-
+    Route::get('assessmentedit/{id}', array('as' => 'assessmentedit', 'uses'=>'AssessmentController@assessmentedit'));
+    Route::post('assessmentupdate/', array('as' => 'assessmentupdate', 'uses'=>'AssessmentController@assessmentupdate'));
+    Route::get('assessmentdel/{id}', array('as' => 'assessmentdel', 'uses'=>'AssessmentController@assessmentdel'));
+    Route::post('assessmentinsert', array('as' => 'assessmentinsert', 'uses'=>'AssessmentController@assessmentInsert'));
+    Route::post('question/listing', ['as' => 'ajax-question-listing', 'uses' => 'AssessmentController@questionsListing']);
+    Route::post('passage/listing', ['as' => 'ajax-question-listing', 'uses' => 'AssessmentController@passageListing']);		
     
     Route::get('assignment', array('as' => 'list', 'uses'=>'AssignmentController@assignment'));
     Route::get('assignmentadd', array('as' => 'add', 'uses'=>'AssignmentController@assignmentadd'));

@@ -15,12 +15,12 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		        @foreach( $questions as $id => $name )
+		        @foreach( $question_title_remove_ids as $name )
 		        <tr>	
 		        	<td>
-		        		<input type="checkbox" id="questions-list"  value="{{ $id }}"  class="assess_qst check-question" data-group-cls="btn-group-sm">
+		        		<input type="checkbox" id="questions-list"  value="{{ $name['id'] }}"  class="assess_qst check-question" data-group-cls="btn-group-sm">
  					</td>
-		            <td>{{ $name }}</td>
+		            <td>{{ $name['title'] }}</td>
 		            
 		        </tr>
 		        @endforeach				            
@@ -85,7 +85,17 @@
         </tr>
     </thead>
     <tbody class="child-grid">
- 	</tbody>
+	@foreach( $question_tilte_details as $name )
+		<tr>
+			<td>
+				<input type="checkbox" name="" id="" value="" class="assess_qst check-selected-question" data-group-cls="btn-group-sm">
+			</td>
+			<td>{{ $name['title'] }}</td>
+			<input type="hidden" name="QuestionIds[]" value="{{ $name['id'] }}">
+ 		</tr>
+	@endforeach
+
+	</tbody>
 </table>
 <div class="form-group">
 	<div class="col-md-4">
