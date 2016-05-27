@@ -149,7 +149,7 @@ class QuestionController extends BaseController {
  	}
 	public function questionSubmit(){
 		$post = Input::All();
- 		$messages=[
+		$messages=[
 			'answerIds.required'=>'The Answer field is required',
 			'subject_id.required'=>'The Subject field is required',
 			'category_id.required'=>'The Category field is required',
@@ -248,82 +248,11 @@ class QuestionController extends BaseController {
 //   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
 //			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
 	}
-	public function questiondelete()
-	{
-		
-		return ('delete');
-	}
-	public function lessonupdate($id = 0)
-	{
-		$params = Input::All();
-		//var_dump($params);
-		$this->lesson->updatelesson($params);
-
-		return redirect('/resources/lesson');
+	
+	public function questiondelete(){
+		return "delete";
 	}
 
-	public function lessondelete($id = 0)
-	{
-		if($id > 0)
-		{
-			$this->lesson->deletelesson($id);
-		}
-		return redirect('/resources/lesson');
-	}
-
-	public function category($parent_id = 0)
-	{
-		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
-		$inst_arr = $this->institution->getInstitutions();
-		$category = $this->category->getCategory();
-        return view('resources::category.list',compact('inst_arr','category'));
-	}
-
-	public function categoryadd()
-	{		
-		$inst_arr = $this->institution->getInstitutions();
-
-		$id = $institution_id = 0;
-		$name = '';
-		return view('resources::category.edit',compact('id','institution_id','name','inst_arr'));
-	}
-
-	public function categoryedit($id = 0)
-	{		
-		$inst_arr = $this->institution->getInstitutions();
-
-		if(isset($id) && $id > 0)
-		{
-			$obj = $this->category->find($id);
-			$id = $obj->id; 
-			$institution_id = $obj->institution_id; 
-			$name = $obj->name; 
-		}
-		else
-		{
-			$id = $institution_id = 0;
-			$name = '';
-		}
-		return view('resources::category.edit',compact('id','institution_id','name','inst_arr'));
-	}
-
-	public function categoryupdate($id = 0)
-	{
-		$params = Input::All();
-		//var_dump($params);
-		$this->category->updatecategory($params);
-
-		return redirect('/resources/category');
-	}
-
-	public function categorydelete($id = 0)
-	{
-		if($id > 0)
-		{
-			$this->category->deletecategory($id);
-		}
-		return redirect('/resources/category');
-	}
 	public function categoryList($id){
 		$category=	Institution::join('category','institution.id','=','category.institution_id')
 			->where('institution.id','=',$id)
@@ -345,4 +274,5 @@ class QuestionController extends BaseController {
 			->get();
  		return $lessons;
 	}
+	
 }

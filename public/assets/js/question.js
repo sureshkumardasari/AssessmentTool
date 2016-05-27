@@ -114,42 +114,7 @@ var me = null;
                 }
             });
 
-            // For when the tree will be saved
-            $( document ).on('treeSave',   function ( e , data ) {               
-                if(data.child.length > 0 ){
-                    $('a.' + data.type).html('Selected (<span class="count-tree-length"> ' + data.child.length + ' </span>)');
-                }else {
-                    $('a.' + data.type).html('Select');
-                }
-                
-                
-                var checkItems = $('.pop-item-cbox');
-                var missedIds = [];
-                
-                window[ 'custom_' + data.type ] = data.selected;
-                
-                $(checkItems).each(function(index, elem) {
-                    if ( $(this).prop('indeterminate') ) {
-                        window['custom_' + data.type ].push( $(this).data('itemid') );
-                    }
-                });
-                
-                window[ data.type ] = data.selected;
-                
-                $("#_"+data.type).next().val(data.selected);                
-                
-                // for making tree structure from selected values
-                if(data.type == 'confirm_standard_system'){
-                    _self.makeConfirmStandardTree('confirm_standard_system');
-                }else if(data.type == 'confirm_curriculum_category'){
-                    _self.makeConfirmStandardTree('confirm_curriculum_category');
-                }else if(data.type == 'confirm_test_applicability'){
-                    _self.makeConfirmStandardTree('confirm_test_applicability');
-                }
-//                params = updateParams();
-//                fetchList('search', params);
-                window.checked == 0;
-            });
+            
 
             // For when the tree will be opened
             $( document ).on( 'treeOpen',   function ( e, data ) {
@@ -168,72 +133,7 @@ var me = null;
             });
 
 
-            // open/close accordians
-            $("h3.accordian_click").click(function () {                
-                // if we are already on current then no need to go forward
-                if ($(this).parent().hasClass('current_tab')) {
-                    return false;
-                }
-                    
-                // verify curent selected tab
-                if (!_self.hasError()) {
-
-                    // check if user is allowed to go to that tab or not
-                    var container   = $(this).closest('.tab_gen_info');
-
-                    var type        = container.data('type'),
-                        isCompleted = container.find('input[name="'+ type +'complete"]').val();
-                                        
-                    // if not allowed then return false
-                    if (container.index() > $('.current_tab').index() && isCompleted == 'false') {
-                        return false;
-                    }
-
-                    $(".current_tab").removeClass('current_tab');
-                    $(".accordian").slideUp("normal", function () {
-                        $(this).prev("h3.accordian_click").attr("active", "no");
-                        $(this).prev("h3.accordian_click").children("i").removeClass('up_mark').addClass('side_mark');
-                    });
-                    $(this).parent().addClass('current_tab');
-                    $(this).parent().find("div.accordian").slideDown("normal", function () {                                                
-                        $(this).prev("h3.accordian_click").attr("active", "yes");
-                        $(this).prev("h3.accordian_click").children("i").removeClass('side_mark').addClass('up_mark');
-                    });                    
-
-                    
-                }
-
-            });
-
-            // open/close accordians
-            $("body").on('click', '.continueBtn', function () {                
-                // verify curent selected tab
-
-                if (!_self.hasError()) {
-                    var data_tab = $(".current_tab").attr('data-type');
-                    $(".current_tab").removeClass('current_tab');
-                    $(".accordian").slideUp("normal", function () {
-                        $(this).prev("h3.accordian_click").children("i").removeClass('up_mark').addClass('side_mark');
-                    });
-                    var checkPassage = $('.current_tab input[name="psg_cbx"]:checked');
-
-                    if (window.checked == 0 && data_tab == 'step_2_') {
-                        var nextAccordian = $('[data-type="step_4_"]');
-                            nextAccordian.addClass('current_tab');
-                            nextAccordian.find("div.accordian").slideDown("normal", function () {
-                                $(this).prev("h3.accordian_click").children("i").removeClass('side_mark').addClass('up_mark');
-                            });
-                    }else{
-                        var nextAccordian = $(this).closest('.tab_gen_info').next('.tab_gen_info');
-                            nextAccordian.addClass('current_tab');
-                            nextAccordian.find("div.accordian").slideDown("normal", function () {
-                            $(this).prev("h3.accordian_click").children("i").removeClass('side_mark').addClass('up_mark');
-                        });                
-                    }
-                    
-                }
-
-            });
+            
             //$('.validbtn').on('click', function() {
             //    var errors = _self.generateAnswersFromTag();
             //    if (errors != "") {
@@ -314,28 +214,33 @@ var me = null;
                 }
             });
 
-            $('body').on('click', '.correct', function() {
+            //here manage correct answer checking 
+            $('.ans-chk').change(function() {  
+                var status = ($(this).is( ":checked" ) == true) ? true : false;
+                var myForm = document.forms.qst_form;
+                var myControls = myForm.elements['is_correct[]'];
+                var idx = $(this).val()-1;
+                var type = $('select[name="question_type"]').find('option:selected').text();
+                if (type == "Multiple Choice - Single Answer") { // when single answered is selected     
+                    // alert(idx);               
+                     $('.ans-chk').each(function(index, elem) {
+                        if(idx != index){
+                        // alert(index+" -- "+$(this).is( ":checked" ));
+                        $(this).prop('checked', false);
+                        }
+                        
+                    });
+                } 
 
-                var type = $('select[name="questionType"]').find('option:selected').text();
-                if (type == "Multiple Choice- Single Answer") { // when single answered is selected                    
-                    $('.correct').not(this).removeClass('switch_on').addClass('switch_off');
-                    $('.correct').not(this).next().val('false');
-
-                    var switch_class = ($(this).hasClass('switch_on')) ? "switch_off" : "switch_on";
-                    $(this).removeClass('switch_on').removeClass('switch_off');
-                    $(this).addClass(switch_class);
-
-                    var status = (switch_class == "switch_on") ? true : false;
-                    $(this).next().val(status);
-                } else {    // check if multi answered is checked or single answer is checked or Selection                    
-                    var switch_class = ($(this).hasClass('switch_on')) ? "switch_off" : "switch_on";
-                    $(this).removeClass('switch_on').removeClass('switch_off');
-                    $(this).addClass(switch_class);
-
-                    var status = (switch_class == "switch_on") ? true : false;
-                    $(this).next().val(status);
+                for (var i = 0; i < myControls.length; i++) {
+                    if($(this).val()-1 == i){
+                        myControls[i].value = status;
+                        $(this).prop('checked', status);
+                    }
                 }
             });
+
+            
 
             $('body').on('click', '.delBtn', function() {                
                 var parent = $(this).closest('.answer_container');
@@ -438,13 +343,7 @@ var me = null;
                 }, 100);
             });
 
-            // when question type is changed
-            var last_index  = $("select[name='questionType']").find('option:selected').index();
-            $('.noBtn').on('click', function() {
-                $.fancybox.close();
-                $('select[name="questionType"]')[0].sumo.selectItem(last_index);
-                _self.updateConstraints();
-            });
+           
 
             $('.yesBtn').on('click', function() {                
                 $.fancybox.close();
@@ -601,45 +500,11 @@ var me = null;
                 });
             });
 
-            $("select[name='questionType']").on('change', function() {
-
-                _self.updateConstraints();
-
-                if (last_index == 0) {
-                    last_index = $("select[name='questionType']").find('option:selected').index();
-                }
-
-                if (last_index != $("select[name='questionType']").find('option:selected').index() && last_index != 0) {
-                    $(".warning").trigger('click');
-                }
-            });
+            
 
             
             
-            $('body').on('click', '.delete-from-tree', function() {
-                var parent = $(this).closest('ul').attr('parent');
-                var parentId = $(this).attr('parentId');
-                var parentDiv = $(this).closest('div');
-                var type = parentDiv.attr('id').replace('container_','');
-                var ul = $(this).closest('ul');                
-                var crossIcons = ul.find('.delete-from-tree');
-                $(crossIcons).each(function(index, elem){
-                   var deleteMe = $(this).attr('value')
-                   window[type] = $.grep(window[type], function(value) {
-                      return value != deleteMe;
-                   });
-                   ul.remove();
-                });
-                $('input[name="'+type.replace('confirm_','')+'"]').val(window[type].join(","));
-                
-                question.pages.deleteEmptyParentFromTree(type);
-                var leafNode = parentDiv.find('.leaf-btn').length;
-                if(leafNode > 0){
-                    $('a.'+type).html('Selected (<span class="count-tree-length"> ' + leafNode + ' </span>)');
-                }else{
-                    $('a.'+type).html('Select');
-                }
-            });
+            
             // end of when question type is changed            
         },
         deleteEmptyParentFromTree: function(type){
@@ -777,96 +642,7 @@ var me = null;
             $(clone).find('.contraint_field_val').hide();
             $(clone).find('input[type="text"]').val('');
         },
-
-        updateConstraints: function() {
-            $('.question_constraints, .note').hide();
-            $('.create_answer').show();
-            $('.question_constraints').data('c_type', '');
-
-            // Revert the names to have single values upon submission
-            $('[name="constraint[]"]').attr('name', 'constraint');
-            $('[name="specific_value[]"]').attr('name', 'specific_value');
-            $('[name="constraint_to[]"]').attr('name', 'constraint_to');
-            $('[name="constraint_from[]"]').attr('name', 'constraint_from');
-
-            $('.del_holder').hide();
-            $('.del_holder').next('.clr').hide();
-            $('#clone_oer_constraint').hide();
-
-            var selected_txt = $("select[name='questionType']").find('option:selected').text();
-            if (selected_txt == "Essay") {
-
-                // 1500 characters limit
-                $('.textarea_commentary').prop('maxlength', '1500');                
-
-                $('.question_constraints').show();
-                $('.create_answer').hide();
-                $('.open_ended').hide();
-
-                // update constraints options
-                if ($('#constraints')[0].sumo != undefined)
-                    $('#constraints')[0].sumo.unload();
-                $('#constraints').html($('select[name="free_form_constraint"]').find('option').clone());
-                $('#constraints').SumoSelect();
-
-                $('.question_constraints').data('c_type', 'Essay');                
-                $('.free_form').show();
-            } else if (selected_txt == "Student-Produced Response: Math") {
-                // 1500 characters limit
-                $('.textarea_commentary').prop('maxlength', '1500');
-                $('.free_form').hide();
-
-                $('.question_constraints').show();
-                $('.create_answer').hide();
-
-                // Change these names to array so to have multiple values while submission.
-                $('[name=constraint]').attr('name', 'constraint[]');
-                $('[name=specific_value]').attr('name', 'specific_value[]');
-                $('[name=constraint_to]').attr('name', 'constraint_to[]');
-                $('[name=constraint_from]').attr('name', 'constraint_from[]');
-
-                if ($('#constraints')[0].sumo != undefined)
-                    $('#constraints')[0].sumo.unload();
-                $('#constraints').html($('select[name="open_ended_constraint"]').find('option').clone());
-                $('#constraints').SumoSelect();                
-
-                $('.question_constraints').data('c_type', 'Student-Produced Response: Math');
-
-                var consJson = $('.hf-constraints-json').val();
-
-                if ( $.trim(consJson) !== '' ) {
-
-                    var consJson = JSON.parse(consJson);
-
-                    $(consJson).each(function(index, constraint){
-                       if ( index !== 0 ) {
-                          question.pages.cloneOerConstraints();
-                       }
-
-                       $('.constraint-drp').eq(index).val( constraint.TypeId );
-                       $('.constraint-drp').eq(index)[0].sumo.reload()
-                       $('.constraint-drp').eq(index).trigger('change')
-                       $('[name="specific_value[]"]').eq(index ).val( constraint.SpecificValue );
-                       $('[name="specific_value[]"]').eq(index ).val( constraint.SpecificValue );
-                       $('[name="constraint_from[]"]').eq(index ).val( constraint.From );
-                       $('[name="constraint_to[]"]').eq(index ).val( constraint.To );
-                       $('[name="original_constraint_value[]"]').eq(index ).val( constraint.OriginalConstraintValue );
-                       $('[name="original_constraint_from_value[]"]').eq(index ).val( constraint.OriginalConstraintFromValue );
-                       $('[name="original_constraint_to_value[]"]').eq(index ).val( constraint.OriginalConstraintToValue );
-                    });
-                };
-
-                $('.del_holder').show();
-                $('.del_holder').next('.clr').show();
-                $('#clone_oer_constraint').show();
-
-            } else if (selected_txt == "Selection") {
-                // $('.textarea_commentary').removeAttr('maxlength');
-                $('.textarea_commentary').prop('maxlength', '1500');
-                $('.note').show();
-            }
-        },
-
+        
         getTinyMceIdByContainer: function(container) {
             return container.find('textarea[name="answer_textarea[]"]').attr('id');
         },
@@ -883,7 +659,7 @@ var me = null;
                     "<div class='col-md-2'><label class='mr20 mt8 w200 question_answer_count'>Answer #" + count + "<i>*</i></label>" +
                     "<input type='hidden' name='answerIds[]' class='hanswerId' value=''>" +
                     // "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
-                    "<input id='input-1' class='ans-chk' type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
+                    "<input id='input-1' class='ans-chk'  type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
                     "<input type='hidden' name='is_correct[]' value='false'/>" +
                     "</div><div class='col-md-10'><p style='w93 fltL'>" +
                     "<textarea name='answer_textarea[]' id='answer_textarea_" + randomId + "' class='required' data-type='tinymce' data-name='Answer Text' data-read_only='false'></textarea>" +
@@ -921,6 +697,11 @@ var me = null;
             $('.question_answer_count').each(function(index, elem) {
                 $(this).html('Answer #'+(index+1).toString()+"<i>*</i>");
             });
+
+            $('.ans-chk').each(function(index, elem) {
+                //alert(index+1);
+                $(this).val(index+1);
+            });
         },
 
         isMathOrScience: function(subjects) {
@@ -939,325 +720,6 @@ var me = null;
             return mathMCE;
         },
         
-        hasError: function() {
-            var _self = this;
-
-            var selected_txt = $("select[name='questionType']").find('option:selected').text();
-            // get current tab
-            this.isComplete(false);
-            var errors_str = "";
-
-            // step 1 validation
-            if ($('.current_tab').data('type') == "step_1_") {
-                $('.current_tab .required').each(function(index, elem) {
-                    var type = $(elem).data('type');
-                    var name = $(elem).data('name');
-                    var id = $(elem).prop('id');
-                    if (type != '' && type != undefined) {
-                        switch(type) {
-                            case "select":
-                                if ($(elem).val() == "" || $(elem).val() == null) {
-                                    errors_str += "<li>"+ name +" is required.</li>";
-                                }
-                                break;
-                            case "tinymce": 
-                                if (tinyMCE.get(id).getContent() == "") {
-                                    errors_str += "<li>"+ name +" is required.</li>";
-                                }
-                                break;
-                        }
-                    }
-                });                
-
-            } else if($('.current_tab').data('type') == "step_3_") {// step 3 validation
-
-                // get content of passage
-                var content = tinyMCE.get('passage_content').getContent();
-
-                // get checked align type
-                var checked = $('input[name="align_type"]:checked').val();
-                if (checked == 'Anchor') {
-                    // count anchors
-                    var qClass = '.q_h_'+$('[name="questionId"]').val();
-                    if( $('#passage_content_ifr').contents().find(qClass + '.highlight-anchor').length > 1 ) {
-                        errors_str += "<li>Only one &lt;ans&gt; can be placed per question.</li>";
-                    }
-                }
-                if ( $('input[name=align_type]:checked').val() == 'WordLines' || $('input[name=align_type]:checked').val() == "PassageLines" ) {
-
-                    var replacementContent = tinyMCE.get('replacement_text').getContent();
-                    if ( $('input[name=align_type]:checked').val() == 'WordLines' && $('input[name="wordlines_align"]:checked').val() == 'Yes' && replacementContent == '') {
-                        errors_str += "<li>Replacement text is required.</li>";
-                    }
-
-                    var qClass = '.q_h_'+$('[name="questionId"]').val();
-                    if($('#passage_content_ifr').contents().find(qClass).size() > 1) {
-                        errors_str += "<li>Only one word/group of words can be highlight at a time.</li>";
-                    }
-                }
-                
-            } else if($('.current_tab').data('type') == "step_4_") {    // step 4 validation
-                var selected_txt = $("select[name='questionType']").find('option:selected').text();
-                if (selected_txt == "Selection") {
-                    errors_str += _self.generateAnswersFromTag();
-                }
-               // errors_str += _self.generateAnswersFromTag();
-                if ($('#questionTitle').val() == "") {
-                    errors_str += "<li>Question Title is required.</li>";
-                }
-                if (selected_txt == "Student-Produced Response: Math") {
-
-                    var opt = $('.ansConstraint .SumoSelect p.SlectBox span').text();
-                    if(opt == "Can be One of Many Values") {
-
-                        var many_value = $('input[name="many_value[]"]');
-
-                        // get unique values in array() => GOT IT
-                        var ansVals = [];
-                        $.each(many_value, function(i, e){
-                            var newVal  = $(this).val(); // Get number
-                            ansVals.push(newVal);
-                        });
-                        var uniqueAnsVals = getUniqueArray(ansVals);
-                        if(uniqueAnsVals.length < ansVals.length){
-                            errors_str += "<li>Answers must contains unique values.</li>"
-                        }
-                    }
-                }
-
-                if ((selected_txt == "Multiple Choice- Multi Answer" || selected_txt == "Multiple Choice- Single Answer" || selected_txt == "Selection")) {
-                    // check for Student-Produced Response: Math validation                
-                    if (selected_txt == "Student-Produced Response: Math") {
-
-                        var opt = $("#constraints").find('option:selected').text();
-                        if(opt == "Can be One of Many Values") {
-
-                            var many_value = $('input[name="many_value[]"]');
-
-                            // get unique values in array() => GOT IT
-                            var count = {};
-                            $.each(many_value, function(){
-                                var num = $(this).val(); // Get number
-                                count[num] = count[num]+1 || 1; // Increment counter for each value
-                            });
-
-                            if ( many_value.length < 2 || Object.keys(count).length < 2) {
-                                errors_str += "<li>There must be atleast two unique values.</li>";
-                            }
-                        }
-                    } else if (selected_txt == "Multiple Choice- Multi Answer" || selected_txt == "Multiple Choice- Single Answer") {
-                        // check if all answers all filled
-                        var answers = $('.current_tab .answer_container');
-                        if (answers.length < 2) {
-                            errors_str += "<li>At least two answer choices are required.</li>";
-                        } else {
-
-                            // check if all answers are filles    
-                            var allFilled = true;
-                            answers.each(function(index, elem) {
-                                var divId       = _self.getTinyMceIdByContainer($(elem)),
-                                    divContent  = tinyMCE.get(divId).getContent(); // get content
-
-                                if (divContent == "") {
-                                    allFilled = false;
-                                    return false;
-                                }
-                            });
-
-                            if (!allFilled) {
-                                errors_str += "<li>All answers must be filled.</li>";
-                            } else {
-
-                                var isTrue = 0;
-                                // check if atleast one answer is correct
-                                $('.current_tab .correct').each(function(index, elem) { 
-                                    if($(elem).next().val() == 'true')  {
-                                        isTrue++;
-                                    }
-                                });
-
-                                if (selected_txt == "Multiple Choice- Single Answer" && isTrue == 0) {
-                                    errors_str += "<li>Atleast one answer is required correct.</li>";
-                                } else if (selected_txt == "Multiple Choice- Multi Answer" && isTrue < 2) {
-                                    errors_str += "<li>More than 1 correct answer is required.</li>";
-                                }
-                            }
-                        }
-                    }                    
-                }
-            }
-
-            if (errors_str != "") {
-                // set is complete to false
-                this.isComplete(false);
-                $("#error_container ul").html(errors_str);
-                $("#show_error_popup").click();
-                return true;
-            }
-            
-            this.isComplete(true);
-            return false;
-        },
-        hasErrorForm: function() {
-            var _self = this;
-
-            var selected_txt = $("select[name='questionType']").find('option:selected').text();
-            // get current tab
-            this.isComplete(false);
-            var errors_str = "";
-
-            // step 1 validation
-            //if ($('.current_tab').data('type') == "step_1_") {
-                $('.current_tab .required').each(function(index, elem) {
-                    var type = $(elem).data('type');
-                    var name = $(elem).data('name');
-                    var id = $(elem).prop('id');
-                    if (type != '' && type != undefined) {
-                        switch(type) {
-                            case "select":
-                                if ($(elem).val() == "" || $(elem).val() == null) {
-                                    errors_str += "<li>"+ name +" is required.</li>";
-                                }
-                                break;
-                            case "tinymce":
-                                if (tinyMCE.get(id).getContent() == "") {
-                                    errors_str += "<li>"+ name +" is required.</li>";
-                                }
-                                break;
-                        }
-                    }
-                });
-
-           // } else if($('.current_tab').data('type') == "step_3_") {// step 3 validation
-                // get content of passage
-
-
-                var content = tinyMCE.get('passage_content').getContent();
-
-                // get checked align type
-                var checked = $('input[name="align_type"]:checked').val();
-                if (checked == 'Anchor') {
-                    // count anchors
-                    var qClass = '.q_h_'+$('[name="questionId"]').val();
-                    if( $('#passage_content_ifr').contents().find(qClass + '.highlight-anchor').length > 1 ) {
-                        errors_str += "<li>Only one &lt;ans&gt; can be placed per question.</li>";
-                    }
-                }
-                if ( $('input[name=align_type]:checked').val() == 'WordLines' || $('input[name=align_type]:checked').val() == "PassageLines" ) {
-
-                    var replacementContent = tinyMCE.get('replacement_text').getContent();
-                    if ( $('input[name=align_type]:checked').val() == 'WordLines' && $('input[name="wordlines_align"]:checked').val() == 'Yes' && replacementContent == '') {
-                        errors_str += "<li>Replacement text is required.</li>";
-                    }
-
-                    var qClass = '.q_h_'+$('[name="questionId"]').val();
-                    if($('#passage_content_ifr').contents().find(qClass).size() > 1) {
-                        errors_str += "<li>Only one word/group of words can be highlight at a time.</li>";
-                    }
-                }
-
-          //  } else if($('.current_tab').data('type') == "step_4_") {    // step 4 validation
-            var selected_txt = $("select[name='questionType']").find('option:selected').text();
-            if (selected_txt == "Selection") {
-                errors_str += _self.generateAnswersFromTag();
-            }
-           // errors_str += _self.generateAnswersFromTag();
-                if ($('#questionTitle').val() == "") {
-                    errors_str += "<li>Question Title is required.</li>";
-                }
-                if (selected_txt == "Student-Produced Response: Math") {
-
-                    var opt = $('.ansConstraint .SumoSelect p.SlectBox span').text();
-                    if(opt == "Can be One of Many Values") {
-
-                        var many_value = $('input[name="many_value[]"]');
-
-                        // get unique values in array() => GOT IT
-                        var ansVals = [];
-                        $.each(many_value, function(i, e){
-                            var newVal  = $(this).val(); // Get number
-                            ansVals.push(newVal);
-                        });
-                        var uniqueAnsVals = getUniqueArray(ansVals);
-                        if(uniqueAnsVals.length < ansVals.length){
-                            errors_str += "<li>Answers must contains unique values.</li>"
-                        }
-                    }
-                }
-
-                if ((selected_txt == "Multiple Choice- Multi Answer" || selected_txt == "Multiple Choice- Single Answer" || selected_txt == "Selection")) {
-                    // check for Student-Produced Response: Math validation
-                    if (selected_txt == "Student-Produced Response: Math") {
-
-                        var opt = $("#constraints").find('option:selected').text();
-                        if(opt == "Can be One of Many Values") {
-
-                            var many_value = $('input[name="many_value[]"]');
-
-                            // get unique values in array() => GOT IT
-                            var count = {};
-                            $.each(many_value, function(){
-                                var num = $(this).val(); // Get number
-                                count[num] = count[num]+1 || 1; // Increment counter for each value
-                            });
-
-                            if ( many_value.length < 2 || Object.keys(count).length < 2) {
-                                errors_str += "<li>There must be atleast two unique values.</li>";
-                            }
-                        }
-                    } else if (selected_txt == "Multiple Choice- Multi Answer" || selected_txt == "Multiple Choice- Single Answer") {
-                        // check if all answers all filled
-                        var answers = $('.answer_container');
-                        if (answers.length < 2) {
-                            errors_str += "<li>At least two answer choices are required.</li>";
-                        } else {
-
-                            // check if all answers are filles
-                            var allFilled = true;
-                            answers.each(function(index, elem) {
-                                var divId       = _self.getTinyMceIdByContainer($(elem)),
-                                    divContent  = tinyMCE.get(divId).getContent(); // get content
-
-                                if (divContent == "") {
-                                    allFilled = false;
-                                    return false;
-                                }
-                            });
-
-                            if (!allFilled) {
-                                errors_str += "<li>All answers must be filled.</li>";
-                            } else {
-
-                                var isTrue = 0;
-                                // check if atleast one answer is correct
-                                $('.correct').each(function(index, elem) {
-                                    if($(elem).next().val() == 'true')  {
-                                        isTrue++;
-                                    }
-                                });
-
-                                if (selected_txt == "Multiple Choice- Single Answer" && isTrue == 0) {
-                                    errors_str += "<li>Atleast one answer is required correct.</li>";
-                                } else if (selected_txt == "Multiple Choice- Multi Answer" && isTrue < 2) {
-                                    errors_str += "<li>More than 1 correct answer is required.</li>";
-                                }
-                            }
-                        }
-                    }
-                }
-            //}
-
-            if (errors_str != "") {
-                // set is complete to false
-                this.isComplete(false);
-                $("#error_container ul").html(errors_str);
-                $("#show_error_popup").click();
-                return true;
-            }
-
-            this.isComplete(true);
-            return false;
-        },
         deletePreviousAnswers: function(answers) {
             // get all answer ids
             var ids =   $('.answer_container textarea[name="answer_textarea[]"]').map(function() {  
@@ -1369,33 +831,6 @@ var me = null;
             $('input[name="'+ hidden_field +'"]').val(status);
         },
         
-        makeConfirmStandardTree: function (type){
-
-            var jsonData = JSON.stringify({
-                keys: window['custom_' + type], 
-                type: type
-            });
-
-            $.ajax({
-                url:'/resources/qbank/confirm_standard_tree',
-                type:'post',
-                dataType:'html',
-                data: { jsonData:  jsonData},
-                beforeSend: function () {
-                    toggleMsg('Populating standards, please wait..')
-                },
-                success:function(data){
-                    if(data != 'error'){
-                        $("#container_"+type).html(data);
-                    }else{
-                        $("#container_"+type).empty();
-                    }
-                },
-                complete: function () {
-                    toggleMsg();
-                }
-            })
-        },
         elFinderBrowser: function(field_name, url, type, win) {
             $.fancybox({
                 'width': '903',
@@ -1656,145 +1091,8 @@ var me = null;
                 body_class: "mce-custom-body",
             });            
         },
-        saveQuestion: function(from){
-
-            var originalRecord = {};
-            var _self = this;
-            // verify curent selected tab
-            if (!_self.hasErrorForm()) {
-                // if every thing is ok then save it
-                var selected_txt = $("select[name='questionType']").find('option:selected').text();
-                if (selected_txt == "Multiple Choice- Multi Answer" || selected_txt == "Multiple Choice- Single Answer") {
-                    $('#constraints').val("");
-                }
-
-                tinyMCE.triggerSave();
-
-
-                // save answers with equation image                
-                var ids =   $('.answer_container textarea[name="answer_textarea[]"]').map(function() {  
-                                return $(this).attr('id');  
-                            });
-                // loop through them and delete one by one from answers section
-                if (ids != null && ids.length > 0) {
-                    $.each(ids, function(index, elem) {
-                        $('#'+elem).val(tinyMCE.get(elem).getContent());
-                    });
-                }
-
-                // if a request has already been made than wait for previous request to compelte
-                if ($('#save_question').hasClass('disabled')) {                    
-                    return false;
-                }                
-
-                var qClass = 'span.q_h_'+$('[name="questionId"]').val(),
-                    highlightedText = $('#passage_content_ifr').contents().find(qClass).text();
-
-                var formData = $('#frm_question').serialize();                
-
-                if (highlightedText != "" && highlightedText != "undefined") {
-                    formData += "&highlightedText="+encodeURIComponent(highlightedText);
-                }
-
-
-
-
-                
-
-
-                // update question textarea
-                originalRecord.question_textarea_m = _self.convertImagetoMathMl("question_textarea");
-                var _answers = [];
-                $(".answers [name='answer_textarea[]']").each(function(index, elem) {
-                    _answers.push(_self.convertImagetoMathMl($(elem).attr('id')));
-                });
-                originalRecord.answer_textarea_m = _answers;
-                originalRecord.passage_textarea_m = _self.convertImagetoMathMl("passage_content");
-                // return false;
-
-                formData += "&" + $.param(originalRecord);
-
-
-                // save answers
-                $.ajax({
-                    url: '/resources/qbank/save/question',
-                    data: formData,
-                    dataType: 'JSON',
-                    method: 'POST',
-                    beforeSend: function() {
-                        $('#save_question').addClass('disabled');
-                        toggleMsg('Please wait..');
-                    }, success: function(response) {
-                        $('input[name="questionId"]').val(response.question_id);
-                        $('select[name="questionType"]')[0].sumo.disable();
-                        if($('input[name="from"]').val() == 'question'){                            
-                            toggleMsg();
-                            if ($(".current_tab").index() == "6" || $('input[name="is_edit"]').val() != '') {
-                                showMsg(response.success);
-                                window.setTimeout(function() {
-                                    window.location.href="/resources/qbank/questions";
-                                }, 4000);
-                            } else {
-                                showMsg(response.success);
-                                window.setTimeout(function() {
-                                    window.location.href="/resources/qbank/questions";
-                                }, 4000);
-                                // $('#save_question').removeClass('disabled');
-                                // showMsg(response.success);
-                            }
-                        }else{
-                            window.location.href="/resources/qbank/add/passage";
-                        }
-
-                    }, complete: function() {
-                        // $('#save_question').removeClass('disabled');
-                    }
-                }).fail(function(jqXHR, json){//if error then printing errors
-                    toggleMsg();
-                    var error = jqXHR.responseJSON;
-                    $.each(error,function(key, element){
-                        createErrorLabel(element);
-                    });
-                    //adding errors list to error_container ul and showing the error popup
-                    if(errorMessages !=""){
-                        $('#error_container ul').html(errorMessages);
-                        $('#show_error_popup').click();
-                        errorMessages = '';
-                    }
-                });
-            }
-        },
-
-        convertImagetoMathMl: function(elem) {
-
-            if (tinymce.get(elem).getContent() == "") {
-                return "";
-            }
-
-            var html = $('#'+elem+"_ifr").contents().find('body').clone();            
-            html.find('.Wirisformula').each(function(_i, _e) {
-                var mthml = $(_e).data('mathml');
-                mthml = mthml.replace(/¨/g, "\"");
-                mthml = mthml.replace(/«/g, "<");
-                mthml = mthml.replace(/»/g, ">");
-                mthml = mthml.replace(/§/g, "&");
-
-                $(_e).replaceWith(mthml);
-            });
-            
-            return html.html();
-        },
-
-        parseQuery: function(qstr) {
-            var query = {};
-            var a = qstr.substr(1).split('&');
-            for (var i = 0; i < a.length; i++) {
-                var b = a[i].split('=');
-                query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
-            }
-            return query;
-        },
-
+        
+        
         // configure tinymce for passage content
         configurePassageContentMCE: function(toolbar, width) {
             var _self = this;
@@ -1897,29 +1195,7 @@ var me = null;
             
         },
 
-        formatPassageLines: function() {
-
-            if ($('#linestxt').html().trim() == "" ) {
-                tinyMCE.get('passage_content').setContent($('#repltxt').html());
-            } else {
-                var lines = $('#linestxt').clone();
-                lines.find('span').each(function(index, elem) {
-                    if ($(elem).attr('style') == 'text-decoration: underline;') {
-                        $(elem).attr('style', 'display: inline-block; position: relative; padding-left: 40px;');
-                        $(elem).after('<br>');
-                        if ((index+1) % 5 == 0 || index == 0) {
-
-                            var line = '<span style="position: absolute; left: 0px; display: block;">'+ (index+1) +'</span>';
-                            $(elem).prepend(line);
-                        }
-                    }
-                });                
-                if(tinyMCE.get('passage_content') != null){
-                    tinyMCE.get('passage_content').setContent(this.decodeEntities(lines.html()));
-                }
-            }
-
-        },
+        
 
         decodeEntities: function(encodedString) {
             var textArea = document.createElement('textarea');
@@ -1955,34 +1231,7 @@ var me = null;
 (function($) {
 
     $(document).ready(function(){
-        $(".check-all-question").on("click", function(){
-            if ($('#questions'+'  .check-all-question').is(':checked')) {
-                $('#questions'+'  .parent-grid .check-question').prop('checked', true);
-            }else{
-                $('#questions'+'  .parent-grid .check-question').prop('checked', false);
-            }
-        })
-        $(".check-all-passage").on("click", function(){
-            if ($('#passages'+'  .check-all-passage').is(':checked')) {
-                $('#passages'+'  .parent-grid .check-passage').prop('checked', true);
-            }else{
-                $('#passages'+'  .parent-grid .check-passage').prop('checked', false);
-            }
-        });
-        $(".check-all-selected-question").on("click", function(){
-             if ($('#selected-questions'+'  .check-all-selected-question').is(':checked')) {
-                 $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', true);
-            }else{
-                $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', false);
-            }
-        })
-        $(".check-selected-passages").on("click", function(){
-            if ($('#passages'+'  .check-all-passage').is(':checked')) {
-                $('#passages'+'  .parent-grid .check-passage').prop('checked', true);
-            }else{
-                $('#passages'+'  .parent-grid .check-passage').prop('checked', false);
-            }
-        });
+
         question.init();
 
         // if question is saved
@@ -2016,69 +1265,4 @@ var me = null;
     }
 })(jQuery);
 
-function addOrRemoveInGrid(elem, type) {
-    var selectedTab = $('li.tab.active').children('a').attr('data-tab');
-    window.selectedTab =selectedTab;
-    var checkboxName = window.selectedTab.split('-')[0];
-    qbankIds = [];
-    passageIds = [];
-    filesGroupIds = [];
-    QuestionIds=[];
-    RemoveQuestionIds=[];
-    if (type == 'add') {
-           $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
-               $(this).removeClass('check-question').addClass('check-selected-question');
-                var closestUl = $(this).closest('tr');
-                if(checkboxName == 'question'){
-                  if(closestUl.find('td').eq(1).text() != ''){
-                         qbankIds.push(closestUl.find('td').eq(1).text())
-                   }
-                }
-               QuestionIds.push($(this).val())
-                $(this).attr('name',checkboxName+'[]');
-                $(this).attr('checked', false)
-                var selected = closestUl.clone();
-               $(this).closest('tr').remove();
-               $('#selected-questions'+' .child-grid').append(selected);
-            });
-        $('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',QuestionIds).appendTo('#selected-questions'+' .child-grid');
-        $('#passages'+'  .parent-grid tr').each(function () {
-             var closestUl = $(this).closest('ul');
-            if(checkboxName == 'question'){
-                if(closestUl.find('td').eq(2).text() != ''){
-                    qbankIds.push(this.value)
-                }
-            }
-            if(checkboxName == 'passage'){
-                if(closestUl.find('td').eq(3).text() != 0){
-                    passageIds.push(this.value)
-                }
-            }
-            $(this).attr('name',checkboxName+'[]');
-            $(this).attr('checked', false)
-            var selected = closestUl.clone();
-            $(this).closest('ul').remove();
-            $('#' + window.selectedTab + ' div.child-grid').append(selected);
-        });
-        }
-    else {
-         $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
-             var removeIds=[];
-             $(this).removeClass('check-selected-question').addClass('check-question');
-             var closestUl = $(this).closest('tr');
-            if(checkboxName == 'question'){
-                  if(closestUl.find('td').eq(1).text() != ''){
-                     removeIds.push(closestUl.find('td').eq(1).text())
-                }
-            }
-             RemoveQuestionIds.push(this.value);
-            $(this).attr('name',checkboxName+'[]');
-            $(this).attr('checked', false)
-            var selected = closestUl.clone();
-            $(this).closest('tr').remove();
-            $('#questions'+' .parent-grid').append(selected);
-             $('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
-        });
-
-    }
- }
+    

@@ -10,11 +10,11 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
+				<input type="hidden" name="_token" class="hidden-token" value="{{csrf_token()}}">
 				<div class="panel-heading">Users
 					<a href="{{ url('/user/add/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add </a>
-
 					<a href="{{ route('userBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
-					<a href="{{ URL::to('user/downloadExcelforusers/xls') }}"><button class="btn btn-primary btn-sm right">Download XLS</button></a>
+					<a href="{{ URL::to('user/download') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
 				</div>
 				<div class="panel-body">
 
@@ -28,7 +28,7 @@
 								<label class="col-md-4 control-label">Select Institution</label>
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id">
-										<option value="0">All</option>
+										<option value=0>All</option>
 										@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach
@@ -39,7 +39,7 @@
 								<label class="col-md-4 control-label">Select Role</label>
 								<div class="col-md-6">
 									<select class="form-control" name="role_id" id="role_id">
-										<option value="0">All</option>
+										<option value=0>All</option>
 										@foreach($roles_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach

@@ -61,14 +61,14 @@ class UserController extends BaseController {
 
 		$users=$this->user->getUsers($institution_id);
 		//dd($users);
-        
-        $InstitutionObj = new Institution();
+
+		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 
-        //return view('admin::user.list',compact('users'));
-        return view('admin::user.list', compact('inst_arr','roles_arr'))
-        ->nest('usersList', 'admin::user._list', compact('users'));
+		//return view('admin::user.list',compact('users'));
+		return view('admin::user.list', compact('inst_arr','roles_arr'))
+			->nest('usersList', 'admin::user._list', compact('users'));
 	}
 
 	public function usersJson()
@@ -86,15 +86,15 @@ class UserController extends BaseController {
 
 		$users=$this->user->getUsers($institution_id, $role_id);
 		//dd($users);
-        
-        $from = 'search';
-        return view('admin::user._list', compact('users', 'from'));
+
+		$from = 'search';
+		return view('admin::user._list', compact('users', 'from'));
 	}
 
-    public function profile()
+	public function profile()
 	{
-			$userid = Auth::user()->id;
-			$this->edit($userid);            
+		$userid = Auth::user()->id;
+		$this->edit($userid);
 	}
 
 	public function add()
@@ -107,7 +107,7 @@ class UserController extends BaseController {
 		$id = $institution_id = $role_id = $country_id = 0;
 		$name = $email = $status =$gender = $enrollno = $password = '';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
-		
+
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
 		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
@@ -126,24 +126,24 @@ class UserController extends BaseController {
 		if(isset($userid) && $userid > 0)
 		{
 			$user = $this->user->find($userid);
-			$id = $user->id; 
-			$role_id = $user->role_id; 
-			$institution_id = $user->institution_id; 
-			$name = $user->name; 
-			$email = $user->email; 
-			$enrollno = $user->enrollno; 
+			$id = $user->id;
+			$role_id = $user->role_id;
+			$institution_id = $user->institution_id;
+			$name = $user->name;
+			$email = $user->email;
+			$enrollno = $user->enrollno;
 			$status = $user->status;
 			$gender =$user->gender;
 
 			$password = $user->password;
 
-			$first_name = $user->first_name; 
-			$last_name = $user->last_name; 
-			$address1 = $user->address1; 
-			$address2 = $user->address2; 
-			$address3 = $user->address3; 
-			$city = $user->city; 
-			$state = $user->state; 
+			$first_name = $user->first_name;
+			$last_name = $user->last_name;
+			$address1 = $user->address1;
+			$address2 = $user->address2;
+			$address3 = $user->address3;
+			$city = $user->city;
+			$state = $user->state;
 			$phoneno = $user->phoneno;
 			$pincode = $user->pincode;
 			$country_id = $user->country_id;
@@ -165,21 +165,21 @@ class UserController extends BaseController {
 	public function update($institutionId = 0)
 	{
 		$post = Input::All();
-		
+
 		$rules = [
-                'institution_id' =>'required|not_in:0',
-                'role_id' =>'required|not_in:0',
-                //'name' => 'required|min:3|unique:users',
-                'first_name' =>'required|min:3',
-                'last_name' =>'required',
-                'email' => 'required|email|max:255|unique:users',
-                'enrollno' =>'required',
-                'address1' =>'required',
-                'city' =>'required',
-                'state' =>'required',
-                'phoneno' =>'required',
-                'pincode' =>'required',
-                'country_id' =>'required'];
+			'institution_id' =>'required|not_in:0',
+			'role_id' =>'required|not_in:0',
+			//'name' => 'required|min:3|unique:users',
+			'first_name' =>'required|min:3',
+			'last_name' =>'required',
+			'email' => 'required|email|max:255|unique:users',
+			'enrollno' =>'required',
+			'address1' =>'required',
+			'city' =>'required',
+			'state' =>'required',
+			'phoneno' =>'required',
+			'pincode' =>'required',
+			'country_id' =>'required'];
 
 		if($post['id'] > 0)
 		{
@@ -189,32 +189,32 @@ class UserController extends BaseController {
 			if($post['password'] != NULL)
 			{
 				$rules['password'] = 'confirmed|min:6';
-			}	
+			}
 		}
 		else
 		{
 			$rules['password'] = 'required|confirmed|min:6';
 		}
-        
-        $validator = Validator::make($post, $rules);
-        
-        if ($validator->fails())
-        {
-            return Redirect::back()->withInput()->withErrors($validator);
-        }
-        else {
-            $params = Input::All();
-            //var_dump($params);
-            $this->user->updateUser($params);
 
-            return redirect('/user');
-        }
-        /*
-		$params = Input::All();
-		//var_dump($params);
-		$this->user->updateUser($params);
+		$validator = Validator::make($post, $rules);
 
-		return redirect('/user');*/
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		else {
+			$params = Input::All();
+			//var_dump($params);
+			$this->user->updateUser($params);
+
+			return redirect('/user');
+		}
+		/*
+        $params = Input::All();
+        //var_dump($params);
+        $this->user->updateUser($params);
+
+        return redirect('/user');*/
 	}
 
 	public function delete($userid = 0)
@@ -229,11 +229,11 @@ class UserController extends BaseController {
 	public function roleslist()
 	{
 		$roles = Role::lists('name', 'id');
-        return view('admin::role.list',compact('roles'));
+		return view('admin::role.list',compact('roles'));
 	}
-    
+
 	public function roleadd()
-	{		
+	{
 		$id = 0;
 		$name = '';
 		return view('admin::role.edit',compact('id','name'));
@@ -244,8 +244,8 @@ class UserController extends BaseController {
 		if(isset($id) && $id > 0)
 		{
 			$Obj = Role::find($id);
-			$id = $Obj->id; 
-			$name = $Obj->name; 
+			$id = $Obj->id;
+			$name = $Obj->name;
 		}
 		else
 		{
@@ -282,7 +282,7 @@ class UserController extends BaseController {
 			return redirect('/user/role');
 		}
 	}
-	
+
 	public function roleupdateold($id = 0)
 	{
 		$params = Input::All();
@@ -311,153 +311,153 @@ class UserController extends BaseController {
 	public function bulkUserTemplate(Request $request)
 	{
 		$userType = $request->input('userType');
-        $institution_id = $request->input('institution_id');
+		$institution_id = $request->input('institution_id');
 
-        $filename = 'user_template_' . $userType . '_' . date('Y-m-d') . '.xls';
+		$filename = 'user_template_' . $userType . '_' . date('Y-m-d') . '.xls';
 
-        $save = $this->user->bulkUserTemplate($filename, $userType,$institution_id, false, true);
-        if ($save == null) {
-            return Response::json(array('file_name' => "/data/tmp/$filename"));
-        } else {
-            return Response::json(array('file_name' => false));
-        }
+		$save = $this->user->bulkUserTemplate($filename, $userType,$institution_id, false, true);
+		if ($save == null) {
+			return Response::json(array('file_name' => "/data/tmp/$filename"));
+		} else {
+			return Response::json(array('file_name' => false));
+		}
 	}
 
-	public function bulkUserUpload(Request $request) {        
-        
-        $institutionId = $request->input('institutionId');
-        $userType = $request->input('userType');
+	public function bulkUserUpload(Request $request) {
 
-        if (empty($institutionId)) {
-            $institutionId = Auth::user()->institution_id;
-        }
+		$institutionId = $request->input('institutionId');
+		$userType = $request->input('userType');
 
-        $uploadSuccess = false;
-        $file = $request->file('file');
-        $destFileName = '';
+		if (empty($institutionId)) {
+			$institutionId = Auth::user()->institution_id;
+		}
 
-        $fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
+		$uploadSuccess = false;
+		$file = $request->file('file');
+		$destFileName = '';
 
-        $validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
-        
-        if ($validator->fails()) {
-            $errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
-            return json_encode($errorArray);
-        }
+		$fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
 
-        if ($file) {
-            $extension = $file->getClientOriginalExtension();
-            if ($extension != 'xls') {
-                $error = array('status' => 'error', 'msg' => 'Upload valid file type.');
-                return json_encode($error);
-            }
-            // Moving the uploaded image to respective directory
-            $destPath = public_path() . '/data/tmp';
-            $destFileName = str_random(6) . '_' . $file->getClientOriginalName();
-            $uploadSuccess = $file->move($destPath, $destFileName);
-        } else {
-            $errorArray = array('status' => 'error', 'msg' => 'File does not exist');
-            return json_encode($errorArray);
-        }
-        
-        $this->errorArray=array();
-        return  $some=$this->fileupload($destPath,$destFileName, $institutionId, $userType);
-        // return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
-    }
-    public function fileupload($destPath,$destFileName, $institutionId, $userType){
-    	$role_id = 0;
-    	if($userType == 'student' || $userType == 'Student')
-    	{    		
-    		$role_id = $this->user->getRoleIdByRole($userType);
-    	}
-    	//dd($role_id );
-        $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','phone','status','address','city','state','gender','country','pin','role'];
-        $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
+		$validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
 
-        $uploadedFileHeaders = [];
-        if(!empty($getFirstRow[0])){
-            $uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
-        }
-        $headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
-        
-        if(!empty($headerDifference)){
-            $error = array('status' => 'error', 'msg' => 'Invalid file.');
-            return json_encode($error);
-        }
-        //        echo '<pre>'; print_r($getFirstRow); die;
-        // if ($uploadSuccess != false) {
-        $errorArray = array();
-        //                    try{
-        $output = Excel::load($destPath . '/' . $destFileName, function($results) use ($role_id, $institutionId) {
-            $phpExcel = $results->setActiveSheetIndex(1);
-            $fileType = $phpExcel->getCell('D1')->getValue();
-            $phpExcel = $results->setActiveSheetIndex(0);
-            $rowCount = $phpExcel->getHighestRow();
-            $emptyFile = true;
-            if ($rowCount > 1) {
-                 
-                    $phpExcel = $results->setActiveSheetIndex(0);
-                    $firstSheet = $results->get()[0];
-                    foreach ($firstSheet as $key => $row) {
-                        $arrayCol = $row->toArray();
-                        //Ceck Empty Row
-                        $rowSize = 0;
-                        foreach ($arrayCol as $cell) {
-                            $rowSize += strlen($cell);
-                        }
-                        if ($rowSize == 0) {
-                            continue;
-                        }
-                        //Check Empty Row End
-                        $emptyFile = false;
-                        $status = User::validateBulUpload($fileType, $row, $key + 2);
-                        if (count($status) > 0) {
-                            $this->errorArray = array_merge($this->errorArray, $status);
-                        } else {
-                            User::createBulkUser($role_id, $row, $institutionId);
-                        }
-                    }
-                
-            } else {
+		if ($validator->fails()) {
+			$errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
+			return json_encode($errorArray);
+		}
 
-                $this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
-            }
-            if ($emptyFile) {
-                $this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
-            }
-        });
-        //                    }catch(\Exception $e) {
-        //                        $this->errorArray[] = array('Row #'=>'','Error Description'=>'You have tried to upload a file with invalid fields.');
-        //                    }
+		if ($file) {
+			$extension = $file->getClientOriginalExtension();
+			if ($extension != 'xls') {
+				$error = array('status' => 'error', 'msg' => 'Upload valid file type.');
+				return json_encode($error);
+			}
+			// Moving the uploaded image to respective directory
+			$destPath = public_path() . '/data/tmp';
+			$destFileName = str_random(6) . '_' . $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destPath, $destFileName);
+		} else {
+			$errorArray = array('status' => 'error', 'msg' => 'File does not exist');
+			return json_encode($errorArray);
+		}
 
-        if (count($this->errorArray) > 0) {
+		$this->errorArray=array();
+		return  $some=$this->fileupload($destPath,$destFileName, $institutionId, $userType);
+		// return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+	}
+	public function fileupload($destPath,$destFileName, $institutionId, $userType){
+		$role_id = 0;
+		if($userType == 'student' || $userType == 'Student')
+		{
+			$role_id = $this->user->getRoleIdByRole($userType);
+		}
+		//dd($role_id );
+		$uploadSuccess = false;
+		$orignalHeaders = ['institutionid','enrollment_no','email','password','first_name','last_name','phone','status','address','city','state','gender','country','pin','role'];
+		$getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
 
-            Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($errorArray) {
-                $excel->sheet('error_log', function($sheet) use($errorArray) {
-                    $sheet->fromArray($this->errorArray);
-                });
-            })->store('xls', public_path('data/tmp'), true);
+		$uploadedFileHeaders = [];
+		if(!empty($getFirstRow[0])){
+			$uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
+		}
+		$headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
 
-           return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '/data/tmp/errorlog_' . $destFileName);
+		if(!empty($headerDifference)){
+			$error = array('status' => 'error', 'msg' => 'Invalid file.');
+			return json_encode($error);
+		}
+		//        echo '<pre>'; print_r($getFirstRow); die;
+		// if ($uploadSuccess != false) {
+		$errorArray = array();
+		//                    try{
+		$output = Excel::load($destPath . '/' . $destFileName, function($results) use ($role_id, $institutionId) {
+			$phpExcel = $results->setActiveSheetIndex(1);
+			$fileType = $phpExcel->getCell('D1')->getValue();
+			$phpExcel = $results->setActiveSheetIndex(0);
+			$rowCount = $phpExcel->getHighestRow();
+			$emptyFile = true;
+			if ($rowCount > 1) {
 
+				$phpExcel = $results->setActiveSheetIndex(0);
+				$firstSheet = $results->get()[0];
+				foreach ($firstSheet as $key => $row) {
+					$arrayCol = $row->toArray();
+					//Ceck Empty Row
+					$rowSize = 0;
+					foreach ($arrayCol as $cell) {
+						$rowSize += strlen($cell);
+					}
+					if ($rowSize == 0) {
+						continue;
+					}
+					//Check Empty Row End
+					$emptyFile = false;
+					$status = User::validateBulUpload($fileType, $row, $key + 2);
+					if (count($status) > 0) {
+						$this->errorArray = array_merge($this->errorArray, $status);
+					} else {
+						User::createBulkUser($role_id, $row, $institutionId);
+					}
+				}
 
-            //return json_encode($errorArray);
+			} else {
 
-        } else {
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+			if ($emptyFile) {
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+		});
+		//                    }catch(\Exception $e) {
+		//                        $this->errorArray[] = array('Row #'=>'','Error Description'=>'You have tried to upload a file with invalid fields.');
+		//                    }
 
-            Session::flash('success', 'File uploaded successfully.');
-            return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
-           // return json_encode($sucessarray);
-        }
-        //}
+		if (count($this->errorArray) > 0) {
+
+			Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($errorArray) {
+				$excel->sheet('error_log', function($sheet) use($errorArray) {
+					$sheet->fromArray($this->errorArray);
+				});
+			})->store('xls', public_path('data/tmp'), true);
+
+			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '/data/tmp/errorlog_' . $destFileName);
 
 
-    }
+			//return json_encode($errorArray);
 
-    function getProfilePicURL($profile_picture = '')
-    {
-    	if($profile_picture != NULL)
+		} else {
+
+			Session::flash('success', 'File uploaded successfully.');
+			return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+			// return json_encode($sucessarray);
+		}
+		//}
+
+
+	}
+
+	function getProfilePicURL($profile_picture = '')
+	{
+		if($profile_picture != NULL)
 		{
 			if(getenv('s3storage'))
 			{
@@ -466,128 +466,141 @@ class UserController extends BaseController {
 			else
 			{
 				$profile_pic = asset('/data/uploaded_images/128x128/'.$profile_picture);
-			}			
+			}
 		}
 		else
 		{
-			$profile_pic = asset('/images/profile_pic.jpg');	
+			$profile_pic = asset('/images/profile_pic.jpg');
 		}
 		return $profile_pic;
-    }
+	}
 
-    /**
-     * Processing user profile pic.
-     *
-     * @return json.
-     * @author Sireesha
-     */
-    public function uploadImage(Request $request, imageRequest $imageRequest) {
-        $fileName = '';
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $dimensions = getimagesize($file);
-        $fileName = time() . '.' . $extension;
-        $destinationPath = public_path('/data/uploaded_images/orignal/');
-        
-        if (!file_exists('data/uploaded_images/orignal/')) {
-            mkdir('data/uploaded_images/orignal/', 0777, true);
-        }
-        $file->move($destinationPath, $fileName);
-        
-        $resizePath = public_path() . '/data/uploaded_images/400x400/';
-        if ($dimensions[0] > 400 || $dimensions[1] > 400) {
-            resizeImage($destinationPath, $fileName, $resizePath, 400, 400, $ratio = true);
-        } else {
-            copy($destinationPath . $fileName, $resizePath . $fileName);
-        }
+	/**
+	 * Processing user profile pic.
+	 *
+	 * @return json.
+	 * @author Sireesha
+	 */
+	public function uploadImage(Request $request, imageRequest $imageRequest) {
+		$fileName = '';
+		$file = $request->file('image');
+		$extension = $file->getClientOriginalExtension();
+		$dimensions = getimagesize($file);
+		$fileName = time() . '.' . $extension;
+		$destinationPath = public_path('/data/uploaded_images/orignal/');
 
-        // Move the file to S3
-        $orignalFilePath = $destinationPath.$fileName;
-        $resizedFilePath = $resizePath.$fileName;
+		if (!file_exists('data/uploaded_images/orignal/')) {
+			mkdir('data/uploaded_images/orignal/', 0777, true);
+		}
+		$file->move($destinationPath, $fileName);
 
-        $resized_pic_url = asset('/data/uploaded_images/400x400/'.$fileName);
-        if(getenv('s3storage'))
+		$resizePath = public_path() . '/data/uploaded_images/400x400/';
+		if ($dimensions[0] > 400 || $dimensions[1] > 400) {
+			resizeImage($destinationPath, $fileName, $resizePath, 400, 400, $ratio = true);
+		} else {
+			copy($destinationPath . $fileName, $resizePath . $fileName);
+		}
+
+		// Move the file to S3
+		$orignalFilePath = $destinationPath.$fileName;
+		$resizedFilePath = $resizePath.$fileName;
+
+		$resized_pic_url = asset('/data/uploaded_images/400x400/'.$fileName);
+		if(getenv('s3storage'))
 		{
-	        $s3 = new \App\Models\S3();
-	        $s3->uploadByPath( $orignalFilePath, 'user_profile_pic_orignal');
-	        $s3->uploadByPath( $resizedFilePath, 'user_profile_pic_400');
-	        $orignal_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_orignal');
-	        $resized_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_400');
+			$s3 = new \App\Models\S3();
+			$s3->uploadByPath( $orignalFilePath, 'user_profile_pic_orignal');
+			$s3->uploadByPath( $resizedFilePath, 'user_profile_pic_400');
+			$orignal_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_orignal');
+			$resized_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_400');
 
-	        unlink($orignalFilePath);
-	        unlink($resizedFilePath);
-	    }
+			unlink($orignalFilePath);
+			unlink($resizedFilePath);
+		}
 
-        // unlink($filePath);
-        return json_encode(array('filename' => $fileName, 'file_path'=>$resized_pic_url));
-    }
+		// unlink($filePath);
+		return json_encode(array('filename' => $fileName, 'file_path'=>$resized_pic_url));
+	}
 
-    /**
-     * croping and resizing user selected area of pic and updating profile info if editing user.
-     *
-     * @return json.
-     * @author Sireesha
-     */
-    public function saveCrop(Request $request) {
-        $inputs = $request->input();
-        $savePath = 'data/uploaded_images/croped/';
-        if (!file_exists('data/uploaded_images/croped/')) {
-            mkdir('data/uploaded_images/croped/', 0777, true);
-        }
-        $resizeArray = array('192x192' => '192x192', '128x128' => '128x128', '48x48' => '48x48', '80x80' => '80x80', '103x103' => '103x103');
-        
-        cropImage($inputs, $savePath, $resizeArray);
-        
-        $coords = implode(',', array_except($inputs['coords'], array('x2', 'y2')));
-        $inputs['coords'] = $coords;
-        if (!empty($inputs['user_id'])) {
-            $user = User::find($inputs['user_id']);
-            $user->profile_picture = $inputs['image_name'];
-            $user->pic_coords = $inputs['coords'];
-            $user->save();
-        }
-        $resizeArray = array('192x192' => 'user_profile_pic_192', '128x128' => 'user_profile_pic_128', '48x48' => 'user_profile_pic_48', '80x80' => 'user_profile_pic_80', '103x103' => 'user_profile_pic_103');
-        
-        if(getenv('s3storage'))
+	/**
+	 * croping and resizing user selected area of pic and updating profile info if editing user.
+	 *
+	 * @return json.
+	 * @author Sireesha
+	 */
+	public function saveCrop(Request $request) {
+		$inputs = $request->input();
+		$savePath = 'data/uploaded_images/croped/';
+		if (!file_exists('data/uploaded_images/croped/')) {
+			mkdir('data/uploaded_images/croped/', 0777, true);
+		}
+		$resizeArray = array('192x192' => '192x192', '128x128' => '128x128', '48x48' => '48x48', '80x80' => '80x80', '103x103' => '103x103');
+
+		cropImage($inputs, $savePath, $resizeArray);
+
+		$coords = implode(',', array_except($inputs['coords'], array('x2', 'y2')));
+		$inputs['coords'] = $coords;
+		if (!empty($inputs['user_id'])) {
+			$user = User::find($inputs['user_id']);
+			$user->profile_picture = $inputs['image_name'];
+			$user->pic_coords = $inputs['coords'];
+			$user->save();
+		}
+		$resizeArray = array('192x192' => 'user_profile_pic_192', '128x128' => 'user_profile_pic_128', '48x48' => 'user_profile_pic_48', '80x80' => 'user_profile_pic_80', '103x103' => 'user_profile_pic_103');
+
+		if(getenv('s3storage'))
 		{
-	        if (!empty($resizeArray)) {
-	            $s3 = new \App\Models\S3();
-	            foreach ($resizeArray as $folder => $s3Path) {
-	                $resizedPath = public_path() . '/data/uploaded_images/' . $folder . '/'.$inputs['image_name'];
-	                $s3->uploadByPath( $resizedPath, $s3Path);
-	                unlink($resizedPath);
-	            }
-	            $image192x192fromS3 = $s3->getFileUrl($inputs['image_name'], 'user_profile_pic_192');
-	            $inputs['image_path_s3'] = $image192x192fromS3;
-	        }
-	    }
-	    else
-	    {
-	    	if (!empty($resizeArray)) {
-	            foreach ($resizeArray as $folder => $s3Path) {
-	                $resizedPath = public_path() . '/data/uploaded_images/' . $folder . '/'.$inputs['image_name'];
-	            }
-	            $image192x192fromS3 = asset('/data/uploaded_images/192x192/'.$inputs['image_name']);
-	            $inputs['image_path_s3'] = $image192x192fromS3;
-	        }
-	    }
-        return new JsonResponse($inputs);
-    }
-
-    public function downloadExcel($type)
-    {
-       $data = Institution::join('users', 'institution.id', '=', 'users.institution_id')
-            ->join('roles','roles.id','=','users.role_id')
-		   ->join('countries','countries.country_name','=','users.country_id')
-            ->select('institution_id','email','institution.name as Instname','roles.name as rolesname','country_name', 'first_name','last_name','status','gender',
-				'enrollno','users.created_at','users.address1','users.city','users.state','users.phoneno','users.pincode','users.country_id')
-            ->get()->toArray();
-         return Excel::create('user.list', function ($excel) use ($data)
-         {
-          //dd($data);
-            $excel->sheet('mySheet', function ($sheet) use ($data) {
-            $sheet->fromArray($data);
-            });
-         })->download($type);
-    }
+			if (!empty($resizeArray)) {
+				$s3 = new \App\Models\S3();
+				foreach ($resizeArray as $folder => $s3Path) {
+					$resizedPath = public_path() . '/data/uploaded_images/' . $folder . '/'.$inputs['image_name'];
+					$s3->uploadByPath( $resizedPath, $s3Path);
+					unlink($resizedPath);
+				}
+				$image192x192fromS3 = $s3->getFileUrl($inputs['image_name'], 'user_profile_pic_192');
+				$inputs['image_path_s3'] = $image192x192fromS3;
+			}
+		}
+		else
+		{
+			if (!empty($resizeArray)) {
+				foreach ($resizeArray as $folder => $s3Path) {
+					$resizedPath = public_path() . '/data/uploaded_images/' . $folder . '/'.$inputs['image_name'];
+				}
+				$image192x192fromS3 = asset('/data/uploaded_images/192x192/'.$inputs['image_name']);
+				$inputs['image_path_s3'] = $image192x192fromS3;
+			}
+		}
+		return new JsonResponse($inputs);
+	}
+	public function downloadExcel($type)
+	{
+		$post = Input::all();
+		$data = Institution::join('users', 'institution.id', '=', 'users.institution_id')
+			->join('roles', 'roles.id', '=', 'users.role_id')
+			->join('countries', 'countries.id', '=', 'users.country_id');
+		if($post['institution_id']!=0){
+			$data->where('users.institution_id',$post['institution_id']);
+		}
+		if($post['role_id']!=0){
+			$data->where('users.role_id',$post['role_id']);
+		}
+		$data=$data->select('email','institution.name as Instname','roles.name as rolesname',
+			'country_name', 'first_name','last_name','status','gender', 'enrollno','users.created_at',
+			'users.address1','users.city','users.state','users.phoneno','users.pincode')
+			->get()->toArray();
+		return Excel::create('user.list', function ($excel) use ($data)
+		{
+			$excel->sheet('mySheet', function ($sheet) use ($data) {
+				$sheet->fromArray($data);
+			});
+		})->download($type);
+	}
+	public function download()
+	{
+		$InstitutionObj = new Institution();
+		$inst_arr = $InstitutionObj->getInstitutions();
+		$roles_arr = $this->user->getRoles();
+		return view('admin::user.download', compact('inst_arr','roles_arr'));
+	}
 }

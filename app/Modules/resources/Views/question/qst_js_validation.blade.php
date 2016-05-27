@@ -160,4 +160,8 @@ if (count($errors) > 0){?>
 		  onLabel: '<span class="glyphicon glyphicon-ok">'
 		});
 	} );	
+
+	function ans_click($this, val){
+		alert(val);
+	}
 </script>
