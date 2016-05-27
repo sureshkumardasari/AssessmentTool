@@ -65,7 +65,9 @@ class Assignment extends Model {
 		$obj->description = $params['assignment_text'];
 		$obj->assessment_id = $params['assessment_id'];
 		$obj->startdatetime = gmdate("Y-m-d H:i:s", strtotime($params['startdatetime']));//$params['startdatetime'];
-		$obj->enddatetime = gmdate("Y-m-d H:i:s", strtotime($params['enddatetime']));//$params['enddatetime'];
+		$obj->enddatetime = (isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? gmdate("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '';
+		//gmdate("Y-m-d H:i:s", strtotime($params['enddatetime']));//$params['enddatetime'];
+		$obj->neverexpires = $params['never'];
 		$obj->launchtype = $params['launchtype'];
 		$obj->proctor_user_id = (isset($params['proctor_id'])) ? $params['proctor_id'] : 0;
 		$obj->proctor_instructions = (isset($params['proctor_instructions'])) ? $params['proctor_instructions'] : '';

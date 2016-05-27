@@ -54,8 +54,8 @@
 							<div class="col-md-6">
 								<select class="form-control" name="assessment_id">
 									<option value="0">Select</option>
-									@foreach($assessments_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $assignment->assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@foreach($assessments_arr as $assess_id=>$val)
+									<option value="{{ $assess_id }}" {{ ($assess_id == $assignment->assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -64,8 +64,8 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Start Date Time </label>
 							<div class="col-md-6">
-							 <div class='input-group date' id='startdatetime'>
-								<input type="text" class="form-control" name="startdatetime" value="{{ date($dtFormat, strtotime($assignment->startdatetime))}}}">
+							 <div class='input-group date'>
+								<input type="text" class="form-control" name="startdatetime" value="{{ date($dtFormat, strtotime($assignment->startdatetime))}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -76,8 +76,8 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">End Date Time </label>
 							<div class="col-md-6">
-							 <div class='input-group date' id='enddatetime'>
-								<input type="text" class="form-control" name="enddatetime" value="{{ date($dtFormat, strtotime($assignment->enddatetime))}}">
+							 <div class='input-group date'>
+								<input type="text" class="form-control" id="enddatetime" name="enddatetime" value="{{ date($dtFormat, strtotime($assignment->enddatetime))}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -88,7 +88,7 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
-								<label><input type="checkbox" name="never" value="" ></label>
+								<label><input type="checkbox" id="never" name="never" value="0" {{ ($assignment->neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
 							</div>
 						</div>
 						
@@ -178,6 +178,24 @@ $(function () {
     $('#startdatetime').datetimepicker();
     $('#enddatetime').datetimepicker();
 });
+
+var dates = $("input[id$='startdatetime'], input[id$='enddatetime']");
+
+$('input:checkbox[name="never"]').change(
+    function(){
+    	//alert($(this).is(':checked'))
+    	if ($(this).is(':checked')) {
+           $('#enddatetime').removeAttr('value');
+           $('#enddatetime').val('');
+           $('#enddatetime').prop('readonly', true);
+           $(this).val(1);
+	     }
+        else
+        {        	
+        	$('#enddatetime').prop('readonly', false);  
+        	$(this).val(0);
+        }
+ 	});
 
 $('input:radio[name="launchtype"]').change(
     function(){
