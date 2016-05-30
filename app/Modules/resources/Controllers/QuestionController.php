@@ -62,6 +62,9 @@ class QuestionController extends BaseController {
 
 		$obj = new Passage();
 		$this->passage = $obj;
+
+		$obj = new Lesson();
+		$this->lesson = $obj;
 	}
 
 	/**
@@ -83,7 +86,8 @@ class QuestionController extends BaseController {
 		$subjects = $this->subject->getSubject();	
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
-        return view('resources::question.list',compact('inst_arr', 'questions','subjects','category'));
+		$lessons = $this->lesson->getLesson();
+        return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons'));
 	}
 
 	public function questionadd()
@@ -108,13 +112,13 @@ class QuestionController extends BaseController {
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
-		$messages=[
+  		$messages=[
 			'answerIds.required'=>'The Answer field is required',
 			'subject_id.required'=>'The Subject field is required',
 			'category_id.required'=>'The Category field is required',
 			'lessons_id.required'=>'The Lessons field is required',
 			'institution_id.required'=>'The Institution field is required',
-     		];
+      		];
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
@@ -122,16 +126,35 @@ class QuestionController extends BaseController {
 			'lessons_id' => 'required',
 			'question_type' => 'required',
 			'question_title' => 'required',
-			'answerIds' => 'required',
+ 			'answerIds' => 'required',
  			'question_textarea' => 'required',];
 
 		if ($post['id'] > 0)
 		{
 			$rules['question_title'] = 'required|min:3|unique:question,name,' . $post['id'];
 		}
+		$check_corret_answer = $post['is_correct'];
+// 		if (in_array("true", $check_corret_answer)<1 && $post['question_type']==2){
+//			return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
+// 		}
+		if($post['question_type']==2){
+			if(in_array("true", $check_corret_answer,true)<1){
+			}else{
+				return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
+			}
+		}
+		if($post['question_type']==1){
+			if(in_array("true", $check_corret_answer,true)>=2){
+ 			}else{
+				return Redirect::back()->withInput()->withErrors('Atleast two answer is required correct.');
+			}
+		}
 		if ($post['question_type']==1 && count($post['answerIds']) < 2)
 		{
 			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required');
+ 		}
+		if($post['answer_textarea']!=''){
+			return Redirect::back()->withInput()->withErrors('The Answers text is required');
  		}
 
 		$validator=Validator::make($post,$rules,$messages);
@@ -247,6 +270,15 @@ class QuestionController extends BaseController {
 //
 //   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
 //			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
+	}
+	public function questionFilter(){
+		$post = Input::All();
+		$institution=$post['institution'];
+		$category=$post['category'];
+		$subject=$post['subject'];
+		$lessons=$post['lessons'];
+		$question_list = $this->question->getQuestionFilter($institution,$category,$subject,$lessons);
+		return $question_list;
 	}
 	
 	public function questiondelete(){

@@ -23,11 +23,12 @@
 						</ul>
 					</div>
 				@endif
+				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 				<div class="panel-body">
 					<div class="form-group">
 						<label class="col-md-4 control-label">Institution</label>
 						<div class="col-md-6">
-							<select class="form-control" name="institution_id">
+							<select class="form-control" name="institution_id" id="institution_id">
 								<option value="0">Select</option>
 								@foreach($inst_arr as $id=>$val)
 								<option name="institution_id" value="{{Input::old('institution_id')}}">{{ $val }}</option>
@@ -38,7 +39,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Category</label>
 						<div class="col-md-6">
-							<select class="form-control" name="category_id">
+							<select class="form-control" name="category_id" id="category_id">
 								<option value="0">Select</option>
 								@foreach($category as $id=>$val)
 								<option value="{{ $id }}">{{ $val }}</option>
@@ -49,7 +50,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label">Subject</label>
 						<div class="col-md-6">
-							<select class="form-control" name="subject_id">
+							<select class="form-control" name="subject_id" id="subject_id">
 								<option value="0">Select</option>
 								@foreach($subjects as $id=>$val)
 								<option value="{{ $id }}">{{ $val }}</option>
@@ -57,6 +58,25 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Lessons</label>
+						<div class="col-md-6">
+							<select class="form-control" name="lessons_id" id="lessons_id">
+								<option value="0">Select</option>
+								@foreach($lessons as $id=>$val)
+									<option value="{{ $id }}">{{ $val }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-6">
+							<div class="move-arrow-box">
+								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Apply Filter</a>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
 					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
@@ -64,7 +84,7 @@
 				                <th></th>
 				            </tr>
 				        </thead>
-				        <tbody>
+				        <tbody id="question_list_filer">
 				            @foreach( $questions as $id => $name )
 				            <tr>
 				                <td>{{ $name }}</td>
@@ -81,4 +101,41 @@
 		</div>
 	</div>
 </div>
+<script>
+	function filter(){
+		var csrf=$('Input#csrf_token').val();
+		var institution_id=$('#institution_id').val();
+		var category_id=$('#category_id').val();
+		var subject_id=$('#subject_id').val();
+		var lessons_id=$('#lessons_id').val();
+		if(subject_id=='')subject_id=0;
+		if(institution_id=='')institution_id=0;
+		if(category_id=='')category_id=0;
+		if(lessons_id=='')lessons_id=0;
+		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id};
+		var url="filter_data_question";
+		ajax(url,data,csrf);
+	}
+	function ajax(url,data,csrf){
+		$.ajax(
+				{
+					url:url,
+					headers: {"X-CSRF-Token": csrf},
+					type:"post",
+					data:data,
+					success:function(response){
+						$('#question_list_filer').empty();
+						var tr;
+						for (var i = 0; i < response.length; i++) {
+ 							tr = $('<tr/>');
+							tr.append("<td>" + response[i].title + "");
+							tr.append("<a href='questionedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
+							tr.append("<a href='questionedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+ 							$('#question_list_filer').append(tr);
+						}
+					}
+				}
+		);
+	}
+</script>
 @endsection
