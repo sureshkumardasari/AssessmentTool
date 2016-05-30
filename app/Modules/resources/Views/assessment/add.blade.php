@@ -21,7 +21,7 @@
 							</ul>
 						</div>
 					@endif
-				<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/assessmentinsert') }}">
+				<form class="form-horizontal" name="assessment_form" id="assessment_form" role="form" method="POST" action="{{ url('/resources/assessmentinsert') }}">
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 					<div class="form-group required">
 						<label class="col-md-4 control-label">Title</label>
@@ -67,6 +67,15 @@
 					</div>
 
 
+					<div class="form-group">
+						<div class="col-md-6">
+ 								<div class="move-arrow-box">
+									<a class="btn btn-primary" onclick="filter();" href="javascript:;">Apply Filter</a>
+								</div>
+ 						</div>
+					</div>
+
+
 					<div class="col-md-12">
 						@include('resources::assessment.partial.questions')
                     </div>
@@ -83,5 +92,41 @@
 		</div>
 	</div>
 </div>
+<script>
+	function filter(){
+ 		var csrf=$('Input#csrf_token').val();
+		var institution_id=$('#institution_id').val();
+		var category_id=$('#category_id').val();
+		var subject_id=$('#subject_id').val();
+		var lessons_id=$('#lessons_id').val();
+		if(subject_id=='')subject_id=0;
+		if(institution_id=='')institution_id=0;
+		if(category_id=='')category_id=0;
+		if(lessons_id=='')lessons_id=0;
+		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id};
+			var url="filter_data_assessment";
+			ajax(url,data,csrf);
+ 	}
+	function ajax(url,data,csrf){
+		$.ajax(
+				{
+					url:url,
+					headers: {"X-CSRF-Token": csrf},
+					type:"post",
+					data:data,
+					success:function(response){
+  						$('#questions-list').empty();
+						var tr;
+						for (var i = 0; i < response.length; i++) {
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='' class='assess_qst check-question' data-group-cls='btn-group-sm'><td>");
+							tr.append("<td>" + response[i].title + "</td>");
+							$('#questions-list').append(tr);
+ 						}
+ 					}
+				}
+		);
+	}
+</script>
 @include('resources::question.qst_js_validation')
 @endsection

@@ -36,6 +36,24 @@ class Question extends Model {
 		
 		return $questions;
 	}
+	public function getassessmentFilter($institution = 0, $category = 0, $subject = 0,$lessons=0)
+	{
+ 		$obj = DB::table('questions'); ;
+		if($institution > 0){
+ 			$obj->where("institute_id", $institution);
+		}
+		if($category > 0){
+			$obj->where("category_id", $category);
+		}
+		if($subject > 0){
+			$obj->where("subject_id", $subject);
+		}
+		if($lessons > 0){
+			$obj->where("lesson_id", $lessons);
+		}
+ 		$questions = $obj->get();
+		return $questions;
+	}
 
 	public function getQuestionTypes(){
 		

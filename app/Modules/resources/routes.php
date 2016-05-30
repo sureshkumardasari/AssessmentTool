@@ -66,7 +66,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('assessmentinsert', array('as' => 'assessmentinsert', 'uses'=>'AssessmentController@assessmentInsert'));
     Route::post('question/listing', ['as' => 'ajax-question-listing', 'uses' => 'AssessmentController@questionsListing']);
     Route::post('passage/listing', ['as' => 'ajax-question-listing', 'uses' => 'AssessmentController@passageListing']);		
-    
+    Route::post('filter_data_assessment', ['as' => 'filter_data_assessment', 'uses' => 'AssessmentController@assessmentFilter']);
+
     Route::get('assignment', array('as' => 'list', 'uses'=>'AssignmentController@assignment'));
     Route::get('assignmentadd', array('as' => 'add', 'uses'=>'AssignmentController@assignmentadd'));
     Route::get('assignmentedit/{id}', array('as' => 'edit', 'uses'=>'AssignmentController@assignmentedit'));

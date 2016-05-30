@@ -88,7 +88,7 @@
 	@foreach( $question_tilte_details as $name )
 		<tr>
 			<td>
-				<input type="checkbox" name="" id="" value="" class="assess_qst check-selected-question" data-group-cls="btn-group-sm">
+				<input type="checkbox" name="" id="" value="{{ $name['id'] }}" class="assess_qst check-selected-question" data-group-cls="btn-group-sm">
 			</td>
 			<td>{{ $name['title'] }}</td>
 			<input type="hidden" name="QuestionIds[]" value="{{ $name['id'] }}">
