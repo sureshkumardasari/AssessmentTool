@@ -22,6 +22,8 @@ use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\QuestionType;
 use App\Modules\Resources\Models\Passage;
 use App\Modules\Resources\Models\AssessmentQuestion;
+use App\Modules\Admin\Models\User;
+use DB;
 
 class AssessmentController extends BaseController {
 
@@ -64,6 +66,9 @@ class AssessmentController extends BaseController {
 
 		$obj = new Passage();
 		$this->passage = $obj;
+		$obj = new Question();
+		$this->question = $obj;
+
 
 	}
 
@@ -87,27 +92,31 @@ class AssessmentController extends BaseController {
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$inst_arr = $this->institution->getInstitutions();
-		$subjects = $this->subject->getSubject();	
+		$id=Auth::user()->id;
+		$user_institution=User::find($id);
+		$user_institution_id=$user_institution['institution_id'];
+		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
-        return view('resources::assessment.add',compact('inst_arr', 'id','institution_id','questions','subjects','category'));
+		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
+        return view('resources::assessment.add',compact('inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
 	}
 	public function assessmentInsert(){
 
 		$post = Input::All();
-   		$messages=[
- 			'subject_id.required'=>'The Subject field is required',
-			'category_id.required'=>'The Category field is required',
-			'lessons_id.required'=>'The Lessons field is required',
-			'institution_id.required'=>'The Institution field is required',
+ 		$messages=[
+// 			'subject_id.required'=>'The Subject field is required',
+//			'category_id.required'=>'The Category field is required',
+//			'lessons_id.required'=>'The Lessons field is required',
+//			'institution_id.required'=>'The Institution field is required',
 			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
 			'title' => 'required',
-			'institution_id' => 'required|not_in:0',
-			'category_id' => 'required|not_in:0',
-			'subject_id' => 'required',
- 			'lessons_id' => 'required',
+//			'institution_id' => 'required|not_in:0',
+//			'category_id' => 'required|not_in:0',
+//			'subject_id' => 'required',
+// 			'lessons_id' => 'required',
  			'QuestionIds' => 'required',];
 
 		$validator=Validator::make($post,$rules,$messages);
@@ -116,14 +125,16 @@ class AssessmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
- 			$Question_ids=explode(',',$post['QuestionIds'][0]);
+			$Question_ids=$post['QuestionIds'];
+// 			$Question_ids=explode(',',$post['QuestionIds'][0]);
   				$assessment_insert = new Assessment();
  				$assessment_insert->name = $post['title'] ;
-				$assessment_insert->institution_id = $post['institution_id'] ;
-				$assessment_insert->category_id = $post['category_id'] ;
-				$assessment_insert->subject_id = $post['subject_id'] ;
+//				$assessment_insert->institution_id = $post['institution_id'] ;
+//				$assessment_insert->category_id = $post['category_id'] ;
+//				$assessment_insert->subject_id = $post['subject_id'] ;
 //				$assessment_insert->lessons_id = $post['lessons_id'] ;
  			foreach ($Question_ids as $key => $value) {
+				if($value=='')continue;
   				if($assessment_insert->save()){
 					$assessment_id=$assessment_insert->id;
 					$assessment_question=new AssessmentQuestion();
@@ -132,7 +143,7 @@ class AssessmentController extends BaseController {
   					$assessment_question->save();
  				}
 			}
-			return Redirect::back();
+			return redirect('/resources/assessment');
 		}
  	}
 	public function assessmentedit($id=0){
@@ -158,8 +169,7 @@ class AssessmentController extends BaseController {
  	}
 	public function assessmentupdate(){
  		$post = Input::All();
-		dd($post);
-  		$messages=[
+   		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
@@ -182,9 +192,18 @@ class AssessmentController extends BaseController {
 					$assessment_question->save();
 				}
  			}
- 			return Redirect::back();
+			return redirect('/resources/assessment');
  		}
 	}
+	public function assessmentFilter(){
+		$post = Input::All();
+  		$institution=$post['institution'];
+		$category=$post['category'];
+		$subject=$post['subject'];
+		$lessons=$post['lessons'];
+ 		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons);
+ 		return $subjects;
+ 	}
 
 	public function questionsListing(){
 		return "question listing";

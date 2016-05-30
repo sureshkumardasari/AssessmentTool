@@ -14,16 +14,16 @@
 		            
 		        </tr>
 		    </thead>
-		    <tbody>
-		        @foreach( $questions as $id => $name )
-		        <tr>	
+		    <tbody id="questions-list">
+			@foreach( $inst_questions_list as $id => $name )
+		        <tr>
 		        	<td>
 		        		<input type="checkbox" id="questions-list"  value="{{ $id }}"  class="assess_qst check-question" data-group-cls="btn-group-sm">
  					</td>
-		            <td>{{ $name }}</td>
-		            
+		            <td>{{ $name['title'] }}</td>
+
 		        </tr>
-		        @endforeach				            
+			@endforeach
 		    </tbody>
 		</table>
 

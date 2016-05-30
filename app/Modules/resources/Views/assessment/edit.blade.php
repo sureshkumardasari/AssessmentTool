@@ -21,7 +21,7 @@
 								</ul>
 							</div>
 						@endif
-						<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/assessmentupdate') }}">
+						<form class="form-horizontal" name="assessment_form" id="assessment_form" role="form" method="POST" action="{{ url('/resources/assessmentupdate') }}">
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 							<input type="hidden" name="id" value="{{ $assessment_details['id'] }}">
 							<div class="form-group required">
