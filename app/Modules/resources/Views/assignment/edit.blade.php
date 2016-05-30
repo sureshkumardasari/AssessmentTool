@@ -123,7 +123,7 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id">
 									<option value="0">Select</option>
 									@foreach($institution_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $assignment->institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -212,7 +212,26 @@ $('input:radio[name="launchtype"]').change(
         	$('#proctor_instructions').prop('readonly', false);
         }
     });
-
+	
+	$(function () {
+        $("#institution_id").change(function () {
+            //usersListChange(); //refer to function stated in the original question
+            var loadurl = "{{ url('/user/usersjson') }}/" ;//+ $(this).val(); 
+            console.log(loadurl);
+			//unselected
+			//$('#student_ids').attr('data-source', loadurl);
+			var html = '';
+			$(".unselected, .selected").html('');
+			$.getJSON(loadurl,{ institution_id: $("#institution_id").val() }, function (data) {
+                var items;
+                $.each(data, function (i, item) {
+                    $(".unselected").append("<option value=" + item.id + ">" + item.username + "</option>");
+                });
+                $(".unselected-count").html(data.length);
+                $(".atr, str").prop('disabled', false);              
+            });
+        });
+    });
  </script
 
 @endsection

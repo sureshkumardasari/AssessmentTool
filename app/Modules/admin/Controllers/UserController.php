@@ -71,9 +71,20 @@ class UserController extends BaseController {
 			->nest('usersList', 'admin::user._list', compact('users'));
 	}
 
-	public function usersJson()
+	public function usersJson($institution_id = 0)
 	{
-		$users=$this->user->getUsers();
+		$params = Input::All();
+		//dd($params);
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : 0;
+		//$institution_id = ($institution_id > 0) ? $institution_id :	Auth::user()->institution_id;
+		if($institution_id > 0)
+		{
+			$users=$this->user->getUsers($institution_id, 2);	
+		}
+		else
+		{
+			$users = [];
+		}	
 
 		return json_encode($users);
 	}
