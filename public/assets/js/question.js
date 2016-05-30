@@ -731,17 +731,18 @@ var me = null;
         },
 
         isMathOrScience: function(subjects) {
-            var mathMCE = false;
-            if (subjects != null) {                    
-                $.each(subjects, function(index, elem) {
-                    var name = $("select[name='subjects[]']>option[value='"+ elem +"']").text();
-                    if ( name == "Math" || name == "Science" ) {                        
-                        mathMCE = true;
-                        return false;
-                    }
-                    mathMCE = false;
-                });
-            }
+            var mathMCE = true;
+
+            // if (subjects != null) {                    
+            //     $.each(subjects, function(index, elem) {
+            //         var name = $("select[name='subjects[]']>option[value='"+ elem +"']").text();
+            //         if ( name == "Math" || name == "Science" ) {                        
+            //             mathMCE = true;
+            //             return false;
+            //         }
+            //         mathMCE = false;
+            //     });
+            // }
 
             return mathMCE;
         },
