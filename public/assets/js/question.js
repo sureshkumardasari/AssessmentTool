@@ -153,6 +153,8 @@ var me = null;
                      $('.ans-chk').checkboxpicker({html: true,
                       offLabel: '<span class="glyphicon glyphicon-remove">',
                       onLabel: '<span class="glyphicon glyphicon-ok">'});
+                     
+                     var getAnsVal = _self.getAnsValid();
                     var lastTempId = $('.answer_container').last().find('textarea[name="answer_textarea[]"]').attr('id');
                     var subjects = $("select[name='subjects[]']").val();
 
@@ -646,7 +648,31 @@ var me = null;
         getTinyMceIdByContainer: function(container) {
             return container.find('textarea[name="answer_textarea[]"]').attr('id');
         },
-
+        getAnsValid : function(){
+             $('.ans-chk').change(function() {  
+                var status = ($(this).is( ":checked" ) == true) ? true : false;
+                var myForm = document.forms.qst_form;
+                var myControls = myForm.elements['is_correct[]'];
+                var idx = $(this).val()-1;
+                var type = $('select[name="question_type"]').find('option:selected').text();
+                if (type == "Multiple Choice - Single Answer") { // when single answered is selected     
+                    // alert(idx);               
+                     $('.ans-chk').each(function(index, elem) {
+                        if(idx != index){
+                        // alert(index+" -- "+$(this).is( ":checked" ));
+                        $(this).prop('checked', false);
+                        }
+                        
+                    });
+                } 
+                for (var i = 0; i < myControls.length; i++) {
+                    if($(this).val()-1 == i){
+                        myControls[i].value = status;
+                        $(this).prop('checked', status);
+                    }
+                }
+            });
+        },
         createAnswerTemplate: function() {
             if ($('.answer_container').size() < 5)
             {
@@ -659,7 +685,7 @@ var me = null;
                     "<div class='col-md-2'><label class='mr20 mt8 w200 question_answer_count'>Answer #" + count + "<i>*</i></label>" +
                     "<input type='hidden' name='answerIds[]' class='hanswerId' value=''>" +
                     // "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
-                    "<input id='input-1' class='ans-chk'  type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
+                    "<input id='input-1' class='ans-chk' value=\""+count+"\" type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
                     "<input type='hidden' name='is_correct[]' value='false'/>" +
                     "</div><div class='col-md-10'><p style='w93 fltL'>" +
                     "<textarea name='answer_textarea[]' id='answer_textarea_" + randomId + "' class='required' data-type='tinymce' data-name='Answer Text' data-read_only='false'></textarea>" +
@@ -768,7 +794,7 @@ var me = null;
                      $('.ans-chk').checkboxpicker({html: true,
                       offLabel: '<span class="glyphicon glyphicon-remove">',
                       onLabel: '<span class="glyphicon glyphicon-ok">'});
-
+                     var getAnsVal = _self.getAnsValid();
                     var lastTempId = $('.answer_container').last().find('textarea[name="answer_textarea[]"]').attr('id');
                     $('.answer_container').last().find('.correct').data('answer_selection', elem);
                     $('.answer_container').last().find('textarea[name="answer_textarea[]"]').data('read_only', 'true');
