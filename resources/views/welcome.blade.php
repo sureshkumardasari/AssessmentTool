@@ -10,7 +10,9 @@
 
 	<!-- Fonts -->
 	<link href="{{ asset('/css/fonts.googleapis.css') }}" rel='stylesheet' type='text/css'>
-
+	@section('style')
+        @include('style')
+    @show
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
