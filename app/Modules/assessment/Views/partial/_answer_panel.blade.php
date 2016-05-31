@@ -22,7 +22,7 @@
     .test-timer{
       font-weight: bold; padding: 5px; 
       background-color: wheat;
-      color: {{$bg_color}};
+      color: #008fb3;
     }
     input[type="radio"].customradio:checked + .custom-radio {
         border-radius: 100%;
