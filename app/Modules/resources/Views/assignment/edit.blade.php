@@ -10,7 +10,7 @@
 @section('content')
 
 <?php 
- $dtFormat = 'm/d/Y - g:i a';
+ $dtFormat = 'Y/m/d g:i:s A';
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -65,7 +65,7 @@
 							<label class="col-md-3 control-label">Start Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control" name="startdatetime" value="{{ date($dtFormat, strtotime($assignment->startdatetime))}}">
+								<input type="text" class="form-control date" id="startdatetime" name="startdatetime" value="{{ ($assignment->startdatetime) ? date($dtFormat, strtotime($assignment->startdatetime)) : ''}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -77,7 +77,7 @@
 							<label class="col-md-3 control-label">End Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control" id="enddatetime" name="enddatetime" value="{{ date($dtFormat, strtotime($assignment->enddatetime))}}">
+								<input type="text" class="form-control date" id="enddatetime" name="enddatetime" value="{{ ($assignment->enddatetime) ? date($dtFormat, strtotime($assignment->enddatetime)) : ''}}}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -123,7 +123,7 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id">
 									<option value="0">Select</option>
 									@foreach($institution_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $assignment->institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -175,8 +175,8 @@
  $('#student_ids').DualListBox('',<?=$assignmentUsersJson?>);
 
 $(function () {
-    $('#startdatetime').datetimepicker();
-    $('#enddatetime').datetimepicker();
+    $('.date').datetimepicker({format: 'YYYY/MM/DD hh:mm:ss A'});
+    //$('#enddatetime').datetimepicker();
 });
 
 var dates = $("input[id$='startdatetime'], input[id$='enddatetime']");
@@ -212,7 +212,26 @@ $('input:radio[name="launchtype"]').change(
         	$('#proctor_instructions').prop('readonly', false);
         }
     });
-
+	
+	$(function () {
+        $("#institution_id").change(function () {
+            //usersListChange(); //refer to function stated in the original question
+            var loadurl = "{{ url('/user/usersjson') }}/" ;//+ $(this).val(); 
+            console.log(loadurl);
+			//unselected
+			//$('#student_ids').attr('data-source', loadurl);
+			var html = '';
+			$(".unselected, .selected").html('');
+			$.getJSON(loadurl,{ institution_id: $("#institution_id").val() }, function (data) {
+                var items;
+                $.each(data, function (i, item) {
+                    $(".unselected").append("<option value=" + item.id + ">" + item.username + "</option>");
+                });
+                $(".unselected-count").html(data.length);
+                $(".atr, str").prop('disabled', false);              
+            });
+        });
+    });
  </script
 
 @endsection

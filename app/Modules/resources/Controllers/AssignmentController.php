@@ -18,6 +18,7 @@ use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\AssignmentUser;
+use App\Modules\Resources\Models\Assessment;
 
 class AssignmentController extends BaseController {
 
@@ -72,7 +73,7 @@ class AssignmentController extends BaseController {
 		$id = 0;
 		$assignment = new assignment();
 
-		$assessments_arr = array(1=>"Assessment-1",2=>"Assessment-2");
+		$assessments_arr = Assessment::lists('name','id'); 
 
 
 		$assessment_id = 0;
@@ -108,7 +109,7 @@ class AssignmentController extends BaseController {
 			$assignmentUsersJson	= "[{}]";
 		}
 		
-		$assessments_arr = array(1=>"Assessment-1",2=>"Assessment-2");
+		$assessments_arr = Assessment::lists('name','id');
 		
 		
 		$institution_arr = $this->institution->getInstitutions();			

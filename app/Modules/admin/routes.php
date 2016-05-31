@@ -29,7 +29,7 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::post('upload_image', array('as' => 'upload_image', 'uses' => 'UserController@uploadImage'));
     Route::post('save_crop', array('as' => 'save_crop', 'uses' => 'UserController@saveCrop'));
     Route::get('usersjson', array('as'=>'usersjson','uses'=>'UserController@usersJson'));
-
+    //Route::get('usersjson/{id}', array('as'=>'usersjson','uses'=>'UserController@usersJson'));
     
     Route::get('institution', array('as' => 'institution-list', 'uses'=>'InstitutionController@index'));
 	Route::get('institutionadd', array('as' => 'institution-add', 'uses'=>'InstitutionController@add'));
