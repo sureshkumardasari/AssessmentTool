@@ -19,7 +19,7 @@ use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\Assessment;
-
+use App\Modules\Resources\Models\AssessmentQuestion;
 class AssessmentAssignmentController extends BaseController {
 
 	
@@ -99,49 +99,94 @@ class AssessmentAssignmentController extends BaseController {
         $aId    = $ids[0];      // assessment id
         $aAId   = $ids[1];  // assessment assignment id
 
-        
-        $templateHtml ='';
-        /*$_templateHtml = Template::find($subsection->TemplateId);
-        if ($_templateHtml) {
-            $templateHtml = $_templateHtml->Template;            
-        }*/
-        
-        $secs = 180;
         $assessmentType = '';
 
     	$path = public_path('data/assessment_pdf_images/assessment_'.$aId);
 
-    	$filesCount = 0;//$this->getFilesCount($id);
+    	$filesArr = $this->getFiles($id);
+        $filesCount = $this->getFilesCount($id);
+        //dd($filesArr);
 
     	$bulletType = '';
     	// get question based on subsection id
-    	//$qbank = new SubsectionQuestion();
-    	$questions = []; //$qbank->getQuestions($aAId, $sSId);
+    	$qbank = new AssessmentQuestion();
+    	$questions = $qbank->getQuestionsByAssessment($aAId);
         //getting Assessment
         $assessment = Assessment::find($aId);
+        $secs = ($assessment->totaltime > 0) ? $assessment->totaltime : 180;
+        $secs = ($assessment->unlimitedtime == '1') ? 0 : $secs;
 
         $retaking = false;
         View::share('retaking', $retaking);
 
     	$ansPanel = view('assessment::partial._answer_panel', compact('questions', 'bulletType'));
-    	return view('assessment::test_detail', compact( 'secs', 'id', 'filesCount', 'path', 'ansPanel', 'aId', 'assessmentType','templateHtml', 'assessment'));
+    	return view('assessment::test_detail', compact( 'secs', 'id', 'filesArr', 'filesCount', 'path', 'ansPanel', 'aId', 'assessment'));
+    }
+
+    private function getFiles($id) {
+        $ids = explode('-', $id);
+
+        $aId    = $ids[0];      // assessment id
+        $aAId   = $ids[1];  // assessment assignment id     
+
+        $filesArr = [];
+        if(getenv('s3storage'))
+        {
+            $s3 = new \App\Models\S3;
+            $files = $s3->getFiles('assessment_'.$aId, 'assessment_pdf_images');
+            if( !empty($files) ) {
+                for($i = 0; $i < count($files); $i++){
+                    $fileName = '/assessment_' . $aId . '/' . $i . '.jpg';
+                    if ( s3FileExists($fileName, 'assessment_pdf_images') )
+                    {
+                        $filesArr[] = getS3ViewUrl($fileName, 'assessment_pdf_images') ;
+                    }
+                }
+            }                                
+        }
+        else
+        {
+            $directory = public_path('data/assessment_pdf_images/assessment_' . $aId . '/');
+            $files = glob($directory . '*.jpg');
+            if ( $files !== false ) {
+                for($i = 0; $i < count($files); $i++){
+                    $fileName = '/assessment_' . $aId . '/' . $i . '.jpg';
+                    if ( file_exists(public_path('data/assessment_pdf_images'.$fileName) ))
+                    {
+                        $filesArr[] = asset('data/assessment_pdf_images'.$fileName) ;
+                    }
+                }
+            }  
+        }
+        return $filesArr;
     }
 
     private function getFilesCount($id) {
     	$ids = explode('-', $id);
 
     	$aId 	= $ids[0];		// assessment id
-    	$aAId 	= $ids[1];	// assessment assignment id
-    	$sSId 	= $ids[2];	// subsection id
+    	$aAId 	= $ids[1];	// assessment assignment id    	
 
+        $files = [];
+        if(getenv('s3storage'))
+        {
+            $s3 = new \App\Models\S3;
+            $files = $s3->getFiles('assessment_'.$aId, 'assessment_pdf_images');
 
-        $s3 = new \App\Models\S3;
-        $files = $s3->getFiles('assessment_'.$aId.'/subsection_'.$sSId, 'assessment_pdf_images');
-
-        if( empty($files) ) {
-            return 0;
-        };
-
+            if( empty($files) ) {
+                return 0;
+            };
+        }
+        else
+        {
+            $directory = public_path('data/assessment_pdf_images/assessment_' . $aId . '/');
+            $files = glob($directory . '*.jpg');
+            
+            if ( $files === false )
+            {
+                return 0;
+            }
+        }
     	return count($files);
     }
 }

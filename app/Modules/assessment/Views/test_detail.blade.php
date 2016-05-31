@@ -22,58 +22,42 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-11 col-md-offset-1">
       <div class="panel panel-default">
         <div class="panel-heading">{{isset($assessment) ? $assessment->name : ''}}         
         </div>
         <div class="panel-body">
           <!--  -->
-            <div class="pL30 pR30 mb20">
-                @if ($secs != '0')
-                <span class="time fltL mt10">Remaining Time: <span class='timer' id='ttr'>00:00:00</span></span>
-                @endif
-                <a class="load_more_btn mL10 mt0 mr0 fltR" id="next-btn" href="javascript:void(0)" style="padding-right:36px !important; padding-left:36px !important;">Next</a>
-                <a class="load_more_btn mL0 mt0 mr0" id="prev-btn" href="javascript:void(0)" style="display: none; margin-left:292px !important; padding-right:24px !important; padding-left:24px !important;">Previous</a>
-                <div class="clr"></div>
-            </div>
-
-            <div class="clr"></div>
-            
-            <div class="test-form">            
-                <div class="two-column">
-                    <div class="column" id='question-answers'>
-                        <h2>Answer Sheet</h2>
-                        {!! ($ansPanel == "undefined") ? '' : $ansPanel !!}
-                    </div>                
-                    <div class="column w787" id="slide-show-container">
-                        @for($i = 0; $i < $filesCount; $i++)
-                        <?php 
-                            $fileName = '/assessment_' . $aId . '/' . $i . '.jpg';
-                        ?>
-                        
-                        @endfor
-
-                        <?php 
-                        if($filesCount == 0)
-                        {
-                            for($i = 0; $i < 2; $i++) {
-                                $def_fileName = '/assessment_' . $aId . '/' . $i . '.jpg';
-                                echo '<p class="test-page">
-                                    <img src="'.asset('data/assessment_pdf_images'.$def_fileName) .'" alt="" class="paginate-img">
-                                </p>';
-                            }                        
-                        }
-                        ?>
-                    </div>
+            <div> 
+                <div class="col-md-3">
+                    @if ($secs != '0')
+                    <span class="time test-timer">Remaining Time: <span class='timer' id='ttr'>00:00:00</span></span>
+                    @endif
                 </div>
-            </div>
-            
-            <div class="pt20 pb40 pL30">
-                <a href="{{ route('submit-confirm-popup', array('id' => $id)) }}" class="upload_btn mL0 mt0 fltR mr30 fancybox_no_close_click fancybox.ajax" id='btn-submit'>Submit</a>         
-                <div class="clr"></div>
-            </div>
-            <div class="clr"></div>
-       
+                <div class="col-md-9">
+                    <a class="btn btn-primary right" id="next-btn" href="javascript:void(0)">Next</a>
+                    <a class="btn btn-primary right" id="prev-btn" href="javascript:void(0)" style="display: none;">Previous</a>                
+                </div>             
+            </div> 
+
+            <div> 
+                <div class="col-md-3" id='question-answers'>
+                    <h3>Answer Sheet</h3>
+                    {!! ($ansPanel == "undefined") ? '' : $ansPanel !!}
+                </div>
+                <div class="col-md-9" id="slide-show-container" style="width:70%;">
+                    @foreach($filesArr as $path)
+                        <p class="test-page">
+                            <img src="{{ $path }}" alt="" class='paginate-img'>
+                        </p>
+                    @endforeach         
+                </div>             
+            </div> 
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-4">
+                    <a href="{{ route('submit-confirm-popup', array('id' => $id)) }}" class="btn btn-primary upload_btn fancybox_no_close_click fancybox.ajax" id='btn-submit'>Submit</a>                      
+                </div>
+            </div>           
           <!--  -->
         </div>
       </div>
