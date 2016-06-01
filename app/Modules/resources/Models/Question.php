@@ -154,4 +154,9 @@ class Question extends Model {
 	}
 
 	}
+
+	public function deleteQuestions($id = 0){
+		$question = Question::find($id);
+		$question->delete();
+	}
 }

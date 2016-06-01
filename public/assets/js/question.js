@@ -679,7 +679,7 @@ var me = null;
                 var count = $('.answer_container').size() + 1,
                     moveDir = (count == 1) ? 'down' : 'up',
                     randomId = Math.random().toString().split('.')[1];
-                
+                $('#ans_flg').val(count);
                 var template = "<div class='answer_container mb40'>" +
                     "<div class='mb18 mr10 mt20 pos_rel'>" +
                     "<div class='col-md-2'><label class='mr20 mt8 w200 question_answer_count'>Answer #" + count + "<i>*</i></label>" +
@@ -1398,3 +1398,4 @@ function addOrRemoveInGrid(elem, type) {
 
     }
 }
+

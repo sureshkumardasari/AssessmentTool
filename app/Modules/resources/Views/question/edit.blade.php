@@ -66,7 +66,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
-								<select class="form-control" name="question_type">
+								<select class="form-control" name="question_type" id="question_type">
 									<option value="0">--Select Question Type--</option>
 									@foreach($qtypes as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -90,7 +90,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Question Title</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" name="question_title" value="{{ $name }}">
+								<input type="text" class="form-control" name="question_title" id="question_title" value="{{ $name }}">
 							</div>
 						</div>
 						<div class="form-group required">
@@ -114,6 +114,7 @@
 			            </p>
 			            <p class="w815 fltL">
 			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
+			                <input type="hidden" name="ans_flg" id="ans_flg" value="0">
 			            </p>
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">

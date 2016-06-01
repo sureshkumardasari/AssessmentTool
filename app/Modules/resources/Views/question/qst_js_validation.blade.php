@@ -1,4 +1,6 @@
 <?php
+$path = url()."/resources/";
+
 if (count($errors) > 0){?>
 <script>
 	var oldvalues = '{{old('institution_id')}}';
@@ -7,6 +9,7 @@ if (count($errors) > 0){?>
 	console.log(suboldvalues);
 	var lessonoldvalues = '{{old('lessons_id')}}';
  	var question_type = '{{old('question_type')}}';
+ 	var question_title = '{{old('question_title')}}';
 	var question_textarea = '{{old('question_textarea')}}';
 	var passage = '{{old('passage')}}';
 	$('#institution_id').val(oldvalues);
@@ -15,7 +18,7 @@ if (count($errors) > 0){?>
 		$.ajax(
 				{
 					headers: {"X-CSRF-Token": csrf},
-					url:'categoryList/'+$('#institution_id').val(),
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
@@ -35,7 +38,7 @@ if (count($errors) > 0){?>
 									{
 
 										headers: {"X-CSRF-Token": csrf},
-										url:'subjectList/'+$('#category_id').val(),
+										url:'{{$path}}subjectList/'+$('#category_id').val(),
 										type:'post',
 										success:function(response){
 											var a=response.length;
@@ -53,7 +56,7 @@ if (count($errors) > 0){?>
 												$.ajax(
 														{
 															headers: {"X-CSRF-Token": csrf},
-															url:'lessonsList/'+$('#subject_id').val(),
+															url:'{{$path}}lessonsList/'+$('#subject_id').val(),
 															type:'post',
 															success:function(response){
 																var a=response.length;
@@ -80,7 +83,8 @@ if (count($errors) > 0){?>
 		)
 		
 		
-		$('#question_type').val(question_type);
+		$('#question_type').val(question_type);		
+		$('#question_title').val(question_title);
 		$('#question_textarea').val(question_textarea);
 		$('#passage').val(passage);
   	}
@@ -94,7 +98,7 @@ if (count($errors) > 0){?>
 					{
 
 						headers: {"X-CSRF-Token": csrf},
-						url:'categoryList/'+$('#institution_id').val(),
+						url:'{{$path}}categoryList/'+$('#institution_id').val(),
 						type:'post',
 						success:function(response){
 							var a=response.length;
@@ -116,7 +120,7 @@ if (count($errors) > 0){?>
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'subjectList/'+$('#category_id').val(),
+					url:'{{$path}}subjectList/'+$('#category_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
@@ -137,7 +141,7 @@ if (count($errors) > 0){?>
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'lessonsList/'+$('#subject_id').val(),
+					url:'{{$path}}lessonsList/'+$('#subject_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
@@ -159,9 +163,15 @@ if (count($errors) > 0){?>
 		  offLabel: '<span class="glyphicon glyphicon-remove">',
 		  onLabel: '<span class="glyphicon glyphicon-ok">'
 		});
+
+		$('.searchfilter').on("click",function(e){    
+			alert("ssss");	
+	    	//console.log('searchfilter ');
+	    	$(".searchfilter span")
+	        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+	        $('.searchfilter-body').toggleClass('hide show');
+	    });
+
 	} );	
 
-	function ans_click($this, val){
-		alert(val);
-	}
 </script>

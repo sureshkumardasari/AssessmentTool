@@ -26,12 +26,13 @@
 					@endif
 
 					<form class="form-horizontal" name="qst_form" id="qst_form"  role="form" method="POST" action="{{ url('/resources/question_update_submit') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Institution</label>
 							<div class="col-md-10">
-								<select class="form-control" name="institution_id" id="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+									<option value="0">--Select Institution--</option>
  									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['institute_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -41,7 +42,8 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
-								<select class="form-control" name="category_id" id="category_id">
+								<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+									<option value="0">--Select Category--</option>
  									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['category_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -51,9 +53,21 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
-								<select class="form-control" name="subject_id" id="subject_id">
+								<select class="form-control" name="subject_id" id="subject_id"  onchange="change_lessons()">
+									<option value="0">--Select Subject--</option>
  									@foreach($subjects as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['subject_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-2 control-label">Lessons</label>
+							<div class="col-md-10">
+								<select class="form-control" name="lessons_id" id="lessons_id">
+									<option value="0">--Select Lessons--</option>
+									@foreach($lessons as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $questions[0]['lesson_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -62,6 +76,7 @@
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
 								<select class="form-control" name="question_type" id="question_type">
+									<option value="0">--Select Question Type--</option>
  									@foreach($qtypes as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['question_type_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -73,6 +88,7 @@
 							<label class="col-md-2 control-label">Passage</label>
 							<div class="col-md-10">
 								<select class="form-control" name="passage" id="passage">
+									<option value="0">--Select Passage--</option>
  									@foreach($passage as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $questions[0]['passage_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -124,5 +140,6 @@
 		</div>
 	</div>
 </div>
+{{url()}}
 @include('resources::question.qst_js_validation')
 @endsection
