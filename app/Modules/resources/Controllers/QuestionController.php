@@ -112,7 +112,7 @@ class QuestionController extends BaseController {
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
-  		$messages=[
+		$messages=[
 			'answerIds.required'=>'The Answer field is required',
 			'subject_id.required'=>'The Subject field is required',
 			'category_id.required'=>'The Category field is required',
@@ -133,29 +133,47 @@ class QuestionController extends BaseController {
 		{
 			$rules['question_title'] = 'required|min:3|unique:question,name,' . $post['id'];
 		}
-		$check_corret_answer = $post['is_correct'];
-// 		if (in_array("true", $check_corret_answer)<1 && $post['question_type']==2){
-//			return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
-// 		}
-		if($post['question_type']==2){
-			if(in_array("true", $check_corret_answer,true)<1){
-			}else{
-				return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
+		$check_corret_answer = array();
+		if($post['ans_flg']>0){
+				$check_corret_answer = $post['is_correct'];
+				
+	// 		if (in_array("true", $check_corret_answer)<1 && $post['question_type']==2){
+	//			return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
+	// 		}
+			if($post['question_type']==2){
+
+				$counts = array_count_values($check_corret_answer);
+				
+				if(array_key_exists("true", $counts)){
+					$tmp_cnt =  $counts['true'];
+				}else{
+					return Redirect::back()->withInput()->withErrors('Atleast one correct answer is required');
+				}
 			}
-		}
-		if($post['question_type']==1){
-			if(in_array("true", $check_corret_answer,true)>=2){
- 			}else{
-				return Redirect::back()->withInput()->withErrors('Atleast two answer is required correct.');
+			if($post['question_type']==1){
+				$counts = array_count_values($check_corret_answer);				
+				if(array_key_exists("true", $counts)){
+					$tmp_cnt =  $counts['true'];
+					if($tmp_cnt>=2){
+
+					}else{
+						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
+					}
+	 			}else{
+					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
+				}
 			}
-		}
-		if ($post['question_type']==1 && count($post['answerIds']) < 2)
-		{
-			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required');
- 		}
-		if($post['answer_textarea']!=''){
-			return Redirect::back()->withInput()->withErrors('The Answers text is required');
- 		}
+			if ($post['question_type']==1 && count($post['answerIds']) < 2)
+			{
+				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required');
+	 		}
+
+	 		foreach ($post['answer_textarea'] as $key => $value) {
+				if(trim($value)==''){
+					return Redirect::back()->withInput()->withErrors('The Answers text is required');
+		 		}
+		 	}
+	 	}
 
 		$validator=Validator::make($post,$rules,$messages);
 
@@ -238,9 +256,11 @@ class QuestionController extends BaseController {
 
 	public function questionedit($id = 0)
 	{
+		$questions = Question::where('id',$id)->get()->toArray();
 		$inst_arr = $this->institution->getInstitutions();
-		$subjects = $this->subject->getSubject();
-		$category = $this->category->getCategory();
+		$subjects = $this->subject->getSubject($questions[0]['category_id']);
+		$category = $this->category->getCategory($questions[0]['institute_id']);
+		$lessons = $this->lesson->getLesson($questions[0]['subject_id']);
 		$passage = $this->passage->getPassage();
 		$qtypes = $this->question_type->getQuestionTypes();
 		if(isset($id) && $id > 0)
@@ -261,10 +281,10 @@ class QuestionController extends BaseController {
 			->where('question_answers.question_id',$id)
 			->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
 			->get()->toArray();
- 		$questions = Question::where('id',$id)->get()->toArray();
+ 		
 		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers'));
 
-		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'qtypes', 'oldAnswers','answersLisitng'));
+		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng'));
 
 
 //
@@ -281,8 +301,12 @@ class QuestionController extends BaseController {
 		return $question_list;
 	}
 	
-	public function questiondelete(){
-		return "delete";
+	public function questiondelete($qid=0){
+		if($qid > 0)
+		{
+			$this->question->deleteQuestions($qid);
+		}
+		return redirect('/resources/question');
 	}
 
 	public function categoryList($id){
