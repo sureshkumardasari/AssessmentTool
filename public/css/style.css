@@ -167,3 +167,11 @@ section .list_active_msg div.rply_icons {
   line-height: 30px !important; }
 .mt15 {
   margin-top: 15px !important; }
+
+#rcorners1 {
+  border-radius: 25px;
+  background: #73AD21;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+}
