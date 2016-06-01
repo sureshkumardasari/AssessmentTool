@@ -140,6 +140,5 @@
 		</div>
 	</div>
 </div>
-{{url()}}
 @include('resources::question.qst_js_validation')
 @endsection
