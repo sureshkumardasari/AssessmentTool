@@ -17,6 +17,7 @@ class CreateQuestionUserAnswersRetake extends Migration {
 			$table->increments('id');
 			$table->integer('question_id');
 			$table->integer('question_answer_id');
+			$table->integer('question_answer_text');
 			$table->integer('user_id');
 			$table->integer('assignment_id');
 			$table->integer('points');
