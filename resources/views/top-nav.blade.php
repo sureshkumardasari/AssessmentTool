@@ -49,6 +49,7 @@
 			            <li><a href="{{ url('/user/role') }}">Roles</a></li>
 			          </ul>
 			        </li>
+					<li><a href="{{ url('/user/report') }}">Reports</a></li>
 				</ul>
 				@endif
 				<ul class="nav navbar-nav navbar-right">
