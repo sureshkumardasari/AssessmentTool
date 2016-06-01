@@ -56,5 +56,7 @@ Route::post('brandupdate/{id}','BrandingController@update');
    
 
 
-Route::post('add-catagory','BrandingController@store');           
+Route::post('add-catagory','BrandingController@store');
+
+Route::get('report','ReportController@view');
 });

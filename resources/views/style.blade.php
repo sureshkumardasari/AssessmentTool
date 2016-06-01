@@ -43,4 +43,11 @@
       background-color: {{$bg_color}};
       color: {{$font_color}};
 }
+.rcorners1 {
+    border-radius: 25px;
+    background: #73AD21;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+}
 </style>
