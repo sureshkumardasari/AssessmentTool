@@ -11,13 +11,7 @@
 .idea
 .sublime-project
 .sublime-workspace
-/public/data/tmp
-public/data/files/
-public/data/reports/
-public/data/grades/
-public/data/uploaded_images/
-public/data/assessment_pdf/
 composer.phar
 composer.lock
-public/data/grades-pdf/
 public/plugins/tinymce/plugins/tiny_mce_wiris/
+/public/data/*
