@@ -12,11 +12,12 @@ class CreateQuestionUserAnswersRetake extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('create_question_user_answers_retake', function(Blueprint $table)
+		Schema::create('question_user_answer_retake', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('question_id');
 			$table->integer('question_answer_id');
+			$table->text('question_answer_text');
 			$table->integer('user_id');
 			$table->integer('assignment_id');
 			$table->integer('points');
@@ -35,7 +36,7 @@ class CreateQuestionUserAnswersRetake extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('create_question_user_answers_retake');
+		Schema::drop('question_user_answer_retake');
 	}
 
 }
