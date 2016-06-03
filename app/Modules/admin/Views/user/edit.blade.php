@@ -147,7 +147,6 @@
 								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
 							</div>
 						</div>
-						<!--  -->
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Address1</label>
 							<div class="col-md-6">

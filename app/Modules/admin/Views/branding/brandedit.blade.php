@@ -2,74 +2,81 @@
 
 @section('content')
 <script src="{{ asset('js/jscolor.js')}}"></script>
-
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Branding edit</div>
                 <div class="panel-body">
-                <form class="form-horizontal" enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="{{ url('user/brandupdate/'.$branding->id) }}" >
-                
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                <form class="form-horizontal" enctype="multipart/form-data" id="upload_form" role="form"  method="POST" action="{{ url('user/update/'.$branding->id) }}" >
                 <input type="hidden" name="_token" value="{{ csrf_token()}}">
-                            <div class="form-group ">
+                            <div class="form-group required">
                                 <label class="col-md-4 control-label">Select Institution</label>
                                 <div class="col-md-6">
-                                    <select class="form-control" name="institution_id" id="institution_id">
-                                        <option value="0">All</option>
+                                    <select class="form-control" name="institution_id">
+                                        <option value="">Select</option>
                                         @foreach($inst_arr as $id=>$val)
-                                        <option value="{{ $id }}">{{ $val }}</option>
+                                            <option value="{{ $id }}" {{ ($branding->institution_id ==$id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                           {{-- <div class="form-group">
                                 <label class="col-md-4 control-label">Title</label>
                                 <div class="col-md-6">
                                <input id="title" name="title"  type="text" class="form-control" value="{{ $branding->title }}" />
-                            </div></div>
+                            </div></div>--}}
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Header Logo</label>
                                  <div class="col-md-6">
-                                 <input type="file" name="logo" accept="image/*"/>
+                                 <input type="file" name="image" accept="image/*"/>
+                                     <a href= "{{ asset('/brandingimages/'.$branding->filepath.'') }}" target="_blank">Preview</a>
                                  </div>
                             </div>
-                           
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Header-backgroud-color</label>
                                 <div class="col-md-6">
-                                <input id="hbc" name="hbc" type="text" class="jscolor {onFineChange:'update(this)'}"  class="form-control" value="{{ $branding->header_bg_color }}" />
-                                
-                    </div>
+                                <input id="hbc" name="hbcolor" type="text" class="jscolor {onFineChange:'update(this)'}"  class="form-control" value="{{ $branding->header_bg_color }}" />
+                                </div>
                             </div>
                             <div class="form-group">
                             <label class="col-md-4 control-label">Header-Text-Color</label>
                             <div class="col-md-6">
-                                <input id="htc" name="htc"  type="text" class="jscolor {onFineChange:'update(this)'}" class="form-control" value="{{ $branding->header_text_color }}" />
+                                <input id="htc" name="headertc"  type="text" class="jscolor {onFineChange:'update(this)'}" class="form-control" value="{{ $branding->header_text_color }}" />
                             </div>
                             </div>
                             <div class="form-group">
                             <label class="col-md-4 control-label">Box-Header-backgroud-color</label>
                             <div class="col-md-6">
-                                <input id="bhbc" name="bhbc" class="jscolor {onFineChange:'update(this)'}" type="text" class="form-control" value="{{ $branding->box_header_bg_color }}" />
+                                <input id="bhbc" name="boxhbc" class="jscolor {onFineChange:'update(this)'}" type="text" class="form-control" value="{{ $branding->box_header_bg_color }}" />
                             </div>
                             </div>
                             <div class="form-group">
                             <label class="col-md-4 control-label">Box-Header-text-color</label>
                             <div class="col-md-6">
-                                <input id="bhtc" name="bhtc" class="jscolor {onFineChange:'update(this)'}" type="text" class="form-control" value="{{ $branding->box_header_text_color }}" />
+                                <input id="bhtc" name="boxhtcolor" class="jscolor {onFineChange:'update(this)'}" type="text" class="form-control" value="{{ $branding->box_header_text_color }}" />
                             </div>
                             </div>
                             <div class="form-group">
                             <label class="col-md-4 control-label">Box-Text-Color</label>
                             <div class="col-md-6">
-                                <input id="btc"  name="btc" class="jscolor {onFineChange:'update(this)'}" type="text" class="form-control" value="{{ $branding->box_text_color }}" />
+                                <input id="btc"  name="btextc" class="jscolor {onFineChange:'update(this)'}" type="text" class="form-control" value="{{ $branding->box_text_color }}" />
                             </div>
                             </div>
                             <div class="form-group">
                             <label class="col-md-4 control-label">Button-Color</label>
                             <div class="col-md-6">
-                                <input id="bc" name="bc" class="jscolor {valueElement: 'color_value'}" type="text" class="form-control" value="{{ $branding->button_color }}" />
+                                <input id="bc" name="buttonc" class="jscolor {valueElement: 'color_value'}" type="text" class="form-control" value="{{ $branding->button_color }}" />
                             </div>
                             </div>
                             <div class="form-group">
@@ -79,74 +86,39 @@
                                     <a class="btn btn-default" href="{{  url('user/branding/brandview') }}">Cancel</a>
                                 </div>
                             </div>
-                     
-                            </form>                     
+                            </form>
                     </div>
-                    
-                                    
-                </div>
+                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- <script>
-    var userSearchRoute = "{{URL::route('usersearch')}}";
-</script> -->
-<script>
-   
-    $('#hbc, #htc, #bhbc,#bhtc').ColorPicker({
-    onSubmit: function(hsb, hex, rgb, el) {
-        $(el).val(hex);
-        $(el).ColorPickerHide();
-    },
-    onBeforeShow: function () {
-        $(this).ColorPickerSetColor(this.value);
+{{--<script>
+    function update(jscolor) {
+        document.getElementById('hbcolor').style.backgroundColor = '#' + jscolor
+        document.getElementById('headertc').style.backgroundColor = '#' + jscolor
+        document.getElementById('boxhbc').style.backgroundColor = '#' + jscolor
+        document.getElementById('boxhtcolor').style.backgroundColor = '#' + jscolor
+        document.getElementById('btextc').style.backgroundColor = '#' + jscolor
+        document.getElementById('buttonc').style.backgroundColor = '#' + jscolor
     }
-})
-.bind('keyup', function(){
-    $(this).ColorPickerSetColor(this.value);
-});
-     
+</script>--}}
+<script type="text/javascript">
+    $(".upload").click(function(){
+        var data=new FormData($('form#upload_form')[0])
+        var csrf_token=$('#csrf_token').val();
+        $.ajax({
+            headers: {"X-CSRF-Token": csrf_token},
+            url:"{{url('user/add-category')}}",
+            data:data,
+            async:false,
+            type:'post',
+            processData: false,
+            contentType: false,
+            success:function(response){
+                console.log(response);
+            },
+        });
+    });
 </script>
-
-
-<!-- <script type="text/javascript">
-/*$(document).ready(function(){
-    $('#hbc').colorpicker();
-    $('#htc').colorpicker();
-    $('#bhbc').colorpicker();
-    $('#bhtc').colorpicker();
-    $('#btc').colorpicker();
-    $('#bc').colorpicker();
-    $('#logo').colorpicker();
-});
-    */
- $(".addbtn").click(function(){
-   $.ajax({
-  url:'/add-catagory',
-  data:{
-    logo:new FormData($("#upload_form")[0]),
-    },
-  dataType:'json',
-  async:false,
-  type:'post',
-  processData: false,
-  contentType: false,
-  success:function(response){
-    console.log(response);
-  },
- });
- });
-</script>
-<style type="text/css">
- 
-/* hides controls for dropzone.js */
-.single-dropzone {
-  .dz-image-preview, .dz-file-preview {
-    display: none;
-  }
-}
-</style>
- -->
 @endsection

@@ -47,14 +47,12 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
 
 
 
-    Route::get('branding/brandview',['as'=>'brandview','uses'=>'BrandingController@display']);
-Route::post('branding/brandd','BrandingController@create');
-Route::get('branding/brand','BrandingController@index');
-Route::get('branding/{id}/edit','BrandingController@edit');
-Route::get('deleted/{id}','BrandingController@destroy');
-Route::post('brandupdate/{id}','BrandingController@update');
-   
+    Route::get('branding/brandview', array('as'=>'brandview','uses'=>'BrandingController@display'));
+    Route::post('branding/brandcreate','BrandingController@create');
+    Route::get('branding/brand','BrandingController@index');
+    Route::get('{id}/edit','BrandingController@edit');
+    Route::get('delete/{id}','BrandingController@delete');
+    Route::post('update/{id}','BrandingController@update');
 
-
-Route::post('add-catagory','BrandingController@store');           
+    Route::post('add-category','BrandingController@store');
 });
