@@ -36,6 +36,18 @@ class Question extends Model {
 		
 		return $questions;
 	}
+
+	public function getassessmentQst($questions=0)
+	{
+ 		$obj = DB::table('questions'); ;
+		
+		if($questions > 0){
+ 			$obj->wherein("id", $questions);
+		}
+ 		$questions = $obj->get();
+		return $questions;
+	}
+
 	public function getassessmentFilter($institution = 0, $category = 0, $subject = 0,$lessons=0,$questions=0)
 	{
  		$obj = DB::table('questions'); ;
