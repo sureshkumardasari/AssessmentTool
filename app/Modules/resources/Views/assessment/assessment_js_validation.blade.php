@@ -19,12 +19,12 @@ $path = url()."/resources/";
 		if(lessons_id=='')lessons_id=0;
 		if(question_id=='')question_id=0;
 		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'questions':question_Ids};
-		var url="filter_data_assessment";
+		var url='{{$path}}filter_data_assessment';
 		ajax(url,data,csrf);
 
 		if(flg=='1'){
 			var data2={'questions':question_Ids};
-			var url2="get_assessment_qst";
+			var url2='{{$path}}get_assessment_qst';
 			selected_qst_ajax(url2,data2,csrf);
 		}
 
@@ -96,7 +96,7 @@ if (count($errors) > 0){?>
 		$.ajax(
 				{
 					headers: {"X-CSRF-Token": csrf},
-					url:'categoryList/'+$('#institution_id').val(),
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
@@ -116,7 +116,7 @@ if (count($errors) > 0){?>
 									{
 
 										headers: {"X-CSRF-Token": csrf},
-										url:'subjectList/'+$('#category_id').val(),
+										url:'{{$path}}subjectList/'+$('#category_id').val(),
 										type:'post',
 										success:function(response){
 											var a=response.length;
@@ -134,7 +134,7 @@ if (count($errors) > 0){?>
 												$.ajax(
 														{
 															headers: {"X-CSRF-Token": csrf},
-															url:'lessonsList/'+$('#subject_id').val(),
+															url:'{{$path}}lessonsList/'+$('#subject_id').val(),
 															type:'post',
 															success:function(response){
 																var a=response.length;
@@ -176,7 +176,7 @@ if (count($errors) > 0){?>
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'categoryList/'+$('#institution_id').val(),
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
@@ -199,7 +199,7 @@ if (count($errors) > 0){?>
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'subjectList/'+$('#category_id').val(),
+					url:'{{$path}}subjectList/'+$('#category_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
@@ -221,7 +221,7 @@ if (count($errors) > 0){?>
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'lessonsList/'+$('#subject_id').val(),
+					url:'{{$path}}lessonsList/'+$('#subject_id').val(),
 					type:'post',
 					success:function(response){
 						var a=response.length;
