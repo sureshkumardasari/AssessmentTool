@@ -25,36 +25,34 @@
                                 <thead>
                                 <tr>
                                     <th>Institution Name</th>
-                                    <th>Title</th>                                 
+                                    {{--<th>Title</th>  --}}
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @if (is_array($branding) || is_object($branding))
-                                    
-                                        @foreach ($branding as $brand)
-                                        
-                                             <tr>
-                                                <td>{{ $brand->institution_name }}</td>
-                                                <td>{{ $brand->title }}</td>
-                                                 
-                                            
-                                                <td><a href="{{ url('user/branding/'.$brand->id.'/edit') }}" >Edit</a>
-                                                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                    <a href="{{ url('user/deleted/'.$brand->id) }}" onclick="return confirm('Are you sure you want delete this Brand ?');">Delete</a>
-                                                
-                                                </td>
-                                            </tr>     
-                                     @endforeach
-                                     @endif
-                                    
+
+                                    @foreach ($branding as $brand)
+
+                                        <tr>
+                                            <td>{{ $brand->institution_name }}</td>
+                                            {{-- <td>{{ $brand->title }}</td>--}}
+                                            <td><a href="{{ url('user/'.$brand->id.'/edit') }}" >Edit</a>
+                                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <a href="{{ url('user/delete/'.$brand->id) }}" onclick="return confirm('Are you sure you want delete this Brand ?');">Delete</a>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+
                                 </tbody>
                             </table>
 
                         </form>
 
                     </div>
-                     <div>
+                    <div>
 
                         @if(Session::has('flash_message'))
                             <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
@@ -73,6 +71,6 @@
             </div>
         </div>
     </div>
-    
-   
+
+
 @endsection
