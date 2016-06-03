@@ -199,16 +199,27 @@ class AssessmentController extends BaseController {
 			return redirect('/resources/assessment');
  		}
 	}
+
+	public function assessmentQst(){
+		$post = Input::All();
+		$question=$post['questions'];
+  		$subjects = $this->question->getassessmentQst($question);
+ 		return $subjects;
+	}
+
 	public function assessmentFilter(){
 		$post = Input::All();
-   		$institution=$post['institution'];
+		$institution=$post['institution'];
 		$category=$post['category'];
 		$subject=$post['subject'];
 		$lessons=$post['lessons'];
-		$question=$post['questions'];
+		$question = 0;
+		if(isset($post['questions']))$question=$post['questions'];
   		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons,$question);
  		return $subjects;
- 	}public function assessmentFilterList(){
+ 	}
+
+ 	public function assessmentFilterList(){
  		$post = Input::All();
   		$institution=$post['institution'];
 		$category=$post['category'];

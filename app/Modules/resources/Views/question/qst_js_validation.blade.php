@@ -165,8 +165,7 @@ if (count($errors) > 0){?>
 		});
 
 		$('.searchfilter').on("click",function(e){    
-			alert("ssss");	
-	    	//console.log('searchfilter ');
+			//console.log('searchfilter ');
 	    	$(".searchfilter span")
 	        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
 	        $('.searchfilter-body').toggleClass('hide show');

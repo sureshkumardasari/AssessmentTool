@@ -24,14 +24,9 @@
 						<form class="form-horizontal" name="assessment_form" id="assessment_form" role="form" method="POST" action="{{ url('/resources/assessmentupdate') }}">
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 							<input type="hidden" name="id" value="{{ $assessment_details['id'] }}">
-							<div class="form-group required">
-								<label class="col-md-4 control-label">Title</label>
-								<div class="col-md-6">
-									<input type="text" class="form-control" name="title" value="{{$assessment_details['name']}}">
-								</div>
-							</div>
+							
 
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
@@ -42,7 +37,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
 									<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
@@ -50,7 +45,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label">Subject</label>
 								<div class="col-md-6">
 									<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
@@ -58,7 +53,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label">Lessons</label>
 								<div class="col-md-6">
 									<select class="form-control" name="lessons_id" id="lessons_id">
@@ -67,6 +62,20 @@
 								</div>
 							</div>
 
+							<div class="form-group">
+								<div class="col-md-6">
+		 								<div class="move-arrow-box">
+											<a class="btn btn-primary" onclick="filter('0');" href="javascript:;">Apply Filter</a>
+										</div>
+		 						</div>
+							</div>
+
+							<div class="form-group required">
+								<label class="col-md-4 control-label">Title</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="title" value="{{$assessment_details['name']}}">
+								</div>
+							</div>
 
 							<div class="col-md-12">
 								@include('resources::assessment.partial.questions_edit')
@@ -84,5 +93,5 @@
 			</div>
 		</div>
 	</div>
-	@include('resources::question.qst_js_validation')
+	@include('resources::assessment.assessment_js_validation')
 @endsection
