@@ -1345,7 +1345,7 @@ function addOrRemoveInGrid(elem, type) {
             var selected = closestUl.clone();
             $(this).closest('tr').remove();
             $('#selected-questions'+' .child-grid').append(selected);
-            $('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',$(this).val()).appendTo('#selected-questions'+' .child-grid');
+            $('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val()).appendTo('#selected-questions'+' .child-grid');
         });
         //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',QuestionIds).appendTo('#selected-questions'+' .child-grid');
         $('#passages'+'  .parent-grid tr').each(function () {

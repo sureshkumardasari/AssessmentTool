@@ -51,6 +51,9 @@ class Question extends Model {
 		if($lessons > 0){
 			$obj->where("lesson_id", $lessons);
 		}
+		if($questions > 0){
+ 		$obj->wherenotin("id", $questions);
+		}
  		$questions = $obj->get();
 		return $questions;
 	}

@@ -130,7 +130,7 @@
  							tr = $('<tr/>');
 							tr.append("<td>" + response[i].title + "");
 							tr.append("<a href='questionedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
-							tr.append("<a href='questionedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							tr.append("<a href='questiondel/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
  							$('#question_list_filer').append(tr);
 						}
 					}
