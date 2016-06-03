@@ -11,6 +11,14 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+use App\Modules\Resources\Models\Assignment;
+use App\Modules\Resources\Models\AssignmentUser;
+use App\Modules\Resources\Models\Assessment;
+use App\Modules\Resources\Models\AssessmentQuestion;
+use App\Modules\Assessment\Models\QuestionUserAnswer;
+use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
+use App\Modules\Assessment\Models\UserAssignmentResult;
+use App\Modules\Assessment\Models\UserAssignmentResultRetake;
 class Grade extends Model {
 	/**
 	 * The database table used by the model.
@@ -22,12 +30,11 @@ class Grade extends Model {
 	public function gradeSystemStudents( $params ){
 
         $netSectionPercentage  = 0;
-        $obj                        = new Subsection();
-        $sQuAnws                    = (isset($params['retake']) && $params['retake'] == '1') ? new SubsectionQuestionUserAnswerRetake() : new SubsectionQuestionUserAnswer();
-        $grade                      = new Grade();
-        $assmntAssignment           = new AssessmentAssignment();
-        $assessmentAssignmentUser   = new AssessmentAssignmentUser();
-        
+        $obj                     = new Subsection();       
+        $sQuAnws                 = (isset($params['retake']) && $params['retake'] == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
+        $grade                   = new Grade();
+        $assmntAssignment        = new Assignment();
+        $assessmentAssignmentUser = new AssignmentUser();        
         
         $totalScaledScore    = 0;
         $totalRawScore       = 0;
@@ -94,160 +101,7 @@ class Grade extends Model {
                 $percentile    = 0;
                 $scoreType     = 'ScaledScore';
 
-                if ( $assessment->category->Option == 'Fixed Form' ) {
-                    $testType = $assessment->testTypes->Display;
-
-                    $subject = $obj->with('subject')->find($params['SectionId']);
-                    
-                    $subjectName  = $subject->subject->Display;
-        
-                    if($testType == "SAT 2005" && $subjectName =="Writing" ){
-                        $writingTemplate = new SubsectionWritingScoreTemplate();
-                        $sat2005ScaledScore = $writingTemplate->getSat2005ScaleScore([
-                                'sectionId' => $params['SectionId'],
-                                'assmentId' => $params['AssessmentId'],
-                                'rawScore'  => $rawScore
-                            ]);
-            
-                        if ( !empty($sat2005ScaledScore) ){
-                            $scaledScore = $sat2005ScaledScore;
-                        } else {
-                            $scaledScore = 0;
-                        }
-
-                        // Getting the percentile for this scaled score
-                        $scoreTemplate = SubsectionWritingScoreTemplate::where('AssessmentId', '=', $params['AssessmentId'])
-                                                                       ->where('SubjectId', '=', 0)
-                                                                       ->where('Type', '=', 'NonTemplate')
-                                                                       ->first();
-
-                        if ( $scoreTemplate ) {
-                            $percentileRow = $scoreTemplate->children()->where('RawScore', '=', $scaledScore)
-                                                                       ->where('Type', '=', 'NonTemplate')
-                                                                       ->first();
-                        }
-
-                        if ( !empty( $percentileRow->Points) ) {
-                            $percentile = $percentileRow->Points;
-                        } 
-                    } else {
-                            $scaledScoreObject = $subScTmpl->getScaleScore([
-                                'sectionId' => $params['SectionId'],
-                                'assmentId' => $params['AssessmentId'],
-                                'rawScore'  => $rawScore
-                            ], true);
-
-                            if ( !empty($scaledScoreObject) ) {
-                                $scaledScore = $scaledScoreObject->ScaledScore;
-                                $percentile = $scaledScoreObject->Percentile;
-                            } 
-                    }
-
-                    // add an entry to user assessment assignment result.
-                    
-                    $uSrArslt = new UserAssessmentAssignmentResult();
-                    $uSrArslt->insertUserAssessmentAssignmentRslt(
-                            array(
-                                'assmentId'     => $params['AssessmentId'],
-                                'assignmentId'  => $params['AssignmentId'],
-                                'userId'        => $params['UserId'],
-                                'sectionId'     => $params['SectionId'],
-                                'ScaledScore'   => $scaledScore,
-                                'rawScore'      => $rawScore,
-                                'percentage'    => $percentage,
-                                'Percentile'    => $percentile,
-                            )
-                    ); 
-
-                                    /// if children exist 
-                    if( !empty($subject->ParentId)){
-                        $gradedChildren = $uSrArslt->allChildrenSectionGrade($params,$subject->ParentId);
-                        if( $gradedChildren['gradedAll'] ){
-                            $param = array(
-                                'sectionId' => $subject->ParentId,
-                                'assmentId' => $params['AssessmentId'],
-                                'assignmentId' => $params['AssignmentId'],
-                                'userId'        => $params['UserId']
-
-                            );
-
-                            $score = $this->calculateParentSectionGrading($param,$gradedChildren['childIds']);
-
-                            // return $score;
-                            // insert Parent Section Data 
-                            // return $score['Percentage'];
-                            $uSrArslt->insertUserAssessmentAssignmentRslt(
-                                array(
-                                    'assmentId'     => $params['AssessmentId'],
-                                    'assignmentId'  => $params['AssignmentId'],
-                                    'userId'        => $params['UserId'],
-                                    'sectionId'     => $param['sectionId'],
-                                    'ScaledScore'   => $score['ScaleScore'],
-                                    'rawScore'      => $score['RawScore'],
-                                    'percentage'    => $score['Percentage'],
-                                    'Percentile'    => $score['Percentile'],
-                                )
-                            );  
-                        }
-                    }
-                    
-                    $gradedAllSections = $uSrArslt->allSectionGraded([
-                                            'assignmentId' => $params['AssignmentId'],
-                                            'assmentId' => $params['AssessmentId'],
-                                            'userId'  => $params['UserId']
-                                          ]);
-                    
-                    if($gradedAllSections){
-                        $userStatus  = "Complete";
-                        $compositeScore = $uSrArslt->getCompositeScore([
-                                            'assignmentId' => $params['AssignmentId'],
-                                            'assmentId' => $params['AssessmentId'],
-                                            'userId'  => $params['UserId']
-                                          ]);
-                        // assign composite score to filters array
-                        $composite = array();
-                        
-                        $totalScaledScore  = $compositeScore['compositeScore'];
-                        $totalRawScore     = $compositeScore['rawScore'];
-                        $totalPercentage   = $compositeScore['percentage'];
-
-                        //add the composite score entry to userAssessement Assignment Result 
-                        $percentile = SubsectionScoreTemplate::getAssessmentPercentile( 
-                            $params['AssessmentId'] , 
-                            $totalScaledScore
-                        );
-
-                        $result = $uSrArslt->addCompositeResult(
-                                    array(
-                                        'assmentId'     => $params['AssessmentId'],
-                                        'assignmentId'  => $params['AssignmentId'],
-                                        'userId'        => $params['UserId'],
-                                        'ScaledScore'   => $compositeScore['compositeScore'],
-                                        'rawScore'      => $compositeScore['rawScore'],
-                                        'percentage'    => $compositeScore['percentage'],
-                                        'percentile'    => $percentile
-                                    )); 
-                                // return $subsection->with('questions','questions')->find($sectionId);
-
-                    }
-
-                    $assessementUser = array(
-                            'assmentId'     => $params['AssessmentId'],
-                            'assignmentId'  => $params['AssignmentId'],
-                            'userId'        => $params['UserId'],
-                            'ScaledScore'   => $totalScaledScore,
-                            'rawScore'      => $totalRawScore,
-                            'percentage'    => $totalPercentage
-                        );
-
-                    // if all section is graded then complete 
-                    if(isset($userStatus)){
-                        $assessementUser['UserStatus'] = $userStatus;
-                    }
-                    // if sucess also update the assessment assignment user table 
-                    $update = $assessmentAssignmentUser->updateAssignmentRecords($assessementUser);
-
-                }  else {
+                
                     // if type is formative
                      // if assessment is formative
                     // get the scalescore ,score type ,and grade 
@@ -263,7 +117,7 @@ class Grade extends Model {
                     $scoreType   =  $gradeData['scoreType'];
                     $percentile  =  $gradeData['percentile'];
 
-                    $uSrArslt = (isset($params['retake']) && $params['retake'] == '1') ? new UserAssessmentAssignmentResultRetake() : new UserAssessmentAssignmentResult();
+                    $uSrArslt = (isset($params['retake']) && $params['retake'] == '1') ? new UserAssignmentResultRetake() : new UserAssignmentResult();
                     $uSrArslt->insertUserAssessmentAssignmentRslt(
                         array(
                             'assmentId'     => $params['AssessmentId'],
@@ -294,7 +148,7 @@ class Grade extends Model {
                     if (isset($params['retake']) && $params['retake'] == '1') {
                         $this->_compareScale($params);
                     }
-                }
+                
                 $status =$this->getGradeStatus($params['AssignmentId']);
                 $assmntAssignment->updateGradeStatus($params['AssignmentId'],$status);
             }
