@@ -173,7 +173,7 @@ class AssessmentController extends BaseController {
  	}
 	public function assessmentupdate(){
  		$post = Input::All();
-   		$messages=[
+ 		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
@@ -187,13 +187,19 @@ class AssessmentController extends BaseController {
 		{
  			$assessment_insert = Assessment::find($post['id']);
  			$assessment_insert->name = $post['title'] ;
+ 			//delete previous questions-answers
+ 			$assessment_question=AssessmentQuestion::where('assessment_id',$post['id'])->delete();
+
  			foreach ($post['QuestionIds'] as $key => $value) {
  				if($assessment_insert->save()){
-					$assessment_question=AssessmentQuestion::where('question_id',$value)->where('assessment_id',$post['id'])->delete();
+					// $assessment_question=AssessmentQuestion::where('question_id',$value)->where('assessment_id',$post['id'])->delete();
+					if($value!=""){
+ 				
 					$assessment_question=new AssessmentQuestion();
 					$assessment_question->assessment_id=$post['id'];
 					$assessment_question->question_id=$value;
 					$assessment_question->save();
+					}
 				}
  			}
 			return redirect('/resources/assessment');
