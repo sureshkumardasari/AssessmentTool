@@ -68,6 +68,8 @@ class AssessmentController extends BaseController {
 		$this->passage = $obj;
 		$obj = new Question();
 		$this->question = $obj;
+		$obj = new Assessment();
+		$this->assessment = $obj;
 
 
 	}
@@ -85,7 +87,8 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
 		$assessment=Assessment::get();
-        return view('resources::assessment.list',compact('assessment','inst_arr', 'questions','subjects','category'));
+ 		$institution_id='';
+        return view('resources::assessment.list',compact('assessment','institution_id','inst_arr', 'questions','subjects','category'));
 	}
 
 	public function assessmentcreate(){
@@ -99,12 +102,12 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
-        return view('resources::assessment.add',compact('inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
+	    return view('resources::assessment.add',compact('inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
 	}
 	public function assessmentInsert(){
 
 		$post = Input::All();
- 		$messages=[
+  		$messages=[
 // 			'subject_id.required'=>'The Subject field is required',
 //			'category_id.required'=>'The Category field is required',
 //			'lessons_id.required'=>'The Lessons field is required',
@@ -197,11 +200,20 @@ class AssessmentController extends BaseController {
 	}
 	public function assessmentFilter(){
 		$post = Input::All();
+   		$institution=$post['institution'];
+		$category=$post['category'];
+		$subject=$post['subject'];
+		$lessons=$post['lessons'];
+		$question=$post['questions'];
+ 		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons,$question);
+ 		return $subjects;
+ 	}public function assessmentFilterList(){
+ 		$post = Input::All();
   		$institution=$post['institution'];
 		$category=$post['category'];
 		$subject=$post['subject'];
 		$lessons=$post['lessons'];
- 		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons);
+ 		$subjects = $this->assessment->getassessmentFilterList($institution,$category,$subject,$lessons);
  		return $subjects;
  	}
 

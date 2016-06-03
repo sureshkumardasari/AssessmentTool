@@ -11,7 +11,7 @@
 		        <tr>
 		        	<th><input type="checkbox" id="" value="" class="check-all-question"></th>
 		            <th>Name</th>
-		            
+
 		        </tr>
 		    </thead>
 		    <tbody id="questions-list">
@@ -42,19 +42,19 @@
 		        <tr>
 		        	<th><input type="checkbox" name="" id="" value="" class="check-all-passage"></th>
 		            <th>Name</th>
-		            
+
 		        </tr>
 		    </thead>
 		    <tbody>
 		        @foreach( $questions as $id => $name )
-		        <tr>	
+		        <tr>
 		        	<td>
 		        		<input type="checkbox" name="" id="" value="" class="assess_qst" data-group-cls="btn-group-sm">
-		        	</td>			                
+		        	</td>
 		            <td>{{ $name }}</td>
-		            
+
 		        </tr>
-		        @endforeach				            
+		        @endforeach
 		    </tbody>
 		</table>
 
@@ -84,6 +84,16 @@
             <th>Name</th>
         </tr>
     </thead>
+	<?php
+ 	if (count($errors) > 0){
+		 $old_values=old('QuestionIds');
+		foreach($old_values as $value){
+   	?>
+	<input type="hidden" name="QuestionIds[]" id="QuestionIds" value="<?php echo $value;?>">
+ 	<?php
+		}
+	}
+ 	?>
     <tbody class="child-grid">
  	</tbody>
 </table>
