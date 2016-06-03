@@ -102,6 +102,7 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
+//		$inst_questions_list=[];
 	    return view('resources::assessment.add',compact('inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
 	}
 	public function assessmentInsert(){
@@ -205,7 +206,7 @@ class AssessmentController extends BaseController {
 		$subject=$post['subject'];
 		$lessons=$post['lessons'];
 		$question=$post['questions'];
- 		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons,$question);
+  		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons,$question);
  		return $subjects;
  	}public function assessmentFilterList(){
  		$post = Input::All();
