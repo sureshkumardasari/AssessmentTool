@@ -25,7 +25,7 @@
                                 <thead>
                                 <tr>
                                     <th>Institution Name</th>
-                                    <th>Title</th>                                 
+                                    {{--<th>Title</th>  --}}
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -36,12 +36,10 @@
                                         
                                              <tr>
                                                 <td>{{ $brand->institution_name }}</td>
-                                                <td>{{ $brand->title }}</td>
-                                                 
-                                            
-                                                <td><a href="{{ url('user/branding/'.$brand->id.'/edit') }}" >Edit</a>
-                                                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                    <a href="{{ url('user/deleted/'.$brand->id) }}" onclick="return confirm('Are you sure you want delete this Brand ?');">Delete</a>
+                                                 {{-- <td>{{ $brand->title }}</td>--}}
+                                                 <td><a href="{{ url('user/'.$brand->id.'/edit') }}" >Edit</a>
+                                                     &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                     <a href="{{ url('user/delete/'.$brand->id) }}" onclick="return confirm('Are you sure you want delete this Brand ?');">Delete</a>
                                                 
                                                 </td>
                                             </tr>     
