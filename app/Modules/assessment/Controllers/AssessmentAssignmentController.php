@@ -9,7 +9,7 @@ use Zizaco\Entrust\EntrustFacade;
 use Zizaco\Entrust\Entrust;
 
 use Illuminate\Routing\Controller as BaseController;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +20,10 @@ use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\AssessmentQuestion;
+use App\Modules\Assessment\Models\QuestionUserAnswer;
+use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
+use App\Modules\Grading\Models\Grade;
+
 class AssessmentAssignmentController extends BaseController {
 
 	
@@ -188,5 +192,129 @@ class AssessmentAssignmentController extends BaseController {
             }
         }
     	return count($files);
+    }
+
+    public function saveAnswer(Request $request) {
+
+        $data = $request->all();
+        $this->_updateTestTime($data['id']);
+        //dd($data['credentials']);
+        $questionAnswer = new QuestionUserAnswer();            
+        if (isset($data['retaking']) && $data['retaking'] == '1') {
+            $questionAnswer = new QuestionUserAnswerRetake();
+        }
+
+        $update = [];
+        // delete old answer
+        foreach ($data['credentials'] as $key => $credential) {  
+            $oldAnswer = $questionAnswer::where([
+                                        'question_id' => $credential['SubsectionQuestionId'],
+                                        'assignment_id' => $credential['AssessmentAssignmentId'],
+                                        'user_id' => Auth::user()->id
+                                    ])->delete();
+            /**********/
+            $update[$key]['question_id'] = $credential['SubsectionQuestionId'];
+            $update[$key]['assignment_id'] = $credential['AssessmentAssignmentId'];
+            $update[$key]['user_id'] = Auth::user()->id;
+            $update[$key]['question_answer_id'] = $credential['QuestionAnswerId'];
+            $update[$key]['added_by'] = Auth::user()->id;
+            $update[$key]['updated_by'] = Auth::user()->id;
+            // set empty values to null
+            $update[$key]['question_answer_text'] = $credential['QuestionAnswerText'];
+            $update[$key]['answer_option'] = $credential['Option'];
+            // add timestamp fields to array
+            $update[$key]['created_at'] = date('Y-m-d H:i:s');
+            $update[$key]['updated_at'] = date('Y-m-d H:i:s');
+            /**********/
+
+            // delete index that have empty answer index
+            if ((empty($credential['QuestionAnswerId']) || $credential['QuestionAnswerId'] == 0) && empty($credential['Option']) && empty($credential['QuestionAnswerText'])) {
+                unset($update[$key]);
+            }
+         }
+
+
+        if (count($update)) {
+            $questionAnswer::insert($update);
+        }
+    }
+    public function updateTestTime(Request $request) {
+
+        $data = $request->all();
+        return $this->_updateTestTime($data['id']);
+    }
+
+    private function _updateTestTime($id) {
+
+        $ids = explode('-', $id);
+
+        $aId    = $ids[0];      // assessment id
+        $aAId   = $ids[1];  // assessment assignment id
+        
+        //$sSStatus = new SubsectionUserStatus();
+        //$sSStatus->updateTestTime($aId, $aAId);
+
+        return AssignmentUser::where(['assignment_id' => $aAId, 'user_id' => Auth::user()->id])->first()->status;
+    }
+    public function openSubmitConfirmPopuop($id) {
+
+        $ids = explode('-', $id);
+
+        $aId    = $ids[0];      // assessment id
+        $aAId   = $ids[1];  // assessment assignment id
+
+        $endInstructions = Assessment::find($aId)->end_instruction;
+
+        return view('assessment::partial._confirm_popup', compact('endInstructions'));
+    }
+    public function openEssayPopuop($subSecQuestionId, $questionId) {
+
+        $retaking = Input::get('retake', '');
+
+        $questionObj = Question::find($questionId);
+        $questionText = "";
+        if(!empty($questionObj)){
+            $questionText= $questionObj->qst_text;
+        }
+        
+        $qAnswer = new QuestionUserAnswer();
+        if ($retaking == "1") {
+            $qAnswer = new QuestionUserAnswerRetake();
+        }
+
+        // get old entered essay
+        $oldEssay = $qAnswer::where([
+                                        'question_id' => $subSecQuestionId,
+                                        'user_id' => Auth::user()->id
+                                    ])->first();
+        return view('assessment::partial._essay_popup', compact('questionText', 'subSecQuestionId', 'oldEssay'));
+    }    
+
+    public function submitTest(Request $request) {
+        $data = $request->all();
+        $ids = explode('-', $data['id']);
+
+        $aId    = $ids[0];  // assessment id
+        $aAId   = $ids[1];  // assessment assignment id
+
+        $grade  = new Grade();
+        
+        $params = [
+            'assessment_id' => $aId,
+            'assignment_id' => $aAId,
+            'user_id'       => \Auth::user()->id, 
+            'retake'       => $data['retaking'], 
+        ];
+        try {
+            $grade->gradeSystemStudents( $params );            
+        } catch (Exception $e) {
+            
+        }
+        
+        $AssignmentUser = new AssignmentUser();
+        $AssignmentUser->complete($aId, $aAId, 'completed');
+
+        // check if assessment type was fixed form
+        return route('myassignment');
     }
 }

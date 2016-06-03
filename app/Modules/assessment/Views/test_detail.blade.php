@@ -55,7 +55,7 @@
             </div> 
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
-                    <a href="{{ route('submit-confirm-popup', array('id' => $id)) }}" class="btn btn-primary upload_btn fancybox_no_close_click fancybox.ajax" id='btn-submit'>Submit</a>                      
+                    <a href="{{ route('submit-confirm-popup', array('id' => $id)) }}" class="btn btn-primary fancybox fancybox_no_close_click fancybox.ajax" id='btn-submit'>Submit</a>                      
                 </div>
             </div>           
           <!--  -->
@@ -64,12 +64,12 @@
     </div>
   </div>
 </div>
-
+<input type="hidden" name="_token" class="hidden-token" value="{{ csrf_token() }}">
 {!! HTML::script(asset('plugins/jquery-backward-timer.min.js')) !!}
 {!! HTML::script(asset('plugins/jPaginate.js')) !!}
 <script type="text/javascript">
     $(document).ready(function() {
-
+        var _token = $(".hidden-token").val();
         var _ids = '{{ $id }}';
         var ids = _ids.split('-');
 
@@ -88,7 +88,7 @@
         window.timerUpdate = setInterval(function() {
                                 $.ajax({
                                     url: '{{ route("update-test-time") }}',
-                                    data: {id: "{{$id}}"},
+                                    data: {id: "{{$id}}",_token: _token},
                                     method: 'POST',
                                     success: function(response) {
                                         if (response == "Complete" || response == "Completed") {
@@ -124,6 +124,7 @@
             var name = $(this).attr('name');
             var val = $('input[name="'+ name +'"]:checked').val();
             var opts = val.split('_');
+            //$(this).closest('li').addClass('active');
             saveAnswer([{
                 'SubsectionQuestionId': opts[1],
                 'QuestionAnswerId': opts[2],
@@ -236,10 +237,10 @@
 
     function submitTest(auto) {
         stopTicking();
-
+        var _token = $(".hidden-token").val();
         $.ajax({
             url: "{{ route('submit-test') }}",
-            data: {id: "{{$id}}", retaking: '{{ $retaking }}'},
+            data: {id: "{{$id}}", retaking: '{{ $retaking }}',_token: _token},
             method: "POST",
             success: function(response) {
 
@@ -283,9 +284,10 @@
     }
     
     function saveAnswer(credentials) {
+        var _token = $(".hidden-token").val();
         $.ajax({
             url: '{{ route("save-answer") }}',
-            data: {credentials: credentials, id: "{{$id}}", retaking: '{{ $retaking }}'},
+            data: {credentials: credentials,_token: _token, id: "{{$id}}", retaking: '{{ $retaking }}'},
             method: 'POST',
             success: function(response) {
                 $.fancybox.close();

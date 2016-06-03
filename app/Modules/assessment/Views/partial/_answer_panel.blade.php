@@ -19,6 +19,11 @@
         color : #000000;
         
     }
+    .answerradio.active {
+        background-color: #008fb3;
+        color: #ffffff;
+
+    }
     .test-timer{
       font-weight: bold; padding: 5px; 
       background-color: wheat;
@@ -74,12 +79,12 @@
             @foreach($question['answers'] as $answer)
             @if ($counter < 5)
                 <li class='sc_1 answerradio' data-v='{{ $question['Id'] }}'>
-                    <label class="radio-inline">
+                    <label class="radio-inline" style="width: 25px;">
                         
-                        <input type="radio" id="01A_{{ $answer['Id'] }}" name="single_sel_{{ $question['Id'] }}" value="_{{ $question['Id'] }}_{{ $answer['Id'] }}_{{ $answersBullets[$counter] }}" class="customradio single_sel_radio mc" {{ (isset($question[$ansTable][0]['QuestionAnswerId']) && ($question[$ansTable][0]['QuestionAnswerId'] == $answer['Id'])) ? 'checked' : '' }} />
+                        <input type="radio" id="01A_{{ $answer['Id'] }}" name="single_sel_{{ $question['Id'] }}" value="_{{ $question['Id'] }}_{{ $answer['Id'] }}_{{ $answersBullets[$counter] }}" class="customradio single_sel_radio mc" {{ (isset($question[$ansTable][0]['QuestionAnswerId']) && ($question[$ansTable][0]['QuestionAnswerId'] == $answer['Id'])) ? 'checked' : '' }} style="margin-top: 7px;"/>
 
-                        <span class="custom-radio" style="font-size:14px; margin-right:0; margin-top:-1px; text-align:center;">
-                            <label  for="01A_{{ $answer['Id'] }}" class='custom-label sc_2' style="display:block; margin-top:2px;">
+                        <span class="custom-radio">
+                            <label  for="01A_{{ $answer['Id'] }}" class='custom-label sc_2' style="margin-left: -5px;">
                                 {{ $answersBullets[$counter] }}</label>
                         </span>
                         
