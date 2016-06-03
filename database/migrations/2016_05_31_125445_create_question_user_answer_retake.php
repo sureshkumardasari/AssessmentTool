@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuestionUserAnswersRetake extends Migration {
+class CreateQuestionUserAnswerRetake extends Migration {
 
 	/**
 	 * Run the migrations.
