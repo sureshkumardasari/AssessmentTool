@@ -18,6 +18,7 @@ class CreateQuestionUserAnswers extends Migration {
 			$table->integer('question_id');
 			$table->integer('question_answer_id');
 			$table->text('question_answer_text');
+			$table->string('answer_option',10);
 			$table->integer('user_id');
 			$table->integer('assignment_id');
 			$table->integer('points');

@@ -59,5 +59,13 @@ class AssignmentUser extends Model {
 		return $users;
 	}
 
-	
+	 public function complete($aId, $aAId, $status) {
+
+        AssignmentUser::where('assessment_id', $aAId)
+                                ->where('user_id', Auth::user()->id)
+                                ->update([
+                                        'status' => $status,
+                                        'takendate' => ($status == 'Complete' || $status == 'Completed') ? date('Y-m-d H:i:s') : null,
+                                    ]);
+    }
 }
