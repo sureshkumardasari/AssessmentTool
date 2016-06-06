@@ -175,7 +175,7 @@ class Question extends Model {
 		$obj->institute_id = $params['institution_id'];
  		$obj->status =  $params['status'];
 		$obj->difficulty_id ='';
- 		if($obj->save());{
+ 		if($obj->save()){
 		$explanation = $params['explanation'];
 		$is_correct = $params['is_correct'];
  		foreach ($params['answer_textarea'] as $key => $value) {
