@@ -102,13 +102,14 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
+		$inst_passages_list=Passage::where('institute_id',$user_institution_id)->get();
 //		$inst_questions_list=[];
-	    return view('resources::assessment.add',compact('inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
+	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
 	}
 	public function assessmentInsert(){
 
 		$post = Input::All();
-  		$messages=[
+ 		$messages=[
 // 			'subject_id.required'=>'The Subject field is required',
 //			'category_id.required'=>'The Category field is required',
 //			'lessons_id.required'=>'The Lessons field is required',
@@ -129,7 +130,12 @@ class AssessmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
+			$passage_id=[];
 			$Question_ids=$post['QuestionIds'];
+			$passage_Ids=$post['passageIds'];
+			foreach($passage_Ids as $pass_id){
+				array_push($passage_id,$pass_id);
+			}
 // 			$Question_ids=explode(',',$post['QuestionIds'][0]);
   				$assessment_insert = new Assessment();
  				$assessment_insert->name = $post['title'] ;
@@ -140,11 +146,14 @@ class AssessmentController extends BaseController {
  			foreach ($Question_ids as $key => $value) {
 				if($value=='')continue;
   				if($assessment_insert->save()){
-					$assessment_id=$assessment_insert->id;
-					$assessment_question=new AssessmentQuestion();
-					$assessment_question->assessment_id=$assessment_id;
-					$assessment_question->question_id=$value;
-  					$assessment_question->save();
+					foreach ($passage_id as $passage_Idss) {
+						$assessment_id=$assessment_insert->id;
+						$assessment_question=new AssessmentQuestion();
+						$assessment_question->assessment_id=$assessment_id;
+						$assessment_question->question_id=$value;
+						$assessment_question->passage_id=$passage_Idss;
+						$assessment_question->save();
+					}
  				}
 			}
 			return redirect('/resources/assessment');
@@ -211,6 +220,21 @@ class AssessmentController extends BaseController {
 		$question=$post['questions'];
   		$subjects = $this->question->getassessmentQst($question);
  		return $subjects;
+	}
+	public function assessmentAppendQst(){
+ 		$post = Input::All();
+		$question=$post['QuestionIds'];
+		$flag=$post['flag'];
+		$subjects = $this->question->getassessmentAppendQst($question,$flag);
+		return $subjects;
+	}
+	public function assessmentQstPassage(){
+ 		$post = Input::All();
+  		$passage_id=$post['id'];
+		$flag=$post['flag'];
+		$question_Ids=$post['QuestionIds'];
+  		$subjects = $this->question->getPassageQst($passage_id,$flag,$question_Ids);
+		return $subjects;
 	}
 
 	public function assessmentFilter(){
