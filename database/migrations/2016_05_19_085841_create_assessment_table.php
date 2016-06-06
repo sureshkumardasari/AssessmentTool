@@ -25,6 +25,7 @@ class CreateAssessmentTable extends Migration {
 
 			$table->integer('totaltime')->nullable();
 			$table->enum('unlimitedtime', ['0','1']);
+			$table->enum('guessing_panality',['0','-0.25'])->default('0');
 
 			$table->text('header');
 			$table->text('footer');

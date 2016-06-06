@@ -184,4 +184,9 @@ class Assignment extends Model {
                                         ->get();
         return $assessmentStatus;
     }
+    public function updateGradeStatus($id, $status) {
+                $assignment = $this->find($id);
+                $assignment->gradestatus = $status;
+                return $assignment->save();
+            }
 }

@@ -15,12 +15,13 @@ class CreateQuestionUserAnswers extends Migration {
 		Schema::create('question_user_answer', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('assignment_id');
+			$table->integer('assessment_id');
 			$table->integer('question_id');
 			$table->integer('question_answer_id');
 			$table->text('question_answer_text');
 			$table->string('answer_option',10);
 			$table->integer('user_id');
-			$table->integer('assignment_id');
 			$table->integer('points');
 			$table->enum('is_correct', ['0', '1']);
 			$table->string('original_answer_value',255);
