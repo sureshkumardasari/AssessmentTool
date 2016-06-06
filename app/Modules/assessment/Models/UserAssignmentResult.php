@@ -20,21 +20,23 @@ class UserAssignmentResult extends Model {
 	protected $table = 'user_assignment_result';
 
 	public function insertUserAssessmentAssignmentRslt($filters){
-        $obj = $this->where('AssessmentId',$filters['assmentId'])->where('AssignmentId',$filters['assignmentId'])->where('UserId',$filters['userId'])->where('SectionId',$filters['sectionId'])->first();
+        $obj = $this->where('assessment_id',$filters['assessment_id'])->where('assignment_id',$filters['assignment_id'])->where('user_id',$filters['user_id'])->first();
         if(!count($obj)){ 
-            $obj = new UserAssignmentResult();;
+            $obj = new UserAssignmentResult();
+            $obj->added_by = Auth::user()->id;
+        }
+        else{
+            $obj->updated_by = Auth::user()->id;
         }
 
-        $obj->AssessmentId = $filters['assmentId'];
-        $obj->AssignmentId = $filters['assignmentId'];
-        $obj->UserId       = $filters['userId'];
-        $obj->SectionId    =  $filters['sectionId'];
-        $obj->Score        = $filters['ScaledScore'];
-        $obj->RawScore     = $filters['rawScore'];
-        $obj->Percentage   = $filters['percentage'];
-        $obj->Grade   = (isset($filters['Grade']) ? $filters['Grade']:null);
-        $obj->ScoreType   = (isset($filters['ScoreType']) && !empty( $filters['ScoreType'] ) ?$filters['ScoreType']:'ScaledScore');
-        $obj->Percentile     =$filters['Percentile'];
+        $obj->assessment_id = $filters['assessment_id'];
+        $obj->assignment_id = $filters['assignment_id'];
+        $obj->user_id       = $filters['user_id'];
+        $obj->rawscore     = $filters['rawscore'];
+        $obj->percentage   = $filters['percentage'];
+        $obj->grade   = (isset($filters['grade']) ? $filters['grade']:'');
+        $obj->scoretype   = (isset($filters['scoretype']) && !empty( $filters['scoretype'] ) ?$filters['scoretype']:'scaledscore');
+        $obj->percentile     =$filters['percentile'];
         return $obj->save();
 
     }

@@ -23,7 +23,7 @@ class QuestionUserAnswer extends Model {
         // return $questionPoints ;             // Step 1: Save the question points
         foreach ($questionPoints as $questionPoint) {
             
-            $userAnswers = QuestionUserAnswer::where('question_id', '=', $questionPoint['subsectionQuestionId'])
+            $userAnswers = QuestionUserAnswer::where('question_id', '=', $questionPoint['question_id'])
                                     ->where('user_id', '=', $userId)
                                     ->where('assignment_id', '=', $assignmentId)
                                     ->get();
@@ -33,23 +33,45 @@ class QuestionUserAnswer extends Model {
 
                 $uAnswer = new QuestionUserAnswer();
 
-                $uAnswer->question_id = $questionPoint['subsectionQuestionId'];
+                $uAnswer->question_id = $questionPoint['question_id'];
                 $uAnswer->user_id = $userId;
                 $uAnswer->assignment_id = $assignmentId;
                 $uAnswer->question_answer_id = 0;
                 $uAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
-                $uAnswer->is_correct = isset( $questionPoint['isCorrect'] ) ? $questionPoint['isCorrect'] : 'Open';
+                $uAnswer->is_correct = isset( $questionPoint['is_correct'] ) ? $questionPoint['is_correct'] : 'Open';
 
                 $uAnswer->save();
             } else {
                 // Iterate the answers and keep updating the points for each answer
                 foreach ($userAnswers as $userAnswer) {
                     $userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
-                    $userAnswer->is_correct = $questionPoint['isCorrect'];
+                    $userAnswer->is_correct = $questionPoint['is_correct'];
                     $userAnswer->save();
                 }
             }
-
         }
+    }
+    /**
+     * Returns the array of answers which user has given against the passed assignment
+     * @param  Integer $userId       Id of the user whose answers are required
+     * @param  Integer $assignmentId Id of the assignment whose answers are required
+     * @return Array                 An array of answer objects
+     */
+    public function getUserAssignmentAnswers($userId, $assignment_id)
+    {
+        if(is_array($assignment_id)){
+
+            $userAnswers = QuestionUserAnswer::whereIn('assignment_id', $assignment_id)->where('user_id', '=', $userId)->get();
+        }else {
+            $userAnswers = QuestionUserAnswer::where('assignment_id', '=', $assignment_id)->where('user_id', '=', $userId)->get();
+        }
+
+        // Prepare the dataset for the answers
+        $answers = [];
+        foreach ($userAnswers as $usAns) {
+            $answers[ $usAns->question_id ][] = $usAns;
+        }
+
+        return $answers;
     }
 }

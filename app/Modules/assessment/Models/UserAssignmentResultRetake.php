@@ -18,4 +18,25 @@ class UserAssignmentResultRetake extends Model {
 	 * @var string
 	 */
 	protected $table = 'user_assignment_result_retake';
+	public function insertUserAssessmentAssignmentRslt($filters){
+        $obj = $this->where('assessment_id',$filters['assessment_id'])->where('assignment_id',$filters['assignment_id'])->where('user_id',$filters['user_id'])->first();
+        if(!count($obj)){ 
+            $obj = new UserAssignmentResultRetake();
+        	$obj->added_by = Auth::user()->id;
+        }
+        else{
+            $obj->updated_by = Auth::user()->id;
+        }
+
+        $obj->assessment_id = $filters['assessment_id'];
+        $obj->assignment_id = $filters['assignment_id'];
+        $obj->user_id       = $filters['user_id'];
+        $obj->rawscore     = $filters['rawscore'];
+        $obj->percentage   = $filters['percentage'];
+        $obj->grade   = (isset($filters['grade']) ? $filters['grade']:'');
+        $obj->scoretype   = (isset($filters['scoretype']) && !empty( $filters['scoretype'] ) ?$filters['scoretype']:'scaledscore');
+        $obj->percentile     =$filters['percentile'];
+        return $obj->save();
+
+    }
 }

@@ -30,7 +30,7 @@ class Grade extends Model {
 	public function gradeSystemStudents( $params ){
 
         $netSectionPercentage  = 0;
-        $obj                     = new Subsection();       
+       // $obj                     = new Subsection();       
         $sQuAnws                 = (isset($params['retake']) && $params['retake'] == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
         $grade                   = new Grade();
         $assmntAssignment        = new Assignment();
@@ -40,47 +40,31 @@ class Grade extends Model {
         $totalRawScore       = 0;
         $totalPercentage     = 0;
 
-        $assessment = Assessment::with('category', 'testTypes')->find(  $params['assessment_id']  );
+        $assessment = Assessment::find(  $params['assessment_id']  );
         //get the point of each question that is assigned to the user 
-        //s
-        $sctId = $params['SectionId'];
-        $subsection = $obj->with('children')->find($sctId);
+           
+
+        $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
         
+        $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
 
-        $subsectionQstUsrAnws =  $this->calculateQuestionPoints( $params );
-        $sQuAnws->saveUserPoints($subsectionQstUsrAnws,$params['user_id'],$params['assignment_id']);
-
-        if( multiKeyExists($subsectionQstUsrAnws,'essay')){
+        if( multiKeyExists($AssignmentQstUsrAnws,'essay')){
             $assessmentAssignmentUser->updateUserGradeStatus(array(
                 'assignment_id' => $params['assignment_id'],
                 'user_id' => $params['user_id'],
-                'status' => "In Progress"
+                'status' => "inprogress"
             ));
         
         } else {
-
-            $childIds = [];
-            $subsection = $obj->with('children')->find($sctId);
-            if( count($subsection->children) ){
-
-                foreach ( $subsection->children as $section){
-                    $childIds[] = $section->Id; 
-                }
-
-            } else {
-                $childIds[] = $subsection->Id; 
-            }
-
-            foreach( $childIds as $childId ){
-                $params['SectionId'] = $childId;
-                $subScTmpl = new SubsectionScoreTemplate();
-                $gradeAllQuestion = $obj->gradedQuestion($params['SectionId'],$params['assignment_id'] ,$params['user_id'], (isset($params['retake']) ? :''));
-                $netScore = $obj->totolQuestionPoints($params['SectionId']);
-                $rawScore   = $gradeAllQuestion['rawScore'];
+            
+                
+                $gradeAllQuestion = $this->gradedQuestion($params['assessment_id'],$params['assignment_id'] ,$params['user_id'], (isset($params['retake']) ? $params['retake'] :''));
+                $netScore = $this->totolQuestionPoints($params['assessment_id'],$params['assignment_id']);
+                $rawscore   = $gradeAllQuestion['rawscore'];
 
                 // To make it not throw divide by zero exception
                 if ( $netScore != 0 ) {
-                    $percentage = ($rawScore / $netScore) * 100;   
+                    $percentage = ($rawscore / $netScore) * 100;   
                 } else {
                     $percentage = 0;
                 }
@@ -88,52 +72,47 @@ class Grade extends Model {
                 $netSectionPercentage += $percentage;
 
                 // Default values
-                $scaledScore   = 0;
+                $scaledscore   = 0;
                 $grade         = null;
                 $percentile    = 0;
-                $scoreType     = 'ScaledScore';
+                $scoretype     = 'scaledscore';
 
                 
                     // if type is formative
                      // if assessment is formative
                     // get the scalescore ,score type ,and grade 
-                        // Formative
-                    $gradeData = $subScTmpl->getFormativeScaleScore([
-                        'sectionId' => $params['SectionId'],
-                        'assmentId' => $params['assessment_id'],
-                        'rawScore'  => $rawScore
-                    ]);
+                        // formative
+                    
 
-                    $scaledScore = $gradeData['scaleScore'];
-                    $grade       =  $gradeData['grade'];
-                    $scoreType   =  $gradeData['scoreType'];
-                    $percentile  =  $gradeData['percentile'];
+                    $scaledscore = 0;
+                    $grade       =  '';
+                    $scoretype   =  0;
+                    $percentile  =  0;
 
                     $uSrArslt = (isset($params['retake']) && $params['retake'] == '1') ? new UserAssignmentResultRetake() : new UserAssignmentResult();
-                    $uSrArslt->insertUserAssessmentAssignmentRslt(
+                    $uSrArslt->insertuserassessmentassignmentrslt(
                         array(
                             'assessment_id'     => $params['assessment_id'],
                             'assignment_id'  => $params['assignment_id'],
                             'user_id'        => $params['user_id'],
-                            'sectionId'     => $params['SectionId'],
-                            'scaledscore'   => $scaledScore,
-                            'scoretype'     => $scoreType,
+                            'scaledscore'   => $scaledscore,
+                            'scoretype'     => $scoretype,
                             'grade'         => $grade,
-                            'rawscore'      => $rawScore,
+                            'rawscore'      => $rawscore,
                             'percentage'    => $percentage,
                             'percentile'    => $percentile,
                         )
                     ); 
-                    $update = $assessmentAssignmentUser->updateAssignmentRecords(
+                    $update = $assessmentAssignmentUser->updateassignmentrecords(
                                     array(
                                         'assessment_id'     => $params['assessment_id'],
                                         'assignment_id'  => $params['assignment_id'],
                                         'user_id'        => $params['user_id'],
-                                        'scaledscore'   => $scaledScore,
+                                        'scaledscore'   => $scaledscore,
                                         'grade'         => $grade,
-                                        'rawscore'      => $rawScore,
+                                        'rawscore'      => $rawscore,
                                         'percentage'    => $percentage,
-                                        'status'    => 'Complete'
+                                        'status'    => 'completed'
                                     )
                     );
 
@@ -143,131 +122,128 @@ class Grade extends Model {
                 
                 $status =$this->getGradeStatus($params['assignment_id']);
                 $assmntAssignment->updateGradeStatus($params['assignment_id'],$status);
-            }
+           
         } 
 
+    }
+    // Compare old and new score if new score is greater than old score then replace user answers and final result 
+    // otherwise leave as it is
+    private function _compareScale($params) {
+
+        $old = UserAssignmentResult::where('assignment_id', $params['assignment_id'])
+                                            ->where('assessment_id', $params['assessment_id'])
+                                            ->where('user_id', $params['user_id'])
+                                            ->first();
+
+        $new = UserAssignmentResultRetake::where('assignment_id', $params['assignment_id'])
+                                                ->where('assessment_id', $params['assessment_id'])
+                                                ->where('user_id', $params['user_id'])
+                                                ->first();
+        if (!empty($old) && !empty($new)) {
+            $oldScore = floatval($old->rawscore);
+            $newScore = floatval($new->rawscore);
+
+            if ($newScore > $oldScore) {
+                DB::unprepared('                        
+                        delete from user_assignment_result where assessment_id = '. $params['assessment_id'] .' and assignment_id = '. $params['assignment_id'] .' and user_id = '. $params['user_id'] .';
+                        
+                        insert into user_assignment_result (assignment_id, assessment_id, user_id, score, created_at, updated_at, percentage, rawscore, grade, scoretype, percentile) select assignment_id, assessment_id, user_id,  score, created_at, updated_at, percentage, rawscore, grade, scoretype, percentile from user_assignment_result_retake where assessment_id = '. $params['assessment_id'] .' and assignment_id = '. $params['assignment_id'] .' and user_id = '. $params['user_id'] .';                        
+
+                        delete from question_user_answer where assignment_id = '. $params['assignment_id'] .' and user_id = '. $params['user_id'] .';
+                        insert into question_user_answer (question_id, question_answer_id, user_id, created_at, updated_at, question_answer_text, option, assignment_id, points, flag, is_correct, original_answer_value) select question_id, question_answer_id, user_id, created_at, updated_at, question_answer_text, option, assignment_id, points, flag, is_correct, original_answer_value from question_user_answer_retake where assignment_id = '. $params['assignment_id'] .' and user_id = '. $params['user_id'] .';
+                    ');
+            }
+
+            DB::unprepared('                        
+                        delete from user_assignment_result_retake where assessment_id = '. $params['assessment_id'] .' and assignment_id = '. $params['assignment_id'] .' and user_id = '. $params['user_id'] .';
+                        delete from question_user_answer_retake where assignment_id = '. $params['assignment_id'] .' and user_id = '. $params['user_id'] .';
+                    ');
+        }
+    }
+    public function loadAssignmentQuestion($assignment_id = 0, $assessment_id = 0, $user_id = 0)
+    {
+        $results = DB::table('assessment_question as aq')
+                        ->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
+                        ->join("questions as q", 'aq.question_id', '=', 'q.id')
+                        ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
+                        ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
+                        ->where("aq.assessment_id","=", $assessment_id)
+                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->orderby('aq.id', 'ASC')
+                        ->orderby('qa.order_id', 'ASC')
+                        ->get();
+        //dd($results);
+        $questions = [];                
+        foreach ($results as $key => $row) {
+            $questions[$row->id]['Id'] = $row->id;
+            $questions[$row->id]['Title'] = $row->title;
+            $questions[$row->id]['question_type'] = $row->question_type;
+            $questions[$row->id]['guessing_panality'] = $row->guessing_panality;
+            $questions[$row->id]['mcsingleanswerpoint'] = $row->mcsingleanswerpoint;
+            $questions[$row->id]['essayanswerpoint'] = $row->essayanswerpoint;
+
+            $questions[$row->id]['answers'][] = ['Id' => $row->answer_id, 'is_correct' => $row->is_correct];            
+
+            if($row->is_correct == 'YES')
+            $questions[$row->id]['correctanswers'][] = $row->answer_id;
+        }
+        //dd($questions);
+        return $questions;  
     }
 
     public function calculateQuestionPoints( $params ){
         $sQuAnws     = (isset($params['retake']) && $params['retake'] == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
         $userAnswers = $sQuAnws->getUserAssignmentAnswers( $params['user_id'], $params['assignment_id'] );
-        $section =   $this->loadSectionQuestion( $params['SectionId'] );
+        $assignmentq =   $this->loadAssignmentQuestion( $params['assignment_id'], $params['assessment_id'] );
+        
         $questionAnwerPoint = [];
-        foreach ( $section->questions as $key => $question) {
-            if(isset($question->qbank->QuestionType->Option)){
-                if( ( $question->qbank->QuestionType->Option == 'Multiple Choice - Multi Answer')  ||
-                        ( $question->qbank->QuestionType->Option == 'Multiple Choice - Single Answer') ||
-                        ( $question->qbank->QuestionType->Option == 'Selection')
+        foreach ( $assignmentq as $key => $question) {
+            if(isset($question['question_type'])){
+                if( ( $question['question_type'] == 'Multiple Choice - Multi Answer')  || 
+                        ( $question['question_type'] == 'Multiple Choice - Single Answer') ||
+                        ( $question['question_type'] == 'Selection')
                 ) {
-
                     $userAnswerStatus = 'no-response';
                     $points = 0;
                     $userAnswerIds = [];
 
-                    if( !empty( $userAnswers[ $question->Id ]) ) {
+                    if( !empty( $userAnswers[ $question['Id'] ]) ) {
 
                         // Prepare the User Answer Ids in an array
-                        foreach( $userAnswers[ $question->Id ] as $userAnswer ) {
-                          $userAnswerIds[] = $userAnswer->QuestionAnswerId;
+                        foreach( $userAnswers[ $question['Id'] ] as $userAnswer ) {
+                          $userAnswerIds[] = $userAnswer->question_answer_id;
                         }
 
                         $userAnswerStatus = 'correct';
 
                         // If any of the correct answers was not selected by the user
-                        foreach( $question->qbank->correctAnswers as $correctAnswer ) {
-                          if ( !in_array($correctAnswer->Id, $userAnswerIds) ) {
+                        foreach( $question['correctanswers'] as $i => $correctAnswerId ) {
+                          if ( !in_array($correctAnswerId, $userAnswerIds) ) {
                             $userAnswerStatus = 'wrong';
                           }
                         }
 
                         // If the number of answers selected by user was greater than or 
                         // less than the correct answer count? Wrong Answer!
-                        if ( count($question->qbank->correctAnswers) !== count($userAnswerIds) ) {
+                        if ( count($question['correctanswers']) !== count($userAnswerIds) ) {
                           $userAnswerStatus = 'wrong';
                         }
 
                         if ( $userAnswerStatus == 'correct' ) {
-
-                          if ( !empty( $section->ParentId ) ) {
-                              $points = $section->parentRecord->PointForEachMcAndSelection;
-                          } else {
-                              $points = $section->PointForEachMcAndSelection;
-                          }
-
+                            $points = 1;
                         } else if ( $userAnswerStatus == 'wrong' ) {
-                            if ( !empty( $section->ParentId ) ) {
-                                $points = '-' . $section->parentRecord->McAndSelectionGuessingPenalty;
-                            } else {
-                                $points = '-' . $section->McAndSelectionGuessingPenalty;
+                            if (  $question['guessing_panality'] == 0.25) {
+                                $points = '-' . $question['guessing_panality'];
                             }
                         }
                     }
-                    $questionAnwerPoint[$key]['question_id'] = $question->Id;
-                    $questionAnwerPoint[$key]['points']               = $points;
-                    $questionAnwerPoint[$key]['is_correct']            = swapValue($userAnswerStatus);
-                }
-
-                elseif( $question->qbank->QuestionType->Option == 'Student-Produced Response' ){
-                  $userAnswerStatus = 'no-response';
-                  $points = 0;
-
-                  if ( !empty($userAnswers[ $question->Id ]) ) {
-                      foreach ( $question->qbank->constraints as $constraint ) {
-
-                          if ( ( $constraint->type->Option == 'Specific Value Constraint' ) || ($constraint->type->Option == 'Specific Value')) {
-                              if ( $userAnswers[ $question->Id ][0]->QuestionAnswerText == $constraint->SpecificValue ) {
-                                  $userAnswerStatus = 'correct';
-                                  $points = !empty($section->ParentId) ? $section->parentRecord->PointForEachSPR : $section->PointForEachSPR;
-                                  break;
-                              } else {
-                                  $userAnswerStatus = 'wrong';
-                                  $points = '-' . (!empty($section->ParentId) ? $section->parentRecord->SPRGuessingPenalty : $section->SPRGuessingPenalty);
-                              }
-                          } else if ( $constraint->type->Option == 'Range of Values' ) {
-                              if ( ( $userAnswers[ $question->Id ][0]->QuestionAnswerText >= $constraint->From ) && ( $userAnswers[ $question->Id ][0]->QuestionAnswerText <= $constraint->To )) {
-                                  $userAnswerStatus = 'correct';
-                                  $points = !empty($section->ParentId) ? $section->parentRecord->PointForEachSPR : $section->PointForEachSPR;
-                                  break;
-                              } else {
-                                  $userAnswerStatus = 'wrong';
-                                  $points = '-' . (!empty($section->ParentId) ? $section->parentRecord->SPRGuessingPenalty : $section->SPRGuessingPenalty);
-                              }
-                          } else if ( $constraint->type->Option == 'Must Equal Decimal' ) {
-                            if ( $userAnswers[ $question->Id ][0]->QuestionAnswerText == $constraint->AfterDecimal ) {
-                                $userAnswerStatus = 'correct';
-                                $points = (!empty($section->ParentId) ? $section->parentRecord->PointForEachSPR : $section->PointForEachSPR);
-                                break;
-                            } else {
-                                $userAnswerStatus = 'wrong';
-                                $points = '-' . (!empty($section->ParentId) ? $section->parentRecord->SPRGuessingPenalty : $section->SPRGuessingPenalty);
-                            }
-                          } else if ( $constraint->type->Option == 'Can be One of Many Values' ) {
-
-                            $userValue = $userAnswers[$question->Id][0]->QuestionAnswerText;
-
-                            $possibleValues = $constraint->ManyValue;
-                            $possibleValues = trim( $possibleValues );
-                            $possibleValues = explode(',', $possibleValues);
-
-                            if ( in_array($userValue, $possibleValues) ) {
-                                $userAnswerStatus = 'correct';
-                                break;
-                                $points = !empty($section->ParentId) ? $section->parentRecord->PointForEachSPR : $section->PointForEachSPR;
-                            } else {
-                                $userAnswerStatus = 'wrong';
-                                $points = '-' . (!empty($section->ParentId) ? $section->parentRecord->SPRGuessingPenalty : $section->SPRGuessingPenalty);
-                            }
-                          }
-                      }
-                  }
-                     $questionAnwerPoint[$key]['question_id'] = $question->Id;
-                     $questionAnwerPoint[$key]['points']               = $points;
-                     $questionAnwerPoint[$key]['is_correct']            = swapValue($userAnswerStatus);
-                  }
-
-                elseif( $question->qbank->QuestionType->Option == 'Essay' ){
-                     $questionAnwerPoint[$key]['question_id'] = $question->Id;
-                     $questionAnwerPoint[$key]['points']               = null;
+                    $questionAnwerPoint[$key]['question_id'] = $question['Id'];
+                    $questionAnwerPoint[$key]['points']      = $points;
+                    $questionAnwerPoint[$key]['is_correct']  = swapValue($userAnswerStatus);
+                }      
+                elseif( $question['question_type'] == 'Essay' ){
+                     $questionAnwerPoint[$key]['question_id'] = $question['Id'];
+                     $questionAnwerPoint[$key]['points']               = 0;
                      $questionAnwerPoint[$key]['is_correct']            = 'Open';
                      $questionAnwerPoint[$key]['essay'] =              "";
                 }
@@ -278,33 +254,36 @@ class Grade extends Model {
    }
    // check if all question has been graded agiant the section ,user and assessmetn
 
-    public function gradedQuestion($sectionId,$assessmentId,$userId, $retake = ''){
+    public function gradedQuestion($assessment_id,$assignment_id, $user_id, $retake = ''){
 
-        $assignment = Assignment::find( $assessmentId );
-        $assessment = $assignment->assessment;
-        $testType = (isset($assessment->testTypes) && isset($assessment->testTypes->Display)) ? $assessment->testTypes->Display : '';
+        $assignment = Assignment::find( $assignment_id );
 
-        $subSectionQstAns = ($retake == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
-        $subsectionId = [];
-        $sub = $this->with('questions')->where('Id',$sectionId)->first();
-        if ( !empty( $sub )) {
-            foreach ( $sub->questions as $key => $value ) {
-                $subsectionId[] = $value->Id;
+        $AssignQstAns = ($retake == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
+        
+        $questionId = [];
+        
+        $assignmentq =   $this->loadAssignmentQuestion( $assignment_id, $assessment_id );
+        if ( !empty( $assignmentq )) {
+            foreach ( $assignmentq as $key => $value ) {
+                $questionId[] = $value['Id'];
             }
         }
+
         $count=0;
         $rawScore = 0;
         $gradeAllQuestion = false;
         $correctCount = 0;
         $totalCount = 0;
 
-        $sqstAns = $subSectionQstAns->whereIn('question_id',$subsectionId)->where('assignment_id',$assessmentId)->where('user_id',$userId)->whereNotNull('points')->groupBy('question_id','points')->select(DB::Raw('min("Id")'),'points', DB::Raw('string_agg("is_correct", \',\') as "IsCorrect"'))->get();
-        $count = $subSectionQstAns->whereIn('question_id',$subsectionId)->where('assignment_id',$assessmentId)->where('user_id',$userId)->whereNotNull('points')->distinct()->count('question_id');  
-        if(count($subsectionId) == $count){
+        $sqstAns = $AssignQstAns->whereIn('question_id',$questionId)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->whereNotNull('points')->groupBy('question_id','points')->select(DB::Raw('min(id)'),'points', DB::Raw('is_correct as IsCorrect'))->get();
+
+        $count = $AssignQstAns->whereIn('question_id',$questionId)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->whereNotNull('points')->distinct()->count('question_id'); 
+
+        if(count($questionId) == $count){
             $gradeAllQuestion = true;
 
             foreach ($sqstAns as $key => $value) {
-                $rawScore += $value->Points;
+                $rawScore += $value->points;
 
                 if ( strtolower($value->IsCorrect) == 'yes' ) {
                     $correctCount++;
@@ -316,47 +295,29 @@ class Grade extends Model {
         
 
         return array(
-            'rawScore'     => $rawScore,
+            'rawscore'     => $rawScore,
             'is_gradedAll' => $gradeAllQuestion
         );
     }
 
     // function to return the total point of all the question that is belong to that section
 
-    public function totolQuestionPoints($sectionId){
-        $question = [];
-        $sectionQuestion = $this->with('question')->where('Id',$sectionId)->first();   
-        $parentSubsection  = $this->where('Id',$sectionQuestion->ParentId)->first();
-        $totalPoints=0;
-        $mulitpleChoicePoint = $sectionQuestion->PointForEachMcAndSelection;
-        if( !empty( $sectionQuestion->ParentId )){
-            $mulitpleChoicePoint = $parentSubsection->PointForEachMcAndSelection;
-        }
-        $essayPoint = $sectionQuestion->PointForEachOER;
-        if( !empty( $sectionQuestion->ParentId )){
-            $essayPoint = $parentSubsection->PointForEachOER;
-        }
-        $studentResponsePoint = $sectionQuestion->PointForEachSPR;
-        if( !empty( $sectionQuestion->ParentId )){
-            $studentResponsePoint = $parentSubsection->PointForEachSPR;
-        }
-        foreach($sectionQuestion->question as $quest){
-            $questionType = $quest->questionType->Option;
+    public function totolQuestionPoints($assessment_id, $assignment_id){
+        
+        $totalPoints = 0;
+
+        $assignmentq =   $this->loadAssignmentQuestion( $assignment_id, $assessment_id );
+        
+        foreach($assignmentq as $question){
+            $questionType = $question['question_type'];
             if($questionType == "Essay"){
-                $totalPoints= $totalPoints+$essayPoint;
+                $totalPoints= $totalPoints+$question['essayanswerpoint'];
             }
-            if($questionType=="Multiple Choice- Multi Answer"||$questionType=="Multiple Choice- Single Answer" || $questionType=="Selection"){
-                $totalPoints= $totalPoints+$mulitpleChoicePoint;
-            }
-
-            if($questionType=="Student-Produced Response"){
-                $totalPoints= $totalPoints+$studentResponsePoint;
-            }
+            if($questionType=="Multiple Choice - Multi Answer"||$questionType=="Multiple Choice - Single Answer" || $questionType=="Selection"){
+                $totalPoints= $totalPoints+$question['mcsingleanswerpoint'];
+            }            
         }
-
         return $totalPoints;
-        // return $question;
-
     }
     /**
      * Returns the overall assignment grading status to be put in AssessmentAssignment table

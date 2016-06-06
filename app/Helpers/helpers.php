@@ -35,6 +35,30 @@ function generateBullets($type) {
     return $ansOptions;
 }
 
+function multiKeyExists(Array $array, $key) {
+    if (array_key_exists($key, $array)) {
+        return true;
+    }
+    foreach ($array as $k => $v) {
+        if (!is_array($v)) {
+            continue;
+        }
+        if (array_key_exists($key, $v)) {
+            return true;
+        }
+    }
+    return false;
+}
+function swapValue($value) {
+    if ($value == "No Response" || $value == "no-response") {
+        return "Open";
+    } else if ($value == "correct") {
+        return "Yes";
+    } else {
+        return "No";
+    }
+}
+
 /**
  * breadcrumb()
  * The purpose of this method is to make breadcrumb interactive.

@@ -215,6 +215,7 @@ class AssessmentAssignmentController extends BaseController {
             /**********/
             $update[$key]['question_id'] = $credential['SubsectionQuestionId'];
             $update[$key]['assignment_id'] = $credential['AssessmentAssignmentId'];
+            $update[$key]['assessment_id'] = $credential['AssessmentId'];
             $update[$key]['user_id'] = Auth::user()->id;
             $update[$key]['question_answer_id'] = $credential['QuestionAnswerId'];
             $update[$key]['added_by'] = Auth::user()->id;

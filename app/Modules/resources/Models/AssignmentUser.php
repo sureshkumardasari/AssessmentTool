@@ -65,7 +65,7 @@ class AssignmentUser extends Model {
                                 ->where('user_id', Auth::user()->id)
                                 ->update([
                                         'status' => $status,
-                                        'takendate' => ($status == 'Complete' || $status == 'Completed') ? date('Y-m-d H:i:s') : null,
+                                        'takendate' => ($status == 'completed' || $status == 'completed') ? date('Y-m-d H:i:s') : null,
                                     ]);
     }
     public function updateUserGradeStatus($params){
@@ -82,12 +82,11 @@ class AssignmentUser extends Model {
         $results = $this->where('assignment_id',$filters['assignment_id'] )->where('user_id',$filters['user_id'])->first();
         $grade = "completed";
         $results->rawscore = $filters['rawscore'];
-        $results->scaledscore = $filters['scaledscore'];
 
         $user = Auth::user();
-        $userId = !empty( $user->Id ) ? $user->Id : 0;
+        $userId = !empty( $user->id ) ? $user->id : 0;
 
-        $results->GraderId    = $userId;
+        $results->grader_id    = $userId;
         $results->percentage  = $filters['percentage'];
         if(isset($filters['grade'])&&!empty($filters['grade'])){
           $results->grade = $filters['grade'];
@@ -98,11 +97,11 @@ class AssignmentUser extends Model {
         if( isset( $filters['status']) && !empty($filters['status']) ){
           $results->status = $filters['status'];
           
-          if(empty($results->takendate)){
+          if($results->takendate != "0000-00-00 00:00:00"){
             $results->takendate = date('Y-m-d H:i:s');
           }  
         } else {
-            $grade = 'In Progress';
+            $grade = 'inprogress';
         }
         $results->gradestatus = $grade;
         $results->gradeddate = date('Y-m-d H:i:s'); 

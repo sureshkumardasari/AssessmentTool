@@ -23,7 +23,7 @@ class CreateQuestionUserAnswers extends Migration {
 			$table->string('answer_option',10);
 			$table->integer('user_id');
 			$table->integer('points');
-			$table->enum('is_correct', ['0', '1']);
+			$table->string('is_correct', 10);
 			$table->string('original_answer_value',255);
 			$table->integer('added_by')->nullable();
 			$table->integer('updated_by')->nullable();

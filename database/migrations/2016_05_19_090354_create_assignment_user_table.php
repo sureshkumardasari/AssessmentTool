@@ -20,6 +20,15 @@ class CreateAssignmentUserTable extends Migration {
 			$table->integer('user_id')->nullable();
 			$table->enum('status', ['upcoming', 'inprogress', 'test', 'completed','instructions'])->default('upcoming');
 			$table->enum('gradestatus', ['notstarted', 'inprogress', 'completed','archieve'])->default('notstarted');
+
+			$table->integer('grader_id')->nullable();
+			$table->decimal('score',19,2);
+			$table->decimal('percentage',19,2);
+			$table->decimal('rawscore',19,2);
+			$table->decimal('grade',19,2);
+			$table->string('scoretype',255);
+			$table->decimal('percentile',19,2);
+
 			$table->dateTime('takendate');
 			$table->dateTime('gradeddate');
 			$table->timestamps();
