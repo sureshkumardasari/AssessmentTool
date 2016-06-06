@@ -47,6 +47,36 @@ class Question extends Model {
  		$questions = $obj->get();
 		return $questions;
 	}
+	public function getassessmentAppendQst($questions=0,$flag=0)
+	{
+		$obj = DB::table('questions'); ;
+
+//		if($questions > 0){
+//			$obj->wherenotin("id", $questions);
+//		}
+		if($flag==1){
+ 			$obj->wherein("id", $questions);
+		}else{
+ 			$obj->wherenotin("id", $questions);
+		}
+		$questions = $obj->get();
+		return $questions;
+	}
+	public function getPassageQst($passage_id=0,$flag=0,$question_Ids=0)
+	{
+ 		$obj = DB::table('questions');
+		if($question_Ids > 0){
+			$obj->wherein("id", $question_Ids);
+		}
+		if($flag==1){
+			$obj->wherenotin("passage_id", $passage_id);
+		}else{
+			$obj->wherein("passage_id", $passage_id);
+
+		}
+		$questions = $obj->get();
+ 		return $questions;
+	}
 
 	public function getassessmentFilter($institution = 0, $category = 0, $subject = 0,$lessons=0,$questions=0)
 	{

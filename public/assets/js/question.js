@@ -1281,11 +1281,11 @@ var me = null;
                 $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', false);
             }
         })
-        $(".check-selected-passages").on("click", function(){
-            if ($('#passages'+'  .check-all-passage').is(':checked')) {
-                $('#passages'+'  .parent-grid .check-passage').prop('checked', true);
+        $(".check-all-selected-passage").on("click", function(){
+            if ($('#selected-passage'+'  .check-all-selected-passage').is(':checked')) {
+                $('#selected-passage'+'  .child-grid .check-selected-passage').prop('checked', true);
             }else{
-                $('#passages'+'  .parent-grid .check-passage').prop('checked', false);
+                $('#selected-passage'+'  .child-grid .check-selected-passage').prop('checked', false);
             }
         });
         question.init();
@@ -1327,9 +1327,11 @@ function addOrRemoveInGrid(elem, type) {
     var checkboxName = window.selectedTab.split('-')[0];
     qbankIds = [];
     passageIds = [];
+    passage = [];
     filesGroupIds = [];
     QuestionIds=[];
     RemoveQuestionIds=[];
+    removePassage=[];
     if (type == 'add') {
         $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
             $(this).removeClass('check-question').addClass('check-selected-question');
@@ -1347,25 +1349,25 @@ function addOrRemoveInGrid(elem, type) {
             $('#selected-questions'+' .child-grid').append(selected);
             $('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val()).appendTo('#selected-questions'+' .child-grid');
         });
-        //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',QuestionIds).appendTo('#selected-questions'+' .child-grid');
-        $('#passages'+'  .parent-grid tr').each(function () {
-            var closestUl = $(this).closest('ul');
-            if(checkboxName == 'question'){
-                if(closestUl.find('td').eq(2).text() != ''){
-                    qbankIds.push(this.value)
-                }
-            }
+        $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
+            $(this).removeClass('check-question').addClass('check-selected-passage');
+            var closestUl = $(this).closest('tr');
             if(checkboxName == 'passage'){
-                if(closestUl.find('td').eq(3).text() != 0){
-                    passageIds.push(this.value)
+                 if(closestUl.find('td').eq(1).text() != ''){
+                    passageIds.push(closestUl.find('td').eq(1).text())
+                    passage.push($(this).val())
+
                 }
             }
+            addOrRemoveInPassage(this, "add",passage);
             $(this).attr('name',checkboxName+'[]');
             $(this).attr('checked', false)
             var selected = closestUl.clone();
-            $(this).closest('ul').remove();
-            $('#' + window.selectedTab + ' div.child-grid').append(selected);
+            $(this).closest('tr').remove();
+            $('#selected-passage'+' .child-grid').append(selected);
+            $('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
         });
+
     }
     else {
         $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
@@ -1395,7 +1397,149 @@ function addOrRemoveInGrid(elem, type) {
             });
             //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
         });
+        $('.parent-selected-grid tr').find('.check-selected-passage:checked').each(function () {
+            var removeIds=[];
+            var myForm = document.forms.assessment_form;
+            var myControls = myForm.elements['passageIds[]'];
+            for (var i = 0; i < myControls.length; i++) {
+                if(myControls[i].value==$(this).val()){
+                    myControls[i].value = '';
+                }
+            }
+            $(this).removeClass('check-selected-passage').addClass('check-passage');
+            var closestUl = $(this).closest('tr');
+            if(checkboxName == 'passage'){
+                if(closestUl.find('td').eq(1).text() != ''){
+                    removeIds.push(closestUl.find('td').eq(1).text())
+                    removePassage.push($(this).val())
+                }
+            }
+            addOrRemoveInPassage(this, "remove",removePassage);
+            //RemoveQuestionIds.push($(this).val());
+            $(this).attr('name',checkboxName+'[]');
+            $(this).attr('checked', false)
+            var selected = closestUl.clone();
+            $(this).closest('tr').remove();
+            $('#passages'+' .parent-grid').append(selected);
+            $.each(QuestionIds, function( index, value ) {
+                alert(value);
+            });
+            //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
+        });
 
     }
 }
+function addOrRemoveInPassage(elem, type,id) {
+    var flag=0;
+    var question_Ids=[];
+    var append_question_ids=[];
+    //var question_id=document.getElementById('questions-list');
+    // for (var i = 0; i < question_id.length; i++) {
+    //    question_Ids.push(question_id[i].value);
+    //}
+    var myForm = document.forms.assessment_form;
+    var question_id = myForm.elements['QuestionIds[]'];
+    if(question_id) {
+        for (var i = 0; i < question_id.length; i++) {
+            question_Ids.push(question_id[i].value);
+            //if (question_id[i].value == $(this).val()) {
+            //    question_id[i].value = '';
+            //}
+        }
+    }
+    console.log(question_Ids);
+    var url="get_qestion_passage";
+    var url_question_append="get_assessment_append_qst";
+    var csrf=$('Input#csrf_token').val();
+    var data={id:id};
+    if(type=='add'){
+         $.ajax(
+            {
+                url:url,
+                headers: {"X-CSRF-Token": csrf},
+                type:"post",
+                data:{id:id,flag:flag,QuestionIds:0},
+                success:function(response){
+                     $('#selected-questions'+' .child-grid').empty();
+                    var tr;
+                    for (var i = 0; i < response.length; i++) {
+                        tr = $('<tr/>');
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td>" + response[i].title + "</td>");
+                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">');
+                        $('#selected-questions'+' .child-grid').append(tr);
+                        append_question_ids.push(""+ response[i].id +"");
+                    }
+                    $.ajax(
+                        {
+                            url:url_question_append,
+                            headers: {"X-CSRF-Token": csrf},
+                            type:"post",
+                            data:{id:id,flag:flag,QuestionIds:append_question_ids},
+                            success:function(response){
+                                 var tr;
+                                $('#questions-list').empty();
+                                //$('#selected-questions'+' .child-grid').empty();
+                                for (var i = 0; i < response.length; i++) {
+                                    tr = $('<tr/>');
+                                    tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                    tr.append("<td>" + response[i].title + "</td>");
+                                    //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
+                                    $('#questions-list').append(tr);
+                                }
+                            }
+                        }
+
+                    );
+                }
+            }
+
+        );
+
+    }else{
+        flag=1;
+        $.ajax(
+            {
+                url:url,
+                headers: {"X-CSRF-Token": csrf},
+                type:"post",
+                data:{id:id,flag:flag,QuestionIds:question_Ids},
+                success:function(response){
+                    $('#selected-questions'+' .child-grid').empty();
+                    var tr;
+                    for (var i = 0; i < response.length; i++) {
+                        tr = $('<tr/>');
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td>" + response[i].title + "</td>");
+                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">');
+                     $('#selected-questions'+' .child-grid').append(tr);
+                    }
+                    $.ajax(
+                        {
+                            url:url_question_append,
+                            headers: {"X-CSRF-Token": csrf},
+                            type:"post",
+                            data:{id:id,flag:flag,QuestionIds:question_Ids},
+                            success:function(response){
+                                $('#questions-list').empty();
+                                //$('#selected-questions'+' .child-grid').empty();
+                                var tr;
+                                for (var i = 0; i < response.length; i++) {
+                                    tr = $('<tr/>');
+                                    tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                    tr.append("<td>" + response[i].title + "</td>");
+                                    //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
+                                    $('#questions-list').append(tr);
+                                }
+                            }
+                        }
+
+                    );
+                }
+            }
+        );
+    }
+ }
+
+
 
