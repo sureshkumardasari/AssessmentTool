@@ -146,7 +146,7 @@ class AssessmentController extends BaseController {
  			foreach ($Question_ids as $key => $value) {
 				if($value=='')continue;
   				if($assessment_insert->save()){
-					foreach ($passage_id as $passage_Idss) {
+					foreach ($passage_id as $key=>$passage_Idss) {
 						$assessment_id=$assessment_insert->id;
 						$assessment_question=new AssessmentQuestion();
 						$assessment_question->assessment_id=$assessment_id;
@@ -160,6 +160,7 @@ class AssessmentController extends BaseController {
 		}
  	}
 	public function assessmentedit($id=0){
+		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
@@ -178,11 +179,24 @@ class AssessmentController extends BaseController {
 		}
 		$question_title_remove_ids=Question::wherenotin('id',$ids)->get();
 		$id = $institution_id = $subject_id = $category_id = 0;
-		return view('resources::assessment.edit',compact('question_title_remove_ids','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category'));
+//		$passages_list=Question::join('passage','questions.passage_id','=','passage.id')->where('questions.id',$question_id_passage)->get();
+		$passage_question_list=AssessmentQuestion::join('assessment','assessment_question.assessment_id','=','assessment.id')->where('assessment.id','=',$question_id_passage)->get();
+		$list_question_passage=[];
+		$passages_list=[];
+		$questions_list=[];
+		foreach($passage_question_list as $passage){
+			array_push($passages_list,$passage['passage_id']);
+			array_push($questions_list,$passage['question_id']);
+		}
+		$questions_lists=Question::wherein('id',$questions_list)->get();
+		$passages_lists=Passage::wherein('id',$passages_list)->get();
+		$passages_list_not=Passage::wherenotin('id',$passages_list)->get();
+		return view('resources::assessment.edit',compact('passages_list_not','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category'));
  	}
 	public function assessmentupdate(){
  		$post = Input::All();
- 		$messages=[
+ 		$passage_id=[];
+  		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
@@ -194,6 +208,10 @@ class AssessmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
+			$passage_Ids=$post['passageIds'];
+			foreach($passage_Ids as $pass_id){
+				array_push($passage_id,$pass_id);
+			}
  			$assessment_insert = Assessment::find($post['id']);
  			$assessment_insert->name = $post['title'] ;
  			//delete previous questions-answers
@@ -203,11 +221,13 @@ class AssessmentController extends BaseController {
  				if($assessment_insert->save()){
 					// $assessment_question=AssessmentQuestion::where('question_id',$value)->where('assessment_id',$post['id'])->delete();
 					if($value!=""){
- 				
+					foreach ($passage_id as $key=>$passage_Idss) {
 					$assessment_question=new AssessmentQuestion();
 					$assessment_question->assessment_id=$post['id'];
 					$assessment_question->question_id=$value;
+					$assessment_question->passage_id=$passage_Idss;
 					$assessment_question->save();
+					}
 					}
 				}
  			}

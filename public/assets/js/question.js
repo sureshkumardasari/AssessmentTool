@@ -1350,7 +1350,7 @@ function addOrRemoveInGrid(elem, type) {
             $('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val()).appendTo('#selected-questions'+' .child-grid');
         });
         $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
-            $(this).removeClass('check-question').addClass('check-selected-passage');
+             $(this).removeClass('check-passage').addClass('check-selected-passage');
             var closestUl = $(this).closest('tr');
             if(checkboxName == 'passage'){
                  if(closestUl.find('td').eq(1).text() != ''){
@@ -1398,7 +1398,7 @@ function addOrRemoveInGrid(elem, type) {
             //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
         });
         $('.parent-selected-grid tr').find('.check-selected-passage:checked').each(function () {
-            var removeIds=[];
+             var removeIds=[];
             var myForm = document.forms.assessment_form;
             var myControls = myForm.elements['passageIds[]'];
             for (var i = 0; i < myControls.length; i++) {
@@ -1447,13 +1447,12 @@ function addOrRemoveInPassage(elem, type,id) {
             //}
         }
     }
-    console.log(question_Ids);
-    var url="get_qestion_passage";
-    var url_question_append="get_assessment_append_qst";
+    var url="http://localhost/assessment-tool/public/resources/get_qestion_passage";
+    var url_question_append="http://localhost/assessment-tool/public/resources/get_assessment_append_qst";
     var csrf=$('Input#csrf_token').val();
     var data={id:id};
     if(type=='add'){
-         $.ajax(
+          $.ajax(
             {
                 url:url,
                 headers: {"X-CSRF-Token": csrf},
@@ -1540,6 +1539,3 @@ function addOrRemoveInPassage(elem, type,id) {
         );
     }
  }
-
-
-
