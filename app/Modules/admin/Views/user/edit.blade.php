@@ -11,11 +11,20 @@
 <?php
 	$role_id = (old('role_id') != NULL) ? old('role_id') : $role_id; 
 	$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $institution_id; 
-	$name =  (old('name') != NULL) ? old('name') : $name; 
+	$first_name =  (old('first_name') != NULL) ? old('first_name') : $first_name;
+	$last_name =  (old('last_name') != NULL) ? old('last_name') : $last_name; 
 	$email = (old('email') != NULL) ? old('email') : $email; 
-	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
-	$status = (old('status') != NULL) ? old('status') : $status; 
 	$password = (old('password') != NULL) ? old('password') : $password; 
+	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
+	$address1 = (old('address1') != NULL) ? old('address1') : $address1; 
+	$city = (old('city') != NULL) ? old('city') : $city; 
+	$state = (old('state') != NULL) ? old('state') : $state; 
+	$pincode=(old('pincode') != NULL)? old('pincode') : $pincode;
+	$phoneno = (old('phoneno') != NULL)? old('phoneno') : $phoneno;
+	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
+	$status = (old('status') != NULL) ? old('status') : $status; 
+	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
+	
 
 	/*if($profile_picture != NULL)
 	{
@@ -172,10 +181,16 @@
 								<input type="text" class="form-control" name="city" value="{{ $city }}">
 							</div>
 						</div>
+						
 						<div class="form-group required">
 							<label class="col-md-4 control-label">State</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="state" value="{{ $state }}">
+								<select class="form-control" name="state">
+									<option value="0">Select</option>
+									@foreach($state_arr as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 						<div class="form-group required">
@@ -209,15 +224,15 @@
 								<input type="radio" class="" name="status" id="status_no" value="Inactive" {{ ($status == "Inactive") ? 'checked="checked"' : '' }}>Inactive 
 							</div>
 							</div>
-						<div>
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Gender</label>
 							<div class="col-md-6">
-								<input type="radio" name="gender"
-									   <?php if (isset($users->gender) && $users->gender=="male") echo "checked='checked'";?>
-									   value="male">Male
-								<input type="radio" name="gender"
-									   <?php if (isset($users->gender) && $users->gender=="female") echo "checked='checked'";?>
-									   value="female">Female
+								<input type="radio" name="gender" id="gender_male"  value="male"
+								{{ ($gender == "" || $gender == "Male") ? 'checked="checked"' : ''}}>
+									Male
+								<input type="radio" name="gender" value="female" id="gender_female"
+								{{ ($gender == "Female") ? 'checked="checked"' : ''}}>
+								Female
 							</div>
 						</div>
 						<div class="form-group">

@@ -66,6 +66,7 @@ class UserController extends BaseController {
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 
+
 		//return view('admin::user.list',compact('users'));
 		return view('admin::user.list', compact('inst_arr','roles_arr'))
 			->nest('usersList', 'admin::user._list', compact('users'));
@@ -114,15 +115,16 @@ class UserController extends BaseController {
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 		$country_arr = $this->user->getcountries();
+		$state_arr = $this->user->getstates();
 
-		$id = $institution_id = $role_id = $country_id = 0;
+		$id = $institution_id = $role_id = $country_id = $state = 0;
 		$name = $email = $status =$gender = $enrollno = $password = '';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
 		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
-			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name','profile_picture','pic_data'));
+			,'address1','address2','address3','city','state','state_arr','phoneno','pincode','country_id','country_arr','first_name','last_name','profile_picture','pic_data'));
 	}
 	public function edit($userid = 0)
 	{
@@ -132,6 +134,7 @@ class UserController extends BaseController {
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 		$country_arr = $this->user->getcountries();
+		$state_arr = $this->user->getstates();
 
 		$pic_data = [];
 		if(isset($userid) && $userid > 0)
@@ -145,18 +148,17 @@ class UserController extends BaseController {
 			$enrollno = $user->enrollno;
 			$status = $user->status;
 			$gender =$user->gender;
-
 			$password = $user->password;
-
 			$first_name = $user->first_name;
 			$last_name = $user->last_name;
 			$address1 = $user->address1;
 			$address2 = $user->address2;
 			$address3 = $user->address3;
 			$city = $user->city;
-			$state = $user->state;
+//			$state = $user->state;
 			$phoneno = $user->phoneno;
 			$pincode = $user->pincode;
+			$state = $user->state;
 			$country_id = $user->country_id;
 			//$profile_picture = $user->profile_picture;
 			$profile_picture = $this->getProfilePicURL($user->profile_picture);
@@ -164,13 +166,13 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$id = $institution_id = $role_id = $country_id = 0;
+			$id = $institution_id = $role_id = $country_id = $state = 0;
 			$name = $email = $status = $enrollno = $password = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
 		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
-			,'address1','address2','address3','city','state','phoneno','pincode','country_id','country_arr','first_name','last_name', 'profile_picture','pic_data'));
+			,'address1','address2','address3','city','state','state_arr','phoneno','pincode','country_id','country_arr','first_name','last_name', 'profile_picture','pic_data'));
 	}
 
 	public function update($institutionId = 0)
@@ -187,9 +189,10 @@ class UserController extends BaseController {
 			'enrollno' =>'required',
 			'address1' =>'required',
 			'city' =>'required',
-			'state' =>'required',
+			//'state' =>'required',
 			'phoneno' =>'required',
 			'pincode' =>'required',
+			'state' =>'required',
 			'country_id' =>'required'];
 
 		if($post['id'] > 0)

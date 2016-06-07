@@ -98,24 +98,23 @@ class User extends Model {
 		$user->delete();
 		$role = DB::table('role_user')->where("user_id", $userid)->delete();
 	}
-
 	public function updateUser($params = 0)
-	{
+		{
 		$obj = new User();
 		if($params['id'] > 0)
 		{
-			$obj = User::find($params['id']);
+		$obj = User::find($params['id']);
 
-			if($params['password'] != "")
-			{
-				$obj->password = bcrypt($params['password']);
-			}	
-			$obj->updated_by = Auth::user()->id;
+		if($params['password'] != "")
+		{
+		$obj->password = bcrypt($params['password']);
+		} 
+		$obj->updated_by = Auth::user()->id;
 		}
 		else
 		{
-			$obj->password = bcrypt($params['password']);
-			$obj->added_by = Auth::user()->id;
+		$obj->password = bcrypt($params['password']);
+		$obj->added_by = Auth::user()->id;
 		}
 		$obj->name = $params['first_name'] . ' ' . $params['last_name'];
 		$obj->email = $params['email'];
@@ -136,7 +135,8 @@ class User extends Model {
 		$obj->country_id = $params['country_id'];
 		$obj->profile_picture = $params['profile_picture'];
         $obj->pic_coords = $params['pic_coords'];
-        
+
+	
 		$obj->save();	
 
 		$roleobj = DB::select(DB::raw("delete from role_user where user_id = '".$obj->id."'"));
@@ -165,11 +165,16 @@ class User extends Model {
 		$countries= DB::table('countries')->lists('country_name','id');
 		return $countries;
 	}
+	public function getstates()
+	{
+		$states  = DB::table('states')->lists('state_name','id');
+		return $states;
+	}
 	public function bulkUserTemplate($filename, $userType, $instituteId = null, $addSubjects = false, $findInstituteId = false) {
 
 	    $objPHPExcel = new PHPExcel();
 
-	    $states = ['AndhraPradesh','Telangana'];
+	    //$states = ['AndhraPradesh','Telangana'];
 
 	    $institue = new Institution();
 	    $madeDataValidationColumn = array();
@@ -184,6 +189,7 @@ class User extends Model {
 	        }
 	    }
 		$countries= $this->getcountries();
+		$states=$this->getstates();
 	//Create Validation for School and State
 	    $objWorkSheet = $objPHPExcel->createSheet(1); //Setting index when creating
 	    $indexSchool = 1;
@@ -221,7 +227,7 @@ class User extends Model {
 	        'Status' => array('options' => array('Active', 'Inactive')),
 	        'Address' => array(),
 	        'City' => array(),
-	        'State' => array(),
+	        'State' => array('options'=>$states),
 			'Country' =>array('options' => $countries),
 	        'Pin' => array(),
 	        'Role' => array('options' => ['student'])
