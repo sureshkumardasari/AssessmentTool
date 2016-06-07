@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('UserDataSeeder');
 		$this->call('QuestionTypeSeeder');
 		$this->call('ResourcesDataSeeder');
+		$this->call('StatesSeeder');
 		$this->call('QuestionsAssessmentSeeder');
 	}
 
