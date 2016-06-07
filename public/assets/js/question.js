@@ -1275,7 +1275,7 @@ var me = null;
             }
         });
         $(".check-all-selected-question").on("click", function(){
-            if ($('#selected-questions'+'  .check-all-selected-question').is(':checked')) {
+             if ($('#selected-questions'+'  .check-all-selected-question').is(':checked')) {
                 $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', true);
             }else{
                 $('#selected-questions'+'  .child-grid .check-selected-question').prop('checked', false);
@@ -1447,9 +1447,12 @@ function addOrRemoveInPassage(elem, type,id) {
             //}
         }
     }
-    var url="http://localhost/assessment-tool/public/resources/get_qestion_passage";
-    var url_question_append="http://localhost/assessment-tool/public/resources/get_assessment_append_qst";
-    var csrf=$('Input#csrf_token').val();
+    var urls=$('#url').val();
+    var url_add="get_qestion_passage";
+    var url_add2="get_assessment_append_qst";
+    var url=""+ urls +url_add+"";
+    var url_question_append=""+ urls +url_add2+"";
+     var csrf=$('Input#csrf_token').val();
     var data={id:id};
     if(type=='add'){
           $.ajax(
