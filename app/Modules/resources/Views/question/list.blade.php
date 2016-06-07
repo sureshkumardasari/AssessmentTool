@@ -90,14 +90,17 @@
 					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
-				                <th>Name</th>
-				                <th></th>
+				                <th>Question Title</th>
+				                <th>Question Type</th>
+				                 <th>Question Passage</th>
 				            </tr>
 				        </thead>
 				        <tbody id="question_list_filer">
-				            @foreach( $questions as $id => $name )
+				            @foreach( $list as $id => $value )
 				            <tr>
-				                <td>{{ $name }}</td>
+				                <td>{{ $value['question_title'] }}</td>
+				                 <td>{{ $value['question_type'] }}</td>
+								 <td>{{ $value['passage_title'] }}</td>
 				                <td>
 				                	<a href="{{ url('/resources/questionedit/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 									<a href="{{ url('/resources/questiondel/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>

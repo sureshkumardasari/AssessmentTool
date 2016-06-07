@@ -86,8 +86,17 @@ class QuestionController extends BaseController {
 		$subjects = $this->subject->getSubject();	
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
+		$questions_type=$this->question_type->getQuestionTypes();
+		$passages=$this->passage->getPassage();
 		$lessons = $this->lesson->getLesson();
-        return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons'));
+		//$imp = explode(',', $id);
+		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
+			->leftjoin('passage','questions.passage_id','=','passage.id')
+			//->whereIn('questions.id', $imp)
+			->select('questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+			->get();
+			//dd($list);
+        return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
 	}
 
 	public function questionadd()
