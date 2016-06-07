@@ -7,7 +7,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Grade by Question	
-					<a href="{{ url('/grading/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> BACK</a>				
+					<a href="{{ url('/grading/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>				
 				</div>
 				<div class="panel-body">				
 						<label class="col-md-2 control-label">Status</label>
