@@ -175,3 +175,40 @@ section .list_active_msg div.rply_icons {
   width: 200px;
   height: 150px;
 }
+
+.ico-grade {
+    background-position: -123px -3px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    vertical-align: top;
+    width: 20px;
+}
+
+.icons {
+    cursor: pointer;
+}
+
+.reply_box {
+  position: absolute;
+  background: #f8f8f8;
+  border: 1px solid #eeeeee;
+  width: 115px;
+  height: 100px;
+  top: -110px;
+  left: -51px;
+  z-index: 9999;
+  box-shadow: 1px 1px 0px #dddddd;
+  border-radius: 5px;
+  display: none;
+}
+.reply_box::after, .arrow_box::before {
+    border: medium solid transparent;
+    content: " ";
+    height: 0;
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    top: 100%;
+    width: 0;
+}

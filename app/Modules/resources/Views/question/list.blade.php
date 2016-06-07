@@ -25,20 +25,25 @@
 				@endif
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 				<div class="panel-body">
-					<div class="form-group">
-						<label class="col-md-4 control-label">Institution</label>
-						<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading searchfilter pointer">Advanced Filters
+						<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
+					</div>
+					<div class="panel-body searchfilter-body hide">	
+					<div class="form-group col-md-6">
+						<label class="col-md-2 control-label">Institution</label>
+						<div class="col-md-10">
 							<select class="form-control" name="institution_id" id="institution_id">
 								<option value="0">Select</option>
 								@foreach($inst_arr as $id=>$val)
-								<option name="institution_id" value="{{Input::old('institution_id')}}">{{ $val }}</option>
+								<option name="institution_id" value="{{$id}}">{{ $val }}</option>
 								@endforeach
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-md-4 control-label">Category</label>
-						<div class="col-md-6">
+					<div class="form-group col-md-6">
+						<label class="col-md-2 control-label">Category</label>
+						<div class="col-md-10">
 							<select class="form-control" name="category_id" id="category_id">
 								<option value="0">Select</option>
 								@foreach($category as $id=>$val)
@@ -47,9 +52,9 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-md-4 control-label">Subject</label>
-						<div class="col-md-6">
+					<div class="form-group col-md-6">
+						<label class="col-md-2 control-label">Subject</label>
+						<div class="col-md-10">
 							<select class="form-control" name="subject_id" id="subject_id">
 								<option value="0">Select</option>
 								@foreach($subjects as $id=>$val)
@@ -58,9 +63,9 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-md-4 control-label">Lessons</label>
-						<div class="col-md-6">
+					<div class="form-group col-md-6">
+						<label class="col-md-2 control-label">Lessons</label>
+						<div class="col-md-10">
 							<select class="form-control" name="lessons_id" id="lessons_id">
 								<option value="0">Select</option>
 								@foreach($lessons as $id=>$val)
@@ -69,13 +74,18 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group col-md-10">
+					</div>
+					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
 								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Apply Filter</a>
 							</div>
 						</div>
 					</div>
+					</div>
+				</div>
+					
 					<div class="clearfix"></div>
 					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
@@ -137,5 +147,14 @@
 				}
 		);
 	}
+
+$( document ).ready(function() {
+	$('.searchfilter').on("click",function(e){    	
+    	//console.log('searchfilter ');
+    	$(".searchfilter span")
+        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+        $('.searchfilter-body').toggleClass('hide show');
+    });
+});    
 </script>
 @endsection

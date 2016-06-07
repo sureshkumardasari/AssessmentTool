@@ -340,4 +340,40 @@ class Grade extends Model {
 
         return $status;
     }
+
+
+    /**
+
+    */
+    public function getGradeAssignment($instute_id=0){
+
+        $query = DB::table('assignment as asn')
+            ->join('assessment as ass', function($join){
+                $join->on('ass.id', '=', 'asn.assessment_id');
+            })
+            // ->where('institution_id',$instute_id)
+            ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId'));
+            
+        $assignments = $query->get();
+        return $assignments;
+
+    }
+
+    public function getUsersByAssignment($assignment_id=0){
+
+        $query = DB::table('assignment_user as asn')
+            ->join('users as u', function($join){
+                $join->on('u.id', '=', 'asn.user_id');
+            });
+        if($assignment_id > 0)
+        {
+            $query->where("asn.assignment_id", $assignment_id);
+        }
+            $query->select(DB::raw('u.id, first_name, last_name'));
+            
+        $asign_users = $query->get();
+        return $asign_users;
+    }
+
+
 }

@@ -22,6 +22,7 @@ use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
+use App\Modules\Grading\Models\Grade;
 
 class GradingController extends BaseController {
 
@@ -47,6 +48,12 @@ class GradingController extends BaseController {
 
 		$obj = new AssignmentUser();
 		$this->assignmentuser = $obj;
+
+		$obj = new Grade();
+		$this->grade = $obj;
+
+		$obj = new AssessmentQuestion();
+		$this->assignmentqst = $obj;
 	}
 
 	/**
@@ -58,4 +65,27 @@ class GradingController extends BaseController {
 	{
 		
 	}    
+
+	public function assignment(){
+		$inst_arr = $this->institution->getInstitutions();	
+		$assignments = $this->grade->getGradeAssignment();
+		// dd($assignments);
+        return view('grading::list',compact('assignments', 'inst_arr'));
+	}
+
+	public function studentGradeListing($assignment_id){
+		// print_r($assignment_id);
+		$ass_usrs = $this->grade->getUsersByAssignment($assignment_id);
+		// dd($ass_usrs);
+		return view('grading::student_grade', compact('ass_usrs'));
+	}
+
+	public function questionGradeListing($assignment_id){
+		// print_r($assignment_id);
+		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
+		// dd($ass_qst);
+		return view('grading::question_grade', compact('ass_qst'));
+	}
+
+
 }
