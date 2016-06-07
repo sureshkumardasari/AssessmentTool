@@ -109,7 +109,7 @@ class AssessmentController extends BaseController {
 	public function assessmentInsert(){
 
 		$post = Input::All();
- 		$messages=[
+  		$messages=[
 // 			'subject_id.required'=>'The Subject field is required',
 //			'category_id.required'=>'The Category field is required',
 //			'lessons_id.required'=>'The Lessons field is required',
@@ -130,12 +130,26 @@ class AssessmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
-			$passage_id=[];
+//			$passage_id=[];
+			$pass_list=[];
 			$Question_ids=$post['QuestionIds'];
-			$passage_Ids=$post['passageIds'];
-			foreach($passage_Ids as $pass_id){
-				array_push($passage_id,$pass_id);
-			}
+//			dd($Question_ids);
+			$questions = Question::wherein('id',$post['QuestionIds'])->get();
+//			dd($questions);
+//			foreach($questions as $s){
+//				dd($s['id']);
+//
+//			}
+//			dd('eee');
+// 			foreach($Question_ids as $key=>$q){
+//				$pass=Question::find($q)->select('passage_id')->get();
+//				dd($pass);
+//			}
+//			dd('e');
+//			$passage_Ids=isset( $post['passageIds'] ) ? $post['passageIds'] : 0;
+//			foreach($passage_Ids as $pass_id){
+//				array_push($passage_id,$pass_id);
+//			}
 // 			$Question_ids=explode(',',$post['QuestionIds'][0]);
   				$assessment_insert = new Assessment();
  				$assessment_insert->name = $post['title'] ;
@@ -143,20 +157,36 @@ class AssessmentController extends BaseController {
 //				$assessment_insert->category_id = $post['category_id'] ;
 //				$assessment_insert->subject_id = $post['subject_id'] ;
 //				$assessment_insert->lessons_id = $post['lessons_id'] ;
- 			foreach ($Question_ids as $key => $value) {
-				if($value=='')continue;
   				if($assessment_insert->save()){
-					foreach ($passage_id as $key=>$passage_Idss) {
+//					if($passage_Ids){
+//						foreach ($passage_Ids as $key => $value) {
+//							$assessment_id=$assessment_insert->id;
+//							$assessment_question=new AssessmentQuestion();
+//							$assessment_question->assessment_id=$assessment_id;
+//							$assessment_question->question_id=$value;
+//							$assessment_question->save();
+//						}
+//					}else{
+						foreach ($questions as $value) {
+						if($value=='')continue;
 						$assessment_id=$assessment_insert->id;
 						$assessment_question=new AssessmentQuestion();
 						$assessment_question->assessment_id=$assessment_id;
-						$assessment_question->question_id=$value;
-						$assessment_question->passage_id=$passage_Idss;
+						$assessment_question->question_id=$value['id'];
+						$assessment_question->passage_id=$value['passage_id'];
 						$assessment_question->save();
-					}
+						}
+//					}
+//					foreach ($passage_id as $key=>$passage_Idss) {
+//						$assessment_id=$assessment_insert->id;
+//						$assessment_question=new AssessmentQuestion();
+//						$assessment_question->assessment_id=$assessment_id;
+//						$assessment_question->question_id=$value;
+//						$assessment_question->passage_id=$passage_Idss;
+//						$assessment_question->save();
+//					}
  				}
-			}
-			return redirect('/resources/assessment');
+ 			return redirect('/resources/assessment');
 		}
  	}
 	public function assessmentedit($id=0){
@@ -208,29 +238,39 @@ class AssessmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
-			$passage_Ids=$post['passageIds'];
-			foreach($passage_Ids as $pass_id){
-				array_push($passage_id,$pass_id);
-			}
- 			$assessment_insert = Assessment::find($post['id']);
+//			$passage_Ids=$post['passageIds'];
+//			foreach($passage_Ids as $pass_id){
+//				array_push($passage_id,$pass_id);
+//			}
+			$questions = Question::wherein('id',$post['QuestionIds'])->get();
+  			$assessment_insert = Assessment::find($post['id']);
  			$assessment_insert->name = $post['title'] ;
  			//delete previous questions-answers
  			$assessment_question=AssessmentQuestion::where('assessment_id',$post['id'])->delete();
 
- 			foreach ($post['QuestionIds'] as $key => $value) {
- 				if($assessment_insert->save()){
-					// $assessment_question=AssessmentQuestion::where('question_id',$value)->where('assessment_id',$post['id'])->delete();
-					if($value!=""){
-					foreach ($passage_id as $key=>$passage_Idss) {
-					$assessment_question=new AssessmentQuestion();
-					$assessment_question->assessment_id=$post['id'];
-					$assessment_question->question_id=$value;
-					$assessment_question->passage_id=$passage_Idss;
-					$assessment_question->save();
-					}
-					}
-				}
- 			}
+// 			foreach ($post['QuestionIds'] as $key => $value) {
+// 				if($assessment_insert->save()){
+//					// $assessment_question=AssessmentQuestion::where('question_id',$value)->where('assessment_id',$post['id'])->delete();
+//					if($value!=""){
+//					foreach ($passage_id as $key=>$passage_Idss) {
+//					$assessment_question=new AssessmentQuestion();
+//					$assessment_question->assessment_id=$post['id'];
+//					$assessment_question->question_id=$value;
+//					$assessment_question->passage_id=$passage_Idss;
+//					$assessment_question->save();
+//					}
+//					}
+//				}
+// 			}
+			foreach ($questions as $value) {
+				if($value=='')continue;
+				$assessment_id=$assessment_insert->id;
+				$assessment_question=new AssessmentQuestion();
+				$assessment_question->assessment_id=$assessment_id;
+				$assessment_question->question_id=$value['id'];
+				$assessment_question->passage_id=$value['passage_id'];
+				$assessment_question->save();
+			}
 			return redirect('/resources/assessment');
  		}
 	}
@@ -240,6 +280,17 @@ class AssessmentController extends BaseController {
 		$question=$post['questions'];
   		$subjects = $this->question->getassessmentQst($question);
  		return $subjects;
+	}
+	public function assessmentOldPassage(){
+		$post = Input::All();
+ 		$passage=$post['passages'];
+		$subjects = $this->question->getassessmentOldPassage($passage);
+		return $subjects;
+	}public function assessmentRemoveOldPassage(){
+ 		$post = Input::All();
+  		$passage=$post['passages'];
+		$subjects = $this->question->getassessmentRemoveOldPassage($passage);
+		return $subjects;
 	}
 	public function assessmentAppendQst(){
  		$post = Input::All();
