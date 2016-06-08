@@ -42,6 +42,7 @@
 			  <th>Name</th>
 		  </tr>
 		  </thead>
+		  <tbody class="child-grid">
 		  <?php
 		  if (count($errors) > 0){
 		  $old_values=old('QuestionIds');
@@ -55,7 +56,7 @@
 		  @foreach( $questions_lists as $name )
 			  <tr>
 				  <td>
-					  <input type="checkbox" id="questions-list"  value="{{ $name['id'] }}"  class="assess_qst check-question" data-group-cls="btn-group-sm">
+					  <input type="checkbox" id="questions-list"  value="{{ $name['id'] }}"  class="assess_qst check-selected-question" data-group-cls="btn-group-sm">
 					  <input type="hidden" name="QuestionIds[]" id="QuestionIds" value="{{ $name['id'] }}">
 				  </td>
 				  <td>{{ $name['title'] }}</td>
@@ -64,7 +65,7 @@
 		  @endforeach
 	  <?php }
 		  ?>
-		  <tbody class="child-grid">
+
 		  </tbody>
 	  </table>
 	  <div class="form-group">
