@@ -11,22 +11,22 @@
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
                        <div class="rcorners1 col-md-6" >
-                           <a href="#">Scores by Assessments</a>
+                           <a href="{{ url('/report/assessment') }}">Scores by Assessments</a>
                        </div>
 
                         <div class="col-md-3" ></div>
                         <div class="rcorners1 col-md-6" >
-                            <a href="#">Student Scores by Assignment</a>
+                            <a href="{{ url('/report/assignment') }}">Student Scores by Assignment</a>
                         </div><br>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
                         <div class="rcorners1  col-md-6" >
-                            <a href="#">Scores by Students</a>
+                            <a href="{{ url('/report/student') }}">Scores by Students</a>
                         </div>
                         <div class="col-md-3" ></div>
                         <div class="rcorners1  col-md-6" >
-                            <a href="#">Questions & Answers</a>
+                            <a href="{{ url('/report/answer') }}">Questions & Answers</a>
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ return [
         "admin",
        "resources",
         "assessment",
-       	"reports",
+       	"report",
        	"grading",
         /*"dashboard"*/
     ),
