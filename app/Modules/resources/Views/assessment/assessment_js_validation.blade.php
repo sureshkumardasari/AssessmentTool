@@ -2,14 +2,20 @@
 $path = url()."/resources/";
 ?>
 <script>
+	remove_passage_ids=[];
 	function filter(flg=0){
- 		question_Ids=[];
+  		question_Ids=[];
+ 		passage_Ids=[];
 		var csrf=$('Input#csrf_token').val();
 		var question_id=document.getElementsByName('QuestionIds[]');
 		for (var i = 0; i < question_id.length; i++) {
 			question_Ids.push(question_id[i].value);
 		}
-		var institution_id=$('#institution_id').val();
+		var passage_id=document.getElementsByName('passageIds[]');
+		for (var i = 0; i < passage_id.length; i++) {
+			passage_Ids.push(passage_id[i].value);
+		}
+ 		var institution_id=$('#institution_id').val();
 		var category_id=$('#category_id').val();
 		var subject_id=$('#subject_id').val();
 		var lessons_id=$('#lessons_id').val();
@@ -24,8 +30,12 @@ $path = url()."/resources/";
 
 		if(flg=='1'){
 			var data2={'questions':question_Ids};
+			var data3={'passages':passage_Ids};
 			var url2='{{$path}}get_assessment_qst';
+			var url3='{{$path}}get_assessmentold_pass';
 			selected_qst_ajax(url2,data2,csrf);
+			selected_old_pass_ajax(url3,data3,csrf);
+//			selected_remove_old_pass_ajax(url4,data4,csrf);
 		}
 
 	}
@@ -69,8 +79,52 @@ $path = url()."/resources/";
 
 							$('#questions-list').append(tr);
 							$('#selected-questions'+' .child-grid').append(tr);
+						}
+					}
+				}
+		);
+	}
+	function selected_old_pass_ajax(url3,data3,csrf){
+		$.ajax(
+				{
+					url:url3,
+					headers: {"X-CSRF-Token": csrf},
+					type:"post",
+					data:data3,
+					success:function(response){
+						$('#selected-passage'+' .child-grid').empty();
+						var tr;
+						for (var i = 0; i < response.length; i++) {
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='"+ response[i].id +"' id='passages-list' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm' name='passage[]'></td>");
+							tr.append("<td>" + response[i].title + "</td>");
+  							$('#selected-passage'+' .child-grid').append(tr);
+							remove_passage_ids.push(""+ response[i].id +"");
+  						}
+					}
+				}
+		);
+	}
 
-							
+	var url4='{{$path}}get_assessment_remove_old_pass';
+	var data4={'passage':remove_passage_ids};
+	console.log(remove_passage_ids);
+	function selected_remove_old_pass_ajax(url4,data4,csrf){
+		$.ajax(
+				{
+					url:url4,
+					headers: {"X-CSRF-Token": csrf},
+					type:"post",
+					data:data4,
+					success:function(response){
+ 						$('#selected-passage'+' .child-grid').empty();
+						var tr;
+						for (var i = 0; i < response.length; i++) {
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='"+ response[i].id +"' id='passages-list' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm' name='passage[]'></td>");
+							tr.append("<td>" + response[i].title + "</td>");
+							$('#selected-passage'+' .child-grid').append(tr);
+
 						}
 					}
 				}
@@ -88,7 +142,8 @@ if (count($errors) > 0){?>
 	var question_textarea = '{{old('question_textarea')}}';
 	var passage = '{{old('passage')}}';
  	var QuestionIds=$('#QuestionIds').val();
- 	filter('1');
+ 	var passageIds=$('#passageIds').val();
+  	filter('1');
 	addOrRemoveInGrid('', "add");
    	$('#institution_id').val(oldvalues);
 	if(oldvalues!=null){

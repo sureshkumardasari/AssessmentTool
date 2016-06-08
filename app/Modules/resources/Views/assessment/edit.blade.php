@@ -24,7 +24,7 @@
 						<form class="form-horizontal" name="assessment_form" id="assessment_form" role="form" method="POST" action="{{ url('/resources/assessmentupdate') }}">
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 							<input type="hidden" name="id" value="{{ $assessment_details['id'] }}">
-							
+
 
 							<div class="form-group ">
 								<label class="col-md-4 control-label">Institution</label>
@@ -76,7 +76,9 @@
 									<input type="text" class="form-control" name="title" value="{{$assessment_details['name']}}">
 								</div>
 							</div>
-
+							<?php
+							$path = url()."/resources/";?>
+							<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
 							<div class="col-md-12">
 								@include('resources::assessment.partial.questions_edit')
 							</div>

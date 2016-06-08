@@ -46,6 +46,25 @@ class Question extends Model {
 		}
  		$questions = $obj->get();
 		return $questions;
+	}public function getassessmentOldPassage($passage=0)
+	{
+ 		$obj = DB::table('passage'); ;
+
+		if($passage > 0){
+ 			$obj->wherein("id", $passage);
+		}
+		$passage = $obj->get();
+		return $passage;
+	}
+	public function getassessmentRemoveOldPassage($passage=0)
+	{
+		$obj = DB::table('passage'); ;
+
+		if($passage > 0){
+			$obj->wherenotin("id", $passage);
+		}
+		$passage = $obj->get();
+		return $passage;
 	}
 	public function getassessmentAppendQst($questions=0,$flag=0)
 	{

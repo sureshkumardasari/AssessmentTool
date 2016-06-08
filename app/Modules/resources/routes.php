@@ -69,6 +69,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('passage/listing', ['as' => 'ajax-question-listing', 'uses' => 'AssessmentController@passageListing']);		
     Route::post('filter_data_assessment', ['as' => 'filter_data_assessment', 'uses' => 'AssessmentController@assessmentFilter']);
     Route::post('get_assessment_qst', ['as' => 'get_assessment_qst', 'uses' => 'AssessmentController@assessmentQst']);
+    Route::post('get_assessmentold_pass', ['as' => 'get_assessmentold_pass', 'uses' => 'AssessmentController@assessmentOldPassage']);
+    Route::post('get_assessment_remove_old_pass', ['as' => 'get_assessment_remove_old_pass', 'uses' => 'AssessmentController@assessmentRemoveOldPassage']);
     Route::post('get_assessment_append_qst', ['as' => 'get_assessment_append_qst', 'uses' => 'AssessmentController@assessmentAppendQst']);
     Route::post('get_qestion_passage', ['as' => 'get_qestion_passage', 'uses' => 'AssessmentController@assessmentQstPassage']);
     Route::post('filter_data_assessment_list', ['as' => 'filter_data_assessment_list', 'uses' => 'AssessmentController@assessmentFilterList']);

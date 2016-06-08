@@ -107,7 +107,7 @@
 				</thead>
 				<?php
 				if (count($errors) > 0){
-				$old_values=old('QuestionIds');
+				$old_values=old('passageIds');
 				foreach($old_values as $value){
 				?>
 				<input type="hidden" name="passageIds[]" id="passageIds" value="<?php echo $value;?>">
