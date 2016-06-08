@@ -9,7 +9,9 @@
 			<div class="col-md-10 col-md-offset-1">
 
 				<div class="panel panel-default">
-					<div class="panel-heading">Edit Assessment</div>
+					<div class="panel-heading">Edit Assessment
+						<a href="{{ url('/resources/assessment/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>
+					</div>
 					<div class="panel-body">
 						@if (count($errors) > 0)
 							<div class="alert alert-danger">

@@ -37,4 +37,9 @@ class Assessment extends Model {
 		return $questions;
 	}
 
+	public function deleteAssessment($id = 0){
+		$assessment = Assessment::find($id);
+		$assessment->delete();
+	}
+
 }

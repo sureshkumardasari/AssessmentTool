@@ -35,7 +35,10 @@ $path = url()."/resources/";
 			var url3='{{$path}}get_assessmentold_pass';
 			selected_qst_ajax(url2,data2,csrf);
 			selected_old_pass_ajax(url3,data3,csrf);
-//			selected_remove_old_pass_ajax(url4,data4,csrf);
+
+			var url4='{{$path}}get_assessment_remove_old_pass';
+			var data4={'passages':passage_Ids};
+			// selected_remove_old_pass_ajax(url4,data4,csrf);
 		}
 
 	}
@@ -101,6 +104,12 @@ $path = url()."/resources/";
   							$('#selected-passage'+' .child-grid').append(tr);
 							remove_passage_ids.push(""+ response[i].id +"");
   						}
+  						//
+  						url4='{{$path}}get_assessment_remove_old_pass';
+  						data4={'passages':remove_passage_ids};
+  						csrfT=$('Input#csrf_token').val();
+
+  						selected_remove_old_pass_ajax(url4,data4,csrfT)
 					}
 				}
 		);
@@ -117,13 +126,15 @@ $path = url()."/resources/";
 					type:"post",
 					data:data4,
 					success:function(response){
- 						$('#selected-passage'+' .child-grid').empty();
+						$('#passages-list').empty();
+						// $('#selected-passage'+' .child-grid').empty();
 						var tr;
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
-							tr.append("<td><input type='checkbox' value='"+ response[i].id +"' id='passages-list' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm' name='passage[]'></td>");
+							tr.append("<td><input type='checkbox' value='"+ response[i].id +"' id='passages-list'  class='assess_qst check-passage' data-group-cls='btn-group-sm' name='passage[]'></td>");
 							tr.append("<td>" + response[i].title + "</td>");
-							$('#selected-passage'+' .child-grid').append(tr);
+							// $('#passages-list'+' .child-grid').append(tr);
+							$('#passages-list').append(tr);
 
 						}
 					}

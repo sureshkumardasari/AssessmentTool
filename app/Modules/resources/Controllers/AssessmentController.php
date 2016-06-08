@@ -91,6 +91,14 @@ class AssessmentController extends BaseController {
         return view('resources::assessment.list',compact('assessment','institution_id','inst_arr', 'questions','subjects','category'));
 	}
 
+	public function assessmentdel($aid=0)
+	{
+		if($aid > 0)
+		{
+			$this->assessment->deleteAssessment($aid);
+		}
+		return redirect('/resources/assessment');
+	}
 	public function assessmentcreate(){
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		$id = $institution_id = $subject_id = $category_id = 0;

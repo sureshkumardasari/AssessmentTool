@@ -75,7 +75,7 @@
 
 		        </tr>
 		    </thead>
-		    <tbody>
+		    <tbody id="passages-list">
 		        @foreach( $inst_passages_list as $id => $name )
 		        <tr>
 		        	<td>
