@@ -50,7 +50,7 @@
 			          </ul>
 			        </li>
 			        <li><a href="{{ url('/grading') }}">Grading</a></li>
-					<li><a href="{{ url('/user/report') }}">Reports</a></li>
+					<li><a href="{{ url('/report') }}">Reports</a></li>
 				</ul>
 				@endif
 				<ul class="nav navbar-nav navbar-right">

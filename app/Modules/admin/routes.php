@@ -57,5 +57,4 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::post('add-category','BrandingController@store');
 
 
-    Route::get('report','ReportController@view');
 });
