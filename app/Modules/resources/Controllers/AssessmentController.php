@@ -173,7 +173,7 @@ class AssessmentController extends BaseController {
 						$assessment_question=new AssessmentQuestion();
 						$assessment_question->assessment_id=$assessment_id;
 						$assessment_question->question_id=$value['id'];
-						$assessment_question->passage_id=$value['passage_id'];
+						$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 						$assessment_question->save();
 						}
 //					}
