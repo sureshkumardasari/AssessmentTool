@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Select Student:</label>
                                 <div class="col-md-2">
-                                    <select name="student_id" class='form-control' id="student">
+                                    <select name="student_id" class='form-control' id="student" onchange="student_change()">
                                         <option value="0" selected >-Select-</option>
 
                                     </select>
@@ -32,30 +32,49 @@
                             </div>
                         </div>
                     </div>
-                    <div id="Report">
-                        <table class="table" id="assessment">
-                            <thead>
-                            <tr>
-                                <th>Assignment</th>
-                                <th>Assessment</th>
-                                <th>Date</th>
-                                <th>Total Questions</th>
-                                <th>Correct Questions</th>
-                                <th>Percentage(%)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
+                    <div id="report">
 
-
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function student_change(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+                        headers: {"X-CSRF-Token": csrf},
+                        url: '/AssesmentTool/public/report/students_inst/' + $('#institution_id').val() + '/' + $('#student').val(),
+                        type: 'post',
+                        success: function (response) {
+                            $('#report').empty();
+                            $('#report').append(response);
+                        }
+
+
+                    }
+            )
+        }
+        function inst_change(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+                        headers: {"X-CSRF-Token": csrf},
+                        url: '/AssesmentTool/public/report/students_inst/' + $('#institution_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#student').empty();
+                            var opt = new Option('--Select Student--', '');
+                            $('#student').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#student').append(opt);
+                            }
+                        }
+                    }
+            )
+        }
+    </script>
     @endsection
