@@ -96,9 +96,45 @@ class ReportController extends Controller {
 				->join('users','users.id','=','assignment_user.user_id')
 				->join('assessment_question','assessment_question.assessment_id','=','assignment_user.assessment_id')
 				->select(DB::raw('count(*) as question_id, users.name as user_name'))
-				->where('assignment_user.assignment_id','=',$assi_id)
+				->where('assignment_user.assessment_id','=',$assi_id)
 				->groupby('users.name')
 				->get();
 		return view('report::report.assignmentview',compact('students'));
 	}
+	public function student_inst($id){
+		$students=User::join('role_user','role_user.user_id','=','users.id')
+				->where('role_user.role_id','=',2)
+				->where('users.institution_id','=',$id)
+				->select('users.name','users.id')
+				->get();
+		return $students;
+	}
+	public function inst_student($inst_id,$student_id){
+		$assignments=DB::table('assignment_user')
+				->join('assignment','assignment.id','=','assignment_user.assignment_id')
+				->join('assessment','assessment.id','=','assignment_user.assessment_id')
+				->join('assessment_question','assessment_question.assessment_id','=','assignment_user.assessment_id')
+				->where('assignment_user.user_id','=',$student_id)
+				->select(DB::raw('count(*) as question_id, assessment.name as assessment_name, assignment.name as assignment_name'))
+				->groupby('assignment_name')
+				->get();
+       /* $questions=DB::table('question_user_answer')
+            ->select('question_id','is_correct')
+            ->get();
+        dd($questions);*/
+		return view('report::report.student_answer_view',compact('assignments'));
+	}
+
+    public function inst_question($id){
+        $d=Assignment::select('id')->where('institution_id','=',$id)->get();
+        $c=array();
+        foreach($d as $asssignmentid)
+            array_push($c,$asssignmentid->id);
+        $questions=DB::table('question_user_answer')
+            ->select(DB::raw('count(*) as question_id'))
+            ->wherein('assignment_id',$c)
+            ->get();
+       /* dd($questions);*/
+        return view('report::report.question_answer_view',compact('questions'));
+    }
 }
