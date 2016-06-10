@@ -31,9 +31,9 @@
 					</div>
 					<div class="panel-body searchfilter-body hide">	
 					<div class="form-group col-md-6">
-						<label class="col-md-2 control-label">Institution</label>
+						<label class="col-md-2 control-label" >Institution</label>
 						<div class="col-md-10">
-							<select class="form-control" name="institution_id" id="institution_id">
+							<select class="form-control" name="institution_id" id="institution_id" onchange="inst_change()">
 								<option value="0">Select</option>
 								@foreach($inst_arr as $id=>$val)
 								<option name="institution_id" value="{{$id}}">{{ $val }}</option>
@@ -44,33 +44,27 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label">Category</label>
 						<div class="col-md-10">
-							<select class="form-control" name="category_id" id="category_id">
+							<select class="form-control" name="category_id" id="category" onchange="cat_change()">
 								<option value="0">Select</option>
-								@foreach($category as $id=>$val)
-								<option value="{{ $id }}">{{ $val }}</option>
-								@endforeach
+								
 							</select>
 						</div>
 					</div>
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label">Subject</label>
 						<div class="col-md-10">
-							<select class="form-control" name="subject_id" id="subject_id">
+							<select class="form-control" name="subject_id" id="subject" onchange="sub_change()">
 								<option value="0">Select</option>
-								@foreach($subjects as $id=>$val)
-								<option value="{{ $id }}">{{ $val }}</option>
-								@endforeach
+								
 							</select>
 						</div>
 					</div>
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label">Lessons</label>
 						<div class="col-md-10">
-							<select class="form-control" name="lessons_id" id="lessons_id">
+							<select class="form-control" name="lessons_id" id="lessons">
 								<option value="0">Select</option>
-								@foreach($lessons as $id=>$val)
-									<option value="{{ $id }}">{{ $val }}</option>
-								@endforeach
+								
 							</select>
 						</div>
 					</div>
@@ -142,9 +136,11 @@
 						var tr;
 						for (var i = 0; i < response.length; i++) {
  							tr = $('<tr/>');
-							tr.append("<td>" + response[i].title + "");
-							tr.append("<a href='questionedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
-							tr.append("<a href='questiondel/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							tr.append("<td>" + response[i].question_title + "");
+							tr.append("<td>" + response[i].question_type + "");
+							tr.append("<td>" + response[i].passage_title + "");
+							tr.append("<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
+							tr.append("<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
  							$('#question_list_filer').append(tr);
 						}
 					}
@@ -160,5 +156,67 @@ $( document ).ready(function() {
         $('.searchfilter-body').toggleClass('hide show');
     });
 });    
+
+function inst_change(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+                        headers: {"X-CSRF-Token": csrf},
+                        url: '/assesmenttool/public/resources/categoryList/' + $('#institution_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#category').empty();
+                            var opt = new Option('--Select Category--', '');
+                            $('#category').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#category').append(opt);
+                            }
+                        }
+                    }
+            )
+        }
+function cat_change(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+                        headers: {"X-CSRF-Token": csrf},
+                        url: '/assesmenttool/public/resources/subjectList/' + $('#category').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#subject').empty();
+                            var opt = new Option('--Select Subject--', '');
+                            $('#subject').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#subject').append(opt);
+                            }
+                        }
+                    }
+            )
+        }
+        function sub_change(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+                        headers: {"X-CSRF-Token": csrf},
+                        url: '/assesmenttool/public/resources/lessonsList/' + $('#subject').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#lessons').empty();
+                            var opt = new Option('--Select Lessons--', '');
+                            $('#lessons').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#lessons').append(opt);
+                            }
+                        }
+                    }
+            )
+        }
+
 </script>
 @endsection

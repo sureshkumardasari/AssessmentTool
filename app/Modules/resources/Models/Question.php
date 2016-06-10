@@ -121,6 +121,7 @@ class Question extends Model {
 	public function getQuestionFilter($institution = 0, $category = 0, $subject = 0,$lessons=0)
 	{
 		$obj = DB::table('questions'); ;
+		
 		if($institution > 0){
 			$obj->where("institute_id", $institution);
 		}

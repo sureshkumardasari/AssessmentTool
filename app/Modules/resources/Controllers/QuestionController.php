@@ -92,6 +92,7 @@ class QuestionController extends BaseController {
 		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
 			->leftjoin('passage','questions.passage_id','=','passage.id')
 			->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+			->orderby('qid')
 			->get();
 			//dd($list);
         return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
@@ -341,11 +342,27 @@ class QuestionController extends BaseController {
 	public function questionFilter(){
 		$post = Input::All();
 		$institution=$post['institution'];
-		$category=$post['category'];
-		$subject=$post['subject'];
-		$lessons=$post['lessons'];
-		$question_list = $this->question->getQuestionFilter($institution,$category,$subject,$lessons);
-		return $question_list;
+		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
+			->leftjoin('passage','questions.passage_id','=','passage.id');
+
+		if($institution > 0){
+			$obj->where("questions.institute_id", $institution);
+		}
+		/*if($category > 0){
+			$obj->where("category_id", $category);
+		}
+		if($subject > 0){
+			$obj->where("subject_id", $subject);
+		}
+		if($lessons > 0){
+			$obj->where("lesson_id", $lessons);
+		}*/
+
+		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+			->orderby('qid')
+			->get();
+		//$question_list = $this->question->getQuestionFilter($institution);
+		return $list;
 	}
 	
 	public function questiondelete($qid=0){
