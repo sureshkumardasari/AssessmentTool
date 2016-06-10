@@ -19,8 +19,29 @@ class AssessmentQuestion extends Model {
 	 */
 	protected $table = 'assessment_question';
 
-	public function getQuestionsByAssessment($aId = 0)
+	public function getQuestionsByAssessment($aId = 0, $aAId = 0)
 	{
+		$que_user_answer = DB::table('question_user_answer as qua')
+									->where('qua.assignment_id','=', $aAId)
+									->where('qua.assessment_id','=', $aId)
+									->where('qua.user_id','=', Auth::user()->id)
+									->get();
+		$user_answers = [];
+		foreach ($que_user_answer as $key => $row) {
+			$user_answers[$row->question_id][] = ['QuestionAnswerId'=> $row->question_answer_id, 'QuestionAnswerText'=>$row->question_answer_text];
+		}
+
+		$que_user_answer_retake = DB::table('question_user_answer_retake as qua')
+									->where('qua.assignment_id','=', $aAId)
+									->where('qua.assessment_id','=', $aId)
+									->where('qua.user_id','=', Auth::user()->id)
+									->get();
+		$user_answers_retake = [];
+		foreach ($que_user_answer_retake as $key => $row) {
+			$user_answers_retake[$row->question_id][] = ['QuestionAnswerId'=> $row->question_answer_id, 'QuestionAnswerText'=>$row->question_answer_text];
+		}
+
+
 		$results = DB::table('assessment_question as aq')
 						->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
 						->join("questions as q", 'aq.question_id', '=', 'q.id')
@@ -38,8 +59,10 @@ class AssessmentQuestion extends Model {
 			$questions[$row->id]['Title'] = $row->title;
 			$questions[$row->id]['question_type'] = $row->question_type;
 			$questions[$row->id]['answers'][]['Id'] = $row->answer_id;
-			$questions[$row->id]['user_answers'][]['QuestionAnswerId'] = 0;
-			$questions[$row->id]['user_answers_retake'][]['QuestionAnswerId'] = 0;
+			//$questions[$row->id]['user_answers'][]['QuestionAnswerId'] = 0;
+			//$questions[$row->id]['user_answers_retake'][]['QuestionAnswerId'] = 0;
+			$questions[$row->id]['user_answers'] = (isset($user_answers[$row->id])) ? $user_answers[$row->id] : [];
+			$questions[$row->id]['user_answers_retake'] = (isset($user_answers_retake[$row->id])) ? $user_answers_retake[$row->id] : [];
 		}
 		//dd($questions);
 		return $questions;						

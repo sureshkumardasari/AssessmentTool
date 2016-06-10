@@ -114,7 +114,7 @@ class AssessmentAssignmentController extends BaseController {
     	$bulletType = '';
     	// get question based on subsection id
     	$qbank = new AssessmentQuestion();
-    	$questions = $qbank->getQuestionsByAssessment($aAId);
+    	$questions = $qbank->getQuestionsByAssessment($aAId, $aAId);
         //getting Assessment
         $assessment = Assessment::find($aId);
         $secs = ($assessment->totaltime > 0) ? $assessment->totaltime : 180;
