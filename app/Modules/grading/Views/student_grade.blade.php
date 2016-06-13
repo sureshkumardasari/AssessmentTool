@@ -11,10 +11,11 @@
 				<div class="panel-body">				
 						<label class="col-md-2 control-label">Student Name</label>
 						<div class="col-md-4">
+							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 							<select class="form-control" name="user" id="user" onchange="change_user()">
-								<option value="">All</option>
+								<option value="0">All</option>
 								@foreach($ass_usrs as $id=>$val)
-								<option value="{{ $val->id }}">{{ $val->first_name." ".$val->last_name }}</option>
+									<option value="{{ $val->id }}">{{ $val->first_name." ".$val->last_name }}</option>
 								@endforeach
 							</select>
 						</div>				
@@ -28,12 +29,12 @@
 				                <th>Action</th>
 				            </tr>
 				        </thead>
-				        <tbody>
+				        <tbody id="student_list">
 				            @foreach($ass_usrs as $id=>$val)
 				            	<tr>
 				            	<td>{{ $val->first_name." ".$val->last_name }} </td>
 				            	<td> </td>
-				            	<td> </td>
+				            	<td> <a href="{{ url('/grading/list-student-question/'.$val->id) }}"><i class="icons ico-grade"></i></a></td>
 				            	</tr>
 				            @endforeach			            
 				        </tbody>
@@ -43,4 +44,5 @@
 		</div>
 	</div>
 </div>
+@include('resources::grading.grading_js')
 @endsection

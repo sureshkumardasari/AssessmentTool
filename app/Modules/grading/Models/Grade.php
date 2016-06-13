@@ -374,6 +374,21 @@ class Grade extends Model {
         $asign_users = $query->get();
         return $asign_users;
     }
+    public function getUsersById($student_id=0){
+
+        $query = DB::table('assignment_user as asn')
+            ->join('users as u', function($join){
+                $join->on('u.id', '=', 'asn.user_id');
+            });
+        if($student_id > 0)
+        {
+            $query->where("u.id", $student_id);
+        }
+        $query->select(DB::raw('u.id, first_name, last_name'));
+
+        $asign_users = $query->distinct()->get();
+        return $asign_users;
+    }
 
 
 }

@@ -1523,7 +1523,7 @@ function addOrRemoveInPassage(elem, type,id) {
                             type:"post",
                             data:{id:id,flag:flag,QuestionIds:question_Ids},
                             success:function(response){
-                                $('#questions-list').empty();
+                                //$('#questions-list').empty();
                                 //$('#selected-questions'+' .child-grid').empty();
                                 var tr;
                                 for (var i = 0; i < response.length; i++) {

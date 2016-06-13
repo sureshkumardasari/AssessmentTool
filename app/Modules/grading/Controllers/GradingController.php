@@ -80,11 +80,30 @@ class GradingController extends BaseController {
 		return view('grading::student_grade', compact('ass_usrs'));
 	}
 
+	public function studentGradeListingAjax($student_id){
+
+ 		$ass_usrs = $this->grade->getUsersById($student_id);
+		return $ass_usrs;
+	}
+
+
 	public function questionGradeListing($assignment_id){
 		// print_r($assignment_id);
 		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
 		// dd($ass_qst);
 		return view('grading::question_grade', compact('ass_qst'));
+	}public function studentQuestionList($assignment_id){
+ 		// print_r($assignment_id);
+//		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
+		// dd($ass_qst);
+//		return view('grading::student_inner_grade', compact('ass_qst'));
+		return view('grading::student_inner_grade');
+	}public function studentGradingInner($assignment_id){
+	return 'studentGradingInner';
+		// print_r($assignment_id);
+		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
+		// dd($ass_qst);
+		return view('grading::student_question_list', compact('ass_qst'));
 	}
 
 

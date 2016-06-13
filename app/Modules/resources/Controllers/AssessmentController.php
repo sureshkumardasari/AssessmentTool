@@ -278,7 +278,7 @@ class AssessmentController extends BaseController {
 				$assessment_question=new AssessmentQuestion();
 				$assessment_question->assessment_id=$assessment_id;
 				$assessment_question->question_id=$value['id'];
-				$assessment_question->passage_id=$value['passage_id'];
+				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
 			}
 			return redirect('/resources/assessment');
@@ -304,7 +304,7 @@ class AssessmentController extends BaseController {
 	}
 	public function assessmentAppendQst(){
  		$post = Input::All();
-		$question=$post['QuestionIds'];
+		$question=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
 		$flag=$post['flag'];
 		$subjects = $this->question->getassessmentAppendQst($question,$flag);
 		return $subjects;
@@ -313,8 +313,8 @@ class AssessmentController extends BaseController {
  		$post = Input::All();
   		$passage_id=$post['id'];
 		$flag=$post['flag'];
-		$question_Ids=$post['QuestionIds'];
-  		$subjects = $this->question->getPassageQst($passage_id,$flag,$question_Ids);
+		$question_Ids=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
+   		$subjects = $this->question->getPassageQst($passage_id,$flag,$question_Ids);
 		return $subjects;
 	}
 
