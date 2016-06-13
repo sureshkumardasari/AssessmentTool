@@ -42,6 +42,21 @@ class Assignment extends Model {
 		return $assignment;
 	}
 
+	public function getDetails($id = 0)
+	{
+		$assignment = DB::table('assignment')
+                        ->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
+                        ->join('users', 'users.id', '=', 'assignment.proctor_user_id')
+                        ->join('institution', 'institution.id', '=', 'assignment.institution_id')
+                       	->where('assignment.id', $id)
+                     
+                        ->select('assignment.id as id','assignment.assessment_id','assignment.name','assignment.description','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires','assignment.launchtype','assessment.name as assessment_name','assessment.print_view_file','users.name as proctor_name','assignment.proctor_instructions','institution.name as institution_name','assignment.delivery_method')
+                        ->get();
+
+		return $assignment[0];
+	}
+
+	
 	public function deleteassignment($id = 0)
 	{
 		$assignment = Assignment::find($id);
@@ -185,8 +200,88 @@ class Assignment extends Model {
         return $assessmentStatus;
     }
     public function updateGradeStatus($id, $status) {
-                $assignment = $this->find($id);
-                $assignment->gradestatus = $status;
-                return $assignment->save();
+        $assignment = $this->find($id);
+        $assignment->gradestatus = $status;
+        return $assignment->save();
+    }
+
+/**
+     * getAssignmentAnswerKeys | It provide Assessment-Assignment-Answer-Keys Dataset for CSV
+     * @return array $dataset [0 => ['Question #', 'Question Text', 'Correct Answer'], 1 => [] ]
+     */
+    public function getAssignmentAnswerKeys() {
+
+        $bullets = ['A', 'B', 'C', 'D', 'E'];
+        $dataset[] = ['Question #', 'Question Text', 'Correct Answer'];
+        $counter = 1;
+        if ($this->count()) {
+// get assignment subsection ids
+           // $subsectionIds = $this->subsections->lists('SubsectionId');
+// get its child subsections
+          //  $subsectionIds += Subsection::whereIn('ParentId', $subsectionIds)->where('SubjectId', '<>', '0')->lists("Id");
+// get all questions that belong to that assignment
+            $questionIds = AssessmentQuestion::where('assessment_id', $this->id)->lists('question_id');
+
+            //$questions = \App\Modules\Resources\Models\Question::whereIn('Id', $questionIds)->with(['QuestionType', 'QuestionAnswer'])->get();
+
+        $questions = DB::table('assessment_question as aq')
+                        ->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
+                        ->join("questions as q", 'aq.question_id', '=', 'q.id')
+                        ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
+                        ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
+                        ->where("aq.assessment_id","=", $this->id)
+                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id")
+                        ->orderby('aq.id', 'ASC')
+                        ->orderby('qa.order_id', 'ASC')
+                        ->get();
+
+            foreach ($questions as $question) {
+
+                $dataset[$counter][] = $question->id;
+                $questionText = empty($question->title) ? '' : strip_tags($question->title);
+                $questionText = str_replace('’', '\'', $questionText);
+                $questionText = str_replace('“', '"', $questionText);
+                $questionText = str_replace('”', '"', $questionText);
+
+                $dataset[$counter][] = $questionText;
+
+                if (in_array($question->question_type, ['Multiple Choice - Single Answer', 'Multiple Choice - Multi Answer', 'Selection'])) {
+                   /* $answers = $question->correct_answers;
+                    $params['objArr'] = $answers;
+                    $params['propertyName'] = 'OrderId';
+                    $params['separator'] = ':';
+                    $correctAns = get_group_concat_val($params);
+                    $correctAns = explode(':', $correctAns);
+
+                    $_correctAns = [];
+                    foreach ($correctAns as $key => $value) {
+                        if(isset($bullets[trim($value)-1])){
+                            $_correctAns[] = $bullets[trim($value)-1];
+                        }
+                    }
+                    $_correctAns = implode(', ', $_correctAns);*/
+
+                    $dataset[$counter][] =  $question->answer_id;
+                    $counter++;
+                } /*elseif ($question->questionType->Option == 'Essay') {
+                    $constraints = $question->constraints()->first();
+                    $display = Option::where('Id', $constraints->TypeId)->first()->Display;
+                    $dataset[$counter][] = $display . ' - ' . $constraints->Length . ' (' . $constraints->ContentType . ')';
+                    $counter++;
+                } elseif ($question->questionType->Option == 'Student-Produced Response: Math' || $question->questionType->Option == "Student-Produced Response") {
+                    $constraints = $question->constraints()->get();
+                    $_constraints = [];
+                    foreach ($constraints as $key => $constraint) {
+                        $_constraints[] = !empty($constraint->OriginalConstraintValue) ? $constraint->SpecificValue : $constraint->To . ' - ' . $constraint->To;
+                    }
+
+                    $dataset[$counter][] = !empty($_constraints) ? implode(', ', $_constraints) : '';
+                    $counter++;
+                }*/
             }
+        }
+
+        //dd($dataset);
+        return $dataset;
+    }
 }

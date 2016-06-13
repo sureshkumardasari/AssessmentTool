@@ -119,6 +119,34 @@ class AssignmentController extends BaseController {
 		return view('resources::assignment.edit',compact('assignment','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
 
+	public function assignmentview($id = 0)
+	{		
+		//$inst_arr = $this->assignment->getAssignments();
+
+		if(isset($id) && $id > 0)
+		{
+			$assignment = $this->assignment->getDetails($id);
+//var_dump($assignment); exit;
+			$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($id);	
+			//print_r($assignmentUsersArr);
+			//$assignmentUsersJson = json_encode($assignmentUsersArr);
+		}
+		else
+		{
+			$assignment = Input::All();		
+			$assignmentUsersArr	= array();
+		}
+		
+		//$assessments_arr = Assessment::lists('name','id');
+		
+		
+		//$institution_arr = $this->institution->getInstitutions();			
+
+		//$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,3);// for proctor displaying teachers
+		
+		return view('resources::assignment.view',compact('assignment','assignmentUsersArr'));
+	}
+
 	public function assignmentupdate($id = 0)
 	{
 		$params = Input::All();

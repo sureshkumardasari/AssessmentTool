@@ -426,6 +426,46 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
 }
 
 /**
+ * get_group_concat_val | This method is used to group concat the multi vals from collection object
+ * @param array $params | ['objArr'=> $objArr, 'propertyName'=>Name, 'separator'=>',', $startHtml='', endHtml = ''];
+ * @return mixed string/boolean 
+ */
+function get_group_concat_val($params) {
+    $strVal = '';
+    $strPropVal = '';
+    $objArr = isset($params['objArr']) ? $params['objArr'] : null;
+    $propertyName = isset($params['propertyName']) ? $params['propertyName'] : null;
+    $separator = isset($params['separator']) ? $params['separator'] : ',';
+    $startHtml = isset($params['startHtml']) ? $params['startHtml'] : '';
+    $endHtml = isset($params['endHtml']) ? $params['endHtml'] : '';
+    try {
+        if ($objArr && $propertyName) {
+            foreach ($objArr as $o) {
+                $propertyNameArr = explode('->', $propertyName);
+                if (count($propertyNameArr) > 1) {
+                    if ($o->$propertyNameArr[0]) {
+                        $strPropVal = $o->$propertyNameArr[0]->$propertyNameArr[1];
+                    }
+                } else {
+                    $strPropVal = $o->$propertyNameArr[0];
+                }
+                if ($strVal === '') {
+                    $strVal = $strPropVal;
+                } else {
+                    $strVal .= $separator . ' ' . $startHtml . $strPropVal . $endHtml;
+                }
+            }
+        } else {
+            return false;
+        }
+    } catch (\Exception $e) {
+        return false;
+    }
+    return $strVal;
+}
+
+
+/**
  * Converts the CSV to an associative array
  * @param  string $filePath Path of the CSV file.
  * @return array            An associative array

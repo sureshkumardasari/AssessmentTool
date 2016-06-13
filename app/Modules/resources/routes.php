@@ -74,11 +74,15 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('get_assessment_append_qst', ['as' => 'get_assessment_append_qst', 'uses' => 'AssessmentController@assessmentAppendQst']);
     Route::post('get_qestion_passage', ['as' => 'get_qestion_passage', 'uses' => 'AssessmentController@assessmentQstPassage']);
     Route::post('filter_data_assessment_list', ['as' => 'filter_data_assessment_list', 'uses' => 'AssessmentController@assessmentFilterList']);
+    Route::get('download_zip/{assessmentId}', ['as' => 'zipDownload', 'uses' => 'AssessmentController@zipDownload']);
+     Route::get('get-print-answer-key-csv', ['as' => 'getPrintAnswerKeyCSV', 'uses' => 'AssessmentController@getPrintAnswerKeyCSV']);
+    
 
     Route::get('assignment', array('as' => 'list', 'uses'=>'AssignmentController@assignment'));
     Route::get('assignmentadd', array('as' => 'add', 'uses'=>'AssignmentController@assignmentadd'));
     Route::get('assignmentedit/{id}', array('as' => 'edit', 'uses'=>'AssignmentController@assignmentedit'));
     Route::get('assignmentdel/{id}', array('as' => 'delete', 'uses'=>'AssignmentController@assignmentdelete'));
+    Route::get('assignmentview/{id}', array('as' => 'view', 'uses'=>'AssignmentController@assignmentview'));
     Route::post('assignmentupdate', array('as' => 'update', 'uses'=>'AssignmentController@assignmentupdate'));
     Route::get('view/assignment/{id?}', ['as' => 'viewAssignment', 'uses' => 'AssignmentController@view']);
 });

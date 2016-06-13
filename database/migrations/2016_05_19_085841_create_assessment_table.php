@@ -35,6 +35,7 @@ class CreateAssessmentTable extends Migration {
 			$table->text('direction');
 			$table->text('begin_instruction');
 			$table->text('end_instruction');
+			$table->text('print_view_file');
 			$table->enum('status', ['active', 'inactive']);
 
 			$table->integer('added_by')->nullable();

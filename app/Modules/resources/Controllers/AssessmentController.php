@@ -3,6 +3,7 @@
 use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\QuestionAnswer;
 use Illuminate\Support\Facades\Auth;
+use Request;
 
 use Zizaco\Entrust\EntrustFacade;
 
@@ -22,6 +23,7 @@ use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\QuestionType;
 use App\Modules\Resources\Models\Passage;
 use App\Modules\Resources\Models\AssessmentQuestion;
+use App\Modules\Resources\Models\Assignment;
 use App\Modules\Admin\Models\User;
 use DB;
 
@@ -397,4 +399,68 @@ class AssessmentController extends BaseController {
 			->render();
 		return $specificQbankPassagesGrid;
 	}
+
+
+	 public function zipDownload($assessmentId) {
+        
+        $assessment = Assessment::find($assessmentId);
+        //$s3 = new \App\Models\S3;
+        
+        if (!empty($assessment)) {
+            
+            // generate file paths
+            $filesToDownload = [];
+            $files = explode(',', $assessment->print_view_file);
+
+
+            foreach ($files as $file) {
+                
+                //make sure the file exists
+               // if($s3->fileExists($file, 'assessment_fixedform_path')) {
+                    $filesToDownload[] = $file;
+               // }
+            }
+
+            // dd($filesToDownload);
+            if (!empty($filesToDownload)) {
+                $data['files'] = $filesToDownload;
+                $data['fileBasePath'] = public_path('data/assessment_pdf/');
+                $data['Download'] = true;
+                // create zip, download then delete it
+                makeZipFile($data);                
+            } else {
+                return redirect()->back()->with('success', 'Files not found');
+            }
+        }        
+                
+    }
+
+
+     /**
+     * getPrintAnswerKeyCSV | A get method for download the Answer-Key into CSV form
+     * 
+     * @access public
+     * @param Request $request 
+     * @return Response::json
+     */
+    public function getPrintAnswerKeyCSV(Request $request) {
+       
+    	//dd( $request);
+        $pPath = public_path('/data/tmp/');
+        $pUrl = url('/data/tmp/');
+        $fileName = 'print_answer_key_' . time();
+        $fExt = 'csv';
+$post = Input::All();		
+$assignmentId = $post['assignmentId'];
+//dd($assignment);
+       //echo  $assignmentId = $request->get('assignmentId', 0);
+        $aaModel = Assignment::find($assignmentId);
+        if ($aaModel) {
+            $dataset = $aaModel->getAssignmentAnswerKeys();
+            $response = ['success' => true, 'fileUrl' => array_to_csv_download($dataset)];
+        } else {
+            $response = ['success' => false, 'message' => 'Assignment does not exists.'];
+        }
+        return Response::json($response);
+    }
 }
