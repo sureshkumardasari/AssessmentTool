@@ -16,6 +16,9 @@ Route::group(array('module'=>'grading', 'prefix' => 'grading', 'middleware' => '
     Route::get('/', array('as' => 'allassignment', 'uses'=>'GradingController@assignment'));
 
     Route::get('list-student/{id}', ['as' => 'studentGrading', 'uses' => 'GradingController@studentGradeListing']);
+    Route::post('list-student-ajax/{id}', ['as' => 'studentGradingAjax', 'uses' => 'GradingController@studentGradeListingAjax']);
+    Route::get('list-student-question/{id}', ['as' => 'studentQuestion', 'uses' => 'GradingController@studentQuestionList']);
+//    Route::get('student-inner-grade/{id}', ['as' => 'studentGradingInner', 'uses' => 'GradingController@studentGradingInner']);
 
     Route::get('list-question/{id}', ['as' => 'questionGrading', 'uses' => 'GradingController@questionGradeListing']);
 });
