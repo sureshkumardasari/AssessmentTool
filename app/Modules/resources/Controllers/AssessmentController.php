@@ -4,7 +4,7 @@ use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\QuestionAnswer;
 use Illuminate\Support\Facades\Auth;
 use Request;
-
+use Response;
 use Zizaco\Entrust\EntrustFacade;
 
 use Zizaco\Entrust\Entrust;

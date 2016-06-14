@@ -230,10 +230,12 @@ class Assignment extends Model {
                         ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
                         ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
                         ->where("aq.assessment_id","=", $this->id)
+                        ->where("qa.is_correct","=", 'Yes')//qa.is_correct='Yes'
                         ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id")
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
+                       //echo $questions->toSql();
 
             foreach ($questions as $question) {
 
