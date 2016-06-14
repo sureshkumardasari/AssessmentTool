@@ -46,7 +46,7 @@ class Assignment extends Model {
 	{
 		$assignment = DB::table('assignment')
                         ->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
-                        ->join('users', 'users.id', '=', 'assignment.proctor_user_id')
+                        ->leftjoin('users', 'users.id', '=', 'assignment.proctor_user_id')
                         ->join('institution', 'institution.id', '=', 'assignment.institution_id')
                        	->where('assignment.id', $id)
                      
