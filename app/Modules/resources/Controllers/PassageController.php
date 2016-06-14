@@ -61,6 +61,13 @@ class PassageController extends BaseController {
 		$passage = new passage();
 		return view('resources::passage.edit',compact('passage'));
 	}
+	public function passageview($id = 0)
+	{
+		$passages=Passage::where('id','=',$id)->get();
+		//dd($passages);
+
+		return view('resources::passage.view',compact('passages'));
+	}
 
 	public function passageedit($id = 0)
 	{		
