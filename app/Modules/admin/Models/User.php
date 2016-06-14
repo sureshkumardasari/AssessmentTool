@@ -35,10 +35,10 @@ class User extends Model {
 	{
 		//$users = User::get();
 		$query = DB::table('Users as u')
-            ->join('Institution as i', function($join){
+            ->leftjoin('Institution as i', function($join){
                 $join->on('i.id', '=', 'u.institution_id');
             })
-            ->join('Roles as r', function($join){
+            ->leftjoin('Roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
             //})->select('Users.name', 'Users.email','Institution.name', 'Roles.name')->get();
             //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
@@ -99,22 +99,18 @@ class User extends Model {
 		$role = DB::table('role_user')->where("user_id", $userid)->delete();
 	}
 	public function updateUser($params = 0)
-		{
+	{
 		$obj = new User();
-		if($params['id'] > 0)
-		{
-		$obj = User::find($params['id']);
+		if ($params['id'] > 0) {
+			$obj = User::find($params['id']);
 
-		if($params['password'] != "")
-		{
-		$obj->password = bcrypt($params['password']);
-		} 
-		$obj->updated_by = Auth::user()->id;
-		}
-		else
-		{
-		$obj->password = bcrypt($params['password']);
-		$obj->added_by = Auth::user()->id;
+			if ($params['password'] != "") {
+				$obj->password = bcrypt($params['password']);
+			}
+			$obj->updated_by = Auth::user()->id;
+		} else {
+			$obj->password = bcrypt($params['password']);
+			$obj->added_by = (Auth::guest()) ? 0 : Auth::user()->id;
 		}
 		$obj->name = $params['first_name'] . ' ' . $params['last_name'];
 		$obj->email = $params['email'];
@@ -126,23 +122,23 @@ class User extends Model {
 		$obj->first_name = $params['first_name'];
 		$obj->last_name = $params['last_name'];
 		$obj->address1 = $params['address1'];
-		$obj->address2 = $params['address2'];
-		$obj->address3 = $params['address3'];
+		$obj->address2 = (isset($params['address2'])) ? $params['address2'] : '';
+		$obj->address3 = (isset($params['address3'])) ? $params['address3'] : '';
 		$obj->city = $params['city'];
 		$obj->state = $params['state'];
 		$obj->phoneno = $params['phoneno'];
 		$obj->pincode = $params['pincode'];
 		$obj->country_id = $params['country_id'];
 		$obj->profile_picture = $params['profile_picture'];
-        $obj->pic_coords = $params['pic_coords'];
+		$obj->pic_coords = $params['pic_coords'];
 
-	
-		$obj->save();	
 
-		$roleobj = DB::select(DB::raw("delete from role_user where user_id = '".$obj->id."'"));
-		$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (".$obj->id.",".$obj->role_id.")"));
+		$obj->save();
+		if ($params['role_id'] > 0) {
+			$roleobj = DB::select(DB::raw("delete from role_user where user_id = '" . $obj->id . "'"));
+			$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (" . $obj->id . "," . $obj->role_id . ")"));
+		}
 	}
-
 	public function deleteRole($id = 0)
 	{
 		$obj = Role::find($id);
