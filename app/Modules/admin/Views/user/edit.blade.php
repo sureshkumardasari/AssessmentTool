@@ -187,9 +187,9 @@
 							<div class="col-md-6">
 								<select class="form-control" name="state">
 									<option value="0">Select</option>
-									@foreach($state_arr as $id=>$val)
+									   @foreach($state_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+									   @endforeach
 								</select>
 							</div>
 						</div>
@@ -227,12 +227,8 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Gender</label>
 							<div class="col-md-6">
-								<input type="radio" name="gender" id="gender_male"  value="male"
-								{{ ($gender == "" || $gender == "Male") ? 'checked="checked"' : ''}}>
-									Male
-								<input type="radio" name="gender" value="female" id="gender_female"
-								{{ ($gender == "Female") ? 'checked="checked"' : ''}}>
-								Female
+								<input type="radio" class="" name="gender" id="gender_male"  value="male" {{ ($gender == "" || $gender == "Male") ? 'checked="checked"' : ''}}>Male
+								<input type="radio" class="" name="gender" id="gender_female" value="female"  {{ ($gender == "Female") ? 'checked="checked"' : ''}}>Female
 							</div>
 						</div>
 						<div class="form-group">

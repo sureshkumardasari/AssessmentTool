@@ -139,9 +139,12 @@ class AuthController extends Controller {
 	}
 	public function getRegister()
 	{
+		$stateObj =new User();
 		$countryObj =new User();
+		$state_arr = $stateObj->getstates();
 		$country_arr = $countryObj->getcountries();
 		$country_id = 0;
-		return view('auth.register' , compact('country_arr','country_id'));
+		$state = 0;
+		return view('auth.register' , compact('country_arr','country_id','state_arr','state'));
 	}
 }

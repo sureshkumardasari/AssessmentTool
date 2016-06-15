@@ -370,7 +370,7 @@ class User extends Model {
 	        'city' => 'max:50',
 	        // 'state' => 'required',
 	        // 'zip' => 'numeric|max:999999|required',
-	        'pin' => 'numeric|max:999999',
+	        'pin' => 'regex:/\b\d{6}\b/',
 	    ];	    
 
 	    $messages = [
