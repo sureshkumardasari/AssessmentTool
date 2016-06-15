@@ -49,6 +49,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
      //question
     Route::get('question', array('as' => 'list', 'uses'=>'QuestionController@question'));
     Route::get('questionadd', array('as' => 'add', 'uses'=>'QuestionController@questionadd'));
+    Route::get('questionview/{id}', array('as' => 'edit', 'uses'=>'QuestionController@questionview'));
     Route::get('questionedit/{id}', array('as' => 'edit', 'uses'=>'QuestionController@questionedit'));
     Route::get('questiondel/{id}', array('as' => 'delete', 'uses'=>'QuestionController@questiondelete'));
     Route::post('questionupdate', array('as' => 'update', 'uses'=>'QuestionController@questionupdate'));

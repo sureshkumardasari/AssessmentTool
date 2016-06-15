@@ -33,7 +33,7 @@
     @show
 
 	<!-- breadcrumb -->	
-	<div class="container">
+	<div class="main-area">
 		<div class="row">
 		    @section('breadcrumb')
                 {{ breadcrumb() }}
@@ -41,6 +41,17 @@
             @show
 		</div>
 	</div>
+	{{--<section class="main-area">
+		<div class="breadcrumb">
+			@section('breadcrumb')
+				{{ breadcrumb() }}
+				<div class="clr"></div>
+			@show
+		</div>
+
+		@yield('content')
+
+	</section>--}}
 	<!-- breadcrumb -->
 
 	@yield('content')

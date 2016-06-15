@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Resources\Controllers;
 
+use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Resources\Models\QuestionAnswer;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,6 +57,9 @@ class QuestionController extends BaseController {
 
 		$obj = new Question();
 		$this->question = $obj;
+
+        $obj = new QuestionUserAnswer();
+        $this->questionuser = $obj;
 
 		$obj = new QuestionType();
 		$this->question_type = $obj;
@@ -300,6 +304,28 @@ class QuestionController extends BaseController {
 			}
 			return redirect('/resources/question');
 		}
+	}
+
+
+	public function questionview($id = 0)
+	{
+
+		if(isset($id) && $id > 0)
+		{
+			$question = $this->question->getDetails($id);
+        }
+		else
+		{
+			$question = Input::All();
+
+		}
+        //dd($question);
+		return view('resources::question.question_view',compact('question'));
+
+
+//
+//   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
+//			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
 	}
 
 	public function questionedit($id = 0)
