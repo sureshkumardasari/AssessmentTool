@@ -6,6 +6,6 @@ return [
         "assessment",
        	"report",
        	"grading",
-        /*"dashboard"*/
+        "dashboard"
     ),
 ];

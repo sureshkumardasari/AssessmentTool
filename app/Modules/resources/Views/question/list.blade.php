@@ -96,6 +96,7 @@
 				                 <td>{{ $value['question_type'] }}</td>
 								 <td>{{ $value['passage_title'] }}</td>
 				                <td>
+									<a href="{{ url('/resources/questionview/'.$value['qid']) }}"  class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
 				                	<a href="{{ url('/resources/questionedit/'.$value['qid']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 									<a href="javascript:;" data-ref="{{ url('/resources/questiondel/'.$value['qid']) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>

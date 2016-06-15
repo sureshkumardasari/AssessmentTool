@@ -37,6 +37,24 @@ class Question extends Model {
 		return $questions;
 	}
 
+	public function getDetails($id=0){
+
+        $question=DB::table('questions')
+            ->join('category', 'category.id', '=', 'questions.category_id')
+            ->join('subject', 'subject.id', '=', 'questions.subject_id')
+            ->join('lesson','lesson.id','=','questions.lesson_id')
+			->join('question_answers','question_answers.question_id','=','questions.id')
+            ->join('institution', 'institution.id', '=', 'questions.institute_id')
+            ->join('question_type','question_type.id','=','questions.question_type_id')
+            ->leftjoin('passage','passage.id','=','questions.passage_id')
+            ->where('questions.id', $id)
+			->where('question_answers.is_correct','like','yes')
+            ->select('questions.id as id','question_answers.ans_text','lesson.name as lesson_name','questions.title','questions.qst_text','category.name as category_name','subject.name as subject_name','institution.name as inst_name','question_type.qst_type_text','passage.title')
+            ->get();
+		//dd($question);
+        return $question[0];
+	}
+
 	public function getassessmentQst($questions=0)
 	{
  		$obj = DB::table('questions'); ;
