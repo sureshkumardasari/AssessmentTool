@@ -36,6 +36,28 @@ class Assessment extends Model {
 		$questions = $obj->get();
 		return $questions;
 	}
+	public function getDetails($id = 0)
+	{
+		$d=DB::table('assessment_question')->where('assessment_id','=',$id)->get();
+		//dd($assessment);
+
+		$c=array();
+		foreach($d as $assessment)
+			array_push($c,$assessment->question_id);
+		//dd($c);
+		$assessments = DB::table('assessment_question')
+				//->join('assessment', 'assessment.id', '=', 'assessment_question.assessment_id')
+				->join('questions', 'questions.id', '=', 'assessment_question.question_id')
+				->leftjoin('passage','passage.id','=','assessment_question.passage_id')
+				->where('assessment_question.assessment_id','=',$id)
+
+				->select('questions.title as qstn_title','passage.title as psg_title')
+				->get();
+		//dd($assessments);
+		return $assessments;
+
+	}
+
 
 	public function deleteAssessment($id = 0){
 		$assessment = Assessment::find($id);
