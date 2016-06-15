@@ -44,7 +44,11 @@
 		  </thead>
 		  <?php
 		  if (count($errors) > 0){
+			  if(old('QuestionIds'))
 		  $old_values=old('QuestionIds');
+			  else{
+				  $old_values=array();
+			  }
 		  foreach($old_values as $value){
 		  ?>
 		  <input type="hidden" name="QuestionIds[]" id="QuestionIds" value="<?php echo $value;?>">
@@ -106,8 +110,12 @@
 				</tr>
 				</thead>
 				<?php
+					//var_dump("ljklkj");exit;
 				if (count($errors) > 0){
+					if(old('passageIds'))
 				$old_values=old('passageIds');
+					else
+					$old_values=array();
 				foreach($old_values as $value){
 				?>
 				<input type="hidden" name="passageIds[]" id="passageIds" value="<?php echo $value;?>">

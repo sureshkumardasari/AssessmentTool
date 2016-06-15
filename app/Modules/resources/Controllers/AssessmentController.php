@@ -90,7 +90,7 @@ class AssessmentController extends BaseController {
 		$questions = $this->question->getQuestions();
 		$assessment=Assessment::get();
  		$institution_id='';
-        return view('resources::assessment.list',compact('assessment','institution_id','inst_arr', 'questions','subjects','category'));
+        return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category'));
 	}
 
 	public function assessmentdel($aid=0)
@@ -119,6 +119,13 @@ class AssessmentController extends BaseController {
 	public function assessmentInsert(){
 
 		$post = Input::All();
+		if(!isset($post['passageIds'])){
+			$post['passageIds']="";
+		}
+		if(!isset($post['QuestionIds'])){
+			$post['QuestionIds']="";
+		}
+		//dd($post);
   		$messages=[
 // 			'subject_id.required'=>'The Subject field is required',
 //			'category_id.required'=>'The Category field is required',
@@ -127,9 +134,13 @@ class AssessmentController extends BaseController {
 			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
-			'title' => 'required',
-//			'institution_id' => 'required|not_in:0',
-//			'category_id' => 'required|not_in:0',
+			'title' => 'required|unique:assessment,name',
+			'header'=>'required',
+			'footer'=>'required',
+			'begin_instruction'=>'required',
+			'end_instruction'=>'required',
+			'institution_id' => 'required|not_in:0',
+			'category_id' => 'required|not_in:0',
 //			'subject_id' => 'required',
 // 			'lessons_id' => 'required',
  			'QuestionIds' => 'required',];
@@ -137,6 +148,7 @@ class AssessmentController extends BaseController {
 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails())
 		{
+			//dd($validator);
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
@@ -163,11 +175,16 @@ class AssessmentController extends BaseController {
 // 			$Question_ids=explode(',',$post['QuestionIds'][0]);
   				$assessment_insert = new Assessment();
  				$assessment_insert->name = $post['title'] ;
+			$assessment_insert->header = $post['header'];
+			$assessment_insert->footer = $post['footer'];
+			$assessment_insert->begin_instruction = $post['begin_instruction'];
+			$assessment_insert->end_instruction = $post['end_instruction'];
 //				$assessment_insert->institution_id = $post['institution_id'] ;
 //				$assessment_insert->category_id = $post['category_id'] ;
 //				$assessment_insert->subject_id = $post['subject_id'] ;
 //				$assessment_insert->lessons_id = $post['lessons_id'] ;
   				if($assessment_insert->save()){
+					//dd("lk");
 //					if($passage_Ids){
 //						foreach ($passage_Ids as $key => $value) {
 //							$assessment_id=$assessment_insert->id;
