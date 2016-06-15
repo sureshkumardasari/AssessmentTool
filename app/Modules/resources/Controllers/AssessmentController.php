@@ -199,6 +199,24 @@ class AssessmentController extends BaseController {
  			return redirect('/resources/assessment');
 		}
  	}
+	public function assessmentview($id=0)
+	{
+		$title=DB::table('assessment')->where('id','=',$id)->select('assessment.name')->get();
+		//dd($title);
+		if(isset($id) && $id > 0)
+		{
+			$assessments = $this->assessment->getDetails($id);
+
+//dd($assessments);
+		}
+		else
+		{
+			$assessments = Input::All();
+
+		}
+		//dd($assessments);
+		return view('resources::assessment.view',compact('assessments','title'));
+	}
 	public function assessmentedit($id=0){
 		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
