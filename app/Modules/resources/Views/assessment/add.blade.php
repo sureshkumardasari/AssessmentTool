@@ -1,7 +1,11 @@
 @extends('default')
 @section('header-assets')
 @parent
- 	{!! HTML::script(asset('assets/js/question.js')) !!}
+{!! HTML::script(asset('assets/js/common.js')) !!}
+{!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
+{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
+{!! HTML::script(asset('assets/js/question.js')) !!}
+{!! HTML::script(asset('assets/js/bootstrap-checkbox.min.js')) !!}
 @stop
 @section('content')
 <div class="container">
@@ -27,7 +31,7 @@
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 					
 
-					<div class="form-group">
+					<div class="form-group required">
 						<label class="col-md-4 control-label">Institution</label>
 						<div class="col-md-6">
 							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
@@ -38,7 +42,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group required">
 						<label class="col-md-4 control-label">Category</label>
 						<div class="col-md-6">
 							<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
@@ -75,13 +79,37 @@
 					<div class="form-group required">
 						<label class="col-md-4 control-label">Title</label>
 						<div class="col-md-6">
-							<input type="text" class="form-control" name="title" value="">
+							<input type="text" class="form-control" name="title" value="{{old('title')}}">
 							<?php
 							$path = url()."/resources/";?>
 							<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
 						</div>
 					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Header</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea"   name="header" >{{old('header')}}</textarea>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Footer</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea"  name="footer">{{old('footer')}}</textarea>
+						</div>
+					</div>
 
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Begin Instruction</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea"  name="begin_instruction">{{old('begin_instruction')}}</textarea>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">End Instruction</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea" name="end_instruction">{{old('end_instruction')}}</textarea>
+						</div>
+					</div>
 					<div class="col-md-12">
 						@include('resources::assessment.partial.questions')
                     </div>
@@ -99,5 +127,17 @@
 	</div>
 </div>
 
+<script>
+	tinymce.init({
+		selector: '.textarea',
+		width : 450,
+		height : 135,
+		auto_focus:false,
+		statusbar : false,
+		menubar : false,
+		paste_as_text: true,
+		toolbar: 'bold,italic,underline',
+	});
+</script>
 @include('resources::assessment.assessment_js_validation')
 @endsection
