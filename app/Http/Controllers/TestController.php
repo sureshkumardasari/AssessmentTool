@@ -17,18 +17,14 @@ class TestController extends Controller
 
     public function Autocreatedir(){
       $directories = [
-        'grades' => 'data/grades/',
-        'programs_academic_calendar' => 'data/programs_academic_calendar/',
-        'programs_syllabus_file_path' => 'data/programs_syllabus_file_path/',
-        'resource_file_path' => 'data/files/',
-        'resource_scorm_path' => 'data/scorm-files/',
+        'grades' => 'data/grades/',        
+        'resource_file_path' => 'data/files/',       
         'messages_path' => 'data/message-attachments/',
         'question_attachments' => 'data/question_attachments/',
         'reports' => 'data/reports/',
         'assessment_fixedform_path' => 'data/assessment_pdf/',
         'assessment_pdf_images' => 'data/assessment_pdf_images/',
-        'assessment_pdf' => 'data/assessment_pdf/',
-        'subsection_pdf' => 'data/subsection-pdf/',
+        'assessment_pdf' => 'data/assessment_pdf/',      
         'user_profile_pic_orignal' => 'data/uploaded_images/orignal/',
         'user_profile_pic_103' => 'data/uploaded_images/103x103/',
         'user_profile_pic_128' => 'data/uploaded_images/128x128/',
@@ -38,15 +34,12 @@ class TestController extends Controller
         'user_profile_pic_48' => 'data/uploaded_images/48x48/',
         'user_profile_pic_80' => 'data/uploaded_images/80x80/',
         'user_profile_pic_croped' => 'data/uploaded_images/croped/',
-        'user_profile_pic_thumbnail' => 'data/uploaded_images/400x400/',
-        'resource_scorm_extracted_path' => 'data/scorm-files/extracted/',
+        'user_profile_pic_thumbnail' => 'data/uploaded_images/400x400/',        
         'bubblesheet_print' => 'data/bubblesheet_print/',
-        'students_bubblesheets'=>'data/students_bubblesheets/',
-        'extracted-scorm-files' => 'data/extracted-scorm-files/',
+        'students_bubblesheets'=>'data/students_bubblesheets/',        
         'meta' => 'data/meta/',
         'tmp' => 'data/tmp/',
-        'grades-pdf' => 'data/grades-pdf/',
-        'barcode-image'=> 'data/barcode-image/',
+        'grades-pdf' => 'data/grades-pdf/',        
         'print-templates' => 'data/print-templates/'
         ];
 
