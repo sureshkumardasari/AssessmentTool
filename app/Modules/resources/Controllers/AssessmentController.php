@@ -342,12 +342,15 @@ class AssessmentController extends BaseController {
  	}
 	public function assessmentupdate(){
  		$post = Input::All();
+ 	//	dd($post);
  		$passage_id=[];
   		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
-			'title' => 'required',
+			'name' => 'required',
+			'mcsingleanswerpoint'=>array('required','numeric'),
+			'essayanswerpoint'=>array('required','numeric'),
  			'QuestionIds' => 'required',];
 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails())
@@ -355,39 +358,36 @@ class AssessmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
-//			$passage_Ids=$post['passageIds'];
-//			foreach($passage_Ids as $pass_id){
-//				array_push($passage_id,$pass_id);
-//			}
+			$params = Input::All();
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
-  			$assessment_insert = Assessment::find($post['id']);
- 			$assessment_insert->name = $post['title'] ;
+			//dd($questions);
+  			$assessment_details = Assessment::where('id',$post['id'])->update([
+  				'name'=>$post['name'],
+  				'institution_id'=>$post['institution_id'],
+				'category_id'=>$post['category_id'],
+				'subject_id'=>$post['subject_id'],
+				'questiontype_id'=>$post['question_type'],
+				'header'=>$post['header'],
+				'footer'=>$post['footer'],
+				'begin_instruction'=>$post['begin_instruction'],
+				'end_instruction'=>$post['end_instruction'],
+				'guessing_panality'=>$post['guessing_penality'],
+				'mcsingleanswerpoint'=>$post['mcsingleanswerpoint'],
+				'essayanswerpoint'=>$post['essayanswerpoint'],
+  			]);
+ 			//$this->assessment->assessmentupdate($params);
  			//delete previous questions-answers
  			$assessment_question=AssessmentQuestion::where('assessment_id',$post['id'])->delete();
-
-// 			foreach ($post['QuestionIds'] as $key => $value) {
-// 				if($assessment_insert->save()){
-//					// $assessment_question=AssessmentQuestion::where('question_id',$value)->where('assessment_id',$post['id'])->delete();
-//					if($value!=""){
-//					foreach ($passage_id as $key=>$passage_Idss) {
-//					$assessment_question=new AssessmentQuestion();
-//					$assessment_question->assessment_id=$post['id'];
-//					$assessment_question->question_id=$value;
-//					$assessment_question->passage_id=$passage_Idss;
-//					$assessment_question->save();
-//					}
-//					}
-//				}
-// 			}
+ 			//dd($assessment_details);
+ 				if($assessment_details){
 			foreach ($questions as $value) {
 				if($value=='')continue;
-				$assessment_id=$assessment_insert->id;
 				$assessment_question=new AssessmentQuestion();
-				$assessment_question->assessment_id=$assessment_id;
+				$assessment_question->assessment_id=$post['id'];
 				$assessment_question->question_id=$value['id'];
 				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
-			}
+			}}
 			return redirect('/resources/assessment');
  		}
 	}
@@ -428,13 +428,30 @@ class AssessmentController extends BaseController {
 	public function assessmentFilter(){
 		$post = Input::All();
 		$institution=$post['institution'];
-		$category=$post['category'];
-		$subject=$post['subject'];
-		$lessons=$post['lessons'];
-		$question = 0;
-		if(isset($post['questions']))$question=$post['questions'];
-  		$subjects = $this->question->getassessmentFilter($institution,$category,$subject,$lessons,$question);
- 		return $subjects;
+		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
+			->leftjoin('passage','questions.passage_id','=','passage.id');
+
+		if($institution > 0){
+			$obj->where("questions.institute_id", $institution);
+		}
+		if($post['question_type']>0){
+			$obj->where("question_type.id", $post['question_type']);
+		}
+		/*if($category > 0){
+			$obj->where("category_id", $category);
+		}
+		if($subject > 0){
+			$obj->where("subject_id", $subject);
+		}
+		if($lessons > 0){
+			$obj->where("lesson_id", $lessons);
+		}*/
+
+		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+			->orderby('qid')
+			->get();
+		//$question_list = $this->question->getQuestionFilter($institution);
+		return $list;
  	}
 
  	public function assessmentFilterList(){

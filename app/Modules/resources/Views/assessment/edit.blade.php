@@ -42,28 +42,37 @@
 							<div class="form-group ">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
-									<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+									<select class="form-control" name="category_id" id="category_id"  onchange="change_category()">
 										<option value="0">--Select Category--</option>
+										<!--  -->
 									</select>
 								</div>
 							</div>
 							<div class="form-group ">
 								<label class="col-md-4 control-label">Subject</label>
 								<div class="col-md-6">
-									<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
+									<select class="form-control" name="subject_id" id="subject_id"  onchange="change_lessons()">
 										<option value="0">--Select Subject--</option>
+										
 									</select>
 								</div>
 							</div>
 							<div class="form-group ">
 								<label class="col-md-4 control-label">Lessons</label>
 								<div class="col-md-6">
-									<select class="form-control" name="lessons_id" id="lessons_id">
+									<select class="form-control" name="lessons_id" id="lessons_id"  onchange="change_question_type()">
 										<option value="0">--Select Lessons--</option>
 									</select>
 								</div>
 							</div>
-
+							<div class="form-group">
+								<label class="col-md-4 control-label">Question Type</label>
+								<div class="col-md-6">
+									<select class="form-control" name="question_type" id="question_type" >
+										<option value="0">--Select Question Type--</option>
+									</select>
+								</div>
+							</div>
 							<div class="form-group">
 								<div class="col-md-6">
 		 								<div class="move-arrow-box">
@@ -75,14 +84,60 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Title</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" name="title" value="{{$assessment_details['name']}}">
+									<input type="text" class="form-control" name="name" value="{{ $assessment_details['name'] }}">
 								</div>
 							</div>
+						<div class="form-group required">
+						<label class="col-md-4 control-label">Header</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea"   name="header" >{{$assessment_details['header']}}</textarea>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Footer</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea"  name="footer" >{{$assessment_details['footer']}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Begin Instruction</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea"  name="begin_instruction"  value="">{{$assessment_details['begin_instruction']}}</textarea>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">End Instruction</label>
+						<div class="col-md-6">
+							<textarea class="form-control textarea" name="end_instruction"  value="">{{$assessment_details['end_instruction']}}</textarea>
+						</div>
+					</div>
 							<?php
 							$path = url()."/resources/";?>
 							<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
 							<div class="col-md-12">
 								@include('resources::assessment.partial.questions_edit')
+							</div>
+							<div class="form-group required">
+								<label class="col-md-4 control-label">Guessing_Penality</label>
+								<div class="col-md-6">
+									<select class="form-control" name="guessing_penality" id="guessing_penality"  value="">{{$assessment_details['guessing_panality']}}
+										<option value="1">0</option>
+										<option value="2">0.25</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group required">
+								<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
+								<div class="col-md-6">
+									<textarea class="form-control numeric" name="mcsingleanswerpoint"  value="">{{$assessment_details['mcsingleanswerpoint']}}</textarea>
+								</div>
+							</div>
+							<div class="form-group required">
+								<label class="col-md-4 control-label"> Essay AnswerPoint</label>
+								<div class="col-md-6">
+									<textarea class="form-control numeric" name="essayanswerpoint"  value="">{{$assessment_details['essayanswerpoint']}}</textarea>
+								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-md-6 col-md-offset-6">

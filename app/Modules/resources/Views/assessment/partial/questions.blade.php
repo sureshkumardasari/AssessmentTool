@@ -10,7 +10,7 @@
 		    <thead>
 		        <tr>
 		        	<th><input type="checkbox" id="" value="" class="check-all-question"></th>
-		            <th>Name</th>
+		            <th>Question Name</th>
 
 		        </tr>
 		    </thead>
@@ -39,7 +39,7 @@
 		  <thead>
 		  <tr>
 			  <th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
-			  <th>Name</th>
+			  <th>Question Name</th>
 		  </tr>
 		  </thead>
 		  <?php
@@ -75,7 +75,7 @@
 		    <thead>
 		        <tr>
 		        	<th><input type="checkbox" name="" id="" value="" class="check-all-passage"></th>
-		            <th>Name</th>
+		            <th>Passage Name</th>
 
 		        </tr>
 		    </thead>
@@ -106,7 +106,7 @@
 				<thead>
 				<tr>
 					<th><input type="checkbox" name="" class="check-all-selected-passage" value=""></th>
-					<th>Name</th>
+					<th>Passage Name</th>
 				</tr>
 				</thead>
 				<?php
