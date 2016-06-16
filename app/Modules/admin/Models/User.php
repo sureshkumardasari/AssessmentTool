@@ -34,11 +34,11 @@ class User extends Model {
 	public function getUsers($institution_id = 0, $role_id = 0)
 	{
 		//$users = User::get();
-		$query = DB::table('Users as u')
-            ->leftjoin('Institution as i', function($join){
+		$query = DB::table('users as u')
+            ->leftjoin('institution as i', function($join){
                 $join->on('i.id', '=', 'u.institution_id');
             })
-            ->leftjoin('Roles as r', function($join){
+            ->leftjoin('roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
             //})->select('Users.name', 'Users.email','Institution.name', 'Roles.name')->get();
             //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
@@ -79,7 +79,7 @@ class User extends Model {
 	{
 		if($userType != '')
 		{
-			$roles = DB::table('Roles')->where("name", $userType)->get();
+			$roles = DB::table('roles')->where("name", $userType)->get();
 			return $roles[0]->id;
 		}
 		else
@@ -88,7 +88,7 @@ class User extends Model {
 
 	public function getRoles()
 	{
-		$roles = DB::table('Roles')->lists('name', 'id');
+		$roles = DB::table('roles')->lists('name', 'id');
 		return $roles;
 	}
 
