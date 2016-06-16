@@ -118,8 +118,8 @@
 			            </p>
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">
-							@if (isset($answersLisitng) && !empty($answersLisitng))
-								{!! $answersLisitng !!}
+							@if (isset($answersListing) && !empty($answersListing))
+								{!! $answersListing !!}
 							@endif
 						</div>
 

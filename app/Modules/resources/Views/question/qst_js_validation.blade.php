@@ -12,8 +12,9 @@ if (count($errors) > 0){?>
  	var question_title = '{{old('question_title')}}';
 	var question_textarea = '{{old('question_textarea')}}';
 	var passage = '{{old('passage')}}';
+	var answers='{{old('answers')}}';
 	var answer_textarea=$('#answerIds').val();
-	alert(answer_textarea);
+	//alert(answer_textarea);
 	function htmlDecode(value) {
 		return $("<textarea/>").html(value).text();
 	};
@@ -92,7 +93,9 @@ if (count($errors) > 0){?>
 		$('#question_title').val(question_title);
  		$("#question_textarea")
 				.text(htmlDecode(question_textarea));
+		
 		$('#passage').val(passage);
+	
   	}
 
 </script>

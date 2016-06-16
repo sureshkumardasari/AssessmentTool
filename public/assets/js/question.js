@@ -153,7 +153,7 @@ var me = null;
                      $('.ans-chk').checkboxpicker({html: true,
                       offLabel: '<span class="glyphicon glyphicon-remove">',
                       onLabel: '<span class="glyphicon glyphicon-ok">'});
-                     
+                    // alert(";;klkllj");
                      var getAnsVal = _self.getAnsValid();
                     var lastTempId = $('.answer_container').last().find('textarea[name="answer_textarea[]"]').attr('id');
                     var subjects = $("select[name='subjects[]']").val();
@@ -233,6 +233,9 @@ var me = null;
                         
                     });
                 } 
+                if(myControls.length==undefined){
+                    document.getElementById('is_correct[]').value=status;
+                }
 
                 for (var i = 0; i < myControls.length; i++) {
                     if($(this).val()-1 == i){
@@ -272,6 +275,7 @@ var me = null;
                                 }
 
                                 parent.remove();
+                                $('#ans_flg').val($('#ans_flg').val()-1);
 
                                 _self.resetAnswersTitle();
 
@@ -327,7 +331,7 @@ var me = null;
             $('body').on('keyup', '.textarea_explanation, #s2id_autogen1', function(e) 
             {
                 var reEx = /[^a-zA-Z0-9\s\,\.\-\'\?]/gi;
-                validateAlphanumeric($(this),reEx,e);
+               // validateAlphanumeric($(this),reEx,e);
             }); 
 
             $('body').on('paste', '.textarea_explanation, #s2id_autogen1', function(e) {
@@ -410,7 +414,6 @@ var me = null;
                 var c_type = $('.question_constraints').data('c_type');                
                 $('.free_form, .open_ended').hide();
                 if (c_type == 'Student-Produced Response: Math') {                
-
                     var opt = $(this).find('option:selected').text();
                     var container = $(this).closest('.to_clone_constraint');
 
@@ -602,6 +605,7 @@ var me = null;
         renderPassage: function() {
             var checked = $('input[name="align_type"]:checked').val();
             if (checked != 'PassageLines') {
+
                 // tinyMCE.get('passage_content').setContent(response[0].Content);
                 $('#passage_content_ifr').contents().find('body').html($('#repltxt').html());
 
@@ -646,13 +650,16 @@ var me = null;
         },
         
         getTinyMceIdByContainer: function(container) {
-            return container.find('textarea[name="answer_textarea[]"]').attr('id');
-        },
-        getAnsValid : function(){
-             $('.ans-chk').change(function() {  
+            return container.find('textarea[name="answer_textarea[]"]').attr('id');},
+        getAnsValid: function(){
+             $('.ans-chk').change(function() {
                 var status = ($(this).is( ":checked" ) == true) ? true : false;
                 var myForm = document.forms.qst_form;
                 var myControls = myForm.elements['is_correct[]'];
+                //alert(myControls.length);
+                if(myControls.length==undefined){
+                    document.getElementById('is_correct[]').value=status;
+                }
                 var idx = $(this).val()-1;
                 var type = $('select[name="question_type"]').find('option:selected').text();
                 if (type == "Multiple Choice - Single Answer") { // when single answered is selected     
@@ -666,7 +673,9 @@ var me = null;
                     });
                 } 
                 for (var i = 0; i < myControls.length; i++) {
+                    //alert("for");
                     if($(this).val()-1 == i){
+                      //  alert(status);
                         myControls[i].value = status;
                         $(this).prop('checked', status);
                     }
@@ -686,7 +695,7 @@ var me = null;
                     "<input type='hidden' name='answerIds[]' class='hanswerId' value=''>" +
                     // "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
                     "<input id='input-1' class='ans-chk' value=\""+count+"\" type='checkbox' data-group-cls='btn-group-sm' offLabel='\"<span class=\"glyphicon glyphicon-remove\">\"' onLabel='\"<span class=\"glyphicon glyphicon-ok\">\"'>"+
-                    "<input type='hidden' name='is_correct[]' value='false'/>" +
+                    "<input type='hidden' name='is_correct[]' id='is_correct[]' value='false'/>" +
                     "</div><div class='col-md-10'><p style='w93 fltL'>" +
                     "<textarea name='answer_textarea[]' id='answer_textarea_" + randomId + "' class='required' data-type='tinymce' data-name='Answer Text' data-read_only='false'></textarea>" +
                     "<div class='clr'></div>" +
@@ -705,7 +714,8 @@ var me = null;
                     "<div class='clr'></div>" +
                     "</div>" +
                     "</div>";
-
+                    //console.log('answer_textarea');
+                    template.toString();
                 return template;
             }else{
                 var errors_str = "";
@@ -812,7 +822,7 @@ var me = null;
                 });
             }
 
-
+                //console.log(answer_textarea);
             return errors_str;
         },
 
@@ -984,9 +994,7 @@ var me = null;
                 } 
             });            
         },
-        
-        configureReplacementtextTinyMCE: function() {
-            
+       configureReplacementtextTinyMCE: function() {
             tinymce.init({
                 selector: '#replacement_text',
                 width : 847,
