@@ -85,7 +85,7 @@ class Grade extends Model {
                     
 
                     $scaledscore = 0;
-                    $grade       =  '';
+                    $grade       = '';
                     $scoretype   =  0;
                     $percentile  =  0;
 
@@ -160,6 +160,45 @@ class Grade extends Model {
                     ');
         }
     }
+
+    //get  
+    public function loadAssignmentUsers(){
+        
+    }
+
+    //get Assessment Questions
+    public function loadQuestion($assignment_id = 0, $assessment_id = 0, $qid = 0){
+            $results = DB::table('assessment_question as aq')
+                        ->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
+                        ->join("questions as q", 'aq.question_id', '=', 'q.id')
+                        ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
+                        ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
+                        ->where("aq.assessment_id","=", $assessment_id)
+                        ->where("q.id","=", $qid)
+                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","q.qst_text","qa.ans_text as answer_text", "qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->orderby('aq.id', 'ASC')
+                        ->orderby('qa.order_id', 'ASC')
+                        ->get();
+
+            $questions = [];                
+            foreach ($results as $key => $row) {
+                $questions['Id'] = $row->id;
+                $questions['Title'] = $row->title;
+                $questions['question_type'] = $row->question_type;
+                $questions['guessing_panality'] = $row->guessing_panality;
+                $questions['mcsingleanswerpoint'] = $row->mcsingleanswerpoint;
+                $questions['essayanswerpoint'] = $row->essayanswerpoint;
+                $questions['qst_text'] = $row->qst_text;
+
+                $questions['answers'][] = ['Id' => $row->answer_id, 'is_correct' => $row->is_correct, 'ans_text' => $row->answer_text];            
+
+                if($row->is_correct == 'YES')
+                $questions[$row->id]['correctanswers'][] = $row->answer_id;
+            }
+            // dd($questions);
+            return $questions;             
+    }
+
     public function loadAssignmentQuestion($assignment_id = 0, $assessment_id = 0, $user_id = 0)
     {
         $results = DB::table('assessment_question as aq')
@@ -172,7 +211,7 @@ class Grade extends Model {
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
-        //dd($results);
+        // dd($results);
         $questions = [];                
         foreach ($results as $key => $row) {
             $questions[$row->id]['Id'] = $row->id;
@@ -352,7 +391,7 @@ class Grade extends Model {
                 $join->on('ass.id', '=', 'asn.assessment_id');
             })
             // ->where('institution_id',$instute_id)
-            ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId'));
+            ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId, ass.id as assessmentId'));
             
         $assignments = $query->get();
         return $assignments;

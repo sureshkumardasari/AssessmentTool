@@ -87,18 +87,46 @@ class GradingController extends BaseController {
 	}
 
 
-	public function questionGradeListing($assignment_id){
+	public function questionGradeListing($iid){
+		$ids = explode("-", $iid);
+		$assignment_id = $ids[0];
+		$assessment_id = $ids[1];
+
 		// print_r($assignment_id);
-		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
-		// dd($ass_qst);
-		return view('grading::question_grade', compact('ass_qst'));
-	}public function studentQuestionList($assignment_id){
+		$ass_qst = $this->grade->loadAssignmentQuestion($assignment_id, $assessment_id);
+		//$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
+		//dd($ass_qst);
+		return view('grading::question_grade_list', compact('ass_qst', 'assignment_id', 'assessment_id'));
+	}
+
+	public function questionGrade($iid){
+		$ids = explode("-", $iid);
+		$assignment_id = $ids[0];
+		$assessment_id = $ids[1];
+		$qst_id = $ids[2];
+
+		//get assignment users
+		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);	
+		
+		//get assessment questions
+		$ass_qst = $this->grade->loadQuestion($assignment_id, $assessment_id, $qst_id);
+		$qtitle = $ass_qst['Title'];
+		$qtxt = $ass_qst['qst_text'];
+		$ans = $ass_qst['answers'];
+		//$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
+		// dd($ans);
+		return view('grading::question_grade', compact('ass_qst', 'assignmentUsersArr', 'assignment_id', 'assessment_id', 'qst_id'));
+	}
+
+	public function studentQuestionList($assignment_id){
  		// print_r($assignment_id);
 //		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
 		// dd($ass_qst);
 //		return view('grading::student_inner_grade', compact('ass_qst'));
 		return view('grading::student_inner_grade');
-	}public function studentGradingInner($assignment_id){
+	}
+
+	public function studentGradingInner($assignment_id){
 	return 'studentGradingInner';
 		// print_r($assignment_id);
 		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);

@@ -21,4 +21,6 @@ Route::group(array('module'=>'grading', 'prefix' => 'grading', 'middleware' => '
 //    Route::get('student-inner-grade/{id}', ['as' => 'studentGradingInner', 'uses' => 'GradingController@studentGradingInner']);
 
     Route::get('list-question/{id}', ['as' => 'questionGrading', 'uses' => 'GradingController@questionGradeListing']);
+
+    Route::get('grade-question/{id}', ['as' => 'questiongrade', 'uses' => 'GradingController@questionGrade']);
 });
