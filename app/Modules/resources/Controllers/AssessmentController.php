@@ -273,6 +273,7 @@ class AssessmentController extends BaseController {
         $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
         $pdf->addPage($pages);
         $fullPath = public_path('data/pdf/test_.pdf');
+        echo "$fullPath";
         $pdf->saveAs( $fullPath );
 
         // check if file is created        
@@ -283,6 +284,7 @@ class AssessmentController extends BaseController {
         // $s3Path = $s3->uploadByPath($fullPath, 'subsection_pdf');
 
         // return array('s3Path' => $s3Path, 'pdfPath' => $fullPath);
+
         return array('pdfPath' => $fullPath);
     }
 
