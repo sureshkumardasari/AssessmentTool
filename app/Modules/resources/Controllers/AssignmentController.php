@@ -177,4 +177,38 @@ class AssignmentController extends BaseController {
             return view('resources::assignment.view', compact('assignment'));
         }
     }
+    public function getAssignUsersInfo($assignment_id = 0)
+	{
+		$params = Input::All();
+		//dd($params);
+		$assignment_id = (isset($params['assignment_id'])) ? $params['assignment_id'] : 0;
+		//$institution_id = ($institution_id > 0) ? $institution_id :	Auth::user()->institution_id;
+		if($assignment_id > 0)
+		{
+			$users=$this->assignmentuser->getAssignUsersInfo($assignment_id);	
+		}
+		else
+		{
+			$users = [];
+		}	
+
+		return json_encode($users);
+	}
+	public function getunAssignUsersInfo($assignment_id = 0, $institution_id = 0)
+	{
+		$params = Input::All();
+		//dd($params);
+		$assignment_id = (isset($params['assignment_id'])) ? $params['assignment_id'] : 0;
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : 0;
+		if($assignment_id > 0)
+		{
+			$users=$this->assignmentuser->getunAssignUsersInfo($assignment_id, $institution_id);	
+		}
+		else
+		{
+			$users = [];
+		}	
+
+		return json_encode($users);
+	}
 }

@@ -22,5 +22,6 @@ Route::group(array('module'=>'assessment', 'prefix' => 'assessment', 'middleware
     Route::get('essay-popuop/{subSecQuestionId}/{questionId}', ['as' => 'essay-popuop', 'uses' => 'AssessmentAssignmentController@openEssayPopuop']);
     Route::get('submit-confirm-popup/{id}', ['as' => 'submit-confirm-popup', 'uses' => 'AssessmentAssignmentController@openSubmitConfirmPopuop']);
     Route::post('submit-test', ['as' => 'submit-test', 'uses' => 'AssessmentAssignmentController@submitTest']);
+    Route::get('assignmentstatus',['as'=>'assignmentstatus','uses'=>'AssessmentAssignmentController@assignmentstatus']);
 
 });

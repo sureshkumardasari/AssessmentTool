@@ -33,26 +33,23 @@
 					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/assignmentupdate') }}">
-						<?php
-						$path = url();?>
-						<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="id" value="{{ $assignment->id }}">
-						<div class="form-group">
+						<input type="hidden" name="id" id="id" value="{{ $assignment->id }}">
+						<div class="form-group required">
 							<label class="col-md-3 control-label">Assignment Name </label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="name" value="{{ $assignment->name }}">
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label">Description </label>
 							<div class="col-md-6">
 								<textarea class="form-control" id="assignment_text" name="assignment_text">{{ $assignment->description }}</textarea>
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label" >Assessment</label>
 							<div class="col-md-6">
 								<select class="form-control" name="assessment_id">
@@ -64,7 +61,7 @@
 							</div>
 						</div>
 <!-- https://eonasdan.github.io/bootstrap-datetimepicker/#minimum-setup -->
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label">Start Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
@@ -76,7 +73,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label">End Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
@@ -88,7 +85,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
 								<label><input type="checkbox" id="never" name="never" value="0" {{ ($assignment->neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
@@ -98,8 +95,8 @@
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Launch Type </label>
 							<div class="col-md-6">
-								<label class="radio-inline"><input type="radio" name="launchtype" id="launchtype_yes" value="proctor" {{ ($assignment->launchtype == "proctor" ) ? 'checked="checked"' : '' }}> Proctor </label>
-								<label class="radio-inline"><input type="radio" class="" name="launchtype" id="launchtype_no" value="system" {{ ($assignment->launchtype == "system") ? 'checked="checked"' : '' }}> System </label>
+								<label class="radio-inline"><input type="radio" class="" name="launchtype" id="launchtype_no" value="system" {{ ($assignment->launchtype == "system" || $assignment->launchtype == "") ? 'checked="checked"' : '' }}> System </label>
+								<label class="radio-inline"><input type="radio" name="launchtype" id="launchtype_yes" value="proctor" {{ ($assignment->launchtype == "proctor" ) ? 'checked="checked"' : '' }}> Proctor </label>							
 							</div>
 						</div>
 
@@ -118,12 +115,12 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Proctor Instructions </label>
 							<div class="col-md-6">
-								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions">{{ $assignment->proctor_instructions
-  }}</textarea>
+								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions">
+									{{ $assignment->proctor_instructions }}</textarea>
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id" id="institution_id">
@@ -135,7 +132,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label" ></label>
 							<div class="col-md-6">
 								<div id="dual-list-box" class="form-group row">
@@ -149,7 +146,7 @@
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Delivary Method </label>
 							<div class="col-md-6">
-								<label class="radio-inline"><input type="radio" name="delivery_method" id="delivery_method_yes" value="online" {{ ($assignment->delivery_method == "online" ) ? 'checked="checked"' : '' }}> Online </label>
+								<label class="radio-inline"><input type="radio" name="delivery_method" id="delivery_method_yes" value="online" {{ ($assignment->delivery_method == "online" || $assignment->delivery_method == "" ) ? 'checked="checked"' : '' }}> Online </label>
 								<label class="radio-inline"><input type="radio" class="" name="delivery_method" id="delivery_method_no" value="print" {{ ($assignment->delivery_method == "print") ? 'checked="checked"' : '' }}> Print </label>
 							</div>
 						</div>
@@ -175,7 +172,8 @@
 
 <script type="text/javascript">
 //var selected = new Array(1,2,3);
- $('#student_ids').DualListBox('',<?=$assignmentUsersJson?>);
+
+ $('#student_ids').DualListBox('');
 
 $(function () {
     $('.date').datetimepicker({format: 'YYYY/MM/DD hh:mm:ss A'});
@@ -218,15 +216,35 @@ $('input:radio[name="launchtype"]').change(
 	
 	$(function () {
         $("#institution_id").change(function () {
-			var urls=$('#url').val();
-             //usersListChange(); //refer to function stated in the original question
-            var loadurl = "/user/usersjson" ;//+ $(this).val();
-			var loadurls=""+ urls + loadurl +"";
- 			//unselected
+            loadunselectedusers(0);
+        });
+
+  <?php   if($assignment->id > 0){ ?>
+  		loadunselectedusers({{$assignment->id}});
+   		loadselectedusers();	
+<?php   }     ?>   
+
+        function loadunselectedusers(id)
+        {
+       		//usersListChange(); //refer to function stated in the original question
+
+       		if(id > 0)
+       		{
+       			var loadurl = "{{ url('/resources/unassignedusersjson') }}/" ;//+ $(this).val(); 
+       			var postdata = { institution_id: $("#institution_id").val(),assignment_id: $("#id").val() };
+       		}
+       		else
+       		{
+       			var loadurl = "{{ url('/user/usersjson') }}/" ;//+ $(this).val(); 
+       			var postdata = { institution_id: $("#institution_id").val() };
+       		}
+            
+            console.log(loadurl);
+			//unselected
 			//$('#student_ids').attr('data-source', loadurl);
 			var html = '';
 			$(".unselected, .selected").html('');
-			$.getJSON(loadurls,{ institution_id: $("#institution_id").val() }, function (data) {
+			$.getJSON(loadurl, postdata, function (data) {
                 var items;
                 $.each(data, function (i, item) {
                     $(".unselected").append("<option value=" + item.id + ">" + item.username + "</option>");
@@ -234,8 +252,26 @@ $('input:radio[name="launchtype"]').change(
                 $(".unselected-count").html(data.length);
                 $(".atr, str").prop('disabled', false);              
             });
-        });
+       }
+       function loadselectedusers()
+       {
+       	
+       		var loadurl = "{{ url('/resources/assignedusersjson') }}/" ;//+ $(this).val(); 
+            console.log(loadurl);
+			//unselected
+			//$('#student_ids').attr('data-source', loadurl);
+			var html = '';
+			$(".selected").html('');
+			$.getJSON(loadurl,{ assignment_id: $("#id").val() }, function (data) {
+                var items;
+                $.each(data, function (i, item) {
+                    $(".selected").append("<option value=" + item.id + ">" + item.username + "</option>");
+                });
+                $(".selected-count").html(data.length);
+                $(".atl, stl").prop('disabled', false);              
+            });
+       }
     });
- </script
 
+  </script
 @endsection

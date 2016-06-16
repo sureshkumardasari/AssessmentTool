@@ -96,7 +96,7 @@ class Assignment extends Model {
 
 			$last_id=$obj->id;
 
-			$users = AssignmentUser::find($last_id);
+			$users = AssignmentUser::where('assessment_id','=',$last_id);
 			if($users)
 				$users->delete();	
 

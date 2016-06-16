@@ -19,7 +19,7 @@ class CreateAssignmentUserTable extends Migration {
 			$table->integer('assignment_id')->nullable();
 			$table->integer('user_id')->nullable();
 			$table->enum('status', ['upcoming', 'inprogress', 'test', 'completed','instructions'])->default('upcoming');
-			$table->enum('gradestatus', ['notstarted', 'inprogress', 'completed','archieve'])->default('notstarted');
+			$table->enum('gradestatus', ['notstarted', 'inprogress', 'completed','archieve','processed'])->default('notstarted');
 
 			$table->integer('grader_id')->nullable();
 			$table->decimal('score',19,2);
@@ -28,6 +28,10 @@ class CreateAssignmentUserTable extends Migration {
 			$table->decimal('grade',19,2);
 			$table->string('scoretype',255);
 			$table->decimal('percentile',19,2);
+
+			$table->boolean('isgraded')->default(false);
+			$table->dateTime('starttime')->nullable();
+			$table->string('gradeprogress',255);
 
 			$table->dateTime('takendate');
 			$table->dateTime('gradeddate');
