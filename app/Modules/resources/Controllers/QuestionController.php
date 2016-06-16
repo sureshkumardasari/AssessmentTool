@@ -445,5 +445,14 @@ class QuestionController extends BaseController {
 			->get();
  		return $lessons;
 	}
+	public function questiontype($id){
+		$questiontype= Question::join('lesson','questions.lesson_id','=','lesson.id')
+			->join('question_type','questions.question_type_id','=','question_type.id')
+			->where('questions.lesson_id','=',$id)
+			->select('question_type.qst_type_text','questions.question_type_id','questions.title')
+			->groupBy('question_type.qst_type_text')
+			->get();
+		return $questiontype;
+	}
 	
 }
