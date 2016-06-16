@@ -33,7 +33,7 @@
     @show
 
 	<!-- breadcrumb -->	
-	<div class="main-area">
+	<div class="container">
 		<div class="row">
 		    @section('breadcrumb')
                 {{ breadcrumb() }}
