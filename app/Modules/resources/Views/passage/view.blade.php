@@ -10,35 +10,32 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Passage Details</div>
                     <div class="panel-body">
-                        <div class="row">
-                            <div>
-                                <label class="col-md-3 control-label">Passage Title: </label>
-                                @foreach($passages as $passage)
-                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->title)) }}</div>
-                                @endforeach
-                            </div>
-                            <div>
-                                <label class="col-md-3 control-label">Passage Text: </label>
-                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->passage_text)) }}</div>
-                            </div>
-                        </div>
+                        @foreach($passages as $passage)
 
-                        <div class="row">
+                            <div class="row">
+                                <label class="col-md-3 control-label">Passage Title:</label>
+
+                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->title)) }}</div>
+
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 control-label">Passage Text:</label>
+                                <div style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->passage_text)) }}</div>
+                            </div>
+
+
+                             <div class="row">
                             <div>
-                                <label class="col-md-3 control-label">Passage Lines: </label>
-                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->passage_lines)) }}</div>
+                                <label class="col-md-3 control-label">Passage Lines:</label>
+                                <div  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->passage_lines)) }}</div>
                             </div>
-                            <div>
-                                <label class="col-md-3 control-label">Status:  </label>
-                                <div class="col-md-3 control-label">{{ $passage->status }}</div>
-                            </div>
-                        </div>
-                       {{-- <div class="row">
-                            <div class="col-md-6 col-md-offset-4">
-                                <!-- <button type="button" class="btn btn-primary">  --><a target="_blank" href="#" ><button type="button" class="btn btn-primary"> Print Test</button></a> <!-- </button> -->
-                                <button type="button"  class="btn btn-primary btnAnswerKeys">Print Answer Key</button>
-                            </div>
-                        </div>--}}
+                                 <div class="row">
+                                     <div>
+                                         <label class="col-md-3 control-label">Passage Status:</label>
+                                         <div  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->status)) }}</div>
+                                     </div>
+                                </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

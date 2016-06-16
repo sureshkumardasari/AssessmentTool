@@ -13,45 +13,43 @@
                         <div class="row">
                             <div>
                                 <label class="col-md-2 control-label" align="right">Institution Name: </label>
-                                <div class="col-md-2 control-label">{{ $question->inst_name }}</div>
+                                <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->inst_name }}</div>
                             </div>
                             <div>
                                 <label class="col-md-2 control-label" align="right">Category: </label>
-                                <div class="col-md-2 control-label">{{ $question->category_name}}</div>
+                                <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->category_name}}</div>
                             </div>
                             <div>
                                 <label class="col-md-2 control-label" align="right">Lesson: </label>
-                                <div class="col-md-2 control-label">{{ $question->lesson_name}}</div>
+                                <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->lesson_name}}</div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div>
+
+                            <div class="row">
                                 <label class="col-md-2 control-label" align="right">Subject Name: </label>
-                                <div class="col-md-2 control-label">{{ $question->subject_name }}</div>
-                            </div>
-                            <div>
+                                <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->subject_name }}</div>
                                 <label class="col-md-2 control-label" align="right">Question Type:  </label>
-                                <div class="col-md-2 control-label">{{ $question->qst_type_text }}</div>
+                                <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->qst_type_text }}</div>
                             </div>
-                            <div>
-                                <label class="col-md-2 control-label" align="right">Question Title:  </label>
-                                <div class="col-md-2 control-label">{{ $question->qstn_title }}</div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div>
-                                <label class="col-md-2 control-label" align="right">Question Text: </label>
-                                <div class="col-md-2 control-label">{{ $question->qst_text }}</div>
+
+
+                            <div class="row">
+                                <label class="col-md-2 control-label" align="right">Passage Title:  </label>
+                                <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->psg_title }}</div>
                             </div>
-                            <div>
-                                <label class="col-md-2 control-label" align="right">Correct Answer:  </label>
-                                <div class="col-md-2 control-label">{{ $question->ans_text }}</div>
-                            </div>
+
+                        <div class="answers mt20 col-md-12">
+                            @if (isset($answersLisitng) && !empty($answersLisitng))
+                                {!! $answersLisitng !!}
+                            @endif
                         </div>
 
                     </div>
+
+
+                </div>
                 </div>
             </div>
         </div>
