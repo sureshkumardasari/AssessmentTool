@@ -4,7 +4,9 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <a class="btn btn-success pull-right" name="new user" href="{{ url('user/branding/brand') }}">Add </a>
+                    {{--<a class=class="btn btn-primary btn-sm right name="new user" href="{{ url('user/branding/brand') }}">Add </a>--}}
+                    <a href="{{ url('user/branding/brand') }}" class="btn btn-primary btn-sm right">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
                     <div class="panel-heading">Brands View
 
                     </div>
