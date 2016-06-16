@@ -26,6 +26,7 @@ use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Resources\Models\Assignment;
 use App\Modules\Admin\Models\User;
 use DB;
+use mikehaertl\wkhtmlto\Pdf;
 
 class AssessmentController extends BaseController {
 
@@ -216,6 +217,75 @@ class AssessmentController extends BaseController {
  			return redirect('/resources/assessment');
 		}
  	}
+
+ 	public function assessmentpdf($assessmentId=0){
+
+ 		$_pdf       = $this->_generatePdf($assessmentId, 'PdfContent');
+ 	}
+
+
+ 	private function _generatePdf($assessment, $field) {
+
+        $options = array(
+            'encoding' => 'UTF-8',
+            'page-size' => 'A3',
+            'use-xserver',
+            'commandOptions' => array(
+                'enableXvfb' => true,
+                'procEnv' => array(
+                    'LANG' => 'en_US.utf-8',
+                ),
+                'xvfbRunOptions' => '--auto-servernum',
+            ),
+            // 'margin-right' => '15mm',
+            'margin-bottom' => '25mm',
+            // 'margin-left' => '14mm',
+            'header-spacing' => 15,
+            // 'footer-spacing' => 5,
+            'disable-smart-shrinking',
+            'no-outline'
+        );
+
+        $pages = '';
+        // $template = Template::find($subsection->TemplateId);
+        // $parentId = $template->ParentId;
+
+        // $splitOn = '<div class="page">';
+        // $temps = explode($splitOn, $template->{$field});
+
+        // if ($field == 'PdfContent') {
+        //     // Add Header And Footer
+        //     $header = $template->Header;
+        //     $footer = $template->Footer;
+        //     // update options
+        //     $options['header-html'] = view('assessment::partials.pdf.header', compact('header'))->render();
+        //     $options['footer-html'] = view('assessment::partials.pdf.footer', compact('footer'))->render();            
+        // }
+
+        // init wkhtmltopdf
+        $pdf = new Pdf($options);
+        $pdf->binary = 'wkhtmltopdf';       
+
+       
+        $content = '<div class="page">TEST</div>';
+        $parentId = 1;
+
+        $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
+        $pdf->addPage($pages);
+        $fullPath = public_path('data/pdf/test_.pdf');
+        $pdf->saveAs( $fullPath );
+
+        // check if file is created        
+        if (!file_exists($fullPath)) {
+            return 'Error: ' . $pdf->getError();
+        }
+        
+        // $s3Path = $s3->uploadByPath($fullPath, 'subsection_pdf');
+
+        // return array('s3Path' => $s3Path, 'pdfPath' => $fullPath);
+        return array('pdfPath' => $fullPath);
+    }
+
 	public function assessmentview($id=0)
 	{
 		$title=DB::table('assessment')->where('id','=',$id)->select('assessment.name')->get();

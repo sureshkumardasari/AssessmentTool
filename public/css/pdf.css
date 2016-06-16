@@ -1,0 +1,345 @@
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	font: 16px/20px "Helvetica Neue", Helvetica, Gotham, Arial, sans-serif;
+}
+.wrapper {
+	max-width: 1250px;
+	margin: 0 auto;
+}
+.report-summary-graph {
+	text-align: center;
+}
+.report-summary-graph .fusioncharts-container {
+	position: relative;
+	text-align: left;
+	line-height: normal;
+	display: inline-block;
+	zoom: 1;
+	font-weight: normal;
+	font-variant: normal;
+	font-style: normal;
+	text-decoration: none;
+	padding: 0;
+	margin: 0 auto;
+	border: none;
+	direction: ltr;
+	width: 800px;
+	height: 300px;
+}
+.header { padding: 25px 0 0; }
+.header:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.header .print-logo {
+	float: right;
+	width: 350px;
+}
+.header .holder{
+	overflow: hidden;
+}
+.w700{
+	width:700px;
+}
+.w600{
+	width:700px;
+}
+.w500{
+	width:700px;
+}
+.w550{
+	width:700px;
+}
+h1 {
+	margin: 0 0 30px;
+	font-size: 29px;
+	line-height: 30px;
+}
+h2 {
+	margin: 0 0 20px;
+	font-size: 24px;
+	line-height: 29px;
+}
+.report-summary ul {
+	margin: 0;
+	padding: 25px 20px 0 41px;
+	list-style: none;
+	text-align: center;
+}
+.report-summary ul li{
+	display: inline-block;
+	vertical-align: top;
+	width: 94px;
+	margin: 0 18px;
+}
+.report-summary ul li p{
+	margin: 0 0 18px;
+}
+.default-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #e6e7e8;
+	border-width: 1px 1px 6px;
+	margin: 0 auto 150px;
+}
+.default-table .text {
+	display: block;
+	padding: 5px 20px;
+	position: relative;
+}
+.default-table thead { background: #efefef; }
+.default-table thead tr th {
+	text-align: center;
+	vertical-align: middle;
+	height: 40px;
+}
+.default-table tbody tr td:first-child,
+.default-table thead tr th:first-child {
+	text-align: left;
+}
+.default-table tbody tr td {
+	vertical-align: middle;
+	height: 40px;
+	border: 1px solid #e6e7e8;
+	border-width: 0 1px;
+	text-align: center;
+}
+.default-table tbody tr td.bg-1 {
+	background: #efefef;
+	width: 160px;
+	text-align: right;
+}
+.default-table tbody tr td .reply_box {
+	line-height: 17px;
+	padding-bottom: 25px;
+	padding-top: 9px;
+	text-align: center;
+	font-style: normal;
+}
+.default-table tbody tr:nth-child(even) {
+	background: #f6f8fa;
+}
+.table-test-name {
+	font-size: 20px;
+	margin-bottom: 19px;
+	display: block;
+}
+.center-summary {
+	text-align: center;
+	font-size: 21px;
+}
+.student-answer .header{
+
+}
+.student-answer .report-detail:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.section-detail {
+	position: relative;
+	padding: 25px 0 0;
+	margin: 0 0 50px;
+}
+.section-detail .table-test-name {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+.section-detail .text-red{ color: red; }
+.section-detail ul{
+	border: 2px solid #000;
+	margin: 0;
+	padding: 0 5px;
+	list-style: none;
+	overflow: hidden;
+}
+.section-detail ul li{
+	border-bottom: 1px solid #000;
+	float: left;
+	margin-bottom: -1px;
+	width: 25px;
+	text-align: center;
+	padding: 6px 0;
+}
+.section-detail ul li > span{ display: block; }
+.icon-correct {
+	width: 12px;
+	height: 10px;
+	display: inline-block;
+	vertical-align: top;
+	margin: 3px 0 0;
+}
+.icon-correct2 {
+	width: 16px;
+	height: 13px;
+	display: inline-block;
+	vertical-align: top;
+}
+.student-answer .logo-holder {
+	float: right;
+	width: 400px;
+}
+.student-answer .info-table {
+	border: 3px solid #000;
+	width: 100%;
+	text-align: center;
+	clear: both;
+	margin: 0 0 25px ;
+}
+.student-answer .info-table .content{
+	overflow: hidden;
+	padding: 10px 0 ;
+}
+.student-answer .info-table .footer{
+	overflow: hidden;
+	text-align: center;
+	padding: 0 0 10px;
+}
+.student-answer .info-table .footer > div{
+	display: inline-block;
+	vertical-align: top;
+	width: 110px;
+}
+.student-answer .info-table ul{
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: left;
+}
+.student-answer .header .print-logo { margin: 0 0 40px; }
+.student-answer .info-table ul li .text-count{
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	width: 38px;
+	padding: 3px 10px;
+}
+.student-answer .info-table ul li .text-content{
+	display: inline-block;
+	vertical-align: top;
+	text-align: right;
+	width: 170px;
+	padding: 0 10px 0 0;
+}
+.student-answer .info-table .text-red{ color: red; }
+.student-answer .info-table td{
+	padding: 4px 5px;
+}
+.text-right { text-align: right; }
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.w500 {
+	width: 500px;
+}
+.txt-c {
+	text-align: center;
+}
+.txt-l {
+	text-align: left !important;
+}
+.mb30 {
+	margin-bottom: 30px;
+}.clr {
+  clear: both;
+}
+.mL0 {margin-left: 0px !important;}
+.mL40 {margin-left: 40px;}
+.mL100 {margin-left: 100px;}
+.mL160 {margin-left: 160px;}
+.mL190 {margin-left: 190px;}
+.mL215 {margin-left: 215px;}
+.w380 {width:380px;}
+.w350 {width:350px;}
+.fltL {float: left;}
+.correct2 {
+    display: inline-block;
+    vertical-align: baseline;
+    background-position: -136px -310px;
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+.icons {
+    background-image: url("../assets/images/sprite.png");
+    background-repeat: no-repeat;
+}
+.answerKey .omitted,
+.answerKey .correct2 {
+    margin: 0 30px 0 0;
+}
+.omitted {
+    display: inline-block;
+    vertical-align: baseline;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    background-position: -136px -292px;
+}
+.pb10 {padding-bottom: 10px !important;}
+
+.default-table .correct-answer {
+    background-color: transparent;
+    text-indent: -9999px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.ommitted-answer {
+    text-indent: -9999px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.wrong-answer {
+    color: red;
+}
+
+.default-table .text {
+    display: block;
+    padding: 5px 17px;
+    position: relative;
+}
+.correct-answer {
+    background-color: green;
+    display: block;
+    width: 14px;
+    color: transparent;
+    height: 27px;
+    border-radius: 10px;
+}
+.default-table .correct-answer:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 6px 0 0 10px;
+    background: url("../assets/images/sprite.png") -136px -310px no-repeat;
+    width: 16px;
+    height: 16px;
+}
+.ommitted-answer:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 6px 0 0 16px;
+    background: url("../assets/images/sprite.png") -136px -292px no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+.tbl-hd {
+    background: #efefef;
+    font-family: 'droid_sansbold';
+}
