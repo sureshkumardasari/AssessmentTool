@@ -19,12 +19,14 @@ $path = url()."/resources/";
 		var category_id=$('#category_id').val();
 		var subject_id=$('#subject_id').val();
 		var lessons_id=$('#lessons_id').val();
+        var question_type=$('#question_type').val();
 		if(subject_id=='')subject_id=0;
 		if(institution_id=='')institution_id=0;
 		if(category_id=='')category_id=0;
 		if(lessons_id=='')lessons_id=0;
+        if(question_type=='')question_type=0;
 		if(question_id=='')question_id=0;
-		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'questions':question_Ids};
+		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'questions':question_Ids,'question_type':question_type};
 		var url='{{$path}}filter_data_assessment';
 		ajax(url,data,csrf);
 
@@ -56,7 +58,7 @@ $path = url()."/resources/";
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
 							tr.append("<td><input type='checkbox' value='' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
-							tr.append("<td>" + response[i].title + "</td>");
+							tr.append("<td>" + response[i].question_title + "</td>");
 							$('#questions-list').append(tr);
 						}
 					}
@@ -77,7 +79,7 @@ $path = url()."/resources/";
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
 							tr.append("<td><input id='questions-list' class='assess_qst check-selected-question' type='checkbox' value='"+response[i].id+"'></td>");
-							tr.append("<td>" + response[i].title + "</td>");
+							tr.append("<td>" + response[i].question_title + "</td>");
 							// tr.append("<td>" + response[i].title +'<input type="hidden" name="QuestionIds[]" id="" value="'+response[i].id+'">'+ "</td>");
 
 							$('#questions-list').append(tr);
@@ -215,6 +217,26 @@ if (count($errors) > 0){?>
 															}
 														}
 												)
+                                                    if(suboldvalues!=null){
+                                                        $('#lessons_id').val(suboldvalues);
+                                                        $.ajax(
+                                                                {
+                                                                    headers: {"X-CSRF-Token": csrf},
+                                                                    url:'{{$path}}lessonsList/'+$('#lessons_id').val(),
+                                                                    type:'post',
+                                                                    success:function(response){
+                                                                        var a=response.length;
+                                                                        $('#question_type').empty();
+                                                                        var opt=new Option('--Select QuestionType--','');
+                                                                        $('#question_type').append(opt);
+                                                                        for(i=0;i<a;i++){
+                                                                            var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
+                                                                            $('#question_type').append(opt);
+                                                                        }
+                                                                        $('#question_type').val(question_type);
+                                                                    }
+                                                                }
+                                                        )
 											}//sub end
 										}
 									}
@@ -297,6 +319,28 @@ if (count($errors) > 0){?>
 						for(i=0;i<a;i++){
 							var opt=new Option(response[i].name,response[i].id);
 							$('#lessons_id').append(opt);
+						}
+					}
+				}
+		)
+	}
+
+	function change_question_type(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}questiontypeList/'+$('#lessons_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+						$('#question_type').empty();
+						var opt=new Option('--Select QuestionType--','');
+						$('#question_type').append(opt);
+						for(i=0;i<a;i++){
+							var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
+							$('#question_type').append(opt);
 						}
 					}
 				}

@@ -58,11 +58,19 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group required">
 						<label class="col-md-4 control-label">Lessons</label>
 						<div class="col-md-6">
-							<select class="form-control" name="lessons_id" id="lessons_id">
+							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
 								<option value="0">--Select Lessons--</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Question Type</label>
+						<div class="col-md-6">
+							<select class="form-control" name="question_type" id="question_type">
+								<option value="0">--Select Question Type--</option>
 							</select>
 						</div>
 					</div>

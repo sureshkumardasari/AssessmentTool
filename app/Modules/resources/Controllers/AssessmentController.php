@@ -427,6 +427,7 @@ class AssessmentController extends BaseController {
 
 	public function assessmentFilter(){
 		$post = Input::All();
+		//dd($post);
 		$institution=$post['institution'];
 		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
 			->leftjoin('passage','questions.passage_id','=','passage.id');
@@ -434,7 +435,7 @@ class AssessmentController extends BaseController {
 		if($institution > 0){
 			$obj->where("questions.institute_id", $institution);
 		}
-		if($post['question_type']>0){
+		if($post['question_type'] > 0 ){
 			$obj->where("question_type.id", $post['question_type']);
 		}
 		/*if($category > 0){
