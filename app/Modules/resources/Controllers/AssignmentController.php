@@ -151,11 +151,33 @@ class AssignmentController extends BaseController {
 	{
 		$params = Input::All();
 
-		//var_dump($params); die();
-		
-		$this->assignment->updateassignment($params);
+		$rules = [
+			'name' => 'required|min:3|unique:assignment',
+			'assignment_text' =>'required',
+			'startdatetime' =>'required',
+			//'enddatetime' => 'required',
+			'assessment_id' =>'required|not_in:0',
+			'institution_id' =>'required|not_in:0',
+			'student_ids' =>'required|array',
+			'launchtype' =>'required',
+			'delivery_method' =>'required'];
 
-		return redirect('/resources/assignment');
+		if(!isset($params['neverexpires']))
+		{
+			$rules['enddatetime'] = 'required';
+		}
+
+		$validator = Validator::make($params, $rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		else {
+
+			$this->assignment->updateassignment($params);
+			return redirect('/resources/assignment');
+		}		
 	}
 
 	public function assignmentdelete($id = 0)

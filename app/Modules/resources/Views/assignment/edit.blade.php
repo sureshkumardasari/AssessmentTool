@@ -10,7 +10,19 @@
 @section('content')
 
 <?php 
- $dtFormat = 'Y/m/d g:i:s A';
+$dtFormat = 'Y/m/d g:i:s A';
+$id = (old('id') != NULL) ? old('id') : $assignment->id; 
+$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $assignment->institution_id; 
+$name =  (old('name') != NULL) ? old('name') : $assignment->name;
+$description = (old('assignment_text') != NULL) ? old('assignment_text') : $assignment->description; 
+$assessment_id = (old('assessment_id') != NULL) ? old('assessment_id') : $assignment->assessment_id; 
+$startdatetime =  (old('startdatetime') != NULL) ? old('startdatetime') : $assignment->startdatetime;
+$enddatetime = (old('enddatetime') != NULL) ? old('enddatetime') : $assignment->enddatetime; 
+$neverexpires = (old('neverexpires') != NULL) ? old('neverexpires') : $assignment->neverexpires; 
+$launchtype =  (old('launchtype') != NULL) ? old('launchtype') : $assignment->launchtype;
+$proctor_user_id =  (old('proctor_user_id') != NULL) ? old('proctor_user_id') : $assignment->proctor_user_id;
+$proctor_instructions =  (old('proctor_instructions') != NULL) ? old('proctor_instructions') : $assignment->proctor_instructions;
+$delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : $assignment->delivery_method;
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -34,18 +46,18 @@
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/assignmentupdate') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="id" id="id" value="{{ $assignment->id }}">
+						<input type="hidden" name="id" id="id" value="{{ $id }}">
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Assignment Name </label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ $assignment->name }}">
+								<input type="text" class="form-control" name="name" value="{{ $name }}">
 							</div>
 						</div>
 
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Description </label>
 							<div class="col-md-6">
-								<textarea class="form-control" id="assignment_text" name="assignment_text">{{ $assignment->description }}</textarea>
+								<textarea class="form-control" id="assignment_text" name="assignment_text">{{ $description }}</textarea>
 							</div>
 						</div>
 
@@ -55,7 +67,7 @@
 								<select class="form-control" name="assessment_id">
 									<option value="0">Select</option>
 									@foreach($assessments_arr as $assess_id=>$val)
-									<option value="{{ $assess_id }}" {{ ($assess_id == $assignment->assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $assess_id }}" {{ ($assess_id == $assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -65,7 +77,7 @@
 							<label class="col-md-3 control-label">Start Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control date" id="startdatetime" name="startdatetime" value="{{ ($assignment->startdatetime) ? date($dtFormat, strtotime($assignment->startdatetime)) : ''}}">
+								<input type="text" class="form-control date" id="startdatetime" name="startdatetime" value="{{ ($startdatetime) ? date($dtFormat, strtotime($startdatetime)) : ''}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -77,7 +89,7 @@
 							<label class="col-md-3 control-label">End Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control date" id="enddatetime" name="enddatetime" value="{{ ($assignment->enddatetime) ? date($dtFormat, strtotime($assignment->enddatetime)) : ''}}}}">
+								<input type="text" class="form-control date" id="enddatetime" name="enddatetime" value="{{ ($enddatetime) ? date($dtFormat, strtotime($enddatetime)) : ''}}}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -88,15 +100,15 @@
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
-								<label><input type="checkbox" id="never" name="never" value="0" {{ ($assignment->neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
+								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="0" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
 							</div>
 						</div>
 						
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Launch Type </label>
 							<div class="col-md-6">
-								<label class="radio-inline"><input type="radio" class="" name="launchtype" id="launchtype_no" value="system" {{ ($assignment->launchtype == "system" || $assignment->launchtype == "") ? 'checked="checked"' : '' }}> System </label>
-								<label class="radio-inline"><input type="radio" name="launchtype" id="launchtype_yes" value="proctor" {{ ($assignment->launchtype == "proctor" ) ? 'checked="checked"' : '' }}> Proctor </label>							
+								<label class="radio-inline"><input type="radio" class="" name="launchtype" id="launchtype_no" value="system" {{ ($launchtype == "system" || $launchtype == "") ? 'checked="checked"' : '' }}> System </label>
+								<label class="radio-inline"><input type="radio" name="launchtype" id="launchtype_yes" value="proctor" {{ ($launchtype == "proctor" ) ? 'checked="checked"' : '' }}> Proctor </label>							
 							</div>
 						</div>
 
@@ -106,7 +118,7 @@
 								<select class="form-control" id="proctor_id" name="proctor_id">
 									<option value="0">Select</option>
 									@foreach($proctor_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $assignment->proctor_user_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $proctor_user_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -116,7 +128,7 @@
 							<label class="col-md-3 control-label">Proctor Instructions </label>
 							<div class="col-md-6">
 								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions">
-									{{ $assignment->proctor_instructions }}</textarea>
+									{{ $proctor_instructions }}</textarea>
 							</div>
 						</div>
 
@@ -126,7 +138,7 @@
 								<select class="form-control" name="institution_id" id="institution_id">
 									<option value="0">Select</option>
 									@foreach($institution_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $assignment->institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -146,8 +158,8 @@
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Delivary Method </label>
 							<div class="col-md-6">
-								<label class="radio-inline"><input type="radio" name="delivery_method" id="delivery_method_yes" value="online" {{ ($assignment->delivery_method == "online" || $assignment->delivery_method == "" ) ? 'checked="checked"' : '' }}> Online </label>
-								<label class="radio-inline"><input type="radio" class="" name="delivery_method" id="delivery_method_no" value="print" {{ ($assignment->delivery_method == "print") ? 'checked="checked"' : '' }}> Print </label>
+								<label class="radio-inline"><input type="radio" name="delivery_method" id="delivery_method_yes" value="online" {{ ($delivery_method == "online" || $delivery_method == "" ) ? 'checked="checked"' : '' }}> Online </label>
+								<label class="radio-inline"><input type="radio" class="" name="delivery_method" id="delivery_method_no" value="print" {{ ($delivery_method == "print") ? 'checked="checked"' : '' }}> Print </label>
 							</div>
 						</div>
 
@@ -182,7 +194,7 @@ $(function () {
 
 var dates = $("input[id$='startdatetime'], input[id$='enddatetime']");
 
-$('input:checkbox[name="never"]').change(
+$('input:checkbox[name="neverexpires"]').change(
     function(){
     	//alert($(this).is(':checked'))
     	if ($(this).is(':checked')) {
@@ -219,10 +231,22 @@ $('input:radio[name="launchtype"]').change(
             loadunselectedusers(0);
         });
 
-  <?php   if($assignment->id > 0){ ?>
+<?php   if($assignment->id > 0){ ?>
+  		
   		loadunselectedusers({{$assignment->id}});
    		loadselectedusers();	
-<?php   }     ?>   
+
+<?php   } else {    ?>   
+		
+		loadunselectedusers(0);
+
+<?php   }     
+		if($neverexpires == 1 ){ ?> 
+		$('#enddatetime').removeAttr('value');
+		$('#enddatetime').val('');
+		$('#enddatetime').prop('readonly', true);
+
+<?php   }     ?> 
 
         function loadunselectedusers(id)
         {
