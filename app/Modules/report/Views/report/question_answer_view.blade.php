@@ -1,3 +1,4 @@
+
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
@@ -11,15 +12,16 @@
     @foreach($questions as $question )
     <tr>
         <td>
-        {{$question->question_id}}
+        {{$question->total_count}}
         </td>
         <td>
-
+            {{$question->answers_count}}
         </td>
         <td>
-
+{{$question->total_count-$question->answers_count}}
         </td>
         <td>
+            {{($question->answers_count/$question->total_count)*100}}%
 
         </td>
     </tr>

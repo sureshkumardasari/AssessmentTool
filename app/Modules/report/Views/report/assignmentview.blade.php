@@ -14,16 +14,16 @@
         @foreach($students as $student )
     <tr>
         <td>
-        {{$student->user_name}}
+        {{$student->name}}
         </td>
         <td>
-        {{$student->question_id}}
+        {{$student->total_count}}
         </td>
         <td>
-        {{--{{$student->is_correct}}--}}
+        {{$student->answers_count}}
         </td>
         <td>
-
+        {{($student->answers_count/$student->total_count)*100}}%
         </td>
     </tr>
         @endforeach

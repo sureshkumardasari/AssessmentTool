@@ -39,14 +39,15 @@
 
 
     <script>
-
+        var loadurl = "{{ url('/report/assignment_inst/') }}/" ;
         function assignment_change(){
             var csrf=$('Input#csrf_token').val();
+
             $.ajax(
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url:'/AssesmentTool/public/report/assignment_inst/'+$('#institution_id').val()+'/'+$('#assignment').val(),
+                        url:loadurl+$('#institution_id').val()+'/'+$('#assignment').val(),
                         type:'post',
                             success:function(response){
                                 $('#report').empty();
@@ -63,7 +64,7 @@
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url: '/AssesmentTool/public/report/assignment_inst/' + $('#institution_id').val(),
+                        url:loadurl+ $('#institution_id').val(),
                         type: 'post',
                         success: function (response) {
                             var a = response.length;
@@ -81,24 +82,4 @@
         }
 
     </script>
-    {{--<script>
-        @if(isset($from) && $from == 'search')
-        $(document).ready(function() {
-            $('.datatableclass').DataTable({
-                language: {
-                    paginate: {
-                        previous: '‹',
-                        next:     '›'
-                    },
-                    aria: {
-                        paginate: {
-                            previous: 'Previous',
-                            next:     'Next'
-                        }
-                    }
-                }
-            });
-        });
-        @endif
-    </script>--}}
     @endsection
