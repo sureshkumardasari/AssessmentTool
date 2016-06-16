@@ -378,6 +378,7 @@ class UserController extends BaseController {
 		// return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
 	}
 	public function fileupload($destPath,$destFileName, $institutionId, $userType){
+		//dd($userType);
 		$role_id = 0;
 		if($userType == 'student' || $userType == 'Student')
 		{
@@ -591,7 +592,8 @@ class UserController extends BaseController {
 		$post = Input::all();
 		$data = Institution::join('users', 'institution.id', '=', 'users.institution_id')
 			->join('roles', 'roles.id', '=', 'users.role_id')
-			->join('countries', 'countries.id', '=', 'users.country_id');
+			->join('countries', 'countries.id', '=', 'users.country_id')
+		    ->join('states','states.id', '=', 'users.state');
 		if($post['institution_id']!=0){
 			$data->where('users.institution_id',$post['institution_id']);
 		}
@@ -600,7 +602,7 @@ class UserController extends BaseController {
 		}
 		$data=$data->select('email','institution.name as Instname','roles.name as rolesname',
 			'country_name', 'first_name','last_name','status','gender', 'enrollno','users.created_at',
-			'users.address1','users.city','users.state','users.phoneno','users.pincode')
+			'users.address1','users.city','state_name','users.phoneno','users.pincode')
 			->get()->toArray();
 		return Excel::create('user.list', function ($excel) use ($data)
 		{

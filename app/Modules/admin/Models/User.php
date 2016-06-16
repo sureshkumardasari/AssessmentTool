@@ -20,6 +20,8 @@ use \PHPExcel,
     //\PHPExcel_Style_Alignment
     //\PHPExcel_Cell_DataType;
 use \Validator;
+use App\countries;
+use App\states;
 use Illuminate\Support\Facades\Input;
 
 class User extends Model {
@@ -156,6 +158,7 @@ class User extends Model {
 		$obj->name = $params['name'];
 		$obj->save();	
 	}
+
 	public  function getcountries()
 	{
 		$countries= DB::table('countries')->lists('country_name','id');
@@ -298,10 +301,10 @@ class User extends Model {
 
 	    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 
-	    if (!is_dir(public_path() . '/data/tmp')) {
-	        mkdir(public_path() . '/data/tmp', 0777);
-	        chmod(public_path() . '/data/tmp', 0777);
-	    }
+		if (!is_dir(public_path() . '/data/tmp')) {
+			mkdir(public_path() . '/data/tmp', 0777);
+			chmod(public_path() . '/data/tmp', 0777);
+		}
 
 	    $save = $objWriter->save(public_path() . '/data/tmp/' . $filename);
 	    return $save;
@@ -398,6 +401,8 @@ class User extends Model {
 	public static function createBulkUser($role_id, $row, $institutionId)
 	{
 		//dd($row);
+		$country_id=countries::select('id')->where('country_name',$row->country)->first();
+		$state_id=states::select('id')->where('state_name',$row->state)->first();
 		$obj = new self;
 		$obj->password = bcrypt($row->password);
 		$obj->added_by = Auth::user()->id;
@@ -412,10 +417,10 @@ class User extends Model {
 		$obj->last_name = $row->last_name;
 		$obj->address1 = $row->address;
 		$obj->city = $row->city;
-		$obj->state = $row->state;
+		$obj->state = $state_id->id;
 		$obj->phoneno = $row->phone;
 		$obj->pincode = $row->pin;
-		$obj->country_id = $row->country;
+		$obj->country_id = $country_id->id;
 
 		$obj->save();
 		

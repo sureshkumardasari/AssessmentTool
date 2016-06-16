@@ -27,7 +27,7 @@ class ModifyUsersTable extends Migration {
 			$table->string('address2', 250);
 			$table->string('address3', 250);
 			$table->string('city', 250);
-			$table->string('state', 250);
+			$table->integer('state');
 			$table->string('phoneno', 250);
 			$table->string('pincode', 10);
 			$table->integer('country_id')->nullable();
