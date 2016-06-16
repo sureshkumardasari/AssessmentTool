@@ -23,3 +23,6 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::get('temp/dir','TestController@Autocreatedir');
+Route::get('temp/errorlog','TestController@errorlog'); 
