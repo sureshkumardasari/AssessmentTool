@@ -7,7 +7,6 @@
                     <div class="panel-heading" style="text-align:center; ">Questions & Answers</div>
                     <div class="panel-body">
 
-
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         <div class="form-group">
                             <div class="form-group">
@@ -42,11 +41,12 @@
 
     <script>
         function inst_change(){
+            var loadurl = "{{ url('/report/inst_question/') }}/" ;
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
                         headers: {"X-CSRF-Token": csrf},
-                        url: '/AssesmentTool/public/report/inst_question/' + $('#institution_id').val(),
+                        url: loadurl+ $('#institution_id').val(),
                         type: 'post',
                         success: function (response) {
                             $('#report').empty();

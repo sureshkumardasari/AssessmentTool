@@ -3,7 +3,6 @@
     <tr>
         <th>Assignment</th>
         <th>Assessment</th>
-        <th>Date</th>
         <th>Total Questions</th>
         <th>Correct Questions</th>
         <th>Percentage(%)</th>
@@ -19,16 +18,13 @@
             {{$assignment->assessment_name}}
         </td>
         <td>
-
+            {{$assignment->total_count}}
         </td>
         <td>
-            {{$assignment->question_id}}
+            {{$assignment->answers_count}}
         </td>
         <td>
-
-        </td>
-        <td>
-
+            {{($assignment->answers_count/$assignment->total_count)*100}}%
         </td>
     </tr>
         @endforeach

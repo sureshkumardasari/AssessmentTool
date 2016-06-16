@@ -39,35 +39,38 @@
             </div>
         </div>
     </div>
-
     <script>
+        var loadurl = "{{ url('/report/assessment_inst/') }}/" ;
         function assessment_change(){
             var csrf=$('Input#csrf_token').val();
+
             $.ajax(
                     {
+
                         headers: {"X-CSRF-Token": csrf},
-                        url: '/AssesmentTool/public/report/assessment_inst/' + $('#institution_id').val() + '/' + $('#assessment').val(),
-                        type: 'post',
-                        success: function (response) {
+                        url:loadurl+$('#institution_id').val()+'/'+$('#assessment').val(),
+                        type:'post',
+                        success:function(response){
                             $('#report').empty();
                             $('#report').append(response);
                         }
-
-
                     }
             )
         }
+
         function inst_change(){
+
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
+
                         headers: {"X-CSRF-Token": csrf},
-                        url: '/AssesmentTool/public/report/assessment_inst/' + $('#institution_id').val(),
+                        url:loadurl+ $('#institution_id').val(),
                         type: 'post',
                         success: function (response) {
                             var a = response.length;
                             $('#assessment').empty();
-                            var opt = new Option('--Select Assessnment--', '');
+                            var opt = new Option('--Select Assessment--', '');
                             $('#assessment').append(opt);
                             for (i = 0; i < a; i++) {
                                 var opt = new Option(response[i].name, response[i].id);
@@ -76,6 +79,10 @@
                         }
                     }
             )
+
         }
+
     </script>
+
+
 @endsection
