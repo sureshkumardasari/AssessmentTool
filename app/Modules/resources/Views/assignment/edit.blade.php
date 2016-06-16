@@ -33,6 +33,9 @@
 					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/assignmentupdate') }}">
+						<?php
+						$path = url();?>
+						<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $assignment->id }}">
 						<div class="form-group">
@@ -215,14 +218,15 @@ $('input:radio[name="launchtype"]').change(
 	
 	$(function () {
         $("#institution_id").change(function () {
-            //usersListChange(); //refer to function stated in the original question
-            var loadurl = "{{ url('/user/usersjson') }}/" ;//+ $(this).val(); 
-            console.log(loadurl);
-			//unselected
+			var urls=$('#url').val();
+             //usersListChange(); //refer to function stated in the original question
+            var loadurl = "/user/usersjson" ;//+ $(this).val();
+			var loadurls=""+ urls + loadurl +"";
+ 			//unselected
 			//$('#student_ids').attr('data-source', loadurl);
 			var html = '';
 			$(".unselected, .selected").html('');
-			$.getJSON(loadurl,{ institution_id: $("#institution_id").val() }, function (data) {
+			$.getJSON(loadurls,{ institution_id: $("#institution_id").val() }, function (data) {
                 var items;
                 $.each(data, function (i, item) {
                     $(".unselected").append("<option value=" + item.id + ">" + item.username + "</option>");
