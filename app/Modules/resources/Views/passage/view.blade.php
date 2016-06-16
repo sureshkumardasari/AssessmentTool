@@ -14,19 +14,19 @@
                             <div>
                                 <label class="col-md-3 control-label">Passage Title: </label>
                                 @foreach($passages as $passage)
-                                <div class="col-md-3 control-label">{{ $passage->title }}</div>
+                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->title)) }}</div>
                                 @endforeach
                             </div>
                             <div>
                                 <label class="col-md-3 control-label">Passage Text: </label>
-                                <div class="col-md-3 control-label">{{ $passage->passage_text }}</div>
+                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->passage_text)) }}</div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div>
                                 <label class="col-md-3 control-label">Passage Lines: </label>
-                                <div class="col-md-3 control-label">{{ $passage->passage_lines }}</div>
+                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->passage_lines)) }}</div>
                             </div>
                             <div>
                                 <label class="col-md-3 control-label">Status:  </label>

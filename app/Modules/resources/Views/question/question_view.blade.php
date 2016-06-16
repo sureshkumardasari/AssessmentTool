@@ -36,7 +36,7 @@
                             </div>
                             <div>
                                 <label class="col-md-2 control-label" align="right">Question Title:  </label>
-                                <div class="col-md-2 control-label">{{ $question->title }}</div>
+                                <div class="col-md-2 control-label">{{ $question->qstn_title }}</div>
                             </div>
                         </div>
 

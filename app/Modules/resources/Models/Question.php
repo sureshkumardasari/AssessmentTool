@@ -49,7 +49,7 @@ class Question extends Model {
             ->leftjoin('passage','passage.id','=','questions.passage_id')
             ->where('questions.id', $id)
 			->where('question_answers.is_correct','like','yes')
-            ->select('questions.id as id','question_answers.ans_text','lesson.name as lesson_name','questions.title','questions.qst_text','category.name as category_name','subject.name as subject_name','institution.name as inst_name','question_type.qst_type_text','passage.title')
+            ->select('questions.id as id','question_answers.ans_text','lesson.name as lesson_name','questions.title as qstn_title','questions.qst_text','category.name as category_name','subject.name as subject_name','institution.name as inst_name','question_type.qst_type_text','passage.title')
             ->get();
 		//dd($question);
         return $question[0];
