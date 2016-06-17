@@ -37,9 +37,7 @@ class BrandingController extends Controller {
 	 * @return Response
 	 */
 	public function create( Request $request)
-
 	{
-
 		$post = Input::All();
 		$messages = [
 			'institution_id.required' => ' Institution Name  is required',
@@ -49,7 +47,8 @@ class BrandingController extends Controller {
 			'boxhbc.required' => ' BoxTextColor is required',
 			'boxhtcolor.required' => ' BoxHeaderColor is required',
 			'btextc.required' => ' BoxTextColor is required',
-			//'buttonc.required' => ' ButtonColor is required',
+			'buttonc.required' => ' ButtonColor is required',
+			'buttontc.required' => ' ButtonTextColor is required',
 		];
 		$rules = [
 			'institution_id' => 'required',
@@ -59,7 +58,8 @@ class BrandingController extends Controller {
 			'boxhbc' => 'required',
 			'boxhtcolor' => 'required',
 			'btextc' => 'required',
-			//'buttonc' => 'required',
+			'buttonc' => 'required',
+			'buttontc' => 'required',
 		];
 		$validator = Validator::make($post, $rules);
 		if ($validator->fails()) {
@@ -86,7 +86,7 @@ class BrandingController extends Controller {
 
 			Image::make($file->getRealPath())->resize(200, 200)->save($path);
 		}
-		$branding = Branding::create([
+		$createArr = [
 			//'title' => $post['title'],
 			'filepath' => $filename,
 			'header_bg_color' => $post['hbcolor'],
@@ -94,14 +94,14 @@ class BrandingController extends Controller {
 			'box_header_bg_color' => $post['boxhbc'],
 			'box_header_text_color' => $post['boxhtcolor'],
 			'box_text_color' => $post['btextc'],
-			'button_color' => $post['buttonc'],
+			'button_bg_color' => $post['buttonc'],
+			'button_text_color' => $post['buttontc'],
 			'institution_id' => $post['institution_id'],
-		]);
-		$institution_name = Institution::select('name')->where('id', $branding->institution_id)->first();
+		];
+		
+		$branding = Branding::create($createArr);
 		\Session::flash('success', 'Successfully added.');
 		return Redirect::route('branding-view');
-
-
 	}
 
 
@@ -175,18 +175,58 @@ class BrandingController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
+
+		$post = Input::All();
+		$messages = [
+			'institution_id.required' => ' Institution Name  is required',
+			//'title.required' => 'Enter Name of the Title',
+			'hbcolor.required' => 'BackGround color is required  ',
+			'headertc.required' => ' HeadTextColor is required',
+			'boxhbc.required' => ' BoxTextColor is required',
+			'boxhtcolor.required' => ' BoxHeaderColor is required',
+			'btextc.required' => ' BoxTextColor is required',
+			'buttonc.required' => ' ButtonColor is required',
+			'buttontc.required' => ' ButtonTextColor is required',
+		];
+		$rules = [
+			'institution_id' => 'required',
+			//'title'=>'required|unique:title',
+			'hbcolor' => 'required',
+			'headertc' => 'required',
+			'boxhbc' => 'required',
+			'boxhtcolor' => 'required',
+			'btextc' => 'required',
+			'buttonc' => 'required',
+			'buttontc' => 'required',
+		];
+		$validator = Validator::make($post, $rules);
+		if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+
+		$filename = '';
+		if($request->hasFile('image')) {
+
+			$file = Input::file('image');
+			$filename = time() . '.' . $file->getClientOriginalExtension();
+			if (!is_dir(public_path('/data/brandingimages/'))) {
+				@mkdir(public_path('/data/brandingimages/', 0777, true));
+			}
+			$path = public_path('/data/brandingimages/' . $filename);
+
+
+			Image::make($file->getRealPath())->resize(200, 200)->save($path);
+		}
 
 		$branding = Branding::join('institution as i', 'brandings.institution_id', '=', 'i.id')
 			->select('i.id as institution_id', 'brandings.id', 'i.name as institution_name')->get();
 		$post = Input::all();
 
 		unset($post['_token']);
-		$record = Branding::where('id', $id)->update([
-
-
-			//'filepath'=>$post['filepath'],
+		$updateArr = [
+			//'filepath' => $filename,
 			'institution_id' => $post['institution_id'],
 			//'title' => $post['title'],
 			'header_bg_color' => $post['hbcolor'],
@@ -194,16 +234,16 @@ class BrandingController extends Controller {
 			'box_header_bg_color' => $post['boxhbc'],
 			'box_header_text_color' => $post['boxhtcolor'],
 			'box_text_color' => $post['btextc'],
-			'button_color' => $post['buttonc'],
+			'button_bg_color' => $post['buttonc'],
+			'button_text_color' => $post['buttontc'],
+		];
+		if($filename != '')
+			$updateArr['filepath'] = $filename;
 
-
-
-		]);
+		$record = Branding::where('id', $id)->update($updateArr);
 
 		//dd($record);
-		/*return redirect::to('brandview', compact('branding', 'record'));*/
 		return Redirect::route('branding-view');
-
 	}
 
 	/**

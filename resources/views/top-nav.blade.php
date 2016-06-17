@@ -8,7 +8,18 @@
 					<span class="icon-bar"></span>
 				</button>
 				<!-- <a class="navbar-brand" href="#">Laravel</a> -->
-				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ asset('/images/logo_white.png') }}"></a>
+				<?php
+					  	$branding = (array)getbranding();
+					  	if(is_array($branding) && count($branding) && $branding['filepath']!="")
+  						{
+  							$logopath = asset('/data/brandingimages/'.$branding['filepath']);
+  						}
+  						else
+  						{
+  							$logopath = asset('/images/logo_white.png');
+  						}
+				?>
+				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ $logopath }}" width="250" height="70"></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="top-navbar-collapse-1">

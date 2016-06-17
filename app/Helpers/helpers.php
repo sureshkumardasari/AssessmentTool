@@ -969,10 +969,6 @@ function resizeImage($orignialPath, $imageName, $resizedPath = null, $width = nu
     }
     // save resized image
     $img->save($resizedPath . $imageName);
-    // $filePath = $resizedPath.$imageName;
-    // $s3 = new \App\Models\S3();
-    // $s3->uploadByPath( $filePath, 'user_profile_pic_400');
-    // unlink($filePath);
     return $imageName;
 }
 
@@ -1003,4 +999,9 @@ function cropImage($inputs, $savePath, $resizeImage = array()) {
             resizeImage($savePath, $imageName, $resizePath, $dimensions[0], $dimensions[1], false, false);
         }
     }
+}
+function getbranding()
+{
+    $branding = DB::table('brandings')->where('institution_id', '=', Auth::user()->institution_id)->first();
+    return $branding;
 }

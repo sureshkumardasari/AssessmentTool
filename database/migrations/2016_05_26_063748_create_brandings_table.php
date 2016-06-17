@@ -23,7 +23,8 @@ class CreateBrandingsTable extends Migration {
 			$table->string('box_header_bg_color');
 			$table->string('box_header_text_color');
 			$table->string('box_text_color');
-			$table->string('button_color');
+			$table->string('button_bg_color');
+			$table->string('button_text_color');
 			$table->timestamps();
 		});
 	}

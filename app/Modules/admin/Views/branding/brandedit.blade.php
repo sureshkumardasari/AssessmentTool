@@ -83,7 +83,15 @@
                                 <label class="col-md-4 control-label">Button Color</label>
                                 <div class="col-md-4">
                                     <div id="" class="input-group colorpicker-component jscolor"> 
-                                        <input type="text" name="buttonc"  value="{{ $branding->button_color }}" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+                                        <input type="text" name="buttonc"  value="{{ $branding->button_bg_color }}" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="col-md-4 control-label">Button Text Color</label>
+                                <div class="col-md-4">
+                                    <div id="" class="input-group colorpicker-component jscolor"> 
+                                        <input type="text" name="buttontc"  value="{{ $branding->button_text_color }}" class="form-control" /> <span class="input-group-addon"><i></i></span> 
                                     </div>
                                 </div>
                             </div>

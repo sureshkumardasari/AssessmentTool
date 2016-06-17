@@ -84,7 +84,14 @@
 									</div>
 								</div>
 							</div>
-
+							<div class="form-group required">
+								<label class="col-md-4 control-label">Button Text Color</label>
+								<div class="col-md-4">
+									<div id="" class="input-group colorpicker-component jscolor"> 
+										<input type="text" name="buttontc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									</div>
+								</div>
+							</div>
 							<div class="col-md-6 col-md-offset-4" >
 								<button type="submit"  class="btn btn-primary"  class="addbtn">Save</button>
 							</div>
