@@ -254,12 +254,12 @@ $('input:radio[name="launchtype"]').change(
 
        		if(id > 0)
        		{
-       			var loadurl = "{{ url('/resources/unassignedusersjson') }}/" ;//+ $(this).val(); 
+       			var loadurl = "{{ url('/resources/unassignedusersjson') }}" ;//+ $(this).val(); 
        			var postdata = { institution_id: $("#institution_id").val(),assignment_id: $("#id").val() };
        		}
        		else
        		{
-       			var loadurl = "{{ url('/user/usersjson') }}/" ;//+ $(this).val(); 
+       			var loadurl = "{{ url('/user/usersjson') }}" ;//+ $(this).val(); 
        			var postdata = { institution_id: $("#institution_id").val() };
        		}
             
