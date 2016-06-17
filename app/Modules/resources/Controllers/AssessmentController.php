@@ -222,7 +222,16 @@ class AssessmentController extends BaseController {
             'disable-smart-shrinking',
             'no-outline'
         );
+        $options = array(
+    'no-outline',         // Make Chrome not complain
+    'margin-top'    => 0,
+    'margin-right'  => 0,
+    'margin-bottom' => 0,
+    'margin-left'   => 0,
 
+    // Default page options
+    'disable-smart-shrinking'
+);
         $pages = '';
         // $template = Template::find($subsection->TemplateId);
         // $parentId = $template->ParentId;
@@ -251,6 +260,7 @@ class AssessmentController extends BaseController {
         $pdf->addPage($pages);
         $fullPath = public_path('data/pdf/test_.pdf');
         echo "$fullPath";
+        echo "<br>".sys_get_temp_dir();
         $pdf->saveAs( $fullPath );
 
         // check if file is created        
