@@ -88,6 +88,7 @@ class AssessmentController extends BaseController {
 		$inst_arr = $this->institution->getInstitutions();	
 		$subjects = $this->subject->getSubject();	
 		$category = $this->category->getCategory();
+		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
 		$assessment=Assessment::get();
  		$institution_id='';
@@ -111,11 +112,12 @@ class AssessmentController extends BaseController {
 		$user_institution_id=$user_institution['institution_id'];
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
+		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
 		$inst_passages_list=Passage::where('institute_id',$user_institution_id)->get();
 //		$inst_questions_list=[];
-	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category'));
+	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson'));
 	}
 	public function assessmentInsert(){
 
@@ -126,24 +128,25 @@ class AssessmentController extends BaseController {
 		if(!isset($post['QuestionIds'])){
 			$post['QuestionIds']="";
 		}
+
 		//dd($post);
   		$messages=[
-// 			'subject_id.required'=>'The Subject field is required',
-//			'category_id.required'=>'The Category field is required',
-//			'lessons_id.required'=>'The Lessons field is required',
-//			'institution_id.required'=>'The Institution field is required',
+			'subject_id.required'=>'The Subject field is required',
+			'category_id.required'=>'The Category field is required',
+		    'lessons_id.required'=>'The Lessons field is required',
+			'institution_id.required'=>'The Institution field is required',
 			'QuestionIds.required'=>'The Questions is required',
 		];
 		$rules = [
-			'title' => 'required|unique:assessment,name',
+			'name' => 'required|unique:assessment,name',
 			'header'=>'required',
 			'footer'=>'required',
 			'begin_instruction'=>'required',
 			'end_instruction'=>'required',
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
-//			'subject_id' => 'required',
-// 			'lessons_id' => 'required',
+            'subject_id' => 'required',
+			'lessons_id' => 'required',
  			'QuestionIds' => 'required',];
 
 		$validator=Validator::make($post,$rules,$messages);
@@ -159,42 +162,24 @@ class AssessmentController extends BaseController {
 //			dd($Question_ids);
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
 //			dd($questions);
-//			foreach($questions as $s){
-//				dd($s['id']);
-//
-//			}
-//			dd('eee');
-// 			foreach($Question_ids as $key=>$q){
-//				$pass=Question::find($q)->select('passage_id')->get();
-//				dd($pass);
-//			}
-//			dd('e');
-//			$passage_Ids=isset( $post['passageIds'] ) ? $post['passageIds'] : 0;
-//			foreach($passage_Ids as $pass_id){
-//				array_push($passage_id,$pass_id);
-//			}
-// 			$Question_ids=explode(',',$post['QuestionIds'][0]);
+//			
   				$assessment_insert = new Assessment();
- 				$assessment_insert->name = $post['title'] ;
+ 				$assessment_insert->name = $post['name'] ;
+            $assessment_insert->institution_id = $post['institution_id'] ;
+            $assessment_insert->category_id = $post['category_id'] ;
+            $assessment_insert->subject_id = $post['subject_id'] ;
+           // $assessment_insert->lessons_id = $post['lessons_id'] ;
+            $assessment_insert->questiontype_id = $post['question_type'] ;
 			$assessment_insert->header = $post['header'];
 			$assessment_insert->footer = $post['footer'];
 			$assessment_insert->begin_instruction = $post['begin_instruction'];
 			$assessment_insert->end_instruction = $post['end_instruction'];
-//				$assessment_insert->institution_id = $post['institution_id'] ;
-//				$assessment_insert->category_id = $post['category_id'] ;
-//				$assessment_insert->subject_id = $post['subject_id'] ;
-//				$assessment_insert->lessons_id = $post['lessons_id'] ;
+			$assessment_insert->guessing_panality = $post['guessing_penality'] ;
+			$assessment_insert->mcsingleanswerpoint = $post['mcsingleanswerpoint'] ;
+			$assessment_insert->essayanswerpoint = $post['essayanswerpoint'] ;
+			//$assessment_insert->lessons_id = $post['lessons_id'] ;
   				if($assessment_insert->save()){
-					//dd("lk");
-//					if($passage_Ids){
-//						foreach ($passage_Ids as $key => $value) {
-//							$assessment_id=$assessment_insert->id;
-//							$assessment_question=new AssessmentQuestion();
-//							$assessment_question->assessment_id=$assessment_id;
-//							$assessment_question->question_id=$value;
-//							$assessment_question->save();
-//						}
-//					}else{
+				
 						foreach ($questions as $value) {
 						if($value=='')continue;
 						$assessment_id=$assessment_insert->id;
@@ -204,15 +189,7 @@ class AssessmentController extends BaseController {
 						$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 						$assessment_question->save();
 						}
-//					}
-//					foreach ($passage_id as $key=>$passage_Idss) {
-//						$assessment_id=$assessment_insert->id;
-//						$assessment_question=new AssessmentQuestion();
-//						$assessment_question->assessment_id=$assessment_id;
-//						$assessment_question->question_id=$value;
-//						$assessment_question->passage_id=$passage_Idss;
-//						$assessment_question->save();
-//					}
+//					
  				}
  			return redirect('/resources/assessment');
 		}
@@ -311,6 +288,7 @@ class AssessmentController extends BaseController {
    		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
+		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
 		$assessment_details = Assessment::find($id);
  		$question_selected_list=AssessmentQuestion::join('assessment','assessment_question.assessment_id','=','assessment.id')
@@ -340,7 +318,7 @@ class AssessmentController extends BaseController {
 		$passages_list_not=Passage::wherenotin('id',$passages_list)->get();
 		return view('resources::assessment.edit',compact('passages_list_not','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category'));
  	}
-	public function assessmentupdate(){
+	public function assessmentupdate($id=0){
  		$post = Input::All();
  	//	dd($post);
  		$passage_id=[];

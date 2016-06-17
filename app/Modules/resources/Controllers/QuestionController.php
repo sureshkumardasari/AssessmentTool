@@ -298,7 +298,7 @@ class QuestionController extends BaseController {
 				$obj->qst_text = $params['question_textarea'];
 				$obj->question_type_id = $params['question_type'];
 				$obj->subject_id = $params['subject_id'];
-				$obj->lesson_id = $params['institution_id'];
+				$obj->lesson_id = $params['lessons_id'];
 				$obj->passage_id = $params['passage'];
 				$obj->institute_id = $params['institution_id'];
  				if($obj->save());{

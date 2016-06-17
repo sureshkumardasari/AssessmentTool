@@ -50,7 +50,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group required">
 						<label class="col-md-4 control-label">Subject</label>
 						<div class="col-md-6">
 							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
@@ -87,7 +87,7 @@
 					<div class="form-group required">
 						<label class="col-md-4 control-label">Title</label>
 						<div class="col-md-6">
-							<input type="text" class="form-control" name="title" value="{{old('title')}}">
+							<input type="text" class="form-control" name="name" value="{{old('name')}}">
 							<?php
 							$path = url()."/resources/";?>
 							<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
@@ -121,6 +121,27 @@
 					<div class="col-md-12">
 						@include('resources::assessment.partial.questions')
                     </div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Guessing_Penality</label>
+						<div class="col-md-6">
+							<select class="form-control" name="guessing_penality" id="guessing_penality">
+								<option value="1">0</option>
+								<option value="2">0.25</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
+						<div class="col-md-6">
+							<textarea class="form-control numeric" name="mcsingleanswerpoint">{{old('mcsingleanswerpoint')}}</textarea>
+						</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label"> Essay AnswerPoint</label>
+						<div class="col-md-6">
+							<textarea class="form-control numeric" name="essayanswerpoint">{{old('essayanswerpoint')}}</textarea>
+						</div>
+					</div>
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-6">
 						<button type="submit" class="btn btn-primary">
