@@ -68,7 +68,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group required">
+							<div class="form-group required hidden">
 								<label class="col-md-4 control-label">Box Text Color</label>
 								<div class="col-md-4">
 									<div id="" class="input-group colorpicker-component jscolor"> 

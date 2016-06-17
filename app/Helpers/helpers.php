@@ -1002,6 +1002,8 @@ function cropImage($inputs, $savePath, $resizeImage = array()) {
 }
 function getbranding()
 {
+    if (Auth::guest()) return [];
+    
     $branding = DB::table('brandings')->where('institution_id', '=', Auth::user()->institution_id)->first();
     return $branding;
 }
