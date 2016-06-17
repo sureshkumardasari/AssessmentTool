@@ -27,7 +27,6 @@
                                 <thead>
                                 <tr>
                                     <th>Institution Name</th>
-                                    {{--<th>Title</th>  --}}
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -38,11 +37,9 @@
 
                                         <tr>
                                             <td>{{ $brand->institution_name }}</td>
-                                            {{-- <td>{{ $brand->title }}</td>--}}
-                                            <td><a href="{{ url('user/'.$brand->id.'/edit') }}" >Edit</a>
-                                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <a href="{{ url('user/delete/'.$brand->id) }}" onclick="return confirm('Are you sure you want delete this Brand ?');">Delete</a>
-
+                                            <td>
+                                                <a href="{{ url('user/'.$brand->id.'/edit') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                                <a href="javascript:;" data-ref="{{ url('user/delete/'.$brand->id) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -73,6 +70,26 @@
             </div>
         </div>
     </div>
-
+    {!! HTML::script(asset('/js/custom/confirm.js')) !!}
 
 @endsection
+<script>
+@if(isset($from) && $from == 'search')
+    $(document).ready(function() {
+    $('.datatableclass').DataTable({
+    language: {
+    paginate: {
+    previous: '‹',
+    next:     '›'
+    },
+    aria: {
+    paginate: {
+    previous: 'Previous',
+    next:     'Next'
+    }
+    }
+    }
+    });
+    });
+    @endif
+</script>

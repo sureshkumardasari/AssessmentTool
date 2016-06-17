@@ -51,7 +51,7 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::post('branding/brandcreate','BrandingController@create');
     Route::get('branding/brand','BrandingController@index');
     Route::get('{id}/edit','BrandingController@edit');
-    Route::get('delete/{id}','BrandingController@delete');
+    Route::get('delete/{id}','BrandingController@destroy');
     Route::post('update/{id}','BrandingController@update');
 
     Route::post('add-category','BrandingController@store');
