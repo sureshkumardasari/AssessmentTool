@@ -63,6 +63,8 @@ class BrandingController extends Controller {
 		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
+
+		$filename = '';
 		if($request->hasFile('image')) {
 			// $file = Input::file('image');
 			// $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
@@ -73,18 +75,18 @@ class BrandingController extends Controller {
 
 
 			$file = Input::file('image');
-			$name = time() . '.' . $file->getClientOriginalExtension();
+			$filename = time() . '.' . $file->getClientOriginalExtension();
 			if (!is_dir(public_path('/data/brandingimages/'))) {
 				@mkdir(public_path('/data/brandingimages/', 0777, true));
 			}
-			$path = public_path('/data/brandingimages/' . $name);
+			$path = public_path('/data/brandingimages/' . $filename);
 
 
 			Image::make($file->getRealPath())->resize(200, 200)->save($path);
 		}
 		$branding = Branding::create([
 			//'title' => $post['title'],
-			'filepath' => $name,
+			'filepath' => $filename,
 			'header_bg_color' => $post['hbcolor'],
 			'header_text_color' => $post['headertc'],
 			'box_header_bg_color' => $post['boxhbc'],
