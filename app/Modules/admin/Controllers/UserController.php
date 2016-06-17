@@ -330,7 +330,7 @@ class UserController extends BaseController {
 
 		$save = $this->user->bulkUserTemplate($filename, $userType,$institution_id, false, true);
 		if ($save == null) {
-			return Response::json(array('file_name' => "/data/tmp/$filename"));
+			return Response::json(array('file_name' => "data/tmp/$filename"));
 		} else {
 			return Response::json(array('file_name' => false));
 		}
