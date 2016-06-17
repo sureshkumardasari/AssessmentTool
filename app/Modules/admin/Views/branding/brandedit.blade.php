@@ -40,7 +40,7 @@
                                 <label class="col-md-4 control-label">Header Logo</label>
                                 <div class="col-md-6">
                                     <input type="file" name="image" accept="image/*"/>
-                                    <a href= "{{ asset('/brandingimages/'.$branding->filepath.'') }}" target="_blank">Preview</a>
+                                    <a href= "{{ asset('/data/brandingimages/'.$branding->filepath.'') }}" target="_blank">Preview</a>
                                 </div>
                             </div>
 
