@@ -110,19 +110,16 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Status</label>
 								<div class="col-md-6">
-									<input type="radio" class="" name="status" id="status_yes" value="Active" >Active
+									<input type="radio" class="" name="status" id="status_yes" value="Active" checked>Active
 									<input type="radio" class="" name="status" id="status_no" value="Inactive">Inactive
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Gender</label>
 								<div class="col-md-6">
-									<input type="radio" name="gender"
-										   <?php if (isset($users->gender) && $users->gender=="male") echo "checked='checked'";?>
-										   value="male">Male
-									<input type="radio" name="gender"
-										   <?php if (isset($users->gender) && $users->gender=="female") echo "checked='checked'";?>
-										   value="female">Female
+									<input type="radio" name="gender" value="male"checked>Male
+									<input type="radio" name="gender" value="female">Female
+
 								</div>
 								<div class="form-group ">
 									<div class="col-md-6 col-md-offset-4">

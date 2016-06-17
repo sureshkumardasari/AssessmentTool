@@ -110,8 +110,8 @@ class AuthController extends Controller {
 			'address1' =>'required',
 			'city' =>'required',
 			'state' =>'required',
-			'phoneno' =>'required',
-			'pincode' =>'required',
+			'pincode' => 'required|regex:/\b\d{6}\b/',
+			'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
 			'country_id' =>'required',
 			'status' => 'required',
 			'gender' => 'required'];
