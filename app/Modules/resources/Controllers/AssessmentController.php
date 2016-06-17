@@ -222,7 +222,7 @@ class AssessmentController extends BaseController {
             'disable-smart-shrinking',
             'no-outline'
         );
-
+        
         $pages = '';
         // $template = Template::find($subsection->TemplateId);
         // $parentId = $template->ParentId;
@@ -251,6 +251,7 @@ class AssessmentController extends BaseController {
         $pdf->addPage($pages);
         $fullPath = public_path('data/pdf/test_.pdf');
         echo "$fullPath";
+        echo "<br>".sys_get_temp_dir();
         $pdf->saveAs( $fullPath );
 
         // check if file is created        
