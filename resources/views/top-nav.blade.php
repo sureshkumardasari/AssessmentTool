@@ -37,10 +37,12 @@
 			            <li><a href="{{ url('/resources/assignment') }}">Assignments</a></li>
 			          </ul>
 			        </li>
+			        <li><a href="{{ url('/grading') }}">Grading</a></li>
+					<li><a href="{{ url('/report') }}">Reports</a></li>
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
 			          <ul class="dropdown-menu"> 
-                       <li><a href="{{ url('/user/branding/brandview') }}">Branding</a></li>
+                       <li><a href="{{ url('/user/brandings') }}">Branding</a></li>
 			          	<li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>
 			            <li role="separator" class="divider"></li>
@@ -49,8 +51,6 @@
 			            <li><a href="{{ url('/user/role') }}">Roles</a></li>
 			          </ul>
 			        </li>
-			        <li><a href="{{ url('/grading') }}">Grading</a></li>
-					<li><a href="{{ url('/report') }}">Reports</a></li>
 				</ul>
 				@endif
 				<ul class="nav navbar-nav navbar-right">

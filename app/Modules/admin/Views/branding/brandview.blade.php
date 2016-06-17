@@ -1,78 +1,37 @@
 @extends('default')
 @section('content')
-    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    {{--<a class=class="btn btn-primary btn-sm right name="new user" href="{{ url('user/branding/brand') }}">Add </a>--}}
-                    <a href="{{ url('user/branding/brand') }}" class="btn btn-primary btn-sm right">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
-                    <div class="panel-heading">Brands View
-
-                    </div>
-                    <div class="panel-body">
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <form class="form-horizontal" role="form" method="get" action="{{ url('branding/brand/{id}/edit') }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <table class="table table-bordered table-hover table-striped" id="brandview">
-                                <thead>
-                                <tr>
-                                    <th>Institution Name</th>
-                                    {{--<th>Title</th>  --}}
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @if (is_array($branding) || is_object($branding))
-
-                                    @foreach ($branding as $brand)
-
-                                        <tr>
-                                            <td>{{ $brand->institution_name }}</td>
-                                            {{-- <td>{{ $brand->title }}</td>--}}
-                                            <td><a href="{{ url('user/'.$brand->id.'/edit') }}" >Edit</a>
-                                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                                <a href="{{ url('user/delete/'.$brand->id) }}" onclick="return confirm('Are you sure you want delete this Brand ?');">Delete</a>
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-
-                                </tbody>
-                            </table>
-
-                        </form>
-
-                    </div>
-                    <div>
-
-                        @if(Session::has('flash_message'))
-                            <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-                        @endif
-                    </div>
-                    <div>
-
-                        @if(Session::has('flash_message_failed'))
-                            <div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-                        @endif
-                    </div>
-
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Branding
+                    <a href="{{ url('/user/brandingadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
                 </div>
-                <!-- <div> <a href="{{ URL::to('downloadExcelforusers/csv') }}"><button class="btn btn-info">Download CSV</button></a></div> -->
+
+                <div class="panel-body">
+                    <table id="rolestable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Institution Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach( $branding as $brand )
+                            <tr>                                
+                                <td>{{ $brand->institution_name }}</td>
+                                <td>
+                                    <a href="{{  url('/user/brandingedit/'.$brand->id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>                 
+                                    <a href="javascript:;" data-ref="{{  url('/user/brandingdel/'.$brand->id) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true" onclick="fancyConfirm();"></span></a>
+                                </td>
+                            </tr>
+                            @endforeach                         
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-
-
+</div>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 @endsection

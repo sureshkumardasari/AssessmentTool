@@ -43,18 +43,10 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('roledel/{id}', array('as' => 'role-delete', 'uses'=>'UserController@roledelete'));
     Route::post('roleupdate', array('as' => 'role-update', 'uses'=>'UserController@roleupdate'));
 
-
-
-
-
-    Route::get('branding/brandview', array('as'=>'brandview','uses'=>'BrandingController@display'));
-    Route::post('branding/brandcreate','BrandingController@create');
-    Route::get('branding/brand','BrandingController@index');
-    Route::get('{id}/edit','BrandingController@edit');
-    Route::get('delete/{id}','BrandingController@delete');
-    Route::post('update/{id}','BrandingController@update');
-
-    Route::post('add-category','BrandingController@store');
-
-
+    Route::get('brandings', array('as'=>'branding-view','uses'=>'BrandingController@display'));
+    Route::get('brandingadd', ['as' => 'branding-add', 'uses' => 'BrandingController@add']);
+    Route::post('brandingcreate', ['as' => 'branding-create', 'uses' => 'BrandingController@create']);
+    Route::get('brandingedit/{id}', ['as' => 'branding-edit', 'uses' => 'BrandingController@edit']);
+    Route::get('brandingdel/{id}', ['as' => 'branding-del', 'uses' => 'BrandingController@delete']);
+    Route::post('brandingupdate/{id}', ['as' => 'branding-update', 'uses' => 'BrandingController@update']);
 });

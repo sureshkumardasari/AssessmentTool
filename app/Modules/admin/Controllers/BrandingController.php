@@ -21,8 +21,10 @@ class BrandingController extends Controller {
 	 */
 	public function index()
 	{
+	}
 
-
+	public function add()
+	{	
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		/*$inst_arr=Institution::get();*/
@@ -97,7 +99,7 @@ class BrandingController extends Controller {
 		]);
 		$institution_name = Institution::select('name')->where('id', $branding->institution_id)->first();
 		\Session::flash('success', 'Successfully added.');
-		return Redirect::route('brandview');
+		return Redirect::route('branding-view');
 
 
 	}
@@ -200,7 +202,7 @@ class BrandingController extends Controller {
 
 		//dd($record);
 		/*return redirect::to('brandview', compact('branding', 'record'));*/
-		return Redirect::route('brandview');
+		return Redirect::route('branding-view');
 
 	}
 
@@ -211,16 +213,10 @@ class BrandingController extends Controller {
 	 * @return Response
 	 */
 
-	public function destroy($id)
+	public function delete($id)
 	{
-
-		$branding = Branding::join('institution as i', 'brandings.institution_id', '=', 'i.id')
-			->select('i.id as institution_id', 'brandings.id', 'i.name as institution_name')->get();
-		if(!$branding == null) {
 			Branding::find($id)->delete();
-			return Redirect::route('brandview');
-		}
-
+			return Redirect::route('branding-view');
 	}
 
 }
