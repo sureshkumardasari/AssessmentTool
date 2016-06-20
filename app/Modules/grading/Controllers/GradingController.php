@@ -23,6 +23,7 @@ use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
 use App\Modules\Grading\Models\Grade;
+//use App\Modules\Assessment\QuestionUserAnswer;
 
 class GradingController extends BaseController {
 
@@ -132,6 +133,92 @@ class GradingController extends BaseController {
 		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
 		// dd($ass_qst);
 		return view('grading::student_question_list', compact('ass_qst'));
+	}
+
+	public function saveAnswerByQuestionGrade($answer_id=0,$question_id=0){
+		$post=Input::all();
+		//dd($post);
+
+		if($post['user_id']!=0) {
+			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+				->where('question_id',$question_id)->where('user_id',$post['user_id'])->get();
+			//dd($users_already_answered);
+			if (count($users_already_answered)==0) {
+
+			//if ( count($userAnswers) === 0 ) {
+			$uAnswer = new QuestionUserAnswer();
+
+			$uAnswer->question_id = $question_id;
+			$uAnswer->user_id = $post['user_id'];
+			$uAnswer->assessment_id = $post['assessment_id'];
+			$uAnswer->assignment_id = $post['assignment_id'];
+			$uAnswer->question_answer_id = $answer_id;
+				$uAnswer->question_answer_text = $post['selected_answer_text'];
+			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+			$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+
+			$uAnswer->save();
+//			} else {
+//				// Iterate the answers and keep updating the points for each answer
+//				foreach ($userAnswers as $userAnswer) {
+//					$userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
+//					$userAnswer->is_correct = $questionPoint['is_correct'];
+//					$userAnswer->save();
+//				}
+		}
+			else{
+				QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
+					->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+					->update(['question_answer_id'=>$answer_id,'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+			}
+			if(!isset($post['nextuserid'])){
+				return "All students graded";
+			}
+		}
+		else {
+			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+				->where('question_id',$question_id)->lists('user_id');
+dd($users_already_answered);
+			$assignment_users = AssignmentUser::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->lists('user_id');
+			//dd($assignment_users);
+			foreach($assignment_users as $user){
+				if(in_array($user,$users_already_answered)){
+					QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
+						->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+						->update(['question_answer_id'=>$answer_id,'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+				}
+				else {
+					$uAnswer = new QuestionUserAnswer();
+					$uAnswer->question_id = $question_id;
+					$uAnswer->user_id = $post['user_id'];
+					$uAnswer->assessment_id = $post['assessment_id'];
+					$uAnswer->assignment_id = $post['assignment_id'];
+					$uAnswer->question_answer_id = $answer_id;
+					$uAnswer->question_answer_text = $post['selected_answer_text'];
+					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+					$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+					$uAnswer->save();
+				}
+			}
+			return "All students graded";
+		}
+//		if(isset($post['nextuserid'])){
+//			if($post['nextuserid']!="undefined"){
+//			$next_user_answers = QuestionUserAnswer::select('question_answer_id')->where('user_id',$post['nextuserid'])->get();
+//				dd($next_user_answers);
+//			return $next_user_answers;
+//			}
+//		}
+
+		return $post['user_id'];
+	}
+
+	public function nextStudentAnswersForQuestionGrade($user_id=0,$question_id=0){
+
+
+		$next_user_answers = QuestionUserAnswer::where('user_id',$user_id)->where('question_id',$question_id)->lists('question_answer_id');
+		//dd($next_user_answers);
+		return $next_user_answers;
 	}
 
 
