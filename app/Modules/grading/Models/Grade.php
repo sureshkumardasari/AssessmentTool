@@ -207,21 +207,22 @@ class Grade extends Model {
                         ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
                         ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
                         ->where("aq.assessment_id","=", $assessment_id)
-                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
-        // dd($results);
+//         dd($results);
         $questions = [];                
         foreach ($results as $key => $row) {
             $questions[$row->id]['Id'] = $row->id;
             $questions[$row->id]['Title'] = $row->title;
+            $questions[$row->id]['ans_text'] = $row->ans_text;
             $questions[$row->id]['question_type'] = $row->question_type;
             $questions[$row->id]['guessing_panality'] = $row->guessing_panality;
             $questions[$row->id]['mcsingleanswerpoint'] = $row->mcsingleanswerpoint;
             $questions[$row->id]['essayanswerpoint'] = $row->essayanswerpoint;
 
-            $questions[$row->id]['answers'][] = ['Id' => $row->answer_id, 'is_correct' => $row->is_correct];            
+            $questions[$row->id]['answers'][] = ['Id' => $row->answer_id,'ans_text'=>$row->ans_text , 'is_correct' => $row->is_correct];
 
             if($row->is_correct == 'YES')
             $questions[$row->id]['correctanswers'][] = $row->answer_id;
@@ -391,7 +392,7 @@ class Grade extends Model {
                 $join->on('ass.id', '=', 'asn.assessment_id');
             })
             // ->where('institution_id',$instute_id)
-            ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId, ass.id as assessmentId'));
+            ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
             
         $assignments = $query->get();
         return $assignments;
