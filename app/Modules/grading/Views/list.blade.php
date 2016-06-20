@@ -70,7 +70,7 @@
 				                	<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
 				                	</a>
  -->
-				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}" >
+				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}" >
 			                             <span class="reply_box">
 			                                Grade
 			                            </span>
