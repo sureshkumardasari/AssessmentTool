@@ -57,7 +57,8 @@ $path = url()."/resources/";
 						var tr;
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
-							tr.append("<td><input type='checkbox' value='' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+							tr.append("<td><input type='checkbox' value='"+response[i].qid+"' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
 							tr.append("<td>" + response[i].question_title + "</td>");
 							$('#questions-list').append(tr);
 						}
