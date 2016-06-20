@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Grading\Controllers;
 
+use App\Modules\Resources\Models\Question;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Html\HtmlFacade;
@@ -23,7 +24,7 @@ use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
 use App\Modules\Grading\Models\Grade;
-//use App\Modules\Assessment\QuestionUserAnswer;
+use DB;
 
 class GradingController extends BaseController {
 
@@ -74,8 +75,9 @@ class GradingController extends BaseController {
         return view('grading::list',compact('assignments', 'inst_arr'));
 	}
 
-	public function studentGradeListing($assignment_id){
-		// print_r($assignment_id);
+	public function studentGradeListing($assignment_id,$assessment_id){
+ 		// print_r($assignment_id);
+		$assignment_id=$assignment_id;
 		$ass_usrs = $this->grade->getUsersByAssignment($assignment_id);
 		// dd($ass_usrs);
 		return view('grading::student_grade', compact('ass_usrs'));
@@ -119,12 +121,140 @@ class GradingController extends BaseController {
 		return view('grading::question_grade', compact('ass_qst', 'assignmentUsersArr', 'assignment_id', 'assessment_id', 'qst_id'));
 	}
 
-	public function studentQuestionList($assignment_id){
- 		// print_r($assignment_id);
-//		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
-		// dd($ass_qst);
-//		return view('grading::student_inner_grade', compact('ass_qst'));
-		return view('grading::student_inner_grade');
+	public function studentQuestionList($id,$assignment_id,$assessment_id)
+	{
+		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);
+
+		$user_id=$id;
+		$questionss_list = $this->grade->loadAssignmentQuestion($assignment_id, $assessment_id, $user_id);
+// 		dd($questionss_list);
+
+		$ass_usrs = $this->grade->getUsersById($assignment_id);
+		$user_list = Assignment::join('assignment_user', 'assignment.id', '=', 'assignment_user.assignment_id')
+			->where('assignment_user.assignment_id', '=', $assignment_id)
+			->select('user_id')
+			->get();
+		$user_id = [];
+		foreach ($user_list as $user) {
+			$user_id[] = $user['user_id'];
+			$user_list_detail = User::wherein('id', $user_id)
+				->get();
+//  	$question_list=Question::join('question_user_answer','questions.id','=','question_user_answer.question_id')
+//							->join('question_answers','questions.id','=','question_answers.question_id')
+//							->where('question_user_answer.assignment_id','=',$assignment_id)
+//							->where('question_user_answer.user_id','=',$id)
+////							->select('questions.title as title')
+//							->groupBy('title')
+//							->get();
+//	dd($question_list);
+//	$assignmentid = 1;
+//	$userid =1;
+//	dd($user_id);
+
+
+//	$question_list=Question::join('question_user_answer','questions.id','=','question_user_answer.question_id')
+//		->join('question_answers','questions.id','=','question_answers.question_id')
+//		->where('question_user_answer.assignment_id','=',$assignment_id)
+//		->where('question_user_answer.user_id','=',$id)
+// 		->groupBy('title')
+//		->get();
+//
+////	dd($question_list);
+
+
+			$actual_question = DB::table('question_user_answer')->where('assessment_id', '=', $assessment_id)->where('user_id', $id)->get();
+//	dd($actual_question);
+			$actual_question_list = array();
+			foreach ($actual_question as $userid) {
+//		print_r($userid->assignment_id);
+				array_push($actual_question_list, $userid);
+				$q_list = [];
+				foreach ($actual_question_list as $list) {
+//			dd($list->question_id);
+					array_push($q_list, $list->question_id);
+				}
+
+				$main_result = Question::join('question_answers', 'questions.id', '=', 'question_answers.question_id')
+//		->where('question_user_answer.assignment_id','=',$assignment_id)
+					->wherein('questions.id', $q_list)
+					->get();
+//	dd($main_result);
+
+				$sec_result = Question::join('question_user_answer', 'questions.id', '=', 'question_user_answer.question_id')
+//		->where('question_user_answer.assignment_id','=',$assignment_id)
+					->wherein('questions.id', $q_list)
+					->get();
+//	dd($sec_result);
+
+				$result = [];
+
+				$question_list = Question::join('question_user_answer', 'questions.id', '=', 'question_user_answer.question_id')
+					->join('question_answers', 'questions.id', '=', 'question_answers.question_id')
+					->where('question_user_answer.assignment_id', '=', $assignment_id)
+					->where('question_user_answer.user_id', '=', $id)
+					->wherein('questions.id', $q_list)
+					->select('questions.title', 'questions.qst_text', 'question_user_answer.answer_option', 'question_answers.is_correct as main_correct', 'question_user_answer.is_correct as sec_correct', 'question_answers.ans_text')
+					->groupBy('title')
+					->get();
+//	dd($question_list);
+
+//	dd($question_list);
+//	dd($q_list);
+//	$usid= DB::table('assignment_user')->select('assignment_id')->wherein('user_id',$c)->get();
+//	dd($usid);
+
+				$question = DB::table('question_answers')->select('question_id')->wherein('question_id', $q_list)->groupBy('question_id')->get();
+
+				$question_details = DB::table('questions')->wherein('id', $q_list)->groupBy('id')->get();
+//	dd($question_details);
+
+
+//	$question1 = DB::table('assessment_question')->select('question_id')->count();
+//	$attended=DB::table('question_user_answer')->select('question_answer_id')->get();
+//	$users = DB::table('question_user_answer')->select('is_correct')->get();
+////	echo 'total quection'."=".$question1.'<br>';
+//	$count= 0;
+//	$count1=0;
+//	foreach($attended as $id)
+//	{
+//		$att=$id->question_answer_id;
+//		if($att > 0)
+//		{
+//			$count++;
+//		}
+//		if($att == 0)
+//		{
+//			$count1++;
+//		}
+//	}
+////	echo 'attend the quection'.'='.$count.'<br>';
+//	$a=0;
+//	$b=0;
+//	$c=0;
+//	foreach($users as $user) {
+//
+//		$correct=$user->is_correct;
+//		//dd($correct);
+//		if($correct == "Yes") {
+//
+//			$a++;
+//
+//		}
+//		elseif($correct == "No"){
+//			$b++;
+//		}
+//		elseif($correct == "Open"){
+//			$c++;
+//		}
+//
+//	}
+////	echo 'write quection'.'='.$a.'<br>','wrong quection'.'='.$b.'<br>','not attended quection'.'='.$c;
+//
+
+
+				return view('grading::student_inner_grade', compact('ass_usrs', 'question_list', 'user_list', 'user_list_detail', 'actual_question', 'main_result', 'questionss_list','assignmentUsersArr'));
+			}
+		}
 	}
 
 	public function studentGradingInner($assignment_id){
