@@ -12,31 +12,32 @@
                     <div class="panel-body">
                         @foreach($passages as $passage)
 
-                            <div class="row">
-                                <label class="col-md-3 control-label">Passage Title:</label>
+                            <div class="row panel-body">
+                                <label class="col-md-3 control-label"><b>Passage Title:</b></label>
 
                                 <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->title)) }}</div>
 
                             </div>
-                            <div class="row">
-                                <label class="col-md-3 control-label">Passage Text:</label>
-                                <div style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->passage_text)) }}</div>
+                            <div class="row panel-body">
+                                <label class="col-md-3 control-label"><b>Passage Text:</b></label>
+                                <div class="col-md-9" style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->passage_text)) }}</div>
                             </div>
 
 
-                             <div class="row">
+                             <div class="row panel-body">
                             <div>
-                                <label class="col-md-3 control-label">Passage Lines:</label>
-                                <div  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->passage_lines)) }}</div>
+                                <label class="col-md-3 control-label"><b>Passage Lines:</b></label>
+                                <div  class="col-md-9"  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->passage_lines)) }}</div>
                             </div>
-                                 <div class="row">
+                             </div>
+                                 <div class="row panel-body">
                                      <div>
-                                         <label class="col-md-3 control-label">Passage Status:</label>
+                                         <label class="col-md-3 control-label"><b>Passage Status:</b></label>
                                          <div  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->status)) }}</div>
                                      </div>
                                 </div>
                         @endforeach
-                    </div>
+
                 </div>
             </div>
         </div>
