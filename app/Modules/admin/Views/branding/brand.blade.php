@@ -1,6 +1,6 @@
 @extends('default')
 @section('content')
-	
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
@@ -22,7 +22,7 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Select Institution</label>
 								<div class="col-md-6">
-									<select class="form-control" name="institution_id" id="institution_id">
+									<select class="form-control" name="institution_id" id="institution_id" onchange="check_already_entered()" >
 										<option value="0">-- Select --</option>
 										@foreach($inst_arr as $id => $name)
 											<option value="{{$id}}">{{$name}}</option>
@@ -104,7 +104,18 @@
 	</div>
 	<script src="{{ asset('assets/js/bootstrap-colorpicker.min.js')}}"></script>
 	<link href="{{ asset('css/bootstrap-colorpicker.min.css') }}" rel='stylesheet' type='text/css'>	
-<script> $(function() { 
-    $('.jscolor').colorpicker({ color: '#000000', format: 'hex' }); }); 
-</script>  
+<script> $(function() {
+    $('.jscolor').colorpicker({ color: '#000000', format: 'hex' }); });
+	var branding_institutions=[];
+	@foreach($brandingInstitutions as $brandIns)
+	branding_institutions.push("{{$brandIns}}");
+	@endforeach
+	function check_already_entered(){
+		if($.inArray($('#institution_id').val(),branding_institutions)>-1){
+			alert("already entered");
+            $('#institution_id').val(0);
+		}
+
+	}
+</script>
 @endsection
