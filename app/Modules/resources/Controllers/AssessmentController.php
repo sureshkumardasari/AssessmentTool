@@ -273,15 +273,13 @@ class AssessmentController extends BaseController {
 		if(isset($id) && $id > 0)
 		{
 			$assessments = $this->assessment->getDetails($id);
-
-//dd($assessments);
 		}
 		else
 		{
 			$assessments = Input::All();
-
 		}
-		//dd($assessments);
+
+		//dd('exit');
 		return view('resources::assessment.view',compact('assessments','title'));
 	}
 	public function assessmentedit($id=0){
