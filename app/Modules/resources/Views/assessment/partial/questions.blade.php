@@ -18,7 +18,7 @@
 			@foreach( $inst_questions_list as $id => $name )
 		        <tr>
 		        	<td>
-		        			<input type="checkbox" id="questions-list"  value={{ $name['id'] }}  class="assess_qst check-question" data-group-cls="btn-group-sm">
+		        			<input type="checkbox" id="questions-list"  value="{{ $name['id'] }}"  class="assess_qst check-question" data-group-cls="btn-group-sm">
  					</td>
 		            <td>{{ $name['title'] }}</td>
 
@@ -38,7 +38,7 @@
 	  <table id="selected-questions" class="table table-striped table-bordered datatableclass parent-selected-grid" cellspacing="0" width="100%">
 		  <thead>
 		  <tr>
-			  <th><input type="checkbox" name="QuestionIds[]" class="check-all-selected-question" value=""></th>
+			  <th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
 			  <th>Question Name</th>
 		  </tr>
 		  </thead>
