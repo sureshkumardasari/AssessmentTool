@@ -98,7 +98,7 @@
 
 
 									        <div class="modal-footer">
-									          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									          <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
 									        </div>
 									      </div>
 									      
@@ -228,9 +228,7 @@
 		}
 
 		function save_question_grade_for_student(){
-			alert($('#status').val());
 			var nextuserid=$("#status option:selected").next().val();
-			alert(nextuserid);
 			var question_type="{{$ass_qst['question_type']}}";
 			if(question_type=="Multiple Choice - Multi Answer"){
 				alert($('Input[name=ans_val[]'));
@@ -244,7 +242,6 @@
 				type:'post',
 				data: data,
 				success:function(response){
-					alert(response);
 					if(response=="All students graded"){
 						alert("all students graded successfully");
 					}
@@ -261,9 +258,9 @@
 
 		function change_user_answers(){
 			var selected=$('#status').val();
-			$("#status").children().removeAttr("selected");
+			//$("#status").children().removeAttr("selected");
 			//$("#status option:selected").attr('selected','selected');
-			$('#status').val(selected).attr('selected',"selected");
+			//$('#status').val(selected).attr('selected',"selected");
 			//alert(nextuserid);
 			//$("#status option').attr("selected", "selected");
 			alert($('#status').val());
@@ -284,7 +281,7 @@
 						}
 					});
 					$.each(response , function(i, val) {
-						alert(ans_label[val]+','+response[i]);
+						//alert(ans_label[val]+','+response[i]);
 						$('input[editattr~='+val+']').prop('checked',true);
 						//selected_answer_id=val;
 						if(ans_label[val]!="YES"){
@@ -294,7 +291,7 @@
 						is_correct=ans_label[val];
 						selected_answer_id=val;
 						selected_answer_text=$('#'+val).text();
-						alert(selected_answer_text);
+						//alert(selected_answer_text);
 					});
 				}
 			});
