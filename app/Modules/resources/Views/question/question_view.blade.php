@@ -41,9 +41,27 @@
                             </div>
 
                         <div class="answers mt20 col-md-12">
-                            @if (isset($answersLisitng) && !empty($answersLisitng))
-                                {!! $answersLisitng !!}
-                            @endif
+                            <div class="row">
+                            <label class="col-md-2" style="word-break: break-all" >Question: </label>
+                                 @foreach($qstn as $question)
+                                    {{ $question['title']}}
+                                 @endforeach
+                            </div>
+                            <div class="row">
+                                    <?php $ans_arr=['A','B','C','D','E']; 
+                                    $i=0;?>
+                                <label class="col-md-2" style="word-break: break-all">Answers: </label>
+                                @foreach($oldAnswers as $key => $answer)
+                                <div>
+                                    <b>{{$ans_arr[$i++]}}</b>.
+                                  @if($answer["is_correct"] == "YES")
+                                  <span style="color:green;font-weight:bold"><?php echo($answer['ans_text'])?></span>
+                                  @else
+                                 <?php echo($answer['ans_text'])?>
+                                    @endif
+                                </div>
+                                @endforeach
+                            </div>
                         </div>
 
                     </div>

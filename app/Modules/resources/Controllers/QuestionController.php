@@ -343,13 +343,19 @@ class QuestionController extends BaseController {
 			$question = Input::All();
 
 		}
+
+		$qstn=Question::where('id',$id)->get()->toArray();
         //dd($question);
-		return view('resources::question.question_view',compact('question'));
+		/*return view('resources::question.question_view',compact('question'));*/
 
 
-//
-//   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
-//			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
+		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
+			->where('question_answers.question_id',$id)
+			->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
+			->get()->toArray();
+
+
+   		return view('resources::question.question_view',compact('question','oldAnswers','qstn'));
 	}
 
 	public function questionedit($id = 0)
