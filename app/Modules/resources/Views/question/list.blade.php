@@ -87,6 +87,7 @@
 				                <th>Question Title</th>
 				                <th>Question Type</th>
 				                 <th>Question Passage</th>
+								<th></th>
 				            </tr>
 				        </thead>
 				        <tbody id="question_list_filer">
