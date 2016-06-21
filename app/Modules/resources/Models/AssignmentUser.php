@@ -207,7 +207,7 @@ class AssignmentUser extends Model {
 
         if($assignment_id > 0)
         {            
-            $query->where("u.institution_id", $institution_id);
+            $query->where("u.institution_id", $institution_id)->where("u.role_id",'=',2);
             $query->whereNull("au.user_id");
         }      
 
