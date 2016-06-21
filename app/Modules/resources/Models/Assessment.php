@@ -38,23 +38,36 @@ class Assessment extends Model {
 	}
 	public function getDetails($id = 0)
 	{
-		$d=DB::table('assessment_question')->where('assessment_id','=',$id)->get();
+		/*$d=DB::table('assessment_question')->where('assessment_id','=',$id)->get();
 		//dd($assessment);
 
 		$c=array();
 		foreach($d as $assessment)
-			array_push($c,$assessment->question_id);
+			array_push($c,$assessment->question_id);*/
 		//dd($c);
 		$assessments = DB::table('assessment_question')
 				//->join('assessment', 'assessment.id', '=', 'assessment_question.assessment_id')
 				->join('questions', 'questions.id', '=', 'assessment_question.question_id')
+				->join('question_answers','question_answers.question_id','=','assessment_question.question_id')
 				->leftjoin('passage','passage.id','=','assessment_question.passage_id')
 				->where('assessment_question.assessment_id','=',$id)
 
-				->select('questions.title as qstn_title','passage.title as psg_title')
+				->select('questions.id as qstn_id','questions.title as qstn_title','question_answers.id as answer_id','question_answers.is_correct','question_answers.ans_text','questions.qst_text','passage.id as psg_id','passage.title as psg_title','passage.passage_text as psg_txt','passage.passage_lines as psg_lines')
+				//->orderby('psg_id','qstn_id')
 				->get();
 		//dd($assessments);
-		return $assessments;
+		$questions = [];
+		foreach ($assessments as $key => $question) {
+			$questions[$question->psg_id]['psg_title'] = $question->psg_title;
+			$questions[$question->psg_id]['psg_txt'] = $question->psg_txt;
+			$questions[$question->psg_id]['questions'][$question->qstn_id]['qstn_id'] = $question->qstn_id;
+			$questions[$question->psg_id]['questions'][$question->qstn_id]['title'] = $question->qstn_title;
+			$questions[$question->psg_id]['questions'][$question->qstn_id]['qst_text'] = $question->qst_text;
+			$questions[$question->psg_id]['questions'][$question->qstn_id]['answers'][] = ['Id' => $question->answer_id, 'ans_text' => $question->ans_text, 'is_correct' => $question->is_correct];
+		}
+
+		//dd($questions);
+		return $questions;
 
 	}
 
