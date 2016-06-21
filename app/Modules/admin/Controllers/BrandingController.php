@@ -24,11 +24,15 @@ class BrandingController extends Controller {
 	}
 
 	public function add()
-	{	
+	{
+        $brandingInstitutions=Branding::lists('institution_id');
+        //dd($brandingInstitutions);
+        $inst_arr=Institution::whereNotIn('id',$brandingInstitutions)->lists('id');
+        //dd($inst_arr);
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-		/*$inst_arr=Institution::get();*/
-		return view('admin::branding.brand',compact('inst_arr'));
+		//$inst_arr=Institution::get();
+		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions'));
 	}
 
 	/**
@@ -161,13 +165,19 @@ class BrandingController extends Controller {
 	public function edit($id)
 	{
 		$InstitutionObj = new Institution();
-		$inst_arr = $InstitutionObj->getInstitutions();
+		//$inst_arr = $InstitutionObj->getInstitutions();
 		$branding=Branding::find($id);
-		$branding = Branding::find($id);
-//dd($branding->institution_id);
-		return view('admin::branding.brandedit', compact('branding', 'inst_arr'));
+        $institution=Institution::select('name','id')->where('id',$branding['institution_id'])->first();
+		//$branding = Branding::find($id);
+        //dd($branding->institution_id);
+		return view('admin::branding.brandedit', compact('branding', 'institution'));
 
 	}
+	/*public function brandingscript($id)
+	{
+		$id=Branding::find($id)->get();
+        dd($id);
+	}*/
 
 	/**
 	 * Update the specified resource in storage.
@@ -258,5 +268,6 @@ class BrandingController extends Controller {
 			Branding::find($id)->delete();
 			return Redirect::route('branding-view');
 	}
+
 
 }

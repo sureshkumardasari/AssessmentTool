@@ -1,6 +1,5 @@
 @extends('default')
 @section('content')
-    
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -23,10 +22,7 @@
                                 <label class="col-md-4 control-label">Select Institution</label>
                                 <div class="col-md-6">
                                     <select class="form-control" name="institution_id" id="institution_id">
-                                        <option value="0">-- Select --</option>
-                                        @foreach($inst_arr as $id => $name)
-                                            <option value="{{$id}}" {{ ($branding->institution_id ==$id) ? 'selected = "selected"' : '' }}>{{$name}}</option>
-                                        @endforeach
+                                            <option value="{{$institution['id']}}">{{$institution['name']}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -95,7 +91,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-6 col-md-offset-4" >
                                 <button type="submit" class="btn btn-primary">Update</button>
                                 <button type="reset" class="btn btn-default">Reset</button>
@@ -110,8 +105,7 @@
     </div>
     <script src="{{ asset('assets/js/bootstrap-colorpicker.min.js')}}"></script>
     <link href="{{ asset('css/bootstrap-colorpicker.min.css') }}" rel='stylesheet' type='text/css'> 
-    
-    <script> $(function() { 
+    <script> $(function() {
         $('.jscolor').colorpicker({  format: 'hex' }); }); 
     </script> 
 @endsection
