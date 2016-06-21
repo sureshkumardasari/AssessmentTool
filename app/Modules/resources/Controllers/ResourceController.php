@@ -164,8 +164,8 @@ class ResourceController extends BaseController {
 		$inst_arr = $this->institution->getInstitutions();	
 		$subjects = $this->subject->getSubject();	
 		$category = $this->category->getCategory();
-
-		$lessons = $this->lesson->getLesson();
+		$lessons = $this->lesson->getSubjectCategoryLesson();
+ //		$lessons = $this->lesson->getLesson();
         //return view('resources::lesson.list',compact('inst_arr', 'lessons','subjects','category'));
         return view('resources::lesson.list',compact('inst_arr','subjects','category'))
         ->nest("lessonsList", 'resources::lesson._list', compact('lessons'));
@@ -352,9 +352,9 @@ class ResourceController extends BaseController {
 		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
 		$subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
 
-		$lessons=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
-		//dd($users);
-        
+//		$lessons=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
+		$lessons=$this->lesson->getSubjectCategoryLesson($institution_id, $category_id, $subject_id);
+         
         $from = 'search';
         return view('resources::lesson._list', compact('lessons', 'from'));
 	}

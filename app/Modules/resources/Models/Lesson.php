@@ -45,6 +45,33 @@ class Lesson extends Model {
 		}
 		
 		return $lessons;
+	}public function getSubjectCategoryLesson($institution_id = 0, $category_id = 0, $subject_id = 0)
+	{
+		//$users = User::get();
+ 		$obj = DB::table('lesson as l'); //new Lesson();
+		$obj->join('category as c', 'c.id', '=', 'l.category_id');
+		$obj->join('subject as s', 's.id', '=', 'l.subject_id');
+		if($institution_id > 0 || $category_id > 0 || $subject_id > 0)
+		{
+			//$lessons = $obj->where("subject_id", $subject_id)->where('institution_id', $institution_id)->where('category_id', $category_id)->lists('name', 'id');
+			if($institution_id > 0)
+			{
+				$obj->where('l.institution_id', $institution_id);
+				if($category_id > 0)
+				{
+					$obj->where('l.category_id', $category_id);
+					if($subject_id > 0)
+						$obj->where('l.subject_id', $subject_id);
+				}
+			}
+			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 's.id','c.id')->get();
+		}
+		else
+		{
+			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 's.id','c.id')->get();
+		}
+
+		return $lessons;
 	}
 
 	public function getLessonInfo($id = 0)
