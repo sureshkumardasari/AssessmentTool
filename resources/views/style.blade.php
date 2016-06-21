@@ -71,7 +71,7 @@
       background-color: {{$box_header_bg_color}};
       color: {{$box_header_text_color}};
 }
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-default, .btn-default:hover, .btn-default:active {
+.btn-primary, .btn-primary:hover, .btn-primary:active/*, .btn-default, .btn-default:hover, .btn-default:active*/ {
     background-color: {{$button_bg_color}};
     border-color: {{$button_bg_color}};
     color: {{$button_text_color}};
