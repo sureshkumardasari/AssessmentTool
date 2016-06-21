@@ -64,11 +64,11 @@ class Lesson extends Model {
 						$obj->where('l.subject_id', $subject_id);
 				}
 			}
-			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 's.id','c.id')->get();
+			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 'l.id as l_id','c.id')->get();
 		}
 		else
 		{
-			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 's.id','c.id')->get();
+			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 'l.id as l_id','c.id')->get();
 		}
 
 		return $lessons;

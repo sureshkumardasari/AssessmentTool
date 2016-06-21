@@ -60,12 +60,12 @@ class Subject extends Model {
  					$obj->where('category_id', $category_id);
 				}
 			}
-			$subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id','c.id','category_id')->get();
+			$subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id as s_id','c.id','category_id')->get();
 
 		}
 		else
 		{
-			$subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id','c.id','category_id')->get();
+			$subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id as s_id','c.id','category_id')->get();
 		}
   		return $subjects;
 	}
