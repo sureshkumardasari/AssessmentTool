@@ -22,10 +22,10 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Select Institution</label>
 								<div class="col-md-6">
-									<select class="form-control" name="institution_id" id="institution_id" onchange="check_already_entered()" >
-										<option value="0">-- Select --</option>
+									<select class="form-control" name="institution_id" id="institution_id" >
+										<option value="0" data-id="0">-- Select --</option>
 										@foreach($inst_arr as $id => $name)
-											<option value="{{$id}}">{{$name}}</option>
+											<option value="{{$id}}" data-id="{{(isset($brandingIds[$id]))? $brandingIds[$id] : 0 }}">{{$name}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -39,56 +39,56 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Header Background Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="hbcolor" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="hbcolor" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Header Text Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="headertc" value="#000000" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="headertc" value="#000000" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Box Header Background Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="boxhbc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="boxhbc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Box Header Text Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="boxhtcolor" value="#000000" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="boxhtcolor" value="#000000" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
 							<div class="form-group required hidden">
 								<label class="col-md-4 control-label">Box Text Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="btextc" value="#000000" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="btextc" value="#000000" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Button Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="buttonc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="buttonc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Button Text Color</label>
 								<div class="col-md-4">
-									<div id="" class="input-group colorpicker-component jscolor"> 
-										<input type="text" name="buttontc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span> 
+									<div id="" class="input-group colorpicker-component jscolor">
+										<input type="text" name="buttontc" value="#ffffff" class="form-control" /> <span class="input-group-addon"><i></i></span>
 									</div>
 								</div>
 							</div>
@@ -103,19 +103,38 @@
 	</div>
 	</div>
 	<script src="{{ asset('assets/js/bootstrap-colorpicker.min.js')}}"></script>
-	<link href="{{ asset('css/bootstrap-colorpicker.min.css') }}" rel='stylesheet' type='text/css'>	
-<script> $(function() {
-    $('.jscolor').colorpicker({ color: '#000000', format: 'hex' }); });
-	var branding_institutions=[];
-	@foreach($brandingInstitutions as $brandIns)
-	branding_institutions.push("{{$brandIns}}");
-	@endforeach
-	function check_already_entered(){
-		if($.inArray($('#institution_id').val(),branding_institutions)>-1){
-			alert("already entered");
-            $('#institution_id').val(0);
-		}
+	<link href="{{ asset('css/bootstrap-colorpicker.min.css') }}" rel='stylesheet' type='text/css'>
+	<script> $(function() {
+			$('.jscolor').colorpicker({ color: '#000000', format: 'hex' }); });
+		var branding_institutions=[];
 
-	}
-</script>
+		@foreach($brandingInstitutions as $brandIns)
+        branding_institutions.push("{{$brandIns}}");
+		@endforeach
+
+		function check_already_entered(){
+			alert($('#institution_id').data('foo'));
+			if($.inArray($('#institution_id').val(),branding_institutions)>-1)
+			{
+				//alert("already entered");
+				location.href="{{  url('/user/brandingedit/') }}";
+				$('#institution_id').val(0);
+
+			}
+
+		}
+		$('#institution_id').change(function(){
+			var selected = $(this).find('option:selected');
+			var brandingid = selected.data('id');
+
+			alert(brandingid);
+			if($.inArray($(this).val(),branding_institutions)>-1)
+			{
+				alert("already entered");
+				location.href="{{  url('/user/brandingedit/') }}/"+brandingid;
+				$('#institution_id').val(0);
+
+			}
+		});
+	</script>
 @endsection

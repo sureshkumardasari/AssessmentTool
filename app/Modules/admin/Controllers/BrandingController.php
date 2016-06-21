@@ -22,17 +22,18 @@ class BrandingController extends Controller {
 	public function index()
 	{
 	}
-
 	public function add()
 	{
-        $brandingInstitutions=Branding::lists('institution_id');
-        //dd($brandingInstitutions);
-        $inst_arr=Institution::whereNotIn('id',$brandingInstitutions)->lists('id');
-        //dd($inst_arr);
+		$brandingInstitutions=Branding::lists('institution_id');
+		//dd($brandingInstitutions);
+		$brandingIds=Branding::lists('id','institution_id');
+		//dd($brandingIds);
+		$inst_arr=Institution::whereNotIn('id',$brandingInstitutions)->lists('id');
+		// dd($inst_arr);
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		//$inst_arr=Institution::get();
-		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions'));
+		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions','brandingIds'));
 	}
 
 	/**
