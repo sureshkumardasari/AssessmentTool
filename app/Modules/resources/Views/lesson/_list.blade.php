@@ -4,6 +4,7 @@
 								<th>Lesson</th>
 								<th>Subject</th>
 								<th>Category</th>
+								<th></th>
 				            </tr>
 				        </thead>
 				        <tbody>
