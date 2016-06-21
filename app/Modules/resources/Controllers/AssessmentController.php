@@ -195,6 +195,35 @@ class AssessmentController extends BaseController {
 		}
  	}
 
+ 	public function pdftest(){
+ 		$pdf = new Pdf;
+		$globalOptions = array(
+			'margin-bottom'    => 20,
+		);
+		$pdf->binary = 'wkhtmltopdf';
+
+		$pdf->setOptions($globalOptions);
+		$pageOptions = array(
+			'javascript-delay' => 2000,
+			'encoding'         => 'UTF-8',
+			'footer-line',
+			'footer-font-size' => 10,
+			'footer-spacing'   => 10
+		);
+
+		// $pdf->addPage('<html><body>PDF</body></html>', $pageOptions);
+		$content = '<div class="page">TEST</div>';
+		$parentId = 1;
+		$pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
+		$pdf->addPage($pages);
+		$filename = public_path('data/pdf/testNEW.pdf');
+		if (!$pdf->saveAs($filename)) {
+			echo $pdf->getCommand();
+			throw new Exception('Could not create PDF: '.$pdf->getError());
+		}
+		echo "created test PDF :  ".$filename;
+ 	}
+
  	public function assessmentpdf($assessmentId=0){
 
  		$_pdf       = $this->_generatePdf($assessmentId, 'PdfContent');
@@ -206,15 +235,7 @@ class AssessmentController extends BaseController {
         $options = array(
             'encoding' => 'UTF-8',
             'page-size' => 'A3',
-            'use-xserver',
-            'commandOptions' => array(
-                'enableXvfb' => true,
-                'procEnv' => array(
-                    'LANG' => 'en_US.utf-8',
-                ),
-                'xvfbRunOptions' => '--auto-servernum',
-            ),
-            // 'margin-right' => '15mm',
+                      // 'margin-right' => '15mm',
             'margin-bottom' => '25mm',
             // 'margin-left' => '14mm',
             'header-spacing' => 15,
@@ -241,17 +262,14 @@ class AssessmentController extends BaseController {
 
         // init wkhtmltopdf
         $pdf = new Pdf($options);
-        $pdf->binary = 'wkhtmltopdf';       
-
+        $pdf->binary = 'wkhtmltopdf';   
        
         $content = '<div class="page">TEST</div>';
         $parentId = 1;
-
+        
         $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
         $pdf->addPage($pages);
         $fullPath = public_path('data/pdf/test_.pdf');
-        echo "$fullPath";
-        echo "<br>".sys_get_temp_dir();
         $pdf->saveAs( $fullPath );
 
         // check if file is created        
@@ -273,13 +291,13 @@ class AssessmentController extends BaseController {
 		if(isset($id) && $id > 0)
 		{
 			$assessments = $this->assessment->getDetails($id);
+
 		}
 		else
 		{
 			$assessments = Input::All();
-		}
 
-		//dd('exit');
+		}
 		return view('resources::assessment.view',compact('assessments','title'));
 	}
 	public function assessmentedit($id=0){
