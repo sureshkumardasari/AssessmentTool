@@ -66,11 +66,11 @@ class ResourceController extends BaseController {
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
 		$inst_arr = $this->institution->getInstitutions();	
 		$category = $this->category->getCategory();
-
-		$subjects = $this->subject->getSubject();
-        //return view('resources::subject.list',compact('inst_arr', 'subjects','category'));
-        return view('resources::subject.list',compact('inst_arr','category'))
-        ->nest("subjectsList", 'resources::subject._list', compact('subjects'));
+//		$categorylist = $this->category->getCategoryList();
+ 		$subjects = $this->subject->getSubject();
+		$subjectcategory = $this->subject->getSubjectCategory(); 
+        return view('resources::subject.list',compact('inst_arr','category','subjectcategory'))
+        ->nest("subjectsList", 'resources::subject._list', compact('subjects','category','subjectcategory'));
 	}
 
 	public function subjectadd()
@@ -366,11 +366,11 @@ class ResourceController extends BaseController {
 		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
 		$subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
 
-		$subjects=$this->subject->getSubject($institution_id, $category_id);
-		//dd($users);
-        
+//		$subjects=$this->subject->getSubject($institution_id, $category_id);
+		$subjectcategory = $this->subject->getSubjectCategory($institution_id, $category_id);
+
         $from = 'search';
-        return view('resources::subject._list', compact('subjects', 'from'));
+        return view('resources::subject._list', compact('subjectcategory', 'from'));
 	}
 
 	public function categorysearch($institution_id = 0, $category_id = 0, $subject_id = 0)
