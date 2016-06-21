@@ -280,7 +280,7 @@ $('input:radio[name="launchtype"]').change(
        function loadselectedusers()
        {
        	
-       		var loadurl = "{{ url('/resources/assignedusersjson') }}/" ;//+ $(this).val(); 
+       		var loadurl = "{{ url('/resources/assignedusersjson') }}" ;//+ $(this).val(); 
             console.log(loadurl);
 			//unselected
 			//$('#student_ids').attr('data-source', loadurl);
