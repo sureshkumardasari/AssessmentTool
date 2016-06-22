@@ -28,28 +28,71 @@
 					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/passageupdate') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $passage->id }}">
+
+
 						<div class="form-group">
-							<label class="col-md-3 control-label">Title</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ $passage->title }}">
+							<label class="col-md-2 control-label">Institution</label>
+							<div class="col-md-10">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+									<option value="0">--Select Institution--</option>
+									 @foreach($inst_arr as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach 
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">Passage Text</label>
+							<label class="col-md-2 control-label">Category</label>
+							<div class="col-md-10">
+								<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+									<option value="0">--Select Category--</option>
+ 									
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Subject</label>
+							<div class="col-md-10">
+								<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
+									<option value="0">--Select Subject--</option>
+ 									
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Lessons</label>
+							<div class="col-md-10">
+								<select class="form-control" name="lessons_id" id="lessons_id">
+									<option value="0">--Select Lessons--</option>
+									
+								</select>
+							</div>
+						</div>
+						
+
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">Passage Title</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" name="passage_title" value="{{ $passage->title }}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Passage Text</label>
 							<div class="col-md-6">
 								<textarea class="form-control" id="passage_text" name="passage_text">{{ $passage->passage_text }}</textarea>
 							</div>
 						</div>
 							<div class="form-group">
-							<label class="col-md-3 control-label" >Passage Lines</label>
+							<label class="col-md-2 control-label" >Passage Lines</label>
 							<div class="col-md-6">
 								<textarea class="form-control" id="passage_lines" name="passage_lines">{{ $passage->passage_lines }}</textarea>
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-3 control-label">Status</label>
+							<label class="col-md-2 control-label">Status</label>
 							<div class="col-md-6">
 								<input type="radio" class="" name="status" id="status_yes" value="1" {{ ($passage->status == 1 ) ? 'checked="checked"' : '' }}> Active 
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0" {{ ($passage->status == 0) ? 'checked="checked"' : '' }}> Inactive 
@@ -70,4 +113,6 @@
 		</div>
 	</div>
 </div>
+@include('resources::question.qst_js_validation')
+
 @endsection

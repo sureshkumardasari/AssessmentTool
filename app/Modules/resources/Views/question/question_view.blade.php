@@ -42,7 +42,9 @@
 
                         <div class="answers mt20 col-md-12">
                             <div class="row">
-                            <label class="col-md-2" style="word-break: break-all" >Question: </label>
+                             <?php $qstn_arr=['1','2','3','4','5','6','7','8','9','10']; 
+                                    $a=0;?>
+                            <label class="col-md-2" style="word-break: break-all" ><b>{{$qstn_arr[$a++]}}.Question:</b></label>
                                  @foreach($qstn as $question)
                                     {{ $question['title']}}
                                  @endforeach
@@ -50,7 +52,7 @@
                             <div class="row">
                                     <?php $ans_arr=['A','B','C','D','E']; 
                                     $i=0;?>
-                                <label class="col-md-2" style="word-break: break-all">Answers: </label>
+                                <label class="col-md-2" style="word-break: break-all"><b>Answers: </b></label>
                                 @foreach($oldAnswers as $key => $answer)
                                 <div>
                                     <b>{{$ans_arr[$i++]}}</b>.
