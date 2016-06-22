@@ -67,7 +67,7 @@
 						$status = $assignment->AssignmentStatus;
 						
 					}
-					echo $status;
+					echo ucwords($status);
 				  ?>
 			</span></span>
 		</td>	
@@ -80,13 +80,13 @@
 			<td><span class="text"><a href="{{ route('tests-detail', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId )) }}" class="btn btn-primary">Resume Test</a></span></td>
 		
 		@elseif ($status == 'completed')
-			<td><span class="text">completed</span></td>	
+			<td><span class="text">Completed</span></td>	
 		
 		@elseif ($status == 'upcoming')
 			<td><span class="text"></span></td>
 		
 		@else	
-			<td><span class="text">{!! $status !!}</span></td>
+			<td><span class="text">{!! ucwords($status) !!}</span></td>
 		@endif
 	</tr>
 @endforeach
@@ -116,7 +116,7 @@
 		<td><span class="text">{{$assignment->AssignmentName}}</span></td>
 		<td><span class="text">{{$assignment->AssessmentName}}</span></td>
 		<td><span class="text">{{ $startDateTime }}</span></td>
-		<td><span class="text">{{ $endDateTime }}</span></td>
+		<td><span class="text">{{ ($endDateTime == false)? 'Never expires' : $endDateTime }}</span></td>
 		<td>		
 			<span class="text">
 
@@ -149,9 +149,7 @@
 						$status = $assignment->AssignmentStatus;
 						
 					}
-					echo $status;
-
-					
+					echo ucwords($status);					
 				 ?>
 			</span></span>
 		</td>	
@@ -162,13 +160,13 @@
 		@elseif ($status == 'inprogress' && $assignment->AssignmentStatus == "inprogress")
 			<td><span class="text"><a href="{{ route('tests-detail', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId)) }}" class="btn btn-primary">Resume Test</a></span></td>			
 		@elseif ($status == 'completed')
-			<td><span class="text">completed</span></td>	
+			<td><span class="text">Completed</span></td>	
 		@elseif ($status == 'upcoming' && ( $startDateTime < $now && ($assignment->Expires == false || $assignment->Expires =='0') ) )
 			<td><span class="text"><a class="anchar" href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId))}}">Instructions</a></span></td>
 		@elseif ($status == 'upcoming')
 			<td><span class="text"></span></td>
 		@else	
-			<td><span class="text">{!! $status !!}</span></td>
+			<td><span class="text">{!! ucwords($status) !!}</span></td>
 		@endif
 	</tr>
         
