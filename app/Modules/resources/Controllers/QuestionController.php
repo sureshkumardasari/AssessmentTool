@@ -369,6 +369,7 @@ class QuestionController extends BaseController {
 		$qtypes = $this->question_type->getQuestionTypes();
 		if(isset($id) && $id > 0)
 		{
+			
 			$obj = $this->question->find($id);
 			$id = $obj->id;
 			$institution_id = $obj->institution_id;
