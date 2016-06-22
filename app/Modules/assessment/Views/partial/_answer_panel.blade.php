@@ -72,7 +72,7 @@
     /*--}}
 
     @if(in_array($question['question_type'], array('Multiple Choice - Single Answer')))
-        <ul class="ans-sheet multiple_choice checkbox-bg">
+        <ul class="ans-sheet multiple_choice checkbox-bg" style="padding:0;">
             <li>{{ str_pad(++$index, 2, '0', STR_PAD_LEFT) }}</li>
             
             {{--*/ $counter = 0; /*--}}

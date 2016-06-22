@@ -5,7 +5,9 @@
     #question-answers {
         min-height: 1154px;
         overflow-y: auto;
-        width: 255px;
+        /*width: 255px;*/
+        min-width: 300px;
+        max-width: 350px;
     }
     .test-form .two-column .column.column-count {width: 817px;}
     #slide-show-container p img {display: block; margin: auto;width: 100%;}
@@ -21,8 +23,8 @@
 <script>window.replacements = [];</script>
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-11 col-md-offset-1">
+  
+    <div class="col-md-12 col-md-offset-0">
       <div class="panel panel-default">
         <div class="panel-heading">{{isset($assessment) ? $assessment->name : ''}}         
         </div>
@@ -62,7 +64,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </div>
 <input type="hidden" name="_token" class="hidden-token" value="{{ csrf_token() }}">
 {!! HTML::script(asset('plugins/jquery-backward-timer.min.js')) !!}

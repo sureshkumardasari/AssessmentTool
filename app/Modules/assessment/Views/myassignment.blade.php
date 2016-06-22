@@ -117,6 +117,8 @@
 				       		@endforeach
 				       	</tbody>
 			        </table>
+			        @else
+			        <h3>No assignments found...!</h3>
 			        @endif						
 					<!--  -->
 				</div>

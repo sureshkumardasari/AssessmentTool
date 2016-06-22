@@ -188,17 +188,54 @@ class Assignment extends Model {
         $delivery_method = 'online';
         $user_id = ($user_id > 0) ? $user_id : Auth::user()->id;
 
-        $assessmentStatus =  DB::table('assessment')->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
-                                        ->join('assignment_user', 'assignment.id', '=', DB::raw('assignment_user.assignment_id AND assignment_user.user_id = '. $user_id))
-                                        ->where('assignment.delivery_method', $delivery_method)
-                                        ->where('assignment_user.user_id', $user_id)                            
-                                        ->orderBy("assessment.id", "DESC")
-                                        ->orderBy("assignment.id", "DESC")
-                                        ->orderBy("assignment.name", "ASC")
-                                        ->select(["assignment.name", "assignment_user.status AS AssignmentStatus", "assessment.id AS AssessmentsId",  "assignment.id AS AssignmentId", "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])
-                                        ->get();
+        $assessmentStatus = DB::table('assessment')
+                            ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+                            ->join('assignment_user', 'assignment.id', '=', DB::raw('assignment_user.assignment_id AND assignment_user.user_id = '. $user_id))
+                            ->where('assignment.delivery_method', $delivery_method)
+                            ->where('assignment_user.user_id', $user_id)                            
+                            ->orderBy("assessment.id", "DESC")
+                            ->orderBy("assignment.id", "DESC")
+                            ->orderBy("assignment.name", "ASC")
+                            ->select(["assignment.name", "assignment_user.status AS AssignmentStatus", "assessment.id AS AssessmentsId",  "assignment.id AS AssignmentId", "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])
+                            ->get();
         return $assessmentStatus;
     }
+
+    public static function getMyTestList(){
+        $delivery_method = 'online';
+        $records['proctor_launch'] = DB::table('assessment')
+                            ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+                            ->join('assignment_user', 'assignment.id', '=', DB::raw('assignment_user.assignment_id AND assignment_user.user_id = '. Auth::user()->id))
+                            ->where('assignment.delivery_method', $delivery_method)
+                            ->where('assignment.launchtype', '=' ,'proctor')
+                            ->orderBy("assessment.id", "DESC")
+                            ->orderBy("assignment.id", "DESC")
+                            ->orderBy("assignment.name", "ASC")
+                            ->select(["assignment.name AS AssignmentName","assessment.name AS AssessmentName", 
+                                        "assignment_user.status AS AssignmentStatus", 
+                                        "assessment.id AS AssessmentsId",  
+                                        "assignment.id AS AssignmentId", 
+                                        "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])                            
+                            ->get();
+        
+        $records['system_launch'] = DB::table('assessment')
+                            ->join('assignment', 'assessment.id', '=', 'assignment.assessment_id')
+                            ->join('assignment_user', 'assignment.id', '=', DB::raw('assignment_user.assignment_id AND assignment_user.user_id = '. Auth::user()->id))
+                            ->where('assignment.delivery_method', $delivery_method)
+                            ->where('assignment.launchtype', '=' ,'system')
+                            ->orderBy("assessment.id", "DESC")
+                            ->orderBy("assignment.id", "DESC")
+                            ->orderBy("assignment.name", "ASC")
+                            ->select(["assignment.name AS AssignmentName","assessment.name AS AssessmentName",
+                                        "assignment_user.status AS AssignmentStatus", 
+                                        "assessment.id AS AssessmentsId",  
+                                        "assignment.id AS AssignmentId", 
+                                        "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])                            
+                            ->get();
+
+        return $records;
+    }
+
     public function updateGradeStatus($id, $status) {
         $assignment = $this->find($id);
         $assignment->gradestatus = $status;

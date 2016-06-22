@@ -59,7 +59,13 @@ class AssignmentUser extends Model {
 		return $users;
 	}
 
-	 public function complete($aId, $aAId, $status) {
+    public function getAssignmentUserStatus($aId, $aAId)
+    {
+        $res = AssignmentUser::where('assessment_id', $aAId)->where('assignment_id', $aAId)->where('user_id', Auth::user()->id)->first();
+        //dd($res);
+        return ($res != null) ? $res->status : '';
+    }
+	public function complete($aId, $aAId, $status) {
 
         AssignmentUser::where('assessment_id', $aAId)
                                 ->where('user_id', Auth::user()->id)

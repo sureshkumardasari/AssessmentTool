@@ -66,11 +66,18 @@ class AssessmentAssignmentController extends BaseController {
         return view('resources::assignment.list',compact('assignments'));
 	}
 
-    public function myassignment($user_id = 0)
+    public function myassignment_old($user_id = 0)
     {
         $myassignment = $this->assignment->getTests();
         //var_dump($myassignment);
         return view('assessment::myassignment', compact('myassignment'));
+    }
+
+    public function myassignment($user_id = 0)
+    {
+        $myassignment = $this->assignment->getMyTestList();
+        //var_dump($myassignment);
+        return view('assessment::myallassignment', compact('myassignment'));
     }
     
     public function getTestInstructions($id) {
@@ -81,6 +88,16 @@ class AssessmentAssignmentController extends BaseController {
 
     	$aId 	= $ids[0];		// assessment id
     	$aAId 	= $ids[1];	// assessment assignment id
+
+        $AssignmentUser = new AssignmentUser();
+        $status = $AssignmentUser->getAssignmentUserStatus($aId, $aAId);
+        if($status == 'completed' || $status == '')
+        {
+            $message = ($status == 'completed') ? 'Test is already completed...!' : 'Test not found...!';
+            return view('assessment::test_error', compact('message'));
+        }
+        $AssignmentUser->complete($aId, $aAId, 'instructions');
+
 
     	$assessment = Assessment::find($aId);
         $assignment = $this->assignment->find($aAId);
@@ -103,6 +120,27 @@ class AssessmentAssignmentController extends BaseController {
         $aId    = $ids[0];      // assessment id
         $aAId   = $ids[1];  // assessment assignment id
 
+        //getting Assessment
+        $assessment = Assessment::find($aId);
+        if($assessment == null)
+        {
+            $message = 'Test not found...!';
+            return view('assessment::test_error', compact('message'));            
+        }        
+
+        $secs = ($assessment->totaltime > 0) ? $assessment->totaltime : 0;
+        $secs = ($assessment->unlimitedtime == '1') ? 0 : $secs;
+
+
+        $AssignmentUser = new AssignmentUser();
+        $status = $AssignmentUser->getAssignmentUserStatus($aId, $aAId);
+        if($status == 'completed' || $status == '')
+        {
+            $message = ($status == 'completed') ? 'Test is already completed...!' : 'Test not found...!';
+            return view('assessment::test_error', compact('message'));
+        }
+        $AssignmentUser->complete($aId, $aAId, 'inprogress');
+
         $assessmentType = '';
 
     	$path = public_path('data/assessment_pdf_images/assessment_'.$aId);
@@ -114,11 +152,7 @@ class AssessmentAssignmentController extends BaseController {
     	$bulletType = '';
     	// get question based on subsection id
     	$qbank = new AssessmentQuestion();
-    	$questions = $qbank->getQuestionsByAssessment($aAId, $aAId);
-        //getting Assessment
-        $assessment = Assessment::find($aId);
-        $secs = ($assessment->totaltime > 0) ? $assessment->totaltime : 180;
-        $secs = ($assessment->unlimitedtime == '1') ? 0 : $secs;
+    	$questions = $qbank->getQuestionsByAssessment($aAId, $aAId);        
 
         $retaking = false;
         View::share('retaking', $retaking);
