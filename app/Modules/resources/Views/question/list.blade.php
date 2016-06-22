@@ -8,6 +8,7 @@
 		        <li><a href="{{ url('/resources/subject') }}">Subjects</a></li>
 		        <li><a href="{{ url('/resources/lesson') }}">Lessons</a></li>
 		        <li class="active"><a href="{{ url('/resources/question') }}">Questions</a></li>
+		        <li><a href="{{ url('/resources/passage') }}">Passages</a></li>
 			</ul>
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
