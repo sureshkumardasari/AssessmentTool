@@ -61,10 +61,11 @@ class Passage extends Model {
 			$obj->added_by = Auth::user()->id;				
 		}
 		$obj->id = $params['id'];
-		$obj->title = $params['passage_tite'];
+		$obj->title = $params['passage_title'];
 		$obj->passage_text = $params['passage_text'];
 		$obj->passage_lines = $params['passage_lines'];
 		$obj->status = $params['status'];
+		$obj->category_id=$params['category_id'];
 		$obj->subject_id = $params['subject_id'];
 		$obj->lesson_id = $params['lessons_id'];
 		$obj->institute_id = $params['institution_id'];

@@ -166,7 +166,7 @@ if (count($errors) > 0){?>
 		)
 	}
 
-	$(document).ready(function() {	
+	/*$(document).ready(function() {	
 		 $('.ans-chk').checkboxpicker({
 		  html: true,
 		  offLabel: '<span class="glyphicon glyphicon-remove">',
@@ -181,5 +181,5 @@ if (count($errors) > 0){?>
 	    });
 
 	} );	
-
+*/
 </script>
