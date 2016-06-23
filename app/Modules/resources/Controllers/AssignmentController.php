@@ -19,7 +19,7 @@ use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\Assessment;
-
+use DB;
 class AssignmentController extends BaseController {
 
 	
@@ -56,16 +56,17 @@ class AssignmentController extends BaseController {
 		
 	}
 
-    
-
 	public function assignment($parent_id = 0)
 	{
-		$assignments = $this->assignment->getassignment();
+		$assignments = DB::table('assignment')
+			->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
+			->select('assignment.name','assessment.name as assessment_name','assignment.startdatetime')->get();
+		//dd($assignments);
         return view('resources::assignment.list',compact('assignments'));
 	}
 
 	public function assignmentadd()
-	{		
+	{
 		
 		//dd("123");
 		//$inst_arr = $this->institution->getInstitutions();
