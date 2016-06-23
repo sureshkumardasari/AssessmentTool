@@ -400,7 +400,7 @@ class ResourceController extends BaseController {
 		$params = Input::All();
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
 		$category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
-		$subjects=$this->subject->getSubject($institution_id, $category_id);
+		$subjects=$this->subject->getSubject($category_id);
 		return json_encode($subjects);
 	}
 
