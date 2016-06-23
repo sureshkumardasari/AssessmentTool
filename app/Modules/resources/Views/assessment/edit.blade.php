@@ -1,7 +1,11 @@
 @extends('default')
 @section('header-assets')
-	@parent
-	{!! HTML::script(asset('assets/js/question.js')) !!}
+@parent
+{!! HTML::script(asset('assets/js/common.js')) !!}
+{!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
+{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
+{!! HTML::script(asset('assets/js/question.js')) !!}
+{!! HTML::script(asset('assets/js/bootstrap-checkbox.min.js')) !!}
 @stop
 @section('content')
 	<div class="container">
@@ -28,58 +32,7 @@
 							<input type="hidden" name="id" value="{{ $assessment_details['id'] }}">
 
 
-							<div class="form-group ">
-								<label class="col-md-4 control-label">Institution</label>
-								<div class="col-md-6">
-									<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
-										<option value="0">--Select Institution--</option>
-										@foreach($inst_arr as $id=>$val)
-											<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="col-md-4 control-label">Category</label>
-								<div class="col-md-6">
-									<select class="form-control" name="category_id" id="category_id"  onchange="change_category()">
-										<option value="0">--Select Category--</option>
-										<!--  -->
-									</select>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="col-md-4 control-label">Subject</label>
-								<div class="col-md-6">
-									<select class="form-control" name="subject_id" id="subject_id"  onchange="change_lessons()">
-										<option value="0">--Select Subject--</option>
-										
-									</select>
-								</div>
-							</div>
-							<div class="form-group ">
-								<label class="col-md-4 control-label">Lessons</label>
-								<div class="col-md-6">
-									<select class="form-control" name="lessons_id" id="lessons_id"  onchange="change_question_type()">
-										<option value="0">--Select Lessons--</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-4 control-label">Question Type</label>
-								<div class="col-md-6">
-									<select class="form-control" name="question_type" id="question_type" >
-										<option value="0">--Select Question Type--</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-6">
-		 								<div class="move-arrow-box">
-											<a class="btn btn-primary" onclick="filter('0');" href="javascript:;">Apply Filter</a>
-										</div>
-		 						</div>
-							</div>
+							
 
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Title</label>
@@ -153,4 +106,16 @@
 		</div>
 	</div>
 	@include('resources::assessment.assessment_js_validation')
+
+	{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+<script>
+$( document ).ready(function() {
+	$('.searchfilter').on("click",function(e){    	
+    	//console.log('searchfilter ');
+    	$(".searchfilter span")
+        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+        $('.searchfilter-body').toggleClass('hide show');
+    });
+});    
+</script>
 @endsection
