@@ -74,6 +74,8 @@
 
 				                	<a href="{{ url('/resources/assessmentpdf/'.$name['id']) }}" class="btn btn-default btn-sm" title="PDF" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
 
+				                	<a href="{{ url('/resources/template/'.$name['id']) }}" class="btn btn-default btn-sm" title="Template" ><span class="glyphicon glyphicon-text-size" aria-hidden="true">T</span></a>
+
 									<a href="{{ url('/resources/assessmentdel/'.$name['id']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>

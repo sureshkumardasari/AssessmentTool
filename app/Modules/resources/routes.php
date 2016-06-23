@@ -66,6 +66,13 @@ Route::post('questiontypeList/{id}', array('as' => 'questiontypeList', 'uses'=>'
     Route::get('assessmentview/{id}', array('as' => 'assessmentview', 'uses'=>'AssessmentController@assessmentview'));
     Route::get('assessmentpdf/{id}', array('as' => 'assessmentpdf', 'uses'=>'AssessmentController@assessmentpdf'));
     Route::get('pdftest', array('as' => 'pdftest', 'uses'=>'AssessmentController@pdftest'));
+
+    Route::post('save-print-online-view', ['as' => 'savePrintOnlineView', 'uses' => 'AssessmentController@savePrintOnlineView']);
+    Route::any('save-pdf', array('as' => 'savePdf', 'uses' => 'AssessmentController@savePdf'));
+
+
+    Route::get('template/{id}', array('as' => 'template', 'uses'=>'AssessmentController@getTemplate'));
+
     Route::get('assessmentedit/{id}', array('as' => 'assessmentedit', 'uses'=>'AssessmentController@assessmentedit'));
     Route::post('assessmentupdate/', array('as' => 'assessmentupdate', 'uses'=>'AssessmentController@assessmentupdate'));
     Route::get('assessmentdel/{id}', array('as' => 'assessmentdel', 'uses'=>'AssessmentController@assessmentdel'));
