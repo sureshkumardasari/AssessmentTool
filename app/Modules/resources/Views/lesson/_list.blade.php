@@ -1,5 +1,5 @@
-					<table id="lessonstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
-				        <thead>
+ 						<table id="lessonstable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
 				            <tr>
 								<th>Lesson</th>
 								<th>Subject</th>
@@ -18,28 +18,7 @@
 									<a href="javascript:;" data-ref="{{ url('/resources/lessondel/'.$name->l_id) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
-				            @endforeach				            
+				            @endforeach
 				        </tbody>
 				    </table>
-
-<script>
-  	@if(isset($from) && $from == 'search')
-  	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
-</script>
-{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+					{!! HTML::script(asset('/js/custom/confirm.js')) !!}

@@ -2,6 +2,8 @@
 @section('header-assets')
 @parent
 {!! HTML::script(asset('/js/custom/resources.js')) !!}
+
+
 @stop
 @section('content')
 <div class="container">
@@ -75,15 +77,17 @@
 						</div>
 					</div>
 					<!-- filters start -->
-				
-				<div id="lesson-list" style="min-height:50px;"> {!! $lessonsList !!} </div>	
+
+				<div id="lesson-list" style="min-height:50px;"> {!! $lessonsList !!} </div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
-  	var searchRoute = "{{URL::route('lesson-search')}}";
+
+
+	var searchRoute = "{{URL::route('lesson-search')}}";
   	var categoryRoute = "{{URL::route('getcategory')}}";
   	var subjectRoute = "{{URL::route('getsubject')}}";
 </script>
