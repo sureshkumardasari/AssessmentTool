@@ -113,7 +113,7 @@ class AuthController extends Controller {
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
 			'country_id' =>'required',
-			'status' => 'required',
+			//'status' => 'required',
 			'gender' => 'required'];
 
 
