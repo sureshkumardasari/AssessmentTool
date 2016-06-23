@@ -20,23 +20,20 @@ class Subject extends Model {
 	protected $table = 'subject';
 	protected $primaryKey = 'id';
 
-	public function getSubject($institution_id = 0, $category_id = 0)
+	public function getSubject($category_id = 0)
 	{		
 		//$obj = new Subject();
+		//dd($institution_id ."-----". $category_id);
 		$obj = DB::table('subject');
-		if($institution_id > 0 || $category_id > 0)
+		if($category_id > 0)
 		{
 			//$subjects = $obj->where("institution_id", $institution_id)->where("category_id", $category_id)->lists('name', 'id');
-			if($institution_id > 0)
-			{
-				$obj->where('institution_id', $institution_id);
-				if($category_id > 0)
-				{
-
+			
 					$obj->where('category_id', $category_id);					
-				}	
-			}
-			$subjects = $obj->lists('name', 'id');
+
+			  $subjects = $obj->lists('name', 'id');
+			//dd($subjects);
+
 		}
 		else
 		{
@@ -44,30 +41,6 @@ class Subject extends Model {
 		}
 
 		return $subjects;
-	}public function getSubjectCategory($institution_id = 0, $category_id = 0)
-	{
- 		//$obj = new Subject();
-		$obj = DB::table('subject as s');
-		$obj->join('category as c', 'c.id', '=', 's.category_id');
-		if($institution_id > 0 || $category_id > 0)
-		{
- 			//$subjects = $obj->where("institution_id", $institution_id)->where("category_id", $category_id)->lists('name', 'id');
-			if($institution_id > 0)
-			{
-				$obj->where('s.institution_id', $institution_id);
-				if($category_id > 0)
-				{
- 					$obj->where('category_id', $category_id);
-				}
-			}
-			$subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id as s_id','c.id','category_id')->get();
-
-		}
-		else
-		{
-			$subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id as s_id','c.id','category_id')->get();
-		}
-  		return $subjects;
 	}
 
 	public function getSubjectInfo($id = 0)
