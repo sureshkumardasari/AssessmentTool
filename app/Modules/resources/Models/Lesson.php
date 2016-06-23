@@ -20,30 +20,22 @@ class Lesson extends Model {
 	protected $table = 'lesson';
 	protected $primaryKey = 'id';
 
-	public function getLesson($institution_id = 0, $category_id = 0, $subject_id = 0)
+	public function getLesson($subject_id = 0)
 	{
-		//$users = User::get();
+		//dd($institution_id ."-----". $category_id."-----------".$subject_id = 0);
+		//dd($subject_id);
 		$obj = DB::table('lesson'); //new Lesson();
-		if($institution_id > 0 || $category_id > 0 || $subject_id > 0)
-		{
-			//$lessons = $obj->where("subject_id", $subject_id)->where('institution_id', $institution_id)->where('category_id', $category_id)->lists('name', 'id');
-			if($institution_id > 0)
-			{
-				$obj->where('institution_id', $institution_id);
-				if($category_id > 0)
-				{
-					$obj->where('category_id', $category_id);
-					if($subject_id > 0)
-						$obj->where('subject_id', $subject_id);
-				}	
-			}
+		if($subject_id > 0){
+		
+			$obj->where('subject_id', $subject_id);
 			$lessons = $obj->lists('name', 'id');
+			//dd($lessons);
 		}
 		else
 		{
 			$lessons = $obj->lists('name', 'id');
 		}
-		
+		//dd($lessons);
 		return $lessons;
 	}public function getSubjectCategoryLesson($institution_id = 0, $category_id = 0, $subject_id = 0)
 	{

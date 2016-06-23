@@ -32,7 +32,7 @@
 						<input type="hidden" name="id" value="{{ $passage->id }}">
 
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Institution</label>
 							<div class="col-md-10">
 								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
@@ -43,35 +43,35 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
 								<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
 									<option value="0">--Select Category--</option>
  									@foreach($category as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $passages[0]['category_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $sCategory) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
 								<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
 									<option value="0">--Select Subject--</option>
  									@foreach($subjects as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $passages[0]['subject_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $sSubject) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Lessons</label>
 							<div class="col-md-10">
 								<select class="form-control" name="lessons_id" id="lessons_id">
 									<option value="0">--Select Lessons--</option>
 									@foreach($lessons as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $passage[0]['lesson_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $sLesson) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -79,19 +79,19 @@
 						
 
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Passage Title</label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" name="passage_title" value="{{ $passage->title }}">
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Passage Text</label>
 							<div class="col-md-6">
 								<textarea class="form-control" id="passage_text" name="passage_text">{{ $passage->passage_text }}</textarea>
 							</div>
 						</div>
-							<div class="form-group">
+							<div class="form-group required">
 							<label class="col-md-2 control-label" >Passage Lines</label>
 							<div class="col-md-6">
 								<textarea class="form-control" id="passage_lines" name="passage_lines">{{ $passage->passage_lines }}</textarea>

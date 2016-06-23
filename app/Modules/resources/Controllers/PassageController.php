@@ -81,13 +81,20 @@ class PassageController extends BaseController {
 	public function passageadd()
 	{		
 		$institution_id=0;
-		//dd("123");
+		$subjects = $this->subject->getSubject();
+		$category = $this->category->getCategory();
+		$lessons = $this->lesson->getLesson();
 		$inst_arr = $this->institution->getInstitutions();
-
 		$id = 0;
+		$sCategory=0;
+		$sSubject=0;
+		$sLesson=0;
+		// $passages[0]['category_id ']=[];
+		$passages = Passage::where('id',$id)->get()->toArray();
 		$passage = new passage();
+		//dd($passages);
 		//dd($inst_arr);
-		return view('resources::passage.edit',compact('passage','inst_arr','institution_id'));
+		return view('resources::passage.edit',compact('passage','sCategory','sLesson','sSubject','passages','inst_arr','institution_id','category','lessons','subjects'));
 	}
 	public function passageview($id = 0)
 	{
@@ -100,6 +107,9 @@ class PassageController extends BaseController {
 	public function passageedit($id = 0)
 	{		
 		$passages = Passage::where('id',$id)->get()->toArray();
+		$sCategory=$passages[0]['category_id'];
+		$sSubject=$passages[0]['subject_id'];
+		$sLesson=$passages[0]['lesson_id'];
 		$inst_arr = $this->institution->getInstitutions();
 		$institution_id=$passages[0]['institute_id'];
 		$subjects = $this->subject->getSubject($passages[0]['category_id']);
@@ -110,11 +120,13 @@ class PassageController extends BaseController {
 		if(isset($id) && $id > 0)
 		{
 			$passage = $this->passage->find($id);
+			//dd($passage);
 			//$obj = $this->passage->find($id);
 			$id = $passage->id;
 		    //$institution_id = $passage->institution_id;
 			$subject_id = $passage->subject_id; 
-			$category_id = $passage->category_id; 
+			$category_id = $passage->category_id;
+			$lessons_id=$passage->lesson_id;
 		}
 		else
 		{
@@ -122,7 +134,7 @@ class PassageController extends BaseController {
 			$name = '';
 		}
 		//dd($passages);
-		return view('resources::passage.edit',compact('id','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id'));
+		return view('resources::passage.edit',compact('id','sCategory','sLesson','sSubject','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id','lessons_id'));
 	}
 
 	public function passageupdate($id = 0)
@@ -134,25 +146,36 @@ class PassageController extends BaseController {
 			'category_id.required'=>'The Category field is required',
 			'lessons_id.required'=>'The Lessons field is required',
 			'institution_id.required'=>'The Institution field is required',
-			'passage_textarea.required'=>'The Passage Text is required'
+			'passage_text.required'=>'The Passage Text is required',
+			'passage_title.required'=>'The Passage Title is required',
+			'passage_lines.required'=>'The Passage Lines is required'
       		];
 		$rules = [
 			'institution_id' => 'required|not_in:0',
-			'subject_id' => 'required',
-			'lessons_id' => 'required',
- 			'passage_textarea' => 'required',
+			'subject_id' => 'required|not_in:0',
+			'lessons_id' => 'required|not_in:0',
+			'category_id'=>'required|not_in:0',
+ 			'passage_text' => 'required',
+ 			'passage_title'=>'required',
+ 			'passage_lines'=>'required'
  				];
 
 
 		if ($post['id'] > 0)
 		{
-			$rules['passage_title'] = 'required|min:3|unique:question,name,' . $post['id'];
+			$rules['passage_title'] = 'required|min:3|unique:passage,title,' . $post['id'];
 		}
 		
-		
+		$validator=Validator::make($post,$rules,$messages);
+		if ($validator->fails())
+		{
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+		else{
 		$this->passage->updatepassage($post);
 
 		return redirect('/resources/passage');
+	    }
 	}
 
 	public function passagedelete($id = 0)
