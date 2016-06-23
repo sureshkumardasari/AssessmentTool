@@ -32,59 +32,6 @@
 					
 
 					<div class="form-group required">
-						<label class="col-md-4 control-label">Institution</label>
-						<div class="col-md-6">
-							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
-								<option value="0">--Select Institution--</option>
-								@foreach($inst_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label">Category</label>
-						<div class="col-md-6">
-							<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
-								<option value="0">--Select Category--</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label">Subject</label>
-						<div class="col-md-6">
-							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
-								<option value="0">--Select Subject--</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label">Lessons</label>
-						<div class="col-md-6">
-							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
-								<option value="0">--Select Lessons--</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label">Question Type</label>
-						<div class="col-md-6">
-							<select class="form-control" name="question_type" id="question_type">
-								<option value="0">--Select Question Type--</option>
-							</select>
-						</div>
-					</div>
-
-
-					<div class="form-group">
-						<div class="col-md-6">
- 								<div class="move-arrow-box">
-									<a class="btn btn-primary" onclick="filter('0');" href="javascript:;">Apply Filter</a>
-								</div>
- 						</div>
-					</div>
-
-					<div class="form-group required">
 						<label class="col-md-4 control-label">Title</label>
 						<div class="col-md-6">
 							<input type="text" class="form-control" name="name" value="{{old('name')}}">
@@ -118,6 +65,13 @@
 							<textarea class="form-control textarea" name="end_instruction">{{old('end_instruction')}}</textarea>
 						</div>
 					</div>
+
+
+
+
+
+
+
 					<div class="col-md-12">
 						@include('resources::assessment.partial.questions')
                     </div>
@@ -155,8 +109,18 @@
 		</div>
 	</div>
 </div>
-
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
+$( document ).ready(function() {
+	$('.searchfilter').on("click",function(e){    	
+    	//console.log('searchfilter ');
+    	$(".searchfilter span")
+        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+        $('.searchfilter-body').toggleClass('hide show');
+    });
+});    
+
+
 	tinymce.init({
 		selector: '.textarea',
 		width : 450,
