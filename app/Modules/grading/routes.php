@@ -27,5 +27,6 @@ Route::group(array('module'=>'grading', 'prefix' => 'grading', 'middleware' => '
     Route::get('grade-question/next_student_answers_for_grade_by_question/{user_id}/{question_id}','GradingController@nextStudentAnswersForQuestionGrade');
 
     Route::get('grade-question/{id}', ['as' => 'questiongrade', 'uses' => 'GradingController@questionGrade']);
-
+Route::post('list-student-question/save_answer_for_student_by_student_grade/{assessment_id}/{assignment_id}','GradingController@save_student_answers_by_gradeByStudentMethod');
+Route::get('list-student-question/{assessment_id}/{assignment_id}/{user_id}','GradingController@studentAnswers');
 });
