@@ -1,4 +1,4 @@
-					<table id="subjectstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="subjectstable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Subject</th>
@@ -20,24 +20,5 @@
 				        </tbody>
 				    </table>
 
-<script>
-  	@if(isset($from) && $from == 'search')
-  	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
-</script>
+
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}

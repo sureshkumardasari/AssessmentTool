@@ -39,3 +39,84 @@
 
 		} );	
 	</script>
+	<script src="http://cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
+
+	<script>
+		$(function(){
+			$('#lessonstable').DataTable({
+				language: {
+					paginate: {
+						previous: '‹',
+						next:     '›'
+					},
+					aria: {
+						paginate: {
+							previous: 'Previous',
+							next:     'Next'
+						}
+					}
+				},
+				columns: [
+					{
+						title: 'Lesson',
+					},
+					{
+						name: 'Subject',
+						title: 'Subject',
+					},
+					{	name: 'Category',
+						title: 'Category',
+					},
+					{
+						title: '',
+					},
+				],
+				rowsGroup: [// Always the array (!) of the column-selectors in specified order to which rows groupping is applied
+					// (column-selector could be any of specified in https://datatables.net/reference/type/column-selector)
+					'Category:name',
+					'Subject:name',
+					0,1,
+					2
+				],
+				pageLength: '20',
+			})
+		});
+
+ 		$(function(){
+			$('#subjectstable').DataTable({
+				language: {
+					paginate: {
+						previous: '‹',
+						next:     '›'
+					},
+					aria: {
+						paginate: {
+							previous: 'Previous',
+							next:     'Next'
+						}
+					}
+				},
+				columns: [
+					{
+						name: 'Subject',
+						title: 'Subject',
+					},
+					{	name: 'Category',
+						title: 'Category',
+					},
+					{
+						title: '',
+					},
+				],
+				rowsGroup: [// Always the array (!) of the column-selectors in specified order to which rows groupping is applied
+					// (column-selector could be any of specified in https://datatables.net/reference/type/column-selector)
+					'Category:name',
+					'Subject:name',
+					0,1,
+ 				],
+				pageLength: '20',
+			})
+		});
+
+	</script>
+
