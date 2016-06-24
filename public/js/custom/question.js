@@ -876,7 +876,7 @@ var me = null;
                 'transitionIn': 'fade',
                 'transitionOut': 'fade',
                 'type': 'ajax',
-                'href': fileBrowser,
+                'href':fileBrowser,
                 afterClose: function () {
                     //triggering global function on close if you want to implement any logic onclose then contact rdia@bm
                     if(window.selectedItem != undefined){

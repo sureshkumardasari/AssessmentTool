@@ -4,10 +4,15 @@
 {!! HTML::script(asset('assets/js/common.js')) !!}
 {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
 {!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
-{!! HTML::script(asset('assets/js/question.js')) !!}
 {!! HTML::script(asset('assets/js/bootstrap-checkbox.min.js')) !!}
 @stop
+<style>
+	.fancybox-overlay{z-index: 99999 !important;}
+	#fancybox-loading{z-index: 99999 !important;}
+
+</style>
 @section('content')
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
@@ -138,5 +143,14 @@
 		</div>
 	</div>
 </div>
+<script>
+	var elfinderRoute = '{{route('elfinder.tinymce4')}}';
+	var fileBrowser = '{{route('launchFileBrowser',['question_attachments'])}}';
+	var js = document.createElement("script");
+	js.type = "text/javascript";
+	js.src = "{{ asset('plugins/tinymce/plugins/tiny_mce_wiris/integration/WIRISplugins.js?viewer=mathml') }}";
+	document.head.appendChild(js);
+</script>
+    {!! HTML::script(asset('js/custom/question.js')) !!}
 @include('resources::question.qst_js_validation')
 @endsection

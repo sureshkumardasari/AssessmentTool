@@ -21,6 +21,8 @@ use App\Modules\Resources\Models\Category;
 use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\QuestionType;
 use App\Modules\Resources\Models\Passage;
+use Storage;
+use Request;
 
 class QuestionController extends BaseController {
 
@@ -58,8 +60,8 @@ class QuestionController extends BaseController {
 		$obj = new Question();
 		$this->question = $obj;
 
-        $obj = new QuestionUserAnswer();
-        $this->questionuser = $obj;
+		$obj = new QuestionUserAnswer();
+		$this->questionuser = $obj;
 
 		$obj = new QuestionType();
 		$this->question_type = $obj;
@@ -78,33 +80,33 @@ class QuestionController extends BaseController {
 	 */
 	public function index()
 	{
-		
+
 	}
 
-    
+
 
 	public function question()
 	{
-		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
-		$inst_arr = $this->institution->getInstitutions();	
-		$subjects = $this->subject->getSubject();	
+		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+		$inst_arr = $this->institution->getInstitutions();
+		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
 		$questions_type=$this->question_type->getQuestionTypes();
 		$passages=$this->passage->getPassage();
 		$lessons = $this->lesson->getLesson();
 		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
-			->leftjoin('passage','questions.passage_id','=','passage.id')
-			->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
-			->orderby('qid')
-			->get();
-			//dd($list);
-        return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
+				->leftjoin('passage','questions.passage_id','=','passage.id')
+				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+				->orderby('qid')
+				->get();
+		//dd($list);
+		return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
 	}
 
 	public function questionadd()
-	{	
-	//dd(Input::all());	
+	{
+		//dd(Input::all());
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
@@ -118,19 +120,19 @@ class QuestionController extends BaseController {
 		// old answers listing
 		$oldAnswers =$answerIds=$explanation=$is_correct= array(); //
 		if((\Session::get('answer_textarea')))
-		$oldAnswers=\Session::get('answer_textarea');
+			$oldAnswers=\Session::get('answer_textarea');
 		if((\Session::get('answerIds'))){
-				$answerIds=\Session::get('answerIds');}
-				if((\Session::get('explanation')))
-				$explanation=\Session::get('explanation');
-				if((\Session::get('is_correct'))){
-				$is_correct=\Session::get('is_correct');
+			$answerIds=\Session::get('answerIds');}
+		if((\Session::get('explanation')))
+			$explanation=\Session::get('explanation');
+		if((\Session::get('is_correct'))){
+			$is_correct=\Session::get('is_correct');
 		}
-        $answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation'));
-        //dd($answersListing);
-        
+		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation'));
+		//dd($answersListing);
+
 		$questions = Question::get()->toArray();
- 		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions'));
+		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions'));
 	}
 
 	public function questionupdate($id = 0)
@@ -138,22 +140,22 @@ class QuestionController extends BaseController {
 		$post = Input::All();
 		//dd($post);
 		$messages=[
-			'answerIds.required'=>'The Answer field is required',
-			'subject_id.required'=>'The Subject field is required',
-			'category_id.required'=>'The Category field is required',
-			'lessons_id.required'=>'The Lessons field is required',
-			'institution_id.required'=>'The Institution field is required',
-      		];
+				'answerIds.required'=>'The Answer field is required',
+				'subject_id.required'=>'The Subject field is required',
+				'category_id.required'=>'The Category field is required',
+				'lessons_id.required'=>'The Lessons field is required',
+				'institution_id.required'=>'The Institution field is required',
+		];
 		$rules = [
-			'institution_id' => 'required|not_in:0',
-			'category_id' => 'required|not_in:0',
-			'subject_id' => 'required',
-			'lessons_id' => 'required',
-			'question_type' => 'required',
-			'question_title' => 'required',
- 			'answerIds' => 'required',
- 			'question_textarea' => 'required',
- 			'answer_textarea' =>'required'];
+				'institution_id' => 'required|not_in:0',
+				'category_id' => 'required|not_in:0',
+				'subject_id' => 'required',
+				'lessons_id' => 'required',
+				'question_type' => 'required',
+				'question_title' => 'required',
+				'answerIds' => 'required',
+				'question_textarea' => 'required',
+				'answer_textarea' =>'required'];
 
 		if ($post['id'] > 0)
 		{
@@ -161,15 +163,15 @@ class QuestionController extends BaseController {
 		}
 		$check_corret_answer = array();
 		if($post['ans_flg']>0){
-				$check_corret_answer = $post['is_correct'];
-				
-	// 		if (in_array("true", $check_corret_answer)<1 && $post['question_type']==2){
-	//			return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
-	// 		}
+			$check_corret_answer = $post['is_correct'];
+
+			// 		if (in_array("true", $check_corret_answer)<1 && $post['question_type']==2){
+			//			return Redirect::back()->withInput()->withErrors('Atleast one answer is required correct.');
+			// 		}
 			if($post['question_type']==2){
 
 				$counts = array_count_values($check_corret_answer);
-				
+
 				if(array_key_exists("true", $counts)){
 					$tmp_cnt =  $counts['true'];
 				}else{
@@ -177,30 +179,30 @@ class QuestionController extends BaseController {
 				}
 			}
 			if($post['question_type']==1){
-				$counts = array_count_values($check_corret_answer);				
+				$counts = array_count_values($check_corret_answer);
 				if(array_key_exists("true", $counts)){
 					$tmp_cnt =  $counts["true"];
-		//			dd($tmp_cnt);
+					//			dd($tmp_cnt);
 					if($tmp_cnt>=2){
 
 					}else{
 						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
 					}
-	 			}else{
+				}else{
 					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
 				}
 			}
 			if ($post['question_type']==1 && count($post['answerIds']) < 2)
 			{
 				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
-	 		}
+			}
 
-	 		foreach ($post['answer_textarea'] as $key => $value) {
+			foreach ($post['answer_textarea'] as $key => $value) {
 				if(trim($value)==''){
 					return Redirect::back()->withInput()->withErrors('The Answers text is required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
-		 		}
-		 	}
-	 	}
+				}
+			}
+		}
 
 		$validator=Validator::make($post,$rules,$messages);
 		if(!isset($post['answer_textarea'])){
@@ -220,35 +222,35 @@ class QuestionController extends BaseController {
 
 			return redirect('/resources/question');
 		}
- 	}
+	}
 	public function questionSubmit(){
 		$post = Input::All();
 		//dd($post);
 		$messages=[
-			'answerIds.required'=>'The Answer field is required',
-			'subject_id.required'=>'The Subject field is required',
-			'category_id.required'=>'The Category field is required',
-			'institution_id.required'=>'The Institution field is required',
+				'answerIds.required'=>'The Answer field is required',
+				'subject_id.required'=>'The Subject field is required',
+				'category_id.required'=>'The Category field is required',
+				'institution_id.required'=>'The Institution field is required',
 		];
 		$rules = [
-			'institution_id' => 'required|not_in:0',
-			'category_id' => 'required|not_in:0',
-			'subject_id' => 'required',
-			'question_type' => 'required',
-			'question_title' => 'required',
-			'question_textarea' => 'required',
-			'answerIds' =>'required'
-			];
+				'institution_id' => 'required|not_in:0',
+				'category_id' => 'required|not_in:0',
+				'subject_id' => 'required',
+				'question_type' => 'required',
+				'question_title' => 'required',
+				'question_textarea' => 'required',
+				'answerIds' =>'required'
+		];
 
 		$check_corret_answer = array();
 		//if($post['ans_flg']>0)
 		{
-				$check_corret_answer = $post['is_correct'];				
-	
+			$check_corret_answer = $post['is_correct'];
+
 			if($post['question_type']==2){
 
 				$counts = array_count_values($check_corret_answer);
-				
+
 				if(array_key_exists("true", $counts)){
 					$tmp_cnt =  $counts['true'];
 				}else{
@@ -256,7 +258,7 @@ class QuestionController extends BaseController {
 				}
 			}
 			if($post['question_type']==1){
-				$counts = array_count_values($check_corret_answer);				
+				$counts = array_count_values($check_corret_answer);
 				if(array_key_exists("true", $counts)){
 					$tmp_cnt =  $counts['true'];
 					if($tmp_cnt>=2){
@@ -264,21 +266,21 @@ class QuestionController extends BaseController {
 					}else{
 						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
 					}
-	 			}else{
+				}else{
 					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
 				}
 			}
 			if ($post['question_type']==1 && count($post['answerIds']) < 2)
 			{
 				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required');
-	 		}
+			}
 
-	 		foreach ($post['answer_textarea'] as $key => $value) {
+			foreach ($post['answer_textarea'] as $key => $value) {
 				if(trim($value)==''){
 					return Redirect::back()->withInput()->withErrors('The Answers text is required');
-		 		}
-		 	}
-	 	}
+				}
+			}
+		}
 
 		$validator=Validator::make($post,$rules,$messages);
 		if ($post['question_type']==1 && count($post['answerIds']) < 2)
@@ -291,17 +293,17 @@ class QuestionController extends BaseController {
 		} else
 		{
 			$params = Input::All();
-  			$questions = Question::where('id',$params['id'])->get()->toArray();
+			$questions = Question::where('id',$params['id'])->get()->toArray();
 			if($questions){
 				$obj=Question::find($params['id']);
- 				$obj->title = $params['question_title'];
+				$obj->title = $params['question_title'];
 				$obj->qst_text = $params['question_textarea'];
 				$obj->question_type_id = $params['question_type'];
 				$obj->subject_id = $params['subject_id'];
 				$obj->lesson_id = $params['lessons_id'];
 				$obj->passage_id = $params['passage'];
 				$obj->institute_id = $params['institution_id'];
- 				if($obj->save());{
+				if($obj->save());{
 					$explanation = $params['explanation'];
 					$is_correct = $params['is_correct'];
 					foreach ($params['answer_textarea'] as $key => $value) {
@@ -323,7 +325,7 @@ class QuestionController extends BaseController {
 
 					}
 				}
- 			}else{
+			}else{
 
 			}
 			return redirect('/resources/question');
@@ -337,7 +339,7 @@ class QuestionController extends BaseController {
 		if(isset($id) && $id > 0)
 		{
 			$question = $this->question->getDetails($id);
-        }
+		}
 		else
 		{
 			$question = Input::All();
@@ -345,17 +347,17 @@ class QuestionController extends BaseController {
 		}
 
 		$qstn=Question::where('id',$id)->get()->toArray();
-        //dd($question);
+		//dd($question);
 		/*return view('resources::question.question_view',compact('question'));*/
 
 
 		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
-			->where('question_answers.question_id',$id)
-			->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
-			->get()->toArray();
+				->where('question_answers.question_id',$id)
+				->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
+				->get()->toArray();
 
 
-   		return view('resources::question.question_view',compact('question','oldAnswers','qstn'));
+		return view('resources::question.question_view',compact('question','oldAnswers','qstn'));
 	}
 
 	public function questionedit($id = 0)
@@ -369,13 +371,12 @@ class QuestionController extends BaseController {
 		$qtypes = $this->question_type->getQuestionTypes();
 		if(isset($id) && $id > 0)
 		{
-			
 			$obj = $this->question->find($id);
 			$id = $obj->id;
 			$institution_id = $obj->institution_id;
-			$subject_id = $obj->subject_id; 
-			$category_id = $obj->category_id; 
-			$name = $obj->name; 
+			$subject_id = $obj->subject_id;
+			$category_id = $obj->category_id;
+			$name = $obj->name;
 		}
 		else
 		{
@@ -383,10 +384,10 @@ class QuestionController extends BaseController {
 			$name = '';
 		}
 		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
-			->where('question_answers.question_id',$id)
-			->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
-			->get()->toArray();
- 		
+				->where('question_answers.question_id',$id)
+				->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
+				->get()->toArray();
+
 		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers'));
 		//dd($answersLisitng);
 
@@ -401,7 +402,7 @@ class QuestionController extends BaseController {
 		$post = Input::All();
 		$institution=$post['institution'];
 		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
-			->leftjoin('passage','questions.passage_id','=','passage.id');
+				->leftjoin('passage','questions.passage_id','=','passage.id');
 
 		if($institution > 0){
 			$obj->where("questions.institute_id", $institution);
@@ -417,12 +418,12 @@ class QuestionController extends BaseController {
 		}*/
 
 		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
-			->orderby('qid')
-			->get();
+				->orderby('qid')
+				->get();
 		//$question_list = $this->question->getQuestionFilter($institution);
 		return $list;
 	}
-	
+
 	public function questiondelete($qid=0){
 		if($qid > 0)
 		{
@@ -433,33 +434,127 @@ class QuestionController extends BaseController {
 
 	public function categoryList($id){
 		$category=	Institution::join('category','institution.id','=','category.institution_id')
-			->where('institution.id','=',$id)
-			->select('category.id','category.name')
-			->get();
- 		return $category;
- 	}
+				->where('institution.id','=',$id)
+				->select('category.id','category.name')
+				->get();
+		return $category;
+	}
 	public function subjectList($id){
 		$subject=	Category::join('subject','category.id','=','subject.category_id')
-			->where('category.id','=',$id)
-			->select('subject.id','subject.name')
-			->get();
+				->where('category.id','=',$id)
+				->select('subject.id','subject.name')
+				->get();
 		return $subject;
 	}
 	public function lessonsList($id){
- 		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
-			->where('subject.id','=',$id)
-			->select('lesson.id','lesson.name')
-			->get();
- 		return $lessons;
+		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
+				->where('subject.id','=',$id)
+				->select('lesson.id','lesson.name')
+				->get();
+		return $lessons;
 	}
 	public function questiontype($id){
 		$questiontype= Question::join('lesson','questions.lesson_id','=','lesson.id')
-			->join('question_type','questions.question_type_id','=','question_type.id')
-			->where('questions.lesson_id','=',$id)
-			->select('question_type.qst_type_text','questions.question_type_id','questions.title')
-			->groupBy('question_type.qst_type_text')
-			->get();
+				->join('question_type','questions.question_type_id','=','question_type.id')
+				->where('questions.lesson_id','=',$id)
+				->select('question_type.qst_type_text','questions.question_type_id','questions.title')
+				->groupBy('question_type.qst_type_text')
+				->get();
 		return $questiontype;
 	}
-	
+	function launchFileBrowser($bucket = '')
+	{
+
+		if (getenv('s3storage'))
+		{
+			$s3Client = \Storage::disk('s3')->getDriver()->getAdapter()->getClient();
+			dd($s3Client);
+			$path = 'rdia/' . env('host_name', 'dev') . '/data/' . $bucket . '/';
+			// $path = 'rdia/production/data/message-attachments/';
+			$objects = $s3Client->getListObjectsIterator(array(
+					'Bucket' => 'aacontent',
+					'Prefix' => $path
+			));
+			$items = [];
+			foreach ($objects as $index => $object) {
+				$items[$index]['item_name'] = pathinfo($object['Key'])['basename'];
+				$items[$index]['item_path'] = 'https://aacontent.s3-us-west-2.amazonaws.com/' . $object['Key'];
+				$items[$index]['item_size'] = $object['Size'];
+			}
+		}
+		else {
+			//$path = 'rdia/' . env('host_name', 'dev') . '/data/' . $bucket . '/';
+
+			// $items = [];
+
+			$directory = public_path('data/images'  . '/');
+			$files = glob($directory . '*.png');
+			//dd($files);
+			// $fileName = '';
+			$items = [];
+			$index = 0;
+			foreach($files as $a) {
+				$items[$index]['item_name'] = basename($a);
+
+				$items[$index]['item_path'] = asset('data/images'. '/')."/".basename($a);
+				$items[$index++]['item_size'] =filesize($a);
+				//dd($items);
+			}
+			// dd($items);
+
+		}
+		return view('general.launch_file_browser',compact('items','bucket'));
+	}
+	public function fileBrowserUploadFile(Request $request){
+		$fileName = '';
+		$file = Request::file('item');
+//		dd($file);
+		$bucket = Request::get('bucket', 'question_attachments');
+		$bucket = $bucket == 'message-attachments'?'messages_path':'question_attachments';
+		$extension = $file->getClientOriginalExtension();
+		$name = $file->getClientOriginalName();
+		$size = $file->getSize();
+		$fileName = \Auth::user()->id.'_'.$name;
+		$destinationPath = public_path('data/images/');
+		//dd($destinationPath);
+		if($file->move($destinationPath, $fileName)){
+// Move the file to S3
+			$orignalFilePath = $destinationPath.$fileName;
+			//dd($orignalFilePath);
+
+			if(getenv('s3storage'))
+			{
+				$s3 = new \App\Models\S3();
+				$s3->uploadByPath( $orignalFilePath, $bucket);
+				//dd($s3);
+				$orignal_pic_url = $s3->getFileUrl($fileName, $bucket);
+				//dd($orignal_pic_url);
+				$response['status'] = 'success';
+				$response['item_name'] = $fileName;
+				$response['item_path'] = $orignal_pic_url;
+				$response['item_size'] = $size;
+// if(\Session::has('items-browsed')){
+// $items = \Session::get('items-browsed');
+// $lstIndex = count($items);
+// $items[$lstIndex]['item_name'] = $fileName;
+// $items[$lstIndex]['item_path'] = $orignal_pic_url;
+// $items[$lstIndex]['size'] = $size;
+// $items[$lstIndex]['last_modified'] = date('Y-m-d H:i:s a');
+// \Session::put('items-browsed',$items);
+// \Session::save();
+// }
+				unlink($orignalFilePath);
+			}
+			else
+			{
+				$response['status'] = 'success';
+				$response['item_name'] = $fileName;
+				$response['item_path'] = asset('data/images/').$fileName;
+				$response['item_size'] = $size;
+			}
+		}else{
+			$response['status'] = 'error';
+		}
+		return json_encode($response);
+	}
 }
