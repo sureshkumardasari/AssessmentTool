@@ -66,7 +66,7 @@
 					</div>
 				</div>
 
-		<table id="example" class="table table-striped table-bordered datatableclass parent-grid" cellspacing="0" width="100%">
+		<table id="example" class="table table-striped table-bordered datatableclass  parent-grid" cellspacing="0" width="100%">
 		    <thead>
 		        <tr>
 		        	<th><input type="checkbox" id="" value="" class="check-all-question"></th>
@@ -95,7 +95,7 @@
 			</div>
 		</div>
 	  <b>{{"Selected Questions"}}</b>
-	  <table id="selected-questions" class="table table-striped table-bordered datatableclass parent-selected-grid" cellspacing="0" width="100%">
+	  <table id="selected-questions" class="table table-striped table-bordered datatableclass  parent-selected-grid" cellspacing="0" width="100%">
 		  <thead>
 		  <tr>
 			  <th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
@@ -162,7 +162,7 @@
 
 			<div class="clearfix"></div>
 			<b>{{"Selected Passages"}}</b>
-			<table id="selected-passage" class="table table-striped table-bordered datatableclass parent-selected-grid" cellspacing="0" width="100%">
+			<table id="selected-passage" class="table table-striped table-bordered datatableclass  parent-selected-grid" cellspacing="0" width="100%">
 				<thead>
 				<tr>
 					<th><input type="checkbox" name="" class="check-all-selected-passage" value=""></th>
@@ -203,7 +203,25 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-    $('.datatableclass').DataTable( {
+    $('#selected-passage').DataTable( {
+
+        "scrollY":        "850px",
+        "scrollCollapse": true,
+        "paging":         true
+    } );
+    $('#passages').DataTable( {
+
+        "scrollY":        "850px",
+        "scrollCollapse": true,
+        "paging":         true
+    } );
+    $('#selected-questions').DataTable( {
+
+        "scrollY":        "850px",
+        "scrollCollapse": true,
+        "paging":         true
+    } );
+    $('#example').DataTable( {
 
         "scrollY":        "850px",
         "scrollCollapse": true,
