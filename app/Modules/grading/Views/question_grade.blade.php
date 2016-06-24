@@ -233,7 +233,9 @@
 		}
 
 		function save_question_grade_for_student(){
+			
 			var user_id=$("#status").val();
+			//alert(user_id);
 			var nextuserid=$("#status option:selected").next().val();
 			
 			if(question_type=="Multiple Choice - Multi Answer"){
@@ -256,9 +258,13 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 					if(response=="All students graded"){
 						alert("all students graded successfully");
 					}
+					else if(response=="No data given"){
+						alert("please add atleast one  answer");
+					}
 					else {
-						var index = $("#status option:selected").index();
-						$("#status option:eq(" + (index + 1) + ")").attr("selected", "selected");
+					//	var index = $("#status option:selected").index();
+						//$("#status option:eq(" + (index + 1) + ")").attr("selected", "selected");
+						$("#status").val(nextuserid);
 						change_user_answers();
 					}
 
@@ -274,7 +280,7 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 			//$('#status').val(selected).attr('selected',"selected");
 			//alert(nextuserid);
 			//$("#status option').attr("selected", "selected");
-			alert($('#status').val());
+			//alert($('#status').val());
 			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
 			$.ajax({
@@ -282,6 +288,8 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 				url:'next_student_answers_for_grade_by_question/'+user_id+'/{{$qst_id}}',
 				type:'get',
 				success:function(response){
+					
+					//else{
 					//e.preventDefault();
 					$('.answer_selection_part').prop( "checked", false );
 					$('.multiple_answer').prop("checked",false);
@@ -325,10 +333,10 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 
 							$('#'+response[i]).addClass('label-danger');
 						}
-						selected_answer_correct[val.toString()]=(ans_label[val]);
+						selected_answer_correct[val]=(ans_label[val]);
 						//if(question_type=="Multiple Choice - Single Answer"){
 						selected_multi_answer.push(val);
-						selected_multi_answer_text[val.toString()]=($('#'+val).text());
+						selected_multi_answer_text[val]=($('#'+val).text());
 					//}
 					//else if( question_type=="Multiple Choice - Single Answer"){
 							
@@ -339,12 +347,16 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 						}
 					
 				}
+			//}
 			});
 		}
 
 		$('.multiple_answer').on('click',function(){
+			//alert(JSON.stringify(selected_multi_answer_text));
+			//alert(JSON.stringify(selected_answer_correct));
 			//alert($(this).is(':checked'));
 			var checked_ans_val=$(this).val();
+			//alert(checked_ans_val);
 			//alert(selected_multi_answer);
 			if($(this).is(':checked')){
 			selected_multi_answer.push(checked_ans_val);
@@ -361,15 +373,17 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 			
 		}
 		else{
-			alert(JSON.stringify(selected_multi_answer_text));
+			//alert(JSON.stringify(selected_multi_answer_text));
 			var removeindex=selected_multi_answer.indexOf(checked_ans_val);
 			selected_multi_answer.splice(removeindex,1);
 			delete selected_multi_answer_text[checked_ans_val];
 			delete selected_answer_correct[checked_ans_val];
 				$('#'+checked_ans_val).removeClass('label-danger');
 
-		alert(JSON.stringify(selected_multi_answer_text));
+		//alert(JSON.stringify(selected_multi_answer_text));
 		}
+		//alert(JSON.stringify(selected_multi_answer_text));
+			//alert(JSON.stringify(selected_answer_correct));
 		});
 	</script>
 @endsection

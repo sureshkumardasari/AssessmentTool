@@ -289,11 +289,14 @@ class GradingController extends BaseController {
 	}
 
 	// Save ansers for students by Grade By Question method.....
-	public function saveAnswerByQuestionGrade($question_id=0){
+		public function saveAnswerByQuestionGrade($question_id=0){
 		$post=Input::all();
+		if(isset($post['selected_answer'])){
 		//dd($post);
 if($post['question_type']=="Multiple Choice - Multi Answer"){
+
 if($post['user_id']!=0) {
+
 			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
 				->where('question_id',$question_id)->where('user_id',$post['user_id'])->count();
 			if ($users_already_answered!=0) {
@@ -307,12 +310,13 @@ if($post['user_id']!=0) {
 			$uAnswer->user_id = $post['user_id'];
 			$uAnswer->assessment_id = $post['assessment_id'];
 			$uAnswer->assignment_id = $post['assignment_id'];
-			$uAnswer->question_answer_id = $answer;//dd($answer);
+			$uAnswer->question_answer_id = $answer; //var_dump((intval($answer)));
 			//foreach ($post['selected_answer_text'] as $key => $text) {
+			//dd($post['selected_answer_text']);
 				$uAnswer->question_answer_text = $post['selected_answer_text'][$answer];	
 			//}
 			//foreach ($post['is_correct'] as $key => $value) {
-				$uAnswer->is_correct = isset ($post['is_correct'][$answer]) ? $post['is_correct'][$answer]: 'Open';
+				$uAnswer->is_correct = isset ($post['is_correct'][intval($answer)]) ? $post['is_correct'][$answer]: 'Open';
 			//}
 				//$uAnswer->question_answer_text = $post['selected_answer_text'];
 			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
@@ -423,11 +427,15 @@ else{
 		}
 		return $post['user_id'];
 	}
+	
+	}
+	else{
+return "No data given";
+	}
 	}
 
 
 	public function nextStudentAnswersForQuestionGrade($user_id=0,$question_id=0){
-
 
 		$next_user_answers = QuestionUserAnswer::where('user_id',$user_id)->where('question_id',$question_id)->lists('question_answer_id');
 		return $next_user_answers;

@@ -201,3 +201,13 @@
 
 
 
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('.datatableclass').DataTable( {
+
+        "scrollY":        "850px",
+        "scrollCollapse": true,
+        "paging":         true
+    } );
+} );
+</script>

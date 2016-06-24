@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+2<ul class="nav nav-tabs">
   <li class="tab active"><a data-toggle="tab" data-tab='question-holder' href="#questions">Questions</a></li>
   <li class="tab"><a data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
 </ul>
@@ -72,7 +72,7 @@
 		    <thead>
 		        <tr>
 		        	<th><input type="checkbox" id="" value="" class="check-all-question"></th>
-		            <th>Name</th>
+		            <th>Question Name</th>
 		            
 		        </tr>
 		    </thead>
@@ -92,7 +92,7 @@
 		<div class="form-group">
 			<div class="col-md-4">
 				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add");' href="javascript:;">Add</a>
+					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add");' href="javascript:;">Add Questions</a>
  				</div>
 			</div>
 		</div>
@@ -101,7 +101,7 @@
 		  <thead>
 		  <tr>
 			  <th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
-			  <th>Name</th>
+			  <th>Question Name</th>
 		  </tr>
 		  </thead>
 		  <tbody class="child-grid">
@@ -148,7 +148,7 @@
 			<thead>
 			<tr>
 				<th><input type="checkbox" name="" id="" value="" class="check-all-passage"></th>
-				<th>Name</th>
+				<th>Passage Name</th>
 
 			</tr>
 			</thead>
@@ -179,7 +179,7 @@
 				<thead>
 				<tr>
 					<th><input type="checkbox" name="" class="check-all-selected-passage" value=""></th>
-					<th>Name</th>
+					<th>Passage Name</th>
 				</tr>
 				</thead>
 				<?php
@@ -223,10 +223,15 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('.datatableclass').DataTable( {
 
-
-<div class="clearfix"></div>
-
+        "scrollY":        "850px",
+        "scrollCollapse": true,
+        "paging":         true
+    } );
+} );
+</script>
 
 @include('resources::assessment.assessment_js_validation')
-
