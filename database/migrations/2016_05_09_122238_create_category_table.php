@@ -15,7 +15,7 @@ class CreateCategoryTable extends Migration {
 		Schema::create('category', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name', 250)->unique();
+			$table->string('name', 250);
 			$table->integer('institution_id')->nullable();
 			$table->integer('added_by')->nullable();
 			$table->integer('updated_by')->nullable();
