@@ -119,11 +119,11 @@ class ResourceController extends BaseController {
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
-			'name' => 'required|min:3|unique:subject',];
+			'name' => 'required|min:3|'];
 
 		if ($post['id'] > 0)
 		{
-			$rules['name'] = 'required|min:3|unique:subject,name,' . $post['id'];
+			$rules['name'] = 'required|min:3|' . $post['id'];
 		}
 		$validator = Validator::make($post, $rules);
 
@@ -132,7 +132,13 @@ class ResourceController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else
 		{
-			$params = Input::All();
+
+		$params = Input::All();
+	     $number=Subject::where('institution_id',$params['institution_id'])
+		 ->where('category_id',$params['category_id'])->where('name',$params['name'])->count();
+        if($number>0){
+	        return Redirect::back()->withInput()->withErrors("subject already entered");
+          }
 			//var_dump($params);
 			$this->subject->updateSubject($params);
 
@@ -177,12 +183,14 @@ class ResourceController extends BaseController {
 		$category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : 0;
 		$subject_id = (old('subject_id') != NULL && old('subject_id') > 0) ? old('subject_id') : 0;
 
+
+
 		$inst_arr = $this->institution->getInstitutions();
 		$category = $this->category->getCategory($institution_id);
 		$subjects = $this->subject->getSubject($institution_id, $category_id);		
 
 		$id = $institution_id = $subject_id = $category_id = 0;
-		$name = '';
+		$name ='';
 		return view('resources::lesson.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id'));
 	}
 
@@ -226,7 +234,7 @@ class ResourceController extends BaseController {
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
 			'subject_id' => 'required|not_in:0',
-			'name' => 'required|min:3|unique:lesson',];
+			'name' => 'required|min:3'];
 
 		if ($post['id'] > 0)
 		{
@@ -237,15 +245,22 @@ class ResourceController extends BaseController {
 		if ($validator->fails())
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
-		} else
+		}
+		else
+
 		{
 			$params = Input::All();
-			//var_dump($params);
-			$this->lesson->updatelesson($params);
+			$num = Lesson::where('institution_id', $params['institution_id'])
+				->where('category_id', $params['category_id'])
+				->where('subject_id', $params['subject_id'])->where('name', $params['name'])->count();
+			if ($num > 0) {
+				return Redirect::back()->withInput()->withErrors("lesson already entered");
+			}
+				$this->lesson->updatelesson($params);
 
-			return redirect('/resources/lesson');
+				return redirect('/resources/lesson');
+			}
 		}
-	}
 
 	public function lessonupdateold($id = 0)
 	{
@@ -309,17 +324,21 @@ class ResourceController extends BaseController {
 
 		$rules = [
 			'institution_id' => 'required|not_in:0',
-			'name' => 'required|min:3|unique:category',];
+			'name' => 'required|min:3'];
 
-		if ($post['id'] > 0) {
+		/*if ($post['id'] > 0) {
 			$rules['name'] = 'required|min:3|unique:category,name,' . $post['id'];
-		}
+		}*/
 		$validator = Validator::make($post, $rules);
 
 		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else {
 			$params = Input::All();
+			$num = category::where('institution_id', $params['institution_id'])->where('name', $params['name'])->count();
+			if ($num > 0) {
+				return Redirect::back()->withInput()->withErrors("category already entered");
+			}
 			//var_dump($params);
 			$this->category->updatecategory($params);
 
