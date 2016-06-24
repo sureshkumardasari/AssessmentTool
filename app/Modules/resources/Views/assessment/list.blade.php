@@ -72,9 +72,13 @@
 									<a href="{{ url('/resources/assessmentview/'.$name['id']) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
 				                	<a href="{{ url('/resources/assessmentedit/'.$name['id']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
-				                	<a href="{{ url('/resources/assessmentpdf/'.$name['id']) }}" class="btn btn-default btn-sm" title="PDF" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-
-				                	<a href="{{ url('/resources/template/'.$name['id']) }}" class="btn btn-default btn-sm" title="Template" ><span class="glyphicon glyphicon-text-size" aria-hidden="true">T</span></a>
+				                	<!-- <a href="{{ url('/resources/assessmentpdf/'.$name['id']) }}" class="btn btn-default btn-sm" title="PDF" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a> -->
+				                	{{-- */
+				                	$tplId='';		
+				                	if(isset($templates[$name['id']]))$tplId=$templates[$name['id']];            				                	
+				                	/* --}}
+				                	
+				                	<a href="{{ url('/resources/template/'.$name['id'].'/'.$tplId) }}" class="btn btn-default btn-sm" title="Template" ><span class="glyphicon glyphicon-text-size" aria-hidden="true">T</span></a> 
 
 									<a href="{{ url('/resources/assessmentdel/'.$name['id']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
