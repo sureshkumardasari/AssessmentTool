@@ -77,8 +77,9 @@ class GradingController extends BaseController {
 
 	public function studentGradeListing($assignment_id,$assessment_id){
  		// print_r($assignment_id);
-		$assignment_id=$assignment_id;
+		//$assignment_id=$assignment_id;
 		$ass_usrs = $this->grade->getUsersByAssignment($assignment_id);
+
 		// dd($ass_usrs);
 		return view('grading::student_grade', compact('ass_usrs','assignment_id','assessment_id'));
 	}
@@ -130,7 +131,11 @@ class GradingController extends BaseController {
 
 		$questionss_list = $this->grade->loadAssignmentQuestion($assignment_id, $assessment_id, $user_id);
 
-// 		dd($questionss_list);
+   		//dd($questionss_list);
+        foreach($questionss_list as $list){
+            $question_type=$list['question_type'];
+            break;
+        }
 
 		$ass_usrs = $this->grade->getUsersById($assignment_id);
 		//dd($ass_usrs);
@@ -267,10 +272,11 @@ class GradingController extends BaseController {
 //			}
 
 		}
-		$first_student_answers=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$id)->lists('question_answer_id','question_id');
+		$first_student_answers = $this->studentAnswers($assessment_id,$assignment_id,$id);
+        //QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$id)->select('question_answer_id','question_id')->get();;
 		//dd($first_student_answers);
-		//dd($main_result);
-		return view('grading::student_inner_grade', compact('ass_usrs', 'question_list', 'user_list', 'user_list_detail', 'actual_question', 'main_result', 'questionss_list','assignmentUsersArr','assessment_id','assignment_id','id','first_student_answers'));
+		//dd($questionss_list);
+		return view('grading::student_inner_grade', compact('ass_usrs', 'question_list', 'user_list', 'user_list_detail', 'actual_question', 'main_result', 'questionss_list','assignmentUsersArr','assessment_id','assignment_id','id','first_student_answers','question_type'));
 
 	}
 
@@ -435,32 +441,69 @@ else{
 		$user_already_entered_answers=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$post['user_id'])->lists('question_id');
 //dd($user_already_entered_answers);
 		if(isset($post['question_selected_answers'])){
-			$uAnswer=new QuestionUserAnswer();
-			foreach($post['question_selected_answers'] as $question_id=>$answer) {
-				if (in_array($question_id,$user_already_entered_answers)){
-					$uAnswer->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
-							->update(['question_answer_id'=>$answer]);
-				}
-				else{
-					$uAnswer->assessment_id = $assessment_id;
-					$uAnswer->assignment_id = $assignment_id;
-					$uAnswer->question_id = $question_id;
-					$uAnswer->question_answer_id = $answer;
-					$uAnswer->user_id = $post['user_id'];
-					$uAnswer->save();
+            if($post['question_type']=="Multiple Choice - Multi Answer"){
 
-				}
-				}
-if(isset($post['next_student'])){
-	return QuestionUserAnswer::where('user_id',$post['next_student'])->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->lists('question_answer_id','question_id');
-}
+                foreach($post['question_selected_answers'] as $question_id=>$answers){
+                   // dd($answers);
+                    if (in_array((int)$question_id,$user_already_entered_answers)){
+                        QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
+                            ->delete();//['question_answer_id'=>$answer]);
+                    }
+                    if(count($answers)==0){
+                        continue;
+                    }
+                    foreach($answers as $answer){
+                        $uAnswer=new QuestionUserAnswer();
+                            $uAnswer->assessment_id = $assessment_id;
+                            $uAnswer->assignment_id = $assignment_id;
+                            $uAnswer->question_id = $question_id;
+                            $uAnswer->question_answer_id = $answer;
+                            $uAnswer->user_id = $post['user_id'];
+                            $uAnswer->save();
+                    }
+                }
+            }
+            else if($post['question_type']=="Multiple Choice - Single Answer"){
+
+                foreach($post['question_selected_answers'] as $question_id=>$answer) {
+                    $uAnswer=new QuestionUserAnswer();
+                    if (in_array($question_id,$user_already_entered_answers)){
+                        $uAnswer->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
+                            ->update(['question_answer_id'=>$answer[0]]);
+                    }
+                    else{
+                        $uAnswer->assessment_id = $assessment_id;
+                        $uAnswer->assignment_id = $assignment_id;
+                        $uAnswer->question_id = $question_id;
+                        $uAnswer->question_answer_id = $answer[0];
+                        $uAnswer->user_id = $post['user_id'];
+                        $uAnswer->save();
+
+                    }
+                }
+            }
+
+        if(isset($post['next_student'])){
+           return $this->studentAnswers($assessment_id,$assignment_id,$post['next_student']);
+            //return QuestionUserAnswer::where('user_id',$post['next_student'])->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
+        }
 		return "Completed";
 		}
-		else return "please answer atleast one question";
+		else return "please answer atlest one question";
 	}
 	public function studentAnswers($assessment_id=0,$assignment_id=0,$user_id=0){
 
-		return QuestionUserAnswer::where('user_id',$user_id)->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->lists('question_answer_id','question_id');
+		 $ans= QuestionUserAnswer::where('user_id',$user_id)->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
+       // dd($ans)
+        $b=null;
+        foreach($ans as $a){
+            $b[$a['question_id']]=Array();
+        }
+        foreach($ans as $a){
+
+            array_push($b[$a['question_id']],$a['question_answer_id']);
+        }
+return $b;
 
 	}
 }

@@ -10,7 +10,6 @@ namespace App\Modules\Resources\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use App\Modules\Resources\Models\QuestionAnswer;
 
 class Template extends Model {
 	/**
@@ -33,6 +32,21 @@ class Template extends Model {
         $this->changed = 'NO';
         $this->save();
         return $this->id;
+    }
+
+    public function getTemplates($tpl_id = 0)
+    {
+        $obj = DB::table('templates'); //new Lesson();
+        if($tpl_id > 0){        
+            $obj->where('id', $tpl_id);
+            $templates = $obj->lists('id', 'assessment_id');
+        }
+        else
+        {
+            $templates = $obj->lists('id', 'assessment_id');
+        }
+        // dd($templates);
+        return $templates;
     }
 
 }

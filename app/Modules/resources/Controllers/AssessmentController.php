@@ -73,10 +73,12 @@ class AssessmentController extends BaseController {
 		$this->passage = $obj;
 		$obj = new Question();
 		$this->question = $obj;
+
 		$obj = new Assessment();
 		$this->assessment = $obj;
 
-
+		$obj = new Template();
+		$this->template = $obj;
 	}
 
 	/**
@@ -92,9 +94,10 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
+		$templates = $this->template->getTemplates();
 		$assessment=Assessment::get();
  		$institution_id='';
-        return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category'));
+        return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category', 'templates'));
 	}
 
 	public function assessmentdel($aid=0)
@@ -105,6 +108,7 @@ class AssessmentController extends BaseController {
 		}
 		return redirect('/resources/assessment');
 	}
+
 	public function assessmentcreate(){
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		$id = $institution_id = $subject_id = $category_id = 0;
@@ -116,6 +120,7 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
+		
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
 		$inst_passages_list=Passage::where('institute_id',$user_institution_id)->get();
 //		$inst_questions_list=[];
@@ -201,7 +206,7 @@ class AssessmentController extends BaseController {
  	public function savePdf(Request $request){
         $assessment_Id = $request->get('Id',140); //for testing
         $template_Id = $request->get('tplId',140); //for testing
-        $preview = $request->get('perview', 'false'); //for testing
+        $preview = $request->get('perview', '0'); //for testing
         // $subsectionId = $request->get('Id');
         $tpl = Template::find($template_Id);
         return $this->_savePdf($assessment_Id, $template_Id, $preview);
@@ -215,10 +220,9 @@ class AssessmentController extends BaseController {
         
         $_pdf       = $this->_generatePdf($template, $assessment, $s3, 'PdfContent');
 
-        if ($preview == 'false') {
+        if ($preview == '0') {
 
             $_imagesPdf = $this->_generatePdf($template, $assessment, $s3, 'Template');
-
 
             // PDF TO IMAGE PROCESS FOR TEST TAKING
             $pdf_path = $_imagesPdf['pdfPath'];
@@ -234,7 +238,7 @@ class AssessmentController extends BaseController {
                 umask($oldmask);
             }
 
-            $dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id.'/subsection_'.$template_Id);
+            $dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id.'/template_'.$id);
             // $s3->makeDirectory('assessment_'.$id.'/subsection_'.$template_Id, 'assessment_pdf_images');
 
             if(!is_dir($dirPath)){
@@ -249,13 +253,14 @@ class AssessmentController extends BaseController {
             }
 
             $pdf_path = $_imagesPdf['pdfPath'];
+           
             exec('convert  -density 380x380 -quality 40 "'. $pdf_path .'" "'. $dirPath .'/%d.jpg"');
-
+            
             // Returns array of files
             $files = scandir($dirPath);
             // Count number of files
             $images = range(0, count($files)-3);
-            
+
             ////////////////////////////
             // Upload the image to S3 //
             ////////////////////////////
@@ -263,19 +268,30 @@ class AssessmentController extends BaseController {
                 $image_path = $dirPath.'/'. $i .'.jpg';
                 // Upload to the path in "assessment_pdf_images" directory
                 // $s3->uploadByPathToPath($image_path, 'assessment_'.$id.'/subsection_'.$subsectionId, 'assessment_pdf_images');
-                unlink( $image_path );
+                //unlink( $image_path );
             }
 
-            unlink( $_imagesPdf['pdfPath'] );
+            // unlink( $_imagesPdf['pdfPath'] );
         }
+        else{
 
-        unlink( $_pdf['pdfPath'] );
-        return $_pdf['s3Path'];
+        }
+        // unlink( $_pdf['pdfPath'] );
+        if ($preview == '1') {
+	        return $_pdf['pdfPath'];
+	    }else{
+	    	return '1';
+	    }
     }
 
     private function _generatePdf($template, $assessment, $s3, $field) {
     	$pdf = new Pdf;
+    	$globalOptions = array(
+			'margin-bottom'    => 20,
+		);
 		$pdf->binary = 'wkhtmltopdf';
+
+		// $pdf->setOptions($globalOptions);
 		$options = array(
 			'javascript-delay' => 2000,
 			'encoding'         => 'UTF-8',
@@ -287,11 +303,9 @@ class AssessmentController extends BaseController {
 		);        
 
         $pages = '';
-        // $template = Template::find($template->id);
-        // $parentId = $template->ParentId;
-
+        
         $splitOn = '<div class="page">';
-        $temps = explode($splitOn, $template->{$field});
+        $temps = explode($splitOn, $template->pdf_content);
 
         if ($field == 'PdfContent') {
             // Add Header And Footer
@@ -313,26 +327,31 @@ class AssessmentController extends BaseController {
             }
             $temp = substr(trim($temp), 0,-6);     // to remove closing div
             $content = '<div class="page">'.$temp.'</div>';
-
-            $pages = view('assessment::partial.pdf.page', compact('content', 'parentId'))->render();
+            $parentId = 1;
+            $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
             $pdf->addPage($pages);
         }
         
         if ($field == 'PdfContent') {  
-            $fullPath = public_path('data/template-pdf/template_'. $template->id .'.pdf');
+            $fullPath = public_path('data/assessment_pdf/template_'. $assessment->id .'.pdf');
         } else {
-            $fullPath = public_path('data/template-pdf/template_images_'. $template->id .'.pdf');
+            $fullPath = public_path('data/assessment_pdf/template_images_'. $assessment->id .'.pdf');
         }
 
-        $pdf->saveAs( $fullPath );
-
+        if (!$pdf->saveAs($fullPath)) {
+			echo $pdf->getCommand();
+			throw new Exception('Could not create PDF: '.$pdf->getError());
+		}
+		
         // check if file is created        
         if (!file_exists($fullPath)) {
             return 'Error: ' . $pdf->getError();
         }
         
         $s3Path = ''; //$s3->uploadByPath($fullPath, 'subsection_pdf');
-
+        if ($field == 'PdfContent') {  
+        	$fullPath = url().'/data/assessment_pdf/template_'. $assessment->id .'.pdf';
+        }	
         return array('s3Path' => $s3Path, 'pdfPath' => $fullPath);
     }
     
@@ -344,16 +363,18 @@ class AssessmentController extends BaseController {
         $headerHtml = $request->input('header');
     	$footerHtml = $request->input('footer');
     	$asmt_id = $request->input('assessment_id');
+    	$tpl_id = $request->input('template_id');
         // dd($asmt_id);
-        // delete old subsection
-        // $_templateId = Subsection::find($subsectionId)->TemplateId;
-        // if (!empty($_templateId)) {
-        //     $template = Template::find($_templateId);
-        //     if ($template) {
-        //         $template->delete();
-        //     }
-        // }
-
+        // delete old template
+    	$_templateId = '';
+    	if($tpl_id>0) $_templateId = Template::find($tpl_id)->id;
+        if (!empty($_templateId)) {
+            $template = Template::find($_templateId);
+            if ($template) {
+                $template->delete();
+            }
+        }
+		
         $template = new Template();
         $templateId = $template->saveIt('Custom', $asmt_id, $pdfContent, $headerHtml, $footerHtml, $originalTemplate, $originalTemplate_2);
         return $templateId;
@@ -363,7 +384,7 @@ class AssessmentController extends BaseController {
         return view('resources::assessment._template_1', compact('questions', 'beginInstructions', 'endInstructions', 'titlePage'));
     }
 
- 	public function getTemplate($id=0){
+ 	public function getTemplate($id=0, $tplId=0){
  		$assessment=DB::table('assessment')->where('id','=',$id)->select('name', 'begin_instruction', 'end_instruction', 'header', 'footer', 'titlepage')->get();
  		$title = $assessment[0]->name;
 		$beginInstructions = $assessment[0]->begin_instruction;
@@ -388,7 +409,7 @@ class AssessmentController extends BaseController {
 		$blade = $templateId;
 		$html = $html2 = $this->renderTemplate($blade, $questions, $beginInstructions, $endInstructions, $titlePage);
 
-		return view('resources::assessment._template_customize_popup', compact('title', 'html', 'templateId', 'header', 'footer', 'mode',  'type', 'old', 'html2','endInstructions', 'beginInstructions', 'id'));
+		return view('resources::assessment._template_customize_popup', compact('title', 'html', 'templateId', 'header', 'footer', 'mode',  'type', 'old', 'html2','endInstructions', 'beginInstructions', 'id', 'tplId'));
 
 		// return $view('resources::assessment.partial._template_1', compact('html', 'templateId', 'header', 'footer', 'mode',  'type', 'old', 'html2','endInstructions','beginInstructions'));
 
@@ -421,7 +442,8 @@ class AssessmentController extends BaseController {
 			echo $pdf->getCommand();
 			throw new Exception('Could not create PDF: '.$pdf->getError());
 		}
-		echo "created test PDF :  ".$filename;
+		echo $pdf->getCommand();
+		echo "<br>created test PDF :  ".$filename;
  	}
 
  	public function assessmentpdf($assessmentId=0){

@@ -249,7 +249,8 @@
                         <div class="clr"></div>
 
                         @if (empty($mode))
-                            <div class="pb40 mt20" data-template_id="{{ $templateId }}" @if($templateId == 1) style="width: 872px; margin: 10px auto !important;" @elseif($templateId == 2) style="width: 940px;" @elseif($templateId == 3) style="width: 1100px;" @endif>
+                            <input type="hidden" name="tplId" id="tplId" value="{{ $tplId }}">
+                            <div class="pb40 mt20" data-template_id="{{ $tplId }}" @if($templateId == 1) style="width: 872px; margin: 10px auto !important;" @elseif($templateId == 2) style="width: 940px;" @elseif($templateId == 3) style="width: 1100px;" @endif>
                                 
 
                                 <a class="upload_btn mL0 mt0 fltL" href="javascript:void(0)" id='btn_save_and_close'>Save and Close</a>
@@ -1596,17 +1597,23 @@ $path = url()."/resources/";
 
 
             $(document).ready(function() {  
-               $(document).on('click', '#btn_save_and_close', function() {
-                    savePrintOnlineView(true, $(this));
-                });               
+                $(document).on('click', '#btn_save_and_close', function() {
+                    savePrintOnlineView('0', $(this));
+                });  
+                $(document).on('click', '#btn_preview', function() {
+                    savePrintOnlineView('1', $('#btn_save'));
+                });  
+                 
+             
             });
 
 
-            var savePrintOnlineView = function(closeIt, btn) {
+            var savePrintOnlineView = function(pdfPreview, btn) {
                 var header = $('.view-area .header').html();
                 var footer = $('.view-area .footer').html();
                 var html = $('.view-area .content').clone();
                 var untouchedHtml = $('.view-area .content').clone();
+                var pdfView = pdfPreview;
                 $.ajax({
                     headers: {"X-CSRF-Token": $('input[name="_token"]').val()},
                     url: '{{$path}}save-print-online-view',
@@ -1616,7 +1623,9 @@ $path = url()."/resources/";
                         // html: untouchedHtml.html().trim(),
                         header: header,
                         footer: footer,
-                        assessment_id: {{$id}}
+                        assessment_id: {{$id}},
+                        template_id: $('input[name="tplId"]').val(),
+                        pdf_preview: pdfView
                     },
                     method: 'POST',
                     async: false,
@@ -1627,10 +1636,18 @@ $path = url()."/resources/";
                        // alert(response);                        
                         $.ajax({
                             method: "POST",
-                            data:{Id: {{$id}}, 'tplId': response},
+                            data:{Id: {{$id}}, 'tplId': response, 'perview': pdfView},
                             url: "{{$path}}save-pdf",
                             success: function(data) {
-                                alert("create...");
+                                // alert(data);
+                                if(data=='1'){
+                                   location.href = '{{$path}}assessment';    
+
+                                }else{
+                                    window.open(data,'_blank');
+                                    location.href = '{{$path}}assessment';
+                                }
+                                
                             }
                         });
                         
