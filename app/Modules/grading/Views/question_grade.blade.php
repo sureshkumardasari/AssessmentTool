@@ -74,7 +74,7 @@
 									            	@if(($ass_qst['question_type'])=="Multiple Choice - Single Answer")
 									            	<input type="radio" name="ans_val" id="ans_val" editattr="{{$a['Id']}}" class="answer_selection_part" value="{{$a['Id']}}">
 									                @elseif(($ass_qst['question_type'])=="Multiple Choice - Multi Answer")
-									                <input type="checkbox" name="ans_val[]" id="ans_val{{$a['Id']}}" editattr="{{$a['Id']}}" class="answer_selection_part" value="{{$a['Id']}}">
+									                <input type="checkbox" name="ans_val[]" id="ans_val{{$a['Id']}}" editattr="{{$a['Id']}}" class="multiple_answer" value="{{$a['Id']}}">
 									                @endif
 
 									                {{--*/ 
@@ -144,6 +144,10 @@
 </script>
 
 	<script>
+	var question_type="{{$ass_qst['question_type']}}";
+	var selected_answer_correct={};
+	var selected_multi_answer_text={};
+	var selected_multi_answer=[];
 		var selected_answer_id=null;
 		var selected_answer_text=null;
 		var is_correct="YES";
@@ -173,7 +177,8 @@
 
 		});
 
-		function mapTollTip1(tipTarget){
+		function mapTollTip1(tipTarget){ 
+			
 			// removing already open tool tip if it exists.
 			$('.tip-container').remove();
 			//var formativeUrl = $(tipTarget).attr('formative-url');
@@ -228,17 +233,23 @@
 		}
 
 		function save_question_grade_for_student(){
+			var user_id=$("#status").val();
 			var nextuserid=$("#status option:selected").next().val();
-			var question_type="{{$ass_qst['question_type']}}";
+			
 			if(question_type=="Multiple Choice - Multi Answer"){
-				alert($('Input[name=ans_val[]'));
+				//alert($('Input[name=ans_val[]'));
+				var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_multi_answer_text,"selected_answer":selected_multi_answer,"is_correct":selected_answer_correct,"user_id":user_id ,"nextuserid":nextuserid};
+
+			}
+			else if(question_type=="Multiple Choice - Single Answer"){
+var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_answer_text,"selected_answer":selected_answer_id,"is_correct":is_correct,"user_id":user_id ,"nextuserid":nextuserid};				
 			}
 			var user_id=$('#status').val();
-			var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","selected_answer_text":selected_answer_text,"is_correct":is_correct,"user_id":user_id ,"nextuserid":nextuserid};
+			
 			var csrf=$('Input#csrf_token').val();
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
-				url:'save_answer_for_student_by_question_grade/'+selected_answer_id+"/{{$qst_id}}",
+				url:'save_answer_for_student_by_question_grade/{{$qst_id}}',
 				type:'post',
 				data: data,
 				success:function(response){
@@ -273,6 +284,7 @@
 				success:function(response){
 					//e.preventDefault();
 					$('.answer_selection_part').prop( "checked", false );
+					$('.multiple_answer').prop("checked",false);
 
 					//alert(response);
 					$.each(ans_label , function(i, val) {
@@ -280,7 +292,8 @@
 							$('#'+i).removeClass('label-danger');
 						}
 					});
-					$.each(response , function(i, val) {
+					if(question_type=="Multiple Choice - Single Answer"){
+						$.each(response , function(i, val) {
 						//alert(ans_label[val]+','+response[i]);
 						$('input[editattr~='+val+']').prop('checked',true);
 						//selected_answer_id=val;
@@ -289,12 +302,74 @@
 							$('#'+response[i]).addClass('label-danger');
 						}
 						is_correct=ans_label[val];
+						//if(question_type=="Multiple Choice - Single Answer"){
 						selected_answer_id=val;
 						selected_answer_text=$('#'+val).text();
+					//}
+					//else if( question_type=="Multiple Choice - Single Answer"){
+							
+										
 						//alert(selected_answer_text);
+					//}
 					});
+					}
+						else if(question_type=="Multiple Choice - Multi Answer"){
+							selected_multi_answer=[];
+							selected_multi_answer_text={};
+							selected_answer_correct={};
+							$.each(response , function(i, val) {
+						//alert(ans_label[val]+','+response[i]);
+						$('input[editattr~='+val+']').prop('checked',true);
+						//selected_answer_id=val;
+						if(ans_label[val]!="YES"){
+
+							$('#'+response[i]).addClass('label-danger');
+						}
+						selected_answer_correct[val.toString()]=(ans_label[val]);
+						//if(question_type=="Multiple Choice - Single Answer"){
+						selected_multi_answer.push(val);
+						selected_multi_answer_text[val.toString()]=($('#'+val).text());
+					//}
+					//else if( question_type=="Multiple Choice - Single Answer"){
+							
+										
+						//alert(selected_answer_text);
+					//}
+					});
+						}
+					
 				}
 			});
 		}
+
+		$('.multiple_answer').on('click',function(){
+			//alert($(this).is(':checked'));
+			var checked_ans_val=$(this).val();
+			//alert(selected_multi_answer);
+			if($(this).is(':checked')){
+			selected_multi_answer.push(checked_ans_val);
+			//alert(selected_multi_answer);
+			selected_multi_answer_text[checked_ans_val]=$('#'+checked_ans_val).text();
+			selected_answer_correct[checked_ans_val]=ans_label[checked_ans_val];
+			if(ans_label[checked_ans_val]!="YES"){
+				$('#'+checked_ans_val).addClass('label-danger');
+			}
+			else{
+
+			}
+		//alert(selected_multi_answer);
+			
+		}
+		else{
+			alert(JSON.stringify(selected_multi_answer_text));
+			var removeindex=selected_multi_answer.indexOf(checked_ans_val);
+			selected_multi_answer.splice(removeindex,1);
+			delete selected_multi_answer_text[checked_ans_val];
+			delete selected_answer_correct[checked_ans_val];
+				$('#'+checked_ans_val).removeClass('label-danger');
+
+		alert(JSON.stringify(selected_multi_answer_text));
+		}
+		});
 	</script>
 @endsection

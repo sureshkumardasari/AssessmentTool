@@ -283,9 +283,87 @@ class GradingController extends BaseController {
 	}
 
 	// Save ansers for students by Grade By Question method.....
-	public function saveAnswerByQuestionGrade($answer_id=0,$question_id=0){
+	public function saveAnswerByQuestionGrade($question_id=0){
 		$post=Input::all();
 		//dd($post);
+if($post['question_type']=="Multiple Choice - Multi Answer"){
+if($post['user_id']!=0) {
+			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+				->where('question_id',$question_id)->where('user_id',$post['user_id'])->count();
+			if ($users_already_answered!=0) {
+				QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+				->where('question_id',$question_id)->where('user_id',$post['user_id'])->delete();
+			}
+//else{
+				foreach($post['selected_answer'] as $answer){
+			$uAnswer = new QuestionUserAnswer();
+			$uAnswer->question_id = $question_id;
+			$uAnswer->user_id = $post['user_id'];
+			$uAnswer->assessment_id = $post['assessment_id'];
+			$uAnswer->assignment_id = $post['assignment_id'];
+			$uAnswer->question_answer_id = $answer;//dd($answer);
+			//foreach ($post['selected_answer_text'] as $key => $text) {
+				$uAnswer->question_answer_text = $post['selected_answer_text'][$answer];	
+			//}
+			//foreach ($post['is_correct'] as $key => $value) {
+				$uAnswer->is_correct = isset ($post['is_correct'][$answer]) ? $post['is_correct'][$answer]: 'Open';
+			//}
+				//$uAnswer->question_answer_text = $post['selected_answer_text'];
+			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+			//$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+
+			$uAnswer->save();
+			}
+		//}
+			// else{
+			// 	QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
+			// 		->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+			// 		->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+			// }
+			if(!isset($post['nextuserid'])){
+				return "All students graded";
+			}
+			return $post['user_id'];
+		}
+		else {
+			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+				->where('question_id',$question_id)->lists('user_id');
+			$assignment_users = AssignmentUser::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->lists('user_id');
+			foreach($assignment_users as $user){
+				if(in_array($user,$users_already_answered)){
+QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->where('question_id',$question_id)->where('user_id',$user)->delete();
+				}
+foreach($post['selected_answer'] as $answer){
+					// QuestionUserAnswer::where('user_id',$user)->where('question_id',$question_id)
+					// 	->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+					// 	->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+				//}
+				//else {
+					$uAnswer = new QuestionUserAnswer();
+					$uAnswer->question_id = $question_id;
+					$uAnswer->user_id = $user;
+					$uAnswer->assessment_id = $post['assessment_id'];
+					$uAnswer->assignment_id = $post['assignment_id'];
+					//$uAnswer->question_answer_id = $answer;
+
+					$uAnswer->question_answer_id = $answer;
+			//foreach ($post['selected_answer_text'] as $key => $text) {
+				$uAnswer->question_answer_text = $post['selected_answer_text'][$answer];	
+			//}
+			//foreach ($post['is_correct'] as $key => $value) {
+				$uAnswer->is_correct = isset ($post['is_correct'][$answer]) ? $post['is_correct'][$answer]: 'Open';
+			//}
+					//$uAnswer->question_answer_text = $post['selected_answer_text'];
+					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+					//$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+					$uAnswer->save();
+				}
+			}
+			return "All students graded";
+}
+}
+else{
+
 
 		if($post['user_id']!=0) {
 			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
@@ -296,7 +374,7 @@ class GradingController extends BaseController {
 			$uAnswer->user_id = $post['user_id'];
 			$uAnswer->assessment_id = $post['assessment_id'];
 			$uAnswer->assignment_id = $post['assignment_id'];
-			$uAnswer->question_answer_id = $answer_id;
+			$uAnswer->question_answer_id = $post['selected_answer'];
 				$uAnswer->question_answer_text = $post['selected_answer_text'];
 			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
 			$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
@@ -306,7 +384,7 @@ class GradingController extends BaseController {
 			else{
 				QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
 					->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-					->update(['question_answer_id'=>$answer_id,'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+					->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
 			}
 			if(!isset($post['nextuserid'])){
 				return "All students graded";
@@ -320,7 +398,7 @@ class GradingController extends BaseController {
 				if(in_array($user,$users_already_answered)){
 					QuestionUserAnswer::where('user_id',$user)->where('question_id',$question_id)
 						->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-						->update(['question_answer_id'=>$answer_id,'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+						->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
 				}
 				else {
 					$uAnswer = new QuestionUserAnswer();
@@ -328,7 +406,7 @@ class GradingController extends BaseController {
 					$uAnswer->user_id = $user;
 					$uAnswer->assessment_id = $post['assessment_id'];
 					$uAnswer->assignment_id = $post['assignment_id'];
-					$uAnswer->question_answer_id = $answer_id;
+					$uAnswer->question_answer_id = $post['selected_answer'];
 					$uAnswer->question_answer_text = $post['selected_answer_text'];
 					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
 					$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
@@ -339,6 +417,8 @@ class GradingController extends BaseController {
 		}
 		return $post['user_id'];
 	}
+	}
+
 
 	public function nextStudentAnswersForQuestionGrade($user_id=0,$question_id=0){
 
