@@ -86,8 +86,8 @@
 						$profile_picture = asset('/images/profile_pic.jpg');	
 					}
 					?>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
+						<li class="dropdown pull-right">
+							<a href="#" class="dropdown-toggle img-responsive" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle profile-image"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('/user/profile') }}">Profile</a></li>
 								<li role="separator" class="divider"></li>

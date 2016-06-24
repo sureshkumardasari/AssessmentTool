@@ -35,6 +35,14 @@
 .navbar-default {
     background-color: {{$header_bg_color}}; /*#26acd9;*/    
 }
+.navbar-nav > li > a .profile-image {
+    position: relative;
+    top: -5px;
+    float: left;
+    left: -5px;
+    width: 35px;
+    height: 35px;
+}
 .navbar-default .navbar-nav > li > a {
     color: {{$header_text_color}};
     font-size: 16px;
