@@ -57,15 +57,15 @@
 					}
 				},
 				columns: [
-					{
-						title: 'Lesson',
+					{	name: 'Category',
+						title: 'Category',
 					},
 					{
 						name: 'Subject',
 						title: 'Subject',
 					},
-					{	name: 'Category',
-						title: 'Category',
+					{
+						title: 'Lesson',
 					},
 					{
 						title: '',
@@ -75,9 +75,8 @@
 					// (column-selector could be any of specified in https://datatables.net/reference/type/column-selector)
 					'Category:name',
 					'Subject:name',
-					0,1,
-					2
-				],
+					0,1,2
+ 				],
 				pageLength: '20',
 			})
 		});
@@ -97,13 +96,14 @@
 					}
 				},
 				columns: [
+					{	name: 'Category',
+						title: 'Category',
+					},
 					{
 						name: 'Subject',
 						title: 'Subject',
 					},
-					{	name: 'Category',
-						title: 'Category',
-					},
+
 					{
 						title: '',
 					},
