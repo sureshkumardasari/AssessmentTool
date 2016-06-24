@@ -24,7 +24,7 @@
 						</div>
 
 						<div class="panel-body searchfilter-body hide">
-							<div class="form-group col-md-6">
+							<!-- <div class="form-group col-md-6">
 								<label class="col-md-4 control-label">Select Institution</label>
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id">
@@ -34,7 +34,8 @@
 										@endforeach
 									</select>
 								</div>
-							</div>
+							</div> -->
+							<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
 							<div class="form-group col-md-5">
 								<label class="col-md-4 control-label">Select Role</label>
 								<div class="col-md-6">

@@ -180,8 +180,7 @@ class UserController extends BaseController {
 		$post = Input::All();
 
 		$rules = [
-			'institution_id' =>'required|not_in:0',
-			'role_id' =>'required|not_in:0',
+			'institution_id' =>'required|not_in:0',			
 			//'name' => 'required|min:3|unique:users',
 			'first_name' =>'required|min:3',
 			'last_name' =>'required',
@@ -206,6 +205,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
+			$rules['role_id'] ='required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
 		}
 

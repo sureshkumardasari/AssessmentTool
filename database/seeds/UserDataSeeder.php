@@ -8,8 +8,8 @@ class UserDataSeeder extends Seeder {
 		DB::table('users')->insert([
 			'id' => '1',
 			'email' => 'admin@gmail.com',
-			'first_name' => 'Admin',
-			'name' => 'Admin',
+			'first_name' => 'Administrator',
+			'name' => 'Administrator',
 			'password' => bcrypt('abc123'),
 			'status' => 'Active',
 			'role_id' => '1',
@@ -22,8 +22,8 @@ class UserDataSeeder extends Seeder {
 
 		DB::table('roles')->insert([[
 			'id' => '1',
-			'name' => 'admin',
-			'display_name' => 'Admin',
+			'name' => 'administrator',
+			'display_name' => 'Administrator',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
 		],
@@ -38,6 +38,13 @@ class UserDataSeeder extends Seeder {
 			'id' => '3',
 			'name' => 'teacher',
 			'display_name' => 'Teacher',
+			'created_at' => new DateTime,
+			'updated_at' => new DateTime,
+		],
+		[
+			'id' => '4',
+			'name' => 'admin',
+			'display_name' => 'Admin',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
 		]]);

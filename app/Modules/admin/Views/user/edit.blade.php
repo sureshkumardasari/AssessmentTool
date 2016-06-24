@@ -9,6 +9,7 @@
 @section('content')
 
 <?php
+	$user_id = $id;
 	$role_id = (old('role_id') != NULL) ? old('role_id') : $role_id; 
 	$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $institution_id; 
 	$first_name =  (old('first_name') != NULL) ? old('first_name') : $first_name;
@@ -24,7 +25,6 @@
 	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
 	$status = (old('status') != NULL) ? old('status') : $status; 
 	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
-	
 
 	/*if($profile_picture != NULL)
 	{
@@ -87,11 +87,11 @@
 					<div class="col-md-6">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/user/update') }}">
 						<input type="hidden" name="_token" class="hidden-token" value="{{ csrf_token() }}">
-						<input type="hidden" name="id" value="{{ $id }}">
+						<input type="hidden" name="id" value="{{ $user_id }}">
 						<input type="hidden" value="{{ !empty($pic_data['coords'])?$pic_data['coords']:'' }}" name="pic_coords" id="pic_coords">
 						<input type="hidden" value="{{ !empty($pic_data['image'])?$pic_data['image']:'' }}" name="profile_picture" id="profile_picture">
 						<input type="hidden" value="{{ !empty($pic_data['id'])?$pic_data['id'] : 0 }}" name="image_user_id" id="image_user_id">
-						<div class="form-group required">
+						<!-- <div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id">
@@ -99,10 +99,12 @@
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
-								</select>
+								</select>								
 							</div>
-						</div>
-
+						</div> -->
+						<?php getInstitutionsSelectBox('institution_id', 'institution_id', $institution_id, 'required','Select'); ?>
+						
+						@if( (Auth::user()->id != $user_id) || $user_id == 1)
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Role</label>
 							<div class="col-md-6">
@@ -114,6 +116,7 @@
 								</select>
 							</div>
 						</div>
+						@endif
 
 						<div class="form-group required">
 							<label class="col-md-4 control-label">First Name</label>
@@ -149,7 +152,13 @@
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
-
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Gender</label>
+							<div class="col-md-6">
+								<label class="radio-inline"><input type="radio" class="" name="gender" id="gender_male"  value="male" {{ ($gender == "" || $gender == "Male") ? 'checked="checked"' : ''}}> Male</label>
+								<label class="radio-inline"><input type="radio" class="" name="gender" id="gender_female" value="female"  {{ ($gender == "Female") ? 'checked="checked"' : ''}}> Female</label>
+							</div>
+						</div>
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Enrollment No.</label>
 							<div class="col-md-6">
@@ -217,20 +226,15 @@
 							</div>
 						</div>
 						<!--  -->
+						@if(Auth::user()->id != $user_id)
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Status</label>
 							<div class="col-md-6">
-								<input type="radio" class="" name="status" id="status_yes" value="Active" {{ ($status == "" || $status == "Active") ? 'checked="checked"' : '' }}>Active 
-								<input type="radio" class="" name="status" id="status_no" value="Inactive" {{ ($status == "Inactive") ? 'checked="checked"' : '' }}>Inactive 
+								<label class="radio-inline"><input type="radio" class="" name="status" id="status_yes" value="Active" {{ ($status == "" || $status == "Active") ? 'checked="checked"' : '' }}> Active </label>
+								<label class="radio-inline"><input type="radio" class="" name="status" id="status_no" value="Inactive" {{ ($status == "Inactive") ? 'checked="checked"' : '' }}> Inactive </label>
 							</div>
-							</div>
-						<div class="form-group required">
-							<label class="col-md-4 control-label">Gender</label>
-							<div class="col-md-6">
-								<input type="radio" class="" name="gender" id="gender_male"  value="male" {{ ($gender == "" || $gender == "Male") ? 'checked="checked"' : ''}}>Male
-								<input type="radio" class="" name="gender" id="gender_female" value="female"  {{ ($gender == "Female") ? 'checked="checked"' : ''}}>Female
-							</div>
-						</div>
+						</div>	
+						@endif					
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">

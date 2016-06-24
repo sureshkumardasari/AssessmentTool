@@ -31,7 +31,14 @@ class Institution extends Model {
 		}
 		else
 		{
-			$institutions = $obj->lists('name', 'id');
+			$sessRole = getRole() ;
+			if($sessRole != 'administrator')
+			{
+				$institutions = $obj->where('id','=' , Auth::user()->institution_id)->lists('name', 'id');
+			}
+			else{
+				$institutions = $obj->lists('name', 'id');
+			}			
 		}
 		
 		return $institutions;

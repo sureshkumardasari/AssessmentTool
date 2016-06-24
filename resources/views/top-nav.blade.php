@@ -9,6 +9,8 @@
 				</button>
 				<!-- <a class="navbar-brand" href="#">Laravel</a> -->
 				<?php
+						$rolename = getRole();
+
 					  	$branding = (array)getbranding();
 					  	if(is_array($branding) && count($branding) && $branding['filepath']!="")
   						{
@@ -33,7 +35,10 @@
 				@else
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+					@if($rolename == 'student')
 					<li><a href="{{ url('/assessment/myassignment') }}">My Assignments</a></li>
+					@endif
+					@if($rolename == 'admin' || $rolename == 'teacher' || $rolename == 'administrator')
 					<li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
@@ -50,18 +55,24 @@
 			        </li>
 			        <li><a href="{{ url('/grading') }}">Grading</a></li>
 					<li><a href="{{ url('/report') }}">Reports</a></li>
+					@endif
+					@if($rolename == 'admin' || $rolename == 'administrator')
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
 			          <ul class="dropdown-menu"> 
                        <li><a href="{{ url('/user/brandings') }}">Branding</a></li>
 			          	<li role="separator" class="divider"></li>
-			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>
-			            <li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/user') }}">Users</a></li>
 			            <li role="separator" class="divider"></li>
+
+						@if($rolename == 'administrator')
+			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>
+			            <li role="separator" class="divider"></li>			            
 			            <li><a href="{{ url('/user/role') }}">Roles</a></li>
+			            @endif
 			          </ul>
 			        </li>
+			        @endif
 				</ul>
 				@endif
 				<ul class="nav navbar-nav navbar-right">
@@ -86,14 +97,16 @@
 						$profile_picture = asset('/images/profile_pic.jpg');	
 					}
 					?>
-						<li class="dropdown pull-right">
-							<a href="#" class="dropdown-toggle img-responsive" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle profile-image"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/user/profile') }}">Profile</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-							</ul>
-						</li>
+					<!-- <li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a> -->
+                    <li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="{{ url('/user/profile') }}">Profile</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+						</ul>
+					</li>
 					@endif
 				</ul>
 			</div>

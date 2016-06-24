@@ -35,6 +35,11 @@ class User extends Model {
 
 	public function getUsers($institution_id = 0, $role_id = 0)
 	{
+		if( getRole() != 'administrator')
+		{
+			$institution_id = ($institution_id > 0) ? $institution_id : Auth::user()->institution_id;
+		}
+		
 		//$users = User::get();
 		$query = DB::table('users as u')
             ->leftjoin('institution as i', function($join){
@@ -114,12 +119,22 @@ class User extends Model {
 			$obj->password = bcrypt($params['password']);
 			$obj->added_by = (Auth::guest()) ? 0 : Auth::user()->id;
 		}
+
+		if(isset($params['status']))
+		{
+			$obj->status = $params['status'];
+		}
+		if(isset($params['role_id']))
+		{
+			$obj->role_id = $params['role_id'];
+		}
+
 		$obj->name = $params['first_name'] . ' ' . $params['last_name'];
 		$obj->email = $params['email'];
 		$obj->enrollno = $params['enrollno'];
-		$obj->role_id = $params['role_id'];
+		//$obj->role_id = $params['role_id'];
 		$obj->institution_id = $params['institution_id'];
-		$obj->status = $params['status'];
+		
 		$obj->gender = $params['gender'];
 		$obj->first_name = $params['first_name'];
 		$obj->last_name = $params['last_name'];
@@ -136,7 +151,7 @@ class User extends Model {
 
 
 		$obj->save();
-		if ($params['role_id'] > 0) {
+		if (isset($params['role_id']) && $params['role_id'] > 0) {
 			$roleobj = DB::select(DB::raw("delete from role_user where user_id = '" . $obj->id . "'"));
 			$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (" . $obj->id . "," . $obj->role_id . ")"));
 		}
