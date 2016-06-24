@@ -42,7 +42,7 @@ class User extends Model {
             })
             ->leftjoin('roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
-            //})->select('Users.name', 'Users.email','Institution.name', 'Roles.name')->get();
+            //})->select('Users.name', 'Users.email','institution.name', 'Roles.name')->get();
             //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
             })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
 
@@ -178,13 +178,13 @@ class User extends Model {
 	    $institue = new Institution();
 	    $madeDataValidationColumn = array();
 	    if ($instituteId == null) {
-	        $institues =$institue::orderby('Id', 'desc')->take(100)->lists('Id');
+	        $institues =$institue::orderby('id', 'desc')->take(100)->lists('id');
 	    } else {
 	        if($findInstituteId){
-	            $institues = $institue->where('Id', $instituteId)->lists('Id');
+	            $institues = $institue->where('id', $instituteId)->lists('id');
 	            $madeDataValidationColumn = array();
 	        }else{
-	            $institues = $institue->where('Id', $instituteId)->lists('Id');
+	            $institues = $institue->where('id', $instituteId)->lists('id');
 	        }
 	    }
 		$countries= $this->getcountries();
@@ -350,7 +350,7 @@ class User extends Model {
 
 	    $dataArr = $data->toArray();
 	    $validationRule = [
-	        'institutionid' => 'required|numeric|exists:Institution,id',
+	        'institutionid' => 'required|numeric|exists:institution,id',
 	        //'username' => 'required|unique:users,UserName|max:50|regex:/^[a-zA-Z0-9@._]+$/',
 	        'enrollment_no' => 'required',
 	        'email' => 'email|max:50',
