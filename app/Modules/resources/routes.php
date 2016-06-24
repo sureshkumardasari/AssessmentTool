@@ -71,7 +71,7 @@ Route::post('questiontypeList/{id}', array('as' => 'questiontypeList', 'uses'=>'
     Route::any('save-pdf', array('as' => 'savePdf', 'uses' => 'AssessmentController@savePdf'));
 
 
-    Route::get('template/{id}', array('as' => 'template', 'uses'=>'AssessmentController@getTemplate'));
+    Route::get('template/{id}/{tplId?}', array('as' => 'template', 'uses'=>'AssessmentController@getTemplate'));
 
     Route::get('assessmentedit/{id}', array('as' => 'assessmentedit', 'uses'=>'AssessmentController@assessmentedit'));
     Route::post('assessmentupdate/', array('as' => 'assessmentupdate', 'uses'=>'AssessmentController@assessmentupdate'));

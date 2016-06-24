@@ -249,7 +249,8 @@
                         <div class="clr"></div>
 
                         @if (empty($mode))
-                            <div class="pb40 mt20" data-template_id="{{ $templateId }}" @if($templateId == 1) style="width: 872px; margin: 10px auto !important;" @elseif($templateId == 2) style="width: 940px;" @elseif($templateId == 3) style="width: 1100px;" @endif>
+                            <input type="hidden" name="tplId" id="tplId" value="{{ $tplId }}">
+                            <div class="pb40 mt20" data-template_id="{{ $tplId }}" @if($templateId == 1) style="width: 872px; margin: 10px auto !important;" @elseif($templateId == 2) style="width: 940px;" @elseif($templateId == 3) style="width: 1100px;" @endif>
                                 
 
                                 <a class="upload_btn mL0 mt0 fltL" href="javascript:void(0)" id='btn_save_and_close'>Save and Close</a>
@@ -1598,7 +1599,12 @@ $path = url()."/resources/";
             $(document).ready(function() {  
                $(document).on('click', '#btn_save_and_close', function() {
                     savePrintOnlineView(true, $(this));
-                });               
+                });  
+
+                 $('.btn_preview').on('click', function() {
+                    savePrintOnlineView($('#btn_save'), true);
+                });
+             
             });
 
 
@@ -1616,7 +1622,8 @@ $path = url()."/resources/";
                         // html: untouchedHtml.html().trim(),
                         header: header,
                         footer: footer,
-                        assessment_id: {{$id}}
+                        assessment_id: {{$id}},
+                        template_id: $('input[name="tplId"]').val()
                     },
                     method: 'POST',
                     async: false,
@@ -1630,7 +1637,8 @@ $path = url()."/resources/";
                             data:{Id: {{$id}}, 'tplId': response},
                             url: "{{$path}}save-pdf",
                             success: function(data) {
-                                alert("create...");
+                                // alert("create...");
+                                location.href = '{{$path}}assessment';
                             }
                         });
                         
