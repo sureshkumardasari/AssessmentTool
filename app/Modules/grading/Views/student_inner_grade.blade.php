@@ -6,15 +6,30 @@
         var Question_actual_answer={};
         var Question_selected_answers={};
         var Answer_ids=[];
+        var correct_answers=[];
+        var selected_student_answers=[];
+        <?php
+       // if($question_type=="Multiple Choice - Multi Answer"){
 
-        var selected_student_answers={};
+
+            foreach($first_student_answers as $qid => $ans){
+            ?>
+             Question_selected_answers["{{$qid}}"]=[];
         <?php
-            foreach($first_student_answers as $qid=>$ans){
-                ?>
+                foreach($ans as $val){
+                //dd($ans);
+            ?>
+            Question_selected_answers["{{$qid}}"].push("{{$val}}");
+             selected_student_answers.push("{{$val}}");
+
+
                // seleceted_student_answer[""]
-                selected_student_answers["{{$qid}}"]="{{$ans}}";
+
         <?php
-            }
+                 }
+           // }
+           // dd($first_student_answers);
+        }
         ?>
     </script>
 
@@ -103,15 +118,17 @@
                 <td>{{$ass_qst['ans_text']}}</td>
             </tr>
             {{--*/ $i = 0 /*--}}
+             <script>Question_actual_answer['{{$ass_qst['Id']}}']=[];</script>
             @foreach($ass_qst['answers'] as $idx => $a )
                 <?php
                 $ans_label = 'default';
                 if($a['is_correct']=='YES'){$ans_label = 'success' ;
-                ?> <script>Question_actual_answer['{{$ass_qst['Id']}}']=[];Question_actual_answer['{{$ass_qst['Id']}}'].push("{{$a['Id']}}");</script><?php  }?>
+                ?> <script>Question_actual_answer['{{$ass_qst['Id']}}'].push("{{$a['Id']}}");correct_answers.push("{{$a['Id']}}")</script>
+                <?php } ?>
                 <tr>
                     <td>
                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$ass_qst['Id']}} label label-{{$ans_label}}">{{$a['ans_text']}}</span>
                     </td>
 
                 </tr>
@@ -139,7 +156,7 @@
                                              @if(($ass_qst['question_type'])=="Multiple Choice - Single Answer")
                                                  <input type="radio" name="ans_val{{$ass_qst['Id']}}" id="ans_val" value="{{$a['Id']}}">
                                              @elseif(($ass_qst['question_type'])=="Multiple Choice - Multi Answer")
-                                                 <input type="checkbox" name="ans_val[]" id="ans_val" value="{{$a['Id']}}">
+                                                 <input type="checkbox" name="ans_val{{$ass_qst['Id']}}" id="ans_val-{{$ass_qst['Id']}}-{{$a['Id']}}" value="{{$a['Id']}}" >
                                              @endif
 
                                              {{--*/
@@ -189,35 +206,79 @@
         </div>
     </div>
 {{--</section>--}}
-@include('resources::grading.grading_js')
+{{--@include('resources::grading.grading_js')--}}
 
 @endsection
 <script>
 //
-
+var question_type="{{$question_type}}";
 function change_answer(question_id){
-    var myControls=$('input[type="radio"][name=ans_val'+question_id+']');
-    var id=$('input[type="radio"][name=ans_val'+question_id+']:checked').val();
-    if(id=="undefined"){id=0;}
-    Question_selected_answers[question_id]=id;
-   // alert(JSON.stringify(Question_selected_answers));
-    $.each(myControls , function(i, val) {
-       var answer=val.value;
-       if($.inArray(answer,Question_actual_answer[question_id])==-1)
-       {
-           $('#'+answer).removeClass('label-danger');
-       }
+    //alert(JSON.stringify(Question_actual_answer));
 
-   });
-    if($.inArray(id,Question_actual_answer[question_id])==-1)
-    {
-        $("#"+id).addClass('label-danger');
+    if(question_type=="Multiple Choice - Single Answer"){
+        var myControls=$('input[type="radio"][name=ans_val'+question_id+']');
+        $.each(myControls , function(i, val) {
+            var answer=val.value;
+            if($.inArray(answer,Question_actual_answer[question_id])==-1)
+            {
+                $('#'+answer).removeClass('label-danger');
+            }
+
+        });
+        var id=$('input[type="radio"][name=ans_val'+question_id+']:checked').val();
+        if(id=="undefined"){id=0;}
+        Question_selected_answers[question_id]=id;
+        // alert(JSON.stringify(Question_selected_answers));
+
+        if($.inArray(id,Question_actual_answer[question_id])==-1)
+        {
+            $("#"+id).addClass('label-danger');
+        }
     }
+    else if(question_type=="Multiple Choice - Multi Answer"){
+        alert(JSON.stringify(Question_selected_answers));
+        var myControls=$('input[type="checkbox"][name=ans_val'+question_id+']');
+        Question_selected_answers[question_id]=[];
+       // alert(JSON.stringify(myControls));
+        $('.editable-'+question_id).removeClass('label-danger');
+        $.each(myControls , function(i, val) {
+            //alert($('#ans_val-'+question_id+'-'+val.value).is(":checked"));
+            if($('#ans_val-'+question_id+'-'+val.value).is(":checked")){
+                Question_selected_answers[question_id].push(val.value);
+                if($.inArray(val.value,Question_actual_answer[question_id])==-1)
+            {
+                $('#'+val.value).addClass('label-danger');
+            }
+                //$('#'+val.value).addClass('label-danger');
+            }
+            else{
+
+            }
+           // alert(JSON.stringify(val));
+           // var answer=val.value;
+//            if($.inArray(answer,Question_actual_answer[question_id])==-1)
+//            {
+//                $('#'+answer).addClass('label-danger');
+//            }
+
+        });
+        alert(JSON.stringify(Question_selected_answers));
+
+    }
+
 }
 
 function save_student_answers(){
+    alert(JSON.stringify(Question_selected_answers));
     var user_id=$('#drpAssignmentStudent').val();
     var next_student=$("#drpAssignmentStudent option:selected").next().val();
+//    if(question_type=="Multiple Choice - Single Answer"){
+//        var data={'user_id':user_id,'question_selected_answers':Question_selected_answers,'next_student':next_student}
+//    }
+//    else if(question_type=="Multiple Choice - Mingle Answer"){
+//        var data={'user_id':user_id,'question_selected_answers':Question_selected_answers,'next_student':next_student}
+//    }
+    //var data=
     //alert(next_student);
     //alert($('#drpAssignmentStudent').val());
    // alert(JSON.stringify(Question_selected_answers));
@@ -226,13 +287,14 @@ function save_student_answers(){
         headers: {"X-CSRF-Token": csrf},
         url:"save_answer_for_student_by_student_grade/{{$assessment_id}}/{{$assignment_id}}",
         type:"post",
-        data:{'user_id':user_id,'question_selected_answers':Question_selected_answers,'next_student':next_student},
+        data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_answers,'next_student':next_student},
         success:function(response){
+            alert(JSON.stringify(selected_student_answers));
             //alert("responseeeeeeeeee");
             //alert(JSON.stringify(response));
             if(response=="Completed") {
                 alert(response);
-                $('#drpAssignmentStudent').val(next_student);
+                //$('#drpAssignmentStudent').val(next_student);
             }
             else if(response=="All students Graded"){
                 alert("Grading completed");
@@ -241,11 +303,22 @@ function save_student_answers(){
                 alert(response);
             }
             else {
-                selected_student_answers={};
-                //alert(JSON.stringify(selected_student_answers));
+                selected_student_answers=[];
+                Question_selected_answers={};
                 $.each(response,function(i,val){
-                    selected_student_answers[i]=val;
+                    Question_selected_answers[i]=[];
+                    $.each(val,function(j,ans){
+                        Question_selected_answers[i].push(ans);
+                        // $.each(val,function(j,ans){
+                        selected_student_answers.push(ans);
+                    });
+
                 });
+//                selected_student_answers=[];
+//                //alert(JSON.stringify(selected_student_answers));
+//                $.each(response,function(i,val){
+//                    selected_student_answers.push(val);
+//                });
                 //alert(JSON.stringify(selected_student_answers));
                 $('#drpAssignmentStudent').val(next_student);
                 user_answers();
@@ -255,24 +328,46 @@ function save_student_answers(){
 }
 // function for showing  user answers as correct or incorrect.....
     function user_answers(){
+        //alert(correct_answers);
         $.each(Answer_ids,function(i,val){
             $('#'+val).removeClass('label-danger');
         });
         $.each(Answer_ids,function(i,val){
             $('input[type="radio"][value='+val+']').prop('checked',false);
+            $('input[type="checkbox"][value='+val+']').prop('checked',false);
         });
-        $.each(selected_student_answers,function(i,val){
-            $('input[type="radio"][value='+val+']').prop('checked',true);
-        });
+        if(question_type=="Multiple Choice - Multi Answer"){
+
+            $.each(selected_student_answers,function(i,val){
+
+                    $('input[type="checkbox"][value='+val+']').prop('checked',true);
+                    if($.inArray(val.toString(),correct_answers)<0){
+                        $('#'+val).addClass('label-danger');
+                    }
+                });
+
+           // });
+//            $.each(selected_student_answers, function(i,val){
+//                // alert( val.toString()+","+Question_actual_answer[i]+","+$.inArray(val.toString(),Question_actual_answer[i]));
+//
+//
+//            });
+        }
+        else if(question_type=="Multiple Choice - Single Answer"){
+            $.each(selected_student_answers,function(i,val){
+                $('input[type="radio"][value='+val+']').prop('checked',true);
+                if($.inArray(val.toString(),correct_answers)<0){
+                    $('#'+selected_student_answers[i]).addClass('label-danger');
+                }
+            });
+//            $.each(selected_student_answers, function(i,val){
+//                // alert( val.toString()+","+Question_actual_answer[i]+","+$.inArray(val,Question_actual_answer[i]));
+//            });
+        }
+
        // alert(JSON.stringify(Question_actual_answer));
         //alert("hererererere");
-        $.each(selected_student_answers, function(i,val){
-           // alert( val.toString()+","+Question_actual_answer[i]+","+$.inArray(val,Question_actual_answer[i]));
-            if($.inArray(val.toString(),Question_actual_answer[i])!=0){
-                $('#'+selected_student_answers[i]).addClass('label-danger');
-            }
 
-        });
     }
 
 
@@ -285,16 +380,42 @@ function save_student_answers(){
            url:assessment_id+"/"+assignment_id+"/"+user_id,
             type:'get',
             success:function(response){
-                selected_student_answers={};
+                alert(JSON.stringify(response));
+                selected_student_answers=[];
+                Question_selected_answers={};
                 //alert(JSON.stringify(selected_student_answers));
                 $.each(response,function(i,val){
-                    selected_student_answers[i]=val;
+                    Question_selected_answers[i]=[];
+                    $.each(val,function(j,ans){
+                        Question_selected_answers[i].push(ans);
+                   // $.each(val,function(j,ans){
+                        selected_student_answers.push(ans);
+                    });
+
                 });
-                //alert(JSON.stringify(selected_student_answers));
+                alert(JSON.stringify(selected_student_answers));
                 user_answers();
             }
         });
     }
+</script>
+<script src="{{ asset('/js/jquery.min.js') }}"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+           // Question_actual_answer
+            //alert(JSON.stringify(Question_actual_answer));
+ //alert(JSON.stringify(Question_selected_answers));
+// alert(JSON.stringify(selected_student_answers));
+//alert(Answer_ids);
+$('#drpAssignmentStudent').val(first_user);
+//alert(JSON.stringify(selected_student_answers));
+user_answers();
+//$.each(selected_student_answers,function(i,val){
+//$('input[type="radio"][value='+val+']').prop('checked',true);
+//});
+//alert(JSON.stringify(Question_selected_answers));
+//myControls.
+});
 </script>
 @section('footer-assets')
 @parent
