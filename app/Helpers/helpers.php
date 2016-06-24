@@ -673,6 +673,46 @@ function getS3ViewUrl( $fileName, $directory )
     return $s3->getFileUrl( $fileName, $directory );
 }
 
+function getRole()
+{
+    if (Auth::guest()) return '';
+    $roles = DB::table('roles')->where('id', '=', Auth::user()->role_id)->select('name')->lists('name');
+    return (isset($roles[0]) ) ? $roles[0] : '';
+}
+
+function getInstitutionsSelectBox($name = 'institution_id', $id = 'institution_id', $selected = 0, $required = '', $default = 'Select')
+{
+    $parent_id = 0;
+    $sessrole = getRole();
+
+    //$users = User::get();
+    $obj = DB::table('institution');
+    if ($parent_id > 0) {
+        $inst_arr = $obj->where("id", $parent_id)->orWhere('parent_id', $parent_id)->lists('name', 'id');
+    } else {
+        if ($sessrole != 'administrator')
+            $obj->where('id', '<>', '1');
+        $inst_arr = $obj->lists('name', 'id');
+    }
+
+    if ($sessrole == 'administrator') {
+        $institutions_select = '<div class="form-group ' . $required . '">
+                            <label class="col-md-4 control-label">Institution</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="' . $name . '" id="' . $id . '">
+                                    <option value="0">--' . $default . '--</option>';
+        foreach ($inst_arr as $id => $val)
+            $institutions_select .= '<option value="' . $id . '" ' . (($id == $selected) ? 'selected = "selected"' : '') . '>' . $val . '</option>';
+
+        $institutions_select .= '</select></div>
+                        </div>';
+    } else {
+        $selected = ($selected > 0) ? $selected : Auth::user()->institution_id;
+        $institutions_select = '<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . $selected . '" >';
+    }
+
+    echo $institutions_select;
+}
 function getItemIconClass($name = ''){
     $className = 'unknown-icon';
     if(!empty($name)){
