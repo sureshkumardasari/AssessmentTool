@@ -1,6 +1,6 @@
 <?php namespace App\Models;
 
-use \Storage;
+use Storage;
 use Config;
 class S3 {
 
@@ -35,14 +35,14 @@ class S3 {
 	];
 
 	public function __construct() {
-		$this->disk = Storage::disk('s3');
+		$this->disk = Storage::disk('local');
 
 		$this->environment = env('host_name', 'dev');
 		foreach ($this->directories as $key => $value) {
 			$this->directories[ $key ] = str_replace('@environment@', $this->environment, $value);
 		}
 
-		$this->bucket = Config::get('filesystems.disks.s3.bucket');
+		$this->bucket = Config::get('filesystems.disks.local.bucket');
 	}
         
         // $file array
@@ -55,9 +55,9 @@ class S3 {
 
 			foreach ($files as $key => $file) {
 
-				$path = $this->directories[$path].$file->getClientOriginalName();				
+				$path = $this->directories[$path].$file->getClientOriginalName();
 				$uploaded = $this->disk->put($path, file_get_contents($file), 'public');
-				
+
 				if ($uploaded) {
 					//$response[] = $this->disk->getDriver()->getAdapter()->getClient()->getObjectUrl('aacontent', $path);
 					$response[] = $this->disk->getDriver()->getAdapter()->getClient()->getObjectUrl($this->bucket, $path);

@@ -3,7 +3,7 @@
 use Zizaco\Entrust\EntrustFacade;
 use Zizaco\Entrust\Entrust;
 //use \App\Modules\Accounts\Models\Institution;
-use DB;
+use \DB;
 use mikehaertl\wkhtmlto\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
@@ -65,12 +65,12 @@ function swapValue($value) {
  * This method is being used in main layout.
  *
  * Note: Every developer has to add relevant breadcrumb data in the format defined in method
- * 
+ *
  */
 function breadcrumb($displayName = '', $urlSlug = '') {
     // Default breadcrumb, refering to home.
     $breadcrumbLinks = array('displayName' => 'Home', 'route' => 'home');
-    // Note: Every developer has to add relevant breadcrumb data in the format defined below. 
+    // Note: Every developer has to add relevant breadcrumb data in the format defined below.
     // Standard array structure to fill in array for all possible breadcrumb info.
 
     $current_params = Route::current();
@@ -160,7 +160,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'displayName' => 'Modify Subject',
             'route' => 'subject-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
-        ),        
+        ),
         'lesson-list' => array(
             'displayName' => 'Lessons',
             'route' => 'lesson-list',
@@ -186,7 +186,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
 
 /**
  * getLastQuery | Get Last Query which Run by Laravel Model
- * @return string 
+ * @return string
  */
 function getLastQuery() {
     $queries = DB::getQueryLog();
@@ -208,10 +208,10 @@ function convertTimeto12HourFormat($time24HourFormat) {
 }
 
 /**
- * deleteOldPdfFile:  This function is used to delete speicied old files from directory 
+ * deleteOldPdfFile:  This function is used to delete speicied old files from directory
  *
  * @param $dir string ($dir = "images/temp/") Directory from where file will going to delete
- * @param $howOld int  optional if file is 24 hours (86400 seconds) old then delete it 
+ * @param $howOld int  optional if file is 24 hours (86400 seconds) old then delete it
  * @return void(0)
  *
  */
@@ -237,7 +237,7 @@ function deleteOldPdfFile($dir, $howOld = 86400) {
  * @return Response     CSV file gets downloaded
  */
 function downloadCSV($data, $fileName = 'report-data') {
-    
+
     if (empty($data)) {
         return false;
     }
@@ -349,21 +349,21 @@ function storeCSV($data, $fileName = 'import.csv') {
  *
  * @param $fileName string name of the file
  * @param $htmlForPdf string name of the file
- * @return $fileFullUrl string 
+ * @return $fileFullUrl string
  *
  */
 function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required = "", $defaultMarginBottom = '20mm') {
     ini_set('max_execution_time', 0);
     set_time_limit(0);
     ini_set('memory_limit', -1);
-     
+
     //****Start Clean Directory
     $dir = public_path('data/reports/');
     if (!file_exists('data/reports/')) {
         mkdir('data/reports/', 0777, true);
     }
     // deleteOldPdfFile($dir);
-    //****End Clean Directory 
+    //****End Clean Directory
     $options = array(
         'encoding' => 'UTF-8', // option with argument
         'page-size' => 'A3', // option with argument
@@ -417,18 +417,18 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
         if (!empty($required)) {
             return $fileName;
         } else {
-            return $fileFullUrl;            
+            return $fileFullUrl;
         }
     } else {
         //return 'Error: ' . $pdf->getError();
-        return url('data/error.pdf'); 
+        return url('data/error.pdf');
     }
 }
 
 /**
  * get_group_concat_val | This method is used to group concat the multi vals from collection object
  * @param array $params | ['objArr'=> $objArr, 'propertyName'=>Name, 'separator'=>',', $startHtml='', endHtml = ''];
- * @return mixed string/boolean 
+ * @return mixed string/boolean
  */
 function get_group_concat_val($params) {
     $strVal = '';
@@ -480,8 +480,8 @@ function csvToArray($filePath) {
 //        });
 
         $results = \Maatwebsite\Excel\Facades\Excel::load($filePath, function($reader) {
-                    
-                })->all()->toArray();
+
+        })->all()->toArray();
 
 
         if (isset($results[0]['student_name'])) {
@@ -546,7 +546,7 @@ function csvToArrayForSpecificDelimeter($filePath) {
 
 /**
  * Removes the array of items from the $data
- * 
+ *
  * @param  array $data  An array of items from which data is to be removed
  * @param  array $items An array of items that are to be removed
  * @return array        An array with data removed from it.
@@ -599,7 +599,7 @@ function array_to_csv_download($data, $filename = "", $delimiter = ";") {
 /**
  *
  * upca
- * This method handles only upca type barcode and it takes a mandatory param to draw code. 
+ * This method handles only upca type barcode and it takes a mandatory param to draw code.
  *
  * @param number $text
  * @param $barHeight Optional parameter with defualt value.
@@ -613,8 +613,8 @@ function generateBarcode($text, $barHeight = 30) {
     $barcodeOptions = array('text' => $text, 'barHeight' => $barHeight, 'factor' => 1.6, 'withBorder' => true, 'withQuietZones' => true);
     $rendererOptions = array('imageType' => 'png');
     $image = Zend\Barcode\Barcode::factory(
-                    'Upca', 'image', $barcodeOptions, $rendererOptions
-            )->draw();
+        'Upca', 'image', $barcodeOptions, $rendererOptions
+    )->draw();
     ob_start();
     imagepng($image);
     $data = ob_get_clean();
@@ -673,11 +673,42 @@ function getS3ViewUrl( $fileName, $directory )
     return $s3->getFileUrl( $fileName, $directory );
 }
 
+function getItemIconClass($name = ''){
+    $className = 'unknown-icon';
+    if(!empty($name)){
+        $office = ['xls', 'xlsx', 'doc', 'docx', 'csv'];
+        $images = ['jpg', 'jpeg', 'png', 'bmp', 'gif'];
+        $compressed = ['zip', 'gzip', 'rar', 'tar', 'tz', '7zip'];
+        $audios = ['wma', 'wav', 'amr', 'mp3'];
+        $videos = ['mp4', 'wm4', 'flv', 'mov', '3gp', 'mpeg', 'mpg', '4mpg'];
+        $falsh = ['swf', 'fla'];
+        $pdf = ['pdf'];
+        $nameArr = explode('.', $name);
+        $ext = $nameArr[count($nameArr) - 1];
+        if(in_array(strtolower($ext), $office)){
+            $className = 'office-icon';
+        }else if(in_array(strtolower($ext), $images)){
+            $className = 'img-icon';
+        }else if(in_array(strtolower($ext), $compressed)){
+            $className = 'compress-icon';
+        }else if(in_array(strtolower($ext), $audios)){
+            $className = 'audio-icon';
+        }else if(in_array(strtolower($ext), $videos)){
+            $className = 'video-icon';
+        }else if(in_array(strtolower($ext), $falsh)){
+            $className = 'flash-icon';
+        }else if(in_array(strtolower($ext), $pdf)){
+            $className = 'pdf-icon';
+        }
+    }
+    return $className;
+}
+
 /**
  * generateImagesFromPDF | This method is used to generate images from given PDF
  * @param  $pdf_file | PDF_FILE
  * @param  $images_directory | Directory where images will be saved
- * @return void 
+ * @return void
  */
 function generateImagesFromPDF($pdf_file, $images_directory) {
     if (!is_dir($images_directory)) {
@@ -728,7 +759,7 @@ function generateImagesFromPDFCommandLine($pdf_file, $images_directory) {
             return ['error' => 'Image Ratio is Not Correct'];
         }
     }
-    
+
     $imageWidth = 6600;
     $imageHeight = 5100;
 
@@ -795,7 +826,7 @@ function formatBytes($bytes, $precision = 1) {
 
 /*
  * makeZipFile a function to attach all files into one zip-file and save it into tmp folder and return path of the zip-file
- * @param array $params, 
+ * @param array $params,
  * @return array $response
  */
 
@@ -818,13 +849,13 @@ function makeZipFile(array $params) {
     foreach ($files as $f) {
         $fullPath = $fileBasePath . $f;
 
-        $fullPath = getS3DownloadUrl($f, $s3Bucket);        
+        $fullPath = getS3DownloadUrl($f, $s3Bucket);
         $fullPath = preg_replace('/\?.*/', '', $fullPath);
 
         // if (file_exists($fullPath)) {
-            $zip->addFromString(basename($fullPath), file_get_contents($fullPath));
+        $zip->addFromString(basename($fullPath), file_get_contents($fullPath));
         // } else {
-            // $response['errors'][] = "file $f does not exist";
+        // $response['errors'][] = "file $f does not exist";
         // }
     }
     $zip->close();
@@ -886,7 +917,7 @@ function sendEmail($subject, $message, $toEmail, $toName = null, $from = 'srevu@
 
 /*
  * This function to attach image uploading functionality including html tags
- * @param array $params, 
+ * @param array $params,
  * @return view
  */
 
@@ -896,7 +927,7 @@ function imageUpload($pic_data = array(), $params = array('name' => 'image', 'id
 
 /*
  * This function to attach crop image functionality including html tags
- * @param array $params, 
+ * @param array $params,
  * @return view
  */
 
@@ -919,7 +950,7 @@ function gradeFormat($grade) {
 //    $gradeStr = $grade;
     $gradeInt = $grade;
     if ($gradeInt == 0 && is_numeric($gradeInt)) {
-        
+
     } elseif ($gradeInt == 1 && is_numeric($gradeInt)) {
         $grade = (int) $gradeInt . 'st';
     } elseif ($gradeInt == 2 && is_numeric($gradeInt)) {
@@ -938,16 +969,16 @@ function gradeFormat($grade) {
 }
 /**
  * Functino responsible to resize and upload image
- * 
+ *
  * @param string $orignialPath : Original Path to Upload
  * @param string $imageName : Name of the Image
  * @param string $resizedPath : Resized Image Path
- * 
+ *
  * @param integer $width  The target width for the image
  * @param integer $height The target height for the image
  * @param boolean $ratio  Determines if the image ratio should be preserved
  * @param boolean $upsize Determines whether the image can be upsized
- * 
+ *
  * @return type Array
  */
 function resizeImage($orignialPath, $imageName, $resizedPath = null, $width = null, $height = null, $ratio = false, $upsize = true
@@ -975,7 +1006,7 @@ function resizeImage($orignialPath, $imageName, $resizedPath = null, $width = nu
 function cropImage($inputs, $savePath, $resizeImage = array()) {
     $coords = $inputs['coords'];
     $imageName = $inputs['image_name'];
-    
+
     if(getenv('s3storage'))
     {
         $s3 = new \App\Models\S3();
@@ -983,7 +1014,7 @@ function cropImage($inputs, $savePath, $resizeImage = array()) {
     }
     else
     {
-         $imageFromS3 = asset('/data/uploaded_images/400x400/'.$imageName);
+        $imageFromS3 = asset('/data/uploaded_images/400x400/'.$imageName);
     }
 
     $img = Image::make($imageFromS3);
@@ -1003,54 +1034,7 @@ function cropImage($inputs, $savePath, $resizeImage = array()) {
 function getbranding()
 {
     if (Auth::guest()) return [];
-    
+
     $branding = DB::table('brandings')->where('institution_id', '=', Auth::user()->institution_id)->first();
     return $branding;
-}
-
-function getRole()
-{
-    if (Auth::guest()) return '';
-    $roles = DB::table('roles')->where('id', '=', Auth::user()->role_id)->select('name')->lists('name');
-    return (isset($roles[0]) ) ? $roles[0] : '';
-}
-
-function getInstitutionsSelectBox($name = 'institution_id', $id = 'institution_id', $selected = 0, $required = '', $default = 'Select')
-{
-    $parent_id = 0;
-    $sessrole = getRole();
-
-    //$users = User::get();
-    $obj = DB::table('institution');
-    if($parent_id > 0)
-    {
-        $inst_arr = $obj->where("id", $parent_id)->orWhere('parent_id', $parent_id)->lists('name', 'id');
-    }
-    else
-    {
-        if($sessrole != 'administrator')
-            $obj->where('id','<>' ,'1');
-        $inst_arr = $obj->lists('name', 'id');
-    }
-    
-    if($sessrole == 'administrator')
-    {
-        $institutions_select = '<div class="form-group '.$required.'">
-                            <label class="col-md-4 control-label">Institution</label>
-                            <div class="col-md-6">
-                                <select class="form-control" name="'.$name.'" id="'.$id.'">
-                                    <option value="0">--'.$default.'--</option>';
-        foreach($inst_arr as $id=>$val)
-        $institutions_select .= '<option value="'.$id .'" '. (($id == $selected) ? 'selected = "selected"' : '').'>'. $val .'</option>';
-                                        
-        $institutions_select .= '</select></div>
-                        </div>';
-    }
-    else
-    {
-        $selected = ($selected > 0) ? $selected : Auth::user()->institution_id;
-        $institutions_select = '<input type="hidden" name="'.$name.'" id="'.$id.'" value="'.$selected.'" >';
-    }
-    
-    echo $institutions_select;
 }
