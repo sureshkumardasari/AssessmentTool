@@ -1597,22 +1597,23 @@ $path = url()."/resources/";
 
 
             $(document).ready(function() {  
-               $(document).on('click', '#btn_save_and_close', function() {
-                    savePrintOnlineView(true, $(this));
+                $(document).on('click', '#btn_save_and_close', function() {
+                    savePrintOnlineView('0', $(this));
                 });  
-
-                 $('.btn_preview').on('click', function() {
-                    savePrintOnlineView($('#btn_save'), true);
-                });
+                $(document).on('click', '#btn_preview', function() {
+                    savePrintOnlineView('1', $('#btn_save'));
+                });  
+                 
              
             });
 
 
-            var savePrintOnlineView = function(closeIt, btn) {
+            var savePrintOnlineView = function(pdfPreview, btn) {
                 var header = $('.view-area .header').html();
                 var footer = $('.view-area .footer').html();
                 var html = $('.view-area .content').clone();
                 var untouchedHtml = $('.view-area .content').clone();
+                var pdfView = pdfPreview;
                 $.ajax({
                     headers: {"X-CSRF-Token": $('input[name="_token"]').val()},
                     url: '{{$path}}save-print-online-view',
@@ -1623,7 +1624,8 @@ $path = url()."/resources/";
                         header: header,
                         footer: footer,
                         assessment_id: {{$id}},
-                        template_id: $('input[name="tplId"]').val()
+                        template_id: $('input[name="tplId"]').val(),
+                        pdf_preview: pdfView
                     },
                     method: 'POST',
                     async: false,
@@ -1634,11 +1636,18 @@ $path = url()."/resources/";
                        // alert(response);                        
                         $.ajax({
                             method: "POST",
-                            data:{Id: {{$id}}, 'tplId': response},
+                            data:{Id: {{$id}}, 'tplId': response, 'perview': pdfView},
                             url: "{{$path}}save-pdf",
                             success: function(data) {
-                                // alert("create...");
-                                location.href = '{{$path}}assessment';
+                                // alert(data);
+                                if(data=='1'){
+                                   location.href = '{{$path}}assessment';    
+
+                                }else{
+                                    window.open(data,'_blank');
+                                    location.href = '{{$path}}assessment';
+                                }
+                                
                             }
                         });
                         
