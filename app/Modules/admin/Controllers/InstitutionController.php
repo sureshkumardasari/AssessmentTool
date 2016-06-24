@@ -94,7 +94,9 @@ class InstitutionController extends BaseController {
 	public function update($id = 0)
 	{
 		$post = Input::All();
-
+		$messages=[
+			'phoneno.required'=>'The Phone field is required',
+		];
 		$rules = [
 			/*'parent institution_id' => 'required|not_in:0',*/
 			'name' => 'required|min:3|unique:institution',
@@ -103,7 +105,7 @@ class InstitutionController extends BaseController {
 			'state' => 'required',
 			'country_id' => 'required|not_in:0',
 			'pincode' => 'required',
-			'phoneno' => 'required',];
+			'phoneno' => 'required|numeric|max:10',];
 
 		if($post['id'] > 0)
 		{
@@ -111,7 +113,7 @@ class InstitutionController extends BaseController {
 
 		}
 
-		$validator = Validator::make($post, $rules);
+		$validator=Validator::make($post,$rules,$messages);
 
 		if ($validator->fails())
 		{
