@@ -533,7 +533,7 @@ class UserController extends BaseController {
 		}
 
 		// unlink($filePath);
-		return json_encode(array('filename' => $fileName, 'file_path'=>$resized_pic_url));
+		return array('filename' => $fileName, 'file_path'=>$resized_pic_url);
 	}
 
 	/**
