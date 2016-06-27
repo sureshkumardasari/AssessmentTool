@@ -313,10 +313,10 @@ if($post['user_id']!=0) {
 			$uAnswer->question_answer_id = $answer; //var_dump((intval($answer)));
 			//foreach ($post['selected_answer_text'] as $key => $text) {
 			//dd($post['selected_answer_text']);
-				$uAnswer->question_answer_text = $post['selected_answer_text'][$answer];	
+				$uAnswer->question_answer_text = $post['selected_answer_text'][intval($answer)];
 			//}
 			//foreach ($post['is_correct'] as $key => $value) {
-				$uAnswer->is_correct = isset ($post['is_correct'][intval($answer)]) ? $post['is_correct'][$answer]: 'Open';
+				$uAnswer->is_correct = isset ($post['is_correct'][intval($answer)]) ? $post['is_correct'][intval($answer)]: 'Open';
 			//}
 				//$uAnswer->question_answer_text = $post['selected_answer_text'];
 			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );

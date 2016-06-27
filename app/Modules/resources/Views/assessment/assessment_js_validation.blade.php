@@ -53,6 +53,8 @@ $path = url()."/resources/";
 					type:"post",
 					data:data,
 					success:function(response){
+						$('#example').dataTable().fnDestroy();
+						$('#selected-questions').dataTable().fnDestroy();
 						$('#questions-list').empty();
 						var tr;
 						for (var i = 0; i < response.length; i++) {
@@ -62,6 +64,9 @@ $path = url()."/resources/";
 							tr.append("<td>" + response[i].question_title + "</td>");
 							$('#questions-list').append(tr);
 						}
+						$('#example').dataTable();
+
+						$('#selected-questions').dataTable();
 					}
 				}
 		);

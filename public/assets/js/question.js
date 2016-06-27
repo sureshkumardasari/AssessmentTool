@@ -1342,8 +1342,8 @@ function addOrRemoveInGrid(elem, type) {
     removePassage=[];
     if (type == 'add') {
         //alert("ljkjnh");
-        //$('#example').dataTable().fnDestroy();
-        //$('#selected-questions').dataTable().fnDestroy();
+        $('#example').dataTable().fnDestroy();
+        $('#selected-questions').dataTable().fnDestroy();
         $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
             $(this).removeClass('check-question').addClass('check-selected-question');
             var closestUl = $(this).closest('tr');
@@ -1354,25 +1354,21 @@ function addOrRemoveInGrid(elem, type) {
                   qbankIds.push(closestUl.find('td').eq(1).text())
                 }
             }
-           /* var myControls = assessment_form.elements['QuestionIds[]'];
-            alert(myControls.length);
-            for (var i = 0; i < myControls.length; i++) {
-                myControls[i].value=$(this).val()
-                    //myControls[i].value = '';
-                //}
-            }*/
+
 //            QuestionIds.push($(this).val())
             $(this).attr('name',checkboxName+'[]');
             $(this).attr('checked', false)
             var selected = closestUl.clone();
             $(this).closest('tr').remove();
+            var value=$(this).val();
+            selected.append("<input type='hidden' value='"+value+"' name='QuestionIds[]' id='QuestionIds'>");
+            //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
             $('#selected-questions'+' .child-grid').append(selected);
-            $('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val()).appendTo('#selected-questions'+' .child-grid');
         });
         
-       // $('#example').dataTable();
+        $('#example').dataTable();
         
-       // $('#selected-questions').dataTable();
+        $('#selected-questions').dataTable();
 
         $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
              $(this).removeClass('check-passage').addClass('check-selected-passage');
@@ -1395,13 +1391,14 @@ function addOrRemoveInGrid(elem, type) {
 
     }
     else {
-      //  $('#example').dataTable().fnDestroy();
-        //$('#selected-questions').dataTable().fnDestroy();
+       // alert("hkjhjh");
+        $('#example').dataTable().fnDestroy();
+        $('#selected-questions').dataTable().fnDestroy();
         $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
             var removeIds=[];
             var myForm = document.forms.assessment_form;
             var myControls = myForm.elements['QuestionIds[]'];
-            alert(myControls.length);
+            //alert(myControls.length);
             for (var i = 0; i < myControls.length; i++) {
                 if(myControls[i].value==$(this).val()){
                     myControls[i].value = '';
@@ -1454,9 +1451,9 @@ function addOrRemoveInGrid(elem, type) {
             });
             //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
         });
-       // $('#example').dataTable();
+        $('#example').dataTable();
         
-       // $('#selected-questions').dataTable();
+        $('#selected-questions').dataTable();
 
     }
 }
