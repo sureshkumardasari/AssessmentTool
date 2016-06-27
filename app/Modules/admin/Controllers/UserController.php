@@ -453,7 +453,7 @@ class UserController extends BaseController {
 				});
 			})->store('xls', public_path('data/tmp'), true);
 
-			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '/data/tmp/errorlog_' . $destFileName);
+			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
 
 
 			//return json_encode($errorArray);
