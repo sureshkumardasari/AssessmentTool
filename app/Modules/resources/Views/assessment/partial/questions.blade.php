@@ -7,11 +7,11 @@
   <div id="questions" class="tab-pane fade in active">
     <h3>Questions</h3>
     <div class="panel panel-default">
-					<div class="panel-heading searchfilter pointer">Advanced Filters
-						<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
+					<div class="panel-heading searchfilter pointer">Filters
+						{{--<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>--}}
 					</div>
-					<div class="panel-body searchfilter-body hide">	
-					<div class="form-group col-md-6">
+					<div class="panel-body searchfilter-body">
+					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label" >Institution</label>
 						<div class="col-md-10">
 							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
@@ -22,7 +22,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Category</label>
 						<div class="col-md-10">
 							<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
@@ -30,7 +30,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Subject</label>
 						<div class="col-md-10">
 							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
@@ -38,7 +38,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Lessons</label>
 						<div class="col-md-10">
 							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
@@ -46,7 +46,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Question Type</label>
 						<div class="col-md-10">
 							<select class="form-control" name="question_type" id="question_type">
@@ -217,12 +217,12 @@
         "paging":         true
     } );
     
-    $('.assess').DataTable( {
-
-        "scrollY":        "850px",
-        "scrollCollapse": true,
-        "paging":         true
-    } );
+//    $('.assess').DataTable( {
+//
+//        "scrollY":        "850px",
+//        "scrollCollapse": true,
+//        "paging":         true
+//    } );
      $('#selected-passage').DataTable( {
 
         "scrollY":        "850px",
