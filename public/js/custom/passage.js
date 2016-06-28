@@ -1,7 +1,9 @@
 $(document).ready(function () {
 
 	tinymce.init({
-	    selector: '#passage_lines',
+	  // editor_selector: 'lines',
+	  selector:'textarea#passage_lines',
+	    //name:'passage_lines',
 	    width : 371,
 	    height : 200,
 	    auto_focus:false,
@@ -17,7 +19,7 @@ $(document).ready(function () {
 	    convert_urls : true,
 	    setup : function(ed) {
 	        ed.on('init', function(args) {
-
+	        		$(tinymce.get('passage_lines').getBody()).html('');
 	            // never delete this line its been added for cross screen resolution support
 	           // $('#passageTextArea_ifr').contents().find('body').css({'width': '816px'});
 	        });
@@ -25,12 +27,14 @@ $(document).ready(function () {
 	});
 
  extendJqueryForDataSelection();    
-
+//alert(tinyMCE.get("passage_text"));
     if (tinyMCE.get("passage_text") != null) {
         tinyMCE.get("passage_text").remove();                
     }
     tinymce.init({
-        selector: '#passage_text',
+        //editor_selector: 'text',
+        selector:'textarea#passage_text',
+       // name: 'passage_text',
          width : isMacintosh() ? 560 :610,
         height : 200,
         auto_focus:false,
@@ -44,7 +48,8 @@ $(document).ready(function () {
         relative_urls : false,
         remove_script_host : false,
         convert_urls : true,
-        setup : function(ed) {            
+        setup : function(ed) { 
+       // $(tinymce.get('passage_text').getBody()).html('');           
         }
     });
 

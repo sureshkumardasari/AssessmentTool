@@ -91,6 +91,7 @@ class PassageController extends BaseController {
 		$sLesson=0;
 		// $passages[0]['category_id ']=[];
 		$passages = Passage::where('id',$id)->get()->toArray();
+		//dd($passages);
 		$passage = new passage();
 		//dd($passages);
 		//dd($inst_arr);

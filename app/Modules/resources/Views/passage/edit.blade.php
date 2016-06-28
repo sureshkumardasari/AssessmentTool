@@ -3,7 +3,7 @@
 @parent
 {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
 {!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}    
-{!! HTML::script(asset('js/custom/passage.js')) !!}
+
 @stop
 <style>
  .fancybox-overlay{z-index: 99999 !important;}
@@ -18,6 +18,7 @@
    <div class="panel panel-default">
    <?php 
     $operation = ($passage->id) ? "Update" : "Create";
+
    ?>
     <div class="panel-heading">{{$operation}} Passage</div>
     <div class="panel-body">
@@ -35,7 +36,6 @@
      <form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/passageupdate') }}">
       <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="id" value="{{ $passage->id }}">
-
 
       <div class="form-group required">
        <label class="col-md-2 control-label">Institution</label>
@@ -93,13 +93,13 @@
       <div class="form-group required">
        <label class="col-md-2 control-label">Passage Text</label>
        <div class="col-md-6">
-        <textarea class="form-control" id="passage_text" name="passage_text">{{ $passage->passage_text }}</textarea>
+        <textarea class="form-control" id="passage_text"  class="mceSimple"  name="passage_text">{{ $passage->passage_text }}</textarea>
        </div>
       </div>
        <div class="form-group required">
        <label class="col-md-2 control-label" >Passage Lines</label>
        <div class="col-md-6">
-        <textarea class="form-control" id="passage_lines" name="passage_lines">{{ $passage->passage_lines }}</textarea>
+        <textarea class="form-control" id="passage_lines" class="mceAdvanced" name="passage_lines">{{ $passage->passage_lines }}</textarea>
        </div>
       </div>
       <div class="form-group required">
