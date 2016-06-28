@@ -147,12 +147,12 @@ class AssessmentAssignmentController extends BaseController {
 
     	$filesArr = $this->getFiles($id);
         $filesCount = $this->getFilesCount($id);
-        //dd($filesArr);
+        // dd($filesArr);
 
     	$bulletType = '';
     	// get question based on subsection id
     	$qbank = new AssessmentQuestion();
-    	$questions = $qbank->getQuestionsByAssessment($aAId, $aAId);        
+    	$questions = $qbank->getQuestionsByAssessment($aId, $aAId);        
 
         $retaking = false;
         View::share('retaking', $retaking);
