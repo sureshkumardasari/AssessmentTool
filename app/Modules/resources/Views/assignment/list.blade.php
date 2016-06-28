@@ -25,9 +25,9 @@
                                 <td>{{$row->assessment_name}}</td>
 								<td>{{$row->startdatetime}}</td>
 									<td>
-				                	<a href="{{ url('/resources/assignmentview/'.$id) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>	
-				                	<a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="{{ url('/resources/assignmentdel/'.$id) }}" class="btn btn-default btn-sm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
+				                	<a href="{{ url('/resources/assignmentview/'.$row->id) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>	
+				                	<a href="{{ url('/resources/assignmentedit/'.$row->id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
+									<a href="{{ url('/resources/assignmentdel/'.$row->id) }}" class="btn btn-default btn-sm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
 								</td>
 				            </tr>
 							@endforeach

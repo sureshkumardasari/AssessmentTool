@@ -60,7 +60,7 @@ class AssignmentController extends BaseController {
 	{
 		$assignments = DB::table('assignment')
 			->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
-			->select('assignment.name','assessment.name as assessment_name','assignment.startdatetime')->get();
+			->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime')->get();
 		//dd($assignments);
         return view('resources::assignment.list',compact('assignments'));
 	}
@@ -151,9 +151,8 @@ class AssignmentController extends BaseController {
 	public function assignmentupdate($id = 0)
 	{
 		$params = Input::All();
-
-		$rules = [
-			'name' => 'required|min:3|unique:assignment',
+   		$rules = [
+			'name' => 'required|min:3',
 			'assignment_text' =>'required',
 			'startdatetime' =>'required',
 			//'enddatetime' => 'required',
@@ -175,7 +174,10 @@ class AssignmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 		else {
-
+ 			$num = Assignment::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id',[$params['id']])->count();
+			if ($num > 0) {
+				return Redirect::back()->withInput()->withErrors("Assignment already entered");
+			} 
 			$this->assignment->updateassignment($params);
 			return redirect('/resources/assignment');
 		}		
