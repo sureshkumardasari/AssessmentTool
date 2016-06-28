@@ -264,67 +264,133 @@ if (count($errors) > 0){?>
 <?php }?>
 
 <script>
-	function change_institution(){
+	function change_institution(type){
+		if(type=="passage"){
+			var institution_id=$('#passage_institution_id').val();
+		}
+		else if(type=="question"){
+			var institution_id=$('#institution_id').val();
+
+		}
+
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'{{$path}}categoryList/'+$('#institution_id').val(),
+					url:'{{$path}}categoryList/'+institution_id,
 					type:'post',
 					success:function(response){
 						var a=response.length;
-						$('#category_id').empty();
-						var opt=new Option('--Select Category--','');
-						//opt.addClass('selected','disabled','hidden');
-						$('#category_id').append(opt);
-						for(i=0;i<a;i++){
-							var opt=new Option(response[i].name,response[i].id);
+						if(type=="passage"){
+							$('#passage_category_id').empty();
+							$('#passage_subject_id').empty();
+							$('#passage_lessons_id').empty();
+							var opt = new Option('--Select Category--', '');
+							//opt.addClass('selected','disabled','hidden');
+							$('#passage_category_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#passage_category_id').append(opt);
+							}
+						}
+					else if(type=="question") {
+							$('#category_id').empty();
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
+							var opt = new Option('--Select Category--', '');
+							//opt.addClass('selected','disabled','hidden');
 							$('#category_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#category_id').append(opt);
+							}
 						}
 					}
 				}
 		)
 	}
 
-	function change_category(){
+	function change_category(type){
+		if(type=="passage"){
+			var category_id=$('#passage_category_id').val();
+		}
+		else if(type=="question"){
+			var category_id=$('#category_id').val();
+
+		}
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'{{$path}}subjectList/'+$('#category_id').val(),
+					url:'{{$path}}subjectList/'+category_id,
 					type:'post',
-					success:function(response){
-						var a=response.length;
-						$('#subject_id').empty();
-						var opt=new Option('--Select Subject--','');
-						$('#subject_id').append(opt);
-						for(i=0;i<a;i++){
-							var opt=new Option(response[i].name,response[i].id);
+					success:function(response) {
+						var a = response.length;
+						if (type == "passage") {
+							$('#passage_subject_id').empty();
+							$('#passage_lessons_id').empty();
+							var opt = new Option('--Select Subject--', '');
+							$('#passage_subject_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#passage_subject_id').append(opt);
+							}
+						}
+						else if (type == "question") {
+
+
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
+							var opt = new Option('--Select Subject--', '');
 							$('#subject_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#subject_id').append(opt);
+							}
 						}
 					}
 				}
 		)
 	}
 
-	function change_lessons(){
+	function change_lessons(type){
+		if(type=="passage"){
+			var lesson_id=$('#passage_subject_id').val();
+		}
+		else if(type=="question"){
+			var lesson_id=$('#subject_id').val();
+		}
+
+	//}
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
 				{
 
 					headers: {"X-CSRF-Token": csrf},
-					url:'{{$path}}lessonsList/'+$('#subject_id').val(),
+					url:'{{$path}}lessonsList/'+lesson_id,
 					type:'post',
 					success:function(response){
 						var a=response.length;
-						$('#lessons_id').empty();
-						var opt=new Option('--Select Lesson--','');
-						$('#lessons_id').append(opt);
-						for(i=0;i<a;i++){
-							var opt=new Option(response[i].name,response[i].id);
+						if(type=="passage"){
+							$('#passage_lessons_id').empty();
+							var opt=new Option('--Select Lesson--','');
+							$('#passage_lessons_id').append(opt);
+							for(i=0;i<a;i++){
+								var opt=new Option(response[i].name,response[i].id);
+								$('#passage_lessons_id').append(opt);
+							}
+						}
+						else if(type=="question"){
+							$('#lessons_id').empty();
+							$('#question_type').empty();
+							var opt=new Option('--Select Lesson--','');
 							$('#lessons_id').append(opt);
+							for(i=0;i<a;i++){
+								var opt=new Option(response[i].name,response[i].id);
+								$('#lessons_id').append(opt);
+							}
 						}
 					}
 				}

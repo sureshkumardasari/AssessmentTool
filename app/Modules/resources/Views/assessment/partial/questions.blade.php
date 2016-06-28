@@ -14,7 +14,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label" >Institution</label>
 						<div class="col-md-10">
-							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')">
 								<option value="0">--Select Institution--</option>
 								@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -25,7 +25,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Category</label>
 						<div class="col-md-10">
-							<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+							<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 								<option value="0">--Select Category--</option>
 							</select>
 						</div>
@@ -33,7 +33,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Subject</label>
 						<div class="col-md-10">
-							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
+							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons('question')">
 								<option value="0">--Select Subject--</option>
 							</select>
 						</div>
@@ -49,7 +49,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Question Type</label>
 						<div class="col-md-10">
-							<select class="form-control" name="question_type" id="question_type">
+							<select class="form-control" name="question_type" id="question_type" onchange="filter()">
 								<option value="0">--Select Question Type--</option>
 							</select>
 						</div>
@@ -131,6 +131,65 @@
   </div>
   <div id="passages" class="tab-pane fade">
     <h3>Passages</h3>
+	  <div class="panel panel-default">
+		  <div class="panel-heading searchfilter pointer">Filters
+			  {{--<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>--}}
+		  </div>
+		  <div class="panel-body searchfilter-body">
+			  <div class="form-group col-md-6 required">
+				  <label class="col-md-2 control-label" >Institution</label>
+				  <div class="col-md-10">
+					  <select class="form-control" name="institution_id" id="passage_institution_id" onchange="change_institution('passage')">
+						  <option value="0">--Select Institution--</option>
+						  @foreach($inst_arr as $id=>$val)
+							  <option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						  @endforeach
+					  </select>
+				  </div>
+			  </div>
+			  <div class="form-group col-md-6 required">
+				  <label class="col-md-2 control-label">Category</label>
+				  <div class="col-md-10">
+					  <select class="form-control" name="category_id" id="passage_category_id" onchange="change_category('passage')">
+						  <option value="0">--Select Category--</option>
+					  </select>
+				  </div>
+			  </div>
+			  <div class="form-group col-md-6 required">
+				  <label class="col-md-2 control-label">Subject</label>
+				  <div class="col-md-10">
+					  <select class="form-control" name="subject_id" id="passage_subject_id" onchange="change_lessons('passage')">
+						  <option value="0">--Select Subject--</option>
+					  </select>
+				  </div>
+			  </div>
+			  <div class="form-group col-md-6 required">
+				  <label class="col-md-2 control-label">Lessons</label>
+				  <div class="col-md-10">
+					  <select class="form-control" name="lessons_id" id="passage_lessons_id" onchange="change_question_type('passage')">
+						  <option value="0">--Select Lessons--</option>
+					  </select>
+				  </div>
+			  </div>
+			  {{--<div class="form-group col-md-6 required">--}}
+				  {{--<label class="col-md-2 control-label">Question Type</label>--}}
+				  {{--<div class="col-md-10">--}}
+					  {{--<select class="form-control" name="question_type" id="question_type" onchange="filter()">--}}
+						  {{--<option value="0">--Select Question Type--</option>--}}
+					  {{--</select>--}}
+				  {{--</div>--}}
+			  {{--</div>--}}
+			  <div class="form-group col-md-10">
+			  </div>
+			  <div class="form-group col-md-2">
+				  <div class="col-md-6">
+					  <div class="move-arrow-box">
+						  <a class="btn btn-primary" onclick="filter();" href="javascript:;">Apply Filter</a>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
     	<table id="example" class="table table-striped table-bordered assess parent-grid" cellspacing="0" width="100%">
 		    <thead>
 		        <tr>
