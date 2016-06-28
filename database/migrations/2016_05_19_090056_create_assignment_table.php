@@ -15,7 +15,7 @@ class CreateAssignmentTable extends Migration {
 		Schema::create('assignment', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name', 250)->unique();
+			$table->string('name', 250);
 			$table->text('description');
 			$table->integer('assessment_id')->nullable();
 			$table->integer('institution_id')->nullable();
