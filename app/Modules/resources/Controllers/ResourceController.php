@@ -114,34 +114,33 @@ class ResourceController extends BaseController {
 
 	public function subjectupdate($id = 0)
 	{
+
 		$post = Input::All();
 
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
-			'name' => 'required|min:3|'];
+			'name' => 'required|min:3'];
 
 		if ($post['id'] > 0)
 		{
-			$rules['name'] = 'required|min:3|' . $post['id'];
+			$rules['name'] = 'required|min:3|unique:subject,name,' . $post['id'];
 		}
 		$validator = Validator::make($post, $rules);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
-		} else
+		}
+		else
+
 		{
-
-		$params = Input::All();
-	     $number=Subject::where('institution_id',$params['institution_id'])
-		 ->where('category_id',$params['category_id'])->where('name',$params['name'])->count();
-        if($number>0){
-	        return Redirect::back()->withInput()->withErrors("subject already entered");
-          }
-			//var_dump($params);
-			$this->subject->updateSubject($params);
-
+			$params = Input::All();
+			$num = Subject::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id',[$params['id']])->count();	
+			if ($num > 0) {
+				return Redirect::back()->withInput()->withErrors("Subject already entered");
+			}
+				$this->subject->updateSubject($params);
 			return redirect('/resources/subject');
 		}
 	}
@@ -250,9 +249,10 @@ class ResourceController extends BaseController {
 
 		{
 			$params = Input::All();
-			$num = Lesson::where('institution_id', $params['institution_id'])
-				->where('category_id', $params['category_id'])
-				->where('subject_id', $params['subject_id'])->where('name', $params['name'])->count();
+			//$num = Lesson::where('institution_id', $params['institution_id'])
+				/*->where('category_id', $params['category_id'])
+				->where('subject_id', $params['subject_id'])->where('name', $params['name'])->count();*/
+			$num = Lesson::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id',[$params['id']])->count();	
 			if ($num > 0) {
 				return Redirect::back()->withInput()->withErrors("lesson already entered");
 			}
@@ -335,7 +335,7 @@ class ResourceController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		} else {
 			$params = Input::All();
-			$num = category::where('institution_id', $params['institution_id'])->where('name', $params['name'])->count();
+			$num = Category::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id',[$params['id']])->count();
 			if ($num > 0) {
 				return Redirect::back()->withInput()->withErrors("category already entered");
 			}
