@@ -41,6 +41,7 @@ class DashboardController extends BaseController
      */
     public function home(Request $request)
     {  
+        return redirect('home');
        
         $user = Auth::User();
 
