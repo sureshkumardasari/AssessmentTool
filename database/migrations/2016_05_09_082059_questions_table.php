@@ -16,7 +16,7 @@ class QuestionsTable extends Migration {
 		{
 			//
 			$table->increments('id');
-			$table->string('title', 250)->unique();
+			$table->string('title', 250);
 			$table->text('qst_text');
 			$table->integer('question_type_id')->nullable();
 			$table->integer('subject_id')->nullable();
