@@ -1,5 +1,7 @@
 <?php namespace App\Modules\Admin\Controllers;
 
+use App\Modules\Resources\Models\Category;
+use App\Modules\Resources\Models\Subject;
 use Illuminate\Support\Facades\Auth;
 
 use Zizaco\Entrust\EntrustFacade;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
+use Session;
+
 
 class InstitutionController extends BaseController {
 
@@ -138,12 +142,31 @@ class InstitutionController extends BaseController {
 		return redirect('/user/institution');
 	}
 
-	public function delete($id = 0)
+	public function delete($id )
 	{
-		if($id > 0)
-		{
-			$this->institution->deleteInstitution($id);
+		$users = User::where('institution_id', $id)->count();
+		$cat=Category::where('institution_id',$id)->count();
+		$sub=Subject::where('institution_id','category_id',$id)->count();
+		if ($users == null && $cat == null && $sub == null) {
+			Institution::find($id)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/user/institution');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this institution.');
+			return Redirect::back();
+
 		}
-		return redirect('/user/institution');
 	}
 }
+/*if ($users == 0 && $tasks == 0 && $module == 0) {
+	Project::find($id)->delete();
+	\Session::flash('flash_message', 'Deleted.');
+	return redirect('project_view');
+
+} else {
+	\Session::flash('flash_message_failed', 'Can not Delete this Project.');
+	return Redirect::back();
+
+}*/

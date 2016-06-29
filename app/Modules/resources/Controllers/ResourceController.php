@@ -1,7 +1,9 @@
 <?php namespace App\Modules\Resources\Controllers;
 
+use App\Modules\Resources\Models\Passage;
 use Illuminate\Support\Facades\Auth;
 
+//use PhpSpec\Console\Prompter\Question;
 use Zizaco\Entrust\EntrustFacade;
 
 use Zizaco\Entrust\Entrust;
@@ -16,6 +18,8 @@ use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Subject;
 use App\Modules\Resources\Models\Lesson;
 use App\Modules\Resources\Models\Category;
+use App\Modules\Resources\Models\Question;
+use App\Modules\Resources\Models\Assessment;
 
 class ResourceController extends BaseController {
 
@@ -154,13 +158,24 @@ class ResourceController extends BaseController {
 		return redirect('/resources/subject');
 	}
 
-	public function subjectdelete($id = 0)
+	public function subjectdelete($id)
 	{
-		if($id > 0)
-		{
-			$this->subject->deleteSubject($id);
+
+		$les=Lesson::where('subject_id',$id)->count();
+		$ass=Assessment::where('subject_id',$id)->count();
+		//dd($les);
+		if ($les == null && $ass == null ) {
+			Subject::find($id)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/resources/subject');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this subject.');
+			return Redirect::back();
+
 		}
-		return redirect('/resources/subject');
+
 	}
 
 	public function lesson($parent_id = 0)
@@ -271,13 +286,23 @@ class ResourceController extends BaseController {
 		return redirect('/resources/lesson');
 	}
 
-	public function lessondelete($id = 0)
+	public function lessondelete($id)
 	{
-		if($id > 0)
-		{
-			$this->lesson->deletelesson($id);
+		$qus=Question::where('lesson_id',$id)->count();
+		$pas=Passage::where('lesson_id',$id)->count();
+		//dd($qus);
+		if ($qus == null && $pas == null ) {
+			Lesson::find($id)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/resources/lesson');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this lesson.');
+			return Redirect::back();
+
 		}
-		return redirect('/resources/lesson');
+
 	}
 
 	public function category($parent_id = 0)
@@ -355,13 +380,20 @@ class ResourceController extends BaseController {
 		return redirect('/resources/category');
 	}
 
-	public function categorydelete($id = 0)
+	public function categorydelete($id)
 	{
-		if($id > 0)
-		{
-			$this->category->deletecategory($id);
+		$sub=Subject::where('category_id',$id)->count();
+		if ($sub == null) {
+			Category::find($id)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/resources/category');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this category.');
+			return Redirect::back();
+
 		}
-		return redirect('/resources/category');
 	}
 
 	public function lessonsearch($institution_id = 0, $category_id = 0, $subject_id = 0)
