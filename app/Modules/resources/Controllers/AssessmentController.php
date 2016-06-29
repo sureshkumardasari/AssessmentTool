@@ -100,13 +100,18 @@ class AssessmentController extends BaseController {
         return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category', 'templates'));
 	}
 
-	public function assessmentdel($aid=0)
+	public function assessmentdel($aid)
 	{
-		if($aid > 0)
-		{
-			$this->assessment->deleteAssessment($aid);
+		$ass = Assignment::where('assessment_id', $aid)->count();
+		if ($ass == null) {
+			Assessment::find($aid)->delete();
+			\Session::flash('flash_message', 'delete!');
+			return redirect('/resources/assessment');
 		}
-		return redirect('/resources/assessment');
+		else {
+			\Session::flash('flash_message_failed', 'Can not Delete this Assessment.');
+			return Redirect::back();
+		}
 	}
 
 	public function assessmentcreate(){
