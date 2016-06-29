@@ -40,8 +40,8 @@ class DashboardController extends BaseController
      * @return \Illuminate\View\View
      */
     public function home(Request $request)
-    {
-        return redirect('home');
+    {  
+       
         $user = Auth::User();
 
        // dd($user->role_id);
