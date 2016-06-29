@@ -24,6 +24,7 @@ use App\Modules\Admin\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Model\S3;
 use App\Modules\Admin\Requests\imageRequest;
+use App\Modules\Admin\Models\RoleUser;
 class UserController extends BaseController {
 
 	/*
@@ -305,13 +306,26 @@ class UserController extends BaseController {
 		return redirect('/user/role');
 	}
 
-	public function roledelete($id = 0)
+	public function roledelete($id)
 	{
-		if($id > 0)
+		/*if($id > 0)
 		{
 			$this->user->deleteRole($id);
+		}*/
+		$users = User::where('role_id', $id)->count();
+		//dd($users);
+		if ($users == null ) {
+			Role::find($id)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/user/role');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this role.');
+			return Redirect::back();
+
 		}
-		return redirect('/user/role');
+	//	return redirect('/user/role');
 	}
 
 	public function userBulkUpload()

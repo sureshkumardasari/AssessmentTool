@@ -7,7 +7,15 @@
 				<div class="panel-heading">Roles
 					<a href="{{ url('/user/roleadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
-
+				<div>
+					@if(Session::has('flash_message'))
+						<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
+					@endif
+				</div>
+				<div>
+					@if(Session::has('flash_message_failed'))
+						<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
+					@endif
 				<div class="panel-body">
 					<table id="rolestable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
@@ -27,7 +35,9 @@
 				            </tr>
 				            @endforeach				            
 				        </tbody>
-				    </table>
+					</table>
+				</div>
+
 				</div>
 			</div>
 		</div>

@@ -21,13 +21,13 @@ class Question extends Model {
 	protected $table = 'questions';
 	protected $primaryKey = 'id';
 
-	public function getQuestions($institution_id = 0, $subject_id = 0, $subject_id = 0)
+	public function getQuestions($institution_id = 0, $subject_id = 0, $category_id = 0 ,$lesson_id =0)
 	{
 		//$users = User::get();
 		$obj = new Question();
 		if($institution_id > 0 || $subject_id > 0 || $subject_id > 0)
 		{
-			$questions = $obj->where("subject_id", $subject_id)->orWhere('institution_id', $institution_id)->orWhere('category_id', $category_id)->lists('title', 'id');
+			$questions = $obj->where("subject_id", $subject_id)->orWhere('institution_id', $institution_id)->orWhere('category_id', $category_id)->orwhere('lesson_id',$lesson_id)->lists('title', 'id');
 		}
 		else
 		{
