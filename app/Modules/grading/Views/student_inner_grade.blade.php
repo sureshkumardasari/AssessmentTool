@@ -11,7 +11,7 @@
         <?php
        // if($question_type=="Multiple Choice - Multi Answer"){
 
-
+//dd($first_student_answers);
             foreach($first_student_answers as $qid => $ans){
             ?>
              Question_selected_answers["{{$qid}}"]=[];
@@ -199,7 +199,9 @@
             </tbody>
         </table>
     </div>
-    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="" data-target="#myModal" onclick="save_student_answers()">Save</button><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="" data-target="#myModal">Save and Grade</button>
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="" data-target="#myModal" onclick="save_student_answers()">Save and Grade</button>                    
+    <a href="{{ url('/grading/list-student/'.$assessment_id.'-'.$assignment_id) }}" class="btn btn-info btn-sm center"> Cancel</a>
+
     <div class="clr"></div>
                 </div>
             </div>
@@ -236,7 +238,7 @@ function change_answer(question_id){
         }
     }
     else if(question_type=="Multiple Choice - Multi Answer"){
-        alert(JSON.stringify(Question_selected_answers));
+        //alert(JSON.stringify(Question_selected_answers));
         var myControls=$('input[type="checkbox"][name=ans_val'+question_id+']');
         Question_selected_answers[question_id]=[];
        // alert(JSON.stringify(myControls));
@@ -262,14 +264,14 @@ function change_answer(question_id){
 //            }
 
         });
-        alert(JSON.stringify(Question_selected_answers));
+        //alert(JSON.stringify(Question_selected_answers));
 
     }
 
 }
 
 function save_student_answers(){
-    alert(JSON.stringify(Question_selected_answers));
+    //alert(JSON.stringify(Question_selected_answers));
     var user_id=$('#drpAssignmentStudent').val();
     var next_student=$("#drpAssignmentStudent option:selected").next().val();
 //    if(question_type=="Multiple Choice - Single Answer"){
@@ -289,7 +291,7 @@ function save_student_answers(){
         type:"post",
         data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_answers,'next_student':next_student},
         success:function(response){
-            alert(JSON.stringify(selected_student_answers));
+            //alert(JSON.stringify(selected_student_answers));
             //alert("responseeeeeeeeee");
             //alert(JSON.stringify(response));
             if(response=="Completed") {
@@ -393,7 +395,7 @@ function save_student_answers(){
                     });
 
                 });
-                alert(JSON.stringify(selected_student_answers));
+                //alert(JSON.stringify(selected_student_answers));
                 user_answers();
             }
         });

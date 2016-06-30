@@ -503,7 +503,7 @@ return "No data given";
 
 		 $ans= QuestionUserAnswer::where('user_id',$user_id)->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
        // dd($ans)
-        $b=null;
+        $b=Array();
         foreach($ans as $a){
             $b[$a['question_id']]=Array();
         }
