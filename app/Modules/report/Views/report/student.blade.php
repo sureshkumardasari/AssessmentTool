@@ -36,10 +36,6 @@
                     <div id="report">
 
                     </div>
-
-                        <a href="{{ URL::to('/report/download') }}"><button class="btn btn-info">Download</button></a>
-                    {{--@endif
-                    <a href="/download" class="btn btn-large pull-right"><i class="icon-download-alt"> </i>Download</a>--}}
                 </div>
             </div>
         </div>
