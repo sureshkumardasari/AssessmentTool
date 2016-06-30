@@ -190,7 +190,9 @@ class UserController extends BaseController {
 			'address1' =>'required',
 			'city' =>'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
-			'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
+			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
+			'phoneno'=>array('required','numeric','regex: /^\d{10}$/'),
+			'gender'=>'required',
 			'state' =>'required',
 			'country_id' =>'required'];
 
