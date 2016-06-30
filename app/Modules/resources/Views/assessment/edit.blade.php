@@ -105,7 +105,6 @@
 			</div>
 		</div>
 	</div>
-	@include('resources::assessment.assessment_js_validation')
 
 	{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
@@ -117,5 +116,16 @@ $( document ).ready(function() {
         $('.searchfilter-body').toggleClass('hide show');
     });
 });    
+tinymce.init({
+		selector: '.textarea',
+		width : 450,
+		height : 135,
+		auto_focus:false,
+		statusbar : false,
+		menubar : false,
+		paste_as_text: true,
+		toolbar: 'bold,italic,underline',
+	});
 </script>
+@include('resources::assessment.assessment_js_validation')
 @endsection
