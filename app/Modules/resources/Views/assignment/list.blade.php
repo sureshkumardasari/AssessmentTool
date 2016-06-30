@@ -27,7 +27,7 @@
 									<td>
 				                	<a href="{{ url('/resources/assignmentview/'.$row->id) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>	
 				                	<a href="{{ url('/resources/assignmentedit/'.$row->id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="{{ url('/resources/assignmentdel/'.$row->id) }}" class="btn btn-default btn-sm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
+									<a href="javascript:;" data-ref="{{ url('/resources/assignmentdel/'.$row->id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
 								</td>
 				            </tr>
 							@endforeach
@@ -38,4 +38,5 @@
 		</div>
 	</div>
 </div>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 @endsection

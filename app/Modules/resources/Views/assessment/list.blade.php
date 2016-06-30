@@ -91,7 +91,7 @@
 				                	
 				                	<a href="{{ url('/resources/template/'.$name['id'].'/'.$tplId) }}" class="btn btn-default btn-sm" title="Template" ><span class="glyphicon glyphicon-text-size" aria-hidden="true">T</span></a> 
 
-									<a href="{{ url('/resources/assessmentdel/'.$name['id']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+									<a href="javascript:;" data-ref="{{ url('/resources/assessmentdel/'.$name['id']) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
 				            @endforeach
@@ -102,6 +102,7 @@
 		</div>
 	</div>
 </div>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <?php
 if (count($errors) > 0){?>
 <script>
