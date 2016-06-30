@@ -125,8 +125,7 @@ $path = url()."/resources/";
 
 	var url4='{{$path}}get_assessment_remove_old_pass';
 	var data4={'passage':remove_passage_ids};
-	console.log(remove_passage_ids);
-	function selected_remove_old_pass_ajax(url4,data4,csrf){
+ 	function selected_remove_old_pass_ajax(url4,data4,csrf){
 		$.ajax(
 				{
 					url:url4,
@@ -266,7 +265,7 @@ if (count($errors) > 0){?>
 <script>
 	function change_institution(type){
 		if(type=="passage"){
-			var institution_id=$('#passage_institution_id').val();
+ 			var institution_id=$('#passage_institution_id').val();
 		}
 		else if(type=="question"){
 			var institution_id=$('#institution_id').val();
@@ -417,5 +416,54 @@ if (count($errors) > 0){?>
 					}
 				}
 		)
+	}
+	function filter_passage() {
+		// question_Ids=[];
+ 		passage_Ids=[];
+		var csrf=$('Input#csrf_token').val();
+		// var question_id=document.getElementsByName('QuestionIds[]');
+		// for (var i = 0; i < question_id.length; i++) {
+		// 	question_Ids.push(question_id[i].value);
+		// }
+		var passage_id=document.getElementsByName('passageIds[]');
+		for (var i = 0; i < passage_id.length; i++) {
+			passage_Ids.push(passage_id[i].value);
+		}
+  		var passage_institution_id=$('#passage_institution_id').val();
+		var passage_category_id=$('#passage_category_id').val();
+		var passage_subject_id=$('#passage_subject_id').val();
+		var passage_lessons_id=$('#passage_lessons_id').val();
+		if(subject_id=='')subject_id=0;
+		if(institution_id=='')institution_id=0;
+		if(category_id=='')category_id=0;
+		if(lessons_id=='')lessons_id=0;
+  	 		var data={'institution':passage_institution_id,'category':passage_category_id,'subject':passage_subject_id,'lessons':passage_lessons_id,'passageIds':passage_Ids};
+		var url='{{$path}}passage_filter_data_assessment';
+	 	$.ajax(
+				{
+					url:url,
+					headers: {"X-CSRF-Token": csrf},
+					type:"post",
+					data:data,
+					success:function(response){
+						$('#example').dataTable().fnDestroy();
+						$('#selected-questions').dataTable().fnDestroy();
+						$('#passages-list').empty();
+						var tr;
+						for (var i = 0; i < response.length; i++) {
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' id='passages-list' value='"+response[i].pass_id+"' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
+							tr.append("<td>" + response[i].passage_title + "</td>");
+							$('#passages-list').append(tr);
+						}
+						$('#example').dataTable();
+
+						$('#selected-questions').dataTable();
+					}
+				}
+		);
+ 
+
 	}
 </script>
