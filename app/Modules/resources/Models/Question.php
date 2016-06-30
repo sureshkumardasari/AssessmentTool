@@ -50,9 +50,9 @@ class Question extends Model {
             ->where('questions.id', $id)
 			//->where('question_answers.is_correct','like','yes')
             ->select('questions.id as id','question_answers.ans_text','lesson.name as lesson_name','questions.title as qstn_title','questions.qst_text','category.name as category_name','subject.name as subject_name','institution.name as inst_name','question_type.qst_type_text','passage.title as psg_title')
-            ->get();
+            ->first();
 		//dd($question);
-        return $question[0];
+        return $question;
 	}
 
 	public function getassessmentQst($questions=0)
