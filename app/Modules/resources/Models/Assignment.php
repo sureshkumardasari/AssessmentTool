@@ -211,8 +211,9 @@ class Assignment extends Model {
                             ->orderBy("assessment.id", "DESC")
                             ->orderBy("assignment.id", "DESC")
                             ->orderBy("assignment.name", "ASC")
-                            ->select(["assignment.name AS AssignmentName","assessment.name AS AssessmentName", 
-                                        "assignment_user.status AS AssignmentStatus", 
+                            ->select(["assignment.name AS AssignmentName","assessment.name AS AssessmentName",
+										"assignment.status AS AssignmentStatus",
+                                        "assignment_user.status AS AssignmentUserStatus",
                                         "assessment.id AS AssessmentsId",  
                                         "assignment.id AS AssignmentId", 
                                         "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])                            
@@ -227,7 +228,8 @@ class Assignment extends Model {
                             ->orderBy("assignment.id", "DESC")
                             ->orderBy("assignment.name", "ASC")
                             ->select(["assignment.name AS AssignmentName","assessment.name AS AssessmentName",
-                                        "assignment_user.status AS AssignmentStatus", 
+										"assignment.status AS AssignmentStatus",
+										"assignment_user.status AS AssignmentUserStatus",
                                         "assessment.id AS AssessmentsId",  
                                         "assignment.id AS AssignmentId", 
                                         "assignment.startdatetime AS StartDateTime", "assignment.enddatetime AS EndDateTime", "assignment.neverexpires AS Expires", "assignment.launchtype"])                            
@@ -278,9 +280,9 @@ class Assignment extends Model {
 
                 $dataset[$counter][] = $question->id;
                 $questionText = empty($question->title) ? '' : strip_tags($question->title);
-                $questionText = str_replace('’', '\'', $questionText);
-                $questionText = str_replace('“', '"', $questionText);
-                $questionText = str_replace('”', '"', $questionText);
+                $questionText = str_replace('ï¿½', '\'', $questionText);
+                $questionText = str_replace('ï¿½', '"', $questionText);
+                $questionText = str_replace('ï¿½', '"', $questionText);
 
                 $dataset[$counter][] = $questionText;
 

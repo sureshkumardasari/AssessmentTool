@@ -35,6 +35,9 @@
 				@else
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+					@if($rolename != "student")
+					<li><a href="{{url('proctor_dashboard')}}">Proctor DashBoard</a></li>
+					@endif
 					@if($rolename == 'student')
 					<li><a href="{{ url('/assessment/myassignment') }}">My Assignments</a></li>
 					@endif
