@@ -114,7 +114,24 @@ class Question extends Model {
 		$questions = $obj->get();
  		return $questions;
 	}
-
+	public function getPassageByQuestions($question_Ids=0)
+	{
+  		$obj = DB::table('questions as q');
+ 		$obj->join('passage as p', 'p.id', '=', 'q.passage_id');
+		if($question_Ids > 0){
+			$obj->wherein("q.id", $question_Ids);
+		}
+		$passages = $obj->groupBy('p.title')->get();
+   		return $passages;
+	}public function getPassageByPassId($passage_Ids=0)
+	{
+ 		$obj = DB::table('passage');
+		if($passage_Ids > 0){
+			$obj->wherenotin("id", $passage_Ids);
+		}
+		$passages = $obj->get();
+  		return $passages;
+	}
 	public function getassessmentFilter($institution = 0, $category = 0, $subject = 0,$lessons=0,$questions=0)
 	{
  		$obj = DB::table('questions'); ;

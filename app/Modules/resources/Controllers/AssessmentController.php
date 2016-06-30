@@ -640,16 +640,29 @@ class AssessmentController extends BaseController {
 	}
 	public function assessmentQstPassage(){
  		$post = Input::All();
-  		$passage_id=$post['id'];
+  		$passage_id=isset( $post['id'] ) ? $post['id'] : 0;
 		$flag=$post['flag'];
 		$question_Ids=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
    		$subjects = $this->question->getPassageQst($passage_id,$flag,$question_Ids);
 		return $subjects;
 	}
-
+	public function getPassageByQuestion(){
+  		$post = Input::All();
+ 		$question_Ids=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
+   		$subjects = $this->question->getPassageByQuestions($question_Ids);
+		return $subjects;
+	}
+	public function getPassageByPassId(){
+  		$post = Input::All();
+ 		$passage_Ids=isset( $post['passage_Ids'] ) ? $post['passage_Ids'] : 0;
+   		$subjects = $this->question->getPassageByPassId($passage_Ids);
+		return $subjects;
+	}
 	public function assessmentFilter(){
 		$post = Input::All();
-		//dd($post);
+ 		// $passage_id=$post['id'];
+		// $flag=$post['flag'];
+		$question_Ids=isset( $post['questions'] ) ? $post['questions'] : 0;
 		$institution=$post['institution'];
 		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
 			->leftjoin('passage','questions.passage_id','=','passage.id');
@@ -660,15 +673,18 @@ class AssessmentController extends BaseController {
 		if($post['question_type'] > 0 ){
 			$obj->where("question_type.id", $post['question_type']);
 		}
-		/*if($category > 0){
-			$obj->where("category_id", $category);
+		if($post['category'] > 0){
+			$obj->where("questions.category_id", $post['category']);
 		}
-		if($subject > 0){
-			$obj->where("subject_id", $subject);
+		if($post['subject'] > 0){
+			$obj->where("questions.subject_id", $post['subject']);
 		}
-		if($lessons > 0){
-			$obj->where("lesson_id", $lessons);
-		}*/
+		if($post['lessons'] > 0){
+			$obj->where("questions.lesson_id", $post['lessons']);
+		}
+		if($question_Ids > 0){
+			$obj->wherenotin("questions.id", $post['questions']);
+		}
 
 		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
 			->orderby('qid')
@@ -676,7 +692,31 @@ class AssessmentController extends BaseController {
 		//$question_list = $this->question->getQuestionFilter($institution);
 		return $list;
  	}
+ 	public function passageAssessmentFilter(){
+		$post = Input::All();
+		$passageIds=isset( $post['passageIds'] ) ? $post['passageIds'] : 0;
+		$institution=$post['institution'];
+		$obj=Passage::where("passage.institute_id", $institution);
+ 		 
+		if($post['category'] > 0){
+			$obj->where("passage.category_id", $post['category']);
+		}
+		if($post['subject'] > 0){
+			$obj->where("passage.subject_id", $post['subject']);
+		}
+		if($post['lessons'] > 0){
+			$obj->where("passage.lesson_id", $post['lessons']);
+		}
+		if($passageIds > 0){
+			$obj->wherenotin("passage.id", $post['passageIds']);
+		}
 
+		$list=	$obj->select('passage.id as pass_id', 'passage.title as passage_title')
+			// ->orderby('qid')
+			->get();
+		//$question_list = $this->question->getQuestionFilter($institution);
+		return $list;
+ 	}
  	public function assessmentFilterList(){
  		$post = Input::All();
   		$institution=$post['institution'];

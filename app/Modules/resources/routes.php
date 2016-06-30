@@ -83,7 +83,9 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('filter_data_assessment_list', ['as' => 'filter_data_assessment_list', 'uses' => 'AssessmentController@assessmentFilterList']);
     Route::get('download_zip/{assessmentId}', ['as' => 'zipDownload', 'uses' => 'AssessmentController@zipDownload']);
     Route::get('get-print-answer-key-csv', ['as' => 'getPrintAnswerKeyCSV', 'uses' => 'AssessmentController@getPrintAnswerKeyCSV']);
-
+    Route::post('get_passage_by_question', ['as' => 'get_passage_by_question', 'uses' => 'AssessmentController@getPassageByQuestion']);
+    Route::post('remove_passage_by_passid', ['as' => 'remove_passage_by_passid', 'uses' => 'AssessmentController@getPassageByPassId']);
+    Route::post('passage_filter_data_assessment', ['as' => 'passage_filter_data_assessment', 'uses' => 'AssessmentController@passageAssessmentFilter']);
 
     Route::get('assignment', array('as' => 'assignment-list', 'uses'=>'AssignmentController@assignment'));
     Route::get('assignmentadd', array('as' => 'assignment-add', 'uses'=>'AssignmentController@assignmentadd'));

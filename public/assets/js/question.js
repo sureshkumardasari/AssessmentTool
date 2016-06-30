@@ -1355,6 +1355,7 @@ function addOrRemoveInGrid(elem, type) {
                 }
             }
 
+            
 //            QuestionIds.push($(this).val())
             $(this).attr('name',checkboxName+'[]');
             $(this).attr('checked', false)
@@ -1365,7 +1366,7 @@ function addOrRemoveInGrid(elem, type) {
             //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
             $('#selected-questions'+' .child-grid').append(selected);
         });
-        
+        addPassageforQuestion(this, "add",passage);
         $('#example').dataTable();
         
         $('#selected-questions').dataTable();
@@ -1514,7 +1515,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                     tr = $('<tr/>');
                                     tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
                                     tr.append("<td>" + response[i].title + "</td>");
-                                    //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
+                                    tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                     $('#questions-list').append(tr);
                                 }
                             }
@@ -1569,4 +1570,62 @@ function addOrRemoveInPassage(elem, type,id) {
             }
         );
     }
+ }
+ function addPassageforQuestion(elem,type,id){
+     var urls=$('#url').val();
+    var url_add="get_passage_by_question";
+    var url_remove="remove_passage_by_passid";
+    var url_passage_append=""+ urls +url_add+"";
+    var remove_pass_by_question=""+ urls +url_remove+"";
+    var csrf=$('Input#csrf_token').val();
+    var question_Ids=[];
+    var append_passage_ids=[];
+    var myForm = document.forms.assessment_form;
+    var question_id = myForm.elements['QuestionIds[]'];
+    if(question_id) {
+        for (var i = 0; i < question_id.length; i++) {
+            question_Ids.push(question_id[i].value);
+         }
+    }
+     $.ajax(
+            {
+                url:url_passage_append,
+                headers: {"X-CSRF-Token": csrf},
+                type:"post",
+                data:{QuestionIds:question_Ids},
+                success:function(response){
+                      var tr;
+                    $('#selected-passage .child-grid').empty();
+                    for (var i = 0; i < response.length; i++) {
+                        tr = $('<tr/>');
+                        tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td>" + response[i].title + "</td>");
+                        tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
+                        $('#selected-passage .child-grid').append(tr);
+                        append_passage_ids.push(""+ response[i].id +"");
+                     }
+                    $.ajax(
+                            {
+                            url:remove_pass_by_question,
+                            headers: {"X-CSRF-Token": csrf},
+                            type:"post",
+                            data:{passage_Ids:append_passage_ids},
+                            success:function(response){
+                                 var tr;
+                                $('#example #passages-list').empty();
+                                for (var i = 0; i < response.length; i++) {
+                                    tr = $('<tr/>');
+                                    tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+                                    tr.append("<td>" + response[i].title + "</td>");
+                                    // tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
+                                    $('#example #passages-list').append(tr);
+                                 }
+                                 }
+                            }
+
+                );
+                }
+            }
+
+    );
  }
