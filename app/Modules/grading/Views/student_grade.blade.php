@@ -26,7 +26,7 @@
 				        <thead>
 				            <tr>
 				                <th>Student Name</th>
-				                <th></th>
+				                
 				                <th>Action</th>
 				            </tr>
 				        </thead>
@@ -34,7 +34,7 @@
 				            @foreach($ass_usrs as $id=>$val)
 				            	<tr>
 				            	<td>{{ $val->first_name." ".$val->last_name }} </td>
-				            	<td> </td>
+				            	
 				            	<td> <a href="{{ url('/grading/list-student-question/'.$val->id.-$assignment_id.-$assessment_id) }}"><i class="icons ico-grade"></i></a></td>
 				            	</tr>
 				            @endforeach
