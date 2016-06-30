@@ -21,6 +21,8 @@ use App\Modules\Resources\Models\Category;
 use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\QuestionType;
 use App\Modules\Resources\Models\Passage;
+use App\Modules\Resources\Models\AssessmentQuestion;
+
 
 class PassageController extends BaseController {
 
@@ -179,13 +181,24 @@ class PassageController extends BaseController {
 	    }
 	}
 
-	public function passagedelete($id = 0)
+	public function passagedelete($id)
 	{
-		if($id > 0)
+		/*if($id > 0)
 		{
 			$this->passage->deletepassage($id);
+		}*/
+		$pas=AssessmentQuestion::where('passage_id',$id)->count();
+		//dd($les);
+		if ($pas == null ) {
+			passage::find($id)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/resources/passage');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this passage.');
+			return Redirect::back();
 		}
-		return redirect('/resources/passage');
 	}
 
 	public function view($id = null) {       
