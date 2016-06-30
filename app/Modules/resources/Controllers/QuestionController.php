@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Resources\Controllers;
 
 use App\Modules\Assessment\Models\QuestionUserAnswer;
+use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Resources\Models\QuestionAnswer;
 use Illuminate\Support\Facades\Auth;
 
@@ -424,12 +425,25 @@ class QuestionController extends BaseController {
 		return $list;
 	}
 
-	public function questiondelete($qid=0){
-		if($qid > 0)
+	public function questiondelete($qid){
+		/*if($qid > 0)
 		{
 			$this->question->deleteQuestions($qid);
+		}*/
+		$qus=AssessmentQuestion::where('question_id',$qid)->count();
+		//dd($les);
+		if ($qus == null ) {
+			question::find($qid)->delete();
+			\Session::flash('flash_message', 'delete!');
+
+			return redirect('/resources/question');
+
+		} else {
+			\Session::flash('flash_message_failed', 'Can not Delete this question.');
+			return Redirect::back();
+
 		}
-		return redirect('/resources/question');
+		//return redirect('/resources/question');
 	}
 
 	public function categoryList($id){
