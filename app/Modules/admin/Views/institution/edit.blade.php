@@ -103,7 +103,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Phone No.</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}">
+								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}" maxlength="10">
 							</div>
 						</div>
 						<div class="form-group">

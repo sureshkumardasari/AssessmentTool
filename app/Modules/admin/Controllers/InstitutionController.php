@@ -109,7 +109,8 @@ class InstitutionController extends BaseController {
 			'state' => 'required',
 			'country_id' => 'required|not_in:0',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
-			'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required'];
+			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required'];
+			'phoneno'=>array('required','numeric','regex: /^\d{10}$/'),];
 
 		if($post['id'] > 0)
 		{
