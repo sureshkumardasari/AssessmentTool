@@ -81,6 +81,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
     $current_params = $current_params->parameters();
     //     dd($current_params);
     $links = array(
+        //------------------users---------------------
         'userlist' => array(
             'displayName' => 'Users',
             'route' => 'userlist',
@@ -101,6 +102,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'useredit',
             'postfix' => array('home' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
         ),
+        //--------institutions-------------
         'institution-list' => array(
             'displayName' => 'Institutions',
             'route' => 'institution-list',
@@ -116,6 +118,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'institution-edit',
             'postfix' => array('home' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
         ),
+        //------------roles-------------------
         'role-list' => array(
             'displayName' => 'Roles',
             'route' => 'role-list',
@@ -131,6 +134,23 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'role-edit',
             'postfix' => array('home' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
         ),
+        //---------------branding ----------------
+         'branding-view' => array(
+            'displayName' => 'Branding',
+            'route' => 'branding-view',
+            'postfix' => array('home' => 'Home', '' => 'Administration'), //
+        ),
+        'branding-add' => array(
+            'displayName' => 'Create Branding',
+            'route' => 'branding-add',
+            'postfix' => array('home' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
+        ),
+        'branding-edit' => array(
+            'displayName' => 'Modify Branding',
+            'route' => 'branding-edit',
+            'postfix' => array('home' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
+        ),
+        //------------category--------------------        
         'category-list' => array(
             'displayName' => 'Category',
             'route' => 'category-list',
@@ -146,6 +166,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'category-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
         ),
+        //------------subject--------------------   
         'subject-list' => array(
             'displayName' => 'Subjects',
             'route' => 'subject-list',
@@ -161,6 +182,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'subject-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
         ),
+        ////------------lesson--------------------   
         'lesson-list' => array(
             'displayName' => 'Lessons',
             'route' => 'lesson-list',
@@ -176,6 +198,147 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'lesson-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
         ),
+        //------------questions--------------------   
+    
+        'question-list' => array(
+            'displayName' => 'Questions',
+            'route' => 'question-list',
+            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+        ),
+        'question-add' => array(
+            'displayName' => 'Create Questions',
+            'route' => 'question-add',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+        ),
+        'question-edit' => array(
+            'displayName' => 'Modify Questions',
+            'route' => 'question-edit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+        ),
+        //------------passages--------------------   
+         'passage-list' => array(
+            'displayName' => 'Passages',
+            'route' => 'passage-list',
+            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+        ),
+        'passage-add' => array(
+            'displayName' => 'Create Passage',
+            'route' => 'passage-add',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+        ),
+        'passage-edit' => array(
+            'displayName' => 'Modify Passage',
+            'route' => 'passage-edit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+        ),
+         //------------assessments--------------------   
+         'assessment-list' => array(
+            'displayName' => 'Assessments',
+            'route' => 'assessment-list',
+            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+        ),
+        'assessment-create' => array(
+            'displayName' => 'Create Assessment',
+            'route' => 'assessment-create',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+        ),
+        'assessmentedit' => array(
+            'displayName' => 'Modify Assessment',
+            'route' => 'assessmentedit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+        ),
+         //------------assignments--------------------   
+         'assignment-list' => array(
+            'displayName' => 'Assignments',
+            'route' => 'assignment-list',
+            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+        ),
+        'assignment-add' => array(
+            'displayName' => 'Create Assignment',
+            'route' => 'assignment-add',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+        ),
+        'assignment-edit' => array(
+            'displayName' => 'Modify Assignment',
+            'route' => 'assignment-edit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+        ),
+         //------------grading-----studentGrading----------questionGrading----------   
+         'allassignment' => array(
+            'displayName' => 'Grading',
+            'route' => 'allassignment',
+            'postfix' => array('home' => 'Home'), //
+        ),
+        'studentGrading' => array(
+            'displayName' => 'Grade By Student',
+            'route' => 'studentGrading',
+            'postfix' => array('home' => 'Home','allassignment' => 'Grading'), //
+        ),
+         'studentQuestion' => array(
+            'displayName' => 'Student Questions',
+            'route' => 'studentQuestion',
+            'postfix' => array('home' => 'Home','allassignment' => 'Grading', 'studentGrading' => 'Grade By Student'), //
+        ),
+        'questionGrading' => array(
+            'displayName' => 'Grade By Question',
+            'route' => 'questionGrading',
+            'postfix' => array('home' => 'Home','allassignment' => 'Grading'), //
+        ),
+         'questiongrade' => array(
+            'displayName' => 'Questions Grade',
+            'route' => 'questiongrade',
+            'postfix' => array('home' => 'Home','allassignment' => 'Grading', '' => 'Grade By Question'), //
+        ),
+         //------------------reports------------------
+         'report' => array(
+            'displayName' => 'Reports',
+            'route' => 'report',
+            'postfix' => array('home' => 'Home'), //
+        ),
+        'assessmentreport' => array(
+            'displayName' => 'Scores By Assessment',
+            'route' => 'assessmentreport',
+            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+        ),
+         'assignmentreport' => array(
+            'displayName' => 'Scores By Assignment',
+            'route' => 'assignmentreport',
+            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+        ),
+         'studentreport' => array(
+            'displayName' => 'Scores By Students',
+            'route' => 'studentreport',
+            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+        ),
+
+         'answerreport' => array(
+            'displayName' => 'Question And Answers',
+            'route' => 'answerreport',
+            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+        ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     );
     $currentRoute = Route::currentRouteName();
     if (array_key_exists($currentRoute, $links)) {

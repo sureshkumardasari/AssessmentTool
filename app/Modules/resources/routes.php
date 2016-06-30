@@ -38,19 +38,19 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('categorysearch', array('as' => 'category-search', 'uses'=>'ResourceController@categorysearch'));
     Route::get('getcategory', array('as' => 'getcategory', 'uses'=>'ResourceController@getcategory'));
 
-    Route::get('passage', array('as' => 'list', 'uses'=>'PassageController@passage'));
-    Route::get('passageadd', array('as' => 'add', 'uses'=>'PassageController@passageadd'));
+    Route::get('passage', array('as' => 'passage-list', 'uses'=>'PassageController@passage'));
+    Route::get('passageadd', array('as' => 'passage-add', 'uses'=>'PassageController@passageadd'));
     Route::get('passageview/{id}', array('as' => 'view', 'uses'=>'PassageController@passageview'));
-    Route::get('passageedit/{id}', array('as' => 'edit', 'uses'=>'PassageController@passageedit'));
+    Route::get('passageedit/{id}', array('as' => 'passage-edit', 'uses'=>'PassageController@passageedit'));
     Route::get('passagedel/{id}', array('as' => 'delete', 'uses'=>'PassageController@passagedelete'));
     Route::post('passageupdate', array('as' => 'update', 'uses'=>'PassageController@passageupdate'));
     Route::get('view/passage/{id?}', ['as' => 'viewPassage', 'uses' => 'PassageController@view']);
 
     //question
-    Route::get('question', array('as' => 'list', 'uses'=>'QuestionController@question'));
-    Route::get('questionadd', array('as' => 'add', 'uses'=>'QuestionController@questionadd'));
+    Route::get('question', array('as' => 'question-list', 'uses'=>'QuestionController@question'));
+    Route::get('questionadd', array('as' => 'question-add', 'uses'=>'QuestionController@questionadd'));
     Route::get('questionview/{id}', array('as' => 'edit', 'uses'=>'QuestionController@questionview'));
-    Route::get('questionedit/{id}', array('as' => 'edit', 'uses'=>'QuestionController@questionedit'));
+    Route::get('questionedit/{id}', array('as' => 'question-edit', 'uses'=>'QuestionController@questionedit'));
     Route::get('questiondel/{id}', array('as' => 'delete', 'uses'=>'QuestionController@questiondelete'));
     Route::get('launch-file-browser/{backet}', array('as' => 'launchFileBrowser', 'uses'=>'QuestionController@launchFileBrowser'));
     Route::post('file-browser-upload-file', array('as' => 'fileBrowserUploadFile', 'uses' => 'QuestionController@fileBrowserUploadFile'));
@@ -63,8 +63,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('lessonsList/{id}', array('as' => 'lessonsList', 'uses'=>'QuestionController@lessonsList'));
     Route::post('questiontypeList/{id}', array('as' => 'questiontypeList', 'uses'=>'QuestionController@questiontype'));
     //assessmentst
-    Route::get('assessment', array('as' => 'list', 'uses'=>'AssessmentController@index'));
-    Route::get('assessmentcreate', array('as' => 'create', 'uses'=>'AssessmentController@assessmentcreate'));
+    Route::get('assessment', array('as' => 'assessment-list', 'uses'=>'AssessmentController@index'));
+    Route::get('assessmentcreate', array('as' => 'assessment-create', 'uses'=>'AssessmentController@assessmentcreate'));
     Route::get('assessmentview/{id}', array('as' => 'assessmentview', 'uses'=>'AssessmentController@assessmentview'));
     Route::get('assessmentpdf/{id}', array('as' => 'assessmentpdf', 'uses'=>'AssessmentController@assessmentpdf'));
     Route::get('pdftest', array('as' => 'pdftest', 'uses'=>'AssessmentController@pdftest'));
@@ -85,9 +85,9 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('get-print-answer-key-csv', ['as' => 'getPrintAnswerKeyCSV', 'uses' => 'AssessmentController@getPrintAnswerKeyCSV']);
 
 
-    Route::get('assignment', array('as' => 'list', 'uses'=>'AssignmentController@assignment'));
-    Route::get('assignmentadd', array('as' => 'add', 'uses'=>'AssignmentController@assignmentadd'));
-    Route::get('assignmentedit/{id}', array('as' => 'edit', 'uses'=>'AssignmentController@assignmentedit'));
+    Route::get('assignment', array('as' => 'assignment-list', 'uses'=>'AssignmentController@assignment'));
+    Route::get('assignmentadd', array('as' => 'assignment-add', 'uses'=>'AssignmentController@assignmentadd'));
+    Route::get('assignmentedit/{id}', array('as' => 'assignment-edit', 'uses'=>'AssignmentController@assignmentedit'));
     Route::get('assignmentdel/{id}', array('as' => 'delete', 'uses'=>'AssignmentController@assignmentdelete'));
     Route::get('assignmentview/{id}', array('as' => 'view', 'uses'=>'AssignmentController@assignmentview'));
     Route::post('assignmentupdate', array('as' => 'update', 'uses'=>'AssignmentController@assignmentupdate'));

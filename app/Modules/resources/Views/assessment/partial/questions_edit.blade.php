@@ -1,4 +1,4 @@
-2<ul class="nav nav-tabs">
+<ul class="nav nav-tabs">
   <li class="tab active"><a data-toggle="tab" data-tab='question-holder' href="#questions">Questions</a></li>
   <li class="tab"><a data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
 </ul>
