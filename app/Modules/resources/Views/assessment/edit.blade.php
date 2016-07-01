@@ -65,6 +65,19 @@
 							<textarea class="form-control textarea" name="end_instruction"  value="">{{$assessment_details['end_instruction']}}</textarea>
 						</div>
 					</div>
+					<div class="form-group required">
+						<label class="col-md-4 control-label">Total Time</label>
+						<div class="col-md-6">
+							<input type="number" name="total_time" id="total_time"  min="0" value="{{$assessment_details['totaltime']}}" @if($assessment_details['unlimitedtime']==1)disabled @endif><span><p style="color:blue">(in minutes)</p></span>
+						</div>
+					</div>
+					\<div class="form-group required">
+						<label class="col-md-4 control-label">Never Expires</label>
+						<div class="col-md-6">
+
+							<input type="checkbox" name="never_expires" id="never_expires"  @if($assessment_details['unlimitedtime']==1)checked @endif >
+						</div>
+					</div>
 							<?php
 							$path = url()."/resources/";?>
 							<input type="hidden" name="url" id="url" value="<?php echo $path;?>">
@@ -115,6 +128,16 @@ $( document ).ready(function() {
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
         $('.searchfilter-body').toggleClass('hide show');
     });
+	$('#never_expires').on("click",function(){
+		if($(this).is(':checked')){
+			$('#total_time').val('');
+			$('#total_time').prop('disabled',true);
+		}
+		else{
+			$('#total_time').prop('disabled',false);
+		}
+
+	});
 });    
 tinymce.init({
 		selector: '.textarea',
