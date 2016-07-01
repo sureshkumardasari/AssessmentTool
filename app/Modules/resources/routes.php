@@ -67,6 +67,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('assessmentcreate', array('as' => 'assessment-create', 'uses'=>'AssessmentController@assessmentcreate'));
     Route::get('assessmentview/{id}', array('as' => 'assessmentview', 'uses'=>'AssessmentController@assessmentview'));
     Route::get('assessmentpdf/{id}', array('as' => 'assessmentpdf', 'uses'=>'AssessmentController@assessmentpdf'));
+    Route::get('template/{id}/{tplId?}', array('as' => 'template', 'uses'=>'AssessmentController@getTemplate'));
+
     Route::get('pdftest', array('as' => 'pdftest', 'uses'=>'AssessmentController@pdftest'));
     Route::get('assessmentedit/{id}', array('as' => 'assessmentedit', 'uses'=>'AssessmentController@assessmentedit'));
     Route::post('assessmentupdate/', array('as' => 'assessmentupdate', 'uses'=>'AssessmentController@assessmentupdate'));
