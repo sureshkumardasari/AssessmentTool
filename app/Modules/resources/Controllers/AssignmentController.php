@@ -60,7 +60,7 @@ class AssignmentController extends BaseController {
 	{
 		$assignments = DB::table('assignment')
 			->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
-			->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime')->get();
+			->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime','assignment.status')->get();
 		//dd($assignments);
         return view('resources::assignment.list',compact('assignments'));
 	}

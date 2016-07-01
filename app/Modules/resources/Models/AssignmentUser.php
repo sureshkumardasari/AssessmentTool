@@ -67,7 +67,7 @@ class AssignmentUser extends Model {
     }
 	public function complete($aId, $aAId, $status) {
 
-        AssignmentUser::where('assessment_id', $aAId)
+        AssignmentUser::where('assignment_id', $aAId)->where('assessment_id',$aId)
                                 ->where('user_id', Auth::user()->id)
                                 ->update([
                                         'status' => $status,

@@ -96,7 +96,20 @@ class AssessmentAssignmentController extends BaseController {
             $message = ($status == 'completed') ? 'Test is already completed...!' : 'Test not found...!';
             return view('assessment::test_error', compact('message'));
         }
-        $AssignmentUser->complete($aId, $aAId, 'instructions');
+        $type=\Input::get('type', '');
+        if($type!="proctor") {
+            //dd("ikjkjh");
+            $assign_status = Assignment::find($aAId);
+            if ($assign_status->status == "upcoming") {
+                $assign_status->status = "instructions";
+                $assign_status->save();
+            } elseif ($assign_status->status == "instructions") {
+                $assign_status->status = "inprogress";
+                $assign_status->save();
+            }
+            $AssignmentUser->complete($aAId, $aId, 'instructions',$type);
+        }
+
 
 
     	$assessment = Assessment::find($aId);
