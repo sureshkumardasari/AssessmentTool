@@ -29,17 +29,17 @@
       <div class="form-group ">
        Passage Title:
        
-       {{ $passage['passagetitle'] }}
+       {{ strip_tags(htmlspecialchars_decode($passage['passagetitle'])) }}
        </div>
       </div>
       <div class="form-group ">
        Passage Text:
-       {{ $passage['passagetext']}}
+       {{ strip_tags(htmlspecialchars_decode($passage['passagetext']))}}
        
       </div>
        <div class="form-group ">
       Passage Lines:
-       {{ $passage['passagelines']}}
+       {{ strip_tags(htmlspecialchars_decode($passage['passagelines']))}}
        
       </div>
       

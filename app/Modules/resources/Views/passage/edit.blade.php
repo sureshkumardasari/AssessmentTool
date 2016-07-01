@@ -5,11 +5,11 @@
 {!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}    
 
 @stop
-<style>
+<!--<style>
  .fancybox-overlay{z-index: 99999 !important;}
  #fancybox-loading{z-index: 99999 !important;}
 
-</style>
+</style>-->
 @section('content')
 
 <div class="container-fluid">
