@@ -227,8 +227,15 @@ $('input:radio[name="launchtype"]').change(
     });
 	
 	$(function () {
+		var selected_institution="{{$assignment->institution_id}}";
         $("#institution_id").change(function () {
-            loadunselectedusers(0);
+			if($('#institution_id').val()==selected_institution){
+				loadunselectedusers({{$assignment->id}});
+				loadselectedusers();
+			}
+			else {
+				loadunselectedusers(0);
+			}
         });
 
 <?php   if($assignment->id > 0){ ?>

@@ -80,9 +80,9 @@
                                             <td><span class="text">Completed</span></td>
                                         @else
                                             @if ($status == 'instructions')
-                                                <td><span class="text"><a class="anchar" href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId))}}?flag=instructions">Instructions</a></span></td>
+                                                <td><span class="text"><a class="anchar" href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId))}}?flag=instructions&type=proctor">Instructions</a></span></td>
                                             @elseif ($status == 'inprogress' && $isAlreadyStarted == false)
-                                                <td><span class="text"><a href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId )) }}" class="btn btn-primary">Start Test</a></span></td>
+                                                <td><span class="text"><a href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId )) }}?type=proctor" class="btn btn-primary">Start Test</a></span></td>
                                                 <!-- <td><span class="text">{!! $status !!}</span></td> -->
                                             @elseif ($status == 'inprogress' && $isAlreadyStarted == true)
                                                 <td><span class="text"><a href="{{ route('tests-detail', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId )) }}" class="btn btn-primary">Resume Test</a></span></td>
@@ -142,8 +142,8 @@
 
                     else $status='available';
 
-                    }else if ( $assignment->AssignmentUserStatus == "available" || ($startDateTime < $now && $now <= $endDateTime && $assignment->AssignmentUserStatus != "completed")) {
-                        $status = 'available';
+                    }else if ( $assignment->AssignmentUserStatus == "instructions" || ($startDateTime < $now && $now <= $endDateTime && $assignment->AssignmentUserStatus != "completed")) {
+                        $status = 'inprogress';
 
                     } else if ( $assignment->AssignmentUserStatus == "instructions") {
                         $status = 'inprogress';
@@ -151,7 +151,7 @@
                     } else if ( $assignment->AssignmentUserStatus == "test") {
                         $status = 'inprogress';
 
-                    } else if ( $isVisible == true || $assignment->AssignmentUserStatus == 'completed' || $assignment->AssignmentUserStatus == 'completed' ) {
+                    } else if ( $isVisible == true || $assignment->AssignmentStatus == 'completed' || $assignment->AssignmentUserStatus == 'completed' ) {
                         $status = 'completed';
                     } else {
                         $status = $assignment->AssignmentUserStatus;
@@ -162,10 +162,10 @@
             </span></span>
 
                                         </td>
-                                        @if ($status == 'available' || ($startDateTime < $now && ($now <= $endDateTime ) && $assignment->AssignmentUserStatus != "completed"))
+                                        @if ($status == 'available' && ($startDateTime < $now && ($now <= $endDateTime ) && $assignment->AssignmentUserStatus != "completed"))
                                             <td><span class="text"><a class="anchar" href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId))}}">Instructions</a></span></td>
                                         @elseif ($status == 'inprogress' && $assignment->AssignmentUserStatus == "instructions")
-                                            <td><span class="text"><a href="{{ route('tests-detail', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId)) }}" class="btn btn-primary">Start Test</a></span></td>
+                                            <td><span class="text"><a href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId)) }}" class="btn btn-primary">Start Test</a></span></td>
                                         @elseif ($status == 'inprogress' && $assignment->AssignmentUserStatus == "inprogress")
                                             <td><span class="text"><a href="{{ route('tests-detail', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId)) }}" class="btn btn-primary">Resume Test</a></span></td>
                                         @elseif ($status == 'completed')
