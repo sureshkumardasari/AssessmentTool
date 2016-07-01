@@ -219,8 +219,9 @@ class AssessmentController extends BaseController {
 
     private function _savePdf($assessment_Id, $template_Id, $preview){
 
-        $template = Template::find($template_Id);     
-        $assessment = Assessment::find($template->assessment_id);
+        $template = Template::find($template_Id);
+		//dd($template);
+		$assessment = Assessment::find($template->assessment_id);
         $s3 = ''; //new \App\Models\S3;
         
         $_pdf       = $this->_generatePdf($template, $assessment, $s3, 'PdfContent');

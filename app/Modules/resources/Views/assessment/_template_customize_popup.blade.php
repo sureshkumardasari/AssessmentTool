@@ -1358,6 +1358,7 @@ $path = url()."/resources/";
             }
 
             function savePrintOnlineView(btn, openPdf) {
+               // alert('asdfgh');
                 var status="false";
                 if(status="false"){
                     showMsg('Please Wait');
@@ -1633,8 +1634,8 @@ $path = url()."/resources/";
                         // toggleMsg('Please wait..');
                     },
                     success: function(response) {
-                       // alert(response);                        
-                        $.ajax({
+                        //alert(response);
+                     $.ajax({
                             method: "POST",
                             data:{Id: {{$id}}, 'tplId': response, 'perview': pdfView},
                             url: "{{$path}}save-pdf",

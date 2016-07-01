@@ -68,6 +68,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('assessmentview/{id}', array('as' => 'assessmentview', 'uses'=>'AssessmentController@assessmentview'));
     Route::get('assessmentpdf/{id}', array('as' => 'assessmentpdf', 'uses'=>'AssessmentController@assessmentpdf'));
     Route::get('template/{id}/{tplId?}', array('as' => 'template', 'uses'=>'AssessmentController@getTemplate'));
+    Route::any('save-pdf', array('as' => 'savePdf', 'uses' => 'AssessmentController@savePdf'));
+    Route::post('save-print-online-view', 'AssessmentController@savePrintOnlineView');
 
     Route::get('pdftest', array('as' => 'pdftest', 'uses'=>'AssessmentController@pdftest'));
     Route::get('assessmentedit/{id}', array('as' => 'assessmentedit', 'uses'=>'AssessmentController@assessmentedit'));
