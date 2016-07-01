@@ -87,7 +87,7 @@
       <div class="form-group required">
        <label class="col-md-2 control-label">Passage Title</label>
        <div class="col-md-10">
-        <input type="text" class="form-control" name="passage_title" value="{{ $passage->title }}">
+        <input type="text" class="form-control" name="passage_title" id="passage_title" value="{{ $passage->title }}">
        </div>
       </div>
       <div class="form-group required">
@@ -111,7 +111,7 @@
       </div>
       <div class="form-group">
        <div class="col-md-6 col-md-offset-4">
-       <a href="{{URL::route('viewPassage') }}" class="btn btn-primary btn-sm  fancybox fancybox.ajax"> Preview </a>
+       <button  class="btn btn-primary btn-sm  fancybox fancybox.ajax" onclick="popup()"> Preview </button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="submit" class="btn btn-primary">
          Submit

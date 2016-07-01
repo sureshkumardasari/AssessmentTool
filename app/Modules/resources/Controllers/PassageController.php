@@ -211,4 +211,20 @@ class PassageController extends BaseController {
             return view('resources::passage.view', compact('passage'));
         }
     }
+
+
+    public function passagepopup()
+    {
+    	$passage = Input::All(); 
+    	//dd($passage);
+
+    	$institution=Institution::where('id',$passage['institution'])->first();
+    	$category=Category::where('id',$passage['category'])->first();
+    	$subject=Subject::where('id',$passage['subject'])->first();
+    	$lessons=Lesson::where('id',$passage['lessons'])->first();
+    	
+    	
+    	return view('resources::passage.popup',compact('passage','institution','category','subject','lessons'));
+	}
+
 }

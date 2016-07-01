@@ -1,6 +1,7 @@
 <?php
-$path = url()."/resources/";
-
+$path = url()."/resources/";?>
+<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
+<?php
 if (count($errors) > 0){?>
 <script>
 	var oldvalues = '{{old('institution_id')}}';
@@ -164,6 +165,42 @@ if (count($errors) > 0){?>
 					}
 				}
 		)
+	}
+
+	function popup(){
+		var institution_id=$('#institution_id').val();
+		var category_id=$('#category_id').val();
+		var subject_id=$('#subject_id').val();
+		var lessons_id=$('#lessons_id').val();
+		var passage_text=$('#passage_text').val();
+		var passage_title=$('#passage_title').val();
+		var passage_lines=$('#passage_lines').val();
+		var csrf=$('Input#csrf_token').val(); 
+		if(subject_id=='')subject_id=0;
+		if(institution_id=='')institution_id=0;
+		if(category_id=='')category_id=0;
+		if(lessons_id=='')lessons_id=0;
+        if(passage_text=='')passage_text=0;
+		if(passage_title=='')passage_title=0;
+		if(passage_lines=='')passage_lines=0;
+		//alert(passage_title);
+		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'passagetext':passage_text,'passagelines':passage_lines,'passagetitle':passage_title};
+		//alert(data);
+		var url='{{$path}}passagepopup';
+		$.ajax(
+				{
+					url:url,
+					headers: {"X-CSRF-Token": csrf},
+					type:"get",
+					data:data,
+					success:function(response){
+
+						$.fancybox(response, {
+                type: "html"
+            }); 
+				}
+			}
+		);
 	}
 
 	/*$(document).ready(function() {	

@@ -45,7 +45,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('passagedel/{id}', array('as' => 'delete', 'uses'=>'PassageController@passagedelete'));
     Route::post('passageupdate', array('as' => 'update', 'uses'=>'PassageController@passageupdate'));
     Route::get('view/passage/{id?}', ['as' => 'viewPassage', 'uses' => 'PassageController@view']);
-
+    Route::get('passagepopup', array('as' => 'passagepopup', 'uses'=>'PassageController@passagepopup'));
     //question
     Route::get('question', array('as' => 'question-list', 'uses'=>'QuestionController@question'));
     Route::get('questionadd', array('as' => 'question-add', 'uses'=>'QuestionController@questionadd'));
