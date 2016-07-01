@@ -148,6 +148,7 @@ class AssessmentController extends BaseController {
 		    'lessons_id.required'=>'The Lessons field is required',
 			'institution_id.required'=>'The Institution field is required',
 			'QuestionIds.required'=>'The Questions is required',
+			'total_time.required' => 'Please add the total time of an Assessment'
 		];
 		$rules = [
 			'name' => 'required|unique:assessment,name',
@@ -159,7 +160,11 @@ class AssessmentController extends BaseController {
 			'category_id' => 'required|not_in:0',
             'subject_id' => 'required',
 			'lessons_id' => 'required',
- 			'QuestionIds' => 'required',];
+ 			'QuestionIds' => 'required',
+		];
+		if(!isset($post['never_expires'])){
+			$rules['total_time'] = 'required';
+		}
 
 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails())
@@ -189,6 +194,14 @@ class AssessmentController extends BaseController {
 			$assessment_insert->guessing_panality = $post['guessing_penality'] ;
 			$assessment_insert->mcsingleanswerpoint = $post['mcsingleanswerpoint'] ;
 			$assessment_insert->essayanswerpoint = $post['essayanswerpoint'] ;
+			if(!isset($post['never_expires'])){
+				$assessment_insert->totaltime = $post['total_time'];
+				$assessment_insert->unlimitedtime = 0;
+			}
+			else{
+				$assessment_insert->unlimitedtime = 1;
+			}
+
 			//$assessment_insert->lessons_id = $post['lessons_id'] ;
   				if($assessment_insert->save()){
 				
@@ -577,6 +590,9 @@ class AssessmentController extends BaseController {
 			'mcsingleanswerpoint'=>array('required','numeric'),
 			'essayanswerpoint'=>array('required','numeric'),
  			'QuestionIds' => 'required',];
+		if(!isset($post['never_expires'])){
+			$rules['total_time'] = 'required';
+		}
 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails())
 		{
@@ -585,6 +601,14 @@ class AssessmentController extends BaseController {
 		{
 			$params = Input::All();
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
+			if(!isset($post['never_expires'])){
+				$totaltime = $post['total_time'];
+				$unlimitedtime = 0;
+			}
+			else{
+				$totaltime = null;
+				$unlimitedtime = 1;
+			}
 			//dd($questions);
   			$assessment_details = Assessment::where('id',$post['id'])->update([
   				'name'=>$post['name'],
@@ -599,6 +623,8 @@ class AssessmentController extends BaseController {
 				'guessing_panality'=>$post['guessing_penality'],
 				'mcsingleanswerpoint'=>$post['mcsingleanswerpoint'],
 				'essayanswerpoint'=>$post['essayanswerpoint'],
+				'totaltime' =>$totaltime,
+				'unlimitedtime' =>$unlimitedtime
   			]);
  			//$this->assessment->assessmentupdate($params);
  			//delete previous questions-answers
