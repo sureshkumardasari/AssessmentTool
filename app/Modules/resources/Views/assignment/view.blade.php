@@ -78,7 +78,7 @@
 							</div>
 						</div>
 						<div>
-							<label class="col-md-3 control-label">Delivary Method  </label>
+							<label class="col-md-3 control-label">Delivery Method  </label>
 							<div class="col-md-3 control-label">{{ $assignment->delivery_method }}</div>
 						</div>
 					</div>
