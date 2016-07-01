@@ -317,18 +317,33 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'postfix' => array('home' => 'Home','report' => 'Reports'), //
         ),
 
+         //-------------------proctor--dashboard------------------------
+         'proctordashboard' => array(
+            'displayName' => 'Proctor Dashboard',
+            'route' => 'proctordashboard',
+            'postfix' => array('home' => 'Home'), //
+        ),
+         'start_test_by_proctor' => array(
+            'displayName' => 'Start Test By Proctor',
+            'route' => 'start_test_by_proctor',
+            'postfix' =>  array('home' => 'Home', 'proctordashboard' => 'Proctor Dashboard' ),
+            ),
 
 
 
 
 
-
-
-
-
-
-
-
+         //--------------myassignments------------------
+         'myassignment' => array(
+            'displayName' => 'My Assignments',
+            'route' => 'myassignment',
+            'postfix' => array('home' => 'Home'),
+            ),
+            'tests-instructions' => array(
+                'displayName' => 'Instructions',
+                'route' =>'tests-instructions',
+                'postfix' =>array('home' => 'Home' , 'myassignment' => 'My Assignments'),
+                ),
 
 
 
