@@ -244,7 +244,9 @@ class AssessmentController extends BaseController {
             }
 
             $dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id.'/template_'.$id);
-            // $s3->makeDirectory('assessment_'.$id.'/subsection_'.$template_Id, 'assessment_pdf_images');
+			//$dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id.'/templatge_'.$template_Id);
+
+			// $s3->makeDirectory('assessment_'.$id.'/subsection_'.$template_Id, 'assessment_pdf_images');
 
             if(!is_dir($dirPath)){
                 $oldmask = umask(0);
