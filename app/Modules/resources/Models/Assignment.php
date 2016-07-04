@@ -65,6 +65,7 @@ class Assignment extends Model {
 
 	public function updateassignment($params = 0)
 	{
+		//dd($params);
 		$obj = new Assignment();
 		if($params['id'] > 0)
 		{
@@ -76,7 +77,7 @@ class Assignment extends Model {
 			$obj->added_by = Auth::user()->id;				
 		}
 		
-		$obj->id = $params['id'];
+		//$obj->id = $params['id'];
 		$obj->name = $params['name'];
 		$obj->description = $params['assignment_text'];
 		$obj->assessment_id = $params['assessment_id'];
@@ -96,9 +97,10 @@ class Assignment extends Model {
 
 			$last_id=$obj->id;
 
-			$users = AssignmentUser::where('assessment_id','=',$last_id);
-			if($users)
-				$users->delete();	
+			$users = AssignmentUser::where('assignment_id','=',$last_id);
+			if($users) {
+				$users->delete();
+			}
 
 			if(isset($params['student_ids']))
 			{
