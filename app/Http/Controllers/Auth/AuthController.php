@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Input;
 use Validator;
 use Redirect;
+use Mail;
 class AuthController extends Controller {
 
 	/*
@@ -96,7 +97,7 @@ class AuthController extends Controller {
 		//$this->auth->login($this->registrar->create($request->all()));
 		//$this->redirectTo = '/user/profile';
 		$this->registrar->create($request->all());*/
-
+		ini_set('max_execution_time', 0);	
 		$post = Input::All();
 		$rules = [
 			//'institution_id' =>'required|not_in:0',
@@ -133,6 +134,20 @@ class AuthController extends Controller {
 			$params['status']='Inactive';
 			//var_dump($params);
 			$userObj->updateUser($params);
+			            $create = array(
+                            'name'=>$params['first_name'],
+                            'email'=>$params['email'],
+                            );
+                    $data = array(         
+                            'email' =>$params['email'],
+                           'name' =>$params['first_name'],
+ 
+                    );
+                        
+                        
+                    Mail::send('emails.user_mail', $data, function($message) use ($create){
+                        $message->to($create['email'],$create['name'])->subject('Appstek Team');
+                    });
 
 			return redirect('/');
 		}
