@@ -285,7 +285,6 @@ class ResourceController extends BaseController {
 
 		return redirect('/resources/lesson');
 	}
-
 	public function lessondelete($id)
 	{
 		$qus=Question::where('lesson_id',$id)->count();
@@ -300,7 +299,6 @@ class ResourceController extends BaseController {
 		} else {
 			\Session::flash('flash_message_failed', 'Can not Delete this lesson.');
 			return Redirect::back();
-
 		}
 
 	}

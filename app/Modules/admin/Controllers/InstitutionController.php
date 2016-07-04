@@ -146,6 +146,7 @@ class InstitutionController extends BaseController {
 	public function delete($id )
 	{
 		$users = User::where('institution_id', $id)->count();
+
 		$cat=Category::where('institution_id',$id)->count();
 		$sub=Subject::where('institution_id','category_id',$id)->count();
 		if ($users == null && $cat == null && $sub == null) {

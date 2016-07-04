@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Admin\Controllers;
 
+use App\Modules\Resources\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
 
 use Zizaco\Entrust\EntrustFacade;
@@ -25,7 +26,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Model\S3;
 use App\Modules\Admin\Requests\imageRequest;
 use App\Modules\Admin\Models\RoleUser;
-class UserController extends BaseController {
+use App\Modules\resources\Models\AssignmentUser;
+class UserController extends BaseController
+{
 
 	/*
 	|--------------------------------------------------------------------------
@@ -60,7 +63,7 @@ class UserController extends BaseController {
 		$params = Input::All();
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
 
-		$users=$this->user->getUsers($institution_id);
+		$users = $this->user->getUsers($institution_id);
 		//dd($users);
 
 		$InstitutionObj = new Institution();
@@ -69,7 +72,7 @@ class UserController extends BaseController {
 
 
 		//return view('admin::user.list',compact('users'));
-		return view('admin::user.list', compact('inst_arr','roles_arr'))
+		return view('admin::user.list', compact('inst_arr', 'roles_arr'))
 			->nest('usersList', 'admin::user._list', compact('users'));
 	}
 
@@ -79,14 +82,11 @@ class UserController extends BaseController {
 		//dd($params);
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : 0;
 		//$institution_id = ($institution_id > 0) ? $institution_id :	Auth::user()->institution_id;
-		if($institution_id > 0)
-		{
-			$users=$this->user->getUsers($institution_id, 2);	
-		}
-		else
-		{
+		if ($institution_id > 0) {
+			$users = $this->user->getUsers($institution_id, 2);
+		} else {
 			$users = [];
-		}	
+		}
 
 		return json_encode($users);
 	}
@@ -97,7 +97,7 @@ class UserController extends BaseController {
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
 		$role_id = (isset($params['role_id'])) ? $params['role_id'] : $role_id;
 
-		$users=$this->user->getUsers($institution_id, $role_id);
+		$users = $this->user->getUsers($institution_id, $role_id);
 		//dd($users);
 
 		$from = 'search';
@@ -119,17 +119,18 @@ class UserController extends BaseController {
 		$state_arr = $this->user->getstates();
 
 		$id = $institution_id = $role_id = $country_id = $state = 0;
-		$name = $email = $status =$gender = $enrollno = $password = '';
+		$name = $email = $status = $gender = $enrollno = $password = '';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
-		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
-			,'address1','address2','address3','city','state','state_arr','phoneno','pincode','country_id','country_arr','first_name','last_name','profile_picture','pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
+			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
+
 	public function edit($userid = 0)
 	{
-		$userid = ($userid > 0) ? $userid :	Auth::user()->id;
+		$userid = ($userid > 0) ? $userid : Auth::user()->id;
 		$params = Input::All();
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
@@ -138,8 +139,7 @@ class UserController extends BaseController {
 		$state_arr = $this->user->getstates();
 
 		$pic_data = [];
-		if(isset($userid) && $userid > 0)
-		{
+		if (isset($userid) && $userid > 0) {
 			$user = $this->user->find($userid);
 			$id = $user->id;
 			$role_id = $user->role_id;
@@ -148,7 +148,7 @@ class UserController extends BaseController {
 			$email = $user->email;
 			$enrollno = $user->enrollno;
 			$status = $user->status;
-			$gender =$user->gender;
+			$gender = $user->gender;
 			$password = $user->password;
 			$first_name = $user->first_name;
 			$last_name = $user->last_name;
@@ -164,16 +164,14 @@ class UserController extends BaseController {
 			//$profile_picture = $user->profile_picture;
 			$profile_picture = $this->getProfilePicURL($user->profile_picture);
 			$pic_data = ['coords' => $user->pic_coords, 'image' => $user->profile_picture, 'id' => $user->id];
-		}
-		else
-		{
+		} else {
 			$id = $institution_id = $role_id = $country_id = $state = 0;
 			$name = $email = $status = $enrollno = $password = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
-		return view('admin::user.edit',compact('id','institution_id','role_id','name','email','status','gender','enrollno','inst_arr','roles_arr','password'
-			,'address1','address2','address3','city','state','state_arr','phoneno','pincode','country_id','country_arr','first_name','last_name', 'profile_picture','pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
+			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 
 	public function update($institutionId = 0)
@@ -181,44 +179,38 @@ class UserController extends BaseController {
 		$post = Input::All();
 
 		$rules = [
-			'institution_id' =>'required|not_in:0',			
+			'institution_id' => 'required|not_in:0',
 			//'name' => 'required|min:3|unique:users',
-			'first_name' =>'required|min:3',
-			'last_name' =>'required',
+			'first_name' => 'required|min:3',
+			'last_name' => 'required',
 			'email' => 'required|email|max:255|unique:users',
-			'enrollno' =>'required',
-			'address1' =>'required',
-			'city' =>'required',
+			'enrollno' => 'required',
+			'address1' => 'required',
+			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
-			'phoneno'=>array('required','numeric','regex: /^\d{10}$/'),
-			'gender'=>'required',
-			'state' =>'required',
-			'country_id' =>'required'];
+			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
+			'gender' => 'required',
+			'state' => 'required',
+			'country_id' => 'required'];
 
-		if($post['id'] > 0)
-		{
+		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
 			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
 
-			if($post['password'] != NULL)
-			{
+			if ($post['password'] != NULL) {
 				$rules['password'] = 'confirmed|min:6';
 			}
-		}
-		else
-		{
-			$rules['role_id'] ='required|not_in:0';
+		} else {
+			$rules['role_id'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
 		}
 
 		$validator = Validator::make($post, $rules);
 
-		if ($validator->fails())
-		{
+		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
-		}
-		else {
+		} else {
 			$params = Input::All();
 			//var_dump($params);
 			$this->user->updateUser($params);
@@ -233,15 +225,22 @@ class UserController extends BaseController {
         return redirect('/user');*/
 	}
 
-	public function delete($userid = 0)
+	public function delete($userid)
 	{
-		if($userid > 0)
-		{
-			$this->user->deleteUser($userid);
-		}
-		return redirect('/user');
-	}
+			$assign = AssignmentUser::where('user_id', $userid)->count();
+			//dd($assign);
+			if ($assign == null ) {
+				User::find($userid)->delete();
+				\Session::flash('flash_message', 'delete!');
 
+				return redirect('/user');
+
+			} else {
+				\Session::flash('flash_message_failed', 'Can not Delete this User.');
+				return Redirect::back();
+
+			}
+	}
 	public function roleslist()
 	{
 		$roles = Role::lists('name', 'id');
