@@ -25,6 +25,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Model\S3;
 use App\Modules\Admin\Requests\imageRequest;
 use App\Modules\Admin\Models\RoleUser;
+use Mail;
 class UserController extends BaseController {
 
 	/*
@@ -222,7 +223,21 @@ class UserController extends BaseController {
 			$params = Input::All();
 			//var_dump($params);
 			$this->user->updateUser($params);
-
+			if($params['status']=='Active'){
+				$create = array(
+                            'name'=>$params['first_name'],
+                            'email'=>$params['email'],
+                            );
+                    $data = array(         
+                            'email' =>$params['email'],
+                           'name' =>$params['first_name'],
+ 
+                    );
+                        
+                     Mail::send('emails.user_active', $data, function($message) use ($create){
+                        $message->to($create['email'],$create['name'])->subject('User Activated');
+                    });
+			}
 			return redirect('/user');
 		}
 		/*

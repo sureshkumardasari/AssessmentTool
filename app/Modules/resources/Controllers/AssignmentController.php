@@ -20,6 +20,7 @@ use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\Assessment;
 use DB;
+use Mail;
 class AssignmentController extends BaseController {
 
 	
@@ -151,7 +152,7 @@ class AssignmentController extends BaseController {
 	public function assignmentupdate($id = 0)
 	{
 		$params = Input::All();
-   		$rules = [
+		$rules = [
 			'name' => 'required|min:3',
 			'assignment_text' =>'required',
 			'startdatetime' =>'required',
@@ -174,11 +175,38 @@ class AssignmentController extends BaseController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 		else {
+			$user_list=[];
  			$num = Assignment::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id',[$params['id']])->count();
+			if($params['student_ids']){
+				foreach ($params['student_ids'] as $key => $value) {
+					array_push($user_list,$value);
+				}
+				// $assignment_name=[];
+				$assignment_name=$params['name'];
+  			 	$user_list_details=User::wherein('id',$user_list)->select('users.name as user_name', 'users.email as email')->get()->toArray();
+				// array_merge($user_list_details,$assignment_name);	
+				foreach ($user_list_details as $key => $value) {
+					$user_list_details[$key]['assignment_name']=$params['name']; 
+					$user_list_details[$key]['startdatetime']=$params['startdatetime']; 
+					$user_list_details[$key]['enddatetime']=$params['enddatetime']; 
+				}
+				$create=[];
+				foreach ($user_list_details as $key => $create) {
+					$create=$user_list_details;
+ 				}
+     				foreach ($user_list_details as $key => $value) { 
+    					foreach ($create as $key => $values) {
+     						 Mail::send('emails.assignment_users', $value, function($message) use ($values){
+                        	$message->to($values['email'],$values['assignment_name'])->subject('Assignment Assigned users');
+                    		});	
+ 					}
+ 				} 
+			}
 			if ($num > 0) {
 				return Redirect::back()->withInput()->withErrors("Assignment already entered");
 			} 
 			$this->assignment->updateassignment($params);
+			
 			return redirect('/resources/assignment');
 		}		
 	}
