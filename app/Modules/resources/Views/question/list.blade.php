@@ -37,15 +37,15 @@
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 				<div class="panel-body">
 				<div class="panel panel-default">
-					<div class="panel-heading searchfilter pointer">Advanced Filters
+					<div class="panel-heading searchfilter pointer"  id="clear">Advanced Filters
 						<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
 					</div>
 					<div class="panel-body searchfilter-body hide">	
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label" >Institution</label>
 						<div class="col-md-10">
-							<select class="form-control" name="institution_id" id="institution_id" onchange="inst_change()">
-								<option value="0">Select</option>
+							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+								<option value="0">--Select Institution--</option>
 								@foreach($inst_arr as $id=>$val)
 								<option name="institution_id" value="{{$id}}">{{ $val }}</option>
 								@endforeach
@@ -55,8 +55,8 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label">Category</label>
 						<div class="col-md-10">
-							<select class="form-control" name="category_id" id="category" onchange="cat_change()">
-								<option value="0">Select</option>
+							<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+								<option value="0">--Select Category--</option>
 								
 							</select>
 						</div>
@@ -64,8 +64,8 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label">Subject</label>
 						<div class="col-md-10">
-							<select class="form-control" name="subject_id" id="subject" onchange="sub_change()">
-								<option value="0">Select</option>
+							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
+								<option value="0">--Select Subject--</option>
 								
 							</select>
 						</div>
@@ -73,9 +73,17 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label">Lessons</label>
 						<div class="col-md-10">
-							<select class="form-control" name="lessons_id" id="lessons">
-								<option value="0">Select</option>
+							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
+								<option value="0">--Select Lesson--</option>
 								
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-6 required">
+						<label class="col-md-2 control-label">Question Type</label>
+						<div class="col-md-10">
+							<select class="form-control" name="question_type" id="question_type">
+								<option value="0">--Select Question Type--</option>
 							</select>
 						</div>
 					</div>
@@ -123,6 +131,9 @@
 	</div>
 </div>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
+<?php
+$path = url()."/resources/";
+?>
 <script>
 	function filter(){
 		var csrf=$('Input#csrf_token').val();
@@ -153,8 +164,7 @@
 							tr.append("<td>" + response[i].question_title + "");
 							tr.append("<td>" + response[i].question_type + "");
 							tr.append("<td>" + response[i].passage_title + "");
-							tr.append("<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
-							tr.append("<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							tr.append("<td>"+"<a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>"+"<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>"+"<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>"+"</td>");
  							$('#question_list_filer').append(tr);
 						}
 					}
@@ -171,66 +181,106 @@ $( document ).ready(function() {
     });
 });    
 
-function inst_change(){
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-                        headers: {"X-CSRF-Token": csrf},
-                        url: '/assesmenttool/public/resources/categoryList/' + $('#institution_id').val(),
-                        type: 'post',
-                        success: function (response) {
-                            var a = response.length;
-                            $('#category').empty();
-                            var opt = new Option('--Select Category--', '');
-                            $('#category').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#category').append(opt);
-                            }
-                        }
-                    }
-            )
-        }
-function cat_change(){
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-                        headers: {"X-CSRF-Token": csrf},
-                        url: '/assesmenttool/public/resources/subjectList/' + $('#category').val(),
-                        type: 'post',
-                        success: function (response) {
-                            var a = response.length;
-                            $('#subject').empty();
-                            var opt = new Option('--Select Subject--', '');
-                            $('#subject').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#subject').append(opt);
-                            }
-                        }
-                    }
-            )
-        }
-        function sub_change(){
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-                        headers: {"X-CSRF-Token": csrf},
-                        url: '/assesmenttool/public/resources/lessonsList/' + $('#subject').val(),
-                        type: 'post',
-                        success: function (response) {
-                            var a = response.length;
-                            $('#lessons').empty();
-                            var opt = new Option('--Select Lessons--', '');
-                            $('#lessons').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#lessons').append(opt);
-                            }
-                        }
-                    }
-            )
-        }
+	function change_institution(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
 
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+							$('#category_id').empty();
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
+							var opt = new Option('--Select Category--', '');
+							//opt.addClass('selected','disabled','hidden');
+							$('#category_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#category_id').append(opt);
+							}
+						}
+					});
+	}
+
+	function change_category(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}subjectList/'+$('#category_id').val(),
+					type:'post',
+					success:function(response) {
+						var a = response.length;
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
+							var opt = new Option('--Select Subject--', '');
+							$('#subject_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#subject_id').append(opt);
+							}
+						}
+					});
+		
+	}
+
+	function change_lessons(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}lessonsList/'+$('#subject_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length	
+							$('#lessons_id').empty();
+							$('#question_type').empty();
+							var opt=new Option('--Select Lesson--','');
+							$('#lessons_id').append(opt);
+							for(i=0;i<a;i++){
+								var opt=new Option(response[i].name,response[i].id);
+								$('#lessons_id').append(opt);
+							}
+						}
+					});
+
+		
+	}
+
+	function change_question_type(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}questiontypeList/'+$('#lessons_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+						$('#question_type').empty();
+						var opt=new Option('--Select QuestionType--','');
+						$('#question_type').append(opt);
+						for(i=0;i<a;i++){
+							var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
+							$('#question_type').append(opt);
+						}
+					}
+				});
+
+	}
+
+	/*$('#clear').click(function(){
+		$("#institution_id").val($("#institution_id option:first").val());
+		$("#category_id").val($("#category_id option:first").val());
+		$("#subject_id").val($("#subject_id option:first").val());
+		$("#lessons_id").val($("#lessons_id option:first").val());
+		$("#question_type").val($("#question_type option:first").val());
+		// $('#question_list_filer').empty(); 
+	}); */
 </script>
 @endsection
