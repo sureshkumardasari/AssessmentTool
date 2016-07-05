@@ -29,6 +29,7 @@ use App\Modules\Resources\Models\Template;
 use App\Modules\Admin\Models\User;
 use DB;
 use mikehaertl\wkhtmlto\Pdf;
+use Exception;
 
 class AssessmentController extends BaseController {
 
@@ -385,10 +386,17 @@ class AssessmentController extends BaseController {
     	$footerHtml = $request->input('footer');
     	$asmt_id = $request->input('assessment_id');
     	$tpl_id = $request->input('template_id');
-        // dd($asmt_id);
+        // dd($tpl_id);
         // delete old template
     	$_templateId = '';
-    	if($tpl_id>0) $_templateId = Template::find($tpl_id)->id;
+		$temp=Template::find($tpl_id);
+		if(count($temp)>0){
+			$a=$temp->id;
+		}
+		else{
+			$a="";
+		}
+    	if($tpl_id>0) $_templateId = $a;
         if (!empty($_templateId)) {
             $template = Template::find($_templateId);
             if ($template) {
@@ -879,4 +887,5 @@ $assignmentId = $post['assignmentId'];
         }
         return Response::json($response);
     }
+
 }
