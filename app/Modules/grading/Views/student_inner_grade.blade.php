@@ -368,7 +368,7 @@
             url:assessment_id+"/"+assignment_id+"/"+user_id,
             type:'get',
             success:function(response){
-                alert(JSON.stringify(response));
+                //alert(JSON.stringify(response));
                 selected_student_answers=[];
                 Question_selected_answers={};
                 var student_details=response['student_details'];
