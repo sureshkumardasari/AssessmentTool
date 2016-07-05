@@ -364,7 +364,7 @@ class AssessmentAssignmentController extends BaseController {
         $allusers=AssignmentUser::where('assignment_id',$aAId)->get()->count();
         $completed_users=AssignmentUser::where('assignment_id',$aAId)->where('status',"completed")->get()->count();
         if($allusers==$completed_users){
-            Assignment::where('id',$aAId)->update(['status'=>"completed"]);
+            Assignment::where('id',$aAId)->update(['status'=>"completed"]); 
         }
 
         // check if assessment type was fixed form
