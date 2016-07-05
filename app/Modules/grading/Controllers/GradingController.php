@@ -28,7 +28,7 @@ use DB;
 
 class GradingController extends BaseController {
 
-	
+
 
 	/**
 	 * Create a new controller instance.
@@ -65,18 +65,18 @@ class GradingController extends BaseController {
 	 */
 	public function index()
 	{
-		
-	}    
+
+	}
 
 	public function assignment(){
-		$inst_arr = $this->institution->getInstitutions();	
+		$inst_arr = $this->institution->getInstitutions();
 		$assignments = $this->grade->getGradeAssignment();
 		// dd($assignments);
-        return view('grading::list',compact('assignments', 'inst_arr'));
+		return view('grading::list',compact('assignments', 'inst_arr'));
 	}
 
 	public function studentGradeListing($assignment_id,$assessment_id){
- 		// print_r($assignment_id);
+		// print_r($assignment_id);
 		//$assignment_id=$assignment_id;
 		$ass_usrs = $this->grade->getUsersByAssignment($assignment_id);
 
@@ -86,7 +86,7 @@ class GradingController extends BaseController {
 
 	public function studentGradeListingAjax($student_id){
 
- 		$ass_usrs = $this->grade->getUsersById($student_id);
+		$ass_usrs = $this->grade->getUsersById($student_id);
 		return $ass_usrs;
 	}
 
@@ -110,8 +110,8 @@ class GradingController extends BaseController {
 		$qst_id = $ids[2];
 
 		//get assignment users
-		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);	
-		
+		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);
+
 		//get assessment questions
 		$ass_qst = $this->grade->loadQuestion($assignment_id, $assessment_id, $qst_id);
 		$qtitle = $ass_qst['Title'];
@@ -127,161 +127,38 @@ class GradingController extends BaseController {
 
 		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);
 		$user_id=$id;
-		//dd($user_id);
+		$institute=User::select('institution_id')->where('id',$id)->first();
+		if(count($institute)>0){
+			$institution_name=Institution::select('name')->where('id',$institute['institution_id'])->first();
+		}
+		else{
+			$institution_name['name']="";
+		}
+		$details=AssignmentUser::where('user_id',$id)->where('assignment_id',$assignment_id)->select('takendate','gradeddate')->first();
+		//dd($details);
 
 		$questionss_list = $this->grade->loadAssignmentQuestion($assignment_id, $assessment_id, $user_id);
-
-   		//dd($questionss_list);
-        foreach($questionss_list as $list){
-            $question_type=$list['question_type'];
-            break;
-        }
-
-		$ass_usrs = $this->grade->getUsersById($assignment_id);
-		//dd($ass_usrs);
-
+		foreach($questionss_list as $list){
+			$question_type=$list['question_type'];
+			break;
+		}
+		//$ass_usrs = $this->grade->getUsersById($assignment_id);
 		$user_list = Assignment::join('assignment_user', 'assignment.id', '=', 'assignment_user.assignment_id')
-			->where('assignment_user.assignment_id', '=', $assignment_id)
-			->select('user_id')
-			->get();
+				->where('assignment_user.assignment_id', '=', $assignment_id)
+				->select('user_id')
+				->get();
 		$user_id = [];
-		//$first_user=0;
-//		foreach($user_list as $selected_user){
-//			$first_user=$selected_user['user_id'];
-//			break;
-//		}
-		//dd($first_user);
 		foreach ($user_list as $user) {
 			$user_id[] = $user['user_id'];
-
 			$user_list_detail = User::wherein('id', $user_id)
-				->get();
-
-//  	$question_list=Question::join('question_user_answer','questions.id','=','question_user_answer.question_id')
-//							->join('question_answers','questions.id','=','question_answers.question_id')
-//							->where('question_user_answer.assignment_id','=',$assignment_id)
-//							->where('question_user_answer.user_id','=',$id)
-////							->select('questions.title as title')
-//							->groupBy('title')
-//							->get();
-//	dd($question_list);
-//	$assignmentid = 1;
-//	$userid =1;
-//	dd($user_id);
-
-
-//	$question_list=Question::join('question_user_answer','questions.id','=','question_user_answer.question_id')
-//		->join('question_answers','questions.id','=','question_answers.question_id')
-//		->where('question_user_answer.assignment_id','=',$assignment_id)
-//		->where('question_user_answer.user_id','=',$id)
-// 		->groupBy('title')
-//		->get();
-//
-////	dd($question_list);
-
-
-//			$actual_question = DB::table('question_user_answer')->where('assessment_id', '=', $assessment_id)->where('assignment_id',$assignment_id)->where('user_id', $id)->get();
-//	//dd($actual_question);
-//			$actual_question_list = array();
-//			foreach ($actual_question as $userid) {
-////		print_r($userid->assignment_id);
-//				array_push($actual_question_list, $userid);
-//				$q_list = [];
-//				foreach ($actual_question_list as $list) {
-////			dd($list->question_id);
-//					array_push($q_list, $list->question_id);
-//				}
-//
-//				$main_result = Question::join('question_answers', 'questions.id', '=', 'question_answers.question_id')
-////		->where('question_user_answer.assignment_id','=',$assignment_id)
-//						->wherein('questions.id', $q_list)
-//						->get();
-////	dd($main_result);
-//
-////				$sec_result = Question::join('question_user_answer', 'questions.id', '=', 'question_user_answer.question_id')
-//////		->where('question_user_answer.assignment_id','=',$assignment_id)
-////						->wherein('questions.id', $q_list)
-////						->get();
-////	dd($sec_result);
-//
-//				$result = [];
-//
-////				$question_list = Question::join('question_user_answer', 'questions.id', '=', 'question_user_answer.question_id')
-////						->join('question_answers', 'questions.id', '=', 'question_answers.question_id')
-////						->where('question_user_answer.assignment_id', '=', $assignment_id)
-////						->where('question_user_answer.user_id', '=', $id)
-////						->wherein('questions.id', $q_list)
-////						->select('questions.title', 'questions.qst_text', 'question_user_answer.answer_option', 'question_answers.is_correct as main_correct', 'question_user_answer.is_correct as sec_correct', 'question_answers.ans_text')
-////						->groupBy('title')
-////						->get();
-////	dd($question_list);
-//
-////	dd($question_list);
-////	dd($q_list);
-////	$usid= DB::table('assignment_user')->select('assignment_id')->wherein('user_id',$c)->get();
-////	dd($usid);
-//
-////				$question = DB::table('question_answers')->select('question_id')->wherein('question_id', $q_list)->groupBy('question_id')->get();
-////
-////				$question_details = DB::table('questions')->wherein('id', $q_list)->groupBy('id')->get();
-////	dd($question_details);
-//
-//
-////	$question1 = DB::table('assessment_question')->select('question_id')->count();
-////	$attended=DB::table('question_user_answer')->select('question_answer_id')->get();
-////	$users = DB::table('question_user_answer')->select('is_correct')->get();
-//////	echo 'total quection'."=".$question1.'<br>';
-////	$count= 0;
-////	$count1=0;
-////	foreach($attended as $id)
-////	{
-////		$att=$id->question_answer_id;
-////		if($att > 0)
-////		{
-////			$count++;
-////		}
-////		if($att == 0)
-////		{
-////			$count1++;
-////		}
-////	}
-//////	echo 'attend the quection'.'='.$count.'<br>';
-////	$a=0;
-////	$b=0;
-////	$c=0;
-////	foreach($users as $user) {
-////
-////		$correct=$user->is_correct;
-////		//dd($correct);
-////		if($correct == "Yes") {
-////
-////			$a++;
-////
-////		}
-////		elseif($correct == "No"){
-////			$b++;
-////		}
-////		elseif($correct == "Open"){
-////			$c++;
-////		}
-////
-////	}
-//////	echo 'write quection'.'='.$a.'<br>','wrong quection'.'='.$b.'<br>','not attended quection'.'='.$c;
-////
-//				//dd($actual_question);
-//			}
-
+					->get();
 		}
 		$first_student_answers = $this->studentAnswers($assessment_id,$assignment_id,$id);
-        //QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$id)->select('question_answer_id','question_id')->get();;
-		//dd($first_student_answers);
-		//dd($questionss_list);
-		return view('grading::student_inner_grade', compact('ass_usrs', 'question_list', 'user_list', 'user_list_detail', 'actual_question', 'main_result', 'questionss_list','assignmentUsersArr','assessment_id','assignment_id','id','first_student_answers','question_type'));
-
+		return view('grading::student_inner_grade', compact( 'user_list_detail', 'questionss_list','assessment_id','assignment_id','id','first_student_answers','question_type','institution_name','details'));
 	}
 
 	public function studentGradingInner($assignment_id){
-	return 'studentGradingInner';
+		return 'studentGradingInner';
 		// print_r($assignment_id);
 		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
 		// dd($ass_qst);
@@ -289,149 +166,149 @@ class GradingController extends BaseController {
 	}
 
 	// Save ansers for students by Grade By Question method.....
-		public function saveAnswerByQuestionGrade($question_id=0){
+	public function saveAnswerByQuestionGrade($question_id=0){
 		$post=Input::all();
 		if(isset($post['selected_answer'])){
-		//dd($post);
-if($post['question_type']=="Multiple Choice - Multi Answer"){
+			//dd($post);
+			if($post['question_type']=="Multiple Choice - Multi Answer"){
 
-if($post['user_id']!=0) {
+				if($post['user_id']!=0) {
 
-			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-				->where('question_id',$question_id)->where('user_id',$post['user_id'])->count();
-			if ($users_already_answered!=0) {
-				QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-				->where('question_id',$question_id)->where('user_id',$post['user_id'])->delete();
-			}
+					$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+							->where('question_id',$question_id)->where('user_id',$post['user_id'])->count();
+					if ($users_already_answered!=0) {
+						QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+								->where('question_id',$question_id)->where('user_id',$post['user_id'])->delete();
+					}
 //else{
-				foreach($post['selected_answer'] as $answer){
-			$uAnswer = new QuestionUserAnswer();
-			$uAnswer->question_id = $question_id;
-			$uAnswer->user_id = $post['user_id'];
-			$uAnswer->assessment_id = $post['assessment_id'];
-			$uAnswer->assignment_id = $post['assignment_id'];
-			$uAnswer->question_answer_id = $answer; //var_dump((intval($answer)));
-			//foreach ($post['selected_answer_text'] as $key => $text) {
-			//dd($post['selected_answer_text']);
-				$uAnswer->question_answer_text = $post['selected_answer_text'][intval($answer)];
-			//}
-			//foreach ($post['is_correct'] as $key => $value) {
-				$uAnswer->is_correct = isset ($post['is_correct'][intval($answer)]) ? $post['is_correct'][intval($answer)]: 'Open';
-			//}
-				//$uAnswer->question_answer_text = $post['selected_answer_text'];
-			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
-			//$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+					foreach($post['selected_answer'] as $answer){
+						$uAnswer = new QuestionUserAnswer();
+						$uAnswer->question_id = $question_id;
+						$uAnswer->user_id = $post['user_id'];
+						$uAnswer->assessment_id = $post['assessment_id'];
+						$uAnswer->assignment_id = $post['assignment_id'];
+						$uAnswer->question_answer_id = $answer; //var_dump((intval($answer)));
+						//foreach ($post['selected_answer_text'] as $key => $text) {
+						//dd($post['selected_answer_text']);
+						$uAnswer->question_answer_text = $post['selected_answer_text'][intval($answer)];
+						//}
+						//foreach ($post['is_correct'] as $key => $value) {
+						$uAnswer->is_correct = isset ($post['is_correct'][intval($answer)]) ? $post['is_correct'][intval($answer)]: 'Open';
+						//}
+						//$uAnswer->question_answer_text = $post['selected_answer_text'];
+						//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+						//$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
 
-			$uAnswer->save();
-			}
-		//}
-			// else{
-			// 	QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
-			// 		->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-			// 		->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
-			// }
-			if(!isset($post['nextuserid'])){
-				return "All students graded";
-			}
-			return $post['user_id'];
-		}
-		else {
-			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-				->where('question_id',$question_id)->lists('user_id');
-			$assignment_users = AssignmentUser::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->lists('user_id');
-			foreach($assignment_users as $user){
-				if(in_array($user,$users_already_answered)){
-QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->where('question_id',$question_id)->where('user_id',$user)->delete();
-				}
-foreach($post['selected_answer'] as $answer){
-					// QuestionUserAnswer::where('user_id',$user)->where('question_id',$question_id)
-					// 	->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-					// 	->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
-				//}
-				//else {
-					$uAnswer = new QuestionUserAnswer();
-					$uAnswer->question_id = $question_id;
-					$uAnswer->user_id = $user;
-					$uAnswer->assessment_id = $post['assessment_id'];
-					$uAnswer->assignment_id = $post['assignment_id'];
-					//$uAnswer->question_answer_id = $answer;
-
-					$uAnswer->question_answer_id = $answer;
-			//foreach ($post['selected_answer_text'] as $key => $text) {
-				$uAnswer->question_answer_text = $post['selected_answer_text'][$answer];	
-			//}
-			//foreach ($post['is_correct'] as $key => $value) {
-				$uAnswer->is_correct = isset ($post['is_correct'][$answer]) ? $post['is_correct'][$answer]: 'Open';
-			//}
-					//$uAnswer->question_answer_text = $post['selected_answer_text'];
-					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
-					//$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
-					$uAnswer->save();
-				}
-			}
-			return "All students graded";
-}
-}
-else{
-
-
-		if($post['user_id']!=0) {
-			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-				->where('question_id',$question_id)->where('user_id',$post['user_id'])->get();
-			if (count($users_already_answered)==0) {
-			$uAnswer = new QuestionUserAnswer();
-			$uAnswer->question_id = $question_id;
-			$uAnswer->user_id = $post['user_id'];
-			$uAnswer->assessment_id = $post['assessment_id'];
-			$uAnswer->assignment_id = $post['assignment_id'];
-			$uAnswer->question_answer_id = $post['selected_answer'];
-				$uAnswer->question_answer_text = $post['selected_answer_text'];
-			//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
-			$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
-
-			$uAnswer->save();
-		}
-			else{
-				QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
-					->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-					->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
-			}
-			if(!isset($post['nextuserid'])){
-				return "All students graded";
-			}
-		}
-		else {
-			$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-				->where('question_id',$question_id)->lists('user_id');
-			$assignment_users = AssignmentUser::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->lists('user_id');
-			foreach($assignment_users as $user){
-				if(in_array($user,$users_already_answered)){
-					QuestionUserAnswer::where('user_id',$user)->where('question_id',$question_id)
-						->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
-						->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+						$uAnswer->save();
+					}
+					//}
+					// else{
+					// 	QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
+					// 		->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+					// 		->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+					// }
+					if(!isset($post['nextuserid'])){
+						return "All students graded";
+					}
+					return $post['user_id'];
 				}
 				else {
-					$uAnswer = new QuestionUserAnswer();
-					$uAnswer->question_id = $question_id;
-					$uAnswer->user_id = $user;
-					$uAnswer->assessment_id = $post['assessment_id'];
-					$uAnswer->assignment_id = $post['assignment_id'];
-					$uAnswer->question_answer_id = $post['selected_answer'];
-					$uAnswer->question_answer_text = $post['selected_answer_text'];
-					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
-					$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
-					$uAnswer->save();
+					$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+							->where('question_id',$question_id)->lists('user_id');
+					$assignment_users = AssignmentUser::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->lists('user_id');
+					foreach($assignment_users as $user){
+						if(in_array($user,$users_already_answered)){
+							QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->where('question_id',$question_id)->where('user_id',$user)->delete();
+						}
+						foreach($post['selected_answer'] as $answer){
+							// QuestionUserAnswer::where('user_id',$user)->where('question_id',$question_id)
+							// 	->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+							// 	->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+							//}
+							//else {
+							$uAnswer = new QuestionUserAnswer();
+							$uAnswer->question_id = $question_id;
+							$uAnswer->user_id = $user;
+							$uAnswer->assessment_id = $post['assessment_id'];
+							$uAnswer->assignment_id = $post['assignment_id'];
+							//$uAnswer->question_answer_id = $answer;
+
+							$uAnswer->question_answer_id = $answer;
+							//foreach ($post['selected_answer_text'] as $key => $text) {
+							$uAnswer->question_answer_text = $post['selected_answer_text'][$answer];
+							//}
+							//foreach ($post['is_correct'] as $key => $value) {
+							$uAnswer->is_correct = isset ($post['is_correct'][$answer]) ? $post['is_correct'][$answer]: 'Open';
+							//}
+							//$uAnswer->question_answer_text = $post['selected_answer_text'];
+							//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+							//$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+							$uAnswer->save();
+						}
+					}
+					return "All students graded";
 				}
 			}
-			return "All students graded";
+			else{
+
+
+				if($post['user_id']!=0) {
+					$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+							->where('question_id',$question_id)->where('user_id',$post['user_id'])->get();
+					if (count($users_already_answered)==0) {
+						$uAnswer = new QuestionUserAnswer();
+						$uAnswer->question_id = $question_id;
+						$uAnswer->user_id = $post['user_id'];
+						$uAnswer->assessment_id = $post['assessment_id'];
+						$uAnswer->assignment_id = $post['assignment_id'];
+						$uAnswer->question_answer_id = $post['selected_answer'];
+						$uAnswer->question_answer_text = $post['selected_answer_text'];
+						//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+						$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+
+						$uAnswer->save();
+					}
+					else{
+						QuestionUserAnswer::where('user_id',$post['user_id'])->where('question_id',$question_id)
+								->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+								->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+					}
+					if(!isset($post['nextuserid'])){
+						return "All students graded";
+					}
+				}
+				else {
+					$users_already_answered=QuestionUserAnswer::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+							->where('question_id',$question_id)->lists('user_id');
+					$assignment_users = AssignmentUser::where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])->lists('user_id');
+					foreach($assignment_users as $user){
+						if(in_array($user,$users_already_answered)){
+							QuestionUserAnswer::where('user_id',$user)->where('question_id',$question_id)
+									->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
+									->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
+						}
+						else {
+							$uAnswer = new QuestionUserAnswer();
+							$uAnswer->question_id = $question_id;
+							$uAnswer->user_id = $user;
+							$uAnswer->assessment_id = $post['assessment_id'];
+							$uAnswer->assignment_id = $post['assignment_id'];
+							$uAnswer->question_answer_id = $post['selected_answer'];
+							$uAnswer->question_answer_text = $post['selected_answer_text'];
+							//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
+							$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+							$uAnswer->save();
+						}
+					}
+					return "All students graded";
+				}
+				return $post['user_id'];
+			}
+
 		}
-		return $post['user_id'];
-	}
-	
-	}
-	else{
-return "No data given";
-	}
+		else{
+			return "No data given";
+		}
 	}
 
 
@@ -449,69 +326,71 @@ return "No data given";
 		$user_already_entered_answers=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$post['user_id'])->lists('question_id');
 //dd($user_already_entered_answers);
 		if(isset($post['question_selected_answers'])){
-            if($post['question_type']=="Multiple Choice - Multi Answer"){
+			if($post['question_type']=="Multiple Choice - Multi Answer"){
 
-                foreach($post['question_selected_answers'] as $question_id=>$answers){
-                   // dd($answers);
-                    if (in_array((int)$question_id,$user_already_entered_answers)){
-                        QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
-                            ->delete();//['question_answer_id'=>$answer]);
-                    }
-                    if(count($answers)==0){
-                        continue;
-                    }
-                    foreach($answers as $answer){
-                        $uAnswer=new QuestionUserAnswer();
-                            $uAnswer->assessment_id = $assessment_id;
-                            $uAnswer->assignment_id = $assignment_id;
-                            $uAnswer->question_id = $question_id;
-                            $uAnswer->question_answer_id = $answer;
-                            $uAnswer->user_id = $post['user_id'];
-                            $uAnswer->save();
-                    }
-                }
-            }
-            else if($post['question_type']=="Multiple Choice - Single Answer"){
+				foreach($post['question_selected_answers'] as $question_id=>$answers){
+					// dd($answers);
+					if (in_array((int)$question_id,$user_already_entered_answers)){
+						QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
+								->delete();//['question_answer_id'=>$answer]);
+					}
+					if(count($answers)==0){
+						continue;
+					}
+					foreach($answers as $answer){
+						$uAnswer=new QuestionUserAnswer();
+						$uAnswer->assessment_id = $assessment_id;
+						$uAnswer->assignment_id = $assignment_id;
+						$uAnswer->question_id = $question_id;
+						$uAnswer->question_answer_id = $answer;
+						$uAnswer->user_id = $post['user_id'];
+						$uAnswer->save();
+					}
+				}
+			}
+			else if($post['question_type']=="Multiple Choice - Single Answer"){
 
-                foreach($post['question_selected_answers'] as $question_id=>$answer) {
-                    $uAnswer=new QuestionUserAnswer();
-                    if (in_array($question_id,$user_already_entered_answers)){
-                        $uAnswer->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
-                            ->update(['question_answer_id'=>$answer[0]]);
-                    }
-                    else{
-                        $uAnswer->assessment_id = $assessment_id;
-                        $uAnswer->assignment_id = $assignment_id;
-                        $uAnswer->question_id = $question_id;
-                        $uAnswer->question_answer_id = $answer[0];
-                        $uAnswer->user_id = $post['user_id'];
-                        $uAnswer->save();
+				foreach($post['question_selected_answers'] as $question_id=>$answer) {
+					$uAnswer=new QuestionUserAnswer();
+					if (in_array($question_id,$user_already_entered_answers)){
+						$uAnswer->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
+								->update(['question_answer_id'=>$answer[0]]);
+					}
+					else{
+						$uAnswer->assessment_id = $assessment_id;
+						$uAnswer->assignment_id = $assignment_id;
+						$uAnswer->question_id = $question_id;
+						$uAnswer->question_answer_id = $answer[0];
+						$uAnswer->user_id = $post['user_id'];
+						$uAnswer->save();
 
-                    }
-                }
-            }
+					}
+				}
+			}
 
-        if(isset($post['next_student'])){
-           return $this->studentAnswers($assessment_id,$assignment_id,$post['next_student']);
-            //return QuestionUserAnswer::where('user_id',$post['next_student'])->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
-        }
-		return "Completed";
+			if(isset($post['next_student'])){
+				return $this->studentAnswers($assessment_id,$assignment_id,$post['next_student']);
+				//return QuestionUserAnswer::where('user_id',$post['next_student'])->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
+			}
+			return "Completed";
 		}
 		else return "please answer atlest one question";
 	}
 	public function studentAnswers($assessment_id=0,$assignment_id=0,$user_id=0){
 
-		 $ans= QuestionUserAnswer::where('user_id',$user_id)->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
-       // dd($ans)
-        $b=Array();
-        foreach($ans as $a){
-            $b[$a['question_id']]=Array();
-        }
-        foreach($ans as $a){
+		$ans= QuestionUserAnswer::where('user_id',$user_id)->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
+		// dd($ans)
+		$b=Array();
+		$b['student_answers']=Array();
+		$b['student_details']=AssignmentUser::where('assignment_id',$assignment_id)->where('user_id',$user_id)->select('takendate','gradeddate')->first();
+		foreach($ans as $a){
+			$b['student_answers'][$a['question_id']]=Array();
+		}
+		foreach($ans as $a){
 
-            array_push($b[$a['question_id']],$a['question_answer_id']);
-        }
-return $b;
+			array_push($b['student_answers'][$a['question_id']],$a['question_answer_id']);
+		}
+		return $b;
 
 	}
 }
