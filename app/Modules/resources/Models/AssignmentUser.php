@@ -10,8 +10,9 @@ namespace App\Modules\Resources\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-
-class AssignmentUser extends Model {
+use Assessment;
+use Mail;
+ class AssignmentUser extends Model {
 	/**
 	 * The database table used by the model.
 	 *
@@ -66,14 +67,30 @@ class AssignmentUser extends Model {
         return ($res != null) ? $res->status : '';
     }
 	public function complete($aId, $aAId, $status) {
-
-        AssignmentUser::where('assignment_id', $aAId)->where('assessment_id',$aId)
+         AssignmentUser::where('assignment_id', $aAId)->where('assessment_id',$aId)
                                 ->where('user_id', Auth::user()->id)
                                 ->update([
                                         'status' => $status,
                                         'isgraded' => ($status == 'completed') ? true : false,
                                         'takendate' => ($status == 'completed') ? date('Y-m-d H:i:s') : null,
                                     ]);
+        
+        $details = AssignmentUser::join('assignment as assign', 'assign.id','=','assignment_user.assignment_id')
+                                ->join('users as u','u.id','=','assignment_user.user_id')
+                                ->where('assignment_user.assignment_id', $aId)
+                                ->select('assign.name as assign_name','u.first_name as first_name','u.email as email')
+                               ->get()->toArray();
+        $total_details=[];                      
+        foreach ($details as $key => $value) {
+            $total_details=$value;
+        } 
+        $create=[];
+                foreach ($total_details as $key => $create) {
+                    $create=$total_details;
+        }     
+        Mail::send('emails.assignment_complete', $total_details, function($message) use ($create){
+            $message->to($create['email'],$create['first_name'])->subject('Assignment Completed');
+        });
     }
     public function updateUserGradeStatus($params){
 
