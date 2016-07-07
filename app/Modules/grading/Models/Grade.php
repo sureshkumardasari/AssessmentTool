@@ -390,12 +390,19 @@ class Grade extends Model {
         $query = DB::table('assignment as asn')
             ->join('assessment as ass', function($join){
                 $join->on('ass.id', '=', 'asn.assessment_id');
-            })
-            // ->where('institution_id',$instute_id)
-            ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
-            
-        $assignments = $query->get();
+            });
+            $sessRole = getRole() ;
+            if($sessRole != 'administrator')
+            {
+              $ass=$query  ->where('grader_id',Auth::user()->id)
+                ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
+            }
+            else {
+                $ass=$query->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
+            }
+        $assignments = $ass->get();
         return $assignments;
+
 
     }
 
