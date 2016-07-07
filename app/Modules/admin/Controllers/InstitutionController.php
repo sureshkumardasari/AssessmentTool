@@ -41,7 +41,10 @@ class InstitutionController extends BaseController {
 	{
 		$this->middleware('auth');
 		$this->institution = $institution;
+		 $obj = new User();
+ 		 $this->user= $obj;
 	}
+
 
 	/**
 	 * Show the application dashboard to the user.
@@ -59,16 +62,17 @@ class InstitutionController extends BaseController {
 	{
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-
+		$state_arr = $this->user->getstates();
 		$country_arr = $this->institution->getcountries();
 		$id = $parent_id = $country_id = 0;
 		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 
-		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state','country_arr','phoneno','pincode','inst_arr'));
+		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode','inst_arr'));
 	}
 
 	public function edit($id = 0)
-	{
+	{	
+		$state_arr = $this->user->getstates();
 		$country_arr = $this->institution->getcountries();
 		if(isset($id) && $id > 0)
 		{
@@ -92,7 +96,7 @@ class InstitutionController extends BaseController {
 			$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 		}
 
-		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state','country_arr','phoneno','pincode'));
+		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode'));
 	}
 
 	public function update($id = 0)

@@ -11,7 +11,7 @@ namespace App\Modules\Admin\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-
+//use App\states;
 class Institution extends Model {
 	/**
 	 * The database table used by the model.
@@ -60,6 +60,11 @@ class Institution extends Model {
 		$countries = DB::table('countries')->lists('country_name', 'id');
 		return $countries;
 	}
+	/*public function getstates()
+	{
+		$states  = DB::table('states')->lists('state_name','id');
+		return $states;
+	}*/
 	public function updateInstitution($params = 0)
 	{
 		$obj = new Institution();
