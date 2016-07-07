@@ -85,12 +85,23 @@ class AssignmentController extends BaseController {
 
 		$proctor_arr  = $this->user->getUsersOptionList($institution_id,3);// for proctor displaying teachers
 		$proctor_id = 0;
+		$users=Auth::user();
+		$inst_id=$users->institution_id;
+		$grader_arr=$this->user->getUsersOptionList($inst_id,3);
+		$grader_id=0;
 
 		//var_dump($proctor_arr); die();
 
 		$assignmentUsersJson	= "[{}]";
 
-		return view('resources::assignment.edit',compact('assignment','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
+		return view('resources::assignment.edit',compact('assignment','grader_id','grader_arr','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
+	}
+
+	public function GraderList($id)
+	{
+		$grader=$this->user->getGrader($id,3);
+		//dd($grader);
+		return $grader;
 	}
 
 	public function assignmentedit($id = 0)
@@ -100,6 +111,7 @@ class AssignmentController extends BaseController {
 		if(isset($id) && $id > 0)
 		{
 			$assignment = $this->assignment->find($id);
+
 
 			$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($id);	
 			//print_r($assignmentUsersArr);
@@ -113,12 +125,12 @@ class AssignmentController extends BaseController {
 		
 		$assessments_arr = Assessment::lists('name','id');
 		
-		
-		$institution_arr = $this->institution->getInstitutions();			
 
+		$institution_arr = $this->institution->getInstitutions();			
+		$grader= $this->user->getUsersOptionList($assignment->institution_id,3);
 		$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,3);// for proctor displaying teachers
 		
-		return view('resources::assignment.edit',compact('assignment','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
+		return view('resources::assignment.edit',compact('assignment','grader','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
 
 	public function assignmentview($id = 0)
@@ -152,6 +164,7 @@ class AssignmentController extends BaseController {
 	public function assignmentupdate($id = 0)
 	{
 		$params = Input::All();
+
    		$rules = [
 			'name' => 'required|min:3',
 			'assignment_text' =>'required',
@@ -161,6 +174,7 @@ class AssignmentController extends BaseController {
 			'institution_id' =>'required|not_in:0',
 			'student_ids' =>'required|array',
 			'launchtype' =>'required',
+			'grader_id'=>'required|not_in:0',
 			'delivery_method' =>'required'];
 
 		if(!isset($params['neverexpires']))

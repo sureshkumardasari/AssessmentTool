@@ -92,6 +92,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('passage_filter_data_assessment', ['as' => 'passage_filter_data_assessment', 'uses' => 'AssessmentController@passageAssessmentFilter']);
 
     Route::get('assignment', array('as' => 'assignment-list', 'uses'=>'AssignmentController@assignment'));
+    Route::get('assignment/{id}', array('as' => 'grader-list', 'uses'=>'AssignmentController@GraderList'));
     Route::get('assignmentadd', array('as' => 'assignment-add', 'uses'=>'AssignmentController@assignmentadd'));
     Route::get('assignmentedit/{id}', array('as' => 'assignment-edit', 'uses'=>'AssignmentController@assignmentedit'));
     Route::get('assignmentdel/{id}', array('as' => 'delete', 'uses'=>'AssignmentController@assignmentdelete'));

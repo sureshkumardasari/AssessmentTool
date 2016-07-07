@@ -87,6 +87,7 @@ class Assignment extends Model {
 		$obj->neverexpires = (isset($params['neverexpires'])) ?  $params['neverexpires'] : 0;
 		$obj->launchtype = $params['launchtype'];
 		$obj->proctor_user_id = (isset($params['proctor_id'])) ? $params['proctor_id'] : 0;
+		$obj->grader_id=$params['grader_id'];
 		$obj->proctor_instructions = (isset($params['proctor_instructions'])) ? $params['proctor_instructions'] : '';
 		$obj->institution_id = $params['institution_id'];
 		$obj->delivery_method = $params['delivery_method'];

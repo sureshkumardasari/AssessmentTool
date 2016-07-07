@@ -7,6 +7,7 @@
  */
 
 namespace App\Modules\Admin\Models;
+use App\Modules\Resources\Models\Assignment;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -75,6 +76,13 @@ class User extends Model {
 		}
 		return $data;
 	}
+
+	public function getGrader($institution_id = 0, $role_id = 0)
+	{
+		$grader=User::select('name','id')->where('institution_id',$institution_id)->where('role_id',$role_id)->get();
+		return $grader;
+	}
+
 
 	public function getUserInfo($user_id = 0)
 	{
