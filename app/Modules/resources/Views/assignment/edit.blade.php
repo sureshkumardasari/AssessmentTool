@@ -11,7 +11,8 @@
 
 <?php 
 $dtFormat = 'Y/m/d g:i:s A';
-$id = (old('id') != NULL) ? old('id') : $assignment->id; 
+$id = (old('id') != NULL) ? old('id') : $assignment->id;
+$grader_id=(old('grader_id') != NULL) ? old('grader_id') : $assignment->grader_id;
 $institution_id = (old('institution_id') != NULL) ? old('institution_id') : $assignment->institution_id; 
 $name =  (old('name') != NULL) ? old('name') : $assignment->name;
 $description = (old('assignment_text') != NULL) ? old('assignment_text') : $assignment->description; 
@@ -45,7 +46,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/assignmentupdate') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" id="id" value="{{ $id }}">
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Assignment Name </label>
@@ -132,10 +133,12 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							</div>
 						</div>
 
+
+
 						<div class="form-group required">
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id" id="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader()" >
 									<option value="0">Select</option>
 									@foreach($institution_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -152,6 +155,18 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 
 						            </select>
 						        </div>
+							</div>
+						</div>
+
+						<div class="form-group required">
+							<label class="col-md-3 control-label" >Grader </label>
+							<div class="col-md-6">
+								<select class="form-control" id="grader_id" name="grader_id">
+									<option value="0">Select</option>
+									@foreach($grader as $id=>$val)
+										<option value="{{ $id }}" {{ ($id == $grader_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 
@@ -186,6 +201,9 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 //var selected = new Array(1,2,3);
 
  $('#student_ids').DualListBox('');
+
+
+
 
 $(function () {
     $('.date').datetimepicker({format: 'YYYY/MM/DD hh:mm:ss A'});
@@ -303,6 +321,30 @@ $('input:radio[name="launchtype"]').change(
             });
        }
     });
+var loadurl = "{{ url('/resources/assignment') }}/" ;
+	function getGrader()
+	{
+		var csrf=$('Input#csrf_token').val();
 
-  </script
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:loadurl+$('#institution_id').val(),
+					type:'get',
+					success:function(response) {
+						var a = response.length;
+						$('#grader_id').empty();
+						var opt = new Option('--Select Grader--', '');
+						$('#grader_id').append(opt);
+						for (i = 0; i < a; i++) {
+							var opt = new Option(response[i].name, response[i].id);
+							$('#grader_id').append(opt);
+						}
+					}
+				}
+		)
+
+	}
+  </script>
 @endsection
