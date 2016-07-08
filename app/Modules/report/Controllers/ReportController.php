@@ -29,22 +29,40 @@ class ReportController extends Controller {
 	}
 	public function scores()
 	{
+		$ins= \Auth::user()->institution_id;
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-		$assessment=Assessment::get();
+		$assessment=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='.$ins))->select('assessment.name','assessment.id')->get();
+		//dd($assessment);
+//		if(getRole()!="administrator"){
+//			$assessments=
+//		}
 		return view('report::report.assessment',compact('inst_arr','assessment'));
 	}
 	public function assignment()
 	{
+		$ins= \Auth::user()->institution_id;
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-		return view('report::report.assignment',compact('inst_arr'));
+		$assignment=Assignment::where('institution_id',$ins)->select('assignment.name','assignment.id')->get();
+
+		return view('report::report.assignment',compact('inst_arr','assignment'));
 	}
 	public function student()
 	{
+		$users=Array();
+		if(getRole()!="administrator") {
+			$ins = \Auth::user()->institution_id;
+			$ass = Assignment::where('institution_id', $ins)->select('id')->first();
+			$ass_users = AssignmentUser::where('assignment_id', $ass->id)->lists('user_id');
+			$users = User::whereNotIn('id', $ass_users)->select('id', 'name')->get();
+			//AssignmentUser::where('assignment_id',$ass->id)->select(user_)
+		}
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-		return view('report::report.student',compact('inst_arr'));
+		//dd($users);
+		//$students=
+		return view('report::report.student',compact('inst_arr','users'));
 	}
 	public function answer()
 	{

@@ -28,28 +28,30 @@
 
 						<div class="panel-body searchfilter-body hide">
 							<form class="form-inline" role="form">
-							<div class="form-group">
-								<label class="col-md-4 control-label">Institution</label>
-								<div class="col-md-6">
+								<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
 									<input type="hidden" name="page" id="page" value="lesson">
-									<select class="form-control" name="institution_id" id="institution_id">
-										<option value="0">Select</option>
-										@foreach($inst_arr as $id=>$val)
-										<option value="{{ $id }}">{{ $val }}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
+							{{--<div class="form-group">--}}
+								{{--<label class="col-md-4 control-label">Institution</label>--}}
+								{{--<div class="col-md-6">--}}
+									{{--<input type="hidden" name="page" id="page" value="lesson">--}}
+									{{--<select class="form-control" name="institution_id" id="institution_id">--}}
+										{{--<option value="0">Select</option>--}}
+										{{--@foreach($inst_arr as $id=>$val)--}}
+										{{--<option value="{{ $id }}">{{ $val }}</option>--}}
+										{{--@endforeach--}}
+									{{--</select>--}}
+								{{--</div>--}}
+							{{--</div>--}}
 							<div class="form-group">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
 									<select class="form-control" name="category_id" id="category_id">
 										<option value="0">Select</option>
-										{{--
-										<option value="0">Select</option>
-										@foreach($category as $id=>$val)
-										<option value="{{ $id }}">{{ $val }}</option>
-										@endforeach--}}
+										@if(getRole()!="administrator")
+											@foreach($category as $id=>$val)
+												<option value="{{ $id }}">{{ $val }}</option>
+											@endforeach
+										@endif
 									</select>
 								</div>
 							</div>

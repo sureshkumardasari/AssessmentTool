@@ -83,17 +83,22 @@ class AssignmentController extends BaseController {
 		$id = 0;
 		$assignment = new assignment();
 
-		$assessments_arr = Assessment::lists('name','id'); 
-
+		$assessments_arr = Assessment::lists('name','id');
+		$users=Auth::user();
 
 		$assessment_id = 0;
-		  
-		$institution_arr = $this->institution->getInstitutions();	
+		  if(getRole()!='administrator'){
+			  $institution_arr = Institution::where('id',$users->institution_id)->lists('name','id');
+		  }
+		else{
+			$institution_arr = $this->institution->getInstitutions();
+
+		}
 		$institution_id = 0;
 
 		$proctor_arr  = $this->user->getUsersOptionList($institution_id,3);// for proctor displaying teachers
 		$proctor_id = 0;
-		$users=Auth::user();
+	//	$users=Auth::user();
 		$inst_id=$users->institution_id;
 		$grader=$this->user->getUsersOptionList($inst_id,3);
 		$grader_id=0;
