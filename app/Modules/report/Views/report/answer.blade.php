@@ -8,24 +8,25 @@
                     <div class="panel-body">
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label class="col-md-2 control-label">Select institution:</label>
-                                <div class="col-md-2">
-                                    <select name="inst_id" class='form-control' id="institution_id" >
-                                        <option value="0" selected >-Select-</option>
-                                        @foreach($inst_arr as $id=>$val)
-                                            <option value="{{ $id }}">{{ $val }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+
+                            <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-2 control-label">Select institution:</label>--}}
+                                {{--<div class="col-md-2">--}}
+                                    {{--<select name="inst_id" class='form-control' id="institution_id" >--}}
+                                        {{--<option value="0" selected >-Select-</option>--}}
+                                        {{--@foreach($inst_arr as $id=>$val)--}}
+                                            {{--<option value="{{ $id }}">{{ $val }}</option>--}}
+                                        {{--@endforeach--}}
+                                    {{--</select>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="form-group">
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
                     <div id="report">
 

@@ -68,8 +68,18 @@ class ResourceController extends BaseController {
     public function subject($parent_id = 0)
 	{
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
-		$inst_arr = $this->institution->getInstitutions();	
-		$category = $this->category->getCategory();
+		$inst_arr = $this->institution->getInstitutions();
+//		if(getRole()=="administrator"){
+//			$category = $this->category->getCategory();
+//		}
+		//$category=[];
+		if(getRole()!="administrator"){
+			$category = $this->category->getCategory(Auth::user()->institution_id);
+		}
+		else{
+
+		}$category = $this->category->getCategory();
+
 //		$categorylist = $this->category->getCategoryList();
  		$subjects = $this->subject->getSubject();
 		$subjectcategory = $this->subject->getSubjectCategory(); 

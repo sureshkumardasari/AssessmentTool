@@ -22,16 +22,23 @@ class BrandingController extends Controller {
 	public function index()
 	{
 	}
-	public function add()
+	public function add($param=null)
 	{
+//dd($param);
 		$brandingInstitutions=Branding::lists('institution_id');
 		//dd($brandingInstitutions);
 		$brandingIds=Branding::lists('id','institution_id');
 		//dd($brandingIds);
 		$inst_arr=Institution::whereNotIn('id',$brandingInstitutions)->lists('id');
 		// dd($inst_arr);
-		$InstitutionObj = new Institution();
-		$inst_arr = $InstitutionObj->getInstitutions();
+		if($param!=null){
+			$inst_arr=Institution::where('id',$param)->lists('name','id');
+			//dd($inst_arr);
+		}
+		else {
+			$InstitutionObj = new Institution();
+			$inst_arr = $InstitutionObj->getInstitutions();
+		}
 		//$inst_arr=Institution::get();
 		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions','brandingIds'));
 	}
@@ -106,7 +113,11 @@ class BrandingController extends Controller {
 		
 		$branding = Branding::create($createArr);
 		\Session::flash('success', 'Successfully added.');
+		if(getRole()=="administrator"){
 		return Redirect::route('branding-view');
+		}
+		\Session::put('flash_message', 'you are almost done');
+		return Redirect::route('home');
 	}
 
 
@@ -151,9 +162,26 @@ class BrandingController extends Controller {
 //		$branding=Branding::join('institution as i','brandings.institution_id','=','i.id')
 //		->select('i.id as institution_id','brandings.id','i.name as institution_name','brandings.title')->get();
 //		return view('admin::branding.brandview',compact('branding'));
-		$branding = Branding::join('institution as i', 'brandings.institution_id', '=', 'i.id')
-			->select('i.id as institution_id', 'brandings.id', 'i.name as institution_name')->get();
-		return view('admin::branding.brandview', compact('branding'));
+
+		$role=getRole();
+		$inst=\Auth::user()->institution_id;
+		if($role=="administrator"){
+			$branding = Branding::join('institution as i', 'brandings.institution_id', '=', 'i.id')
+				->select('i.id as institution_id', 'brandings.id', 'i.name as institution_name')->get();
+			return view('admin::branding.brandview', compact('branding'));
+		}
+		elseif($role=="admin"){
+			if(Branding::where('institution_id',$inst)->count()==0){
+				//dd("kjh");
+				return $this->add($inst);
+			}
+			else{
+				$branding=Branding::where('institution_id',$inst)->select('id')->first();
+				return $this->edit($branding['id']);
+				//return view('admin::branding.brandedit');
+			}
+		}
+
 
 	}
 
@@ -254,7 +282,12 @@ class BrandingController extends Controller {
 		$record = Branding::where('id', $id)->update($updateArr);
 
 		//dd($record);
-		return Redirect::route('branding-view');
+		if(getRole()=="administrator"){
+			return Redirect::route('branding-view');
+		}
+		\Session::put('flash_message', 'you are almost done');
+
+		return Redirect::route('home');
 	}
 
 	/**
