@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -87,10 +88,11 @@ use Mail;
         $create=[];
                 foreach ($total_details as $key => $create) {
                     $create=$total_details;
-        }     
+        }    
+        if(getenv('mail_send')=='yes'){
         Mail::send('emails.assignment_complete', $total_details, function($message) use ($create){
             $message->to($create['email'],$create['first_name'])->subject('Assignment Completed');
-        });
+        });}
     }
     public function updateUserGradeStatus($params){
 
