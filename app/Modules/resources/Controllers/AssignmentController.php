@@ -216,9 +216,12 @@ class AssignmentController extends BaseController {
  				}
      				foreach ($user_list_details as $key => $value) { 
     					foreach ($create as $key => $values) {
-     						 Mail::send('emails.assignment_users', $value, function($message) use ($values){
+    						 if(getenv('mail_send')=='yes')
+{
+   Mail::send('emails.assignment_users', $value, function($message) use ($values){
                         	$message->to($values['email'],$values['assignment_name'])->subject('Assignment Assigned users');
-                    		});	
+                    		});	}
+     						
  					}
  				} 
 			}
