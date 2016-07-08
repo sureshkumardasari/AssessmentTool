@@ -52,11 +52,19 @@ class AssignmentController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function InstutionList($id=0)
 	{
-		
-	}
 
+		$assignments = DB::table('assignment')
+				->join('assessment', 'assessment.id', '=', 'assignment.assessment_id');
+		if($id!=0){
+			$assignments->where('assignment.institution_id',$id);
+		}
+
+		$result=$assignments->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime','assignment.status')->get();
+		//dd($assignments);
+		return $result;
+	}
 	public function assignment($parent_id = 0)
 	{
 		$assignments = DB::table('assignment')
