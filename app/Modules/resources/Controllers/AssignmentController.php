@@ -87,14 +87,14 @@ class AssignmentController extends BaseController {
 		$proctor_id = 0;
 		$users=Auth::user();
 		$inst_id=$users->institution_id;
-		$grader_arr=$this->user->getUsersOptionList($inst_id,3);
+		$grader=$this->user->getUsersOptionList($inst_id,3);
 		$grader_id=0;
 
 		//var_dump($proctor_arr); die();
 
 		$assignmentUsersJson	= "[{}]";
 
-		return view('resources::assignment.edit',compact('assignment','grader_id','grader_arr','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
+		return view('resources::assignment.edit',compact('assignment','grader_id','grader','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
 	}
 
 	public function GraderList($id)
