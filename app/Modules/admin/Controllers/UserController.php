@@ -27,7 +27,7 @@ use App\Model\S3;
 use App\Modules\Admin\Requests\imageRequest;
 use App\Modules\Admin\Models\RoleUser;
 use App\Modules\resources\Models\AssignmentUser;
-use Mail;
+//use Mail;
 
 class UserController extends BaseController
 {
@@ -226,10 +226,13 @@ class UserController extends BaseController
                            'name' =>$params['first_name'],
  
                     );
-                        
-                     Mail::send('emails.user_active', $data, function($message) use ($create){
+                    if(getenv('mail_send')=='yes')
+{
+  Mail::send('emails.user_active', $data, function($message) use ($create){
                         $message->to($create['email'],$create['name'])->subject('User Activated');
-                    });
+                    });}
+                    
+                   
 			}
 
 			return redirect('/user');
