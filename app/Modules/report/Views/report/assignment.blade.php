@@ -27,9 +27,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="assignment_change()"> Go</button>
+                                       
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <div id="report" >
+                    <div id="report">
 
                     </div>
                 </div>

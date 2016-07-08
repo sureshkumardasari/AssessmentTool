@@ -24,9 +24,15 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Select Assessment:</label>
                                 <div class="col-md-2">
-                                    <select name="assessment_id" class='form-control' id="assessment" onchange="assessment_change()">
+                                    <select name="assessment_id" class='form-control' id="assessment" >
                                         <option value="0" selected >-Select-</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="assessment_change()"> Go</button>
+                                       
                                 </div>
                             </div>
                         </div>

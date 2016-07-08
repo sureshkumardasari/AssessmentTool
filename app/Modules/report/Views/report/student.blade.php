@@ -24,10 +24,15 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Select Student:</label>
                                 <div class="col-md-2">
-                                    <select name="student_id" class='form-control' id="student" onchange="student_change()">
+                                    <select name="student_id" class='form-control' id="student" >
                                         <option value="0" selected >-Select-</option>
 
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()"> Go</button>
                                 </div>
                             </div>
                         </div>
