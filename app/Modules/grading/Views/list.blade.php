@@ -39,17 +39,23 @@
 					Grading					
 				</div>
 
-				<div class="panel-body">				
+                <?php   $sessRole = getRole() ;
+                if($sessRole == 'administrator'){?>
+				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="panel-body">
 					<label class="col-md-2 control-label">Institution</label>
 					<div class="col-md-4">
-						<select class="form-control" name="institution_id" id="institution_id">
+						<select class="form-control" name="institution_id" id="institution_id" onclick="getAssignmentsforgrading()">
 							<option value="0">Select</option>
 							@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}">{{ $val }}</option>
 							@endforeach
 						</select>
 					</div>				
-				</div>	
+				</div>
+                <?php }?>
+
 
 				<div class="panel-body">
 					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
@@ -60,7 +66,7 @@
 				                <th>Action</th>
 				            </tr>
 				        </thead>
-				        <tbody>
+				        <tbody id="assignbody">
 				            @foreach($assignments as $id => $asn )
 				            <tr>				                
 				                <td>{{ $asn->assessment_name }}</td>
@@ -69,12 +75,13 @@
 				                	<!-- <a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
 				                	<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
 				                	</a>
- -->
+ -->                            @if($sessRole=='teacher')
 				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}" >
 			                             <span class="reply_box">
 			                                Grade
 			                            </span>
-			                         </i>		
+			                         </i>
+                                @endif
 
 								</td>
 				            </tr>
@@ -86,4 +93,36 @@
 		</div>
 	</div>
 </div>
+
+	<script>
+		var loadurl = "{{ url('/resources/assignments') }}/" ;
+		function getAssignmentsforgrading(){
+			var csrf=$('Input#csrf_token').val();
+
+			$.ajax(
+					{
+
+						headers: {"X-CSRF-Token": csrf},
+						url: loadurl + $('#institution_id').val(),
+						type: 'get',
+						success: function (response) {
+							$('#assignbody').empty();
+							var tr;
+							for (var i = 0; i < response.length; i++) {
+								tr = $('<tr/>');
+								tr.append("<td>" + response[i].assessment_name + "");
+								tr.append("<td>" + response[i].name + "");
+								tr.append("<td>" + "<i class='icons ico-grade'  id='grade'  formative-url='{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}' question-url='{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}' >"
+										+ "<span class='reply_box'>" +
+										"Grade"
+										+ "</span>"
+										+ "</i>" + "</td>");
+								$('#assignbody').append(tr);
+
+							}
+						}
+					})
+
+		}
+	</script>
 @endsection
