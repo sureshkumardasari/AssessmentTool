@@ -12,7 +12,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Select institution:</label>
                                 <div class="col-md-2">
-                                    <select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()">
+                                    <select name="inst_id" class='form-control' id="institution_id" >
                                         <option value="0" selected >-Select-</option>
                                         @foreach($inst_arr as $id=>$val)
                                             <option value="{{ $id }}">{{ $val }}</option>
@@ -20,15 +20,11 @@
                                     </select>
                                 </div>
                             </div>
-                            {{--<div class="form-group">
-                                <label class="col-md-2 control-label">Select Student:</label>
+                            <div class="form-group">
                                 <div class="col-md-2">
-                                    <select name="student_id" class='form-control' id="student">
-                                        <option value="0" selected >-Select-</option>
-
-                                    </select>
+                                    <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                 </div>
-                            </div>--}}
+                            </div>
                         </div>
                     </div>
                     <div id="report">
