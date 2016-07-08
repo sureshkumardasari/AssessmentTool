@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Select Assignment:</label>
                                 <div class="col-md-2">
-                                    <select name="assessment_id" class='form-control' id="assignment"  onchange="assignment_change()">
+                                    <select name="assessment_id" class='form-control' id="assignment" >
                                         <option value="0" selected >-Select-</option>
                                         @if(getRole()!="administrator")
                                             @foreach($assignment as $ass)
