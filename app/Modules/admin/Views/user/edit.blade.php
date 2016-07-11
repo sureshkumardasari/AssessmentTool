@@ -249,4 +249,19 @@
 		</div>
 	</div>
 </div>
+<script>
+	var gender="";
+
+	<?php if($gender=="female"){
+			?>
+			gender="gender_female";
+	<?php }
+			else if($gender=="male"){
+			?>
+			gender="gender_male";
+	<?php } ?>
+	if(gender!=""){
+		$('#'+gender).prop('checked',true);
+	}
+</script>
 @endsection
