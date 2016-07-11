@@ -30,6 +30,8 @@ use App\Modules\Admin\Models\User;
 use DB;
 use mikehaertl\wkhtmlto\Pdf;
 use Exception;
+use App\Modules\Resources\Controllers\QuestionController;
+
 
 class AssessmentController extends BaseController {
 
@@ -555,13 +557,23 @@ class AssessmentController extends BaseController {
 		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
+		//var_dump($subjects);exit;
 		$category = $this->category->getCategory();
-		$lesson = $this->lesson->getLesson();
+		
 		$questions = $this->question->getQuestions();
+		$questiontype=$this->question_type->getQuestionType();
+		//dd($questiontype);
 		$assessment_details = Assessment::find($id);
+		//$obj = $this->assessment->find($id);
+		//dd($assessment_details);
+			
+			
  		$question_selected_list=AssessmentQuestion::join('assessment','assessment_question.assessment_id','=','assessment.id')
 			->where('assessment_question.assessment_id',$id)
  			->get();
+ 			//$questionids=AssessmentQuestion::where('assessment_id',$id)->lists('question_id');
+ 			$question=new QuestionController();
+ 	
    		$question_tilte_details=[];
  		$ids=[];
 		foreach($question_selected_list as $question){
@@ -584,7 +596,15 @@ class AssessmentController extends BaseController {
 		$questions_lists=Question::wherein('id',$questions_list)->get();
 		$passages_lists=Passage::wherein('id',$passages_list)->get();
 		$passages_list_not=Passage::wherenotin('id',$passages_list)->get();
-		return view('resources::assessment.edit',compact('passages_list_not','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category'));
+
+		$id = $assessment_details->id; 
+			$institution_id = $assessment_details->institution_id; 
+			$category_id=$assessment_details->category_id;
+			$subject_id=$assessment_details->subject_id;
+			$lessons_id=$assessment_details->lessons_id;
+			$question_type_id=$assessment_details->questiontype_id;
+		$lesson = $this->lesson->getLesson($subject_id);	
+		return view('resources::assessment.edit',compact('passages_list_not','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
  	}
 	public function assessmentupdate($id=0){
  		$post = Input::All();

@@ -36,5 +36,21 @@ class QuestionType extends Model {
 		return $qtypes;
 	}
 
+	public function getQuestionType($lesson_id = 0)
+	{
+		//$users = User::get();
+		$obj = new QuestionType();
+		if($lesson_id > 0)
+		{
+			$qtypes = $obj->where("lesson_id", $lesson_id)->lists('qst_type_text', 'id');
+		}
+		else
+		{
+			$qtypes = $obj->lists('qst_type_text', 'id');
+		}
+		
+		return $qtypes;
+	}
+
 	
 }

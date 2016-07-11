@@ -7,7 +7,6 @@
   <div id="questions" class="tab-pane fade in active">
     <h3>Questions</h3>
 
-
 <div class="panel panel-default">
 					<div class="panel-heading searchfilter pointer">Filters
 						{{--<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>--}}
@@ -29,6 +28,9 @@
 						<div class="col-md-10">
 							<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 								<option value="0">--Select Category--</option>
+									@foreach($category as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
 							</select>
 						</div>
 					</div>
@@ -37,14 +39,20 @@
 						<div class="col-md-10">
 							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons('question')">
 								<option value="0">--Select Subject--</option>
+								@foreach($subjects as $id=>$val)
+									<option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
 							</select>
 						</div>
 					</div>
-					<div class="form-group col-md-6 required">
+					<div class="form-group col-md-6 ">
 						<label class="col-md-2 control-label">Lessons</label>
 						<div class="col-md-10">
 							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type('question')">
 								<option value="0">--Select Lessons--</option>
+								@foreach($lesson as $id=>$val)
+									<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
 							</select>
 						</div>
 					</div>
@@ -53,6 +61,9 @@
 						<div class="col-md-10">
 							<select class="form-control" name="question_type" id="question_type" onchange="filter()">
 								<option value="0">--Select Question Type--</option>
+								@foreach($questiontype as $id=>$val)
+									<option value="{{ $id }}" {{($id == $question_type_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
 							</select>
 						</div>
 					</div>
@@ -308,7 +319,14 @@
         "scrollCollapse": true,
         "paging":         true
     } );
+    $('#subject_id').val({{$subject_id}});
+    var a={{$subject_id}};
+   // alert(a);
+    //alert($('#subject_id').val())
 } );
 </script>
 
 @include('resources::assessment.assessment_js_validation')
+
+
+

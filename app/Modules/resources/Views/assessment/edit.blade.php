@@ -71,7 +71,7 @@
 							<input type="number" name="total_time" id="total_time"  min="0" value="{{$assessment_details['totaltime']}}" @if($assessment_details['unlimitedtime']==1)disabled @endif><span><p style="color:blue">(in minutes)</p></span>
 						</div>
 					</div>
-					\<div class="form-group required">
+					<div class="form-group required">
 						<label class="col-md-4 control-label">Never Expires</label>
 						<div class="col-md-6">
 
