@@ -18,10 +18,10 @@
   						}
   						else
   						{
-  							$logopath = asset('/images/logo_white.png');
+  							$logopath = asset('/images/logo.png');
   						}
 				?>
-				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ $logopath }}" width="250" height="70"></a>
+				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ $logopath }}" width="250" height="45"></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="top-navbar-collapse-1">
