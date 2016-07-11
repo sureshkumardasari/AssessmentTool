@@ -243,6 +243,7 @@ class AssignmentController extends BaseController {
 		if($id > 0)
 		{
 			$this->assignment->deleteassignment($id);
+			\Session::flash('flash_message', 'delete!');
 		}
 		return redirect('/resources/assignment');
 	}
