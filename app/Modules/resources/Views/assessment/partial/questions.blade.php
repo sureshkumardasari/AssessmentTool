@@ -3,6 +3,13 @@
   <li class="tab"><a data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
 </ul>
 
+<?php
+$institution_id = (old('institution_id') != NULL && old('institution_id') > 0) ? old('institution_id') : 0;
+$subject_id = (old('subject_id') != NULL && old('subject_id') >0) ? old('subject_id') : 0;
+$category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : 0;
+$lessons_id =  (old('lessons_id') != NULL && old('lessons_id') > 0) ? old('lessons_id') : 0;
+$question_type = (old('question_type') != NULL && old('question_type') > 0) ?old('question_type') : 0;
+?>
 <div class="tab-content">
   <div id="questions" class="tab-pane fade in active">
     <h3>Questions</h3>
@@ -27,6 +34,9 @@
 						<div class="col-md-10">
 							<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 								<option value="0">--Select Category--</option>
+								@foreach($category as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+								@endforeach
 							</select>
 						</div>
 					</div>
@@ -35,6 +45,9 @@
 						<div class="col-md-10">
 							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons('question')">
 								<option value="0">--Select Subject--</option>
+								@foreach($subjects as $id=>$val)
+									<option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+								@endforeach
 							</select>
 						</div>
 					</div>
@@ -43,13 +56,16 @@
 						<div class="col-md-10">
 							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
 								<option value="0">--Select Lessons--</option>
+								@foreach($lesson as $id=>$val)
+									<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+								@endforeach
 							</select>
 						</div>
 					</div>
 					<div class="form-group col-md-6 required">
 						<label class="col-md-2 control-label">Question Type</label>
 						<div class="col-md-10">
-							<select class="form-control" name="question_type" id="question_type" onchange="filter()">
+							<select class="form-control" name="question_type" id="question_type" onchange="filter()" >
 								<option value="0">--Select Question Type--</option>
 							</select>
 						</div>
