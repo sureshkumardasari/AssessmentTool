@@ -1366,7 +1366,7 @@ function addOrRemoveInGrid(elem, type) {
             //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
             $('#selected-questions'+' .child-grid').append(selected);
         });
-        addPassageforQuestion(this, "add",passage);
+        
         $('#example').dataTable();
         
         $('#selected-questions').dataTable();
@@ -1381,7 +1381,7 @@ function addOrRemoveInGrid(elem, type) {
 
                 }
             }
-            addOrRemoveInPassage(this, "add",passage);
+            // addOrRemoveInPassage(this, "add",questions);
             $(this).attr('name',checkboxName+'[]');
             $(this).attr('checked', false)
             var selected = closestUl.clone();
@@ -1389,14 +1389,14 @@ function addOrRemoveInGrid(elem, type) {
             $('#selected-passage'+' .child-grid').append(selected);
             $('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
         });
-
+            addPassageforQuestion(this, "add","questions",passage);
     }
     else {
-       // alert("hkjhjh");
+         var removeIds=[];
         $('#example').dataTable().fnDestroy();
         $('#selected-questions').dataTable().fnDestroy();
         $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
-            var removeIds=[];
+           
             var myForm = document.forms.assessment_form;
             var myControls = myForm.elements['QuestionIds[]'];
             //alert(myControls.length);
@@ -1423,6 +1423,8 @@ function addOrRemoveInGrid(elem, type) {
             });
             //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
         });
+        addPassageforQuestion(this, "remove","question",removeIds);
+        // addPassageforQuestion(this, "remove",passage);
         $('.parent-selected-grid tr').find('.check-selected-passage:checked').each(function () {
              var removeIds=[];
             var myForm = document.forms.assessment_form;
@@ -1571,12 +1573,31 @@ function addOrRemoveInPassage(elem, type,id) {
         );
     }
  }
- function addPassageforQuestion(elem,type,id){
-     var urls=$('#url').val();
+ function addPassageforQuestion(elem,type,s,id){
+    $('#example').dataTable().fnDestroy();
+    $('#selected-questions').dataTable().fnDestroy();
+    var selectedTab = $('li.tab.active').children('a').attr('data-tab');
+    window.selectedTab =selectedTab;
+    var checkboxName = window.selectedTab.split('-')[0];
+    var urls=$('#url').val();
     var url_add="get_passage_by_question";
     var url_remove="remove_passage_by_passid";
+    var url_add_r="get_passage_by_question_remove";
+    var url_remove_r="remove_passage_by_passid_remove";
     var url_passage_append=""+ urls +url_add+"";
     var remove_pass_by_question=""+ urls +url_remove+"";
+    var url_passage_append_r=""+ urls +url_add_r+"";
+    var remove_pass_by_question_r=""+ urls +url_remove_r+"";
+    //passage adding url
+    var url_adding_passage="adding_passage";
+    var url_adding_passage_selected="adding_passage_selected";
+    var url_passage_add=""+ urls +url_adding_passage+"";
+    var url_passage_add_selected=""+ urls +url_adding_passage_selected+"";
+    //close passage adding url
+    //remove select question add remaining
+    var top_question_remove_selected_qustin="question_remove_selected_qustin";
+    var url_top_question_remove_selected_qustin=""+ urls +top_question_remove_selected_qustin+"";
+    //close
     var csrf=$('Input#csrf_token').val();
     var question_Ids=[];
     var append_passage_ids=[];
@@ -1586,46 +1607,112 @@ function addOrRemoveInPassage(elem, type,id) {
         for (var i = 0; i < question_id.length; i++) {
             question_Ids.push(question_id[i].value);
          }
-    }
-     $.ajax(
-            {
-                url:url_passage_append,
-                headers: {"X-CSRF-Token": csrf},
-                type:"post",
-                data:{QuestionIds:question_Ids},
-                success:function(response){
-                      var tr;
-                    $('#selected-passage .child-grid').empty();
+         question_Ids.push(question_id.value);
+     }
+     // console.log(question_Ids);
+     if(type=="add"){
+        if(checkboxName == 'question'){ 
+          $.ajax(
+                {
+                    url:url_passage_append,
+                    headers: {"X-CSRF-Token": csrf},
+                    type:"post",
+                    data:{QuestionIds:question_Ids},
+                    success:function(response){
+                          var tr;
+                        $('#selected-passage .child-grid').empty();
+                        for (var i = 0; i < response.length; i++) {
+                            tr = $('<tr/>');
+                            tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
+                            tr.append("<td>" + response[i].title + "</td>");
+                            tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
+                            $('#selected-passage .child-grid').append(tr);
+                            append_passage_ids.push(""+ response[i].id +"");
+                         }
+                        $.ajax(
+                                {
+                                url:remove_pass_by_question,
+                                headers: {"X-CSRF-Token": csrf},
+                                type:"post",
+                                data:{passage_Ids:append_passage_ids},
+                                success:function(response){
+                                     var tr;
+                                    $('#example #passages-list').empty();
+                                    for (var i = 0; i < response.length; i++) {
+                                        tr = $('<tr/>');
+                                        tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+                                        tr.append("<td>" + response[i].title + "</td>");
+                                        // tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
+                                        $('#example #passages-list').append(tr);
+                                     }
+                                     }
+                                }
+
+                    );
+                    }
+                }
+
+        );
+      }else
+      { 
+        // if(type="add"){
+        //     alert('add');
+        // }else{
+        //     alert('remove');
+        // }
+        // if(question_id) {
+        //  for (var i = 0; i < question_id.length; i++) {
+        //         s.push(question_id[i].value);
+        //      }
+        //      s.push(question_id.value);
+        // }
+        // console.log(s);
+        var get_remain_passage=[]; 
+        $.ajax(
+                {
+                    url:url_passage_add,
+                    headers: {"X-CSRF-Token": csrf},
+                    type:"post",
+                    data:{passageIds:id},
+                    success:function(response){
+                    var tr;
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
-                        tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
-                        tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
-                        $('#selected-passage .child-grid').append(tr);
-                        append_passage_ids.push(""+ response[i].id +"");
+                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">');
+                     $('#selected-questions'+' .child-grid').append(tr);
+                     get_remain_passage.push(question_Ids[0]);
+                     get_remain_passage.push(""+ response[i].id +"");
                      }
-                    $.ajax(
+                     $.ajax(
                             {
-                            url:remove_pass_by_question,
+                            url:url_adding_passage_selected,
                             headers: {"X-CSRF-Token": csrf},
                             type:"post",
-                            data:{passage_Ids:append_passage_ids},
-                            success:function(response){
-                                 var tr;
-                                $('#example #passages-list').empty();
-                                for (var i = 0; i < response.length; i++) {
-                                    tr = $('<tr/>');
-                                    tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
-                                    tr.append("<td>" + response[i].title + "</td>");
-                                    // tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
-                                    $('#example #passages-list').append(tr);
+                            data:{question_Ids:get_remain_passage},
+                            success:function(response){ 
+                                $('#questions-list').empty();
+                                    var tr;
+                                    var length=response.length;
+                                        for (var i = 0; i < response.length; i++) { 
+                                        tr = $('<tr/>');
+                                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                        tr.append("<td>" + response[i].title + "</td>");
+                                        //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
+                                        $('#questions-list').append(tr);
+                                    } 
                                  }
-                                 }
-                            }
-
-                );
+                        }
+                    );
                 }
-            }
+             } 
+        ); 
+     }    
 
-    );
+
+     }else{ 
+
+     }
+     
  }

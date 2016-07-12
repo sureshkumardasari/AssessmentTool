@@ -89,6 +89,14 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('get-print-answer-key-csv', ['as' => 'getPrintAnswerKeyCSV', 'uses' => 'AssessmentController@getPrintAnswerKeyCSV']);
     Route::post('get_passage_by_question', ['as' => 'get_passage_by_question', 'uses' => 'AssessmentController@getPassageByQuestion']);
     Route::post('remove_passage_by_passid', ['as' => 'remove_passage_by_passid', 'uses' => 'AssessmentController@getPassageByPassId']);
+    Route::post('get_passage_by_question_remove', ['as' => 'get_passage_by_question_remove', 'uses' => 'AssessmentController@getPassageByQuestionRemove']);
+    Route::post('remove_passage_by_passid_remove', ['as' => 'remove_passage_by_passid_remove', 'uses' => 'AssessmentController@getPassageByPassIdRemove']);
+    //passage adding
+    Route::post('adding_passage', ['as' => 'adding_passage', 'uses' => 'AssessmentController@getAddingPassage']);
+    Route::post('adding_passage_selected', ['as' => 'adding_passage_selected', 'uses' => 'AssessmentController@getAddingPassageSelected']);
+    //top_question_remove_selected_qustin
+    Route::post('question_remove_selected_qustin', ['as' => 'question_remove_selected_qustin', 'uses' => 'AssessmentController@getRemainQuestionsAfterSelected']);
+
     Route::post('passage_filter_data_assessment', ['as' => 'passage_filter_data_assessment', 'uses' => 'AssessmentController@passageAssessmentFilter']);
 
     Route::get('assignment', array('as' => 'assignment-list', 'uses'=>'AssignmentController@assignment'));

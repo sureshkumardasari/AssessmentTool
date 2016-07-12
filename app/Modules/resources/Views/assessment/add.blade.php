@@ -71,7 +71,7 @@
 							<input type="number" name="total_time" id="total_time"  min="0"><span><p style="color:blue">(in minutes)</p></span>
 						</div>
 					</div>
-					\<div class="form-group required">
+					<div class="form-group required">
 						<label class="col-md-4 control-label">Never Expires</label>
 						<div class="col-md-6">
 							<input type="checkbox" name="never_expires" id="never_expires">

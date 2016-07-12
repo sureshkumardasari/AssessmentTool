@@ -124,13 +124,42 @@ class Question extends Model {
 		$passages = $obj->groupBy('p.title')->get();
    		return $passages;
 	}public function getPassageByPassId($passage_Ids=0)
-	{
- 		$obj = DB::table('passage');
+	{ 
+ 		$obj = DB::table('questions as q');
+ 		$obj->join('passage as p', 'p.id', '=', 'q.passage_id');
 		if($passage_Ids > 0){
-			$obj->wherenotin("id", $passage_Ids);
+			$obj->wherenotin("p.id", $passage_Ids);
 		}
-		$passages = $obj->get();
+		$passages = $obj->select('p.id as id','p.passage_text as passage_text','p.title as title')->get();
   		return $passages;
+	}
+	public function getAddingPassage($passageIds=0)
+	{
+   		$obj = DB::table('questions');
+		// if($question_Ids > 0){
+		// 	$obj->wherein("id", $passageIds);
+		// }
+ 			$obj->wherein("passage_id", $passageIds); 
+ 		$questions = $obj->get();
+ 		return $questions;
+	}
+	public function getAddingPassageSelected($question_Ids=0)
+	{
+		$obj = DB::table('questions');
+		if($question_Ids > 0){
+			$obj->wherenotin("id", $question_Ids); 
+		} 
+ 		$questions = $obj->get();
+ 		return $questions;
+	}
+	public function getRemainQuestionsAfterSelected($question_ids=0)
+	{
+   		$obj = DB::table('questions');
+		if($question_ids > 0){
+			$obj->wherenotin("id", $question_ids); 
+		} 
+ 		$questions = $obj->get();
+ 		return $questions;
 	}
 	public function getassessmentFilter($institution = 0, $category = 0, $subject = 0,$lessons=0,$questions=0)
 	{

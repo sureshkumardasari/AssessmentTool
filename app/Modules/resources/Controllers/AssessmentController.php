@@ -131,7 +131,13 @@ class AssessmentController extends BaseController {
 		$question_type=$this->question_type->getQuestionType();
 		
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
-		$inst_passages_list=Passage::where('institute_id',$user_institution_id)->get();
+		// $inst_passages_list=Passage::where('institute_id',$user_institution_id)->get();
+		$inst_passages_list=Passage::join('questions','questions.passage_id','=','passage.id')
+			// ->whereNotNull('questions.passage_id')
+			->where('questions.institute_id',$user_institution_id)
+			->groupBy('questions.passage_id')
+			->select('passage.title as title','passage.id as id')
+ 			->get();
 //		$inst_questions_list=[];
 	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson','question_type'));
 	}
@@ -714,6 +720,25 @@ class AssessmentController extends BaseController {
   		$post = Input::All();
  		$passage_Ids=isset( $post['passage_Ids'] ) ? $post['passage_Ids'] : 0;
    		$subjects = $this->question->getPassageByPassId($passage_Ids);
+		return $subjects;
+	}
+	public function getAddingPassage(){ 
+		$post = Input::All();
+ 		$passageIds=isset( $post['passageIds'] ) ? $post['passageIds'] : 0;
+   		$subjects = $this->question->getAddingPassage($passageIds);
+		return $subjects;
+	}
+	public function getAddingPassageSelected(){
+  		 $post = Input::All();
+  		 // dd($post['question_Ids']);
+ 		$question_Ids=isset( $post['question_Ids'] ) ? $post['question_Ids'] : 0;
+   		$subjects = $this->question->getAddingPassageSelected($question_Ids);
+		return $subjects;
+	}
+	public function getRemainQuestionsAfterSelected(){
+  		 $post = Input::All();
+ 		$question_Ids=isset( $post['question_Ids'] ) ? $post['question_Ids'] : 0;
+   		$subjects = $this->question->getRemainQuestionsAfterSelected($question_Ids);
 		return $subjects;
 	}
 	public function assessmentFilter(){
