@@ -128,11 +128,12 @@ class AssessmentController extends BaseController {
 		$category = $this->category->getCategory();
 		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
+		$question_type=$this->question_type->getQuestionType();
 		
 		$inst_questions_list=Question::where('institute_id',$user_institution_id)->get();
 		$inst_passages_list=Passage::where('institute_id',$user_institution_id)->get();
 //		$inst_questions_list=[];
-	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson'));
+	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson','question_type'));
 	}
 	public function assessmentInsert(){
 
