@@ -9,6 +9,12 @@ $subject_id = (old('subject_id') != NULL && old('subject_id') >0) ? old('subject
 $category_id =  (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : 0;
 $lessons_id =  (old('lessons_id') != NULL && old('lessons_id') > 0) ? old('lessons_id') : 0;
 $question_type = (old('question_type') != NULL && old('question_type') > 0) ?old('question_type') : 0;
+
+$passage_institution_id = (old('passage_institution_id') != NULL && old('passage_institution_id') > 0) ? old('passage_institution_id') : 0;
+$passage_category_id =(old('passage_category_id') != NULL && old('passage_category_id') > 0) ? old('passage_category_id') : 0;
+$passage_subject_id = (old('passage_subject_id') != NULL && old('passage_subject_id') >0) ? old('passage_subject_id') : 0;
+$passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lessons_id') > 0) ? old('passage_lessons_id') : 0;
+
 ?>
 <div class="tab-content">
   <div id="questions" class="tab-pane fade in active">
@@ -158,7 +164,7 @@ $question_type = (old('question_type') != NULL && old('question_type') > 0) ?old
 					  <select class="form-control" name="passage_institution_id" id="passage_institution_id" onchange="change_institution('passage')">
 						  <option value="0">--Select Institution--</option>
 						  @foreach($inst_arr as $id=>$val)
-							  <option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+							  <option value="{{ $id }}" {{ ($id == $passage_institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 						  @endforeach
 					  </select>
 				  </div>
@@ -168,6 +174,9 @@ $question_type = (old('question_type') != NULL && old('question_type') > 0) ?old
 				  <div class="col-md-10">
 					  <select class="form-control" name="passage_category_id" id="passage_category_id" onchange="change_category('passage')">
 						  <option value="0">--Select Category--</option>
+						  @foreach($category as $id=>$val)
+							  <option value="{{ $id }}" {{ ($id == $passage_category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						  @endforeach
 					  </select>
 				  </div>
 			  </div>
@@ -176,6 +185,9 @@ $question_type = (old('question_type') != NULL && old('question_type') > 0) ?old
 				  <div class="col-md-10">
 					  <select class="form-control" name="passage_subject_id" id="passage_subject_id" onchange="change_lessons('passage')">
 						  <option value="0">--Select Subject--</option>
+						  @foreach($subjects as $id=>$val)
+							  <option value="{{ $id }}" {{($id == $passage_subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						  @endforeach
 					  </select>
 				  </div>
 			  </div>
@@ -184,6 +196,9 @@ $question_type = (old('question_type') != NULL && old('question_type') > 0) ?old
 				  <div class="col-md-10">
 					  <select class="form-control" name="passage_lessons_id" id="passage_lessons_id" onchange="filter_passage()">
 						  <option value="0">--Select Lessons--</option>
+						  @foreach($lesson as $id=>$val)
+							  <option value="{{ $id }}" {{($id == $passage_lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						  @endforeach
 					  </select>
 				  </div>
 			  </div>
