@@ -778,8 +778,9 @@ class AssessmentController extends BaseController {
  	public function passageAssessmentFilter(){
 		$post = Input::All();
 		$passageIds=isset( $post['passageIds'] ) ? $post['passageIds'] : 0;
-		$institution=$post['institution'];
-		$obj=Passage::where("passage.institute_id", $institution);
+		$institution=$post['institution']; 
+		$obj=Passage::join('questions','questions.passage_id','=','passage.id');
+ 		$obj->where("passage.institute_id", $institution);
  		 
 		if($post['category'] > 0){
 			$obj->where("passage.category_id", $post['category']);
@@ -793,7 +794,7 @@ class AssessmentController extends BaseController {
 		if($passageIds > 0){
 			$obj->wherenotin("passage.id", $post['passageIds']);
 		}
-
+		$obj->groupBy('questions.passage_id');
 		$list=	$obj->select('passage.id as pass_id', 'passage.title as passage_title')
 			// ->orderby('qid')
 			->get();
