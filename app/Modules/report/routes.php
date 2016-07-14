@@ -23,6 +23,9 @@
 
      Route::post('inst_question/{id}','ReportController@inst_question');
         Route::get('download',['as'=>'reportdownload','uses'=>'ReportController@getDownload']);
+        Route::get('test-history',['as'=>'test-history','uses'=>'ReportController@TestHistoryReport']);
+        Route::post('test_history/{id}','ReportController@TestHistory');
+
  });
 
 
