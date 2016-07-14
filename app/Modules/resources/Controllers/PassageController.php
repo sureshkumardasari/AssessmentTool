@@ -183,18 +183,13 @@ class PassageController extends BaseController {
 
 	public function passagedelete($id)
 	{
-		/*if($id > 0)
-		{
-			$this->passage->deletepassage($id);
-		}*/
 		$pas=AssessmentQuestion::where('passage_id',$id)->count();
+		$qus=Question::where('passage_id',$id)->count();
 		//dd($les);
-		if ($pas == null ) {
+		if ($pas == null && $qus == null) {
 			passage::find($id)->delete();
 			\Session::flash('flash_message', 'delete!');
-
 			return redirect('/resources/passage');
-
 		} else {
 			\Session::flash('flash_message_failed', 'Can not Delete this passage.');
 			return Redirect::back();
