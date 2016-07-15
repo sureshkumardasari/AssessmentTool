@@ -14,7 +14,10 @@
     Route::post('assignment_inst/{id}',['as'=>'assignreport','uses'=>'ReportController@report_inst']);
     Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
     Route::post('assignment_inst/{inst_id}/{assi_id}',['as'=>'reportassignment','uses'=>'ReportController@report_assignment']);
-
+    //student-answer-report
+    Route::get('student-answer-report',['as'=>'student-answer-report','uses'=>'ReportController@studentAnswerReport']);
+    Route::post('students_ans_list/{inst_id}/{student_id}','ReportController@studentAnsList');
+    //close student-answer-report
      Route::post('assessment_inst/{id}','ReportController@assess_inst');
      Route::post('assessment_inst/{inst_id}/{assi_id}',['as'=>'reportassessment','uses'=>'ReportController@report_assessment']);
 
