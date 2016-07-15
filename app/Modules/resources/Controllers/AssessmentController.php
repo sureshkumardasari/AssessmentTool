@@ -107,6 +107,7 @@ class AssessmentController extends BaseController {
 	{
 		$ass = Assignment::where('assessment_id', $aid)->count();
 		if ($ass == null) {
+		$assessment_question=AssessmentQuestion::where('assessment_id',$aid)->delete();
 			Assessment::find($aid)->delete();
 			\Session::flash('flash_message', 'delete!');
 			return redirect('/resources/assessment');
