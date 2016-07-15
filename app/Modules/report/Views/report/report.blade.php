@@ -35,6 +35,12 @@
                             <a href="{{ url('/report/test-history') }}">Test-History-Class-Averages</a>
                         </div>
                     </div>
+                    <div class="panel-body">
+                        <div class="col-md-2" ></div>
+                        <div class="rcorners1  col-md-6" >
+                            <a href="{{ url('/report/student-answer-report') }}">Student Answer Report</a>
+                        </div> 
+                    </div>
                 </div>
             </div>
         </div>

@@ -65,6 +65,19 @@ class ReportController extends Controller {
 		//$students=
 		return view('report::report.student',compact('inst_arr','users'));
 	}
+	public function studentAnswerReport(){
+		$users=Array();
+		if(getRole()!="administrator") {
+			$ins = \Auth::user()->institution_id;
+			$ass = Assignment::where('institution_id', $ins)->select('id')->first();
+			$ass_users = AssignmentUser::where('assignment_id', $ass->id)->lists('user_id');
+			$users = User::whereNotIn('id', $ass_users)->select('id', 'name')->get();
+			//AssignmentUser::where('assignment_id',$ass->id)->select(user_)
+		}
+		$InstitutionObj = new Institution();
+		$inst_arr = $InstitutionObj->getInstitutions();
+		return view('report::report.student_answer_report',compact('inst_arr','users'));
+	}
 	public function answer()
 	{
 		$InstitutionObj = new Institution();
@@ -142,6 +155,20 @@ class ReportController extends Controller {
 				->get();
 		//dd($assignments);
 		return view('report::report.student_answer_view',compact('assignments'));
+	}
+	public function studentAnsList($inst_id,$student_id){
+		$assignments=DB::table('assignment_user')
+				->join('assignment','assignment.id','=','assignment_user.assignment_id')
+				->join('assessment','assessment.id','=','assignment_user.assessment_id')
+				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
+				//->join('assessment_question','assessment_question.assessment_id','=','assignment_user.assessment_id')
+				->where('assignment_user.user_id','=',$student_id)
+				->select(DB::raw('(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
+					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\') as answers_count'))
+				// ->groupby('assignment_name')
+				->get();
+		//dd($assignments);
+		return view('report::report.student_answer_report_list',compact('assignments'));
 	}
 	public function inst_question($id)
 	{
