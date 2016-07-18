@@ -79,7 +79,8 @@ class User extends Model {
 
 	public function getGrader($institution_id = 0, $role_id = 0)
 	{
-		$grader=User::select('name','id')->where('institution_id',$institution_id)->where('role_id',$role_id)->get();
+		$teacher_role_id=Role::where('name','teacher')->first();
+		$grader=User::select('name','id')->where('institution_id',$institution_id)->where('role_id',$teacher_role_id->id)->get();
 		return $grader;
 	}
 
