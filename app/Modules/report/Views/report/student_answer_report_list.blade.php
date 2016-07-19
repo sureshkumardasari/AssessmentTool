@@ -1,3 +1,7 @@
+<?php
+$arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
+?>
+
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
@@ -7,17 +11,20 @@
      </tr>
     </thead>
     <tbody>
-    @foreach($assignments as $assignment )
-    <tr>
-        
+    @foreach($assignments as $assignment)
+    <tr> 
         <td>
-            {{$assignment->total_count}}
+            {{$assignment->question_title}}
         </td>
-        <td>
-            {{$assignment->answers_count}}
+        <td> 
+            {{$arr[$assignment->correct_answer]}}
         </td>
-        <td>
-            {{($assignment->answers_count/$assignment->total_count)*100}}%
+        <td> 
+        @if($assignment->is_correct=="No")
+           <p style="color:red;font:bold;">{{$assignment->your_answer}}&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span></p> 
+        @else
+            <p style="color:green;font:bold;"><b>{{$assignment->your_answer}} &nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></p> 
+        @endif
         </td>
     </tr>
         @endforeach
