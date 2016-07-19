@@ -27,8 +27,8 @@
                                     <select name="assessment_id" class='form-control' id="assessment" >
                                         <option value="0" selected >-Select-</option>
                                         @if(getRole()!="administrator")
-                                            @foreach($assessment as $ass)
-                                                <option value="{{$ass->id}}">{{$ass->name}}</option>
+                                            @foreach($assessment as $id => $name)
+                                                <option value="{{$id}}">{{$name}}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -44,6 +44,10 @@
                     </div>
                     <div id="report">
 
+                    </div>
+
+                    <div>
+                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
                     </div>
 
             </div>
@@ -113,6 +117,17 @@
             )
 
         }
+
+        $('#pdf').on('click',function(){
+            //alert();
+            var inst_id=$('#institution_id').val();
+            var assmt_id=$('#assessment').val();
+            //alert(inst_id+","+assmt_id);
+            //location.reload("{{ url('exportPDF/')}}"+inst_id+"/"+assmt_id);
+          window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assmt_id);
+
+        })
+
 
     </script>
 
