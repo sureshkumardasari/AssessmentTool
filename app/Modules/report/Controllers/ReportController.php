@@ -142,6 +142,24 @@ class ReportController extends Controller {
 				->get();
 		return $students;
 	}
+	public function assignmtInst($id){  
+	$assignments=DB::table('assignment_user')
+				->join('assignment','assignment.id','=','assignment_user.assignment_id')
+				->where('assignment.institution_id','=',$id)
+				->select('assignment.name','assignment.id')
+				->get();
+	return $assignments; 
+	}
+	public function stuentsAssignmtInst($inst_id,$assign_id){ 
+  	$student_list=DB::table('assignment_user')
+				->join('assignment','assignment.id','=','assignment_user.assignment_id')
+				->leftjoin ('users','assignment_user.user_id','=','users.id')
+				->where('assignment.institution_id','=',$inst_id)
+				->where('assignment_user.assignment_id','=',$assign_id)
+				->select('users.name','users.id')
+				->get();
+	return $student_list; 
+	}
 	public function inst_student($inst_id,$student_id){
 		$assignments=DB::table('assignment_user')
 				->join('assignment','assignment.id','=','assignment_user.assignment_id')
@@ -156,18 +174,19 @@ class ReportController extends Controller {
 		//dd($assignments);
 		return view('report::report.student_answer_view',compact('assignments'));
 	}
-	public function studentAnsList($inst_id,$student_id){
-		$assignments=DB::table('assignment_user')
+	public function studentAnsList($inst_id,$assign_id,$student_id){
+ 		$assignments=DB::table('assignment_user')
 				->join('assignment','assignment.id','=','assignment_user.assignment_id')
 				->join('assessment','assessment.id','=','assignment_user.assessment_id')
 				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
-				//->join('assessment_question','assessment_question.assessment_id','=','assignment_user.assessment_id')
+				->leftjoin('questions','questions.id','=','question_user_answer.question_id')
+				->leftjoin('question_answers','question_answers.question_id','=','question_user_answer.question_id')
 				->where('assignment_user.user_id','=',$student_id)
-				->select(DB::raw('(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
-					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\') as answers_count'))
-				// ->groupby('assignment_name')
+				->where('question_answers.is_correct','=','YES')
+				->select('questions.title as question_title','question_user_answer.answer_option as your_answer','question_answers.order_id as correct_answer','question_user_answer.is_correct as is_correct')
+				->groupby('questions.id')
 				->get();
-		//dd($assignments);
+		// dd($assignments);
 		return view('report::report.student_answer_report_list',compact('assignments'));
 	}
 	public function inst_question($id)

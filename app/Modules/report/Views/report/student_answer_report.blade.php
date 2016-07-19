@@ -9,8 +9,17 @@
 
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
-                        <div class="form-group">
+                        <div class="col-md-3">
+                            <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+                        </div>
+                             <div class="form-group">
+                                    <label class="col-md-2 control-label">Select Assignmnet:</label>
+                                    <div class="col-md-2">
+                                        <select name="assign_id" class='form-control' id="assign_student" onchange="assignmt_change()">
+                                            <option value="0" selected >-Select-</option> 
+                                        </select>
+                                    </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-md-2 control-label">Select Student:</label>
                                 <div class="col-md-2">
@@ -25,12 +34,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()"> Go</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                     </div>
 
                     <div id="report">
 
@@ -42,6 +50,8 @@
 
     <script>
         var loadurl = "{{ url('/report/students_inst/') }}/" ;
+        var assignmturl = "{{ url('/report/assignmt_inst/') }}/" ;
+        var studentturl = "{{ url('/report/student_assignmt_inst/') }}/" ;
         var stdansloadurl = "{{ url('/report/students_ans_list/') }}/" ; 
         function student_change(){
             var csrf=$('Input#csrf_token').val();
@@ -50,7 +60,7 @@
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url:stdansloadurl+$('#institution_id').val()+'/'+$('#student').val(),
+                        url:stdansloadurl+$('#institution_id').val()+'/'+$('#assign_student').val()+'/'+$('#student').val(),
                         type:'post',
                         success:function(response){
                             $('#report').empty();
@@ -60,6 +70,29 @@
             )
         }
         $('#institution_id').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:assignmturl+ $('#institution_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#assign_student').empty();
+                            var opt = new Option('--Select Assignmnet--', '');
+                            $('#assign_student').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#assign_student').append(opt);
+                            }
+                        }
+                    }
+            )
+        });
+
+        function inst_change(){
+
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -79,16 +112,16 @@
                         }
                     }
             )
-        });
 
-        function inst_change(){
+        }
 
-            var csrf=$('Input#csrf_token').val();
+          function assignmt_change(){
+           var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url:loadurl+ $('#institution_id').val(),
+                        url:studentturl+$('#institution_id').val()+'/'+$('#assign_student').val(),
                         type: 'post',
                         success: function (response) {
                             var a = response.length;
