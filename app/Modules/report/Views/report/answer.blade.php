@@ -21,6 +21,34 @@
                                     {{--</select>--}}
                                 {{--</div>--}}
                             {{--</div>--}}
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Select Assignment:</label>
+                            <div class="col-md-2">
+                                <select name="assessment_id" class='form-control' id="assignment" >
+                                    <option value="0" selected >-Select-</option>
+                                    @if(getRole()!="administrator")
+                                        @foreach($assignment as $ass)
+                                            <option value="{{$ass->id}}">{{$ass->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Select Subject:</label>
+                            <div class="col-md-2">
+                                <select name="subject_id" class='form-control' id="subject" >
+                                    <option value="0" selected >-Select-</option>
+                                    @if(getRole()!="administrator")
+                                        @foreach($assignment as $ass)
+                                            <option value="{{$ass->id}}">{{$ass->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+
                             <div class="form-group">
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
@@ -37,15 +65,15 @@
     </div>
 
     <script>
+        var loadurl = "{{ url('/report/assignment_qstn/') }}/" ;
         function inst_change(){
-            var loadurl = "{{ url('/report/inst_question/') }}/" ;
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
                         headers: {"X-CSRF-Token": csrf},
-                        url: loadurl+ $('#institution_id').val(),
-                        type: 'post',
-                        success: function (response) {
+                        url:loadurl+$('#institution_id').val()+'/'+$('#assignment').val()+'/'+$('#subject').val(),
+                        type:'post',
+                        success:function(response){
                             $('#report').empty();
                             $('#report').append(response);
                         }
@@ -54,5 +82,50 @@
                     }
             )
         }
+        $('#institution_id').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:loadurl+ $('#institution_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#assignment').empty();
+                            $('#subject').empty();
+                            var opt = new Option('--Select Assignment--', 0);
+                            $('#assignment').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#assignment').append(opt);
+                            }
+                        }
+                    }
+            )
+        });
+        $('#assignment').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:'assignment_subjects/'+ $('#institution_id').val()+'-'+$('#assignment').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                            $('#subject').empty();
+                            var opt = new Option('--Select Subject--', 0);
+                            $('#subject').append(opt);
+                            $.each(response,function(id,name){
+
+                                    var opt = new Option(name, id);
+                                    $('#subject').append(opt);
+
+                            });
+                        }
+                    }
+            )
+        });
     </script>
 @endsection

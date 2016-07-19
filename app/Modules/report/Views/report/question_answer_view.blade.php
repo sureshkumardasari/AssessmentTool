@@ -2,27 +2,18 @@
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
-        <th>Total Questions</th>
-        <th>Correct Questions</th>
-        <th>Wrong Questions</th>
-        <th>Percentage(%)</th>
+        <th>Question Id </th>
+        <th>Accuracy Percentage</th>
     </tr>
     </thead>
     <tbody>
-    @foreach($questions as $question )
+    @foreach($ques as $id=>$question )
     <tr>
         <td>
-        {{$question->total_count}}
+        {{$question}}
         </td>
         <td>
-            {{$question->answers_count}}
-        </td>
-        <td>
-{{$question->total_count-$question->answers_count}}
-        </td>
-        <td>
-            {{($question->answers_count/$question->total_count)*100}}%
-
+            {{isset($user_answered_correct_count[$id])?(($user_answered_correct_count[$id]/$user_count[$id])*100).'%':'no one answer the question'}}
         </td>
     </tr>
         @endforeach

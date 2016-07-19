@@ -12,7 +12,7 @@
     Route::get('student',['as'=>'studentreport','uses'=>'ReportController@student']);
     Route::get('answer',['as'=>'answerreport','uses'=>'ReportController@answer']);
     Route::post('assignment_inst/{id}',['as'=>'assignreport','uses'=>'ReportController@report_inst']);
-    Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
+    Route::post('assignment_qstn/{id}',['as'=>'instreport','uses'=>'ReportController@assignments']);
     Route::post('assignment_inst/{inst_id}/{assi_id}',['as'=>'reportassignment','uses'=>'ReportController@report_assignment']);
     //student-answer-report
     Route::get('student-answer-report',['as'=>'student-answer-report','uses'=>'ReportController@studentAnswerReport']);
@@ -30,6 +30,9 @@
         Route::get('download',['as'=>'reportdownload','uses'=>'ReportController@getDownload']);
         Route::get('test-history',['as'=>'test-history','uses'=>'ReportController@TestHistoryReport']);
         Route::post('test_history/{id}','ReportController@TestHistory');
+	  Route::post('assignment_qstn/{inst_id}/{assi_id}/{sub_id}',['as'=>'reportassignment','uses'=>'ReportController@report_questions']);
+	   Route::get('exportPDF/{inst_id}/{assi_id}',['as'=>'reportdownload','uses'=>'ReportController@exportPDF']);
+        Route::post('assignment_subjects/{inst_id}-{assi_id}',['as'=>'reportassignment','uses'=>'ReportController@subjects_list']);
 
  });
 

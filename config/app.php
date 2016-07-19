@@ -151,6 +151,7 @@ return [
 		'Intervention\Image\ImageServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
 	],
 
 	/*
@@ -205,6 +206,7 @@ return [
         'Image' 	=> 'Intervention\Image\Facades\Image',
         'QrCode'	=> 'SimpleSoftwareIO\QrCode\Facades\QrCode',
         'Debugbar' 	=> 'Barryvdh\Debugbar\Facade',
+		'PDF' => 'Barryvdh\DomPDF\Facade',
 	],
 
 ];

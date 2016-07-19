@@ -7,6 +7,8 @@ use App\Modules\Assessment\Models\UserAssignmentResult;
 use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Resources\Models\AssignmentUser;
+use App\Modules\Resources\Models\Question;
+use App\Modules\Resources\Models\Subject;
 use App\User;
 use Illuminate\Http\Request;
 use App\Modules\Admin\Models\Institution;
@@ -15,7 +17,7 @@ use App\Modules\Admin\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Thujohn\Pdf\PdfServiceProvider;
 use Response;
-use Input;
+use Excel;
 
 class ReportController extends Controller {
 
@@ -90,6 +92,12 @@ class ReportController extends Controller {
 				->get();
 		return $assignment;
 	}
+	public function assignments($id){
+		$assignments=Assignment::where('institution_id',$id)
+				->select('name','id')
+				->get();
+		return $assignments;
+	}
 	public function report_assignment($inst_id,$assi_id){
 
 		$userids=QuestionUserAnswer::select('user_id')->where('assignment_id','=',$assi_id)->get();
@@ -118,6 +126,91 @@ class ReportController extends Controller {
 		//dd($assessnment);
 		return $assessment;
 	}
+
+
+	public function report_questions($inst_id=0,$assign_id=0,$sub_id=0){
+
+
+		$assessment=Assignment::find($assign_id);
+		$question=[];
+		if($assessment){
+			$question=AssessmentQuestion::where('assessment_id',$assessment->id)->lists('question_id');
+		}
+		$ques=Question::whereIn('id',$question)->lists('title','id');
+		$questions=Question::whereIn('id',$question);
+		if($sub_id!=0){
+			$questions->where('subject_id','=',$sub_id);
+		}
+		$questions=$questions->lists('id');
+		$user_count=QuestionUserAnswer::where('assignment_id',$assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
+		$user_answered_correct_count=QuestionUserAnswer::whereIn('question_id',$questions)->where('assignment_id',$assign_id)->where('is_correct','Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
+		//dd($ques);
+		//join('questions','assessment_question.assessment_id','=',$assessment->id)
+		//dd($question);
+
+		//dd($user_count);
+		//-------------------------------
+
+		//dd($questionnnnn);
+
+		//---------------------------------
+//dd($questions);
+//		foreach($questions as $questionn)
+//			$options[]=QuestionUserAnswer::select('answer_option','question_id','user_id')
+//				->where('assignment_id',$assign_id)
+//				->where('question_id',$questionn->id)->groupby('user_id')
+//					->get();
+//
+//		//dd($options);
+//		$userids=DB::table('question_user_answer')
+//		->join('question_answers','question_answers.question_id','=','question_user_answer.question_id')
+//		->leftjoin('questions','questions.id','=','question_user_answer.question_id')
+//			->whereIn('questions.id',$question)
+//		//->where('questions.institute_id', $inst_id)
+//		->where('questions.subject_id', $sub_id)
+//		//->where('question_user_answer.answer_option','=','A')
+//		->where('question_answers.is_correct', 'like', 'Yes')
+//		->select(DB::raw('questions.id,question_answers.order_id,(select count(question_answers.order_id))as count'))
+//		->groupby('question_user_answer.question_id')
+//		->get();
+//		//dd($userids);
+//
+//
+//
+//		//if ($inst_id>0&&$sub_id>0) {
+//			$questions = Question::join('question_answers', 'questions.id', '=', 'question_answers.question_id')
+//					//->where('questions.institute_id', $inst_id)
+//					->whereIn('questions.id',$question)
+//					->where('questions.subject_id', $sub_id)
+//					->where('question_answers.is_correct', 'like', 'Yes')
+//					->select('questions.id', 'order_id')
+//					->get();
+	//	dd($questions);
+		//}
+//		elseif($inst_id>0){
+//			$questions = Question::join('question_answers', 'questions.id', '=', 'question_answers.question_id')
+//					->where('questions.institute_id', $inst_id)
+//				->whereIn('questions.id',$question)
+//					->where('question_answers.is_correct', 'like', 'yes')
+//					->select('questions.id', 'order_id')
+//					->get();
+//		}
+//		else{
+//			$questions = Question::join('question_answers', 'questions.id', '=', 'question_answers.question_id')
+//					->where('question_answers.is_correct', 'like', 'yes')
+//				->whereIn('questions.id',$question)
+//					->select('questions.id', 'order_id')
+//					->get();
+//		}
+		//dd($questions);
+		//return $questions;
+
+
+
+		return view('report::report.question_answer_view',compact('ques','user_answered_correct_count','user_count'));
+	}
+
+
 	public function report_assessment($inst_id,$assi_id){
 		$students=DB::table('assignment_user')
 				->leftjoin ('users','assignment_user.user_id','=','users.id')
@@ -269,5 +362,41 @@ class ReportController extends Controller {
 		return view('report::report.testhistory',compact('assignments','marks','All_users','complete_users'));
 
 	}
+	
+		public function exportPDF($inst_id,$assi_id)
+	{
+		$userids=QuestionUserAnswer::select('user_id')->where('assignment_id','=',$assi_id)->get();
+		$c=array();
+		foreach($userids as $userid)
+			array_push($c,$userid->user_id);
+		$students=DB::table('assignment_user')
+				->leftjoin ('users','assignment_user.user_id','=','users.id')
+				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
+				->where('assignment_user.assignment_id','=',$assi_id)
+				->select( DB::raw('
+					assignment_user.user_id,
+					users.name,
+					(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
+					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\') as answers_count
+					'))
+				-> groupby('assignment_user.user_id')
+				->get();
+		//dd($students);
+		return Excel::create('Assessment report', function($excel) use ($students) {
+			$excel->sheet('mySheet', function($sheet) use ($students)
+			{
+                $sheet->loadView('report::report.pdf', array("students"=>$students));
+				//$sheet->fromArray($students);
+			});
+		})->download("pdf");
+	}
 
+	public function subjects_list($inst_id,$assign_id){
+
+	$assessment=Assignment::find($assign_id);
+		$subjects=Assessment::join('subject as sub','assessment.subject_id','=',DB::raw('sub.id && assessment.id ='.$assessment->id))->select('sub.name','sub.id')
+			->lists('name','id');
+		//dd($subjects);
+	return $subjects;
+	}
 }
