@@ -10,20 +10,20 @@
 
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
-                       <div class="rcorners1 col-md-6" >
-                           <a href="{{ url('/report/assessment') }}">Scores by Assessments</a>
-                       </div>
+                        <div class="rcorners1 col-md-6" >
+                            <a href="{{ url('/report/class_average_and_student_scores_report') }}">Class averages and student scores report</a>
+                        </div>
 
                         <div class="col-md-3" ></div>
                         <div class="rcorners1 col-md-6" >
-                            <a href="{{ url('/report/assignment') }}">Student Scores by Assignment</a>
+                            <a href="{{ url('/report/assignment') }}">Whole class score report</a>
                         </div><br>
                     </div>
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
-                        <div class="rcorners1  col-md-6" >
-                            <a href="{{ url('/report/student') }}">Scores by Students</a>
-                        </div>
+                        {{--<div class="rcorners1  col-md-6" >--}}
+                            {{--<a href="{{ url('/report/student') }}">Scores by Students</a>--}}
+                        {{--</div>--}}
                         <div class="col-md-3" ></div>
                         <div class="rcorners1  col-md-6" >
                             <a href="{{ url('/report/answer') }}">Questions & Answers</a>
@@ -34,13 +34,17 @@
                         <div class="rcorners1  col-md-6" >
                             <a href="{{ url('/report/test-history') }}">Test-History-Class-Averages</a>
                         </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-md-2" ></div>
+                        <div class="col-md-3" ></div>
                         <div class="rcorners1  col-md-6" >
                             <a href="{{ url('/report/student-answer-report') }}">Student Answer Report</a>
-                        </div> 
+                        </div>
                     </div>
+                    {{--<div class="panel-body">--}}
+                        {{--<div class="col-md-2" ></div>--}}
+                        {{--<div class="rcorners1  col-md-6" >--}}
+                            {{--<a href="{{ url('/report/student-answer-report') }}">Student Answer Report</a>--}}
+                        {{--</div> --}}
+                    {{--</div>--}}
                 </div>
             </div>
         </div>
