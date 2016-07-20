@@ -23,6 +23,8 @@ use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
 use App\Modules\Grading\Models\Grade;
+use App\Modules\Resources\Models\Question;
+
 
 class AssessmentAssignmentController extends BaseController {
 
