@@ -103,44 +103,6 @@ class ReportController extends Controller {
 		return $assignments;
 	}
 	public function report_assignment($inst_id,$assi_id){
-		//---------------------
-		//public function report_assignment($inst_id,$assi_id){
-			$userids=QuestionUserAnswer::where('assignment_id','=',$assi_id)->lists('user_id');//->->get();
-			$students=DB::table('assignment_user')
-				->leftjoin ('users','assignment_user.user_id','=','users.id')
-				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
-				->where('assignment_user.assignment_id','=',$assi_id)
-				->select( DB::raw('assignment_user.user_id,users.name'))
-				-> groupby('assignment_user.user_id')
-				->get();
-			$subjects=DB::table('assessment')
-				->join('assignment','assessment.id','=','assignment.assessment_id')
-				->join('subject','assessment.subject_id','=','subject.id')
-				//->where('assignment.assessment_id','=',$assi_id)
-				->select('subject.name as subject')
-				->get();
-			$assessment_arr=array_unique($userids);
-			foreach($assessment_arr as $arr){
-				$counts[$arr]=AssessmentQuestion::where('assessment_id',$arr)->count('question_id');
-			}
-			$records=Assessment::whereIn('id',$assessment_arr)->select('id','guessing_panality','mcsingleanswerpoint','essayanswerpoint')->get();
-			//dd($records);
-			foreach($records as $record){
-				$rec[$record['id']]=Array();
-				array_push($rec[$record['id']],$record);
-			}
-			$a=Array();
-			$marks=Array();
-			foreach($userids as $key=>$list){
-				$correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
-				$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
-				$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
-				$marks[$key]=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
-			}
-			//dd($marks);
-			return view('report::report.assignmentview',compact('students','subjects','marks'));
-		//}
-		//-------------------
 
 		$userids=QuestionUserAnswer::select('user_id')->where('assignment_id','=',$assi_id)->get();
 		$c=array();
