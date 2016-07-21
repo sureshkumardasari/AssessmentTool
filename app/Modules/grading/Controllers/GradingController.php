@@ -165,10 +165,12 @@ class GradingController extends BaseController {
 		return view('grading::student_question_list', compact('ass_qst'));
 	}
 
-	// Save ansers for students by Grade By Question method.....
+	// Save answers for students by Grade By Question method.....
 	public function saveAnswerByQuestionGrade($question_id=0){
 		$post=Input::all();
+		//dd($post);
 		if(isset($post['selected_answer'])){
+			$grade  = new Grade();
 			//dd($post);
 			if($post['question_type']=="Multiple Choice - Multi Answer"){
 
@@ -207,6 +209,19 @@ class GradingController extends BaseController {
 					// 		->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
 					// 		->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
 					// }
+					//for updating the scores of the students after grading for only single user..
+					$params = [
+						'assessment_id' => $post['assessment_id'],
+						'assignment_id' => $post['assignment_id'],
+						'user_id'       => $post['user_id'],
+						'retake'       => false,
+						'essay_grade' =>'no'
+					];
+					try {
+						$grade->gradeSystemStudents( $params );
+					} catch (Exception $e) {
+
+					}//....................
 					if(!isset($post['nextuserid'])){
 						return "All students graded";
 					}
@@ -246,10 +261,26 @@ class GradingController extends BaseController {
 							$uAnswer->save();
 						}
 					}
+					//for updating the scores of students after grading for all the students...
+					foreach($assignment_users as $user) {
+
+						$params = [
+							'assessment_id' => $post['assessment_id'],
+							'assignment_id' => $post['assignment_id'],
+							'user_id' => $user,
+							'retake' => false,
+							'essay_grade' => 'no'
+						];
+						try {
+							$grade->gradeSystemStudents($params);
+						} catch (Exception $e) {
+
+						}
+					}//-------------------
 					return "All students graded";
 				}
 			}
-			else{
+			else if($post['question_type']=="Multiple Choice - Single Answer"){
 
 
 				if($post['user_id']!=0) {
@@ -273,6 +304,21 @@ class GradingController extends BaseController {
 								->where('assessment_id',$post['assessment_id'])->where('assignment_id',$post['assignment_id'])
 								->update(['question_answer_id'=>$post['selected_answer'],'is_correct'=>isset($post['is_correct']) ? $post['is_correct'] : 'Open','question_answer_text'=>$post['selected_answer_text']]);
 					}
+
+					//for updating the scores of the students after grading for only single user..
+					$params = [
+						'assessment_id' => $post['assessment_id'],
+						'assignment_id' => $post['assignment_id'],
+						'user_id'       => $post['user_id'],
+						'retake'       => false,
+						'essay_grade' =>'no'
+					];
+					try {
+						$grade->gradeSystemStudents( $params );
+					} catch (Exception $e) {
+
+					}//....................
+
 					if(!isset($post['nextuserid'])){
 						return "All students graded";
 					}
@@ -300,11 +346,27 @@ class GradingController extends BaseController {
 							$uAnswer->save();
 						}
 					}
+					//for updating the scores of students after grading for all the students...
+					foreach($assignment_users as $user) {
+
+						$params = [
+							'assessment_id' => $post['assessment_id'],
+							'assignment_id' => $post['assignment_id'],
+							'user_id' => $user,
+							'retake' => false,
+							'essay_grade' => 'no'
+						];
+						try {
+							$grade->gradeSystemStudents($params);
+						} catch (Exception $e) {
+
+						}
+					}//-------------------
+
 					return "All students graded";
 				}
 				return $post['user_id'];
 			}
-
 		}
 		else{
 			return "No data given";
@@ -321,9 +383,10 @@ class GradingController extends BaseController {
 	//save answers for students by Grade By Student Method .....
 	public function save_student_answers_by_gradeByStudentMethod($assessment_id=0,$assignment_id=0){
 		$post=Input::all();
-
+		//dd($assessment_id);
+		//dd($assignment_id);
 		//dd($post);
-		$user_already_entered_answers=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$post['user_id'])->lists('question_id');
+		$user_already_entered_answers=QuestionUserAnswer::where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('user_id',(int)$post['user_id'])->lists('question_id');
 //dd($user_already_entered_answers);
 		if(isset($post['question_selected_answers'])){
 			if($post['question_type']=="Multiple Choice - Multi Answer"){
@@ -349,40 +412,58 @@ class GradingController extends BaseController {
 				}
 			}
 			else if($post['question_type']=="Multiple Choice - Single Answer"){
+				//dd("kjlk");
 
 				foreach($post['question_selected_answers'] as $question_id=>$answer) {
 					$uAnswer=new QuestionUserAnswer();
-					if (in_array($question_id,$user_already_entered_answers)){
-						$uAnswer->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
-								->update(['question_answer_id'=>$answer[0]]);
+					if (in_array((int)$question_id,$user_already_entered_answers)){
+						//dd('entered');
+						$uAnswer->where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('question_id',(int)$question_id)->where('user_id',(int)$post['user_id'])
+								->update(['question_answer_id'=>(int)$answer]);
 					}
 					else{
+						//dd('enterednott');
 						$uAnswer->assessment_id = $assessment_id;
 						$uAnswer->assignment_id = $assignment_id;
 						$uAnswer->question_id = $question_id;
-						$uAnswer->question_answer_id = $answer[0];
+						$uAnswer->question_answer_id = $answer;
 						$uAnswer->user_id = $post['user_id'];
 						$uAnswer->save();
 
 					}
 				}
 			}
+			// for updating the scores of the students after grading.....
+			$grade  = new Grade();
 
+			$params = [
+				'assessment_id' => $assessment_id,
+				'assignment_id' => $assignment_id,
+				'user_id'       => $post['user_id'],
+				'retake'       => false,
+				'essay_grade' =>'no'
+			];
+			try {
+				$grade->gradeSystemStudents( $params );
+			} catch (Exception $e) {
+
+			}
 			if(isset($post['next_student'])){
 				return $this->studentAnswers($assessment_id,$assignment_id,$post['next_student']);
 				//return QuestionUserAnswer::where('user_id',$post['next_student'])->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
 			}
 			return "Completed";
 		}
-		else return "please answer atlest one question";
+		else return "please answer at least one question";
 	}
+	// for sending students already answered options
 	public function studentAnswers($assessment_id=0,$assignment_id=0,$user_id=0){
 
-		$ans= QuestionUserAnswer::where('user_id',$user_id)->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->select('question_answer_id','question_id')->get();
+		$ans= QuestionUserAnswer::where('user_id',(int)$user_id)->where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->select('question_answer_id','question_id')->get();
 		// dd($ans)
 		$b=Array();
 		$b['student_answers']=Array();
-		$b['student_details']=AssignmentUser::where('assignment_id',$assignment_id)->where('user_id',$user_id)->select('takendate','gradeddate')->first();
+		$b['student_details']=AssignmentUser::where('assignment_id',(int)$assignment_id)->where('user_id',(int)$user_id)->select('takendate','gradeddate')->first();
 		foreach($ans as $a){
 			$b['student_answers'][$a['question_id']]=Array();
 		}

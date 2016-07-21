@@ -296,7 +296,7 @@
             success:function(response){
                 //alert(JSON.stringify(selected_student_answers));
                 //alert("responseeeeeeeeee");
-                //alert(JSON.stringify(response));
+                alert(JSON.stringify(response));
                 if(response=="Completed") {
                     alert(response);
                     //$('#drpAssignmentStudent').val(next_student);
@@ -304,13 +304,13 @@
                 else if(response=="All students Graded"){
                     alert("Grading completed");
                 }
-                else if(response== "please answer atlest one question"){
+                else if(response== "please answer at least one question"){
                     alert(response);
                 }
                 else {
                     selected_student_answers=[];
                     Question_selected_answers={};
-                    $.each(response,function(i,val){
+                    $.each(response['student_answers'],function(i,val){
                         Question_selected_answers[i]=[];
                         $.each(val,function(j,ans){
                             Question_selected_answers[i].push(ans);
@@ -333,6 +333,8 @@
     }
     // function for showing  user answers as correct or incorrect.....
     function user_answers(){
+        alert(JSON.stringify(selected_student_answers));
+        alert(JSON.stringify(Question_selected_answers));
         $.each(Answer_ids,function(i,val){
             $('#'+val).removeClass('label-danger');
         });
@@ -352,7 +354,7 @@
             $.each(selected_student_answers,function(i,val){
                 $('input[type="radio"][value='+val+']').prop('checked',true);
                 if($.inArray(val.toString(),correct_answers)<0){
-                    $('#'+selected_student_answers[i]).addClass('label-danger');
+                    $('span#'+selected_student_answers[i]).addClass('label-danger');
                 }
             });
         }
@@ -368,7 +370,7 @@
             url:assessment_id+"/"+assignment_id+"/"+user_id,
             type:'get',
             success:function(response){
-                //alert(JSON.stringify(response));
+                alert(JSON.stringify(response));
                 selected_student_answers=[];
                 Question_selected_answers={};
                 var student_details=response['student_details'];

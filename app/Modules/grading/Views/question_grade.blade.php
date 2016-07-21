@@ -345,10 +345,12 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 					//}
 					});
 						}
-					
+					//alert(JSON.stringify(selected_answer_correct));
 				}
 			//}
+
 			});
+
 		}
 
 		$('.multiple_answer').on('click',function(){
@@ -359,6 +361,7 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 			//alert(checked_ans_val);
 			//alert(selected_multi_answer);
 			if($(this).is(':checked')){
+				//alert(JSON.stringify(selected_answer_correct));
 			selected_multi_answer.push(checked_ans_val);
 			//alert(selected_multi_answer);
 			selected_multi_answer_text[checked_ans_val]=$('#'+checked_ans_val).text();
@@ -370,9 +373,11 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 
 			}
 		//alert(selected_multi_answer);
+				//alert(JSON.stringify(selected_answer_correct));
 			
 		}
 		else{
+				//alert(JSON.stringify(selected_answer_correct));
 			//alert(JSON.stringify(selected_multi_answer_text));
 			var removeindex=selected_multi_answer.indexOf(checked_ans_val);
 			selected_multi_answer.splice(removeindex,1);
@@ -381,8 +386,10 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 				$('#'+checked_ans_val).removeClass('label-danger');
 
 		//alert(JSON.stringify(selected_multi_answer_text));
+				//alert(JSON.stringify(selected_answer_correct));
 		}
 		//alert(JSON.stringify(selected_multi_answer_text));
+			//alert(JSON.stringify(selected_answer_correct));
 			//alert(JSON.stringify(selected_answer_correct));
 		});
 	</script>
