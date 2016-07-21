@@ -166,7 +166,7 @@ class User extends Model {
   			if($user_role_exist){
  			$roleobj = DB::select(DB::raw("delete from role_user where user_id = '" . $obj->id . "'"));
 			}else{
-			$roleobj=new RoleUser;
+			$roleobj=new RoleUser();
 			$roleobj->user_id=$obj->id;
 			$roleobj->role_id=$obj->role_id;
 			$roleobj->save();
