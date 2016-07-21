@@ -28,6 +28,7 @@ class Grade extends Model {
 	protected $table = 'question_user_answer';
 
 	public function gradeSystemStudents( $params ){
+        //dd(";ikjhljh");
 
         $netSectionPercentage  = 0;
        // $obj                     = new Subsection();       
@@ -47,83 +48,153 @@ class Grade extends Model {
         $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
         
         $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
+        if( !isset($params['essay_grade'])) {
 
-        if( multiKeyExists($AssignmentQstUsrAnws,'essay')){
-            $assessmentAssignmentUser->updateUserGradeStatus(array(
-                'assignment_id' => $params['assignment_id'],
-                'user_id' => $params['user_id'],
-                'status' => "inprogress"
-            ));
-        
-        } else {
-            
-                
-                $gradeAllQuestion = $this->gradedQuestion($params['assessment_id'],$params['assignment_id'] ,$params['user_id'], (isset($params['retake']) ? $params['retake'] :''));
-                $netScore = $this->totolQuestionPoints($params['assessment_id'],$params['assignment_id']);
-                $rawscore   = $gradeAllQuestion['rawscore'];
+
+            if (multiKeyExists($AssignmentQstUsrAnws, 'essay')) {
+                $assessmentAssignmentUser->updateUserGradeStatus(array(
+                    'assignment_id' => $params['assignment_id'],
+                    'user_id' => $params['user_id'],
+                    'status' => "inprogress"
+                ));
+
+            } else {
+
+
+                $gradeAllQuestion = $this->gradedQuestion($params['assessment_id'], $params['assignment_id'], $params['user_id'], (isset($params['retake']) ? $params['retake'] : ''));
+                $netScore = $this->totolQuestionPoints($params['assessment_id'], $params['assignment_id']);
+                $rawscore = $gradeAllQuestion['rawscore'];
 
                 // To make it not throw divide by zero exception
-                if ( $netScore != 0 ) {
-                    $percentage = ($rawscore / $netScore) * 100;   
+                if ($netScore != 0) {
+                    $percentage = ($rawscore / $netScore) * 100;
                 } else {
                     $percentage = 0;
                 }
-                
+
                 $netSectionPercentage += $percentage;
 
                 // Default values
-                $scaledscore   = 0;
-                $grade         = null;
-                $percentile    = 0;
-                $scoretype     = 'scaledscore';
+                $scaledscore = 0;
+                $grade = null;
+                $percentile = 0;
+                $scoretype = 'scaledscore';
 
-                
-                    // if type is formative
-                     // if assessment is formative
-                    // get the scalescore ,score type ,and grade 
-                        // formative
-                    
 
-                    $scaledscore = 0;
-                    $grade       = '';
-                    $scoretype   =  0;
-                    $percentile  =  0;
+                // if type is formative
+                // if assessment is formative
+                // get the scalescore ,score type ,and grade
+                // formative
 
-                    $uSrArslt = (isset($params['retake']) && $params['retake'] == '1') ? new UserAssignmentResultRetake() : new UserAssignmentResult();
-                    $uSrArslt->insertuserassessmentassignmentrslt(
-                        array(
-                            'assessment_id'     => $params['assessment_id'],
-                            'assignment_id'  => $params['assignment_id'],
-                            'user_id'        => $params['user_id'],
-                            'scaledscore'   => $scaledscore,
-                            'scoretype'     => $scoretype,
-                            'grade'         => $grade,
-                            'rawscore'      => $rawscore,
-                            'percentage'    => $percentage,
-                            'percentile'    => $percentile,
-                        )
-                    ); 
-                    $update = $assessmentAssignmentUser->updateassignmentrecords(
-                                    array(
-                                        'assessment_id'     => $params['assessment_id'],
-                                        'assignment_id'  => $params['assignment_id'],
-                                        'user_id'        => $params['user_id'],
-                                        'scaledscore'   => $scaledscore,
-                                        'grade'         => $grade,
-                                        'rawscore'      => $rawscore,
-                                        'percentage'    => $percentage,
-                                        'status'    => 'completed'
-                                    )
-                    );
 
-                    if (isset($params['retake']) && $params['retake'] == '1') {
-                        $this->_compareScale($params);
-                    }
-                
-                $status =$this->getGradeStatus($params['assignment_id']);
-                $assmntAssignment->updateGradeStatus($params['assignment_id'],$status);
-           
-        } 
+                $scaledscore = 0;
+                $grade = '';
+                $scoretype = 0;
+                $percentile = 0;
+
+                $uSrArslt = (isset($params['retake']) && $params['retake'] == '1') ? new UserAssignmentResultRetake() : new UserAssignmentResult();
+                $uSrArslt->insertuserassessmentassignmentrslt(
+                    array(
+                        'assessment_id' => $params['assessment_id'],
+                        'assignment_id' => $params['assignment_id'],
+                        'user_id' => $params['user_id'],
+                        'scaledscore' => $scaledscore,
+                        'scoretype' => $scoretype,
+                        'grade' => $grade,
+                        'rawscore' => $rawscore,
+                        'percentage' => $percentage,
+                        'percentile' => $percentile,
+                    )
+                );
+                $update = $assessmentAssignmentUser->updateassignmentrecords(
+                    array(
+                        'assessment_id' => $params['assessment_id'],
+                        'assignment_id' => $params['assignment_id'],
+                        'user_id' => $params['user_id'],
+                        'scaledscore' => $scaledscore,
+                        'grade' => $grade,
+                        'rawscore' => $rawscore,
+                        'percentage' => $percentage,
+                        'status' => 'completed'
+                    )
+                );
+
+                if (isset($params['retake']) && $params['retake'] == '1') {
+                    $this->_compareScale($params);
+                }
+
+                $status = $this->getGradeStatus($params['assignment_id']);
+                $assmntAssignment->updateGradeStatus($params['assignment_id'], $status);
+
+            }
+        }
+        else{
+            $gradeAllQuestion = $this->gradedQuestion($params['assessment_id'], $params['assignment_id'], $params['user_id'], (isset($params['retake']) ? $params['retake'] : ''));
+          // dd($gradeAllQuestion);
+            $netScore = $this->totolQuestionPoints($params['assessment_id'], $params['assignment_id']);
+            $rawscore = $gradeAllQuestion['rawscore'];
+
+            // To make it not throw divide by zero exception
+            if ($netScore != 0) {
+                $percentage = ($rawscore / $netScore) * 100;
+            } else {
+                $percentage = 0;
+            }
+
+            $netSectionPercentage += $percentage;
+
+            // Default values
+            $scaledscore = 0;
+            $grade = null;
+            $percentile = 0;
+            $scoretype = 'scaledscore';
+
+
+            // if type is formative
+            // if assessment is formative
+            // get the scalescore ,score type ,and grade
+            // formative
+
+
+            $scaledscore = 0;
+            $grade = '';
+            $scoretype = 0;
+            $percentile = 0;
+
+            $uSrArslt = (isset($params['retake']) && $params['retake'] == '1') ? new UserAssignmentResultRetake() : new UserAssignmentResult();
+            $uSrArslt->insertuserassessmentassignmentrslt(
+                array(
+                    'assessment_id' => $params['assessment_id'],
+                    'assignment_id' => $params['assignment_id'],
+                    'user_id' => $params['user_id'],
+                    'scaledscore' => $scaledscore,
+                    'scoretype' => $scoretype,
+                    'grade' => $grade,
+                    'rawscore' => $rawscore,
+                    'percentage' => $percentage,
+                    'percentile' => $percentile,
+                )
+            );
+            $update = $assessmentAssignmentUser->updateassignmentrecords(
+                array(
+                    'assessment_id' => $params['assessment_id'],
+                    'assignment_id' => $params['assignment_id'],
+                    'user_id' => $params['user_id'],
+                    'scaledscore' => $scaledscore,
+                    'grade' => $grade,
+                    'rawscore' => $rawscore,
+                    'percentage' => $percentage,
+                    'status' => 'completed'
+                )
+            );
+
+            if (isset($params['retake']) && $params['retake'] == '1') {
+                $this->_compareScale($params);
+            }
+
+            $status = $this->getGradeStatus($params['assignment_id']);
+            $assmntAssignment->updateGradeStatus($params['assignment_id'], $status);
+        }
 
     }
     // Compare old and new score if new score is greater than old score then replace user answers and final result 
