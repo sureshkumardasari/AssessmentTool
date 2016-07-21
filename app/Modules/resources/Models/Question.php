@@ -260,6 +260,12 @@ class Question extends Model {
  		$obj->status =  $params['status'];
 		$obj->difficulty_id ='';
  		if($obj->save()){
+
+			if($params['question_type']==3){
+				$params['explanation']=[];
+				$params['is_correct']=[];
+				$params['answer_textarea']=[];
+			}
 		$explanation = $params['explanation'];
 		$is_correct = $params['is_correct'];
  		foreach ($params['answer_textarea'] as $key => $value) {
