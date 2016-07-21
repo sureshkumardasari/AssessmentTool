@@ -87,6 +87,9 @@
 								</select>
 							</div>
 						</div>
+						@foreach($qtypes as $id=>$val)
+ 						<?php $value=""; if($questions[0]['question_type_id']==3){ $value="Essay";}?>
+ 						@endforeach	
 
 						<div class="form-group">
 							<label class="col-md-2 control-label">Passage</label>
@@ -120,7 +123,9 @@
 			            	<label class="mr20 mt8 w200"></label>
 			            </p>
 			            <p class="w815 fltL">
+			            <?php if(!$value){?>
 			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary mb10 mr5 mt10 fltR create_answer">Add New Answer</a>
+			            <?php }?>
 			            </p>
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">

@@ -139,9 +139,9 @@ class QuestionController extends BaseController {
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
-		//dd($post);
+		// dd($post['question_type']);
 		$messages=[
-				'answerIds.required'=>'The Answer field is required',
+				// 'answerIds.required'=>'The Answer field is required',
 				'subject_id.required'=>'The Subject field is required',
 				'category_id.required'=>'The Category field is required',
 				'lessons_id.required'=>'The Lessons field is required',
@@ -154,9 +154,10 @@ class QuestionController extends BaseController {
 				'lessons_id' => 'required',
 				'question_type' => 'required',
 				'question_title' => 'required',
-				'answerIds' => 'required',
+				// 'answerIds' => 'required',
 				'question_textarea' => 'required',
-				'answer_textarea' =>'required'];
+				// 'answer_textarea' =>'required'
+				];
 
 		if ($post['id'] > 0)
 		{
@@ -214,8 +215,12 @@ class QuestionController extends BaseController {
 		}
 
 		if ($validator->fails())
-		{
+		{	
+			if($post['question_type']==3){
+				return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea']);
+			}else{
 			return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
+			}
 		} else
 		{
 			$params = Input::All();
@@ -226,9 +231,9 @@ class QuestionController extends BaseController {
 	}
 	public function questionSubmit(){
 		$post = Input::All();
-		//dd($post);
+		// dd($post);
 		$messages=[
-				'answerIds.required'=>'The Answer field is required',
+				// 'answerIds.required'=>'The Answer field is required',
 				'subject_id.required'=>'The Subject field is required',
 				'category_id.required'=>'The Category field is required',
 				'institution_id.required'=>'The Institution field is required',
@@ -240,11 +245,16 @@ class QuestionController extends BaseController {
 				'question_type' => 'required',
 				'question_title' => 'required',
 				'question_textarea' => 'required',
-				'answerIds' =>'required'
+				// 'answerIds' =>'required'
 		];
-
+		if($post['question_type']==3){
+			$post['answer_textarea']=array();
+			$post['answerIds']=array();
+			$post['is_correct']=array();
+			$post['explanation']=array();
+		}
 		$check_corret_answer = array();
-		//if($post['ans_flg']>0)
+		// if($post['ans_flg']>0)
 		{
 			$check_corret_answer = $post['is_correct'];
 
@@ -283,19 +293,29 @@ class QuestionController extends BaseController {
 			}
 		}
 
-		$validator=Validator::make($post,$rules,$messages);
+		$validator=Validator::make($post,$rules,$messages); 
 		if ($post['question_type']==1 && count($post['answerIds']) < 2)
 		{
 			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required');
 		}
 		if ($validator->fails())
-		{
+		{	
+			if($post['question_type']==3){
+				return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea']);
+			}else{
 			return Redirect::back()->withInput()->withErrors($validator);
+			}
 		} else
 		{
 			$params = Input::All();
 			$questions = Question::where('id',$params['id'])->get()->toArray();
 			if($questions){
+				if($params['question_type']==3){
+					$params['answer_textarea']=array();
+					$params['answerIds']=array();
+					$params['is_correct']=array();
+					$params['explanation']=array();
+				}
 				$obj=Question::find($params['id']);
 				$obj->title = $params['question_title'];
 				$obj->qst_text = $params['question_textarea'];

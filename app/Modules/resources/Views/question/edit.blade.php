@@ -74,12 +74,11 @@
 								<select class="form-control" name="question_type" id="question_type">
 									<option value="0">--Select Question Type--</option>
 									@foreach($qtypes as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option> 
 									@endforeach
 								</select>
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label class="col-md-2 control-label">Passage</label>
 							<div class="col-md-10">
@@ -112,15 +111,18 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0" > Inactive
 							</div>
 						</div>
-
+						<?php $path = url()."/resources/"; ?>	
+						<input type="hidden" value="<?php echo $path?>" id="base_path">	 
 						<div class="form-group">
 						<p class="mb18 mr0">
 			            	<label class="mr20 mt8 w200"></label>
 			            </p>
-			            <p class="w815 fltL">
-			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
-			                <input type="hidden" name="ans_flg" id="ans_flg" value="0">
-			            </p>
+			            <div id="answer_append">
+						    <p class="w815 fltL answer_add">
+ 						            <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
+ 						    </p>	
+			            </div>
+			            <input type="hidden" name="ans_flg" id="ans_flg" value="0">
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">
 							@if (isset($answersListing) && !empty($answersListing))
@@ -144,6 +146,23 @@
 	</div>
 </div>
 <script>
+$('#question_type').change(function () {
+		var tr;
+		var question_type=$('#question_type').val(); 
+		var question_type_text=$('#question_type').find('option:selected').text(); 
+   		if(question_type_text=="Essay"){
+			 $(".answer_add").remove(); 
+ 		}
+		else{
+			var c=$("#answer_append").is("create_answer");
+   			if($('#answer_append .answer_add').length > 0){
+  			}else{
+  			$('#answer_append').append("<p class='w815 fltL answer_add'>")
+			$('#answer_append').append("<a href='javascript:void(0)' class='upload_btn clr btn btn-primary col-md-offset-10 create_answer'>Add New Answer</a>"); 
+			$('#answer_append').append("</p>");
+ 			}
+ 		}
+});
 	var elfinderRoute = '{{route('elfinder.tinymce4')}}';
 	var fileBrowser = '{{route('launchFileBrowser',['question_attachments'])}}';
 	var js = document.createElement("script");
