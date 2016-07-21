@@ -24,6 +24,7 @@ use \Validator;
 use App\countries;
 use App\states;
 use Illuminate\Support\Facades\Input;
+use RoleUser;
 
 class User extends Model {
 	/**
@@ -164,9 +165,13 @@ class User extends Model {
 			$user_role_exist=DB::select(DB::raw("select role_id from role_user where user_id = '" . $obj->id . "'"));
   			if($user_role_exist){
  			$roleobj = DB::select(DB::raw("delete from role_user where user_id = '" . $obj->id . "'"));
-		}else{
- 			$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (" . $obj->id . "," . $obj->role_id . ")"));
-		}
+			}else{
+			$roleobj=new RoleUser;
+			$roleobj->user_id=$obj->id;
+			$roleobj->role_id=$obj->role_id;
+			$roleobj->save();
+	 			// $roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (" . $obj->id . "," . $obj->role_id . ")"));
+			}
 		}
 	}
 	public function deleteRole($id = 0)
