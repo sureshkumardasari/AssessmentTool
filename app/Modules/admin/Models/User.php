@@ -24,7 +24,7 @@ use \Validator;
 use App\countries;
 use App\states;
 use Illuminate\Support\Facades\Input;
-use App\Modules\admin\Models\RoleUser;
+use App\Modules\Admin\Models\RoleUser;
 
 class User extends Model {
 	/**
