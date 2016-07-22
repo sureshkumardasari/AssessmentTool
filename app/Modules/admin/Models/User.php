@@ -162,9 +162,10 @@ class User extends Model {
 
 		$obj->save();
 		if (isset($params['role_id']) && $params['role_id'] > 0) {
-			$user_role_exist=DB::select(DB::raw("select role_id from role_user where user_id = '" . $obj->id . "'"));
+			$user_role_exist=RoleUser::where('user_id',$obj->id)->first();
+			//dd($user_role_exist);
   			if($user_role_exist){
- 			$roleobj = DB::select(DB::raw("delete from role_user where user_id = '" . $obj->id . "'"));
+ 			$roleobj =DB::table('role_user')->where('user_id',$obj->id)->update(['role_id'=>$obj->role_id]);
 			}else{
 			$roleobj=new RoleUser();
 			$roleobj->user_id=$obj->id;
