@@ -16,6 +16,7 @@ class AlterAssessmentTable extends Migration {
 		DB::statement('ALTER TABLE assessment MODIFY COLUMN subject_id TEXT');
 		Schema::table('assessment', function(Blueprint $table)
 		{
+
 			$table->text('lesson_id','')->after('subject_id');
 		});
 	}
