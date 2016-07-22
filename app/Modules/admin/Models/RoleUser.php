@@ -18,4 +18,5 @@ class RoleUser extends Model {
 	 */
 	protected $table = 'role_user';
 	protected $primaryKey = 'id';
+	public  $timestamps = false;
 }
