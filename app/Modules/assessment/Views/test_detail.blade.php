@@ -329,5 +329,10 @@
         }
 
     }
+    $(document).ready(function(){
+         window.essay_isDirty = false;
+    });
+
+
 </script>
 @endsection
