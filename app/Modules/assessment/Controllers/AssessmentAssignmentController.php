@@ -100,15 +100,14 @@ class AssessmentAssignmentController extends BaseController {
         }
         $type=\Input::get('type', '');
         if($type!="proctor") {
-            //dd("ikjkjh");
-            $assign_status = Assignment::find($aAId);
-            if ($assign_status->status == "upcoming") {
-                $assign_status->status = "instructions";
-                $assign_status->save();
-            } elseif ($assign_status->status == "instructions") {
-                $assign_status->status = "inprogress";
-                $assign_status->save();
-            }
+            //  $assign_status = Assignment::find($aAId);
+            // if ($assign_status->status == "upcoming") {
+            //     $assign_status->status = "instructions";
+            //     $assign_status->save();
+            // } elseif ($assign_status->status == "instructions") {
+            //     $assign_status->status = "inprogress";
+            //     $assign_status->save();
+            // }
             $AssignmentUser->complete($aAId, $aId, 'instructions',$type);
         }
 
