@@ -58,9 +58,11 @@ class Assignment extends Model {
 
 	
 	public function deleteassignment($id = 0)
-	{
-		$assignment = Assignment::find($id);
-		$assignment->delete();
+	{  
+        $assignment = DB::table('assignment')
+                        ->where('id', $id)
+                        ->first();
+        return $assignment; 
 	}
 
 	public function updateassignment($params = 0)
