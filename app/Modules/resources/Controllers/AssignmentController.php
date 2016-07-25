@@ -253,9 +253,9 @@ class AssignmentController extends BaseController {
 			}
 			\Session::flash('flash_message', 'Assignment successfully deleted!');
         	}elseif($assignment->status=='completed'){
-	            \Session::flash('flash_message', 'Assignment completed Cont able to Delete!');
+	            \Session::flash('flash_message_failed', 'Assignment completed Cont able to Delete!');
 	        }else{
-	            \Session::flash('flash_message', 'Assignment Inprocess Cont able to Delete!');
+	            \Session::flash('flash_message_failed', 'Assignment Inprocess Cont able to Delete!');
 	        }
 				
 		}
