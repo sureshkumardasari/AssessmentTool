@@ -242,8 +242,22 @@ class AssignmentController extends BaseController {
 	{
 		if($id > 0)
 		{
-			$this->assignment->deleteassignment($id);
-			\Session::flash('flash_message', 'delete!');
+			$assignment=$this->assignment->deleteassignment($id);
+  			if($assignment->status=='upcoming'){
+    	  	$assignment = Assignment::find($id);
+			$assignment->delete();
+			$assignment_users=AssignmentUser::where('assignment_user.assignment_id','=',$id)->select('id')->get();
+			foreach ($assignment_users as $key => $value) {
+			$assignment = AssignmentUser::find($value['id']);
+			$assignment->delete();
+			}
+			\Session::flash('flash_message', 'Assignment successfully deleted!');
+        	}elseif($assignment->status=='completed'){
+	            \Session::flash('flash_message', 'Assignment completed Cont able to Delete!');
+	        }else{
+	            \Session::flash('flash_message', 'Assignment Inprocess Cont able to Delete!');
+	        }
+				
 		}
 		return redirect('/resources/assignment');
 	}
