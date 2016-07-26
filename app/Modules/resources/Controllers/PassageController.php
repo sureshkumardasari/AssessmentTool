@@ -166,7 +166,7 @@ class PassageController extends BaseController {
 
 		if ($post['id'] > 0)
 		{
-			$rules['passage_title'] = 'required|min:3|unique:passage,title,' . $post['id'];
+			$rules['passage_title'] = 'required' . $post['id'];
 		}
 		
 		$validator=Validator::make($post,$rules,$messages);
