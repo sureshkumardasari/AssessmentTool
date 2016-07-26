@@ -16,7 +16,7 @@
 
                         <div class="col-md-3" ></div>
                         <div class="rcorners1 col-md-6" >
-                            <a href="{{ url('/report/assignment') }}">Whole class score report</a>
+                            <a href="{{ url('/report/wholeclass') }}">Whole Class Score Report</a>
                         </div><br>
                     </div>
                     <div class="panel-body">
