@@ -18,7 +18,6 @@ Route::get('home', 'HomeController@index');*/
 Route::get('/', array('as'=>'/','uses'=>'WelcomeController@index'));
 
 Route::get('home', array('as'=>'home', 'uses' => 'HomeController@index'));
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

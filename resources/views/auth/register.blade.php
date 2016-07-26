@@ -104,7 +104,8 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Phone No.</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" name="phoneno" value="{{ old('phoneno') }}" >
+									<input type="text" class="form-control" name="phoneno" value="{{ old('phoneno') }}" maxlength="10" >
+
 								</div>
 							</div>
 							<div class="form-group required">
@@ -112,20 +113,18 @@
 								<div class="col-md-6">
 									<input type="radio" name="gender" value="male"checked>Male
 									<input type="radio" name="gender" value="female">Female
-
 								</div>
 								<div class="form-group ">
 									<div class="col-md-6 col-md-offset-4">
-										<button type="submit" class="btn btn-primary">
-											Register
-										</button>
+										<button type="submit" class="btn btn-primary" onclick="setTimeout(myFunction, 3000);">Register</button>
 									</div>
 								</div>
 							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-@endsection
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endsection

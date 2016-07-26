@@ -110,10 +110,10 @@ class AuthController extends Controller {
 			'enrollno' =>'required',
 			'address1' =>'required',
 			'city' =>'required',
-			'state' =>'required',
+			'state' =>'required|not_in:0',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
-			'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
-			'country_id' =>'required',
+			'phoneno' =>array('required','numeric','regex: /^\d{10}$/'),
+			'country_id' =>'required|not_in:0',
 			//'status' => 'required',
 			'gender' => 'required'];
 
@@ -143,14 +143,16 @@ class AuthController extends Controller {
                            'name' =>$params['first_name'],
  
                     );
-                        
-                        
-                    Mail::send('emails.user_mail', $data, function($message) use ($create){
-                        $message->to($create['email'],$create['name'])->subject('Appstek Team');
-                    });
 
-			return redirect('/');
+            if(getenv('mail_send')=='yes')
+            {
+                Mail::send('emails.user_mail', $data, function ($message) use ($create) {
+                    $message->to($create['email'], $create['name'])->subject('Appstek Team');
+                });
+            }
+
 		}
+        return view('auth.registersuccessmsg');
 	}
 	public function getRegister()
 	{
