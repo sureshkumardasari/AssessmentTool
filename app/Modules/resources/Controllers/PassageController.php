@@ -168,6 +168,12 @@ class PassageController extends BaseController {
 		{
 			$rules['passage_title'] = 'required' . $post['id'];
 		}
+		if($post['passage_title']){
+			$passage=Passage::where('lesson_id','=',$post['lessons_id'])->where('title',$post['passage_title'])->first();
+			if($passage){
+		 	return Redirect::back()->withInput()->withErrors(['The Passage Title is Already Entered']);
+   			} 
+  		}
 		
 		$validator=Validator::make($post,$rules,$messages);
 		if ($validator->fails())
