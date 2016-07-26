@@ -253,7 +253,7 @@ if($assignment) {
 //dd(array_values($question_type_count));
 	$question_type_count = collect(AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
 		//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
-		->selectRaw('questions.question_type_id ,count(Questions.question_type_id) as count')->groupBy('questions.question_type_id')->get())->keyBy('question_type_id');
+		->selectRaw('questions.question_type_id ,count(questions.question_type_id) as count')->groupBy('questions.question_type_id')->get())->keyBy('question_type_id');
 	//dd($question_type_count);
 	$students = collect(Assignment::join('assignment_user', 'assignment.id', '=', DB::Raw('assignment_user.assignment_id && assignment.id =' . $assign_id))
 		->join('users', 'assignment_user.user_id', '=', 'users.id')
