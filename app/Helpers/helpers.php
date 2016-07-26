@@ -215,6 +215,11 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'question-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
         ),
+        'edit' => array(
+            'displayName' => 'Questions View',
+            'route' => 'edit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+        ),
         //------------passages--------------------   
          'passage-list' => array(
             'displayName' => 'Passages',
@@ -229,6 +234,11 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'passage-edit' => array(
             'displayName' => 'Modify Passage',
             'route' => 'passage-edit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+        ),
+        'view' => array(
+            'displayName' => 'Passage View',
+            'route' => 'view',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
          //------------assessments--------------------   
@@ -247,6 +257,11 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'assessmentedit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
         ),
+         'assessmentview' => array(
+            'displayName' => 'Assessment View',
+            'route' => 'assessmentview',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+        ),
          //------------assignments--------------------   
          'assignment-list' => array(
             'displayName' => 'Assignments',
@@ -261,6 +276,11 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'assignment-edit' => array(
             'displayName' => 'Modify Assignment',
             'route' => 'assignment-edit',
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+        ),
+        'view' => array(
+            'displayName' => 'Assignment View',
+            'route' => 'view',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
          //------------grading-----studentGrading----------questionGrading----------   
