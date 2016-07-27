@@ -243,7 +243,7 @@ class Grade extends Model {
                         ->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
                         ->join("questions as q", 'aq.question_id', '=', 'q.id')
                         ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
-                        ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
+                        ->leftjoin("question_answers as qa", 'qa.question_id', '=', 'q.id')
                         ->where("aq.assessment_id","=", $assessment_id)
                         ->where("q.id","=", $qid)
                         ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","q.qst_text","qa.ans_text as answer_text", "qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
@@ -261,7 +261,7 @@ class Grade extends Model {
                 $questions['essayanswerpoint'] = $row->essayanswerpoint;
                 $questions['qst_text'] = $row->qst_text;
 
-                $questions['answers'][] = ['Id' => $row->answer_id, 'is_correct' => $row->is_correct, 'ans_text' => $row->answer_text];            
+                $questions['answers'][] = ['Id' => $row->answer_id, 'is_correct' => $row->is_correct, 'ans_text' => $row->answer_text];
 
                 if($row->is_correct == 'YES')
                 $questions[$row->id]['correctanswers'][] = $row->answer_id;
@@ -276,23 +276,25 @@ class Grade extends Model {
                         ->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
                         ->join("questions as q", 'aq.question_id', '=', 'q.id')
                         ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
-                        ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
+                        ->leftjoin("question_answers as qa", 'qa.question_id', '=', 'q.id')
+                       // ->leftjoin('question_user_answers as qua','q.id','=','qua.question_id')
                         ->where("aq.assessment_id","=", $assessment_id)
-                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->select("q.id","q.title","qt.id as qtype_id","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->orderby('qt.id','ASC')
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
-//         dd($results);
+        // dd($results);
         $questions = [];                
         foreach ($results as $key => $row) {
             $questions[$row->id]['Id'] = $row->id;
+            $questions[$row->id]['qtype_id'] = $row->qtype_id;
             $questions[$row->id]['Title'] = $row->title;
             $questions[$row->id]['ans_text'] = $row->ans_text;
             $questions[$row->id]['question_type'] = $row->question_type;
             $questions[$row->id]['guessing_panality'] = $row->guessing_panality;
             $questions[$row->id]['mcsingleanswerpoint'] = $row->mcsingleanswerpoint;
             $questions[$row->id]['essayanswerpoint'] = $row->essayanswerpoint;
-
             $questions[$row->id]['answers'][] = ['Id' => $row->answer_id,'ans_text'=>$row->ans_text , 'is_correct' => $row->is_correct];
 
             if($row->is_correct == 'YES')
