@@ -32,7 +32,9 @@
 				       		<?php
 				       		$ans_arr = ['A', 'B', 'C', 'D', 'E'];
 				       		?>
-				            <tr>				                
+				            <tr>
+								{{--//for displaying that the question is graded or not?--}}
+								<td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$ass_qst['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted"  style="color:red" id="incomplete_status{{$ass_qst['Id']}}"></span></td>
 				                <td><b>Q. {{$ass_qst['Title']}}</b></td>
 				            </tr>  
 
@@ -40,18 +42,20 @@
 				                <td>{{$ass_qst['qst_text']}}</td>
 				            </tr> 	
 				            {{--*/ $i = 0 /*--}}
-				            @foreach($ass_qst['answers'] as $idx => $a )
-				            	{{--*/ 
-				                $ans_label = 'default';
-				                if($a['is_correct']=='YES')$ans_label = 'success' ;
-				                /*--}}
-				            <tr>				                
-				                <td>
-				                {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
-				                </td>
-				            </tr> 
-				             {{--*/ $i++ /*--}}
-				            @endforeach	
+							@if($ass_qst['question_type']!="Essay")
+								@foreach($ass_qst['answers'] as $idx => $a )
+									{{--*/
+									$ans_label = 'default';
+									if($a['is_correct']=='YES')$ans_label = 'success' ;
+									/*--}}
+								<tr>
+									<td>
+									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+									</td>
+								</tr>
+								 {{--*/ $i++ /*--}}
+								@endforeach
+							@endif
 				            <tr>
 				                <td>	
 				                	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Edit</button>
@@ -69,26 +73,34 @@
 									        <div class="modal-body">
 									          <p>Q. {{$ass_qst['qst_text']}}</p>
 									          	{{--*/ $i = 0 /*--}}
-									            @foreach($ass_qst['answers'] as $idx => $a )
-									            <div>	
-									            	@if(($ass_qst['question_type'])=="Multiple Choice - Single Answer")
-									            	<input type="radio" name="ans_val" id="ans_val" editattr="{{$a['Id']}}" class="answer_selection_part" value="{{$a['Id']}}">
-									                @elseif(($ass_qst['question_type'])=="Multiple Choice - Multi Answer")
-									                <input type="checkbox" name="ans_val[]" id="ans_val{{$a['Id']}}" editattr="{{$a['Id']}}" class="multiple_answer" value="{{$a['Id']}}">
-									                @endif
+												@if($ass_qst['question_type']!="Essay")
+													@foreach($ass_qst['answers'] as $idx => $a )
+													<div>
+														@if(($ass_qst['question_type'])=="Multiple Choice - Single Answer")
+														<input type="radio" name="ans_val" id="ans_val" editattr="{{$a['Id']}}" class="answer_selection_part" value="{{$a['Id']}}">
+														@elseif(($ass_qst['question_type'])=="Multiple Choice - Multi Answer")
+														<input type="checkbox" name="ans_val[]" id="ans_val{{$a['Id']}}" editattr="{{$a['Id']}}" class="multiple_answer" value="{{$a['Id']}}">
+														@endif
 
-									                {{--*/ 
-									                $ans_label = 'default';
-									                if($a['is_correct']=='YES')$ans_label = 'success' ;
-									                /*--}}
-									                
+														{{--*/
+														$ans_label = 'default';
+														if($a['is_correct']=='YES')$ans_label = 'success' ;
+														/*--}}
 
-									                {{$ans_arr[$i]}}. 
-									                <span class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
 
-									            </div> 
-									            {{--*/ $i++ /*--}}
-									            @endforeach	
+														{{$ans_arr[$i]}}.
+														<span class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+
+													</div>
+													{{--*/ $i++ /*--}}
+													@endforeach
+												@else
+													<div>
+														<textarea id="essay{{$ass_qst['Id']}}"></textarea>
+														<input type="number" name="essay_score" id="essay_score{{$ass_qst["Id"]}}" max={{$ass_qst['essayanswerpoint']}}>/{{$ass_qst['essayanswerpoint']}}
+													</div>
+
+												@endif
 
 									            <div>
 
@@ -98,7 +110,7 @@
 
 
 									        <div class="modal-footer">
-									          <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+									          <button type="button" class="btn btn-default essay_ok" data-dismiss="modal">OK</button>
 									        </div>
 									      </div>
 									      
@@ -108,17 +120,20 @@
 								</td>
 				            </tr>
 					   <tr>
-						   <td class="form-group">
+						   <td>
 							   <br>
-							   <div class="col-md-1">
-							   <button type="button" class="btn btn-info btn-sm" id="save" >save</button>
+							   <div class="form-group">
+								   <div>
+									   <button type="button" class="btn btn-info btn-sm" id="save" >save & grade next student</button>
+								   &nbsp
+									   <a  type="button" class="btn btn-danger btn-sm" href="{{ url('/grading/list-question/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+								   </div>
 							   </div>
-							   <div>
-						   <a class="col-md-1">cancel</a>
-							   </div>
-							   <div class="col-md-1 col-md-offset-7">
-							   <button type="button" class="btn btn-info btn-sm">save & grade next student</button>
-							   </div>
+
+
+							   {{--<div class="col-md-1 col-md-offset-7">--}}
+							   {{--<button type="button" class="btn btn-info btn-sm">save & grade next student</button>--}}
+							   {{--</div>--}}
 						   </td>
 					   </tr>
 				            		            
@@ -145,18 +160,24 @@
 
 	<script>
 	var question_type="{{$ass_qst['question_type']}}";
+	var question_id="{{$ass_qst['Id']}}"
 	var selected_answer_correct={};
 	var selected_multi_answer_text={};
 	var selected_multi_answer=[];
 		var selected_answer_id=null;
 		var selected_answer_text=null;
+	var selected_answer_score=null;
 		var is_correct="YES";
+	$(function(){
+		$('.completed').hide();
+	});
 		$(document).on('click','#save',function(e){
 			e.preventDefault();
 			mapTollTip1($(this));
 
 		});
 		$(document).on('change','#ans_val',function(e){
+			//alert("single");
 			e.preventDefault();
 			$.each(ans_label , function(i, val) {
 				if(ans_label [i]!="YES"){
@@ -244,7 +265,10 @@
 
 			}
 			else if(question_type=="Multiple Choice - Single Answer"){
-var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_answer_text,"selected_answer":selected_answer_id,"is_correct":is_correct,"user_id":user_id ,"nextuserid":nextuserid};				
+			var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_answer_text,"selected_answer":selected_answer_id,"is_correct":is_correct,"user_id":user_id ,"nextuserid":nextuserid};
+			}
+			else if(question_type=="Essay"){
+				var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_answer_text,'selected_answer_score':selected_answer_score,"user_id":user_id ,"nextuserid":nextuserid};
 			}
 			var user_id=$('#status').val();
 			
@@ -274,27 +298,19 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 
 
 		function change_user_answers(){
+			var assessment_id="{{$assessment_id}}";
+			var assignment_id="{{$assignment_id}}";
 			var selected=$('#status').val();
-			//$("#status").children().removeAttr("selected");
-			//$("#status option:selected").attr('selected','selected');
-			//$('#status').val(selected).attr('selected',"selected");
-			//alert(nextuserid);
-			//$("#status option').attr("selected", "selected");
-			//alert($('#status').val());
+			var status=null;
 			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
-				url:'next_student_answers_for_grade_by_question/'+user_id+'/{{$qst_id}}',
+				url:'next_student_answers_for_grade_by_question/'+user_id+'/'+question_type+','+assessment_id+','+assignment_id+','+'{{$qst_id}}',
 				type:'get',
 				success:function(response){
-					
-					//else{
-					//e.preventDefault();
 					$('.answer_selection_part').prop( "checked", false );
 					$('.multiple_answer').prop("checked",false);
-
-					//alert(response);
 					$.each(ans_label , function(i, val) {
 						if(ans_label [i]!="YES"){
 							$('#'+i).removeClass('label-danger');
@@ -302,58 +318,56 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 					});
 					if(question_type=="Multiple Choice - Single Answer"){
 						$.each(response , function(i, val) {
-						//alert(ans_label[val]+','+response[i]);
+							status=1;
 						$('input[editattr~='+val+']').prop('checked',true);
-						//selected_answer_id=val;
 						if(ans_label[val]!="YES"){
 
 							$('#'+response[i]).addClass('label-danger');
 						}
 						is_correct=ans_label[val];
-						//if(question_type=="Multiple Choice - Single Answer"){
 						selected_answer_id=val;
 						selected_answer_text=$('#'+val).text();
-					//}
-					//else if( question_type=="Multiple Choice - Single Answer"){
-							
-										
-						//alert(selected_answer_text);
-					//}
 					});
 					}
-						else if(question_type=="Multiple Choice - Multi Answer"){
-							selected_multi_answer=[];
-							selected_multi_answer_text={};
-							selected_answer_correct={};
-							$.each(response , function(i, val) {
-						//alert(ans_label[val]+','+response[i]);
-						$('input[editattr~='+val+']').prop('checked',true);
-						//selected_answer_id=val;
-						if(ans_label[val]!="YES"){
+					else if(question_type=="Multiple Choice - Multi Answer"){
+						selected_multi_answer=[];
+						selected_multi_answer_text={};
+						selected_answer_correct={};
+						$.each(response , function(i, val) {
+							status=1;
+							$('input[editattr~='+val+']').prop('checked',true);
+							if(ans_label[val]!="YES"){
 
-							$('#'+response[i]).addClass('label-danger');
-						}
-						selected_answer_correct[val]=(ans_label[val]);
-						//if(question_type=="Multiple Choice - Single Answer"){
-						selected_multi_answer.push(val);
-						selected_multi_answer_text[val]=($('#'+val).text());
-					//}
-					//else if( question_type=="Multiple Choice - Single Answer"){
-							
-										
-						//alert(selected_answer_text);
-					//}
-					});
-						}
+								$('#'+response[i]).addClass('label-danger');
+							}
+							selected_answer_correct[val]=(ans_label[val]);
+
+							selected_multi_answer.push(val);
+							selected_multi_answer_text[val]=($('#'+val).text());
+						});
+					}
+					else if(question_type == "Essay"){
+						$.each(response,function(score,text){
+							status=1;
+							$('#essay'+question_id).val(text);
+							$('#essay_score'+question_id).val(score);
+							selected_answer_text=text;
+							selected_answer_score=score;
+						});
+					}
+					if(status==1){
+						$('#incomplete_status'+question_id).hide();
+						$('#complete_status'+question_id).show();
+					}
 					//alert(JSON.stringify(selected_answer_correct));
 				}
-			//}
 
 			});
 
 		}
 
 		$('.multiple_answer').on('click',function(){
+			//alert("multi");
 			//alert(JSON.stringify(selected_multi_answer_text));
 			//alert(JSON.stringify(selected_answer_correct));
 			//alert($(this).is(':checked'));
@@ -362,35 +376,45 @@ var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id
 			//alert(selected_multi_answer);
 			if($(this).is(':checked')){
 				//alert(JSON.stringify(selected_answer_correct));
-			selected_multi_answer.push(checked_ans_val);
-			//alert(selected_multi_answer);
-			selected_multi_answer_text[checked_ans_val]=$('#'+checked_ans_val).text();
-			selected_answer_correct[checked_ans_val]=ans_label[checked_ans_val];
-			if(ans_label[checked_ans_val]!="YES"){
-				$('#'+checked_ans_val).addClass('label-danger');
+				selected_multi_answer.push(checked_ans_val);
+				//alert(selected_multi_answer);
+				selected_multi_answer_text[checked_ans_val]=$('#'+checked_ans_val).text();
+				selected_answer_correct[checked_ans_val]=ans_label[checked_ans_val];
+				if(ans_label[checked_ans_val]!="YES"){
+					$('#'+checked_ans_val).addClass('label-danger');
+				}
+				else{
+
+				}
+				//alert(selected_multi_answer);
+				// alert(JSON.stringify(selected_answer_correct));
+			
 			}
 			else{
+					//alert(JSON.stringify(selected_answer_correct));
+				//alert(JSON.stringify(selected_multi_answer_text));
+				var removeindex=selected_multi_answer.indexOf(checked_ans_val);
+				selected_multi_answer.splice(removeindex,1);
+				delete selected_multi_answer_text[checked_ans_val];
+				delete selected_answer_correct[checked_ans_val];
+					$('#'+checked_ans_val).removeClass('label-danger');
 
-			}
-		//alert(selected_multi_answer);
-				//alert(JSON.stringify(selected_answer_correct));
-			
-		}
-		else{
-				//alert(JSON.stringify(selected_answer_correct));
 			//alert(JSON.stringify(selected_multi_answer_text));
-			var removeindex=selected_multi_answer.indexOf(checked_ans_val);
-			selected_multi_answer.splice(removeindex,1);
-			delete selected_multi_answer_text[checked_ans_val];
-			delete selected_answer_correct[checked_ans_val];
-				$('#'+checked_ans_val).removeClass('label-danger');
-
-		//alert(JSON.stringify(selected_multi_answer_text));
-				//alert(JSON.stringify(selected_answer_correct));
-		}
-		//alert(JSON.stringify(selected_multi_answer_text));
+					//alert(JSON.stringify(selected_answer_correct));
+			}
+			//alert(JSON.stringify(selected_multi_answer_text));
 			//alert(JSON.stringify(selected_answer_correct));
 			//alert(JSON.stringify(selected_answer_correct));
+		});
+		$('.essay_ok').on('click',function(){
+			var question_id="{{$ass_qst['Id']}}";
+			if(question_type=="Essay"){
+				var t=$('#essay'+question_id);
+				selected_answer_text= t.val() || t.html() || t.text();
+				selected_answer_score=$('#essay_score'+question_id).val();
+				//alert(selected_answer_text);
+				//alert(selected_answer_score);
+			}
 		});
 	</script>
 @endsection
