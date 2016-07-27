@@ -40,11 +40,11 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
 
     Route::get('passage', array('as' => 'passage-list', 'uses'=>'PassageController@passage'));
     Route::get('passageadd', array('as' => 'passage-add', 'uses'=>'PassageController@passageadd'));
-    Route::get('passageview/{id}', array('as' => 'view', 'uses'=>'PassageController@passageview'));
+    Route::get('passageview/{id}', array('as' => 'passageview', 'uses'=>'PassageController@passageview'));
     Route::get('passageedit/{id}', array('as' => 'passage-edit', 'uses'=>'PassageController@passageedit'));
     Route::get('passagedel/{id}', array('as' => 'delete', 'uses'=>'PassageController@passagedelete'));
     Route::post('passageupdate', array('as' => 'update', 'uses'=>'PassageController@passageupdate'));
-    Route::get('view/passage/{id?}', ['as' => 'viewPassage', 'uses' => 'PassageController@view']);
+   // Route::get('view/passage/{id?}', ['as' => 'viewPassage', 'uses' => 'PassageController@view']);
     Route::get('passagepopup', array('as' => 'passagepopup', 'uses'=>'PassageController@passagepopup'));
     //question
     Route::get('question', array('as' => 'question-list', 'uses'=>'QuestionController@question'));
@@ -105,7 +105,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('assignmentadd', array('as' => 'assignment-add', 'uses'=>'AssignmentController@assignmentadd'));
     Route::get('assignmentedit/{id}', array('as' => 'assignment-edit', 'uses'=>'AssignmentController@assignmentedit'));
     Route::get('assignmentdel/{id}', array('as' => 'delete', 'uses'=>'AssignmentController@assignmentdelete'));
-    Route::get('assignmentview/{id}', array('as' => 'view', 'uses'=>'AssignmentController@assignmentview'));
+    Route::get('assignmentview/{id}', array('as' => 'assignmentview', 'uses'=>'AssignmentController@assignmentview'));
     Route::post('assignmentupdate', array('as' => 'update', 'uses'=>'AssignmentController@assignmentupdate'));
     Route::get('view/assignment/{id?}', ['as' => 'viewAssignment', 'uses' => 'AssignmentController@view']);
     Route::get('assignedusersjson', array('as'=>'assignedusersjson','uses'=>'AssignmentController@getAssignUsersInfo'));

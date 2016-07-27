@@ -236,9 +236,9 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'passage-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
-        'view' => array(
+        'passageview' => array(
             'displayName' => 'Passage View',
-            'route' => 'view',
+            'route' => 'passageview',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
          //------------assessments--------------------   
@@ -278,9 +278,9 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'assignment-edit',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
-        'view' => array(
+        'assignmentview' => array(
             'displayName' => 'Assignment View',
-            'route' => 'view',
+            'route' => 'assignmentview',
             'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
          //------------grading-----studentGrading----------questionGrading----------   
