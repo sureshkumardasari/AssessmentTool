@@ -112,8 +112,8 @@
                                             $endDateTime     = date('Y-m-d H:i:s', strtotime($assignment->EndDateTime));
                                         }
                                     }
-                                    $now     = date('Y-m-d H:i:s');
-                                    //    echo $endDateTime;exit;
+                                    $time     = date('Y-m-d H:i:s');
+                                    $now = date('Y-m-d H:i:s', strtotime("+330 minutes", strtotime($time))); 
                                     if ($endDateTime != false && $endDateTime < $now) {
                                         $isVisible = true;
                                     }
