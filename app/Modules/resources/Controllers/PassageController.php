@@ -166,10 +166,10 @@ class PassageController extends BaseController {
 
 		if ($post['id'] > 0)
 		{
-			$rules['passage_title'] = 'required' . $post['id'];
+			$rules['passage_title'] = 'required';
 		}
 		if($post['passage_title']){
-			$passage=Passage::where('lesson_id','=',$post['lessons_id'])->where('title',$post['passage_title'])->first();
+			$passage=Passage::where('lesson_id','=',$post['lessons_id'])->where('title',$post['passage_title'])->whereNotIn('id',[$post['id']])->first();
 			if($passage){
 		 	return Redirect::back()->withInput()->withErrors(['The Passage Title is Already Entered']);
    			} 
