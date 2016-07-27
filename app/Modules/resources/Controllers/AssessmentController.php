@@ -145,6 +145,7 @@ class AssessmentController extends BaseController {
 	public function assessmentInsert(){
 
 		$post = Input::All();
+		//dd($post);
 		if(!isset($post['passageIds'])){
 			$post['passageIds']="";
 		}
@@ -196,7 +197,7 @@ class AssessmentController extends BaseController {
             $assessment_insert->institution_id = $post['institution_id'] ;
             $assessment_insert->category_id = $post['category_id'] ;
             $assessment_insert->subject_id = $post['subject_id'] ;
-           // $assessment_insert->lessons_id = $post['lessons_id'] ;
+           $assessment_insert->lesson_id = $post['lessons_id'] ;
             $assessment_insert->questiontype_id = $post['question_type'] ;
 			$assessment_insert->header = $post['header'];
 			$assessment_insert->footer = $post['footer'];
@@ -567,7 +568,7 @@ class AssessmentController extends BaseController {
 		$subjects = $this->subject->getSubject();
 		//var_dump($subjects);exit;
 		$category = $this->category->getCategory();
-		
+		//$lesson=$this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
 		$questiontype=$this->question_type->getQuestionType();
 		//dd($questiontype);
@@ -609,14 +610,16 @@ class AssessmentController extends BaseController {
 			$institution_id = $assessment_details->institution_id; 
 			$category_id=$assessment_details->category_id;
 			$subject_id=$assessment_details->subject_id;
-			$lessons_id=$assessment_details->lessons_id;
+			$lessons_id=$assessment_details->lesson_id;
 			$question_type_id=$assessment_details->questiontype_id;
-		$lesson = $this->lesson->getLesson($subject_id);	
-		return view('resources::assessment.edit',compact('passages_list_not','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
+		$lesson = $this->lesson->getLesson($subject_id);
+		//dd($institution_id);
+		return view('resources::assessment.edit',compact('passages_list_not','lesson','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
  	}
 	public function assessmentupdate($id=0){
  		$post = Input::All();
- 	//	dd($post);
+
+ 	//dd($post);
  		$passage_id=[];
   		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
@@ -636,6 +639,7 @@ class AssessmentController extends BaseController {
 		} else
 		{
 			$params = Input::All();
+			//dd($params);
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
 			if(!isset($post['never_expires'])){
 				$totaltime = $post['total_time'];
@@ -652,6 +656,7 @@ class AssessmentController extends BaseController {
 				'category_id'=>$post['category_id'],
 				'subject_id'=>$post['subject_id'],
 				'questiontype_id'=>$post['question_type'],
+				'lesson_id'=>$post['lessons_id'],
 				'header'=>$post['header'],
 				'footer'=>$post['footer'],
 				'begin_instruction'=>$post['begin_instruction'],

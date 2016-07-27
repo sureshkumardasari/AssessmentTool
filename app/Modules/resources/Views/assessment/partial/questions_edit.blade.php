@@ -174,7 +174,7 @@
 				<div class="form-group col-md-6 required">
 					<label class="col-md-2 control-label">Category</label>
 					<div class="col-md-10">
-						<select class="form-control" name="category_id" id="passage_category_id" onchange="change_category('passage')">
+						<select class="form-control" name="passage_category_id" id="passage_category_id" onchange="change_category('passage')">
 							<option value="0">--Select Category--</option>
 						</select>
 					</div>
@@ -182,7 +182,7 @@
 				<div class="form-group col-md-6 required">
 					<label class="col-md-2 control-label">Subject</label>
 					<div class="col-md-10">
-						<select class="form-control" name="subject_id" id="passage_subject_id" onchange="change_lessons('passage')">
+						<select class="form-control" name="passage_subject_id" id="passage_subject_id" onchange="change_lessons('passage')">
 							<option value="0">--Select Subject--</option>
 						</select>
 					</div>
@@ -190,7 +190,7 @@
 				<div class="form-group col-md-6 required">
 					<label class="col-md-2 control-label">Lessons</label>
 					<div class="col-md-10">
-						<select class="form-control" name="lessons_id" id="passage_lessons_id" onchange="filter_passage()">
+						<select class="form-control" name="passage_lessons_id" id="passage_lessons_id" onchange="filter_passage()">
 							<option value="0">--Select Lessons--</option>
 						</select>
 					</div>
