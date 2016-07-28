@@ -130,7 +130,6 @@ class ResourceController extends BaseController {
 	{
 
 		$post = Input::All();
-
 		$rules = [
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
