@@ -7,6 +7,7 @@
  */
 
 namespace App\Modules\Admin\Models;
+use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\Assignment;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -84,6 +85,7 @@ class User extends Model {
 		$grader=User::select('name','id')->where('institution_id',$institution_id)->where('role_id',$teacher_role_id->id)->get();
 		return $grader;
 	}
+
 
 
 	public function getUserInfo($user_id = 0)

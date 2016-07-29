@@ -62,17 +62,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							</div>
 						</div>
 
-						<div class="form-group required">
-							<label class="col-md-3 control-label" >Assessment</label>
-							<div class="col-md-6">
-								<select class="form-control" name="assessment_id">
-									<option value="0">Select</option>
-									@foreach($assessments_arr as $assess_id=>$val)
-									<option value="{{ $assess_id }}" {{ ($assess_id == $assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
+
 <!-- https://eonasdan.github.io/bootstrap-datetimepicker/#minimum-setup -->
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Start Date Time </label>
@@ -104,7 +94,32 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="0" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
 							</div>
 						</div>
-						
+
+						<div class="form-group required">
+							<label class="col-md-3 control-label" >Institution </label>
+							<div class="col-md-6">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader(),getassessment()" >
+									<option value="0">Select</option>
+									@foreach($institution_arr as $id=>$val)
+										<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group required">
+							<label class="col-md-3 control-label" >Assessment</label>
+							<div class="col-md-6">
+								<select class="form-control" name="assessment_id" id="assessment_id" >
+									<option value="0">Select</option>
+									@foreach($assessments_arr as $assess_id=>$val)
+										<option value="{{ $assess_id }}" {{ ($assess_id == $assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Launch Type </label>
 							<div class="col-md-6">
@@ -135,17 +150,6 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 
 
 
-						<div class="form-group required">
-							<label class="col-md-3 control-label" >Institution </label>
-							<div class="col-md-6">
-								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader()" >
-									<option value="0">Select</option>
-									@foreach($institution_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
 
 						<div class="form-group required">
 							<label class="col-md-3 control-label" ></label>
@@ -321,11 +325,11 @@ $('input:radio[name="launchtype"]').change(
             });
        }
     });
-var loadurl = "{{ url('/resources/assignment') }}/" ;
+
 	function getGrader()
 	{
 		var csrf=$('Input#csrf_token').val();
-
+		var loadurl = "{{ url('/resources/assignment') }}/" ;
 		$.ajax(
 				{
 
@@ -340,6 +344,31 @@ var loadurl = "{{ url('/resources/assignment') }}/" ;
 						for (i = 0; i < a; i++) {
 							var opt = new Option(response[i].name, response[i].id);
 							$('#grader_id').append(opt);
+						}
+					}
+				}
+		)
+
+	}
+
+	function getassessment()
+	{
+		var csrf=$('Input#csrf_token').val();
+		var loadurl = "{{ url('/resources/assignment/getassessment') }}/" ;
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:loadurl+$('#institution_id').val(),
+					type:'get',
+					success:function(response) {
+						var a = response.length;
+						$('#assessment_id').empty();
+						var opt = new Option('--Select Assessment--', '');
+						$('#assessment_id').append(opt);
+						for (i = 0; i < a; i++) {
+							var opt = new Option(response[i].name, response[i].id);
+							$('#assessment_id').append(opt);
 						}
 					}
 				}

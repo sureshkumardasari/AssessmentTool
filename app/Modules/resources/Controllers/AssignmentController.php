@@ -43,6 +43,9 @@ class AssignmentController extends BaseController {
 		$obj = new User();
 		$this->user = $obj;
 
+		$obj = new Assessment();
+		$this->assessment = $obj;
+
 		$obj = new AssignmentUser();
 		$this->assignmentuser = $obj;
 	}
@@ -115,6 +118,12 @@ class AssignmentController extends BaseController {
 		$grader=$this->user->getGrader($id,3);
 		//dd($grader);
 		return $grader;
+	}
+
+	public function GetAssessment($id)
+	{
+		$assessment=$this->assessment->getAssessment($id);
+		return $assessment;
 	}
 
 	public function assignmentedit($id = 0)
