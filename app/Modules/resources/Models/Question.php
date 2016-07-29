@@ -84,13 +84,13 @@ class Question extends Model {
 		$passage = $obj->get();
 		return $passage;
 	}
-	public function getassessmentAppendQst($questions=0,$flag=0)
+	public function getassessmentAppendQst($questions=0,$flag=0,$passages=0)
 	{
-		$obj = DB::table('questions'); ;
+		$obj = DB::table('questions');
 
-//		if($questions > 0){
-//			$obj->wherenotin("id", $questions);
-//		}
+		if($passages > 0){
+			$obj->whereIn("passage_id", $passages);
+		}
 		if($flag==1){
  			$obj->wherein("id", $questions);
 		}else{
@@ -102,14 +102,12 @@ class Question extends Model {
 	public function getPassageQst($passage_id=0,$flag=0,$question_Ids=0)
 	{
  		$obj = DB::table('questions');
-		if($question_Ids > 0){
-			$obj->wherein("id", $question_Ids);
-		}
-		if($flag==1){
-			$obj->wherenotin("passage_id", $passage_id);
+		$obj->whereIn('id' , $question_Ids);
+		if($flag == 1){
+			$obj->wherenotIn("passage_id", $passage_id);
+			$obj->Where('passage_id','IS','NULL');
 		}else{
-			$obj->wherein("passage_id", $passage_id);
-
+			$obj->whereIn("passage_id", $passage_id);
 		}
 		$questions = $obj->get();
  		return $questions;
@@ -123,12 +121,15 @@ class Question extends Model {
 		}
 		$passages = $obj->groupBy('p.title')->get();
    		return $passages;
-	}public function getPassageByPassId($passage_Ids=0)
+	}public function getPassageByPassId($passage_Ids=0, $lessons = 0)
 	{ 
- 		$obj = DB::table('questions as q');
- 		$obj->join('passage as p', 'p.id', '=', 'q.passage_id');
+ 		$obj = DB::table('passage as p');
+ 		//$obj->join('passage as p', 'p.id', '=', 'q.passage_id');
 		if($passage_Ids > 0){
 			$obj->wherenotin("p.id", $passage_Ids);
+		}
+		if($lessons > 0){
+			$obj->whereIn("p.lesson_id", $lessons);
 		}
 		$passages = $obj->select('p.id as id','p.passage_text as passage_text','p.title as title')->get();
   		return $passages;
@@ -143,13 +144,23 @@ class Question extends Model {
  		$questions = $obj->get();
  		return $questions;
 	}
-	public function getAddingPassageSelected($question_Ids=0)
+	public function getAddingPassageSelected($question_Ids=0, $lessons = 0, $qtype = 0)
 	{
 		$obj = DB::table('questions');
-		if($question_Ids > 0){
-			$obj->wherenotin("id", $question_Ids); 
-		} 
- 		$questions = $obj->get();
+		$questions=[];
+		if($qtype > 0){
+			if($question_Ids > 0){
+				$obj->wherenotin("id", $question_Ids);
+			}
+			if($lessons > 0){
+				$obj->whereIn("lesson_id", $lessons);
+			}
+			if( $qtype >0 ){
+				$obj->where("question_type_id", $qtype);
+			}
+			$questions = $obj->get();
+		}
+
  		return $questions;
 	}
 	public function getRemainQuestionsAfterSelected($question_ids=0)

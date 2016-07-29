@@ -1333,6 +1333,7 @@ function addOrRemoveInGrid(elem, type) {
     var selectedTab = $('li.tab.active').children('a').attr('data-tab');
     window.selectedTab =selectedTab;
     var checkboxName = window.selectedTab.split('-')[0];
+   // alert(checkboxName);
     qbankIds = [];
     passageIds = [];
     passage = [];
@@ -1341,126 +1342,149 @@ function addOrRemoveInGrid(elem, type) {
     RemoveQuestionIds=[];
     removePassage=[];
     if (type == 'add') {
-        //alert("ljkjnh");
-        $('#example').dataTable().fnDestroy();
-        $('#selected-questions').dataTable().fnDestroy();
-        $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
-            $(this).removeClass('check-question').addClass('check-selected-question');
-            var closestUl = $(this).closest('tr');
-            //alert(closestUl);
-            if(checkboxName == 'question'){
-                //alert(closestUl.find('td').eq(1).text());
-               if(closestUl.find('td').eq(1).text() != ''){
-                  qbankIds.push(closestUl.find('td').eq(1).text())
+        if(checkboxName=="question"){
+            $('#question_table').dataTable().fnDestroy();
+            $('#selected-questions').dataTable().fnDestroy();
+            $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
+                alert('question');
+                $(this).removeClass('check-question').addClass('check-selected-question');
+                var closestUl = $(this).closest('tr');
+                //alert(closestUl);
+                if(checkboxName == 'question'){
+                    //alert(closestUl.find('td').eq(1).text());
+                    if(closestUl.find('td').eq(1).text() != ''){
+                        qbankIds.push(closestUl.find('td').eq(1).text())
+                    }
                 }
-            }
 
-            
+
 //            QuestionIds.push($(this).val())
-            $(this).attr('name',checkboxName+'[]');
-            $(this).attr('checked', false)
-            var selected = closestUl.clone();
-            $(this).closest('tr').remove();
-            var value=$(this).val();
-            selected.append("<input type='hidden' value='"+value+"' name='QuestionIds[]' id='QuestionIds'>");
-            //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
-            $('#selected-questions'+' .child-grid').append(selected);
-        });
-        
-        $('#example').dataTable();
-        
-        $('#selected-questions').dataTable();
+                $(this).attr('name',checkboxName+'[]');
+                $(this).attr('checked', false);
+                var selected = closestUl.clone();
+                $(this).closest('tr').remove();
+                var value=$(this).val();
+                selected.append("<input type='hidden' value='"+value+"' name='QuestionIds[]' id='QuestionIds'>");
+                //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
+                $('#selected-questions'+' .child-grid').append(selected);
+            });
 
-        $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
-             $(this).removeClass('check-passage').addClass('check-selected-passage');
-            var closestUl = $(this).closest('tr');
-            if(checkboxName == 'passage'){
-                 if(closestUl.find('td').eq(1).text() != ''){
-                    passageIds.push(closestUl.find('td').eq(1).text())
-                    passage.push($(this).val())
+            $('#question_table').dataTable();
+            $('#selected-questions').dataTable();
 
+        }
+        else if(checkboxName == "passage"){
+            alert('passage');
+            $('#passage_table').dataTable().fnDestroy();
+            $('#selected-passage').dataTable().fnDestroy();
+            $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
+                $(this).removeClass('check-passage').addClass('check-selected-passage');
+                var closestUl = $(this).closest('tr');
+                if(checkboxName == 'passage'){
+                    alert("jhbkjbkbkb");
+                    if(closestUl.find('td').eq(1).text() != ''){
+                        passageIds.push(closestUl.find('td').eq(1).text());
+                        passage.push($(this).val())
+
+                    }
                 }
-            }
-            // addOrRemoveInPassage(this, "add",questions);
-            $(this).attr('name',checkboxName+'[]');
-            $(this).attr('checked', false)
-            var selected = closestUl.clone();
-            $(this).closest('tr').remove();
-            $('#selected-passage'+' .child-grid').append(selected);
-            $('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
-        });
+                // addOrRemoveInPassage(this, "add",questions);
+                $(this).attr('name',checkboxName+'[]');
+                $(this).attr('checked', false);
+                var selected = closestUl.clone();
+                $(this).closest('tr').remove();
+                var value=$(this).val();
+                selected.append("<input type='hidden' value='"+value+"' name='passageIds[]' id='passageIds'>");
+                $('#selected-passage'+' .child-grid').append(selected);
+                //$('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
+            });
+
+            $('#passage_table').dataTable();
+            $('#selected-passage').dataTable();
+        }
+
             addPassageforQuestion(this, "add","questions",passage);
     }
     else {
          var removeIds=[];
-        $('#example').dataTable().fnDestroy();
-        $('#selected-questions').dataTable().fnDestroy();
-        $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
-           
-            var myForm = document.forms.assessment_form;
-            var myControls = myForm.elements['QuestionIds[]'];
-            //alert(myControls.length);
-            for (var i = 0; i < myControls.length; i++) {
-                if(myControls[i].value==$(this).val()){
-                    myControls[i].value = '';
-                }
-            }
-            $(this).removeClass('check-selected-question').addClass('check-question');
-            var closestUl = $(this).closest('tr');
-            if(checkboxName == 'question'){
-                if(closestUl.find('td').eq(1).text() != ''){
-                    removeIds.push(closestUl.find('td').eq(1).text())
-                }
-            }
-            //RemoveQuestionIds.push($(this).val());
-            $(this).attr('name',checkboxName+'[]');
-            $(this).attr('checked', false)
-            var selected = closestUl.clone();
-            $(this).closest('tr').remove();
-            $('#questions'+' .parent-grid').append(selected);
-            $.each(QuestionIds, function( index, value ) {
-                //alert(value);
-            });
-            //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
-        });
-        addPassageforQuestion(this, "remove","question",removeIds);
-        // addPassageforQuestion(this, "remove",passage);
-        $('.parent-selected-grid tr').find('.check-selected-passage:checked').each(function () {
-             var removeIds=[];
-            var myForm = document.forms.assessment_form;
-            var myControls = myForm.elements['passageIds[]'];
-            for (var i = 0; i < myControls.length; i++) {
-                if(myControls[i].value==$(this).val()){
-                    myControls[i].value = '';
-                }
-            }
-            $(this).removeClass('check-selected-passage').addClass('check-passage');
-            var closestUl = $(this).closest('tr');
-            if(checkboxName == 'passage'){
-                if(closestUl.find('td').eq(1).text() != ''){
-                    removeIds.push(closestUl.find('td').eq(1).text())
-                    removePassage.push($(this).val())
-                }
-            }
-            addOrRemoveInPassage(this, "remove",removePassage);
-            //RemoveQuestionIds.push($(this).val());
-            $(this).attr('name',checkboxName+'[]');
-            $(this).attr('checked', false)
-            var selected = closestUl.clone();
-            $(this).closest('tr').remove();
-            $('#passages'+' .parent-grid').append(selected);
-            $.each(QuestionIds, function( index, value ) {
-               // alert(value);
-            });
-            //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
-        });
-        $('#example').dataTable();
-        
-        $('#selected-questions').dataTable();
+        if(checkboxName == "question"){
+            $('#question_table').dataTable().fnDestroy();
+            $('#selected-questions').dataTable().fnDestroy();
+            $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
 
+                var myForm = document.forms.assessment_form;
+                var myControls = myForm.elements['QuestionIds[]'];
+                //alert(myControls.length);
+                for (var i = 0; i < myControls.length; i++) {
+                    if(myControls[i].value==$(this).val()){
+                        myControls[i].value = '';
+                    }
+                }
+                $(this).removeClass('check-selected-question').addClass('check-question');
+                var closestUl = $(this).closest('tr');
+                if(checkboxName == 'question'){
+                    if(closestUl.find('td').eq(1).text() != ''){
+                        removeIds.push(closestUl.find('td').eq(1).text())
+                    }
+                }
+                RemoveQuestionIds.push($(this).val());
+                $(this).attr('name',checkboxName+'[]');
+                $(this).attr('checked', false);
+                var selected = closestUl.clone();
+                $(this).closest('tr').remove();
+                $('#questions'+' .parent-grid').append(selected);
+                //$.each(QuestionIds, function( index, value ) {
+                //    //alert(value);
+                //});
+                //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
+            });
+            alert(RemoveQuestionIds);
+            $('#question_table').dataTable();
+            $('#selected-questions').dataTable();
+            addPassageforQuestion(this, "remove","question",RemoveQuestionIds);
+        }
+        else if(checkboxName == "passage"){
+            $('#passage_table').dataTable().fnDestroy();
+            $('#selected-passage').dataTable().fnDestroy();
+            var removeIds=[];
+            $('.parent-selected-grid tr').find('.check-selected-passage:checked').each(function () {
+
+                var myForm = document.forms.assessment_form;
+                var myControls = myForm.elements['passageIds[]'];
+                for (var i = 0; i < myControls.length; i++) {
+                    if(myControls[i].value==$(this).val()){
+                        myControls[i].value = '';
+                    }
+                }
+                $(this).removeClass('check-selected-passage').addClass('check-passage');
+                var closestUl = $(this).closest('tr');
+                if(checkboxName == 'passage'){
+                    if(closestUl.find('td').eq(1).text() != ''){
+                        removeIds.push(closestUl.find('td').eq(1).text());
+                        removePassage.push(parseInt($(this).val()))
+                    }
+                }
+
+                //RemoveQuestionIds.push($(this).val());
+                $(this).attr('name',checkboxName+'[]');
+                $(this).attr('checked', false);
+                var selected = closestUl.clone();
+                $(this).closest('tr').remove();
+                $('#passages'+' .parent-grid').append(selected);
+                $.each(QuestionIds, function( index, value ) {
+                    // alert(value);
+                });
+                //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
+            });
+            $('#passage_table').dataTable();
+            $('#selected-passage').dataTable();
+
+            addOrRemoveInPassage(this, "remove",removePassage);
+        }
     }
 }
 function addOrRemoveInPassage(elem, type,id) {
+    alert("jhijhkjh");
     var flag=0;
     var question_Ids=[];
     var append_question_ids=[];
@@ -1471,8 +1495,11 @@ function addOrRemoveInPassage(elem, type,id) {
     var myForm = document.forms.assessment_form;
     var question_id = myForm.elements['QuestionIds[]'];
     if(question_id) {
+        alert(question_id);
         for (var i = 0; i < question_id.length; i++) {
-            question_Ids.push(question_id[i].value);
+            question_Ids.push(parseInt(question_id[i].value));
+            alert(question_id[i].value);
+            //question_id[i].val('');
             //if (question_id[i].value == $(this).val()) {
             //    question_id[i].value = '';
             //}
@@ -1481,11 +1508,12 @@ function addOrRemoveInPassage(elem, type,id) {
     var urls=$('#url').val();
     var url_add="get_qestion_passage";
     var url_add2="get_assessment_append_qst";
-    var url=""+ urls +url_add+"";
+    var url=""+ urls +url_add;
     var url_question_append=""+ urls +url_add2+"";
-     var csrf=$('Input#csrf_token').val();
+    var csrf=$('Input#csrf_token').val();
     var data={id:id};
     if(type=='add'){
+        alert("add");
           $.ajax(
             {
                 url:url,
@@ -1530,6 +1558,7 @@ function addOrRemoveInPassage(elem, type,id) {
         );
 
     }else{
+        alert('remove')
         flag=1;
         $.ajax(
             {
@@ -1538,15 +1567,19 @@ function addOrRemoveInPassage(elem, type,id) {
                 type:"post",
                 data:{id:id,flag:flag,QuestionIds:question_Ids},
                 success:function(response){
-                    $('#selected-questions'+' .child-grid').empty();
+                    alert("response");
+                    alert(JSON.stringify(response));
+                    $('#selected-questions').dataTable().fnDestroy();
+                    $('#selected-questions .child-grid').empty();
                     var tr;
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
                         tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
-                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">');
+                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]"  value="'+response[i].id+'">');
                      $('#selected-questions'+' .child-grid').append(tr);
                     }
+                    $('#selected-questions').dataTable();
                     $.ajax(
                         {
                             url:url_question_append,
@@ -1554,6 +1587,8 @@ function addOrRemoveInPassage(elem, type,id) {
                             type:"post",
                             data:{id:id,flag:flag,QuestionIds:question_Ids},
                             success:function(response){
+                                alert(JSON.stringify(response));
+                                $('#question_table').dataTable().fnDestroy();
                               //  $('#questions-list').empty();
                                 //$('#selected-questions'+' .child-grid').empty();
                                 var tr;
@@ -1564,6 +1599,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                     //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                     $('#questions-list').append(tr);
                                 }
+                                $('#question_table').dataTable();
                             }
                         }
 
@@ -1572,10 +1608,12 @@ function addOrRemoveInPassage(elem, type,id) {
             }
         );
     }
+    alert("completed");
  }
  function addPassageforQuestion(elem,type,s,id){
-    $('#example').dataTable().fnDestroy();
-    $('#selected-questions').dataTable().fnDestroy();
+     //alert('passage');
+   // $('#example').dataTable().fnDestroy();
+    //$('#selected-questions').dataTable().fnDestroy();
     var selectedTab = $('li.tab.active').children('a').attr('data-tab');
     window.selectedTab =selectedTab;
     var checkboxName = window.selectedTab.split('-')[0];
@@ -1608,6 +1646,7 @@ function addOrRemoveInPassage(elem, type,id) {
             question_Ids.push(question_id[i].value);
          }
          question_Ids.push(question_id.value);
+        alert(JSON.stringify(question_Ids));
      }
      // console.log(question_Ids);
      if(type=="add"){
@@ -1619,54 +1658,47 @@ function addOrRemoveInPassage(elem, type,id) {
                     type:"post",
                     data:{QuestionIds:question_Ids},
                     success:function(response){
-                          var tr;
+                        var tr;
+                        $('#selected-passage').dataTable().fnDestroy();
                         $('#selected-passage .child-grid').empty();
                         for (var i = 0; i < response.length; i++) {
                             tr = $('<tr/>');
                             tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
                             tr.append("<td>" + response[i].title + "</td>");
-                            tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
+                            tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">');
                             $('#selected-passage .child-grid').append(tr);
                             append_passage_ids.push(""+ response[i].id +"");
                          }
+                        $('#selected-passage').dataTable();
+                        var lessons=$('#lessons_id').val();
                         $.ajax(
                                 {
                                 url:remove_pass_by_question,
                                 headers: {"X-CSRF-Token": csrf},
                                 type:"post",
-                                data:{passage_Ids:append_passage_ids},
+                                data:{passage_Ids:append_passage_ids,'lessons':lessons},
                                 success:function(response){
-                                     var tr;
-                                    $('#example #passages-list').empty();
+                                    var tr;
+                                    $('#passage_table').dataTable().fnDestroy();
+                                    $('#passages-list').empty();
                                     for (var i = 0; i < response.length; i++) {
                                         tr = $('<tr/>');
                                         tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
                                         tr.append("<td>" + response[i].title + "</td>");
                                         // tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
-                                        $('#example #passages-list').append(tr);
-                                     }
-                                     }
+                                        $('#passages-list').append(tr);
+                                    }
+                                    $('#passage_table').dataTable()
+                                }
                                 }
 
-                    );
+                        );
                     }
                 }
 
         );
       }else
-      { 
-        // if(type="add"){
-        //     alert('add');
-        // }else{
-        //     alert('remove');
-        // }
-        // if(question_id) {
-        //  for (var i = 0; i < question_id.length; i++) {
-        //         s.push(question_id[i].value);
-        //      }
-        //      s.push(question_id.value);
-        // }
-        // console.log(s);
+      {
         var get_remain_passage=[]; 
         $.ajax(
                 {
@@ -1676,22 +1708,27 @@ function addOrRemoveInPassage(elem, type,id) {
                     data:{passageIds:id},
                     success:function(response){
                     var tr;
+                        $('#selected-questions').dataTable().fnDestroy();
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
                         tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
-                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">');
+                        tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]"  value="'+response[i].id+'">');
                      $('#selected-questions'+' .child-grid').append(tr);
                      get_remain_passage.push(question_Ids[0]);
                      get_remain_passage.push(""+ response[i].id +"");
                      }
+                        $('#selected-questions').dataTable();
+                       var lessons= $('#lessons_id').val();
+                        var qtype= $('#question_type').val();
                      $.ajax(
                             {
-                            url:url_adding_passage_selected,
+                            url:url_adding_passage_selected+"",
                             headers: {"X-CSRF-Token": csrf},
                             type:"post",
-                            data:{question_Ids:get_remain_passage},
-                            success:function(response){ 
+                            data:{question_Ids:get_remain_passage ,'lessons':lessons,'qtype':qtype},
+                            success:function(response){
+                                $('#question_table').dataTable().fnDestroy();
                                 $('#questions-list').empty();
                                     var tr;
                                     var length=response.length;
@@ -1701,7 +1738,8 @@ function addOrRemoveInPassage(elem, type,id) {
                                         tr.append("<td>" + response[i].title + "</td>");
                                         //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                         $('#questions-list').append(tr);
-                                    } 
+                                    }
+                                $('#question_table').dataTable();
                                  }
                         }
                     );
@@ -1711,7 +1749,9 @@ function addOrRemoveInPassage(elem, type,id) {
      }    
 
 
-     }else{ 
+     }else{
+
+
 
      }
      
