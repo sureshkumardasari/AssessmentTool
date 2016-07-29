@@ -191,13 +191,16 @@ class AssessmentController extends BaseController {
 //			dd($Question_ids);
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
 //			dd($questions);
-//			
+			$sub=implode(',',$post['subject_id']);
+			$less=implode(',',$post['lessons_id']);
   				$assessment_insert = new Assessment();
  				$assessment_insert->name = $post['name'] ;
             $assessment_insert->institution_id = $post['institution_id'] ;
             $assessment_insert->category_id = $post['category_id'] ;
-            $assessment_insert->subject_id = $post['subject_id'] ;
-           $assessment_insert->lesson_id = $post['lessons_id'] ;
+           // $assessment_insert->subject_id = $post['subject_id'] ;
+			$assessment_insert->subject_id = $sub ;
+			$assessment_insert->lesson_id = $less ;
+          // $assessment_insert->lesson_id = $post['lessons_id'] ;
             $assessment_insert->questiontype_id = $post['question_type'] ;
 			$assessment_insert->header = $post['header'];
 			$assessment_insert->footer = $post['footer'];
@@ -565,12 +568,12 @@ class AssessmentController extends BaseController {
 	public function assessmentedit($id=0){
 		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
-		$subjects = $this->subject->getSubject();
+		//$subjects = $this->subject->getSubject();
 		//var_dump($subjects);exit;
-		$category = $this->category->getCategory();
+
 		//$lesson=$this->lesson->getLesson();
-		$questions = $this->question->getQuestions();
-		$questiontype=$this->question_type->getQuestionType();
+		//$questions = $this->question->getQuestions();
+		//$questiontype=$this->question_type->getQuestionType();
 		//dd($questiontype);
 		$assessment_details = Assessment::find($id);
 		//$obj = $this->assessment->find($id);
@@ -612,7 +615,8 @@ class AssessmentController extends BaseController {
 			$subject_id=$assessment_details->subject_id;
 			$lessons_id=$assessment_details->lesson_id;
 			$question_type_id=$assessment_details->questiontype_id;
-		$lesson = $this->lesson->getLesson($subject_id);
+		//$lesson = $this->lesson->getLesson($subject_id);
+		$category = $this->category->getCategory($institution_id);
 		//dd($institution_id);
 		return view('resources::assessment.edit',compact('passages_list_not','lesson','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
  	}
@@ -650,13 +654,16 @@ class AssessmentController extends BaseController {
 				$unlimitedtime = 1;
 			}
 			//dd($questions);
+			$sub=implode(',',$post['subject_id']);
+			$less=implode(',',$post['lessons_id']);
   			$assessment_details = Assessment::where('id',$post['id'])->update([
   				'name'=>$post['name'],
   				'institution_id'=>$post['institution_id'],
 				'category_id'=>$post['category_id'],
-				'subject_id'=>$post['subject_id'],
+				'subject_id'=>$sub,
+				'lesson_id'=>$less,
 				'questiontype_id'=>$post['question_type'],
-				'lesson_id'=>$post['lessons_id'],
+				//'lesson_id'=>$post['lessons_id'],
 				'header'=>$post['header'],
 				'footer'=>$post['footer'],
 				'begin_instruction'=>$post['begin_instruction'],
@@ -704,14 +711,16 @@ class AssessmentController extends BaseController {
 	public function assessmentAppendQst(){
  		$post = Input::All();
 		$question=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
+		$passage=isset( $post['id'] ) ? $post['id'] : 0;
 		$flag=$post['flag'];
-		$subjects = $this->question->getassessmentAppendQst($question,$flag);
+		$subjects = $this->question->getassessmentAppendQst($question,$flag,$passage);
 		return $subjects;
 	}
 	public function assessmentQstPassage(){
  		$post = Input::All();
+		//dd($post);
   		$passage_id=isset( $post['id'] ) ? $post['id'] : 0;
-		$flag=$post['flag'];
+		$flag= isset($post['flag']) ? $post['flag'] : 0;
 		$question_Ids=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
    		$subjects = $this->question->getPassageQst($passage_id,$flag,$question_Ids);
 		return $subjects;
@@ -725,7 +734,8 @@ class AssessmentController extends BaseController {
 	public function getPassageByPassId(){
   		$post = Input::All();
  		$passage_Ids=isset( $post['passage_Ids'] ) ? $post['passage_Ids'] : 0;
-   		$subjects = $this->question->getPassageByPassId($passage_Ids);
+		$lessons=isset($post['lessons']) ? $post['lessons'] : 0;
+   		$subjects = $this->question->getPassageByPassId($passage_Ids,$lessons);
 		return $subjects;
 	}
 	public function getAddingPassage(){ 
@@ -736,9 +746,12 @@ class AssessmentController extends BaseController {
 	}
 	public function getAddingPassageSelected(){
   		 $post = Input::All();
+		//dd($post);
   		 // dd($post['question_Ids']);
  		$question_Ids=isset( $post['question_Ids'] ) ? $post['question_Ids'] : 0;
-   		$subjects = $this->question->getAddingPassageSelected($question_Ids);
+		$lessons = isset( $post['lessons'] ) ? $post['lessons'] : 0;
+		$qtype= isset( $post['qtype'] ) ? $post['qtype'] : 0;
+   		$subjects = $this->question->getAddingPassageSelected($question_Ids,$lessons , $qtype);
 		return $subjects;
 	}
 	public function getRemainQuestionsAfterSelected(){
@@ -749,35 +762,58 @@ class AssessmentController extends BaseController {
 	}
 	public function assessmentFilter(){
 		$post = Input::All();
+		//dd($post);
  		// $passage_id=$post['id'];
 		// $flag=$post['flag'];
-		$question_Ids=isset( $post['questions'] ) ? $post['questions'] : 0;
-		$institution=$post['institution'];
-		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
-			->leftjoin('passage','questions.passage_id','=','passage.id');
+		$list=[];
+		if($post['question_type']>0) {
 
-		if($institution > 0){
-			$obj->where("questions.institute_id", $institution);
-		}
-		if($post['question_type'] > 0 ){
-			$obj->where("question_type.id", $post['question_type']);
-		}
-		if($post['category'] > 0){
-			$obj->where("questions.category_id", $post['category']);
-		}
-		if($post['subject'] > 0){
-			$obj->where("questions.subject_id", $post['subject']);
-		}
-		if($post['lessons'] > 0){
-			$obj->where("questions.lesson_id", $post['lessons']);
-		}
-		if($question_Ids > 0){
-			$obj->wherenotin("questions.id", $post['questions']);
-		}
+			$question_Ids = isset($post['questions']) ? $post['questions'] : 0;
+			$institution = $post['institution'];
+			$obj = Question::join('question_type', 'questions.question_type_id', '=', 'question_type.id')
+				->leftjoin('passage', 'questions.passage_id', '=', 'passage.id');
 
-		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
-			->orderby('qid')
-			->get();
+
+			if ($institution > 0) {
+				$obj->where("questions.institute_id", (int)$institution);
+				//$pass->where("questions.institute_id", (int)$institution);
+			}
+			if ($post['category'] > 0) {
+				$obj->where("questions.category_id", (int)$post['category']);
+				//$pass->where("questions.category_id", (int)$post['category']);
+			}
+			if (isset($post['subject'])) {
+				//$obj->where("questions.subject_id", $post['subject']);
+				if (is_array($post['subject'])) {
+					$obj->whereIn("questions.subject_id", $post['subject']);
+					//$pass->whereIn("questions.subject_id", $post['subject']);
+				} else {
+					$obj->where("questions.subject_id", $post['subject']);
+					//$pass->where("questions.subject_id", $post['subject']);
+				}
+			}
+			if (isset($post['lessons'])) {
+				if (is_array($post['lessons'])) {
+					$obj->whereIn("questions.lesson_id", $post['lessons']);
+					//$pass->whereIn("questions.lesson_id", $post['lessons']);
+				} else {
+					$obj->where("questions.lesson_id", $post['lessons']);
+					//$pass->where("questions.lesson_id", $post['lessons']);
+				}
+			}
+			if ($question_Ids > 0) {
+				$obj->wherenotin("questions.id", $post['questions']);
+
+			}
+
+			//if ($post['question_type'] > 0) {
+				$obj->where("question_type.id", (int)$post['question_type']);
+			//}
+			$list['questions'] = $obj->select('questions.id as qid', 'questions.title as question_title', 'passage.id as pid', 'passage.title as passage_title', 'question_type.qst_type_text as question_type')
+				->orderby('qid')
+				->get();
+		}
+		//dd($list);
 		//$question_list = $this->question->getQuestionFilter($institution);
 		return $list;
  	}
