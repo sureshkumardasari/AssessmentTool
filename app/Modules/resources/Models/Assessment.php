@@ -70,7 +70,11 @@ class Assessment extends Model {
 		return $questions;
 
 	}
-
+	public function getAssessment($institution_id = 0)
+	{
+		$assessment=Assessment::select('name','id')->where('institution_id',$institution_id)->get();
+		return $assessment;
+	}
 
 	public function deleteAssessment($id = 0){
 		$assessment = Assessment::find($id);

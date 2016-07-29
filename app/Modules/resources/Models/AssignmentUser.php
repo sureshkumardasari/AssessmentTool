@@ -10,7 +10,7 @@ namespace App\Modules\Resources\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Assessment;
+use App\Modules\Resources\Models\Assessment;
 use Mail;
  class AssignmentUser extends Model {
 	/**
