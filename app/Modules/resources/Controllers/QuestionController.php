@@ -583,12 +583,12 @@ class QuestionController extends BaseController {
 			{
 				$response['status'] = 'success';
 				$response['item_name'] = $fileName;
-				$response['item_path'] = asset('data/images/').$fileName;
+				$response['item_path'] = asset('data/images/').'/'.$fileName;
 				$response['item_size'] = $size;
 			}
 		}else{
 			$response['status'] = 'error';
 		}
-		return json_encode($response);
+		return $response;
 	}
 }

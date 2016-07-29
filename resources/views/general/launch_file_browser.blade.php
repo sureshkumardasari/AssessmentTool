@@ -106,7 +106,7 @@
         padding: 5px 20px;
         overflow: hidden;
     }
-    .img-icon {background:url(/public/images/icons-big.png) no-repeat -1px -251px; width: 46px;height: 48px; margin: 0 auto; }
+    .img-icon {background:url({{url('/images/icons-big.png')}}) no-repeat -1px -251px; width: 46px;height: 48px; margin: 0 auto; }
     .office-icon {background: url(/public/images/icons-big.png) no-repeat -5px -502px; width: 40px; height: 47px; margin: 0 auto;}
     .unknown-icon {background: url(/public/images/icons-big.png) no-repeat -4px -1px;width: 40px; height: 47px; margin: 0 auto;}
     .audio-icon {background: url(/public/images/icons-big.png) no-repeat -2px -301px;width: 44px; height: 48px; margin: 0 auto;}
@@ -122,8 +122,8 @@
     .toolbar-area ul li.download-btn:hover,
     .toolbar-area ul li.select-btn:hover,
     .toolbar-area ul li.view-btn:hover {background: #ddd;}
-    .toolbar-area ul li a {background:url(/public/images/toolbar.png) no-repeat 0 -369px ; height: 15px; width: 16px; display: block; text-indent: -9999px; overflow: hidden; margin: 3px 0 0 2px;}
-    .toolbar-area ul li label {background:url(/public/images/toolbar.png) no-repeat 0 -369px ; height: 15px; width: 16px; display: block; text-indent: -9999px; overflow: hidden; margin: 3px 0 0 2px;}
+    .toolbar-area ul li a {background:url({{url('/images/toolbar.png')}}) no-repeat 0 -369px ; height: 15px; width: 16px; display: block; text-indent: -9999px; overflow: hidden; margin: 3px 0 0 2px;}
+    .toolbar-area ul li label {background:url({{url('/images/toolbar.png')}}) no-repeat 0 -369px ; height: 15px; width: 16px; display: block; text-indent: -9999px; overflow: hidden; margin: 3px 0 0 2px;}
     .toolbar-area ul li.download-btn a {background-position: 0 -385px;}
     .toolbar-area ul li.select-btn a {background-position: 0 -289px;}
     .toolbar-area ul li.view-btn a {background-position: 0 -355px; width: 16px; height: 10px; margin-top: 6px;}
@@ -293,18 +293,14 @@ $('#upload_image').change(function(){
     if($('#bucket').val() == 'question_attachments' && $.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
         showMsg('Invalid file type is selected.')
     }else{
-        console.log('Please wait...');
+        // console.log('Please wait...');
         $(".file-upload-form").ajaxForm({dataType: 'json',
-            success:function(response){
-                alert(response);
+            success:function(response){ 
             if(response['status'] == 'success'){
-                alert('hi');
-                console.log('Please wait...');
                 window.selectedItem = response.item_path;
                 window.itemName = response.item_name;
                 window.itemSize = response.item_size;
-               ajax.reload();
-                $.fancybox.close();
+                // $.fancybox.close();
 
             }
 
