@@ -454,7 +454,7 @@ if (count($errors) > 0){?>
 							$('#question_type').append(opt);
 						}
 						$.each(response['passages'],function(index,val){
-							alert('enter');
+							//alert('enter');
 
 							tr = $('<tr/>');
 							tr.append("<td><input type='checkbox' value='"+val['pid']+"' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");

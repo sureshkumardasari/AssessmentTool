@@ -1364,7 +1364,7 @@ function addOrRemoveInGrid(elem, type) {
                 $(this).closest('tr').remove();
                 var value=$(this).val();
                 var passage_id=$(this).attr('passage_id');
-                alert(passage_id);
+               // alert(passage_id);
                 if(passage_id != "null") {
                     if ($.inArray(passage_id, selected_passage_ids) == -1) {
                         selected_passage_ids.push(passage_id);
@@ -1380,7 +1380,7 @@ function addOrRemoveInGrid(elem, type) {
 
 
                 //alert(JSON.stringify(selected_passage_ids));
-                alert(JSON.stringify(selected_question_ids));
+                //alert(JSON.stringify(selected_question_ids));
                 selected.append("<input type='hidden' value='"+value+"' name='QuestionIds[]' id='QuestionIds'>");
                 //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
                 $('#selected-questions'+' .child-grid').append(selected);
@@ -1474,7 +1474,7 @@ function addOrRemoveInGrid(elem, type) {
                 }
 
             });
-            alert(JSON.stringify(selected_question_ids));
+            //alert(JSON.stringify(selected_question_ids));
             //alert(RemoveQuestionIds);
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
@@ -1511,7 +1511,7 @@ function addOrRemoveInGrid(elem, type) {
                 $(this).closest('tr').remove();
                 $('#passages'+' .parent-grid').append(selected);
                 selected_question_ids[$(this).val()]=[];
-                alert($(this).val());
+                //alert($(this).val());
                // selected_passage_ids[1]=[];
                 //$.each(QuestionIds, function( index, value ) {
                 //    // alert(value);
@@ -1520,7 +1520,7 @@ function addOrRemoveInGrid(elem, type) {
             });
             $('#passage_table').dataTable();
             $('#selected-passage').dataTable();
-alert(JSON.stringify(selected_question_ids));
+            //alert(JSON.stringify(selected_question_ids));
             addOrRemoveInPassage(this, "remove",removePassage);
         }
     }
@@ -1537,10 +1537,10 @@ function addOrRemoveInPassage(elem, type,id) {
     var myForm = document.forms.assessment_form;
     var question_id = myForm.elements['QuestionIds[]'];
     if(question_id) {
-        alert(question_id);
+       // alert(question_id);
         for (var i = 0; i < question_id.length; i++) {
             question_Ids.push(parseInt(question_id[i].value));
-            alert(question_id[i].value);
+           // alert(question_id[i].value);
             //question_id[i].val('');
             //if (question_id[i].value == $(this).val()) {
             //    question_id[i].value = '';
@@ -1600,7 +1600,7 @@ function addOrRemoveInPassage(elem, type,id) {
         );
 
     }else{
-        alert('remove');
+       // alert('remove');
         flag=1;
         $.ajax(
             {
@@ -1688,7 +1688,7 @@ function addOrRemoveInPassage(elem, type,id) {
             question_Ids.push(question_id[i].value);
          }
          question_Ids.push(question_id.value);
-        alert(JSON.stringify(question_Ids));
+        //alert(JSON.stringify(question_Ids));
      }
      // console.log(question_Ids);
      if(type=="add"){
@@ -1765,7 +1765,7 @@ function addOrRemoveInPassage(elem, type,id) {
                         selected_question_ids[response[i].passage_id].push(response[i].id);
 
                      }
-                        alert(JSON.stringify(selected_question_ids));
+                       // alert(JSON.stringify(selected_question_ids));
                         $('#selected-questions').dataTable();
                        var lessons= $('#lessons_id').val();
                         var qtype= $('#question_type').val();
