@@ -1264,7 +1264,6 @@ var me = null;
 })(jQuery);
 
 (function($) {
-
     $(document).ready(function(){
 
 
@@ -1328,7 +1327,8 @@ var me = null;
         return {alreadyChosenTags: $('#qtags').val()};
     }
 })(jQuery);
-
+var selected_passage_ids=[];
+var selected_question_ids={};
 function addOrRemoveInGrid(elem, type) {
     var selectedTab = $('li.tab.active').children('a').attr('data-tab');
     window.selectedTab =selectedTab;
@@ -1346,7 +1346,6 @@ function addOrRemoveInGrid(elem, type) {
             $('#question_table').dataTable().fnDestroy();
             $('#selected-questions').dataTable().fnDestroy();
             $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
-                alert('question');
                 $(this).removeClass('check-question').addClass('check-selected-question');
                 var closestUl = $(this).closest('tr');
                 //alert(closestUl);
@@ -1364,6 +1363,24 @@ function addOrRemoveInGrid(elem, type) {
                 var selected = closestUl.clone();
                 $(this).closest('tr').remove();
                 var value=$(this).val();
+                var passage_id=$(this).attr('passage_id');
+                alert(passage_id);
+                if(passage_id != "null") {
+                    if ($.inArray(passage_id, selected_passage_ids) == -1) {
+                        selected_passage_ids.push(passage_id);
+                    }
+                    if (passage_id in selected_question_ids) {
+                        selected_question_ids[passage_id].push(value);
+                    }
+                    else {
+                        selected_question_ids[passage_id] = [];
+                        selected_question_ids[passage_id].push(value);
+                    }
+                }
+
+
+                //alert(JSON.stringify(selected_passage_ids));
+                alert(JSON.stringify(selected_question_ids));
                 selected.append("<input type='hidden' value='"+value+"' name='QuestionIds[]' id='QuestionIds'>");
                 //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
                 $('#selected-questions'+' .child-grid').append(selected);
@@ -1374,14 +1391,12 @@ function addOrRemoveInGrid(elem, type) {
 
         }
         else if(checkboxName == "passage"){
-            alert('passage');
             $('#passage_table').dataTable().fnDestroy();
             $('#selected-passage').dataTable().fnDestroy();
             $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
                 $(this).removeClass('check-passage').addClass('check-selected-passage');
                 var closestUl = $(this).closest('tr');
                 if(checkboxName == 'passage'){
-                    alert("jhbkjbkbkb");
                     if(closestUl.find('td').eq(1).text() != ''){
                         passageIds.push(closestUl.find('td').eq(1).text());
                         passage.push($(this).val())
@@ -1394,6 +1409,11 @@ function addOrRemoveInGrid(elem, type) {
                 var selected = closestUl.clone();
                 $(this).closest('tr').remove();
                 var value=$(this).val();
+                selected.attr('id','passage'+value);
+                if ($.inArray(value, selected_passage_ids) == -1)
+                {
+                    selected_passage_ids.push(value);
+                }
                 selected.append("<input type='hidden' value='"+value+"' name='passageIds[]' id='passageIds'>");
                 $('#selected-passage'+' .child-grid').append(selected);
                 //$('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
@@ -1410,6 +1430,8 @@ function addOrRemoveInGrid(elem, type) {
         if(checkboxName == "question"){
             $('#question_table').dataTable().fnDestroy();
             $('#selected-questions').dataTable().fnDestroy();
+            $('#selected-passage').dataTable().fnDestroy();
+            $('#passage_table').dataTable().fnDestroy();
             $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
 
                 var myForm = document.forms.assessment_form;
@@ -1429,6 +1451,8 @@ function addOrRemoveInGrid(elem, type) {
                 }
                 RemoveQuestionIds.push($(this).val());
                 $(this).attr('name',checkboxName+'[]');
+                var value=$(this).val();
+                var passage_id=$(this).attr('passage_id');
                 $(this).attr('checked', false);
                 var selected = closestUl.clone();
                 $(this).closest('tr').remove();
@@ -1437,11 +1461,26 @@ function addOrRemoveInGrid(elem, type) {
                 //    //alert(value);
                 //});
                 //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
+            if($.inArray(value,selected_question_ids[passage_id])!= -1){
+                selected_question_ids[passage_id].splice($.inArray(value,selected_question_ids[passage_id]),1);
+                //selected_question_ids[passage_id].push(value);
+            }
+                if(selected_question_ids[passage_id].length==0){
+                    var clone= $('#passage_'+passage_id);
+                    clone.attr('id','');
+                    //clone.attr()
+                    $('#passage_'+passage_id).remove();
+                    $('#passages-list').append(clone);
+                }
+
             });
-            alert(RemoveQuestionIds);
+            alert(JSON.stringify(selected_question_ids));
+            //alert(RemoveQuestionIds);
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
-            addPassageforQuestion(this, "remove","question",RemoveQuestionIds);
+            $('#selected-passage').dataTable();
+            $('#passage_table').dataTable();
+           // addPassageforQuestion(this, "remove","question",RemoveQuestionIds);
         }
         else if(checkboxName == "passage"){
             $('#passage_table').dataTable().fnDestroy();
@@ -1471,20 +1510,23 @@ function addOrRemoveInGrid(elem, type) {
                 var selected = closestUl.clone();
                 $(this).closest('tr').remove();
                 $('#passages'+' .parent-grid').append(selected);
-                $.each(QuestionIds, function( index, value ) {
-                    // alert(value);
-                });
+                selected_question_ids[$(this).val()]=[];
+                alert($(this).val());
+               // selected_passage_ids[1]=[];
+                //$.each(QuestionIds, function( index, value ) {
+                //    // alert(value);
+                //});
                 //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
             });
             $('#passage_table').dataTable();
             $('#selected-passage').dataTable();
-
+alert(JSON.stringify(selected_question_ids));
             addOrRemoveInPassage(this, "remove",removePassage);
         }
     }
 }
 function addOrRemoveInPassage(elem, type,id) {
-    alert("jhijhkjh");
+   // alert("jhijhkjh");
     var flag=0;
     var question_Ids=[];
     var append_question_ids=[];
@@ -1513,7 +1555,7 @@ function addOrRemoveInPassage(elem, type,id) {
     var csrf=$('Input#csrf_token').val();
     var data={id:id};
     if(type=='add'){
-        alert("add");
+        //alert("add");
           $.ajax(
             {
                 url:url,
@@ -1558,7 +1600,7 @@ function addOrRemoveInPassage(elem, type,id) {
         );
 
     }else{
-        alert('remove')
+        alert('remove');
         flag=1;
         $.ajax(
             {
@@ -1567,14 +1609,14 @@ function addOrRemoveInPassage(elem, type,id) {
                 type:"post",
                 data:{id:id,flag:flag,QuestionIds:question_Ids},
                 success:function(response){
-                    alert("response");
-                    alert(JSON.stringify(response));
+                    //alert("response");
+                    //alert(JSON.stringify(response));
                     $('#selected-questions').dataTable().fnDestroy();
                     $('#selected-questions .child-grid').empty();
                     var tr;
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
-                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].passage_id +"' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
                         tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]"  value="'+response[i].id+'">');
                      $('#selected-questions'+' .child-grid').append(tr);
@@ -1587,14 +1629,14 @@ function addOrRemoveInPassage(elem, type,id) {
                             type:"post",
                             data:{id:id,flag:flag,QuestionIds:question_Ids},
                             success:function(response){
-                                alert(JSON.stringify(response));
+                              //  alert(JSON.stringify(response));
                                 $('#question_table').dataTable().fnDestroy();
                               //  $('#questions-list').empty();
                                 //$('#selected-questions'+' .child-grid').empty();
                                 var tr;
                                 for (var i = 0; i < response.length; i++) {
                                     tr = $('<tr/>');
-                                    tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                    tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].passage_id +"' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
                                     tr.append("<td>" + response[i].title + "</td>");
                                     //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                     $('#questions-list').append(tr);
@@ -1662,7 +1704,7 @@ function addOrRemoveInPassage(elem, type,id) {
                         $('#selected-passage').dataTable().fnDestroy();
                         $('#selected-passage .child-grid').empty();
                         for (var i = 0; i < response.length; i++) {
-                            tr = $('<tr/>');
+                            tr = $('<tr id=passage_'+response[i].id + '/>');
                             tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
                             tr.append("<td>" + response[i].title + "</td>");
                             tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">');
@@ -1707,17 +1749,23 @@ function addOrRemoveInPassage(elem, type,id) {
                     type:"post",
                     data:{passageIds:id},
                     success:function(response){
+                        $.each(id,function(index,idd){
+                            selected_question_ids[idd]=[];
+                        });
                     var tr;
                         $('#selected-questions').dataTable().fnDestroy();
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
-                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].id +"' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
                         tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]"  value="'+response[i].id+'">');
                      $('#selected-questions'+' .child-grid').append(tr);
                      get_remain_passage.push(question_Ids[0]);
                      get_remain_passage.push(""+ response[i].id +"");
+                        selected_question_ids[response[i].passage_id].push(response[i].id);
+
                      }
+                        alert(JSON.stringify(selected_question_ids));
                         $('#selected-questions').dataTable();
                        var lessons= $('#lessons_id').val();
                         var qtype= $('#question_type').val();
@@ -1734,7 +1782,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                     var length=response.length;
                                         for (var i = 0; i < response.length; i++) { 
                                         tr = $('<tr/>');
-                                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].id +"' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
                                         tr.append("<td>" + response[i].title + "</td>");
                                         //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                         $('#questions-list').append(tr);
@@ -1750,7 +1798,43 @@ function addOrRemoveInPassage(elem, type,id) {
 
 
      }else{
+//-------------------------
+//         if(checkboxName == 'question'){
+//             alert('question');
+//             console.log(question_Ids);
+//             //Malli remove question
+//             var rem_question="rem_question";
+//             // var url_adding_passage_selected="adding_passage_selected";
+//             var url_rem_question=""+ urls +rem_question+"";
+//             // var url_passage_add_selected=""+ urls +url_adding_passage_selected+"";
+//             //cloose malli
+//             $.ajax(
+//                 {
+//                     url:url_rem_question,
+//                     headers: {"X-CSRF-Token": csrf},
+//                     type:"post",
+//                     data:{question_Ids:question_Ids},
+//                     success:function(response){
+//                         $('#questions-list').empty();
+//                         var tr;
+//                         var length=response.length;
+//                         for (var i = 0; i < response.length; i++) {
+//                             tr = $('<tr/>');
+//                             tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+//                             tr.append("<td>" + response[i].title + "</td>");
+//                             //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
+//                             $('#questions-list').append(tr);
+//                         }
+//                     }
+//                 }
+//             );
+//         }else{
+//             alert('pasasge');
+//
+//         }
 
+
+         //----------
 
 
      }
