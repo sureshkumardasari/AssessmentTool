@@ -74,10 +74,10 @@
         var _token = $(".hidden-token").val();
         var _ids = '{{ $id }}';
         var ids = _ids.split('-');
-
-        @if ($secs != '0')
+        var secounds={{$secs}}*60;
+         @if ($secs != '0')
         $('#ttr').backward_timer({
-            seconds: {{ $secs }},
+            seconds: secounds,
             on_exhausted: function() {
                 submitTest(true);
             }
