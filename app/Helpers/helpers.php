@@ -242,25 +242,25 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
          //------------assessments--------------------   
-         'assessment-list' => array(
+         'assessmentlist' => array(
             'displayName' => 'Assessments',
-            'route' => 'assessment-list',
+            'route' => 'assessmentlist',
             'postfix' => array('home' => 'Home', '' => 'Resources'), //
         ),
         'assessment-create' => array(
             'displayName' => 'Create Assessment',
             'route' => 'assessment-create',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
         'assessmentedit' => array(
             'displayName' => 'Modify Assessment',
             'route' => 'assessmentedit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          'assessmentview' => array(
             'displayName' => 'Assessment View',
             'route' => 'assessmentview',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          //------------assignments--------------------   
          'assignment-list' => array(
