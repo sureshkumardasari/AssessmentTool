@@ -60,7 +60,7 @@ $path = url()."/resources/";
 						var tr;
 						for (var i = 0; i < response['questions'].length; i++) {
 							tr = $('<tr/>');
-							tr.append("<td><input type='checkbox' value='"+response['questions'][i].qid+"' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+							tr.append("<td><input type='checkbox' value='"+response['questions'][i].qid+"' passage_id="+response['questions'][i].pid +" class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
 //							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
 							tr.append("<td>" + response['questions'][i].question_title + "</td>");
 							$('#questions-list').append(tr);
@@ -161,6 +161,8 @@ if (count($errors) > 0){?>
 	var passage = '{{old('passage')}}';
 	var QuestionIds=$('#QuestionIds').val();
 	var passageIds=$('#passageIds').val();
+	//var Question_ids=[];
+	//var Passage_ids=[];
 	filter('1');
 	addOrRemoveInGrid('', "add");
 	$('#institution_id').val(oldvalues);
