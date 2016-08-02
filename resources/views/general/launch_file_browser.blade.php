@@ -300,7 +300,7 @@ $('#upload_image').change(function(){
                 window.selectedItem = response.item_path;
                 window.itemName = response.item_name;
                 window.itemSize = response.item_size;
-                // $.fancybox.close();
+                $.fancybox.close();
 
             }
 
