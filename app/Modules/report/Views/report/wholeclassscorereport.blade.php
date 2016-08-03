@@ -94,6 +94,7 @@
                         success: function (response) {
                             var a = response.length;
                             $('#assignment_id').empty();
+                            $('#subject_id').empty();
                             var opt = new Option('--Select Assignment--', '');
                             $('#assignment_id').append(opt);
                             for (i = 0; i < a; i++) {

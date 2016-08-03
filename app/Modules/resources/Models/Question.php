@@ -99,17 +99,21 @@ class Question extends Model {
 		$questions = $obj->get();
 		return $questions;
 	}
-	public function getPassageQst($passage_id=0,$flag=0,$question_Ids=0)
+	public function getPassageQst($passage_id=0,$flag=0,$question_Ids=[0])
 	{
- 		$obj = DB::table('questions');
-		$obj->whereIn('id' , $question_Ids);
+ 		//$obj = DB::table('questions');
+	//	$sql = "select * from `questions` where `id` in (\'7\', \'8\', \'9\', \'10\') and (`passage_id` not in (\'1\') OR passage_id IS NULL OR passage_id=0)";
+		//$obj->whereIn('id' , $question_Ids);
 		if($flag == 1){
-			$obj->wherenotIn("passage_id", $passage_id);
-			$obj->Where('passage_id','IS','NULL');
+			$obj=DB::select(' select * from questions where id in ('.implode(',',$question_Ids).') and (passage_id  not in ('.implode(',',$passage_id).') OR passage_id IS NULL OR passage_id = 0)');
+			//$obj->wherenotIn("passage_id", $passage_id);
+			//$obj->Where('passage_id','IS','NULL');
 		}else{
-			$obj->whereIn("passage_id", $passage_id);
+			$obj=DB::select('select * from questions where id in ('.implode(',',$question_Ids).') and (passage_id  in ('.implode(',',$passage_id).') OR passage_id IS NULL OR passage_id = 0)');
+			//$obj->whereIn("passage_id", $passage_id);
 		}
-		$questions = $obj->get();
+		//dd($obj);
+		$questions = $obj; //->get();
  		return $questions;
 	}
 	public function getPassageByQuestions($question_Ids=0)
@@ -123,7 +127,7 @@ class Question extends Model {
    		return $passages;
 	}public function getPassageByPassId($passage_Ids=0, $lessons = 0)
 	{ 
- 		$obj = DB::table('passage as p');
+ 		$obj = DB::table('passage as p')->join('questions as q','q.passage_id','=','p.id');
  		//$obj->join('passage as p', 'p.id', '=', 'q.passage_id');
 		if($passage_Ids > 0){
 			$obj->wherenotin("p.id", $passage_Ids);
@@ -131,7 +135,7 @@ class Question extends Model {
 		if($lessons > 0){
 			$obj->whereIn("p.lesson_id", $lessons);
 		}
-		$passages = $obj->select('p.id as id','p.passage_text as passage_text','p.title as title')->get();
+		$passages = $obj->select('p.id as id','p.passage_text as passage_text','p.title as title')->groupby('id')->get();
   		return $passages;
 	}
 	public function getAddingPassage($passageIds=0)

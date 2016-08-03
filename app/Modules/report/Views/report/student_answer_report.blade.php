@@ -13,10 +13,10 @@
                             <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
                         </div>
                              <div class="form-group">
-                                    <label class="col-md-2 control-label">Select Assignmnet:</label>
+                                    <label class="col-md-2 control-label">Select Assignment:</label>
                                     <div class="col-md-2">
                                         <select name="assign_id" class='form-control' id="assign_student" onchange="assignmt_change()">
-                                            <option value="0" selected >-Select-</option> 
+                                            <option value="0" selected >-Select-</option>
                                         </select>
                                     </div>
                             </div>
@@ -52,7 +52,7 @@
         var loadurl = "{{ url('/report/students_inst/') }}/" ;
         var assignmturl = "{{ url('/report/assignmt_inst/') }}/" ;
         var studentturl = "{{ url('/report/student_assignmt_inst/') }}/" ;
-        var stdansloadurl = "{{ url('/report/students_ans_list/') }}/" ; 
+        var stdansloadurl = "{{ url('/report/students_ans_list/') }}/" ;
         function student_change(){
             var csrf=$('Input#csrf_token').val();
 
@@ -80,7 +80,8 @@
                         success: function (response) {
                             var a = response.length;
                             $('#assign_student').empty();
-                            var opt = new Option('--Select Assignmnet--', '');
+                            $('#student').empty();
+                            var opt = new Option('--Select Assignment--', '0');
                             $('#assign_student').append(opt);
                             for (i = 0; i < a; i++) {
                                 var opt = new Option(response[i].name, response[i].id);

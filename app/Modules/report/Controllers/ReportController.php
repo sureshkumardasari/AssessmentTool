@@ -220,7 +220,7 @@ class ReportController extends Controller {
 	//class average and student scores report through ajax call......
 	public function class_average_and_student_scores($inst_id=0,$assign_id=0){
 		$assignment=Assignment::find($assign_id);
-if($assignment) {
+	if($assignment) {
 	$marks = Assessment::find($assignment->assessment_id);
 	//dd($marks);
 	$question_ids = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
@@ -462,12 +462,18 @@ if($assignment) {
 	}
 //getting subjects list based on assignment...
 	public function subjects_list($inst_id,$assign_id){
+		$assignment=Assignment::find($assign_id);
+		$assessment=Assessment::find($assignment->assessment_id);
+		$sub_list=explode(',',$assessment->subject_id);
+		$subjects=Subject::whereIn('id',$sub_list)->select('name','id')->get();
 
-	$assessment=Assignment::find($assign_id);
-		$subjects=Assessment::join('subject as sub','assessment.subject_id','=',DB::raw('sub.id && assessment.id ='.$assessment->id))->select('sub.name','sub.id')
-			->lists('name','id');
 		//dd($subjects);
-	return $subjects;
+		return $subjects;
+	/*$assessment=Assignment::find($assign_id);
+		$subjects=Assessment::join('subject as sub','assessment.subject_id','=',DB::raw('sub.id && assessment.id ='.$assessment->id))->select('sub.name','sub.id')
+			->lists('name','id');*/
+		//dd($subjects);
+	//return $subjects;
 	}
 	public function wholeclassscorereport()
 	{
