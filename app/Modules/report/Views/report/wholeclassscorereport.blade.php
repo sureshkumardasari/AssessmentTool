@@ -38,7 +38,7 @@
                             <div class="form-group required">
                             <label class="col-md-4 control-label">Subject</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="subject_id" id="subject_id">
+                                <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
                                     <option value="0">-Select Subject-</option>
                                   
                                 </select>
@@ -65,6 +65,11 @@
 
     <script>
         var loadurl = "{{ url('/report/assignment_wholeclass/') }}/" ;
+
+        $( document ).ready(function() {
+             $('#subject_id').multiselect();
+            $('#subject_id').multiselect('refresh');
+        }); 
         function subject_change(){
             var csrf=$('Input#csrf_token').val();
 
@@ -116,12 +121,16 @@
                         success: function (response) {
                             var a = response.length;
                             $('#subject_id').empty();
-                            var opt = new Option('--Select Subjects--', '');
-                            $('#subject_id').append(opt);
+                            // var opt = new Option('--Select Subjects--', '');
+                            // $('#subject_id').append(opt);
+                            $('#subject_id').multiselect('destroy');
+                            $('#subject_id').empty();
                             for (i = 0; i < a; i++) {
                                 var opt = new Option(response[i].name, response[i].id);
                                 $('#subject_id').append(opt);
                             }
+                            $('#subject_id').multiselect();
+                            $('#subject_id').multiselect('refresh');
                         }
                     }
             )
@@ -175,5 +184,8 @@
 
         }*/
 
-    </script>
+    </script> 
+    <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
+
+    <script type="text/javascript" src="{{asset('js/bootstrap-multiselect.js')}}"></script>
     @endsection
