@@ -41,9 +41,7 @@
                                 <select name="subject_id" class='form-control' id="subject" >
                                     <option value="0" selected >-Select-</option>
                                     @if(getRole()!="administrator")
-                                        @foreach($assignment as $ass)
-                                            <option value="{{$ass->id}}">{{$ass->name}}</option>
-                                        @endforeach
+
                                     @endif
                                 </select>
                             </div>
@@ -117,12 +115,12 @@
                             $('#subject').empty();
                             var opt = new Option('--Select Subject--', 0);
                             $('#subject').append(opt);
-                            $.each(response,function(id,name){
+                            for (i = 0; i < a; i++) {
 
-                                    var opt = new Option(name, id);
-                                    $('#subject').append(opt);
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#subject').append(opt);
+                            }
 
-                            });
                         }
                     }
             )
