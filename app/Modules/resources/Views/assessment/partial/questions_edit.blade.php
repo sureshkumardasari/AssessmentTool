@@ -143,6 +143,14 @@
 					<td>
 						<input type="checkbox" id="questions-list"  value="{{ $name['id'] }}"  class="assess_qst check-selected-question" data-group-cls="btn-group-sm">
 						<input type="hidden" name="QuestionIds[]" id="QuestionIds" value="{{ $name['id'] }}">
+						<script> if($.inArray('{{$name["subject_id"]}}',subjects_list) == -1){
+								subjects_list.push('{{$name["subject_id"]}}');
+							}
+							if($.inArray('{{$name["lesson_id"]}}',lessons_list) == -1){
+								lessons_list.push('{{$name["lesson_id"]}}');
+							}
+						//	lessons_list=[];
+						</script>
 					</td>
 					<td>{{ $name['title'] }}</td>
 
@@ -244,6 +252,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		//alert(JSON.stringify(subjects_list));
 		$('#question_table').DataTable( {
 
 			"scrollY":        "850px",

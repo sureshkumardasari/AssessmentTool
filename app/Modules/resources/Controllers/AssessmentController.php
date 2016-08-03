@@ -655,15 +655,15 @@ class AssessmentController extends BaseController {
 				$unlimitedtime = 1;
 			}
 			//dd($questions);
-			$sub=implode(',',$post['subject_id']);
-			$less=implode(',',$post['lessons_id']);
+			$sub=implode(',',$post['subjects_list']);
+			$less=implode(',',$post['lessons_list']);
   			$assessment_details = Assessment::where('id',$post['id'])->update([
   				'name'=>$post['name'],
   				'institution_id'=>$post['institution_id'],
 				'category_id'=>$post['category_id'],
 				'subject_id'=>$sub,
 				'lesson_id'=>$less,
-				'questiontype_id'=>$post['question_type'],
+				'questiontype_id'=>isset($post['question_type'])?$post['question_type']:0,
 				//'lesson_id'=>$post['lessons_id'],
 				'header'=>$post['header'],
 				'footer'=>$post['footer'],
