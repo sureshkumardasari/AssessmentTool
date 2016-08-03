@@ -107,9 +107,13 @@
 							<textarea class="form-control numeric" name="essayanswerpoint">{{old('essayanswerpoint')}}</textarea>
 						</div>
 					</div>
+					<div id="subjects_list"></div>
+					<div id="lessons_list">
+
+					</div>
 				<div class="form-group">
 					<div class="col-md-6 col-md-offset-6">
-						<button type="submit" class="btn btn-primary">
+						<button id="submit" type="submit" class="btn btn-primary">
 							Submit
 						</button>
 					</div>
@@ -139,6 +143,19 @@ $( document ).ready(function() {
 		}
 
 	});
+	$('#submit').on('click',function(){
+		$.each(subjects_list,function(index,val){
+			var input='<input type="hidden" name="subjects_list[]" value='+val+'>';
+			$('#subjects_list').append(input);
+		});
+		$.each(lessons_list,function(index,val){
+			var input='<input type="hidden" name="lessons_list[]" value='+val+'>';
+			$('#lessons_list').append(input);
+		});
+		//alert(subjects_list);
+		//alert(lessons_list);
+	});
+
 });    
 
 

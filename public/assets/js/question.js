@@ -1329,6 +1329,8 @@ var me = null;
 })(jQuery);
 var selected_passage_ids=[];
 var selected_question_ids={};
+var subjects_list=[];
+var lessons_list=[];
 function addOrRemoveInGrid(elem, type) {
     var selectedTab = $('li.tab.active').children('a').attr('data-tab');
     window.selectedTab =selectedTab;
@@ -1364,6 +1366,14 @@ function addOrRemoveInGrid(elem, type) {
                 $(this).closest('tr').remove();
                 var value=$(this).val();
                 var passage_id=$(this).attr('passage_id');
+                var subject_id=$(this).attr('subject_id');
+                    var lesson_id=$(this).attr('lesson_id');
+                if($.inArray(subject_id,subjects_list) == -1){
+                    subjects_list.push(subject_id);
+                }
+                if($.inArray(lesson_id,lessons_list) == -1){
+                    lessons_list.push(lesson_id);
+                }
                // alert(passage_id);
                 if(passage_id != "null") {
                     if ($.inArray(passage_id, selected_passage_ids) == -1) {
@@ -1381,7 +1391,7 @@ function addOrRemoveInGrid(elem, type) {
 
                 //alert(JSON.stringify(selected_passage_ids));
                 //alert(JSON.stringify(selected_question_ids));
-                selected.append("<input type='hidden' value='"+value+"' name='QuestionIds[]' id='QuestionIds'>");
+                selected.append("<input type='hidden' value="+value+" name='QuestionIds[]' id='QuestionIds'>");
                 //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
                 $('#selected-questions'+' .child-grid').append(selected);
             });
@@ -1409,7 +1419,7 @@ function addOrRemoveInGrid(elem, type) {
                 var selected = closestUl.clone();
                 $(this).closest('tr').remove();
                 var value=$(this).val();
-                selected.attr('id','passage'+value);
+                selected.attr('id','passage_'+value);
                 if ($.inArray(value, selected_passage_ids) == -1)
                 {
                     selected_passage_ids.push(value);
@@ -1439,7 +1449,7 @@ function addOrRemoveInGrid(elem, type) {
                 //alert(myControls.length);
                 for (var i = 0; i < myControls.length; i++) {
                     if(myControls[i].value==$(this).val()){
-                        myControls[i].value = '';
+                        myControls[i].value = '0';
                     }
                 }
                 $(this).removeClass('check-selected-question').addClass('check-question');
@@ -1453,6 +1463,14 @@ function addOrRemoveInGrid(elem, type) {
                 $(this).attr('name',checkboxName+'[]');
                 var value=$(this).val();
                 var passage_id=$(this).attr('passage_id');
+                var subject_id=$(this).attr('subject_id');
+                var lesson_id=$(this).attr('lesson_id');
+                if($.inArray(subject_id,subjects_list) != -1){
+                    subjects_list.splice($.inArray(subject_id,subjects_list),1);
+                }
+                if($.inArray(lesson_id,lessons_list) != -1){
+                    lessons_list.splice($.inArray(lesson_id,lessons_list),1);
+                }
                 $(this).attr('checked', false);
                 var selected = closestUl.clone();
                 $(this).closest('tr').remove();
@@ -1461,16 +1479,21 @@ function addOrRemoveInGrid(elem, type) {
                 //    //alert(value);
                 //});
                 //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
-            if($.inArray(value,selected_question_ids[passage_id])!= -1){
-                selected_question_ids[passage_id].splice($.inArray(value,selected_question_ids[passage_id]),1);
-                //selected_question_ids[passage_id].push(value);
-            }
-                if(selected_question_ids[passage_id].length==0){
-                    var clone= $('#passage_'+passage_id);
-                    clone.attr('id','');
-                    //clone.attr()
-                    $('#passage_'+passage_id).remove();
-                    $('#passages-list').append(clone);
+                if(passage_id !="null" && passage_id != null && passage_id !=undefined && passage_id !=0) {
+                    passage_id=passage_id.toString();
+                    if ($.inArray(value.toString(), selected_question_ids[passage_id]) != -1) {
+                        selected_question_ids[passage_id].splice($.inArray(value.toString(), selected_question_ids[passage_id]), 1);
+                        //selected_question_ids[passage_id].push(value);
+                    }
+                    if (selected_question_ids[passage_id].length == 0) {
+                        $('#passage_' + passage_id +' td input[type="checkbox"]').removeClass('check-selected-passage');
+                        $('#passage_' + passage_id +' td input[type="checkbox"]').addClass('check-passage');
+                        var clone = $('#passage_' + passage_id);
+                        clone.attr('id', '');
+                        //clone.attr()
+                        $('#passage_' + passage_id).remove();
+                        $('#passages-list').append(clone);
+                    }
                 }
 
             });
@@ -1492,7 +1515,7 @@ function addOrRemoveInGrid(elem, type) {
                 var myControls = myForm.elements['passageIds[]'];
                 for (var i = 0; i < myControls.length; i++) {
                     if(myControls[i].value==$(this).val()){
-                        myControls[i].value = '';
+                        myControls[i].value = '0';
                     }
                 }
                 $(this).removeClass('check-selected-passage').addClass('check-passage');
@@ -1526,7 +1549,6 @@ function addOrRemoveInGrid(elem, type) {
     }
 }
 function addOrRemoveInPassage(elem, type,id) {
-   // alert("jhijhkjh");
     var flag=0;
     var question_Ids=[];
     var append_question_ids=[];
@@ -1537,15 +1559,22 @@ function addOrRemoveInPassage(elem, type,id) {
     var myForm = document.forms.assessment_form;
     var question_id = myForm.elements['QuestionIds[]'];
     if(question_id) {
-       // alert(question_id);
-        for (var i = 0; i < question_id.length; i++) {
-            question_Ids.push(parseInt(question_id[i].value));
-           // alert(question_id[i].value);
-            //question_id[i].val('');
-            //if (question_id[i].value == $(this).val()) {
-            //    question_id[i].value = '';
-            //}
+        var a=question_id.value;
+        if(question_id.length == undefined){
+            question_Ids.push(a);
         }
+        else{
+            for (var i = 0; i < question_id.length; i++) {
+                question_Ids.push(question_id[i].value);
+                // alert("kjhbjhhjkbjbkjbkj");
+                // alert(question_id[i].value);
+                //question_id[i].val('');
+                //if (question_id[i].value == $(this).val()) {
+                //    question_id[i].value = '';
+                //}
+            }
+        }
+
     }
     var urls=$('#url').val();
     var url_add="get_qestion_passage";
@@ -1611,15 +1640,26 @@ function addOrRemoveInPassage(elem, type,id) {
                 success:function(response){
                     //alert("response");
                     //alert(JSON.stringify(response));
+                    subjects_list=[];
+                    lessons_list=[];
                     $('#selected-questions').dataTable().fnDestroy();
                     $('#selected-questions .child-grid').empty();
                     var tr;
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
-                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].passage_id +"' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' subject_id='"+ response[i].subject_id +"' lesson_id='"+response[i].lesson_id+"' passage_id='"+ response[i].passage_id +"' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
                         tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]"  value="'+response[i].id+'">');
-                     $('#selected-questions'+' .child-grid').append(tr);
+                     $('#selected-questions .child-grid').append(tr);
+                        subject_id=response[i].subject_id;
+                        lesson_id=response[i].lesson_id;
+                        if($.inArray(subject_id,subjects_list) == -1){
+                            subjects_list.push(subject_id);
+                        }
+                        if($.inArray(lesson_id,lessons_list) == -1){
+                            lessons_list.push(lesson_id);
+                        }
+
                     }
                     $('#selected-questions').dataTable();
                     $.ajax(
@@ -1636,7 +1676,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                 var tr;
                                 for (var i = 0; i < response.length; i++) {
                                     tr = $('<tr/>');
-                                    tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].passage_id +"' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                    tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' subject_id='"+ response[i].subject_id +"' lesson_id='"+response[i].lesson_id+"'  passage_id='"+ response[i].passage_id +"' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
                                     tr.append("<td>" + response[i].title + "</td>");
                                     //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                     $('#questions-list').append(tr);
@@ -1650,7 +1690,6 @@ function addOrRemoveInPassage(elem, type,id) {
             }
         );
     }
-    alert("completed");
  }
  function addPassageforQuestion(elem,type,s,id){
      //alert('passage');
@@ -1705,7 +1744,7 @@ function addOrRemoveInPassage(elem, type,id) {
                         $('#selected-passage .child-grid').empty();
                         for (var i = 0; i < response.length; i++) {
                             tr = $('<tr id=passage_'+response[i].id + '/>');
-                            tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
+                            tr.append("<td><input type='checkbox'  value='" + response[i].id + "' name='passage[]' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm'></td>");
                             tr.append("<td>" + response[i].title + "</td>");
                             tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">');
                             $('#selected-passage .child-grid').append(tr);
@@ -1725,7 +1764,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                     $('#passages-list').empty();
                                     for (var i = 0; i < response.length; i++) {
                                         tr = $('<tr/>');
-                                        tr.append("<td><input type='checkbox' id='passages-list' value='" + response[i].id + "' name='passage[]' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+                                        tr.append("<td><input type='checkbox'  value='" + response[i].id + "' name='passage[]' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
                                         tr.append("<td>" + response[i].title + "</td>");
                                         // tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
                                         $('#passages-list').append(tr);
@@ -1754,15 +1793,25 @@ function addOrRemoveInPassage(elem, type,id) {
                         });
                     var tr;
                         $('#selected-questions').dataTable().fnDestroy();
+                        subjects_list=[];
+                        lessons_list=[];
                     for (var i = 0; i < response.length; i++) {
                         tr = $('<tr/>');
-                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].id +"' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
+                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "'subject_id='"+ response[i].subject_id +"' lesson_id='"+response[i].lesson_id+"' passage_id='"+ response[i].id +"' name='question[]' class='assess_qst check-selected-question' data-group-cls='btn-group-sm'></td>");
                         tr.append("<td>" + response[i].title + "</td>");
                         tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]"  value="'+response[i].id+'">');
                      $('#selected-questions'+' .child-grid').append(tr);
                      get_remain_passage.push(question_Ids[0]);
                      get_remain_passage.push(""+ response[i].id +"");
                         selected_question_ids[response[i].passage_id].push(response[i].id);
+                        subject_id=response[i].subject_id;
+                        lesson_id=response[i].lesson_id;
+                        if($.inArray(subject_id,subjects_list) == -1){
+                            subjects_list.push(subject_id);
+                        }
+                        if($.inArray(lesson_id,lessons_list) == -1){
+                            lessons_list.push(lesson_id);
+                        }
 
                      }
                        // alert(JSON.stringify(selected_question_ids));
@@ -1782,7 +1831,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                     var length=response.length;
                                         for (var i = 0; i < response.length; i++) { 
                                         tr = $('<tr/>');
-                                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' passage_id='"+ response[i].id +"' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+                                        tr.append("<td><input type='checkbox' id='questions-list' value='" + response[i].id + "' subject_id='"+ response[i].subject_id +"' lesson_id='"+response[i].lesson_id+"' passage_id='"+ response[i].id +"' name='question[]' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
                                         tr.append("<td>" + response[i].title + "</td>");
                                         //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                         $('#questions-list').append(tr);

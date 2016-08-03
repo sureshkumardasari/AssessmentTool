@@ -87,6 +87,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			</div>
 			<div class="form-group col-md-10">
 			</div>
+
 			<!-- 	<div class="form-group col-md-2">
                     <div class="col-md-6">
                         <div class="move-arrow-box">
@@ -94,6 +95,12 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                         </div>
                     </div>
                 </div> -->
+			<div class="form-group">
+				<div class="col-md-2 " >
+					<button type="button" class="btn btn-danger btn-sm" id="clear_filters">clear</button>
+				</div>
+
+			</div>
 		</div>
 	</div>
 	<div id="questions" class="tab-pane fade in active">
@@ -269,6 +276,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		$('#passage_subject_id').multiselect();
 		//$('#passage_lessons_id').multiselect();
 		// $('#question_type').multiselect();
+
+
 	} );
 
 
