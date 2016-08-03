@@ -155,9 +155,9 @@ class AssessmentController extends BaseController {
 
 		//dd($post);
   		$messages=[
-			'subject_id.required'=>'The Subject field is required',
+			'subjects_list.required'=>'The Subject field is required',
 			'category_id.required'=>'The Category field is required',
-		    'lessons_id.required'=>'The Lessons field is required',
+		    'lessons_list.required'=>'The Lessons field is required',
 			'institution_id.required'=>'The Institution field is required',
 			'QuestionIds.required'=>'The Questions is required',
 			'total_time.required' => 'Please add the total time of an Assessment'
@@ -170,8 +170,8 @@ class AssessmentController extends BaseController {
 			'end_instruction'=>'required',
 			'institution_id' => 'required|not_in:0',
 			'category_id' => 'required|not_in:0',
-            'subject_id' => 'required',
-			'lessons_id' => 'required',
+            'subjects_list' => 'required',
+			'lessons_list' => 'required',
  			'QuestionIds' => 'required',
 		];
 		if(!isset($post['never_expires'])){
@@ -191,8 +191,8 @@ class AssessmentController extends BaseController {
 //			dd($Question_ids);
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
 //			dd($questions);
-			$sub=implode(',',$post['subject_id']);
-			$less=implode(',',$post['lessons_id']);
+			$sub=implode(',',$post['subjects_list']);
+			$less=implode(',',$post['lessons_list']);
   				$assessment_insert = new Assessment();
  				$assessment_insert->name = $post['name'] ;
             $assessment_insert->institution_id = $post['institution_id'] ;
@@ -201,7 +201,7 @@ class AssessmentController extends BaseController {
 			$assessment_insert->subject_id = $sub ;
 			$assessment_insert->lesson_id = $less ;
           // $assessment_insert->lesson_id = $post['lessons_id'] ;
-            $assessment_insert->questiontype_id = $post['question_type'] ;
+            $assessment_insert->questiontype_id = isset($post['question_type'])?$post['question_type']:0 ;
 			$assessment_insert->header = $post['header'];
 			$assessment_insert->footer = $post['footer'];
 			$assessment_insert->begin_instruction = $post['begin_instruction'];
@@ -607,7 +607,7 @@ class AssessmentController extends BaseController {
 		}
 		$questions_lists=Question::wherein('id',$questions_list)->get();
 		$passages_lists=Passage::wherein('id',$passages_list)->get();
-		$passages_list_not=Passage::wherenotin('id',$passages_list)->get();
+		//$passages_list_not=Passage::wherenotin('id',$passages_list)->get();
 
 		$id = $assessment_details->id; 
 			$institution_id = $assessment_details->institution_id; 
@@ -615,6 +615,7 @@ class AssessmentController extends BaseController {
 			$subject_id=$assessment_details->subject_id;
 			$lessons_id=$assessment_details->lesson_id;
 			$question_type_id=$assessment_details->questiontype_id;
+		$subjects=Subject::where('category_id',$category_id)->lists('name','id');
 		//$lesson = $this->lesson->getLesson($subject_id);
 		$category = $this->category->getCategory($institution_id);
 		//dd($institution_id);
@@ -721,7 +722,7 @@ class AssessmentController extends BaseController {
 		//dd($post);
   		$passage_id=isset( $post['id'] ) ? $post['id'] : 0;
 		$flag= isset($post['flag']) ? $post['flag'] : 0;
-		$question_Ids=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : 0;
+		$question_Ids=isset( $post['QuestionIds'] ) ? $post['QuestionIds'] : [0];
    		$subjects = $this->question->getPassageQst($passage_id,$flag,$question_Ids);
 		return $subjects;
 	}
@@ -809,7 +810,7 @@ class AssessmentController extends BaseController {
 			//if ($post['question_type'] > 0) {
 				$obj->where("question_type.id", (int)$post['question_type']);
 			//}
-			$list['questions'] = $obj->select('questions.id as qid', 'questions.title as question_title', 'passage.id as pid', 'passage.title as passage_title', 'question_type.qst_type_text as question_type')
+			$list['questions'] = $obj->select('questions.id as qid', 'questions.title as question_title','questions.subject_id as sub_id','questions.lesson_id as less_id', 'passage.id as pid', 'passage.title as passage_title', 'question_type.qst_type_text as question_type')
 				->orderby('qid')
 				->get();
 		}

@@ -8,8 +8,8 @@
 
 <div class="tab-content">
 	<div class="panel panel-default">
-		<div >
-			<button type="button" id="filters_show">show filters</button>
+		<div class="pull-right">
+			<button type="button" class="btn btn-danger" id="filters_show">show filters</button>
 		</div>
 		<div class="edit_assessment">
 		<div class="panel-heading searchfilter pointer">Filters
@@ -43,9 +43,9 @@
 				<div class="col-md-10">
 					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						{{--<option value="0">--Select Subject--</option>--}}
-						{{--@foreach($subjects as $id=>$val)--}}
-							{{--<option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>--}}
-						{{--@endforeach--}}
+						@foreach($subjects as $id=>$val)
+							<option value="{{ $id }}">{{ $val }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>
@@ -282,6 +282,7 @@
 		$('.edit_assessment').show();
 	});
 	$('#institution_id').val({{$institution_id}});
+	$('#category_id').val({{$category_id}});
 	// $('#passage_lessons_id').multiselect();
 </script>
 
