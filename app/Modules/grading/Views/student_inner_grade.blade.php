@@ -21,7 +21,6 @@
 
         //---
     </script>
-    <?php/* dd($first_student_answers);exit; */?>
     @foreach($first_student_answers['student_answers'] as $key=>$answer)
         @if($key=="Essay")
             @foreach($answer as $id=>$value)
