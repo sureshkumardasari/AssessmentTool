@@ -34,7 +34,7 @@
 	   Route::get('exportPDF/{inst_id}/{assi_id}',['as'=>'reportdownload','uses'=>'ReportController@exportPDF']);
         Route::post('assignment_subjects/{inst_id}-{assi_id}',['as'=>'reportassignment','uses'=>'ReportController@subjects_list']);
 
-        Route::get('wholeclass','ReportController@wholeclassscorereport');
+        Route::get('wholeclass',['as'=>'wholeclass','uses'=>'ReportController@wholeclassscorereport']);
         Route::post('assignment_wholeclass/{id}','ReportController@report_inst');
         Route::post('assignment_subject/{id}','ReportController@subject_change');
         Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);

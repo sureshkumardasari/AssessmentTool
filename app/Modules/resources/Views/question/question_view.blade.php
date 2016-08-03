@@ -52,12 +52,13 @@
                             <div class="row">
                                     <?php $ans_arr=['A','B','C','D','E']; 
                                     $i=0;?>
-                                <label class="col-md-2" style="word-break: break-all"><b>Answers: </b></label>
+                                <label class="col-md-2 control-label" style="word-break: break-all"><b>Answers: </b></label>
+                                 <div class="col-md-6">
                                 @foreach($oldAnswers as $key => $answer)
-                                <div>
+                               <div>
                                     <b>{{$ans_arr[$i++]}}</b>.
                                   @if($answer["is_correct"] == "YES")
-                                  <span style="color:green;font-weight:bold"><?php echo($answer['ans_text'])?></span>
+                                  <span style="color:green;font-weight:bold "><?php echo($answer['ans_text'])?></span>
                                   @else
                                  <?php echo($answer['ans_text'])?>
                                     @endif

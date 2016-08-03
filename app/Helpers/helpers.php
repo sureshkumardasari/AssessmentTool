@@ -242,25 +242,25 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
          //------------assessments--------------------   
-         'assessment-list' => array(
+         'assessmentlist' => array(
             'displayName' => 'Assessments',
-            'route' => 'assessment-list',
+            'route' => 'assessmentlist',
             'postfix' => array('home' => 'Home', '' => 'Resources'), //
         ),
         'assessment-create' => array(
             'displayName' => 'Create Assessment',
             'route' => 'assessment-create',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
         'assessmentedit' => array(
             'displayName' => 'Modify Assessment',
             'route' => 'assessmentedit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          'assessmentview' => array(
             'displayName' => 'Assessment View',
             'route' => 'assessmentview',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessment-list' => 'Assessments'), //
+            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          //------------assignments--------------------   
          'assignment-list' => array(
@@ -316,18 +316,23 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'postfix' => array('home' => 'Home'), //
         ),
         'assessmentreport' => array(
-            'displayName' => 'Scores By Assessment',
+            'displayName' => 'Class Average and Student Scores Report',
             'route' => 'assessmentreport',
             'postfix' => array('home' => 'Home','report' => 'Reports'), //
         ),
-         'assignmentreport' => array(
-            'displayName' => 'Scores By Assignment',
-            'route' => 'assignmentreport',
+         'wholeclass' => array(
+            'displayName' => 'Whole Class Score Report',
+            'route' => 'wholeclass',
             'postfix' => array('home' => 'Home','report' => 'Reports'), //
         ),
-         'studentreport' => array(
-            'displayName' => 'Scores By Students',
-            'route' => 'studentreport',
+         'test-history' => array(
+            'displayName' => 'Test History Report',
+            'route' => 'test-history',
+            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+        ),
+          'student-answer-report' => array(
+            'displayName' => 'Student Answer Report',
+            'route' => 'student-answer-report',
             'postfix' => array('home' => 'Home','report' => 'Reports'), //
         ),
 

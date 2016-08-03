@@ -474,26 +474,39 @@ class QuestionController extends BaseController {
 		return $category;
 	}
 	public function subjectList($id){
+		$id=explode(',',$id);
 		$subject=	Category::join('subject','category.id','=','subject.category_id')
-				->where('category.id','=',$id)
+				->whereIn('category.id',$id)
 				->select('subject.id','subject.name')
 				->get();
 		return $subject;
 	}
 	public function lessonsList($id){
+		$id=explode(',',$id);
+		//dd($id);
 		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
-				->where('subject.id','=',$id)
+				->whereIn('subject.id',$id)
 				->select('lesson.id','lesson.name')
 				->get();
 		return $lessons;
 	}
-	public function questiontype($id){
-		$questiontype= Question::join('lesson','questions.lesson_id','=','lesson.id')
+	public function questiontype($idd){
+		$post=Input::all();
+		$id=explode(',',$idd);
+		$passage_Ids=isset( $post['passages'] ) ? $post['passages'] : [0];
+		$questiontype['question_type']= Question::join('lesson','questions.lesson_id','=','lesson.id')
 				->join('question_type','questions.question_type_id','=','question_type.id')
-				->where('questions.lesson_id','=',$id)
+				->whereIn('questions.lesson_id',$id)
 				->select('question_type.qst_type_text','questions.question_type_id','questions.title')
 				->groupBy('question_type.qst_type_text')
 				->get();
+		$pass=Passage::join('questions','questions.passage_id','=','passage.id')->whereIn('passage.lesson_id',$id);
+		//$pass->whereIn('lesson_id',$id);
+		//if($passage_Ids > 0){
+			$pass->wherenotin("passage.id", $passage_Ids);
+		//}
+		$questiontype['passages']=$pass->select('passage.id as pid','passage.title as passage_title')->groupBy('pid')->orderby('pid')->get();
+		//$questiontype['passages']=\DB::table('passage')->selectRaw('id as pid, title as passage_title  where lesson_id in('.$idd.') and where id not in('.implode(',',$passage_Ids).')')->get();
 		return $questiontype;
 	}
 	function launchFileBrowser($bucket = '')
@@ -583,12 +596,12 @@ class QuestionController extends BaseController {
 			{
 				$response['status'] = 'success';
 				$response['item_name'] = $fileName;
-				$response['item_path'] = asset('data/images/').$fileName;
+				$response['item_path'] = asset('data/images/').'/'.$fileName;
 				$response['item_size'] = $size;
 			}
 		}else{
 			$response['status'] = 'error';
 		}
-		return json_encode($response);
+		return $response;
 	}
 }

@@ -4,8 +4,8 @@ $path = url()."/resources/";
 <script>
 	remove_passage_ids=[];
 	function filter(flg=0){
-  		question_Ids=[];
- 		passage_Ids=[];
+		question_Ids=[];
+		passage_Ids=[];
 		var csrf=$('Input#csrf_token').val();
 		var question_id=document.getElementsByName('QuestionIds[]');
 		for (var i = 0; i < question_id.length; i++) {
@@ -15,18 +15,18 @@ $path = url()."/resources/";
 		for (var i = 0; i < passage_id.length; i++) {
 			passage_Ids.push(passage_id[i].value);
 		}
- 		var institution_id=$('#institution_id').val();
+		var institution_id=$('#institution_id').val();
 		var category_id=$('#category_id').val();
 		var subject_id=$('#subject_id').val();
 		var lessons_id=$('#lessons_id').val();
-        var question_type=$('#question_type').val();
+		var question_type=$('#question_type').val();
 		if(subject_id=='')subject_id=0;
 		if(institution_id=='')institution_id=0;
 		if(category_id=='')category_id=0;
 		if(lessons_id=='')lessons_id=0;
-        if(question_type=='')question_type=0;
+		if(question_type=='')question_type=0;
 		if(question_id=='')question_id=0;
-		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'questions':question_Ids,'question_type':question_type};
+		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'questions':question_Ids,'passages':passage_Ids,'question_type':question_type};
 		var url='{{$path}}filter_data_assessment';
 		ajax(url,data,csrf);
 
@@ -44,7 +44,7 @@ $path = url()."/resources/";
 		}
 
 	}
-	
+
 	function ajax(url,data,csrf){
 		$.ajax(
 				{
@@ -53,19 +53,20 @@ $path = url()."/resources/";
 					type:"post",
 					data:data,
 					success:function(response){
-						$('#example').dataTable().fnDestroy();
+						$('#question_table').dataTable().fnDestroy();
 						$('#selected-questions').dataTable().fnDestroy();
 						$('#questions-list').empty();
-						var tr;
-						for (var i = 0; i < response.length; i++) {
-							tr = $('<tr/>');
-							tr.append("<td><input type='checkbox' value='"+response[i].qid+"' class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
-//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
-							tr.append("<td>" + response[i].question_title + "</td>");
-							$('#questions-list').append(tr);
-						}
-						$('#example').dataTable();
 
+						var tr;
+						for (var i = 0; i < response['questions'].length; i++) {
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='"+response['questions'][i].qid+"' passage_id="+response['questions'][i].pid +" class='assess_qst check-question' data-group-cls='btn-group-sm'></td>");
+//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
+							tr.append("<td>" + response['questions'][i].question_title + "</td>");
+							$('#questions-list').append(tr);
+
+						}
+						$('#question_table').dataTable();
 						$('#selected-questions').dataTable();
 					}
 				}
@@ -87,7 +88,6 @@ $path = url()."/resources/";
 							tr.append("<td><input id='questions-list' class='assess_qst check-selected-question' type='checkbox' value='"+response[i].id+"'></td>");
 							tr.append("<td>" + response[i].question_title + "</td>");
 							// tr.append("<td>" + response[i].title +'<input type="hidden" name="QuestionIds[]" id="" value="'+response[i].id+'">'+ "</td>");
-
 							$('#questions-list').append(tr);
 							$('#selected-questions'+' .child-grid').append(tr);
 						}
@@ -109,15 +109,15 @@ $path = url()."/resources/";
 							tr = $('<tr/>');
 							tr.append("<td><input type='checkbox' value='"+ response[i].id +"' id='passages-list' class='assess_qst check-selected-passage' data-group-cls='btn-group-sm' name='passage[]'></td>");
 							tr.append("<td>" + response[i].title + "</td>");
-  							$('#selected-passage'+' .child-grid').append(tr);
+							$('#selected-passage'+' .child-grid').append(tr);
 							remove_passage_ids.push(""+ response[i].id +"");
-  						}
-  						//
-  						url4='{{$path}}get_assessment_remove_old_pass';
-  						data4={'passages':remove_passage_ids};
-  						csrfT=$('Input#csrf_token').val();
+						}
+						//
+						url4='{{$path}}get_assessment_remove_old_pass';
+						data4={'passages':remove_passage_ids};
+						csrfT=$('Input#csrf_token').val();
 
-  						selected_remove_old_pass_ajax(url4,data4,csrfT)
+						selected_remove_old_pass_ajax(url4,data4,csrfT)
 					}
 				}
 		);
@@ -125,7 +125,7 @@ $path = url()."/resources/";
 
 	var url4='{{$path}}get_assessment_remove_old_pass';
 	var data4={'passage':remove_passage_ids};
- 	function selected_remove_old_pass_ajax(url4,data4,csrf){
+	function selected_remove_old_pass_ajax(url4,data4,csrf){
 		$.ajax(
 				{
 					url:url4,
@@ -159,11 +159,13 @@ if (count($errors) > 0){?>
 	var question_type = '{{old('question_type')}}';
 	var question_textarea = '{{old('question_textarea')}}';
 	var passage = '{{old('passage')}}';
- 	var QuestionIds=$('#QuestionIds').val();
- 	var passageIds=$('#passageIds').val();
-  	filter('1');
+	var QuestionIds=$('#QuestionIds').val();
+	var passageIds=$('#passageIds').val();
+	//var Question_ids=[];
+	//var Passage_ids=[];
+	filter('1');
 	addOrRemoveInGrid('', "add");
-   	$('#institution_id').val(oldvalues);
+	$('#institution_id').val(oldvalues);
 	if(oldvalues!=null){
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
@@ -194,8 +196,8 @@ if (count($errors) > 0){?>
 										success:function(response){
 											var a=response.length;
 											$('#subject_id').empty();
-											var opt=new Option('--Select Subject--','');
-											$('#subject_id').append(opt);
+//											var opt=new Option('--Select Subject--','');
+//											$('#subject_id').append(opt);
 											for(i=0;i<a;i++){
 												var opt=new Option(response[i].name,response[i].id);
 												$('#subject_id').append(opt);
@@ -204,6 +206,7 @@ if (count($errors) > 0){?>
 											//sub
 											if(suboldvalues!=null){
 												$('#subject_id').val(suboldvalues);
+												$('#subject_id').multiselect();
 												$.ajax(
 														{
 															headers: {"X-CSRF-Token": csrf},
@@ -212,46 +215,46 @@ if (count($errors) > 0){?>
 															success:function(response){
 																var a=response.length;
 																$('#lessons_id').empty();
-																var opt=new Option('--Select Lesson--','');
-																$('#lessons_id').append(opt);
+//																var opt=new Option('--Select Lesson--','');
+//																$('#lessons_id').append(opt);
 																for(i=0;i<a;i++){
 																	var opt=new Option(response[i].name,response[i].id);
 																	$('#lessons_id').append(opt);
 																}
 																$('#lessons_id').val(lessonoldvalues);
+																$('#lessons_id').multiselect();
 															}
 														}
 												)
-                                                    if(suboldvalues!=null){
-                                                        $('#lessons_id').val(suboldvalues);
-                                                        $.ajax(
-                                                                {
-                                                                    headers: {"X-CSRF-Token": csrf},
-                                                                    url:'{{$path}}lessonsList/'+$('#lessons_id').val(),
-                                                                    type:'post',
-                                                                    success:function(response){
-                                                                        var a=response.length;
-                                                                        $('#question_type').empty();
-                                                                        var opt=new Option('--Select QuestionType--','');
-                                                                        $('#question_type').append(opt);
-                                                                        for(i=0;i<a;i++){
-                                                                            var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
-                                                                            $('#question_type').append(opt);
-                                                                        }
-                                                                        $('#question_type').val(question_type);
-                                                                    }
-                                                                }
-                                                        )
-											}//sub end
-										}
-									}
-							)
+												if(lessonoldvalues!=null){
+													$('#lessons_id').val(lessonoldvalues);
+													$.ajax(
+															{
+																headers: {"X-CSRF-Token": csrf},
+																url:'{{$path}}lessonsList/'+$('#lessons_id').val(),
+																type:'post',
+																success:function(response){
+																	var a=response.length;
+																	$('#question_type').empty();
+																	var opt=new Option('--Select QuestionType--','');
+																	$('#question_type').append(opt);
+																	for(i=0;i<a;i++){
+																		var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
+																		$('#question_type').append(opt);
+																	}
+																	$('#question_type').val(question_type);
+																}
+															}
+													)
+												}//sub end
+											}
+										});
 						}//end category
 
 
 					}
 				}
-		)
+		);
 
 
 		$('#question_type').val(question_type);
@@ -265,7 +268,7 @@ if (count($errors) > 0){?>
 <script>
 	function change_institution(type){
 		if(type=="passage"){
- 			var institution_id=$('#passage_institution_id').val();
+			var institution_id=$('#passage_institution_id').val();
 		}
 		else if(type=="question"){
 			var institution_id=$('#institution_id').val();
@@ -293,10 +296,11 @@ if (count($errors) > 0){?>
 								$('#passage_category_id').append(opt);
 							}
 						}
-					else if(type=="question") {
+						else if(type=="question") {
 							$('#category_id').empty();
 							$('#subject_id').empty();
 							$('#lessons_id').empty();
+							$('#question_type').empty();
 							var opt = new Option('--Select Category--', '');
 							//opt.addClass('selected','disabled','hidden');
 							$('#category_id').append(opt);
@@ -316,7 +320,7 @@ if (count($errors) > 0){?>
 		}
 		else if(type=="question"){
 			var category_id=$('#category_id').val();
-
+			//alert(category_id);
 		}
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
@@ -328,26 +332,40 @@ if (count($errors) > 0){?>
 					success:function(response) {
 						var a = response.length;
 						if (type == "passage") {
+							$('#passage_subject_id').multiselect('destroy');
 							$('#passage_subject_id').empty();
+							//	$('#passage_lessons_id').multiselect('destroy');
 							$('#passage_lessons_id').empty();
-							var opt = new Option('--Select Subject--', '');
-							$('#passage_subject_id').append(opt);
+							//var opt = new Option('--Select Subject--', '');
+							//$('#passage_subject_id').append(opt);
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#passage_subject_id').append(opt);
 							}
+							$('#passage_subject_id').multiselect();
+							$('#passage_subject_id').multiselect('refresh');
 						}
 						else if (type == "question") {
 
 
+							//$('#subject_id').empty();
+							$('#subject_id').multiselect('destroy');
+							//$('#subject_id').multiselect("clearSelection");
+							//$('#subject_id').multiselect("refresh");
 							$('#subject_id').empty();
+							$('#lessons_id').multiselect('destroy');
 							$('#lessons_id').empty();
-							var opt = new Option('--Select Subject--', '');
-							$('#subject_id').append(opt);
+							$('#question_type').empty();
+							$('#lessons_id').multiselect();
+							//	var opt = new Option('--Select Subject--', '');
+							//	$('#subject_id').append(opt);
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#subject_id').append(opt);
+								//$('#subject_id').multiselect('addOption', { value:response[i].id, text: response[i].name});
 							}
+							$('#subject_id').multiselect();
+							$('#subject_id').multiselect('refresh');
 						}
 					}
 				}
@@ -360,9 +378,10 @@ if (count($errors) > 0){?>
 		}
 		else if(type=="question"){
 			var lesson_id=$('#subject_id').val();
+			//alert(lesson_id);
 		}
 
-	//}
+		//}
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
 				{
@@ -373,23 +392,33 @@ if (count($errors) > 0){?>
 					success:function(response){
 						var a=response.length;
 						if(type=="passage"){
+							$('#passage_lessons_id').multiselect('destroy');
 							$('#passage_lessons_id').empty();
-							var opt=new Option('--Select Lesson--','');
-							$('#passage_lessons_id').append(opt);
+							//	var opt=new Option('--Select Lesson--','');
+							//$('#passage_lessons_id').append(opt);
 							for(i=0;i<a;i++){
 								var opt=new Option(response[i].name,response[i].id);
 								$('#passage_lessons_id').append(opt);
 							}
+							$('#passage_lessons_id').multiselect();
+							$('#passage_lessons_id').multiselect('refresh');
 						}
 						else if(type=="question"){
+							$('#lessons_id').multiselect('destroy');
 							$('#lessons_id').empty();
+							//$('#question_type').multiselect('destroy');
 							$('#question_type').empty();
-							var opt=new Option('--Select Lesson--','');
-							$('#lessons_id').append(opt);
+							//$('#question_type').multiselect();
+							//var opt=new Option('-Select Lesson--','');
+							//$('#lessons_id').append(opt);
+//							var opt=new Option('select');
+//							$('#lessons_id').append(opt);
 							for(i=0;i<a;i++){
 								var opt=new Option(response[i].name,response[i].id);
 								$('#lessons_id').append(opt);
 							}
+							$('#lessons_id').multiselect();
+							$('#lessons_id').multiselect('refresh');
 						}
 					}
 				}
@@ -398,28 +427,52 @@ if (count($errors) > 0){?>
 
 	function change_question_type(){
 		var csrf=$('Input#csrf_token').val();
+		passage_Ids=[];
+		var passage_id=document.getElementsByName('passageIds[]');
+		for (var i = 0; i < passage_id.length; i++) {
+			passage_Ids.push(passage_id[i].value);
+		}
 		$.ajax(
 				{
 
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}questiontypeList/'+$('#lessons_id').val(),
 					type:'post',
+					data:{'passages':passage_Ids},
 					success:function(response){
-						var a=response.length;
+						var a=response['question_type'].length;
+						//$('#question_type').multiselect('destroy');
 						$('#question_type').empty();
+						$('#passage_table').dataTable().fnDestroy();
+						$('#passages-list').empty();
+
+						//$('#question_type').multiselect();
 						var opt=new Option('--Select QuestionType--','');
 						$('#question_type').append(opt);
 						for(i=0;i<a;i++){
-							var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
+							var opt=new Option(response['question_type'][i].qst_type_text,response['question_type'][i].question_type_id);
 							$('#question_type').append(opt);
 						}
+						$.each(response['passages'],function(index,val){
+							//alert('enter');
+
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='"+val['pid']+"' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
+							tr.append("<td>" + val['passage_title'] + "</td>");
+							$('#passages-list').append(tr);
+						});
+						//$('#question_table').dataTable();
+						$('#passage_table').dataTable();
+						/*$('#question_type').multiselect();
+						 $('#question_type').multiselect('refresh');*/
 					}
 				}
 		)
 	}
 	function filter_passage() {
-		// question_Ids=[];
- 		passage_Ids=[];
+		//question_Ids=[];
+		passage_Ids=[];
 		var csrf=$('Input#csrf_token').val();
 		// var question_id=document.getElementsByName('QuestionIds[]');
 		// for (var i = 0; i < question_id.length; i++) {
@@ -429,7 +482,7 @@ if (count($errors) > 0){?>
 		for (var i = 0; i < passage_id.length; i++) {
 			passage_Ids.push(passage_id[i].value);
 		}
-  		var passage_institution_id=$('#passage_institution_id').val();
+		var passage_institution_id=$('#passage_institution_id').val();
 		var passage_category_id=$('#passage_category_id').val();
 		var passage_subject_id=$('#passage_subject_id').val();
 		var passage_lessons_id=$('#passage_lessons_id').val();
@@ -437,17 +490,18 @@ if (count($errors) > 0){?>
 		if(institution_id=='')institution_id=0;
 		if(category_id=='')category_id=0;
 		if(lessons_id=='')lessons_id=0;
-  	 		var data={'institution':passage_institution_id,'category':passage_category_id,'subject':passage_subject_id,'lessons':passage_lessons_id,'passageIds':passage_Ids};
+		var data={'institution':passage_institution_id,'category':passage_category_id,'subject':passage_subject_id,'lessons':passage_lessons_id,'passageIds':passage_Ids};
 		var url='{{$path}}passage_filter_data_assessment';
-	 	$.ajax(
+		$.ajax(
 				{
 					url:url,
 					headers: {"X-CSRF-Token": csrf},
 					type:"post",
 					data:data,
 					success:function(response){
-						$('#example').dataTable().fnDestroy();
+						$('#passage_table').dataTable().fnDestroy();
 						$('#selected-questions').dataTable().fnDestroy();
+						$('#selected-passage').dataTable().fnDestroy();
 						$('#passages-list').empty();
 						var tr;
 						for (var i = 0; i < response.length; i++) {
@@ -457,13 +511,13 @@ if (count($errors) > 0){?>
 							tr.append("<td>" + response[i].passage_title + "</td>");
 							$('#passages-list').append(tr);
 						}
-						$('#example').dataTable();
+						$('#passage_table').dataTable();
 
-						$('#selected-questions').dataTable();
+						$('#selected-passage').dataTable();
 					}
 				}
 		);
- 
+
 
 	}
 </script>
