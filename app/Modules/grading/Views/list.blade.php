@@ -58,7 +58,7 @@
 
 
 				<div class="panel-body">
-					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="assignmentstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Assessment Name</th>
@@ -96,6 +96,7 @@
 
 	<script>
 		var loadurl = "{{ url('/resources/assignments') }}/" ;
+		$('#assignmentstable').dataTable();
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
 
@@ -106,6 +107,7 @@
 						url: loadurl + $('#institution_id').val(),
 						type: 'get',
 						success: function (response) {
+							$('#assignmentstable').dataTable().fnDestroy();
 							$('#assignbody').empty();
 							var tr;
 							for (var i = 0; i < response.length; i++) {
@@ -116,6 +118,7 @@
 								$('#assignbody').append(tr);
 
 							}
+							$('#assignmentstable').dataTable();
 						}
 					})
 
