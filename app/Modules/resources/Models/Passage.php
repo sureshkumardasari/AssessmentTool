@@ -47,7 +47,7 @@ class Passage extends Model {
 		$passage = Passage::find($id);
 		$passage->delete();
 	}
-
+	
 	public function updatepassage($params = 0)
 	{
 		$obj = new Passage();
