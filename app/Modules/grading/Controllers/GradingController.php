@@ -517,6 +517,12 @@ class GradingController extends BaseController {
 					if(count($answers)==0){
 						continue;
 					}
+					if(isset($post['user_selected_correct_answers'][$question_id])){
+						$user_selected_correct_answers=$post['user_selected_correct_answers'][$question_id];
+					}
+					else{
+						$user_selected_correct_answers=[];
+					}
 					foreach($answers as $answer){
 						$uAnswer=new QuestionUserAnswer();
 						$uAnswer->assessment_id = $assessment_id;
@@ -524,7 +530,7 @@ class GradingController extends BaseController {
 						$uAnswer->question_id = $question_id;
 						$uAnswer->question_answer_id = $answer;
 						$uAnswer->user_id = $post['user_id'];
-						if(in_array($answer,$post['user_selected_correct_answers'][$question_id])){
+						if(in_array($answer,$user_selected_correct_answers)){
 							$uAnswer->is_correct = "Yes";
 						}
 						else{
@@ -536,7 +542,13 @@ class GradingController extends BaseController {
 			}
 			else if($post['question_type']=="Multiple Choice - Single Answer"){
 				foreach($post['question_selected_answers'] as $question_id=>$answer) {
-					if(in_array($answer,$post['user_selected_correct_answers'][$question_id])){
+					if(isset($post['user_selected_correct_answers'][$question_id])){
+						$user_selected_correct_answers=$post['user_selected_correct_answers'][$question_id];
+					}
+					else{
+						$user_selected_correct_answers=[];
+					}
+					if(in_array($answer,$user_selected_correct_answers)){
 						$is_correct = "Yes";
 					}
 					else{
