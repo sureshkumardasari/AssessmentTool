@@ -506,10 +506,10 @@
             }
         }
         function save_student_single_answers(){
-            var user_id=2;
+            var user_id=$('#student').val();
             var next_student=2;
             var question_type="Multiple Choice - Single Answer";
-            alert(JSON.stringify(Question_selected_single_answers));
+           // alert(JSON.stringify(Question_selected_single_answers));
             if(Object.keys(Question_selected_single_answers).length!=0){
 
                 var csrf=$('Input#csrf_token').val();
@@ -531,7 +531,7 @@
         }
         function save_student_multi_answers(){
             // alert(JSON.stringify(Question_selected_multi_answers));
-            var user_id=2;
+            var user_id=$('#student').val();
             var next_student=0;
             var question_type="Multiple Choice - Multi Answer";
             // alert(JSON.stringify(Question_selected_multi_answers));
@@ -699,7 +699,7 @@
                 url:'manual_grade/'+assessment_id+'/'+assignment_id+'/'+user_id,
                 type:"get",
                 success:function(response){
-                    //alert(response);
+                    alert(response);
                 }
 
 
