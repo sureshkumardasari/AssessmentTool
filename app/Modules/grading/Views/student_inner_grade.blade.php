@@ -426,7 +426,7 @@
                     }
                     else{
                         user_selected_correct_answers[question_id].push(val.value);
-                        alert(JSON.stringify(user_selected_correct_answers));
+                       // alert(JSON.stringify(user_selected_correct_answers));
                     }
                     //$('#'+val.value).addClass('label-danger');
                 }
