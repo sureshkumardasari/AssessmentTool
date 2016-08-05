@@ -67,6 +67,8 @@
 			          	<li role="separator" class="divider"></li>
 			            <li><a href="{{ url('/user') }}">Users</a></li>
 			            <li role="separator" class="divider"></li>
+			            <li><a href="{{ url('/user/student') }}">Student</a></li>
+			            <li role="separator" class="divider"></li>
 
 						@if($rolename == 'administrator')
 			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>

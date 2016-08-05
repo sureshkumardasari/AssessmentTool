@@ -39,6 +39,7 @@
         Route::post('assignment_subject/{id}','ReportController@subject_change');
         Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
         Route::post('assignment_wholeclass/{inst_id}/{assi_id}/{sub_id}',['as'=>'wholeclassreport','uses'=>'ReportController@report_wholeclass']);
+        Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
 
  });
 

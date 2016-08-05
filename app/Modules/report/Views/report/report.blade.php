@@ -39,6 +39,15 @@
                             <a href="{{ url('/report/student-answer-report') }}">Student Answer Report</a>
                         </div>
                     </div>
+                    <div class="panel-body">
+                        <div class="col-md-2" ></div>
+                        <div class="rcorners1  col-md-6" >
+                            <a href="{{ url('/report/studentquestionteacher') }}">student_teacher_quection</a>
+                        </div>
+                        <div class="col-md-3" ></div>
+                        
+                    </div>
+                    
                     {{--<div class="panel-body">--}}
                         {{--<div class="col-md-2" ></div>--}}
                         {{--<div class="rcorners1  col-md-6" >--}}

@@ -27,6 +27,7 @@ use App\Model\S3;
 use App\Modules\Admin\Requests\imageRequest;
 use App\Modules\Admin\Models\RoleUser;
 use App\Modules\resources\Models\AssignmentUser;
+use DB;
 //use Mail;
 
 class UserController extends BaseController
@@ -61,6 +62,46 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
+		$inst_arr=[];
+		$roles_arr=[];
+
+		if($institution_id === "teacher"){
+			//dd();
+			$role_id=DB::table('roles')->where('name',"teacher")->select('id')->first();
+		$query = DB::table('users as u')
+            ->leftjoin('institution as i', function($join){
+                $join->on('i.id', '=', 'u.institution_id');
+            })
+            ->leftjoin('roles as r', function($join){
+                $join->on('r.id', '=', 'u.role_id');
+            })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
+        	$query->where("u.role_id", $role_id->id);
+        $users = $query->get();
+        return view('admin::user.list', compact('inst_arr', 'roles_arr'))
+			->nest('usersList', 'admin::user._list', compact('users'));
+		}
+		else if($institution_id === "student"){
+		$role_id=DB::table('roles')->where('name',"student")->select('id')->first();
+		$query = DB::table('users as u')
+            ->leftjoin('institution as i', function($join){
+                $join->on('i.id', '=', 'u.institution_id');
+            })
+            ->leftjoin('roles as r', function($join){
+                $join->on('r.id', '=', 'u.role_id');
+            //})->select('Users.name', 'Users.email','institution.name', 'Roles.name')->get();
+            //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
+            })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
+
+
+    
+       
+        	$query->where("u.role_id", $role_id->id);
+      
+        $users = $query->get();
+      
+        return view('admin::user.list', compact('inst_arr', 'roles_arr'))
+			->nest('usersList', 'admin::user._list', compact('users'));
+		}
 		//$institution_id = Auth::user()->institution_id;
 		$params = Input::All();
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;

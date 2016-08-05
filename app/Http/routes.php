@@ -32,3 +32,4 @@ Route::get('launch_test_by_proctor/start_test/{assignment_id}',array('as'=>'star
 
 Route::get('temp/dir','TestController@Autocreatedir');
 Route::get('temp/errorlog','TestController@errorlog'); 
+Route::get('users_list/{type}','/Modules\admin\Controllers\UserController@index');
