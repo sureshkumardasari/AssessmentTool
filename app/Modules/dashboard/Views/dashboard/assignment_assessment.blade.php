@@ -1,14 +1,10 @@
- <div class="container">
-        <div class="row">
-            <div>
-                <div class="col-md-4 col-md-offset-1">
+                 <div class="col-md-2">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Dashboard
+                        <div class="panel-heading">List of Assessments
                         </div>
                         <div class="panel-body">
-                            <th><b>List of Assessments</b></th>
-                             <div>
-                                <table>
+                            <th><!-- <b>List of Assessments</b> --></th>
+                                 <table>
                                     <thead>
                                     <tr>
                                         <th>Name</th>
@@ -22,11 +18,8 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                             </div>
-                            <button><a href="{{ url('/resources/assessment') }}">View More</a></button>
+                             <button><a href="{{ url('/resources/assessment') }}">View More</a></button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+ 

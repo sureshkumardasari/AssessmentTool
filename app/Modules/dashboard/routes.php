@@ -13,6 +13,6 @@
 
 Route::group(array('module'=>'Dashboard', 'prefix'=>'dashboard' ,'middleware' => 'auth', 'namespace' => 'App\Modules\Dashboard\Controllers'), function() {
 
-    Route::get('/', array('as' => 'home', 'uses'=>'DashboardController@home'));
-    Route::get('/home', array('as' => 'home', 'uses'=>'DashboardController@home'));
+    Route::get('/home', array('as' => 'home', 'uses'=>'MainDashboardController@home'));
+    // Route::get('/home', array('as' => 'home', 'uses'=>'DashboardController@home'));
 });
