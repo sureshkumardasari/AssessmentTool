@@ -157,7 +157,52 @@ class MainDashboardController extends BaseController
 			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
 		}
         //close sive krishna
-	    return view('dashboard::dashboard.main_dashboard',compact('student','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users'));
+        //kaladhar
+        $uid= \Auth::user()->id;
+	  $role=\Auth::user()->role_id;
+	  if(getRole()!="administrator" && "teacher") {
+	  	dd();
+	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+	  // dd($assign_id);
+	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
+				->join('subject','assessment.subject_id','=','subject.id')
+				->where('assignment.id','=',$assign_id)
+				->select('subject.name as subject','assignment.name as assignmentname')
+				->groupby('subject.id')
+				->get();
+	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	     ->where('gradestatus','=','completed')
+	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
+	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+	     ->orderby('assignment_user.gradeddate', 'desc')
+	     ->get();
+	     $score=$students->sum('score');
+	     $user=$students->count('user.name');
+	     //dd($sun);
+
+	   $student_whole=$students[0];
+	  }
+	  else{
+	  	//dd();
+	  	//$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+
+	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	     ->where('gradestatus','=','completed')
+	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
+	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
+	     ->orderby('assignment_user.gradeddate', 'desc')->get();
+	     $score=$students->sum('user_assignment_result.score');
+	     $user=$students->count('users.name');
+	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
+	      $student_whole=$students[0];
+	  // dd($subject);
+	     //dd($sun);
+	     	  }
+        //close
+	    return view('dashboard::dashboard.main_dashboard',compact('student','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user'));
 	       
     }public function getStudentDetails(){
     	$user = DB::table('users')

@@ -35,7 +35,9 @@
     </div>
     <div class="clearfix"></div> 
     <div style="float:left" id="chart-2">FusionCharts XT will load here!</div>
-    <div class="col-md-offset-1" style="float:left" id="chart-1">FusionCharts XT will load here!</div>
+    <div style="float:left" class="col-md-offset-1" id="chart-1">FusionCharts XT will load here!</div>
+     <!-- <div style="float:left" class="col-md-offset-1" id="chart-3">FusionCharts XT will load here!</div> -->
+    <div id="recentupdated" class="col-md-offset-1">FusionCharts XT will load here!</div>
 
 </div>
 <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
@@ -47,7 +49,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'chart-2',
-            width: '360',
+            width: '350',
             height: '350',
             dataSource: {
                 "chart": {
@@ -76,7 +78,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'chart-1',
-            width: '360',
+            width: '300',
             height: '350',
             dataSource: {
                 "chart": {
@@ -97,6 +99,36 @@
                     @endforeach
             // ]
                     // }
+                ]
+            }
+        }).render();
+    });
+     FusionCharts.ready(function(){
+        var salesChart = new FusionCharts({
+            type: 'column2d',
+            dataFormat: 'json',
+            renderAt: 'recentupdated',
+            width: '300',
+            height: '350',
+            dataSource: {
+                "chart": {
+                    "caption": "Most Recent Whole class score report",
+                    "subCaption": "",
+                    "xAxisName": "Subject Name",
+                    "yAxisName": "Average Marks",
+                    "numberPrefix": "",
+                    "theme": "fint"
+                },
+               
+                "dataset": [
+                    {
+                        "data": [
+                               {
+                               
+                                'value' : '{{$score}}'
+                          }
+                    ]
+                    }
                 ]
             }
         }).render();
