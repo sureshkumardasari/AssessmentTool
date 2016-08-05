@@ -8,6 +8,8 @@
     Route::get('class_average_and_student_scores_report',['as'=>'assessmentreport','uses'=>'ReportController@class_average_and_student_scores_report']);
 
     Route::get('assignment',['as'=>'assignmentreport','uses'=>'ReportController@assignment']);
+        Route::get('report123',['as'=>'report123','uses'=>'ReportController@assignmentdash']);
+       /* Route::get('report1234',['as'=>'report1234','uses'=>'ReportController@assessmentdash']);*/
 
     Route::get('student',['as'=>'studentreport','uses'=>'ReportController@student']);
     Route::get('answer',['as'=>'answerreport','uses'=>'ReportController@answer']);

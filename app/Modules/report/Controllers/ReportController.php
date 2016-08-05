@@ -590,4 +590,17 @@ class ReportController extends Controller {
 
 		return view('report::report.wholescoreview',compact('stds','multi_total_count','essay_total_count','type','marks','total_marks','students','subjects'));
 	}
+	public function assignmentdash($parent_id = 0)
+	{
+		$assignments = DB::table('assignment')
+			->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
+			->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.created_at as created_at','assignment.startdatetime as startdatetime','assignment.status')
+			/*->groupBy('startdatetime')*/
+			->orderBy('startdatetime', 'desc')
+			->take(5)
+			->get();
+		//dd($assignments);
+		$assessment=Assessment::take(5)->get();
+		return view('report::report.report123',compact('assignments','assessment'));
+	}
 }
