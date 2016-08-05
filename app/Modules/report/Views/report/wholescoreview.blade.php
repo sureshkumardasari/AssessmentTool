@@ -44,7 +44,44 @@
     <h4 align="middle"><i>  @foreach($subjects as $sub) {{$sub -> subject}}
    
     @endforeach
-        :: {{$all_users_count/count($students)}}/{{$total_marks}}</i></h4></td>
+    <?php $score=$all_users_count/(count($students)) ?>
+        :: {{$score}}</i></h4></td>
     </tr>
 </table>
 @endif
+<div id="chart-1">FusionCharts XT will load here!</div>
+<script src="{{asset('/js/fusion/js/fusioncharts.js') }}"></script>
+<script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
+
+<script type="text/javascript">
+     FusionCharts.ready(function(){
+        var salesChart = new FusionCharts({
+            type: 'column2d',
+            dataFormat: 'json',
+            renderAt: 'chart-1',
+            width: '950',
+            height: '350',
+            dataSource: {
+                "chart": {
+                    "caption": "Whole class score report",
+                    "subCaption": "",
+                    "xAxisName": "Subject Name",
+                    "yAxisName": "Average Marks",
+                    "numberPrefix": "",
+                    "theme": "fint"
+                },
+               
+                "dataset": [
+                    {
+                        "data": [
+                               {
+                                    'label':'{{$sub -> subject}}',
+                                'value' : '{{$score}}'
+                          }
+                    ]
+                    }
+                ]
+            }
+        }).render();
+    });
+</script>

@@ -704,4 +704,52 @@ class ReportController extends Controller {
 //		dd($marks);
 		return view('report::report.testhistorytile',compact('assignments','marks','All_users','complete_users'));
 	}
+	public function dashboardwholeclass()
+	 {
+	 	//dd();
+	  $uid= \Auth::user()->id;
+	  $role=\Auth::user()->role_id;
+	  if(getRole()!="administrator" && "teacher") {
+	  	dd();
+	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+	  // dd($assign_id);
+	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
+				->join('subject','assessment.subject_id','=','subject.id')
+				->where('assignment.id','=',$assign_id)
+				->select('subject.name as subject','assignment.name as assignmentname')
+				->groupby('subject.id')
+				->get();
+	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	     ->where('gradestatus','=','completed')
+	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
+	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+	     ->orderby('assignment_user.gradeddate', 'desc')
+	     ->get();
+	     $score=$students->sum('score');
+	     $user=$students->count('user.name');
+	     //dd($sun);
+
+	   $student=$students[0];
+	  }
+	  else{
+	  	//dd();
+	  	//$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+
+	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	     ->where('gradestatus','=','completed')
+	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
+	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
+	     ->orderby('assignment_user.gradeddate', 'desc')->get();
+	     $score=$students->sum('user_assignment_result.score');
+	     $user=$students->count('users.name');
+	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
+	      $student=$students[0];
+	  // dd($subject);
+	     //dd($sun);
+	     	  }
+	  return view('report::report.wholescoretile',compact('student','score','user'));
+	 }
 }
