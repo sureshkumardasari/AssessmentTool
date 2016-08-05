@@ -603,4 +603,32 @@ class ReportController extends Controller {
 		$assessment=Assessment::take(5)->get();
 		return view('report::report.report123',compact('assignments','assessment'));
 	}
+	public function dashboard()
+	{
+		$uid= \Auth::user()->id;
+		$role=\Auth::user()->role_id;
+		if(getRole()!="administrator" && "teacher") {
+			$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+			dd($assign_id);
+			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+					->join('users', 'users.id', '=', 'assignment_user.user_id')
+					->where('gradestatus','=','completed')
+					->where('user_assignment_result.assignment_id', '=', $assign_id)
+					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+					->orderby('assignment_user.gradeddate', 'desc')
+					->get();
+			$student=$students[0];
+		}
+		else{
+			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+					->join('users', 'users.id', '=', 'assignment_user.user_id')
+					->where('gradestatus','=','completed')
+					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+					->orderby('assignment_user.gradeddate', 'desc')
+					->get();
+			$student=$students[0];
+		}
+		return view('report::report.dashboard',compact('student'));
+	}
+
 }

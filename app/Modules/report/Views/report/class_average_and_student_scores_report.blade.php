@@ -132,7 +132,7 @@
             //location.reload("{{ url('exportPDF/')}}"+inst_id+"/"+assmt_id);
           window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
 
-        })
+        });
 
 
     </script>
