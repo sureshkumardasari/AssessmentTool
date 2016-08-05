@@ -49,4 +49,6 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('brandingedit/{id}', ['as' => 'branding-edit', 'uses' => 'BrandingController@edit']);
     Route::get('brandingdel/{id}', ['as' => 'branding-del', 'uses' => 'BrandingController@delete']);
     Route::post('brandingupdate/{id}', ['as' => 'branding-update', 'uses' => 'BrandingController@update']);
+        Route::get('users_list/{type}','UserController@index');
+
 });
