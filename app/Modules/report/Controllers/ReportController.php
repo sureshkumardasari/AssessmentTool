@@ -630,5 +630,29 @@ class ReportController extends Controller {
 		}
 		return view('report::report.dashboard',compact('student'));
 	}
+	public function sqt()
+    {
+        
+        $list=Question::join('question_type','questions.question_type_id','=','question_type.id')
+                ->leftjoin('passage','questions.passage_id','=','passage.id')
+                ->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+                ->orderby('qid')
+                ->take(5)
+                ->get();
+        $slist=User::join('roles','users.role_id','=','roles.id')
+                ->where('roles.id','=','2')
+                ->select('users.name')
+                ->take(5)
+                ->get();
+        $tlist=User::join('roles','users.role_id','=','roles.id')
+                ->where('roles.id','=','3')
+                ->select('users.name as uname')
+                ->take(5)
+                ->get();
 
+
+        //dd($tlist);
+        return view('report::report.studentquestionteacher',compact('list','slist','tlist'));
+//        ->nest('a','report::report.teacher_dashbord',compact('tlist'));
+    }
 }

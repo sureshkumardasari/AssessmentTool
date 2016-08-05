@@ -44,6 +44,8 @@
 
 
         Route::get('dashboard',['as'=>'Dashboard','uses'=>'ReportController@dashboard']);
+                Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
+
 
  });
 
