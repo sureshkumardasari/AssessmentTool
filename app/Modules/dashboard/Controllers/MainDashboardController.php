@@ -79,7 +79,7 @@ class MainDashboardController extends BaseController
 				->where('gradestatus','=','completed')
 				->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 				->orderby('assignment_user.gradeddate', 'desc')
-				->take(1)
+				->take(2)
 				->get();
 
 		//return view('report::report.dashboard',compact('students'));
@@ -224,12 +224,14 @@ class MainDashboardController extends BaseController
 		$assessment=Assessment::take(5)->get();
 		//close mahesh
 		//soma sekhar
+	$ins= \Auth::user()->institution_id;
 	$class_students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 			->join('users', 'users.id', '=', 'assignment_user.user_id')
-			->where('gradestatus','=','completed')
+			->where('gradestatus', '=', 'completed')
+			->where('users.institution_id','=',$ins)
 			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 			->orderby('assignment_user.gradeddate', 'desc')
-			->take(1)
+			->take(2)
 			->get();
 
 	//close soma sekhar
