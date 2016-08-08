@@ -45,7 +45,7 @@
 
 
         Route::get('dashboard',['as'=>'Dashboard','uses'=>'ReportController@dashboard']);
-                Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
+        Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
         Route::get('testhistorytile',['as'=>'testhistorytile','uses'=>'ReportController@dashboard1']);
 
  });

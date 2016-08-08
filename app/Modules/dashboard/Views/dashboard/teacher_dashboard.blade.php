@@ -62,10 +62,12 @@
 
                 "data": [
 
-                        {
+                        @foreach($class_students as $user_id => $student)
+                                {
                         'label':'{{$student->name}}',
                         'value' : '{{$student->score}}'
                     },
+                    @endforeach
 
         ]
             }
