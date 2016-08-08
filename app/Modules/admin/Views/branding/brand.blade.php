@@ -131,11 +131,11 @@
 			var selected = $(this).find('option:selected');
 			var brandingid = selected.data('id');
 
-			showMsg("hiiii");
+			showMsg("Create Branding");
 			if($.inArray($(this).val(),branding_institutions)>-1)
 			{
-				setInterval( showMsg("Branding has done for this Institute.You are redirected to Edit page"), 200000 );
-				
+				setInterval( showMsg("Branding has done for this Institute.You are redirected to Edit page"), 4000 );
+
 				location.href="{{  url('/user/brandingedit/') }}/"+brandingid;
 				$('#institution_id').val(0);
 
@@ -149,7 +149,7 @@
 		    $('.userSuccMSG').css("top", 320 + "px");
 		    $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
 		   // alert("rvtbtyu");
-		    $('.userSuccMSG').fadeOut(200000);        
+		    $('.userSuccMSG').fadeOut(4000);
 
 		}
 	</script>
