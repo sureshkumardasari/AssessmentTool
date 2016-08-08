@@ -5,6 +5,8 @@
                 <div class="panel panel-default">
                 <div class="panel-heading">List Of Questions
                 </div> 
+                <div class="panel-body">
+
                     <table>
                         <thead>
                             <tr>
@@ -14,19 +16,22 @@
                         <tbody id="question_list_filer">
                             @foreach( $list_details as $id => $value )
                             <tr>
-                                <td>{{ $value['question_title'] }}</td>
+                                <td><a href="#">{{ $value['question_title'] }}</a></td>
                                  
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                   <center><button><a href="{{ url('/resources/question') }}">view Details</a></button></center>
                 </div>
-                  <button><a href="{{ url('/resources/question') }}">view Details</a></button>
+                </div>
+                  
             </div>
             <div class="col-md-2">
                 <div class="panel panel-default">
                 <div class="panel-heading">List Of Students
                 </div>
+                <div class="panel-body">
 
                     <table >
                         <thead>
@@ -37,19 +42,23 @@
                         <tbody id="question_list_filer">
                             @foreach( $slist as $id => $value )
                             <tr>
-                                <td>{{ $value['name'] }}</td>
+                                <td><a href="#">{{ $value['name'] }}</a></td>
                                  
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <center><button><a href="{{ url('user/users_list/student') }}">view More</a></button></center>
+                    </div>
                 </div>
-                <button><a href="{{ url('user/users_list/student') }}">view More</a></button>            
+                         
             </div>
             <div class="col-md-2">
-                <div class="panel panel-default" style="height:160px">
+                <div class="panel panel-default">
                 <div class="panel-heading">List Of Teacher
                 </div>
+                <div class="panel-body">
+
                     <table>
                         <thead>
                             <tr>
@@ -59,15 +68,17 @@
                         <tbody id="question_list_filer">
                             @foreach( $tlist as $id => $value )
                             <tr>
-                                <td>{{ $value['uname'] }}</td>
+                                <td><a href="#">{{ $value['uname'] }}</a></td>
                                  
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                <button><a href="{{  url('user/users_list/teacher')  }}">view Details</a></button>
+                    <center><button><a href="{{  url('user/users_list/teacher')  }}">view Details</a></button></center>
             
+                </div>
+                </div>
+               
             </div>
         </div>
 

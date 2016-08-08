@@ -1,5 +1,14 @@
 @extends('default')
 @section('content')
+ <style>
+    .panel-body{
+        min-height: 200px;
+    }
+    button{
+          margin: 13px 12px 12px 10px;
+
+    }
+ </style>
 <div class="container">
     <div >
         <div class="col-md-3">
@@ -8,7 +17,7 @@
                 </div>
                 <div class="panel-body">
                    <th><!-- <b>List of Assignments</b> --></th>
-                         <table >
+                         <table>
                           <thead>
                             <tr>
                                <th>Name</th>
@@ -24,7 +33,7 @@
                             @endforeach
                            </tbody>
                          </table>
-                   <button><a href="{{ url('/resources/assignment') }}">View More</a></button>
+                   <center><button><a href="{{ url('/resources/assignment') }}">View More</a></button></center>
                 </div>
             </div>
         </div>
@@ -34,10 +43,23 @@
         @include('dashboard::dashboard.student_question_teacher')
     </div>
     <div class="clearfix"></div> 
-    <div style="float:left" id="chart-2">FusionCharts XT will load here!</div>
-    <div style="float:left" class="col-md-offset-1" id="chart-1">FusionCharts XT will load here!</div>
-     <!-- <div style="float:left" class="col-md-offset-1" id="chart-3">FusionCharts XT will load here!</div> -->
-    <div id="recentupdated" class="col-md-offset-1">FusionCharts XT will load here!</div>
+    <div style="float:left">
+    <h5><b>Class Average and Student Scores Report:<b></h5>
+        <div id="chart-2">
+        FusionCharts XT will load here!
+        </div>
+    </div>
+    <div style="float:left" class="col-md-offset-1">
+        <h5><b>Test History Report:<b></h5>
+        <div id="chart-1">    
+        FusionCharts XT will load here!
+        </div>
+    </div>
+    <div style="float:left" class="col-md-offset-1">
+    <h5><b>Whole Class Score Report:<b></h5>
+        <div id="recentupdated">    
+        FusionCharts XT will load here! 
+     </div>
 
 </div>
 <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
