@@ -205,27 +205,32 @@ class MainDashboardController extends BaseController
 	    return view('dashboard::dashboard.main_dashboard',compact('student','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user'));
 	       
     }public function getStudentDetails(){
-    	$user = DB::table('users')
-	                     ->where('id',$this->currentUserId)
-	                     ->select('name','role_id')
-	                     ->first();
-    	//mallikarjun
-	 	$user_id=\Auth::user()->id;
-			$now=date('Y-m-d h:i:s');
-			$upcoming_assignments=Assignment::where('status',"upcoming")->where('enddatetime','!<=',$now)->get();
-		 $query=\DB::table('user_assignment_result as uar')
-			//->join('assignment_user as auser','ass.id','=','uar.assignment_id')
-			->join('assignment as ass','ass.id','=',\DB::raw('uar.assignment_id && uar.user_id ='.$user_id ))
-			//->where('uar.user_id',2)
-			//->where('auser.status',"completed")
-			->orderby('uar.updated_at','desc')
-			->limit(5)
-			->select('ass.name','uar.rawscore','uar.percentage');
-		$completed_assignments=$query->get();
-		$percentage=$query->lists('uar.percentage','uar.name');
-		$percentage=array_reverse($percentage,true);
+	$user_id=\Auth::user()->id;
+	//dd($user_id);
+	$now=date('Y-m-d h:i:s');
+	//dd($now);
+	$upcoming_assignments=Assignment::where('status',"upcoming")->where('startdatetime','>',$now)->where('enddatetime','!<=',$now)->get();
+	$available_assignments=Assignment::where('startdatetime','<=',$now)->where('enddatetime','!<=',$now)->get();
+	$query=\DB::table('user_assignment_result as uar')
+		//->join('assignment_user as auser','ass.id','=','uar.assignment_id')
+		->join('assignment as ass','ass.id','=',\DB::raw('uar.assignment_id && uar.user_id ='.$user_id ))
+		//->where('uar.user_id',2)
+		//->where('auser.status',"completed")
+		->orderby('uar.updated_at','desc')
+		->limit(5)
+		->select('ass.name','uar.rawscore','uar.percentage');
+	$completed_assignments=$query->get();
+	$percentage=$query->lists('uar.percentage','uar.name');
+	$percentage=array_reverse($percentage,true);
+	//dd($percentage);
+	//dd($assignments);
+	//$percentage=\DB::table('user_assignment_result')->join('assignment','assignment.id','=','user_assignment_result.assignment_id')->where('user_id',2)->lists('percentage','name');
+	//$percentage=\DB::table('user_assignment_result')->where('assignment_id',1)->lists('percentage','user_id');
+	//dd($percentage);
+	//return view('student_dashboard', compact('completed_assignments','upcoming_assignments','percentage'));
+	//return view('home');
 		//close mallikarjun
-		return view('dashboard::dashboard.student_dashboard',compact('user','completed_assignments','upcoming_assignments','percentage'));     		
+		return view('dashboard::dashboard.student_dashboard',compact('user','completed_assignments','upcoming_assignments','percentage'));
     }public function getTeacherDetails(){
     	$assignments_user = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
@@ -323,5 +328,28 @@ class MainDashboardController extends BaseController
 	    return view('dashboard::dashboard.teacher_dashboard',compact('student','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users'));
 	       
     }
+
+	public function student_assignment_reports(){
+
+		$user_id=\Auth::user()->id;
+		//dd($user_id);
+		$now=date('Y-m-d h:i:s');
+		//dd($now);
+		$upcoming_assignments=Assignment::where('status',"upcoming")->where('startdatetime','>',$now)->where('enddatetime','!<=',$now)->get();
+		$available_assignments=Assignment::where('startdatetime','<=',$now)->where('enddatetime','!<=',$now)->get();
+		$query=\DB::table('user_assignment_result as uar')
+			//->join('assignment_user as auser','ass.id','=','uar.assignment_id')
+			->join('assignment as ass','ass.id','=',\DB::raw('uar.assignment_id && uar.user_id ='.$user_id ))
+			//->where('uar.user_id',2)
+			//->where('auser.status',"completed")
+			->orderby('uar.updated_at','desc')
+			//->limit(10)
+			->select('ass.name','uar.rawscore','uar.percentage');
+		$completed_assignments=$query->get();
+		$percentage=$query->lists('uar.percentage','uar.name');
+		$percentage=array_reverse($percentage,true);
+
+	return view('dashboard::dashboard.student_report_lists',compact('user','completed_assignments','upcoming_assignments','percentage'));
+}
 
 }
