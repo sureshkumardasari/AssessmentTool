@@ -108,7 +108,7 @@ class MainDashboardController extends BaseController
 		$counts=Array();
 		$rec=Array();
 		//$assessment_arr=Array();
-		$lists=Assignment::where('institution_id','=',$uid)->lists('assessment_id','id');
+		$lists=Assignment::lists('assessment_id','id');
 		$assignments=array_keys($lists);
 		$users=AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->whereIn('assignment_id',$assignments)->GroupBy('assignment_id')->get();
 		$completed_users=AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->GroupBy('assignment_id')->where('status','completed')->get();
@@ -118,10 +118,12 @@ class MainDashboardController extends BaseController
 		foreach($completed_users as $completed_user){
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
-		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
-				->orderby('startdatetime','desc')
-				->take(2)
-				->get();
+		$assignments=Assignment::join('assessment','assignment.assessment_id','=', 'assessment.id')
+
+			->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
+			->orderby('assignment.id','desc')
+			->take(2)
+			->get();
 		//dd($assignments);
 		$assessment_arr=array_unique($lists);
 		foreach($assessment_arr as $arr){
