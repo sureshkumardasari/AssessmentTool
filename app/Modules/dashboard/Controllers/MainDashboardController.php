@@ -74,28 +74,15 @@ class MainDashboardController extends BaseController
 		$assessment=Assessment::take(5)->get();
 		//close mahesh
 		//soma sekhar
-		$uid= \Auth::user()->id;
-		$role=\Auth::user()->role_id;
-		if(getRole()!="administrator" && "teacher") {
-			$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
- 			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-					->join('users', 'users.id', '=', 'assignment_user.user_id')
-					->where('gradestatus','=','completed')
-					->where('user_assignment_result.assignment_id', '=', $assign_id[0])
-					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-					->orderby('assignment_user.gradeddate', 'desc')
-					->get();
-			$student=$students[0];
-		}
-		else{
-			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-					->join('users', 'users.id', '=', 'assignment_user.user_id')
-					->where('gradestatus','=','completed')
-					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-					->orderby('assignment_user.gradeddate', 'desc')
-					->get();
-			$student=$students[0];
-		}
+		$class_students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+				->join('users', 'users.id', '=', 'assignment_user.user_id')
+				->where('gradestatus','=','completed')
+				->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+				->orderby('assignment_user.gradeddate', 'desc')
+				->take(1)
+				->get();
+
+		//return view('report::report.dashboard',compact('students'));
 			//close soma sekhar
 		//eswar
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
@@ -202,7 +189,7 @@ class MainDashboardController extends BaseController
 	     //dd($sun);
 	     	  }
         //close
-	    return view('dashboard::dashboard.main_dashboard',compact('student','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user'));
+	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user'));
 	       
     }public function getStudentDetails(){
     	$user = DB::table('users')
@@ -237,29 +224,15 @@ class MainDashboardController extends BaseController
 		$assessment=Assessment::take(5)->get();
 		//close mahesh
 		//soma sekhar
-		$uid= \Auth::user()->id;
-		$role=\Auth::user()->role_id;
-		if(getRole()!="administrator" && "teacher") {
-			$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
- 			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-					->join('users', 'users.id', '=', 'assignment_user.user_id')
-					->where('gradestatus','=','completed')
-					->where('user_assignment_result.assignment_id', '=', $assign_id[0])
-					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-					->orderby('assignment_user.gradeddate', 'desc')
-					->get();
-			$student=$students[0];
-		}
-		else{
-			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-					->join('users', 'users.id', '=', 'assignment_user.user_id')
-					->where('gradestatus','=','completed')
-					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-					->orderby('assignment_user.gradeddate', 'desc')
-					->get();
-			$student=$students[0];
-		}
-			//close soma sekhar
+	$class_students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+			->join('users', 'users.id', '=', 'assignment_user.user_id')
+			->where('gradestatus','=','completed')
+			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+			->orderby('assignment_user.gradeddate', 'desc')
+			->take(1)
+			->get();
+
+	//close soma sekhar
 		//eswar
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
@@ -320,7 +293,7 @@ class MainDashboardController extends BaseController
 			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
 		}
         //close sive krishna
-	    return view('dashboard::dashboard.teacher_dashboard',compact('student','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users'));
+	    return view('dashboard::dashboard.teacher_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users'));
 	       
     }
 

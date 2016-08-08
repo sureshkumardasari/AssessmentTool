@@ -23,12 +23,15 @@
 
                 "data": [
 
-                        {
+                        @foreach($students as $user_id => $student)
+                               {
                         'label':'{{$student->name}}',
                         'value' : '{{$student->score}}'
                     },
+                    @endforeach
 
         ]
+
             }
         }).render();
     });
