@@ -118,6 +118,7 @@ class MainDashboardController extends BaseController
 		foreach($completed_users as $completed_user){
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
+		//dd($complete_users);
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=', 'assessment.id')
 
 			->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
@@ -137,15 +138,19 @@ class MainDashboardController extends BaseController
 		}
 		$a=Array();
 		$marks=Array();
-		foreach($lists as $key=>$list){
+ 		foreach($lists as $key=>$list){
 			$correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
 			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
 			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
-			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
-			//dd($mark);
-			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
+			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key]; 
+			if($rec[$list][0]->mcsingleanswerpoint!=0){
+			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;	
+			}
+			else{
+				$marks[$key]=0;
+			} 
 		}
-        //close sive krishna
+         //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
