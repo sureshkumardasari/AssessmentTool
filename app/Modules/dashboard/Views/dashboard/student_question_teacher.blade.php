@@ -1,7 +1,7 @@
 
 <div class="container">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="panel panel-default">
                 <div class="panel-heading">List Of Questions
                 </div> 
@@ -22,12 +22,12 @@
                             @endforeach
                         </tbody>
                     </table>
-                   <center><button><a href="{{ url('/resources/question') }}">view Details</a></button></center>
                 </div>
                 </div>
+                        <center><button><a href="{{ url('/resources/question') }}">View More</a></button></center>
                   
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3 col-md-offset-1">
                 <div class="panel panel-default">
                 <div class="panel-heading">List Of Students
                 </div>
@@ -47,13 +47,13 @@
                             </tr>
                             @endforeach
                         </tbody>
-                    </table>
-                    <center><button><a href="{{ url('user/users_list/student') }}">view More</a></button></center>
+                    </table> 
                     </div>
                 </div>
+                <center><button><a href="{{ url('user/users_list/student') }}">View More</a></button></center>
                          
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3 col-md-offset-1">
                 <div class="panel panel-default">
                 <div class="panel-heading">List Of Teacher
                 </div>
@@ -74,11 +74,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <center><button><a href="{{  url('user/users_list/teacher')  }}">view Details</a></button></center>
-            
                 </div>
                 </div>
-               
+                    <center><button><a href="{{  url('user/users_list/teacher')  }}">View More</a></button></center>
             </div>
         </div>
 
