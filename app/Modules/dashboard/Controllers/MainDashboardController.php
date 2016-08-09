@@ -154,7 +154,8 @@ class MainDashboardController extends BaseController
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
-	  if(getRole()!="admin" && "teacher") {
+	  if(getRole()=="admin" || getRole()=="teacher") {
+	  	dd();
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 	  // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
@@ -169,10 +170,11 @@ class MainDashboardController extends BaseController
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 	     ->orderby('assignment_user.gradeddate', 'desc');
-	     $score=$students->sum('score');
-	     $user=$students->count('user.name');
+	     $score=$students->sum('user_assignment_result.rawscore');
+	     //dd($score);
+	     $user=$students->count('users.name');
 	     $students=$students->get();
-	     //dd($sun);
+	     dd($students);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
 	  }
@@ -314,7 +316,8 @@ class MainDashboardController extends BaseController
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
-	  if(getRole()!="admin" && "teacher") {
+	  if(getRole()=="admin" || getRole()=="teacher") {
+	  	//dd();
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 	  // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
@@ -347,7 +350,7 @@ class MainDashboardController extends BaseController
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
 	     ->orderby('assignment_user.gradeddate', 'desc');
-	     $score=$students->sum('user_assignment_result.score');
+	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
