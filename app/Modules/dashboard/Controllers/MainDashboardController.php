@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 
 use App\Modules\dashboard\Models\DashboardWidgets;
-use App\modules\resources\models\Assignment;
+use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\AssessmentQuestion;
