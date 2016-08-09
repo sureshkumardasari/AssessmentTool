@@ -163,10 +163,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->orderby('assignment_user.gradeddate', 'desc')
-	     ->get();
+	     ->orderby('assignment_user.gradeddate', 'desc');
 	     $score=$students->sum('score');
 	     $user=$students->count('user.name');
+	     $students=$students->get();
 	     //dd($sun);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
@@ -181,9 +181,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
-	     ->orderby('assignment_user.gradeddate', 'desc')->get();
+	     ->orderby('assignment_user.gradeddate', 'desc');
 	     $score=$students->sum('user_assignment_result.score');
 	     $user=$students->count('users.name');
+	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	  // dd($subject);
@@ -318,10 +319,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->orderby('assignment_user.gradeddate', 'desc')
-	     ->get();
-	     $score=$students->sum('score');
+	     ->orderby('assignment_user.gradeddate', 'desc');
+ 	     $score=$students->sum('score');
 	     $user=$students->count('user.name');
+	     $students=$students->get();
 	     //dd($sun);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
@@ -336,9 +337,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
-	     ->orderby('assignment_user.gradeddate', 'desc')->get();
+	     ->orderby('assignment_user.gradeddate', 'desc');
 	     $score=$students->sum('user_assignment_result.score');
 	     $user=$students->count('users.name');
+	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	  // dd($subject);
