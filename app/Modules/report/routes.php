@@ -8,6 +8,8 @@
     Route::get('class_average_and_student_scores_report',['as'=>'assessmentreport','uses'=>'ReportController@class_average_and_student_scores_report']);
 
     Route::get('assignment',['as'=>'assignmentreport','uses'=>'ReportController@assignment']);
+        Route::get('report123',['as'=>'report123','uses'=>'ReportController@assignmentdash']);
+       /* Route::get('report1234',['as'=>'report1234','uses'=>'ReportController@assessmentdash']);*/
 
     Route::get('student',['as'=>'studentreport','uses'=>'ReportController@student']);
     Route::get('answer',['as'=>'answerreport','uses'=>'ReportController@answer']);
@@ -39,6 +41,12 @@
         Route::post('assignment_subject/{id}','ReportController@subject_change');
         Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
         Route::post('assignment_wholeclass/{inst_id}/{assi_id}/{sub_id}',['as'=>'wholeclassreport','uses'=>'ReportController@report_wholeclass']);
+        Route::get('wholeclasstile',['as'=>'wholeclasstile','uses'=>'ReportController@dashboardwholeclass']);
+
+
+        Route::get('dashboard',['as'=>'Dashboard','uses'=>'ReportController@dashboard']);
+        Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
+        Route::get('testhistorytile',['as'=>'testhistorytile','uses'=>'ReportController@dashboard1']);
 
  });
 

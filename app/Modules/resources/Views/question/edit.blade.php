@@ -63,7 +63,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Lessons</label>
 							<div class="col-md-10">
-								<select class="form-control" name="lessons_id" id="lessons_id">
+								<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_passage()">
 									<option value="0">--Select Lessons--</option>
 								</select>
 							</div>
@@ -84,9 +84,7 @@
 							<div class="col-md-10">
 								<select class="form-control" name="passage" id="passage">
 									<option value="0">--Select Passage--</option>
-									@foreach($passage as $id=>$val)
-										<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+									
 								</select>
 							</div>
 						</div>

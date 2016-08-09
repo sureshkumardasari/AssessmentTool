@@ -61,6 +61,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('categoryList/{id}', array('as' => 'categoryList', 'uses'=>'QuestionController@categoryList'));
     Route::post('subjectList/{id}', array('as' => 'subjectList', 'uses'=>'QuestionController@subjectList'));
     Route::post('lessonsList/{id}', array('as' => 'lessonsList', 'uses'=>'QuestionController@lessonsList'));
+    Route::post('passageList/{id}', array('as' => 'passageList', 'uses'=>'QuestionController@passageList'));
     Route::post('questiontypeList/{id}', array('as' => 'questiontypeList', 'uses'=>'QuestionController@questiontype'));
     //assessmentst
     Route::get('assessment', array('as' => 'assessmentlist', 'uses'=>'AssessmentController@index'));

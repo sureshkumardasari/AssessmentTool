@@ -5,8 +5,7 @@
     <tr>
         <th>Student Name</th>
         <th>marks</th>
-        {{--<th>Correct Questions</th>--}}
-        {{--<th>Percentage(%)</th>--}}
+        <th>Percentage(%)</th>
     </tr>
     </thead>
     <tbody>
@@ -17,12 +16,11 @@
         {{$student->name}}
         </td>
         <td>
-            <?php
-            $user_obtained=(($student->multi_answers_count * $marks->mcsingleanswerpoint)+($student->essay_answers_count * $marks->essayanswepoint));
-            $user_obtained= $user_obtained - (($student->total_count - ($student->multi_answers_count +$student->essay_answers_count)) * $marks->guessing_panality);
-            $all_users_count +=$user_obtained;
-            ?>
-{{$user_obtained}}
+        {{$student->score}}
+            <?php $all_users_count+=$student->score;?>
+        </td>
+        <td>
+            {{$student->percentage}}
         </td>
        {{-- --}}{{--<td>--}}{{--
         --}}{{--{{$student->answers_count}}--}}{{--
@@ -39,7 +37,47 @@
 <table class="table average">
     <tr>
         <td>class average score:</td>
-        <td> {{$all_users_count/count($students)}}/{{$total_marks}}</td>
+        <td> {{$all_users_count/(count($students))}}</td>
     </tr>
 </table>
 @endif
+<div id="chart-1">FusionCharts XT will load here!</div>
+<div id="chart-2">FusionCharts XT will load here!</div>
+<script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
+<script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
+<script>
+
+    FusionCharts.ready(function(){
+        var salesChart = new FusionCharts({
+            type: 'column2d',
+            dataFormat: 'json',
+            renderAt: 'chart-1',
+            width: '550',
+            height: '350',
+            dataSource: {
+                "chart": {
+                    "caption": "Student Marks",
+                    "subCaption": "",
+                    "xAxisName": "Student Name",
+                    "yAxisName": "Marks",
+                    "numberPrefix": "",
+                    "theme": "fint"
+                },
+
+
+                        "data": [
+                                @foreach($students as $user_id => $student)
+                                {
+                                'label':'{{$student->name}}',
+                                'value' : '{{$student->score}}'
+                            },
+                            @endforeach
+
+                ]
+            }
+        }).render();
+    });
+    
+</script>
+
+

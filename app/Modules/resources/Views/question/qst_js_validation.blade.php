@@ -166,6 +166,27 @@ if (count($errors) > 0){?>
 				}
 		)
 	}
+		function change_passage(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}passageList/'+$('#lessons_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+						$('#passage').empty();
+						var opt=new Option('--Select Passage--','');
+						$('#passage').append(opt);
+						for(i=0;i<a;i++){
+							var opt=new Option(response[i].title,response[i].id);
+							$('#passage').append(opt);
+						}
+					}
+				}
+		)
+	}
 
 	function popup(){
 		var institution_id=$('#institution_id').val();

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Zizaco\Entrust\EntrustFacade;
 
 use Zizaco\Entrust\Entrust;
-
+use DB;
 use Illuminate\Routing\Controller as BaseController;
 
 use Illuminate\Support\Facades\Input;
@@ -489,6 +489,14 @@ class QuestionController extends BaseController {
 				->select('lesson.id','lesson.name')
 				->get();
 		return $lessons;
+	}
+	public function passageList($id){
+		$id=explode(',',$id);
+		//dd($id);
+		$passage=DB::table('passage')->whereIn('lesson_id',$id)
+				->select('id','title')
+				->get();
+		return $passage;
 	}
 	public function questiontype($idd){
 		$post=Input::all();

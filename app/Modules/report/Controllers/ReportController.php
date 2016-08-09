@@ -218,78 +218,91 @@ class ReportController extends Controller {
 
 
 	//class average and student scores report through ajax call......
-	public function class_average_and_student_scores($inst_id=0,$assign_id=0){
-		$assignment=Assignment::find($assign_id);
-	if($assignment) {
-	$marks = Assessment::find($assignment->assessment_id);
-	//dd($marks);
-	$question_ids = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
-		//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
-		->select('questions.question_type_id as qstype', 'questions.id')->lists('qstype', 'id');//->groupBy('questions.question_type_id')
-	//->get();//)->keyBy('question_type_id');
-	$type = [];
-	foreach ($question_ids as $key => $id) {
-		if (!isset($type[$id])) {
-			$type[$id] = [];
+	public function class_average_and_student_scores($inst_id=0,$assign_id=0)
+	{
+		$assignment = Assignment::find($assign_id);
+		if ($assignment) {
+			$marks = Assessment::find($assignment->assessment_id);
+			//dd($marks);
+			$question_ids = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
+					//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
+					->select('questions.question_type_id as qstype', 'questions.id')->lists('qstype', 'id');//->groupBy('questions.question_type_id')
+			//->get();//)->keyBy('question_type_id');
+			$type = [];
+			foreach ($question_ids as $key => $id) {
+				if (!isset($type[$id])) {
+					$type[$id] = [];
+				}
+				array_push($type[$id], $key);
+			}
+			$multi_total_count = 0;
+			$multi_answers_count = 0;
+			$essay_total_count = 0;
+			if (isset($type[2])) {
+				$multi_total_count = count($type[2]);
+			} else {
+				$type[2] = [0];
+			}
+			if (isset($type[3])) {
+				$essay_total_count = count($type[3]);
+			} else {
+				$type[3] = [0];
+			}
+			$total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+			//dd($total_marks);
+			/*
+        //dd($type);
+    //dd(array_values($question_type_count));
+        $question_type_count = collect(AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
+            //->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
+            ->selectRaw('questions.question_type_id ,count(questions.question_type_id) as count')->groupBy('questions.question_type_id')->get())->keyBy('question_type_id');
+        //dd($question_type_count);
+        $students = collect(Assignment::join('assignment_user', 'assignment.id', '=', DB::Raw('assignment_user.assignment_id && assignment.id =' . $assign_id))
+            ->join('users', 'assignment_user.user_id', '=', 'users.id')
+            ->join('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id')
+            ->join('assessment_question', 'assignment.assessment_id', '=', 'assessment_question.assessment_id')
+            ->join('questions', 'assessment_question.question_id', '=', 'questions.id')
+            //->select('assignment.name','assignment.assessment_id','users.id as user_id','users.name as user_name')
+            ->selectRaw('
+                        assignment_user.user_id,
+                        users.name,
+                        (select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
+                        (select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\' and  question_user_answer.question_id IN(' . implode(',', $type[2]) . ')) as multi_answers_count,
+                        (select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\' and  question_user_answer.question_id IN(' . implode(',', $type[3]) . ')) as essay_answers_count
+                        ')
+            ->get())->keyBy('user_id');
+        //dd($students);
+        //Assignment::
+    //		$students=DB::table('assignment_user')
+    //				->leftjoin ('users','assignment_user.user_id','=','users.id')
+    //				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
+    //				->where('assignment_user.assignment_id','=',$assign_id)
+    //				->select( DB::raw('
+    //					assignment_user.user_id,
+    //					users.name,
+    //					(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
+    //					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\') as answers_count
+    //					'))
+    //				-> groupby('assignment_user.user_id')
+    //				->get();
+        //dd($students);
+    }
+            else{
+                $students=[];
+            }*/
+			$assignment = Assignment::find($assign_id);
+			if ($assignment) {
+				$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+						->join('users', 'users.id', '=', 'assignment_user.user_id')
+						->where('user_assignment_result.assignment_id', '=', $assign_id)
+						->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+						->groupby('users.name')
+						->get();
+			} else {
+				$students = [];
+			}
+			return view('report::report.assignmentview', compact('students', 'multi_total_count', 'multi_answers_count', 'essay_total_count', 'type', 'marks', 'total_marks'));
 		}
-		array_push($type[$id], $key);
-	}
-	$multi_total_count = 0;
-	$multi_answers_count=0;
-	$essay_total_count = 0;
-	if (isset($type[2])) {
-		$multi_total_count = count($type[2]);
-	} else {
-		$type[2] = [0];
-	}
-	if (isset($type[3])) {
-		$essay_total_count = count($type[3]);
-	} else {
-		$type[3] = [0];
-	}
-	$total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
-	//dd($total_marks);
-	//dd($type);
-//dd(array_values($question_type_count));
-	$question_type_count = collect(AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
-		//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
-		->selectRaw('questions.question_type_id ,count(questions.question_type_id) as count')->groupBy('questions.question_type_id')->get())->keyBy('question_type_id');
-	//dd($question_type_count);
-	$students = collect(Assignment::join('assignment_user', 'assignment.id', '=', DB::Raw('assignment_user.assignment_id && assignment.id =' . $assign_id))
-		->join('users', 'assignment_user.user_id', '=', 'users.id')
-		->join('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id')
-		->join('assessment_question', 'assignment.assessment_id', '=', 'assessment_question.assessment_id')
-		->join('questions', 'assessment_question.question_id', '=', 'questions.id')
-		//->select('assignment.name','assignment.assessment_id','users.id as user_id','users.name as user_name')
-		->selectRaw('
-					assignment_user.user_id,
-					users.name,
-					(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
-					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\' and  question_user_answer.question_id IN(' . implode(',', $type[2]) . ')) as multi_answers_count,
-					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\' and  question_user_answer.question_id IN(' . implode(',', $type[3]) . ')) as essay_answers_count
-					')
-		->get())->keyBy('user_id');
-	//dd($students);
-	//Assignment::
-//		$students=DB::table('assignment_user')
-//				->leftjoin ('users','assignment_user.user_id','=','users.id')
-//				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
-//				->where('assignment_user.assignment_id','=',$assign_id)
-//				->select( DB::raw('
-//					assignment_user.user_id,
-//					users.name,
-//					(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
-//					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\') as answers_count
-//					'))
-//				-> groupby('assignment_user.user_id')
-//				->get();
-	//dd($students);
-}
-		else{
-			$students=[];
-		}
-
-		return view('report::report.assignmentview',compact('students','multi_total_count','multi_answers_count','essay_total_count','type','marks','total_marks'));
 	}
 	public function student_inst($id){
 		$students=User::join('role_user','role_user.user_id','=','users.id')
@@ -577,4 +590,151 @@ class ReportController extends Controller {
 
 		return view('report::report.wholescoreview',compact('stds','multi_total_count','essay_total_count','type','marks','total_marks','students','subjects'));
 	}
+	public function assignmentdash($parent_id = 0)
+	{
+		$assignments = DB::table('assignment')
+			->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
+			->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.created_at as created_at','assignment.startdatetime as startdatetime','assignment.status')
+			/*->groupBy('startdatetime')*/
+			->orderBy('startdatetime', 'desc')
+			->take(5)
+			->get();
+		//dd($assignments);
+		$assessment=Assessment::take(5)->get();
+		return view('report::report.report123',compact('assignments','assessment'));
+	}
+	public function dashboard()
+	{
+			$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+					->join('users', 'users.id', '=', 'assignment_user.user_id')
+					->where('gradestatus','=','completed')
+					->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+					->orderby('assignment_user.gradeddate', 'desc')
+					->take(1)
+					->get();
+
+		return view('report::report.dashboard',compact('students'));
+	}
+	public function sqt()
+    {
+        
+        $list=Question::join('question_type','questions.question_type_id','=','question_type.id')
+                ->leftjoin('passage','questions.passage_id','=','passage.id')
+                ->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+                ->orderby('qid')
+                ->take(5)
+                ->get();
+        $slist=User::join('roles','users.role_id','=','roles.id')
+                ->where('roles.id','=','2')
+                ->select('users.name')
+                ->take(5)
+                ->get();
+        $tlist=User::join('roles','users.role_id','=','roles.id')
+                ->where('roles.id','=','3')
+                ->select('users.name as uname')
+                ->take(5)
+                ->get();
+
+
+        //dd($tlist);
+        return view('report::report.studentquestionteacher',compact('list','slist','tlist'));
+//        ->nest('a','report::report.teacher_dashbord',compact('tlist'));
+    }
+	public function dashboard1()
+	{
+		$uid= \Auth::user()->institution_id;
+		//dd($uid);
+		$counts=Array();
+		$rec=Array();
+		//$assessment_arr=Array();
+		$lists=Assignment::where('institution_id','=',$uid)->lists('assessment_id','id');
+		$assignments=array_keys($lists);
+		$users=AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->whereIn('assignment_id',$assignments)->GroupBy('assignment_id')->get();
+		$completed_users=AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->GroupBy('assignment_id')->where('status','completed')->get();
+		foreach($users as $user){
+			$All_users[$user->assignment_id]=$user->count;
+		}
+		foreach($completed_users as $completed_user){
+			$complete_users[$completed_user->assignment_id]=$completed_user->count;
+		}
+		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
+				->orderby('startdatetime','desc')
+				->take(2)
+				->get();
+		//dd($assignments);
+		$assessment_arr=array_unique($lists);
+		foreach($assessment_arr as $arr){
+			$counts[$arr]=AssessmentQuestion::where('assessment_id',$arr)->count('question_id');
+		}
+		$records=Assessment::whereIn('id',$assessment_arr)->select('id','guessing_panality','mcsingleanswerpoint','essayanswerpoint')->get();
+		//dd($records);
+		foreach($records as $record){
+			$rec[$record['id']]=Array();
+			array_push($rec[$record['id']],$record);
+		}
+		$a=Array();
+		$marks=Array();
+		foreach($lists as $key=>$list){
+			$correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
+			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
+			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
+			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
+			//dd($mark);
+			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
+		}
+//		dd($rec);
+//		dd($counts);
+//		dd($complete_users);
+//		dd($lost_marks);
+//		dd($marks);
+		return view('report::report.testhistorytile',compact('assignments','marks','All_users','complete_users'));
+	}
+	public function dashboardwholeclass()
+	 {
+	 	//dd();
+	  $uid= \Auth::user()->id;
+	  $role=\Auth::user()->role_id;
+	  if(getRole()!="administrator" && "teacher") {
+	  	dd();
+	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+	  // dd($assign_id);
+	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
+				->join('subject','assessment.subject_id','=','subject.id')
+				->where('assignment.id','=',$assign_id)
+				->select('subject.name as subject','assignment.name as assignmentname')
+				->groupby('subject.id')
+				->get();
+	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	     ->where('gradestatus','=','completed')
+	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
+	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+	     ->orderby('assignment_user.gradeddate', 'desc')
+	     ->get();
+	     $score=$students->sum('score');
+	     $user=$students->count('user.name');
+	     //dd($sun);
+
+	   $student=$students[0];
+	  }
+	  else{
+	  	//dd();
+	  	//$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
+
+	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	     ->where('gradestatus','=','completed')
+	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
+	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
+	     ->orderby('assignment_user.gradeddate', 'desc')->get();
+	     $score=$students->sum('user_assignment_result.score');
+	     $user=$students->count('users.name');
+	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
+	      $student=$students[0];
+	  // dd($subject);
+	     //dd($sun);
+	     	  }
+	  return view('report::report.wholescoretile',compact('student','score','user'));
+	 }
 }

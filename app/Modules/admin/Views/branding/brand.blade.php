@@ -6,6 +6,7 @@
 			<div class="col-md-10 col-md-offset-1">
 				<div class="panel panel-default">
 					<div class="panel-heading">Branding</div>
+					<div class="userSuccMSG"></div>
 					<div class="panel-body">
 						@if (count($errors) > 0)
 							<div class="alert alert-danger">
@@ -17,6 +18,7 @@
 								</ul>
 							</div>
 						@endif
+						
 						<form class="form-horizontal" enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="{{ url('user/brandingcreate') }}" >
 							<input type="hidden" name="_token" value="{{ csrf_token()}}" id="csrf_token">
 							<div class="form-group required">
@@ -115,7 +117,7 @@
 		@endforeach
 
 		function check_already_entered(){
-			alert($('#institution_id').data('foo'));
+			showMsg($('#institution_id').data('foo'));
 			if($.inArray($('#institution_id').val(),branding_institutions)>-1)
 			{
 				//alert("already entered");
@@ -129,14 +131,26 @@
 			var selected = $(this).find('option:selected');
 			var brandingid = selected.data('id');
 
-			alert(brandingid);
+			showMsg("Create Branding");
 			if($.inArray($(this).val(),branding_institutions)>-1)
 			{
-				alert("already entered");
+				setInterval( showMsg("Branding has done for this Institute.You are redirected to Edit page"), 4000 );
+
 				location.href="{{  url('/user/brandingedit/') }}/"+brandingid;
 				$('#institution_id').val(0);
 
 			}
+
 		});
+		function showMsg(msg) {
+
+		    $('.userSuccMSG').html(msg);
+		    $('.userSuccMSG').css('display', 'red');
+		    $('.userSuccMSG').css("top", 320 + "px");
+		    $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
+		   // alert("rvtbtyu");
+		    $('.userSuccMSG').fadeOut(4000);
+
+		}
 	</script>
 @endsection
