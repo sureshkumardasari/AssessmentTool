@@ -1,4 +1,4 @@
-                 <div class="col-md-2">
+                 <div class="col-md-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">List of Assessments
                         </div>
@@ -18,7 +18,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                             <button><a href="{{ url('/resources/assessment') }}">View More</a></button>
+                             <center><button><a href="{{ url('/resources/assessment') }}">View More</a></button></center>
                         </div>
                     </div>
                 </div>

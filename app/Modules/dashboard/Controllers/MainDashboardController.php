@@ -154,7 +154,7 @@ class MainDashboardController extends BaseController
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
-	  if(getRole()!="administrator" && "teacher") {
+	  if(getRole()!="admin" && "teacher") {
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 	  // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
@@ -303,14 +303,18 @@ class MainDashboardController extends BaseController
 			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
 			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
 			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
-			//dd($mark);
-			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
+			if($rec[$list][0]->mcsingleanswerpoint!=0){
+			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;	
+			}
+			else{
+				$marks[$key]=0;
+			} 
 		}
         //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
-	  if(getRole()!="administrator" && "teacher") {
+	  if(getRole()!="admin" && "teacher") {
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 	  // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
@@ -325,8 +329,8 @@ class MainDashboardController extends BaseController
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 	     ->orderby('assignment_user.gradeddate', 'desc');
- 	     $score=$students->sum('score');
-	     $user=$students->count('user.name');
+ 	     $score=$students->sum('user_assignment_result.rawscore');
+	     $user=$students->count('users.name');
 	     $students=$students->get();
 	     //dd($sun);
 

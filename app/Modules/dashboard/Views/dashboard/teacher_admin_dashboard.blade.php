@@ -10,9 +10,33 @@
     }
  </style>
 <div class="container">
-    <div >
-        <div class="col-md-3">
-            <div class="panel panel-default">
+    <div class="row">
+        <div class="col-md-4">
+            <h5><b>Class Average and Student Scores Report:<b></h5>
+            <div id="chart-2">
+            FusionCharts XT will load here!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5><b>Test History Report:<b></h5>
+            <div id="chart-1">    
+            FusionCharts XT will load here!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5><b>Whole Class Score Report:<b></h5>
+            <div id="recentupdated">    
+            FusionCharts XT will load here! 
+            </div> 
+        </div>
+     </div>
+   
+    <div class="clearfix" style="padding:20px"></div> 
+   
+     <div> 
+        @include('dashboard::dashboard.student_question_teacher')
+    </div>
+    <div class="panel panel-default col-md-4">
                 <div class="panel-heading">List of Assignments
                 </div>
                 <div class="panel-body">
@@ -32,36 +56,12 @@
                                 </tr>
                             @endforeach
                            </tbody>
-                         </table>
-                   <center><button><a href="{{ url('/resources/assignment') }}">View More</a></button></center>
+                         </table> 
+                         <center><button><a href="{{ url('/resources/assignment') }}">View More</a></button></center>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        @include('dashboard::dashboard.assignment_assessment')
-        @include('dashboard::dashboard.student_question_teacher')
-    </div>
-    <div class="clearfix"></div> 
-    <div style="float:left">
-    <h5><b>Class Average and Student Scores Report:<b></h5>
-        <div id="chart-2">
-        FusionCharts XT will load here!
-        </div>
-    </div>
-    <div style="float:left" class="col-md-offset-1">
-        <h5><b>Test History Report:<b></h5>
-        <div id="chart-1">    
-        FusionCharts XT will load here!
-        </div>
-    </div>
-    <div style="float:left" class="col-md-offset-1">
-    <h5><b>Whole Class Score Report:<b></h5>
-        <div id="recentupdated">    
-        FusionCharts XT will load here! 
-     </div>
 
-</div>
+     </div>
+      @include('dashboard::dashboard.assignment_assessment')
 <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
 <script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
 <script>
@@ -102,7 +102,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'chart-1',
-            width: '300',
+            width: '350',
             height: '350',
             dataSource: {
                 "chart": {
@@ -132,7 +132,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'recentupdated',
-            width: '300',
+            width: '350',
             height: '350',
             dataSource: {
                 "chart": {
