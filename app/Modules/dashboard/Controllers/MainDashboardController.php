@@ -100,12 +100,12 @@ class MainDashboardController extends BaseController
                 ->get();
         $slist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$stu->id)
-                ->select('users.name')
+                ->select('users.name','users.id')
                 ->take(5)
                 ->get();
         $tlist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$tech->id)
-                ->select('users.name as uname')
+                ->select('users.name as uname','users.id as uid')
                 ->take(5)
                 ->get();
 		//close eswar
@@ -259,7 +259,7 @@ class MainDashboardController extends BaseController
 		//eswar
 			$tech=DB::table('roles')->where('name', 'teacher')->first();
 			$stu=DB::table('roles')->where('name', 'student')->first();
-			$list_lession=DB::table('lesson')->lists('name','id');//->
+			$list_lession=DB::table('lesson')->take(5)->lists('name','id');//->
 			
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
@@ -269,12 +269,12 @@ class MainDashboardController extends BaseController
                 ->get();
         $slist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$stu->id)
-                ->select('users.name')
+                ->select('users.name','users.id')
                 ->take(5)
                 ->get();
-        $tlist=User::join('roles','users.role_id','=','roles.id')
+       $tlist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$tech->id)
-                ->select('users.name as uname')
+                ->select('users.name as uname','users.id as uid')
                 ->take(5)
                 ->get();
 		//close eswar
