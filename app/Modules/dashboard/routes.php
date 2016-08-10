@@ -15,5 +15,5 @@ Route::group(array('module'=>'Dashboard', 'prefix'=>'dashboard' ,'middleware' =>
 
     Route::get('/home', array('as' => 'mainhome', 'uses'=>'MainDashboardController@home'));
     // Route::get('/home', array('as' => 'home', 'uses'=>'DashboardController@home'));
-    Route::get('/student_assignment_reports', array('as' => 'home', 'uses'=>'MainDashboardController@student_assignment_reports'));
+    Route::get('/student_assignment_reports', array('as' => 'student_dashboard', 'uses'=>'MainDashboardController@student_assignment_reports'));
 });
