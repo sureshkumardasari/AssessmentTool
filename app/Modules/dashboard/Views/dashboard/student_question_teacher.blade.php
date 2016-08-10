@@ -16,7 +16,7 @@
                         <tbody id="question_list_filer">
                             @foreach( $list_details as $id => $value )
                             <tr>
-                                <td><a href="#">{{ $value['question_title'] }}</a></td>
+                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}">{{ $value['question_title'] }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -42,7 +42,7 @@
                         <tbody id="question_list_filer">
                             @foreach( $slist as $id => $value )
                             <tr>
-                                <td><a href="#">{{ $value['name'] }}</a></td>
+                                <td><a href="{{ url('/user/edit/'.$value['id']) }}">{{ $value['name'] }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -68,7 +68,7 @@
                         <tbody id="question_list_filer">
                             @foreach( $tlist as $id => $value )
                             <tr>
-                                <td><a href="#">{{ $value['uname'] }}</a></td>
+                                <td><a href="{{ url('/user/edit/'.$value['uid']) }}">{{ $value['uname'] }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -142,9 +142,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( $tlist as $id => $value )
+                            @foreach( $list_lession as $id => $value )
                             <tr>
-                                <td><a href="#">{{ $value['uname'] }}</a></td>
+                                <td><a href="{{ url('/resources/lessonedit/'.$id) }}">{{ $value }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -152,7 +152,7 @@
                     </table>
                 </div>
                 </div>
-                    <center><a class="btn btn-info" role="button" href="{{  url('user/users_list/teacher')  }}">View More</a></center>
+                    <center><a class="btn btn-info" role="button" href="{{  url('/resources/lesson')  }}">View More</a></center>
             </div>
         </div>
 

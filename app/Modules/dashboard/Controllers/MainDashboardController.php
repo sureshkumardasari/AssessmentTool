@@ -63,6 +63,7 @@ class MainDashboardController extends BaseController
         } 
      }
     public function getAdministratorDetails(){
+
     	//mahesh
     	$assignments_user = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
@@ -85,6 +86,12 @@ class MainDashboardController extends BaseController
 		//return view('report::report.dashboard',compact('students'));
 			//close soma sekhar
 		//eswar
+			$tech=DB::table('roles')->where('name', 'teacher')->first();
+			$stu=DB::table('roles')->where('name', 'student')->first();
+			$list_lession=DB::table('lesson')->orderby('updated_at','desc')->take(5)->lists('name','id')
+		     ;//->get();
+			//dd($list_lession);
+			
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
                 ->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
@@ -92,13 +99,13 @@ class MainDashboardController extends BaseController
                 ->take(5)
                 ->get();
         $slist=User::join('roles','users.role_id','=','roles.id')
-                ->where('roles.id','=','2')
-                ->select('users.name')
+                ->where('roles.id','=',$stu->id)
+                ->select('users.name','users.id')
                 ->take(5)
                 ->get();
         $tlist=User::join('roles','users.role_id','=','roles.id')
-                ->where('roles.id','=','3')
-                ->select('users.name as uname')
+                ->where('roles.id','=',$tech->id)
+                ->select('users.name as uname','users.id as uid')
                 ->take(5)
                 ->get();
 		//close eswar
@@ -198,7 +205,7 @@ class MainDashboardController extends BaseController
 	     // dd($student_whole);
 	     	  }
         //close
-	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user'));
+	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession'));
 	       
     }public function getStudentDetails(){
 	$user_id=\Auth::user()->id;
@@ -250,6 +257,10 @@ class MainDashboardController extends BaseController
 
 	//close soma sekhar
 		//eswar
+			$tech=DB::table('roles')->where('name', 'teacher')->first();
+			$stu=DB::table('roles')->where('name', 'student')->first();
+			$list_lession=DB::table('lesson')->take(5)->lists('name','id');//->
+			
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
                 ->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
@@ -257,13 +268,13 @@ class MainDashboardController extends BaseController
                 ->take(5)
                 ->get();
         $slist=User::join('roles','users.role_id','=','roles.id')
-                ->where('roles.id','=','2')
-                ->select('users.name')
+                ->where('roles.id','=',$stu->id)
+                ->select('users.name','users.id')
                 ->take(5)
                 ->get();
-        $tlist=User::join('roles','users.role_id','=','roles.id')
-                ->where('roles.id','=','3')
-                ->select('users.name as uname')
+       $tlist=User::join('roles','users.role_id','=','roles.id')
+                ->where('roles.id','=',$tech->id)
+                ->select('users.name as uname','users.id as uid')
                 ->take(5)
                 ->get();
 		//close eswar
@@ -359,7 +370,7 @@ class MainDashboardController extends BaseController
 	     //dd($sun);
 	     	  }
         //close
-	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user'));
+	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession'));
 	       
     }
 

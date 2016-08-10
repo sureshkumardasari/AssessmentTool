@@ -8,8 +8,8 @@
 
 
 
-	<li class="tab active"><a data-toggle="tab" data-tab='question-holder' href="#questions">Questions</a></li>
-	<li class="tab"><a data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
+	<li class="tab active"><a id="questions_tab"data-toggle="tab" data-tab='question-holder' href="#questions">Questions</a></li>
+	<li class="tab"><a id="passages_tab" data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
 </ul>
 
 <?php
@@ -76,7 +76,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 					</select>
 				</div>
 			</div>
-			<div class="form-group col-md-6 required">
+			<div id="question_type_div"class="form-group col-md-6 required">
 				<label class="col-md-2 control-label">Question Type</label>
 				<div class="col-md-10">
 					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
@@ -278,6 +278,15 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		// $('#question_type').multiselect();
 
 
+//      for showing the question type filter
+		$('#questions_tab').on('click',function(){
+			$('#question_type_div').show();
+		});
+
+// 		for hiding the question type filter
+		$('#passages_tab').on('click',function(){
+			$('#question_type_div').hide();
+		});
 	} );
 
 
