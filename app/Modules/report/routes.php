@@ -48,6 +48,7 @@
         Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
         Route::get('testhistorytile',['as'=>'testhistorytile','uses'=>'ReportController@dashboard1']);
 
+        Route::get('leastscore',['as'=>'leastscorereport','uses'=>'ReportController@leastscore']);
  });
 
 

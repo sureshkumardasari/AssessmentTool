@@ -39,6 +39,13 @@
                             <a href="{{ url('/report/student-answer-report') }}">Student Answer Report</a>
                         </div>
                     </div>
+
+                    <div class="col-md-3" ></div>
+                    <div class="rcorners1 col-md-6" >
+                        <a href="{{ url('/report/leastscore') }}">least score Report</a>
+                    </div><br>
+                </div>
+
                    <!--  <div class="panel-body">
                         <div class="col-md-2" ></div>
                         <div class="rcorners1  col-md-6" >
