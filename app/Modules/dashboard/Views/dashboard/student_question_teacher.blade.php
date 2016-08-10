@@ -142,9 +142,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( $tlist as $id => $value )
+                            @foreach( $list_lession as $id => $value )
                             <tr>
-                                <td><a href="#">{{ $value['uname'] }}</a></td>
+                                <td><a href="#">{{ $value }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -152,7 +152,7 @@
                     </table>
                 </div>
                 </div>
-                    <center><a class="btn btn-info" role="button" href="{{  url('user/users_list/teacher')  }}">View More</a></center>
+                    <center><a class="btn btn-info" role="button" href="{{  url('/resources/lesson')  }}">View All</a></center>
             </div>
         </div>
 
