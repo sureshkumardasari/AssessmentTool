@@ -33,36 +33,11 @@
    
     <div class="clearfix" style="padding:20px"></div> 
    
-     <div> 
+     <div style="margin-bottom:20px;"> 
         @include('dashboard::dashboard.student_question_teacher')
     </div>
-    <div class="panel panel-default col-md-4">
-                <div class="panel-heading">List of Assignments
-                </div>
-                <div class="panel-body">
-                   <th><!-- <b>List of Assignments</b> --></th>
-                         <table>
-                          <thead>
-                            <tr>
-                               <th>Name</th>
-                                <th>StartDateTime</th>
-                            </tr>
-                          </thead>
-                           <tbody>
-                            @foreach( $assignments_user as $id => $row )
-                                <tr>
-                                    <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}">{{  $row->name }}</a></td>
-                                    <td>{{$row->startdatetime}}</td>
-                                </tr>
-                            @endforeach
-                           </tbody>
-                         </table> 
-                         <center><button><a href="{{ url('/resources/assignment') }}">View More</a></button></center>
-                </div>
-
-     </div>
-      @include('dashboard::dashboard.assignment_assessment')
-<script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
+  
+ <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
 <script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
 <script>
 
@@ -71,7 +46,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'chart-2',
-            width: '350',
+            width: '370',
             height: '350',
             dataSource: {
                 "chart": {
@@ -102,7 +77,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'chart-1',
-            width: '350',
+            width: '370',
             height: '350',
             dataSource: {
                 "chart": {
@@ -132,7 +107,7 @@
             type: 'column2d',
             dataFormat: 'json',
             renderAt: 'recentupdated',
-            width: '350',
+            width: '370',
             height: '350',
             dataSource: {
                 "chart": {
