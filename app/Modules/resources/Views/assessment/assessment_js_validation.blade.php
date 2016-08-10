@@ -356,6 +356,7 @@ if (count($errors) > 0){?>
 		$('#passage_table').dataTable();
 		$('#subjects_list').empty();
 		$('#lessons_list').empty();
+		$('#question_type').val('');
 		var myForm = document.forms.assessment_form;
 		var question_id = myForm.elements['QuestionIds[]'];
 		if(question_id) {

@@ -2,8 +2,8 @@
 	<link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
 
 	<script type="text/javascript" src="{{asset('js/bootstrap-multiselect.js')}}"></script>
-	<li class="tab active"><a data-toggle="tab" data-tab='question-holder' href="#questions">Questions</a></li>
-	<li class="tab"><a data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
+	<li class="tab active"><a id="questions_tab" data-toggle="tab" data-tab='question-holder' href="#questions">Questions</a></li>
+	<li class="tab"><a id="passages_tab" data-toggle="tab" data-tab='passage-holder' href="#passages">Passages</a></li>
 </ul>
 
 <div class="tab-content">
@@ -60,9 +60,9 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group col-md-6 required">
+			<div id="question_type_div" class="form-group col-md-6 required">
 				<label class="col-md-2 control-label">Question Type</label>
-				<div class="col-md-10">
+				<div  class="col-md-10">
 					<select class="form-control" name="question_type" id="question_type" onchange="filter()">
 						{{--<option value="0">--Select Question Type--</option>--}}
 						{{--@foreach($questiontype as $id=>$val)--}}
@@ -292,6 +292,14 @@
 	});
 	$('#institution_id').val({{$institution_id}});
 	$('#category_id').val({{$category_id}});
+	$('#questions_tab').on('click',function(){
+			$('#question_type_div').show();
+		});
+
+// 		for hiding the question type filter
+		$('#passages_tab').on('click',function(){
+			$('#question_type_div').hide();
+		});
 	// $('#passage_lessons_id').multiselect();
 </script>
 

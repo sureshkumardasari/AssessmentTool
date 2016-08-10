@@ -116,8 +116,8 @@ class BrandingController extends Controller {
 		if(getRole()=="administrator"){
 		return Redirect::route('branding-view');
 		}
-		\Session::put('flash_message', 'you are almost done');
-		return Redirect::route('home');
+		//\Session::put('flash_message', 'you are almost done');
+		return Redirect::route('mainhome');
 	}
 
 
@@ -287,7 +287,7 @@ class BrandingController extends Controller {
 		}
 		\Session::put('flash_message', 'you are almost done');
 
-		return Redirect::route('home');
+		return Redirect::route('mainhome');
 	}
 
 	/**
