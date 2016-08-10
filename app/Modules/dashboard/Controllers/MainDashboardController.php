@@ -189,7 +189,7 @@ class MainDashboardController extends BaseController
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
 	     ->orderby('assignment_user.gradeddate', 'desc');
-	     $score=$students->sum('user_assignment_result.score');
+	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
