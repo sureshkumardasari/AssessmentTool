@@ -39,13 +39,13 @@
                             <a href="{{ url('/report/student-answer-report') }}">Student Answer Report</a>
                         </div>
                     </div>
-                    <div class="panel-body">
+                   <!--  <div class="panel-body">
                         <div class="col-md-2" ></div>
                         <div class="rcorners1  col-md-6" >
                             <a href="{{ url('/report/wholeclasstile') }}">whole score tile</a>
                         </div> 
-                    </div>
-                    <div class="col-md-3" ></div>
+                    </div> -->
+                   <!--  <div class="col-md-3" ></div>
                     <div class="rcorners1  col-md-6" >
                         <a href="{{ url('/report/report123') }}"> Dashboard</a>
                     </div>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-md-3" ></div>
                         
-                    </div>
+                    </div> -->
                     
 
                 </div>

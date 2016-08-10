@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 
 use App\Modules\dashboard\Models\DashboardWidgets;
-use App\modules\resources\models\Assignment;
+use App\Modules\Resources\Models\Assignment;
 use App\Modules\Resources\Models\Assessment;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\AssessmentQuestion;
@@ -118,6 +118,7 @@ class MainDashboardController extends BaseController
 		foreach($completed_users as $completed_user){
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
+		//dd($complete_users);
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=', 'assessment.id')
 
 			->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
@@ -137,19 +138,24 @@ class MainDashboardController extends BaseController
 		}
 		$a=Array();
 		$marks=Array();
-		foreach($lists as $key=>$list){
+ 		foreach($lists as $key=>$list){
 			$correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
 			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
 			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
-			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
-			//dd($mark);
-			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
+			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key]; 
+			if($rec[$list][0]->mcsingleanswerpoint!=0){
+			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;	
+			}
+			else{
+				$marks[$key]=0;
+			} 
 		}
-        //close sive krishna
+         //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
-	  if(getRole()!="administrator" && "teacher") {
+	  if(getRole()=="admin" || getRole()=="teacher") {
+	  	dd();
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 	  // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
@@ -163,11 +169,12 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->orderby('assignment_user.gradeddate', 'desc')
-	     ->get();
-	     $score=$students->sum('score');
-	     $user=$students->count('user.name');
-	     //dd($sun);
+	     ->orderby('assignment_user.gradeddate', 'desc');
+	     $score=$students->sum('user_assignment_result.rawscore');
+	     //dd($score);
+	     $user=$students->count('users.name');
+	     $students=$students->get();
+	     dd($students);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
 	  }
@@ -181,9 +188,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
-	     ->orderby('assignment_user.gradeddate', 'desc')->get();
-	     $score=$students->sum('user_assignment_result.score');
+	     ->orderby('assignment_user.gradeddate', 'desc');
+	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
+	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	  // dd($subject);
@@ -297,14 +305,19 @@ class MainDashboardController extends BaseController
 			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
 			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
 			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
-			//dd($mark);
-			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
+			if($rec[$list][0]->mcsingleanswerpoint!=0){
+			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;	
+			}
+			else{
+				$marks[$key]=0;
+			} 
 		}
         //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
-	  if(getRole()!="administrator" && "teacher") {
+	  if(getRole()=="admin" || getRole()=="teacher") {
+	  	//dd();
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 	  // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
@@ -318,10 +331,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->orderby('assignment_user.gradeddate', 'desc')
-	     ->get();
-	     $score=$students->sum('score');
-	     $user=$students->count('user.name');
+	     ->orderby('assignment_user.gradeddate', 'desc');
+ 	     $score=$students->sum('user_assignment_result.rawscore');
+	     $user=$students->count('users.name');
+	     $students=$students->get();
 	     //dd($sun);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
@@ -336,9 +349,10 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
-	     ->orderby('assignment_user.gradeddate', 'desc')->get();
-	     $score=$students->sum('user_assignment_result.score');
+	     ->orderby('assignment_user.gradeddate', 'desc');
+	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
+	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	  // dd($subject);

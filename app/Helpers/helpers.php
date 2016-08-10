@@ -82,281 +82,281 @@ function breadcrumb($displayName = '', $urlSlug = '') {
     //     dd($current_params);
     $links = array(
         //------------------users---------------------
-        'home' => array(
+        'mainhome' => array(
             'displayName' => 'Dashboard',
             'route' => 'userlist',
-            'postfix' => array('home' => 'Home'), //, 'userlist' => 'Users'
+            'postfix' => array('mainhome' => 'Home'), //, 'userlist' => 'Users'
         ),
         'userlist' => array(
             'displayName' => 'Users',
             'route' => 'userlist',
-            'postfix' => array('home' => 'Home', '' => 'Administration'), //, 'userlist' => 'Users'
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //, 'userlist' => 'Users'
         ),
         'profile' => array(
             'displayName' => 'Profile',
             'route' => 'profile',
-            'postfix' => array('home' => 'Home', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', 'userlist' => 'User'), //
         ),
         'useradd' => array(
             'displayName' => 'Create User',
             'route' => 'useradd',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
         ),
         'useredit' => array(
             'displayName' => 'Modify User',
             'route' => 'useredit',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
         ),
         //--------institutions-------------
         'institution-list' => array(
             'displayName' => 'Institutions',
             'route' => 'institution-list',
-            'postfix' => array('home' => 'Home', '' => 'Administration'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //
         ),
         'institution-add' => array(
             'displayName' => 'Create Institution',
             'route' => 'institution-add',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
         ),
         'institution-edit' => array(
             'displayName' => 'Modify Institution',
             'route' => 'institution-edit',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
         ),
         //------------roles-------------------
         'role-list' => array(
             'displayName' => 'Roles',
             'route' => 'role-list',
-            'postfix' => array('home' => 'Home', '' => 'Administration'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //
         ),
         'role-add' => array(
             'displayName' => 'Create Role',
             'route' => 'role-add',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
         ),
         'role-edit' => array(
             'displayName' => 'Modify Role',
             'route' => 'role-edit',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
         ),
         //---------------branding ----------------
          'branding-view' => array(
             'displayName' => 'Branding',
             'route' => 'branding-view',
-            'postfix' => array('home' => 'Home', '' => 'Administration'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //
         ),
         'branding-add' => array(
             'displayName' => 'Create Branding',
             'route' => 'branding-add',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
         ),
         'branding-edit' => array(
             'displayName' => 'Modify Branding',
             'route' => 'branding-edit',
-            'postfix' => array('home' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
         ),
         //------------category--------------------        
         'category-list' => array(
             'displayName' => 'Category',
             'route' => 'category-list',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'category-add' => array(
             'displayName' => 'Create Category',
             'route' => 'category-add',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
         ),
         'category-edit' => array(
             'displayName' => 'Modify Category',
             'route' => 'category-edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
         ),
         //------------subject--------------------   
         'subject-list' => array(
             'displayName' => 'Subjects',
             'route' => 'subject-list',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'subject-add' => array(
             'displayName' => 'Create Subject',
             'route' => 'subject-add',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
         ),
         'subject-edit' => array(
             'displayName' => 'Modify Subject',
             'route' => 'subject-edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
         ),
         ////------------lesson--------------------   
         'lesson-list' => array(
             'displayName' => 'Lessons',
             'route' => 'lesson-list',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'lesson-add' => array(
             'displayName' => 'Create Lesson',
             'route' => 'lesson-add',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
         ),
         'lesson-edit' => array(
             'displayName' => 'Modify Lesson',
             'route' => 'lesson-edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
         ),
         //------------questions--------------------   
     
         'question-list' => array(
             'displayName' => 'Questions',
             'route' => 'question-list',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'question-add' => array(
             'displayName' => 'Create Questions',
             'route' => 'question-add',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
         ),
         'question-edit' => array(
             'displayName' => 'Modify Questions',
             'route' => 'question-edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
         ),
         'edit' => array(
             'displayName' => 'Questions View',
             'route' => 'edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
         ),
         //------------passages--------------------   
          'passage-list' => array(
             'displayName' => 'Passages',
             'route' => 'passage-list',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'passage-add' => array(
             'displayName' => 'Create Passage',
             'route' => 'passage-add',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
         'passage-edit' => array(
             'displayName' => 'Modify Passage',
             'route' => 'passage-edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
         'passageview' => array(
             'displayName' => 'Passage View',
             'route' => 'passageview',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
         ),
          //------------assessments--------------------   
          'assessmentlist' => array(
             'displayName' => 'Assessments',
             'route' => 'assessmentlist',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'assessment-create' => array(
             'displayName' => 'Create Assessment',
             'route' => 'assessment-create',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
         'assessmentedit' => array(
             'displayName' => 'Modify Assessment',
             'route' => 'assessmentedit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          'assessmentview' => array(
             'displayName' => 'Assessment View',
             'route' => 'assessmentview',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          //------------assignments--------------------   
          'assignment-list' => array(
             'displayName' => 'Assignments',
             'route' => 'assignment-list',
-            'postfix' => array('home' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
         ),
         'assignment-add' => array(
             'displayName' => 'Create Assignment',
             'route' => 'assignment-add',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
         'assignment-edit' => array(
             'displayName' => 'Modify Assignment',
             'route' => 'assignment-edit',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
         'assignmentview' => array(
             'displayName' => 'Assignment View',
             'route' => 'assignmentview',
-            'postfix' => array('home' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
          //------------grading-----studentGrading----------questionGrading----------   
          'allassignment' => array(
             'displayName' => 'Grading',
             'route' => 'allassignment',
-            'postfix' => array('home' => 'Home'), //
+            'postfix' => array('mainhome' => 'Home'), //
         ),
         'studentGrading' => array(
             'displayName' => 'Grade By Student',
             'route' => 'studentGrading',
-            'postfix' => array('home' => 'Home','allassignment' => 'Grading'), //
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'), //
         ),
          'studentQuestion' => array(
             'displayName' => 'Student Questions',
             'route' => 'studentQuestion',
-            'postfix' => array('home' => 'Home','allassignment' => 'Grading', 'studentGrading' => 'Grade By Student'), //
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading', 'studentGrading' => 'Grade By Student'), //
         ),
         'questionGrading' => array(
             'displayName' => 'Grade By Question',
             'route' => 'questionGrading',
-            'postfix' => array('home' => 'Home','allassignment' => 'Grading'), //
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'), //
         ),
          'questiongrade' => array(
             'displayName' => 'Questions Grade',
             'route' => 'questiongrade',
-            'postfix' => array('home' => 'Home','allassignment' => 'Grading', '' => 'Grade By Question'), //
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading', '' => 'Grade By Question'), //
         ),
          //------------------reports------------------
          'report' => array(
             'displayName' => 'Reports',
             'route' => 'report',
-            'postfix' => array('home' => 'Home'), //
+            'postfix' => array('mainhome' => 'Home'), //
         ),
         'assessmentreport' => array(
             'displayName' => 'Class Average and Student Scores Report',
             'route' => 'assessmentreport',
-            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+            'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
          'wholeclass' => array(
             'displayName' => 'Whole Class Score Report',
             'route' => 'wholeclass',
-            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+            'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
          'test-history' => array(
             'displayName' => 'Test History Report',
             'route' => 'test-history',
-            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+            'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
           'student-answer-report' => array(
             'displayName' => 'Student Answer Report',
             'route' => 'student-answer-report',
-            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+            'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
 
          'answerreport' => array(
             'displayName' => 'Question And Answers',
             'route' => 'answerreport',
-            'postfix' => array('home' => 'Home','report' => 'Reports'), //
+            'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
 
          //-------------------proctor--dashboard------------------------
          'proctordashboard' => array(
             'displayName' => 'Proctor Dashboard',
             'route' => 'proctordashboard',
-            'postfix' => array('home' => 'Home'), //
+            'postfix' => array('mainhome' => 'Home'), //
         ),
          'start_test_by_proctor' => array(
             'displayName' => 'Start Test By Proctor',
             'route' => 'start_test_by_proctor',
-            'postfix' =>  array('home' => 'Home', 'proctordashboard' => 'Proctor Dashboard' ),
+            'postfix' =>  array('mainhome' => 'Home', 'proctordashboard' => 'Proctor Dashboard' ),
             ),
 
 
@@ -367,12 +367,12 @@ function breadcrumb($displayName = '', $urlSlug = '') {
          'myassignment' => array(
             'displayName' => 'My Assignments',
             'route' => 'myassignment',
-            'postfix' => array('home' => 'Home'),
+            'postfix' => array('mainhome' => 'Home'),
             ),
             'tests-instructions' => array(
                 'displayName' => 'Instructions',
                 'route' =>'tests-instructions',
-                'postfix' =>array('home' => 'Home' , 'myassignment' => 'My Assignments'),
+                'postfix' =>array('mainhome' => 'Home' , 'myassignment' => 'My Assignments'),
                 ),
 
 
