@@ -63,6 +63,7 @@
                         url:stdansloadurl+$('#institution_id').val()+'/'+$('#assign_student').val()+'/'+$('#student').val(),
                         type:'post',
                         success:function(response){
+                            var a=response.length;
                             $('#report').empty();
                             $('#report').append(response);
                         }
