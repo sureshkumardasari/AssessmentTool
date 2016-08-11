@@ -7,8 +7,11 @@
                     <div class="panel-heading" style="text-align:center; ">Least Scorers Report</div>
                     <div class="panel-body">
     <div class="col-md-4">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+        <div class="panel-heading" style="text-align:center; ">{{$assignmentname[0]}}</div>
+        <div class="panel-body">
     <table class="table">
-        <text style="text-align:center"><b>{{$assignmentname[0]}}</b></text>
         <thead>
     <th>Student Name</th>
     <th>Score</th>
@@ -30,8 +33,15 @@
     </tbody>
 </table>
     </div>
+        </div>
+            </div>
+        </div>
+
                         <div class="col-md-4">
-                           <b> {{$assignmentname[1]}}</b>
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="text-align:center; ">{{$assignmentname[1]}}</div>
+                                    <div class="panel-body">
                             <table class="table">
                                 <thead>
                                 <th>Student Name</th>
@@ -54,9 +64,14 @@
                                 </tbody>
                             </table>
                         </div>
-
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-4">
-                            <b>{{$assignmentname[2]}}</b>
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="text-align:center; ">{{$assignmentname[2]}}</div>
+                                    <div class="panel-body">
                             <table class="table">
                                 <thead>
                                 <th>Student Name</th>
@@ -78,6 +93,9 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
