@@ -21,6 +21,7 @@ use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\Assessment;
 use DB;
 use Mail;
+use App\Modules\Admin\Models\Role;
 class AssignmentController extends BaseController {
 
 	
@@ -99,6 +100,7 @@ class AssignmentController extends BaseController {
 
 		$assessments_arr = Assessment::lists('name','id');
 		$users=Auth::user();
+		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','student')->lists('id');
 
 		$assessment_id = 0;
 		  if(getRole()!='administrator'){
@@ -110,11 +112,11 @@ class AssignmentController extends BaseController {
 		}
 		$institution_id = 0;
 
-		$proctor_arr  = $this->user->getUsersOptionList($institution_id,3);// for proctor displaying teachers
+		$proctor_arr  = $this->user->getUsersOptionList($institution_id,$teacher_and_admin_role_id);// for proctor displaying teachers
 		$proctor_id = 0;
 	//	$users=Auth::user();
 		$inst_id=$users->institution_id;
-		$grader=$this->user->getUsersOptionList($inst_id,3);
+		$grader=$this->user->getUsersOptionList($inst_id,$teacher_and_admin_role_id);
 		$grader_id=0;
 
 		//var_dump($proctor_arr); die();
@@ -126,7 +128,8 @@ class AssignmentController extends BaseController {
 
 	public function GraderList($id)
 	{
-		$grader=$this->user->getGrader($id,3);
+		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','student')->lists('id');
+		$grader=$this->user->getGrader($id,$teacher_and_admin_role_id);
 		//dd($grader);
 		return $grader;
 	}

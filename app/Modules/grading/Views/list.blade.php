@@ -63,19 +63,36 @@
 				            <tr>
 				                <th>Assessment Name</th>
 				                <th>Assignment Name</th>
+				                <th>Status</th>
 				                <th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody id="assignbody">
+				       
 				            @foreach($assignments as $id => $asn )
+				            <?php if(!isset($grading_status[1][$asn->assignmentId])){
+								$grading_status[1][$asn->assignmentId]=0;
+								}
+				            	?>
 				            <tr>				                
 				                <td>{{ $asn->assessment_name }}</td>
 				                <td>{{ $asn->assignment_name }}</td>
 				                <td>
+				             
+					                @if($grading_status[1][$asn->assignmentId]==0)
+					                	Not Started
+					                @elseif($grading_status[0][$asn->assignmentId]==$grading_status[1][$asn->assignmentId])
+					                	Completed
+					                @else
+					                	In Progress
+					                @endif
+
+				                </td>
+				                <td>
 				                	<!-- <a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
 				                	<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
 				                	</a>
- -->                            @if($sessRole=='teacher')
+ -->                            @if($sessRole!='administrator')
 				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}" >
 			                             <span class="reply_box">
 			                                Grade
@@ -85,7 +102,8 @@
 
 								</td>
 				            </tr>
-				            @endforeach				            
+				            @endforeach		
+				                       
 				        </tbody>
 				    </table>
 				</div>

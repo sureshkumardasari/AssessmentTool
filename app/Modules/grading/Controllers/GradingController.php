@@ -71,8 +71,11 @@ class GradingController extends BaseController {
 	public function assignment(){
 		$inst_arr = $this->institution->getInstitutions();
 		$assignments = $this->grade->getGradeAssignment();
+		$grading_status= $this->grade->getAssignmentGradeStatus();
+		//dd($grading_status);
+		//$grading_status=AssignmentUser::select()->where('gradestatus','completed')->lists('assignment_id');
 		// dd($assignments);
-		return view('grading::list',compact('assignments', 'inst_arr'));
+		return view('grading::list',compact('assignments', 'inst_arr','grading_status'));
 	}
 
 	public function studentGradeListing($assignment_id,$assessment_id){

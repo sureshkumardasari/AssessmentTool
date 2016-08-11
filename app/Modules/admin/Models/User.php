@@ -59,7 +59,10 @@ class User extends Model {
         {
         	$query->where("u.institution_id", $institution_id);
         }
-        if($role_id > 0)
+        if(is_array($role_id)){
+			$query->whereIn("u.role_id", $role_id);
+        }
+        else if($role_id > 0)
         {
         	$query->where("u.role_id", $role_id);
         }
@@ -81,8 +84,8 @@ class User extends Model {
 
 	public function getGrader($institution_id = 0, $role_id = 0)
 	{
-		$teacher_role_id=Role::where('name','teacher')->first();
-		$grader=User::select('name','id')->where('institution_id',$institution_id)->where('role_id',$teacher_role_id->id)->get();
+		//$teacher_role_id=Role::where('name','teacher')->first();
+		$grader=User::select('name','id')->where('institution_id',$institution_id)->whereIn('role_id',$role_id)->get();
 		return $grader;
 	}
 
