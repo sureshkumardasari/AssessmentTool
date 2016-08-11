@@ -233,7 +233,9 @@
 								<label class="radio-inline"><input type="radio" class="" name="status" id="status_yes" value="Active" {{ ($status == "" || $status == "Active") ? 'checked="checked"' : '' }}> Active </label>
 								<label class="radio-inline"><input type="radio" class="" name="status" id="status_no" value="Inactive" {{ ($status == "Inactive") ? 'checked="checked"' : '' }}> Inactive </label>
 							</div>
-						</div>	
+						</div>
+						@else	
+						<input type="hidden" name="status" value="Active">
 						@endif					
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
