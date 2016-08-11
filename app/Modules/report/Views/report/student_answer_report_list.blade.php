@@ -4,13 +4,14 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
 
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
+    @if($assignments)
     <tr>
         <th>Questions</th>
         <th>Correct Answer</th>
         <th>Your Answer</th>
      </tr>
     </thead>
-    <tbody>
+    <tbody> 
     @foreach($assignments as $assignment)
     <tr> 
         <td>
@@ -29,4 +30,13 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
     </tr>
         @endforeach
     </tbody>
+     @else
+     <tbody>
+        <tr>    
+            <td style="padding-left:500px;">
+            No Data To Display
+            </td>
+        </tr>
+    </tbody>
+    @endif
 </table>
