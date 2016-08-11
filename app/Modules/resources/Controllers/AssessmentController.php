@@ -98,8 +98,16 @@ class AssessmentController extends BaseController {
 		$lesson = $this->lesson->getLesson();
 		$questions = $this->question->getQuestions();
 		$templates = $this->template->getTemplates();
-		$assessment=Assessment::get();
- 		$institution_id='';
+
+		if(getRole()!= "administrator") {
+			$uid= \Auth::user()->institution_id;
+			//dd($uid);
+		$assessment=Assessment::where('institution_id','=',$uid)->get();
+		}
+		else {
+			$assessment = Assessment::get();
+		}
+			$institution_id='';
         return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category', 'templates'));
 	}
 
