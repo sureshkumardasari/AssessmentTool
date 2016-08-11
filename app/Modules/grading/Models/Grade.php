@@ -471,7 +471,7 @@ class Grade extends Model {
                 ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
             }
             else if($sessRole == 'admin') {
-                $ass=$query->where('asn.institution_id',Auth::user()->institution_id)
+                $ass=$query->where('grader_id',Auth::user()->id)->where('asn.institution_id',Auth::user()->institution_id)
                 ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
             }
         else{
@@ -512,6 +512,39 @@ class Grade extends Model {
 
         $asign_users = $query->distinct()->get();
         return $asign_users;
+    }
+
+    public function getAssignmentGradeStatus(){
+
+        $user=Auth::user();
+        $role=getRole();
+        $obj=Assignment::join('assignment_user','assignment.id','=','assignment_user.assignment_id');
+        
+//dd($graded_students);
+
+        if($role=="administrator"){
+ 
+          $total_students=$obj->selectRaw('assignment.id,count(assignment_user.user_id) as total_students')->groupBy('assignment.id')->lists('total_students','id');
+            $graded_students=$obj->where('assignment_user.gradestatus',"completed")
+           ->selectRaw('assignment.id,count(assignment_user.user_id) as completed_students')->groupBy('assignment.id')->lists('completed_students','id');
+        }
+        else if($role=="admin" || $role == "teacher"){
+
+        $total_students=$obj->selectRaw('assignment.id,count(assignment_user.user_id) as total_students')
+        ->where('assignment.grader_id',$user->id)
+        ->groupBy('assignment.id')->lists('total_students','id');
+
+        $graded_students=$obj->where('assignment_user.gradestatus',"completed")
+        ->where('assignment.grader_id',$user->id)
+        ->selectRaw('assignment.id,count(assignment_user.user_id) as completed_students')->groupBy('assignment.id')
+        ->lists('completed_students','id');
+       // ->get();
+        }
+
+$status[0]=$total_students;
+$status[1]=$graded_students;
+//dd($status);
+return $status;
     }
 
 
