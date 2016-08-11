@@ -70,10 +70,21 @@ class AssignmentController extends BaseController {
 	}
 	public function assignment($parent_id = 0)
 	{
-		$assignments = DB::table('assignment')
-			->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
-			->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime','assignment.status')->get();
-		//dd($assignments);
+		if(getRole()!= "administrator") {
+			$uid = \Auth::user()->institution_id;
+			//dd($uid);
+			$assignments = DB::table('assignment')
+					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
+					->where('assignment.institution_id', '=', $uid)
+					->select('assignment.id', 'assignment.name', 'assessment.name as assessment_name', 'assignment.startdatetime', 'assignment.status')->get();
+			//dd($assignments);
+		}
+		else{
+			$assignments = DB::table('assignment')
+					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
+					->select('assignment.id', 'assignment.name', 'assessment.name as assessment_name', 'assignment.startdatetime', 'assignment.status')->get();
+			//dd($assignments);
+		}
         return view('resources::assignment.list',compact('assignments'));
 	}
 
