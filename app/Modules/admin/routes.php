@@ -35,7 +35,11 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
 	Route::get('institutionadd', array('as' => 'institution-add', 'uses'=>'InstitutionController@add'));
     Route::get('institutionedit/{id}', array('as' => 'institution-edit', 'uses'=>'InstitutionController@edit'));
     Route::get('institutiondel/{id}', array('as' => 'institution-delete', 'uses'=>'InstitutionController@delete'));
-    Route::post('institutionupdate', array('as' => 'institution-update', 'uses'=>'InstitutionController@update')); 
+    Route::post('institutionupdate', array('as' => 'institution-update', 'uses'=>'InstitutionController@update'));
+    Route::get('institutionBulkUpload', array('as' => 'InstitutionBulkUpload','uses'=>'InstitutionController@InstitutionsBulkUpload'));
+    Route::get('bulkinstitutionTemplate',array('as'=> 'bulkInstitutionTemplate','uses'=>'InstitutionController@bulkInstitutionTemplate'));
+    Route::post('bulkinstitutionUpload', array('as'=>'bulkInstitutionUpload','uses'=>'InstitutionController@bulkInstitutionUpload'));
+
 
     Route::get('role', array('as' => 'role-list', 'uses'=>'UserController@roleslist'));
     Route::get('roleadd', array('as' => 'role-add', 'uses'=>'UserController@roleadd'));
