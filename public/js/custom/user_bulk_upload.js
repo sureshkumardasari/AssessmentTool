@@ -83,11 +83,11 @@
                 }
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4) {
-
                         result = jQuery.parseJSON(xhr.responseText);
-
+                        alert(result);
                         if(result.status == 'error'){
                             if(typeof result.error_log != 'undefined'){
+                                //alert("dsfgadsg");
                                 $('.error-log').html("<a class='error_blue' style='margin-left:20px;' href='"+result.error_log+"'>Download Error Log</a>");
                                 $('.user-file').val('');
                             }else if(typeof result.msg != 'undefined'){
@@ -127,7 +127,6 @@ function showMsg(msg) {
     $('.userSuccMSG').css('display', 'block');
     $('.userSuccMSG').css("top", 320 + "px");
     $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
-    
     $('.userSuccMSG').fadeOut(4000);        
 
 }

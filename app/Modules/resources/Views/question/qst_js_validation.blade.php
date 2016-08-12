@@ -30,7 +30,9 @@ if (count($errors) > 0){?>
 					success:function(response){
 						var a=response.length;
 						$('#category_id').empty();
-						var opt=new Option('--Select Category--','');
+						$('#subject_id').empty();
+						$('#lessons_id').empty();
+						var opt=new Option('--Select --','');
 						$('#category_id').append(opt);
 						for(i=0;i<a;i++){
 							var opt=new Option(response[i].name,response[i].id);
@@ -50,6 +52,7 @@ if (count($errors) > 0){?>
 										success:function(response){
 											var a=response.length;
 											$('#subject_id').empty();
+											$('#lessons_id').empty();
 											var opt=new Option('--Select Subject--','');
 					 						$('#subject_id').append(opt);
 											for(i=0;i<a;i++){
@@ -113,6 +116,8 @@ if (count($errors) > 0){?>
 						success:function(response){
 							var a=response.length;
 							$('#category_id').empty();
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
 							var opt=new Option('--Select Category--','');
 							//opt.addClass('selected','disabled','hidden');
 							$('#category_id').append(opt);
@@ -135,6 +140,7 @@ if (count($errors) > 0){?>
 					success:function(response){
 						var a=response.length;
 						$('#subject_id').empty();
+						$('#lessons_id').empty();
 						var opt=new Option('--Select Subject--','');
  						$('#subject_id').append(opt);
 						for(i=0;i<a;i++){
