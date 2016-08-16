@@ -36,7 +36,10 @@
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Grading					
+					Grading		
+					<!-- <a  href="#bulk_import" class="btn btn-sm btn-primary pull-right">Bulk import Grades</a>	 -->	
+
+					<a href="{{ route('gradesBulkImport') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk import Grades</a>	
 				</div>
 
                 <?php   $sessRole = getRole() ;
@@ -111,10 +114,16 @@
 		</div>
 	</div>
 </div>
+<div id="bulk_import">
+
+</div>
 
 	<script>
+	$(document).ready(function(){
 		var loadurl = "{{ url('/resources/assignments') }}/" ;
 		$('#assignmentstable').dataTable();
+	});
+		
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
 
