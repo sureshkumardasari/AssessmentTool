@@ -19,12 +19,34 @@
 	    });
             
             function downloadTemplate(type){
-                var institution_id = $('#userimport_institution_id').val();
+                var institution_id = null;
+                var assignment_id = null;
+                var assignment_text = null;
+                var institution_text= null;
+
+                if(type == "administrator"){
+                    institution_id = $('#gradesimport_institution_id').val();
+                    assignment_id = $('#gradesimport_assignment_id').val();
+                    assignment_text = $('#gradesimport_assignment_id option:selected').text();
+                    institution_text = $('#gradesimport_institution_id option:selected').text();
+                    if(institution_id == 0  || assignment_id == 0){
+                        return false;
+                    }
+
+                }
+                else if(type == "admin_teacher"){
+                    assignment_id = $('#gradesimport_assignment_id').val();
+                    assignment_text = $('#gradesimport_assignment_id option:selected').text();
+                    if(assignment_id == 0){
+                        return false;
+                    }
+                }
+               
                 $('.error-log').empty();
                 $.ajax({
                 type: "GET",
-                url: bulkUserTemplate,
-                data: {userType:type, institution_id:institution_id},
+                url: bulkGradesTemplate,
+                data: {userType:type, institution_id:institution_id , assignment_id:assignment_id , assignment_text:assignment_text,institution_text:institution_text},
                 dataType: 'json',
                 success: function( data ){
                     if ( data ) {
@@ -39,10 +61,16 @@
 
             $('.uploadBtn').off("click").on("click",function(){
                             
-                institutionId = $("#userimport_institution_id").val();
-                userType = 'student';
+                institutionId = $("#gradesimport_institution_id").val();
+                assignmentId = $('#gradesimport_assignment_id').val();
+                //alert(assignmentId);
+                //userType = 'student';
                 if(institutionId == 0){
                     $('.error-log').html("<p class='error'>Please select an institution</p>");
+                    return;
+                }
+                if(assignmentId==0 || assignmentId == "null" || assignmentId == "undefined"){
+                    $('.error-log').html("<p class='error'>Please select an Assignment</p>");
                     return;
                 }
                 if($('.user-file').val() == ''){
@@ -63,13 +91,14 @@
  
                 formData.append("_token", $(".hidden-token").val());
                 formData.append("institutionId", institutionId);
-                formData.append("userType", userType);
+                formData.append("assignmentId", assignmentId);
+               // formData.append("userType", userType);
                 // Set up the request.
                 var xhr = new XMLHttpRequest();
 
                 toggleMsg('Please wait');
                 // Open the connection.
-                xhr.open('POST', bulkUserUpload, true);
+                xhr.open('POST', bulkGradesUpload, true);
 
                 // Set up a handler for when the request finishes.
                 xhr.onload = function () {
@@ -83,11 +112,11 @@
                 }
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4) {
+
                         result = jQuery.parseJSON(xhr.responseText);
-                        alert(result);
+
                         if(result.status == 'error'){
                             if(typeof result.error_log != 'undefined'){
-                                //alert("dsfgadsg");
                                 $('.error-log').html("<a class='error_blue' style='margin-left:20px;' href='"+result.error_log+"'>Download Error Log</a>");
                                 $('.user-file').val('');
                             }else if(typeof result.msg != 'undefined'){
@@ -98,8 +127,14 @@
                         else if(result.status == 'success'){
                             
                             $('.error-log').empty();
-                            alert(result.msg);
-                            parent.window.location.reload();
+                            if(result.duplicate_msg!=null){
+                                alert(result.duplicate_msg);
+                            }
+                            else{
+                                alert(result.msg);
+                            }
+                            parent.$(".fancybox-close").click();
+                           // parent.window.location.reload();
                         }
                     }
                 }
@@ -127,6 +162,7 @@ function showMsg(msg) {
     $('.userSuccMSG').css('display', 'block');
     $('.userSuccMSG').css("top", 320 + "px");
     $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
+    
     $('.userSuccMSG').fadeOut(4000);        
 
 }

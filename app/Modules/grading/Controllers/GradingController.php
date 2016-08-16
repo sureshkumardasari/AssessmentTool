@@ -25,6 +25,10 @@ use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
 use App\Modules\Grading\Models\Grade;
 use DB;
+use Illuminate\Http\JsonResponse;
+use Response;
+use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 class GradingController extends BaseController {
 
@@ -56,6 +60,8 @@ class GradingController extends BaseController {
 
 		$obj = new AssessmentQuestion();
 		$this->assignmentqst = $obj;
+
+		$this->duplicate_entries=[];
 	}
 
 	/**
@@ -71,8 +77,11 @@ class GradingController extends BaseController {
 	public function assignment(){
 		$inst_arr = $this->institution->getInstitutions();
 		$assignments = $this->grade->getGradeAssignment();
+		$grading_status= $this->grade->getAssignmentGradeStatus();
+		//dd($grading_status);
+		//$grading_status=AssignmentUser::select()->where('gradestatus','completed')->lists('assignment_id');
 		// dd($assignments);
-		return view('grading::list',compact('assignments', 'inst_arr'));
+		return view('grading::list',compact('assignments', 'inst_arr','grading_status'));
 	}
 
 	public function studentGradeListing($assignment_id,$assessment_id){
@@ -703,5 +712,281 @@ class GradingController extends BaseController {
 		}
 		return "completed";
 
+	}
+
+
+	public function gradesBulkImport(){
+		$assignments_arr=[];
+		$institution_arr=[];
+		if(getRole()=="administrator"){
+			$institution_arr=Institution::lists('name','id');
+		}
+		else{
+			$institution_id=Auth::user()->institution_id;
+			$assignments_arr=Assignment::where('institution_id',$institution_id)->lists('name','id');
+		}
+		
+		//dd($assignments);
+
+		return view('grading::bulk_import',compact('assignments_arr','institution_arr'));
+	}
+
+	public function bulkGradeTemplate(){
+		$post=Input::all();
+		//dd($post);
+		$userType = $post['userType'];
+		$institution_id = $post['institution_id'];
+
+		$assignment_id = $post['assignment_id'];
+		$assignment_text = $post['assignment_text'];
+		$institution_text =  $post['institution_text'];
+		if($institution_id == ""){
+			$institution_text = Institution::find(Auth::user()->institution_id);
+			$institution_text= $institution_text->name;
+		}
+
+		$filename = $institution_text ."---" .$assignment_text . '_' . date('Y-m-d') . '.xls';
+
+		$save = $this->grade->bulkGradeTemplate($filename, $userType,$institution_id, $assignment_id, $assignment_text, false, true);
+		if ($save == null) {
+			return Response::json(array('file_name' => "data/tmp/$filename"));
+		} else {
+			return Response::json(array('file_name' => false));
+		}
+
+	}
+
+	public function bulkGradeUpload(Request $request){
+		//dd($request->input());
+		$institutionId = $request->input('institutionId');
+		$assignmentId = $request->input('assignmentId');
+		//$userType = $request->input('assignmentId');
+
+		if (empty($institutionId)) {
+			$institutionId = Auth::user()->institution_id;
+		}
+
+		$uploadSuccess = false;
+		$file = $request->file('file');
+		$destFileName = '';
+
+		$fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
+
+		$validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
+
+		if ($validator->fails()) {
+			$errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
+			return json_encode($errorArray);
+		}
+
+		if ($file) {
+			$extension = $file->getClientOriginalExtension();
+			if ($extension != 'xls') {
+				$error = array('status' => 'error', 'msg' => 'Upload valid file type.');
+				return json_encode($error);
+			}
+			// Moving the uploaded image to respective directory
+			$destPath = public_path() . '/data/tmp';
+			$destFileName = str_random(6) . '_' . $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destPath, $destFileName);
+		} else {
+			$errorArray = array('status' => 'error', 'msg' => 'File does not exist');
+			return json_encode($errorArray);
+		}
+
+		$this->errorArray=array();
+		return  $some=$this->fileupload($destPath,$destFileName, $institutionId, $assignmentId);
+		// return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+
+
+
+
+	}
+
+
+	//uploading and parsing the Excel to insert the records into the database
+
+	public function fileupload($destPath,$destFileName, $institutionId, $assignmentId){
+		//dd($userType);
+		$role_id = 0;
+		// if($userType == 'student' || $userType == 'Student')
+		// {
+		// 	$role_id = $this->user->getRoleIdByRole($userType);
+		// }
+		//dd($role_id );
+		$duplicate_entries=[];
+		$uploadSuccess = false;
+		$orignalHeaders = ['assignment','student','score','percentage','raw_score','grade','score_type','percentile'];
+		$getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
+		//dd($getFirstRow);
+
+		$uploadedFileHeaders = [];
+		if(!empty($getFirstRow[0])){
+			$uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
+		}
+	//dd($uploadedFileHeaders);
+		$headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
+		//dd($headerDifference);
+
+		if(!empty($headerDifference)){
+			$error = array('status' => 'error', 'msg' => 'Invalid file.');
+			return json_encode($error);
+		}
+		//        echo '<pre>'; print_r($getFirstRow); die;
+		// if ($uploadSuccess != false) {
+		$errorArray = array();
+		//                    try{
+		$this->duplicate_entries=[];
+		$output = Excel::load($destPath . '/' . $destFileName, function($results) use ($assignmentId, $institutionId) {
+			
+			$phpExcel = $results->setActiveSheetIndex(1);
+			$fileType = $phpExcel->getCell('D1')->getValue();
+			//dd($fileType);
+			$phpExcel = $results->setActiveSheetIndex(0);
+			$rowCount = $phpExcel->getHighestRow();
+			$emptyFile = true;
+			if ($rowCount > 1) {
+
+				$phpExcel = $results->setActiveSheetIndex(0);
+				$firstSheet = $results->get()[0];
+				foreach ($firstSheet as $key => $row) {
+					$arrayCol = $row->toArray();
+					//Ceck Empty Row
+					$rowSize = 0;
+					foreach ($arrayCol as $cell) {
+						$rowSize += strlen($cell);
+					}
+					if ($rowSize == 0) {
+						continue;
+					}
+					//Check Empty Row End
+					$emptyFile = false;
+					$status = $this->validateBulUpload($fileType, $row, $key + 2);
+					if (count($status) > 0) {
+						$this->errorArray = array_merge($this->errorArray, $status);
+					} else {
+						$inserted=$this->createBulkGrade($assignmentId, $row, $institutionId, $key + 2);
+						if($inserted == "duplicate"){
+							//dd($duplicate_entries);
+							array_push($this->duplicate_entries,$key+2);
+						}
+					}
+				}
+
+			} else {
+
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+			if ($emptyFile) {
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+			
+		});
+		//dd($output);
+		//                    }catch(\Exception $e) {
+		//                        $this->errorArray[] = array('Row #'=>'','Error Description'=>'You have tried to upload a file with invalid fields.');
+		//                    }
+
+		if (count($this->errorArray) > 0) {
+
+			Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($errorArray) {
+				$excel->sheet('error_log', function($sheet) use($errorArray) {
+					$sheet->fromArray($this->errorArray);
+				});
+			})->store('xls', public_path('data/tmp'), true);
+
+			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+
+
+			//return json_encode($errorArray);
+
+		} else {
+			$count=count($this->duplicate_entries);
+			$duplicate_msg=null;
+			if($count>0){
+				$duplicate_msg="There are ".$count." duplicate entries found and are neglected";
+			}
+
+			Session::flash('success', 'File uploaded successfully.');
+			return $sucessarray = array('status' => 'success','duplicate_msg' => $duplicate_msg, 'msg' => 'Uploaded Successfully');
+			// return json_encode($sucessarray);
+		}
+		//}
+
+
+	}
+
+	public static function validateBulUpload($fileType, $data, $index) {
+	    $error = array();
+
+	    $dataArr = $data->toArray();
+	    $validationRule = [
+	        //'institutionid' => 'required|numeric|exists:institution,id',
+	        'assignment' => 'required',
+	        'student' =>'required',
+	        'score' =>'required',
+	        'percentage' =>'required|min:0|max:100',
+	        'raw_score' =>'required',
+	        'grade' => 'required',
+	        'score_type' =>'required',
+	        'percentile' =>'required|min:0|max:100',
+
+	    ];	    
+
+	    $messages = [
+	        'assignment' => 'Assigment is Required \'',
+	        'student' => 'Student is required \'',	        
+	        'score' => 'Score field is required.',
+	        'percentage.min' => 'Percentage should not be negative',
+	        'percentage.max' => 'Percentage should not be greater than 100',
+	        'raw_score' => 'Raw Score is Required',
+	        'grade' => 'Grade field is required',
+	        'score_type' => 'Score Type field is Required',
+	        'percentile' => 'Percentile filed is required'
+	    ];
+
+	    $validator = Validator::make($dataArr, $validationRule, $messages);
+
+	    if ($validator->fails()) {
+	        $messages = $validator->messages();
+	        foreach ($messages->all() as $row) {
+	            $error[] = array('Row #' => $index, 'Error Description' => $row);
+	        }
+	    }
+
+	    return $error;
+	}
+	public static function createBulkGrade($assignmentId, $row, $institutionId, $index)
+	{
+		//dd($row);
+		//$duplicate_entries=[];
+		$now=date('Y-m-d h:i:s');
+		$assessment_id = Assignment::find($assignmentId);
+		$user_id = User::select('id')->where('name',$row->student)->first();
+		//dd($user_id);
+		$already_graded_students=DB::table('user_assignment_result')->where('assignment_id',$assignmentId)->where('user_id',$user_id->id)->get();
+		if(count($already_graded_students)==0){
+			$obj = DB::table('user_assignment_result')->insert([
+			'added_by' => Auth::user()->id,
+			'assessment_id' => $assessment_id->assessment_id,
+	 		'assignment_id' => $assignmentId,
+			'user_id' =>  $user_id->id,
+			'score' => $row->score,
+			'percentage' => $row->percentage,
+			'rawscore' => $row->raw_score,
+			'grade' => $row->grade,
+			'scoretype' => $row->score_type,
+			'percentile' => $row->percentile,
+			'created_at' => $now,
+			'updated_at' => $now
+			]);
+		}
+		else{
+			
+			return "duplicate";
+		}
+		
+		return "inserted";
+		
 	}
 }

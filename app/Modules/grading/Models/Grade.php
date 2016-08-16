@@ -19,6 +19,11 @@ use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
 use App\Modules\Assessment\Models\UserAssignmentResult;
 use App\Modules\Assessment\Models\UserAssignmentResultRetake;
+use \PHPExcel,
+    //\PHPExcel_Style_Fill,
+    \PHPExcel_IOFactory,
+    \PHPExcel_Style_NumberFormat;
+    use App\Modules\Admin\Models\User;
 class Grade extends Model {
 	/**
 	 * The database table used by the model.
@@ -471,7 +476,7 @@ class Grade extends Model {
                 ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
             }
             else if($sessRole == 'admin') {
-                $ass=$query->where('asn.institution_id',Auth::user()->institution_id)
+                $ass=$query->where('grader_id',Auth::user()->id)->where('asn.institution_id',Auth::user()->institution_id)
                 ->select(DB::raw('ass.name as assessment_name, asn.name as assignment_name, asn.id as assignmentId,ass.id assessmentId'));
             }
         else{
@@ -512,6 +517,146 @@ class Grade extends Model {
 
         $asign_users = $query->distinct()->get();
         return $asign_users;
+    }
+
+    public function getAssignmentGradeStatus(){
+
+        $user=Auth::user();
+        $role=getRole();
+        $obj=Assignment::join('assignment_user','assignment.id','=','assignment_user.assignment_id');
+        
+//dd($graded_students);
+
+        if($role=="administrator"){
+ 
+          $total_students=$obj->selectRaw('assignment.id,count(assignment_user.user_id) as total_students')->groupBy('assignment.id')->lists('total_students','id');
+            $graded_students=$obj->where('assignment_user.gradestatus',"completed")
+           ->selectRaw('assignment.id,count(assignment_user.user_id) as completed_students')->groupBy('assignment.id')->lists('completed_students','id');
+        }
+        else if($role=="admin" || $role == "teacher"){
+
+        $total_students=$obj->selectRaw('assignment.id,count(assignment_user.user_id) as total_students')
+        ->where('assignment.grader_id',$user->id)
+        ->groupBy('assignment.id')->lists('total_students','id');
+
+        $graded_students=$obj->where('assignment_user.gradestatus',"completed")
+        ->where('assignment.grader_id',$user->id)
+        ->selectRaw('assignment.id,count(assignment_user.user_id) as completed_students')->groupBy('assignment.id')
+        ->lists('completed_students','id');
+       // ->get();
+        }
+
+$status[0]=$total_students;
+$status[1]=$graded_students;
+//dd($status);
+return $status;
+    }
+
+
+// Creates an Excel Template for the User importing the Scores/Grades of the Students for Assignments.
+    public function bulkGradeTemplate($filename, $userType, $instituteId = null, $assignment_id=0, $assignment_text=null, $addSubjects = false, $findInstituteId = false) {
+
+        $objPHPExcel = new PHPExcel();
+        $institues = [];//new Institution();
+        $madeDataValidationColumn = array();
+        $students_arr=AssignmentUser::where('assignment_id',$assignment_id)->lists('user_id');
+        $students_list=User::whereIn('id',$students_arr)->lists('name','id');
+        $countries= [];//$this->getcountries();
+        $states=[];//$this->getstates();
+    //Create Validation for School and State
+        $objWorkSheet = $objPHPExcel->createSheet(1); //Setting index when creating
+        $indexSchool = 1;
+        $indexState = 1;
+        $exportFields = array(
+           // 'InstitutionID' => $madeDataValidationColumn,
+            'Assignment' => array('options'=>[$assignment_text]),      
+            'Student' => array('options'=>$students_list),
+            'Score' => array(),
+            'Percentage' => array(),
+            'Raw Score' => array(),
+            'Grade' => array(),
+            'Score Type' => array(),      
+            'Percentile' => array(),
+        );
+
+        $firstRow = false;
+        $celli = 'A';
+        $rowsToFill = 100;
+        foreach ($exportFields as $field => $options) {
+            $objPHPExcel->getActiveSheet()->setCellValue($celli . '1', $field);
+            $objPHPExcel->getActiveSheet()->getStyle($celli . '1:' . $celli . $rowsToFill)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+            if (is_array($options) && isset($options['options'])) {
+                if (isset($options['multiselect']) && $options['multiselect'] == true) {
+                    for ($j = 0; $j < count($options['options']); $j++) {
+                        $objPHPExcel->getActiveSheet()->setCellValue($celli . '1', $field . '-' . $options['options'][$j]);
+
+                        for ($i = 2; $i <= $rowsToFill; $i++) {
+                            $objValidation = $objPHPExcel->getActiveSheet()->getCell($celli . $i)->getDataValidation();
+                            $objValidation->setType(\PHPExcel_Cell_DataValidation::TYPE_LIST);
+                            $objValidation->setErrorStyle(\PHPExcel_Cell_DataValidation::STYLE_INFORMATION);
+                            $objValidation->setAllowBlank(false);
+                            $objValidation->setShowInputMessage(true);
+                            $objValidation->setShowErrorMessage(true);
+                            $objValidation->setShowDropDown(true);
+                            $objValidation->setErrorTitle('Input error');
+                            $objValidation->setError('Value is not in list.');
+                            $objValidation->setPromptTitle('Pick ' . $field);
+                            $objValidation->setPrompt('Please pick a value from the drop-down list.');
+                            $objValidation->setFormula1('"X"');
+                        }
+                        if ($j != count($options['options']) - 1)
+                            $celli++;
+                    }
+                }else {
+
+                    for ($i = 2; $i <= $rowsToFill; $i++) {
+                        $objValidation = $objPHPExcel->getActiveSheet()->getCell($celli . $i)->getDataValidation();
+                        $objValidation->setType(\PHPExcel_Cell_DataValidation::TYPE_LIST);
+                        $objValidation->setErrorStyle(\PHPExcel_Cell_DataValidation::STYLE_INFORMATION);
+                        $objValidation->setAllowBlank(false);
+                        $objValidation->setShowInputMessage(true);
+                        $objValidation->setShowErrorMessage(true);
+                        $objValidation->setShowDropDown(true);
+                        $objValidation->setErrorTitle('Input error');
+                        $objValidation->setError('Value is not in list.');
+                        $objValidation->setPromptTitle('Pick ' . $field);
+                        $objValidation->setPrompt('Please pick a value from the drop-down list.');
+                        $objValidation->setFormula1('"' . implode(',', $options['options']) . '"');
+
+                        if (isset($options['validation'])) {
+                            if (($options['validation'] == 'state') && $indexState > 1) {
+                                $objValidation->setFormula1('options!$A$1:$A$' . ($indexState - 1));
+                            }
+                            if (($options['validation'] == 'school') && $indexSchool > 1) {
+                                $objValidation->setFormula1('options!$B$1:$B$' . ($indexSchool - 1));
+                            }
+                        }
+                    }
+                }
+            }
+
+            $celli++;
+        }
+        // if($findInstituteId && $instituteId!=null){
+        //     $objPHPExcel->getActiveSheet()->setCellValueExplicit('A2', $assignment_text, \PHPExcel_Cell_DataType::TYPE_STRING);
+        //      // $objPHPExcel->getActiveSheet()->setCellValueExplicit('B2', $assignment_text, \PHPExcel_Cell_DataType::TYPE_STRING);
+        // }
+        $highestColumn = User::createColumnsArray($objPHPExcel->getActiveSheet()->getHighestColumn());
+        foreach ($highestColumn as $columnID) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+
+        if (!is_dir(public_path() . '/data/tmp')) {
+            mkdir(public_path() . '/data/tmp', 0777);
+            chmod(public_path() . '/data/tmp', 0777);
+        }
+
+        $save = $objWriter->save(public_path() . '/data/tmp/' . $filename);
+        return $save;
+   
     }
 
 

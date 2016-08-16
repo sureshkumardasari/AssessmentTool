@@ -221,6 +221,7 @@ class ResourceController extends BaseController {
 	{		
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
+
 		$category = $this->category->getCategory();
 
 		if(isset($id) && $id > 0)
@@ -244,7 +245,7 @@ class ResourceController extends BaseController {
 
 		$inst_arr = $this->institution->getInstitutions();
 		$category = $this->category->getCategory($institution_id);
-		$subjects = $this->subject->getSubject($institution_id, $category_id);		
+		$subjects = $this->subject->getSubject( $category_id);		
 
 		return view('resources::lesson.edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id'));
 	}

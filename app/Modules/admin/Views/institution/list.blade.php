@@ -5,6 +5,7 @@
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading">Institutions
+					<a href="{{ url('/user/institutionBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
 					<a href="{{ url('/user/institutionadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
 				<div>
