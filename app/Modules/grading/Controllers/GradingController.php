@@ -672,19 +672,19 @@ class GradingController extends BaseController {
 		$questions_list=QuestionUserAnswer::where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('user_id',(int)$user_id)->lists('question_id');
 		//dd($questions_list);
 		$qua=new QuestionUserAnswer();
-		foreach($post['essay_answers'] as $key=>$essay_answer){
+		foreach($post['essay_answer_scores'] as $key=>$essay_answer){
 			//dd($post['essay_answers']);
 			if(in_array($key,$questions_list)){
 				$answer=$qua->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
-					->update(['question_answer_text'=>$essay_answer]);
+					->update(['points'=>$essay_answer/*,'question_answer_text'=>$essay_answer*/]);
 			}
 			else{
 				$qua->assessment_id=$assessment_id;
 				$qua->assignment_id=$assignment_id;
 				$qua->user_id=$user_id;
 				$qua->question_id=$key;
-				$qua->question_answer_text=$essay_answer;
-				$qua->points=$post['essay_answer_scores'][$key];
+				//$qua->question_answer_text=$essay_answer;
+				$qua->points=$essay_answer;
 				$qua->save();
 			}
 
@@ -980,6 +980,9 @@ class GradingController extends BaseController {
 			'created_at' => $now,
 			'updated_at' => $now
 			]);
+			if($obj){
+				AssignmentUser::where('assignment_id',$assignmentId)->where('user_id',$user_id->id)->update(['gradestatus'=>'completed']);
+			}
 		}
 		else{
 			

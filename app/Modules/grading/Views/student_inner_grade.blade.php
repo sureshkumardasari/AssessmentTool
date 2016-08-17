@@ -139,7 +139,7 @@
                                                                 <div class="modal-body" id="{{$j}}">
                                                                     <p>Q. {{$quest['ans_text']}}</p>
                                                                     <div id={{$quest['Id']}}>
-                                                                        <textarea id='essay{{$quest["Id"]}}'></textarea>
+                                                                        Response.<p id='essay{{$quest["Id"]}}'></p>
                                                                     </div>
                                                                     <div></div>
                                                                 </div>
@@ -470,10 +470,10 @@
         function change_essay_answer(id){
             // alert(id);
             var t=$('#essay'+id);
-            var essay_answer= t.val() || t.html() || t.text();
+           // var essay_answer= t.val() || t.html() || t.text();
             // alert(essay_answer);
             //  alert($('#essay'+id).text());
-            Essay_answers[id]=essay_answer;
+          //  Essay_answers[id]=essay_answer;
             Essay_answer_scores[id]=$('#essay_score'+id).val();
             // alert(JSON.stringify(Essay_answers));
             //  alert(JSON.stringify(Essay_answer_scores));
@@ -484,15 +484,16 @@
 
             // alert(JSON.stringify(Essay_answers));
             // alert(Object.keys(Essay_answers).length);
-            if(Object.keys(Essay_answers).length!=0 && Object.keys(Essay_answer_scores).length!=0){
+           var student_id=$('#student').val();
+            if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(Essay_answer_scores).length!=0){
 
                 var csrf=$('Input#csrf_token').val();
                 $.ajax({
                     headers: {"X-CSRF-Token": csrf},
-                    url:"essay_grading_submit/{{$assessment_id}}/{{$assignment_id}}/"+2,
+                    url:"essay_grading_submit/{{$assessment_id}}/{{$assignment_id}}/"+student_id,
                     type:"post",
                     data:{
-                        'essay_answers':Essay_answers,
+                        //'essay_answers':Essay_answers,
                         'essay_answer_scores':Essay_answer_scores
                     },
                     success:function(response){
