@@ -125,7 +125,7 @@
             <div class="panel panel-default">
             <div class="panel-heading">
                 {{$title}} 
-                <a href="{{ url('/resources/assessment') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>               
+               <!--  <a href="{{ url('/resources/assessment') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>          -->      
             </div>
             </div>
             <div class="panel panel-default">

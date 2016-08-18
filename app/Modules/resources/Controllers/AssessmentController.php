@@ -378,9 +378,9 @@ class AssessmentController extends BaseController {
         }
         
         if ($field == 'PdfContent') {  
-            $fullPath = public_path('data/assessment_pdf/template_'. $assessment->id .'.pdf');
+            $fullPath = public_path('data/assessment_pdf/assessment_'. $assessment->id .'.pdf');
         } else {
-            $fullPath = public_path('data/assessment_pdf/template_images_'. $assessment->id .'.pdf');
+            $fullPath = public_path('data/assessment_pdf/assessment_images_'. $assessment->id .'.pdf');
         }
 
         if (!$pdf->saveAs($fullPath)) {
@@ -395,7 +395,7 @@ class AssessmentController extends BaseController {
         
         $s3Path = ''; //$s3->uploadByPath($fullPath, 'subsection_pdf');
         if ($field == 'PdfContent') {  
-        	$fullPath = url().'/data/assessment_pdf/template_'. $assessment->id .'.pdf';
+        	$fullPath = url().'/data/assessment_pdf/assessment_'. $assessment->id .'.pdf';
         }	
         return array('s3Path' => $s3Path, 'pdfPath' => $fullPath);
     }
