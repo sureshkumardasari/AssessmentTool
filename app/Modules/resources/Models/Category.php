@@ -80,6 +80,16 @@ class Category extends Model {
     }
 		$institue = new Institution();
 		$madeDataValidationColumn = array();
+        if ($instituteId == null) {
+            $institues =$institue::orderby('id', 'desc')->take(100)->lists('id');
+        } else {
+            if($findInstituteId){
+                $institues = $institue->where('id', $instituteId)->lists('id');
+                $madeDataValidationColumn = array();
+            }else{
+                $institues = $institue->where('id', $instituteId)->lists('id');
+            }
+        }
     	$countries=[];// $this->getcountries();
 		$states=[];//$this->getstates();
 		//Create Validation for School and State
@@ -87,7 +97,7 @@ class Category extends Model {
 		$indexSchool = 1;
 		$indexState = 1;
 		$exportFields = array(
-			'InstitutionID' => array('options'=>[$institution_name]),
+			'InstitutionID' => $madeDataValidationColumn,
 			'category_name' => array(),
 		);
         $firstRow = false;
