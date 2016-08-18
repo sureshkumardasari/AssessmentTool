@@ -224,7 +224,7 @@ class InstitutionController extends BaseController {
         //dd($userType);
         //dd($role_id );
         $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','institution_name','address1','address2','address3','city','state','phone','pin','country'];
+        $orignalHeaders = ['institution_id','institution_name','address1','address2','address3','city','state','phone','pin','country'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
         //dd($getFirstRow);
         $uploadedFileHeaders = [];
@@ -232,12 +232,13 @@ class InstitutionController extends BaseController {
             $uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
         }
         $headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
-
+//dd($orignalHeaders);
+		//dd($getFirstRow[0]);
         if(!empty($headerDifference)){
             $error = array('status' => 'error', 'msg' => 'Invalid file.');
             return json_encode($error);
         }
-        //        echo '<pre>'; print_r($getFirstRow); die;
+          // echo '<pre>'; print_r($getFirstRow); die;
         // if ($uploadSuccess != false) {
         $errorArray = array();
         //                    try{
@@ -291,7 +292,7 @@ class InstitutionController extends BaseController {
                 });
             })->store('xls', public_path('data/tmp'), true);
 
-            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '../data/tmp/errorlog_' . $destFileName);
 
 
             //return json_encode($errorArray);
