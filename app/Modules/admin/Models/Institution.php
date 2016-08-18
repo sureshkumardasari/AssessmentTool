@@ -251,18 +251,15 @@ class Institution extends Model {
 
 		$dataArr = $data->toArray();
 		$validationRule = [
-				'institutionid' => 'required|numeric|exists:institution,id',
-			'institution_name' => 'required|unique:institution,name|max:50|regex:/^[a-zA-Z0-9@._]+$/',
-
+				'institution_id' => 'required|numeric|exists:institution,id',
+				'institution_name' => 'required|unique:institution,name|max:50|regex:/^[a-zA-Z0-9@._]+$/',
 				'phone' => 'required|regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
 				'address1' => 'required|max:100',
 			// 'city' => 'max:50|required',
 				'city' => 'required|max:50',
 				'state' => 'required',
 				'country' => 'required',
-				'zip' => 'numeric|max:999999|required',
 				'pin' => 'required|regex:/\b\d{6}\b/',
-				'role' => 'required',
 		];
 
 		$messages = [
