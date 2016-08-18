@@ -56,15 +56,16 @@ class Category extends Model {
 
 	public function updateCategory($params = 0)
 	{
+
 		$obj = new Category();
 		if($params['id'] > 0)
 		{
 			$obj = Category::find($params['id']);
-			$obj->updated_by = Auth::category()->id;
+			$obj->updated_by = Auth::user()->id;
 		}
 		else
 		{
-			$obj->added_by = Auth::category()->id;
+			$obj->added_by = Auth::user()->id;
 		}
 		$obj->institution_id = $params['institution_id'];
 		$obj->name = $params['name'];
