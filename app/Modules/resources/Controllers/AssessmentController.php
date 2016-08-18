@@ -239,7 +239,8 @@ class AssessmentController extends BaseController {
 						}
 //					
  				}
- 			return redirect('/resources/assessment');
+ 				return Redirect::route('template', ['id' =>  $assessment_id /*, 'tplId' => $newOrder*/]);
+ 			//return redirect('/resources/assessment');
 		}
  	}
 
@@ -696,7 +697,8 @@ class AssessmentController extends BaseController {
 				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
 			}}
-			return redirect('/resources/assessment');
+			return Redirect::route('template', ['id' =>  $post['id'] /*, 'tplId' => $newOrder*/]);
+			//return redirect('/resources/assessment');
  		}
 	}
 
