@@ -20,7 +20,10 @@ use App\Modules\Resources\Models\Lesson;
 use App\Modules\Resources\Models\Category;
 use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\Assessment;
-
+use Illuminate\Http\Request;
+use Response;
+use Excel;
+use Session;
 class ResourceController extends BaseController {
 
 	/*
@@ -472,5 +475,142 @@ class ResourceController extends BaseController {
 
 		$lesson=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
 		return json_encode($lesson);
-	}		
+	}
+	public function categoryBulkUpload()
+	{
+		$InstitutionObj = new Institution();
+		$inst_arr = $InstitutionObj->getInstitutions();
+		return view('resources::category.bulkupload',compact('inst_arr'));
+	}
+	public function bulkcategoryTemplate(Request $request)
+	{
+
+		$categoryType = $request->input('categoryType');
+
+
+		$institution_id = $request->input('institution_id');
+		$filename = 'category_template_' . $categoryType . '_' . date('Y-m-d') . '.xls';
+		//dd($filename);
+
+		$save = $this->category->bulkcategoryTemplate($filename, $categoryType,$institution_id, false, true);
+		//dd($save);
+		if ($save == null) {
+			return Response::json(array('file_name' => url()."/data/tmp/$filename"));
+		} else {
+			return Response::json(array('file_name' => false));
+		}
+	}
+	public function bulkcategoryUpload(Request $request)
+	{
+		$institutionId = $request->input('institutionId');
+		$categoryType = $request->input('categoryType');
+
+		if (empty($institutionId)) {
+			$institutionId = Auth::category()->institution_id;
+		}
+
+		$uploadSuccess = false;
+		$file = $request->file('file');
+		$destFileName = '';
+
+		$fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
+
+		$validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
+
+		if ($validator->fails()) {
+			$errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
+			return json_encode($errorArray);
+		}
+
+		if ($file) {
+			$extension = $file->getClientOriginalExtension();
+			if ($extension != 'xls') {
+				$error = array('status' => 'error', 'msg' => 'Upload valid file type.');
+				return json_encode($error);
+			}
+			// Moving the uploaded image to respective directory
+			$destPath = public_path() . '/data/tmp';
+			$destFileName = str_random(6) . '_' . $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destPath, $destFileName);
+		} else {
+			$errorArray = array('status' => 'error', 'msg' => 'File does not exist');
+			return json_encode($errorArray);
+		}
+
+		$this->errorArray=array();
+		return  $some=$this->categoryfileupload($destPath,$destFileName, $institutionId, $categoryType);
+		// return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+	}
+	public function categoryfileupload($destPath,$destFileName, $institutionId, $categoryType){
+		$uploadSuccess = false;
+		$orignalHeaders = ['institutionid','category_name'];
+		$getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
+
+		$uploadedFileHeaders = [];
+		if(!empty($getFirstRow[0])){
+			$uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
+		}
+		$headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
+		if(!empty($headerDifference)){
+			$error = array('status' => 'error', 'msg' => 'Invalid file.');
+			return json_encode($error);
+		}
+		//        echo '<pre>'; print_r($getFirstRow); die;
+		// if ($uploadSuccess != false) {
+		$errorArray = array();
+		//                    try{
+		$output = Excel::load($destPath . '/' . $destFileName, function($results) use ($institutionId) {
+			$phpExcel = $results->setActiveSheetIndex(1);
+			$fileType = $phpExcel->getCell('D1')->getValue();
+			$phpExcel = $results->setActiveSheetIndex(0);
+			$rowCount = $phpExcel->getHighestRow();
+			$emptyFile = true;
+			if ($rowCount > 1) {
+
+				$phpExcel = $results->setActiveSheetIndex(0);
+				$firstSheet = $results->get()[0];
+				foreach ($firstSheet as $key => $row) {
+					$arrayCol = $row->toArray();
+					//Ceck Empty Row
+					$rowSize = 0;
+					foreach ($arrayCol as $cell) {
+						$rowSize += strlen($cell);
+					}
+					if ($rowSize == 0) {
+						continue;
+					}
+					//Check Empty Row End
+					$emptyFile = false;
+					$status = Category::validateBulUpload($fileType, $row, $key + 2);
+					if (count($status) > 0) {
+						$this->errorArray = array_merge($this->errorArray, $status);
+					} else {
+						Category::createBulkUser($row, $institutionId);
+					}
+				}
+
+			} else {
+
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+			if ($emptyFile) {
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+		});
+		if (count($this->errorArray) > 0) {
+
+			Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($errorArray) {
+				$excel->sheet('error_log', function($sheet) use($errorArray) {
+					$sheet->fromArray($this->errorArray);
+				});
+			})->store('xls', public_path('data/tmp'), true);
+
+			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+		} else {
+
+			Session::flash('success', 'File uploaded successfully.');
+			return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+			// return json_encode($sucessarray);
+		}
+	}
 }
