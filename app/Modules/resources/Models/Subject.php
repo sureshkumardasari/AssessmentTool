@@ -99,15 +99,13 @@ class Subject extends Model {
 		{
 			$obj = Subject::find($params['id']);
 			$obj->updated_by = Auth::user()->id;
-			$obj->updated_by = Auth::category()->id;
-			$obj->updated_by = Auth::subject()->id;
+
 
 		}
 		else
 		{
 			$obj->added_by = Auth::user()->id;
-			$obj->updated_by = Auth::category()->id;
-			$obj->updated_by = Auth::subject()->id;
+			
 
 		}
 		$obj->institution_id = $params['institution_id'];
