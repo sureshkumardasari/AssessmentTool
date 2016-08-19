@@ -125,7 +125,7 @@
             <div class="panel panel-default">
             <div class="panel-heading">
                 {{$title}} 
-               <!--  <a href="{{ url('/resources/assessment') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>          -->      
+                <a href="{{ url('/resources/assessment') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>               
             </div>
             </div>
             <div class="panel panel-default">
@@ -928,13 +928,13 @@ $path = url()."/resources/";
                 @endif
 
 
-                $('.btn_preview').on('click', function() {
-                    savePrintOnlineView($('#btn_save'), true);
-                });
-
-                $('#btn_save').on('click', function() {
-                    savePrintOnlineView($(this), false);
-                });
+//                $('.btn_preview').on('click', function() {
+//                    savePrintOnlineView($('#btn_save'), true);
+//                });
+//
+//                $('#btn_save').on('click', function() {
+//                    savePrintOnlineView($(this), false);
+//                });
 
                 // bind next prev events
                 $('body').on('click', '#next', function(e) {
@@ -1358,6 +1358,8 @@ $path = url()."/resources/";
             }
 
             function savePrintOnlineView(btn, openPdf) {
+/*
+
                // alert('asdfgh');
                 var status="false";
                 if(status="false"){
@@ -1385,7 +1387,7 @@ $path = url()."/resources/";
                     var html = $('.preview-area').clone();
                     html.find('.break.lines, .break, .page:empty').remove();
 
-                    /*
+                    /!*
                     //////////////////////////////////////////////
                     // change s3 images to session based        //
                     //////////////////////////////////////////////
@@ -1403,7 +1405,7 @@ $path = url()."/resources/";
                             imgs.push('');
                         }
                     });
-                    
+
                     $.ajax({
                         url: '/assessment/update-image-path',
                         data: {imgs: imgs},
@@ -1419,7 +1421,7 @@ $path = url()."/resources/";
                             });
                         }
                     });
-                    */
+                    *!/
                     //////////////////////////////////////////////
                     // END: change s3 images to session based   //
                     //////////////////////////////////////////////
@@ -1448,7 +1450,7 @@ $path = url()."/resources/";
                     });
                     html_orginal = html_orginal.html().trim();
                     var html_orginal2 = "";
-                    
+
                     $('#btn_save').addClass('disabled');
                     $(document).ajaxSend(function (event, request, settings) {
                         showMsg('Please Wait');
@@ -1495,6 +1497,7 @@ $path = url()."/resources/";
                         }
                     });
                 }
+*/
             }
 
             // Moves the breaks out of the style tags in order
@@ -1634,6 +1637,7 @@ $path = url()."/resources/";
                         // toggleMsg('Please wait..');
                     },
                     success: function(response) {
+                        alert(pdfView);
                         //alert(response);
                      $.ajax({
                             method: "POST",
