@@ -182,6 +182,8 @@ class Category extends Model {
 
 		$dataArr = $data->toArray();
 		$validationRule = [
+				'institutionid' => 'required|numeric|exists:institution,id',
+				'category_name'=>'required|unique:category,name|min:3',
 		];
 		$messages = [
 		];

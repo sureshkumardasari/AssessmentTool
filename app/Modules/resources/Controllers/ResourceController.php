@@ -592,7 +592,7 @@ class ResourceController extends BaseController
                 });
             })->store('xls', public_path('data/tmp'), true);
 
-            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '../data/tmp/errorlog_' . $destFileName);
         } else {
 
             Session::flash('success', 'File uploaded successfully.');
@@ -737,7 +737,7 @@ class ResourceController extends BaseController
                 });
             })->store('xls', public_path('data/tmp'), true);
 
-            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '../data/tmp/errorlog_' . $destFileName);
         } else {
 
             Session::flash('success', 'File uploaded successfully.');
@@ -828,13 +828,14 @@ class ResourceController extends BaseController
     public function lessonfileupload($destPath, $destFileName, $institutionId, $lessonType)
     {
         $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','categoryId','subjectId','lesson_name'];
+        $orignalHeaders = ['institutionid','categoryid','subjectid','lesson_name'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
 
         $uploadedFileHeaders = [];
         if (!empty($getFirstRow[0])) {
             $uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
         }
+       //dd($orignalHeaders);
         $headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
         if (!empty($headerDifference)) {
             $error = array('status' => 'error', 'msg' => 'Invalid file.');
@@ -890,9 +891,9 @@ class ResourceController extends BaseController
                 });
             })->store('xls', public_path('data/tmp'), true);
 
-            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
-        } else {
-
+            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => '../data/tmp/errorlog_' . $destFileName);
+        } else
+        {
             Session::flash('success', 'File uploaded successfully.');
             return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
             // return json_encode($sucessarray);

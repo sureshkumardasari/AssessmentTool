@@ -232,6 +232,9 @@ class Subject extends Model {
 
 		$dataArr = $data->toArray();
 		$validationRule = [
+				'institutionid' => 'required|numeric|exists:institution,id',
+				'category_name'=>'required',
+		        'subject_name'=>'required|unique:subject,name|min:3',
 		];
 		$messages = [
 		];
