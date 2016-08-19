@@ -139,8 +139,8 @@ class Lesson extends Model {
 		$indexState = 1;
 		$exportFields = array(
 			'InstitutionID' => array('value'=>[$institution_name]),
-			'category_name' => array('value'=>$category_name),
-			'subject_name'  => array('options'=>$subject_name),
+			'category_ID' => array('value'=>$category_name),
+			'subject_ID'  => array('options'=>$subject_name),
 			'lesson_name' => array(),
 		);
 		$firstRow = false;
