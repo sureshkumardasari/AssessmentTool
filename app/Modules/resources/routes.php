@@ -119,4 +119,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('SubjectBulkUpload', array('as' => 'subjectBulkUpload', 'uses'=>'ResourceController@subjectBulkUpload'));
     Route::get('BulkSubjectTemplate', array('as'=>'bulksubjectTemplate','uses'=>'ResourceController@bulksubjectTemplate'));
     Route::post('BulkSubjectUpload', array('as'=>'bulksubjectUpload','uses'=>'ResourceController@bulksubjectUpload'));
+
+    Route::get('lessonBulkUpload', array('as' => 'lessonBulkUpload', 'uses'=>'ResourceController@lessonBulkUpload'));
+    Route::get('BulkLessonTemplate', array('as'=>'bulklessonTemplate','uses'=>'ResourceController@bulklessonTemplate'));
+    Route::post('BulkLessonUpload', array('as'=>'bulklessonUpload','uses'=>'ResourceController@bulklessonUpload'));
 });

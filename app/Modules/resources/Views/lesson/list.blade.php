@@ -17,6 +17,8 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
 					<a href="{{ url('/resources/lessonadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
+					<a href="{{ route('lessonBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>Bulk Upload </a>
+
 				</div>
 
 				<div class="panel-body">
