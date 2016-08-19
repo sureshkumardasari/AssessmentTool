@@ -746,4 +746,157 @@ class ResourceController extends BaseController
         }
 
     }
+    //////// ............Lessons bulk import...........////////////////
+    public function lessonBulkUpload()
+    {
+        $InstitutionObj = new Institution();
+        $categoryonObj = new Category();
+        $lessonobj= new Lesson();
+        $inst_arr = $InstitutionObj->getInstitutions();
+        $sub_arr=$lessonobj->getLesson();
+        $cate_arr = $categoryonObj->getCategory();
+        //dd($cate_arr);
+        return view('resources::lesson.bulkupload', compact('inst_arr','sub_arr','cate_arr'));
+    }
+
+    public function bulklessonTemplate(Request $request)
+    {
+        //dd($request);
+
+        $lessonType = $request->input('lessonType');
+
+
+        $institution_id = $request->input('institution_id');
+        $category_id = $request->input('category_id');
+        $subject_id=$request->input('subject_id');
+
+        $filename = 'lesson_template_' . $lessonType. '_' . date('Y-m-d') . '.xls';
+        //dd($filename);
+
+        $save = $this->lesson->bulklessonTemplate($filename, $lessonType, $institution_id,$category_id,$subject_id);
+        //dd($save);
+        if ($save == null) {
+            return Response::json(array('file_name' => url() . "/data/tmp/$filename"));
+        } else {
+            return Response::json(array('file_name' => false));
+        }
+    }
+
+    public function bulklessonUpload(Request $request)
+    {
+        $institutionId = $request->input('institutionId');
+
+        $lessonType = $request->input('lessonType');
+
+        if (empty($institutionId)) {
+            $institutionId = Auth::Lesson()->institution_id;
+        }
+
+        $uploadSuccess = false;
+        $file = $request->file('file');
+        $destFileName = '';
+
+        $fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
+
+        $validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
+
+        if ($validator->fails()) {
+            $errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
+            return json_encode($errorArray);
+        }
+
+        if ($file) {
+            $extension = $file->getClientOriginalExtension();
+            if ($extension != 'xls') {
+                $error = array('status' => 'error', 'msg' => 'Upload valid file type.');
+                return json_encode($error);
+            }
+            // Moving the uploaded image to respective directory
+            $destPath = public_path() . '/data/tmp';
+            $destFileName = str_random(6) . '_' . $file->getClientOriginalName();
+            $uploadSuccess = $file->move($destPath, $destFileName);
+        } else {
+            $errorArray = array('status' => 'error', 'msg' => 'File does not exist');
+            return json_encode($errorArray);
+        }
+
+        $this->errorArray = array();
+        return $some = $this->lessonfileupload($destPath, $destFileName, $institutionId, $lessonType);
+        // return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+    }
+
+    public function lessonfileupload($destPath, $destFileName, $institutionId, $lessonType)
+    {
+        $uploadSuccess = false;
+        $orignalHeaders = ['institutionid','category_name','subject_name','lesson_name'];
+        $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
+
+        $uploadedFileHeaders = [];
+        if (!empty($getFirstRow[0])) {
+            $uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
+        }
+        $headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
+        if (!empty($headerDifference)) {
+            $error = array('status' => 'error', 'msg' => 'Invalid file.');
+            return json_encode($error);
+        }
+        //        echo '<pre>'; print_r($getFirstRow); die;
+        // if ($uploadSuccess != false) {
+        $errorArray = array();
+        //                    try{
+        $output = Excel::load($destPath . '/' . $destFileName, function ($results) use ($institutionId) {
+            $phpExcel = $results->setActiveSheetIndex(1);
+            $fileType = $phpExcel->getCell('D1')->getValue();
+            $phpExcel = $results->setActiveSheetIndex(0);
+            $rowCount = $phpExcel->getHighestRow();
+            $emptyFile = true;
+            if ($rowCount > 1) {
+
+                $phpExcel = $results->setActiveSheetIndex(0);
+                $firstSheet = $results->get()[0];
+                foreach ($firstSheet as $key => $row) {
+                    $arrayCol = $row->toArray();
+                    //Ceck Empty Row
+                    $rowSize = 0;
+                    foreach ($arrayCol as $cell) {
+                        $rowSize += strlen($cell);
+                    }
+                    if ($rowSize == 0) {
+                        continue;
+                    }
+                    //Check Empty Row End
+                    $emptyFile = false;
+                    $status = Lesson::validateBulUpload($fileType, $row, $key + 2);
+                    if (count($status) > 0) {
+                        $this->errorArray = array_merge($this->errorArray, $status);
+                    } else {
+                        Lesson::createBulkUser($row, $institutionId);
+                    }
+                }
+
+            } else {
+
+                $this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+            }
+            if ($emptyFile) {
+                $this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+            }
+        });
+        if (count($this->errorArray) > 0) {
+
+            Excel::create('errorlog_' . explode('.', $destFileName)[0], function ($excel) use ($errorArray) {
+                $excel->sheet('error_log', function ($sheet) use ($errorArray) {
+                    $sheet->fromArray($this->errorArray);
+                });
+            })->store('xls', public_path('data/tmp'), true);
+
+            return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+        } else {
+
+            Session::flash('success', 'File uploaded successfully.');
+            return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+            // return json_encode($sucessarray);
+        }
+
+    }
 }
