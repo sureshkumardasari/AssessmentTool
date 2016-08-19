@@ -98,7 +98,7 @@
 							<div class="form-group required">
 								<label class="col-md-4 control-label">Pincode</label>
 								<div class="col-md-6">
-									<input type="text" class="form-control" name="pincode" value="{{ old('pincode') }}">
+									<input type="text" class="form-control" name="pincode" value="{{ old('pincode') }}" maxlength="6">
 								</div>
 							</div>
 							<div class="form-group required">

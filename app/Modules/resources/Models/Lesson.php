@@ -138,9 +138,9 @@ class Lesson extends Model {
 		$indexSchool = 1;
 		$indexState = 1;
 		$exportFields = array(
-			'InstitutionID' => array('value'=>[$institution_name]),
-			'category_ID' => array('value'=>$category_name),
-			'subject_ID'  => array('options'=>$subject_name),
+			'institutionId' => array('value'=>[$institution_name]),
+			'categoryId' => array('value'=>$category_name),
+			'subjectId'  => array('options'=>$subject_name),
 			'lesson_name' => array(),
 		);
 		$firstRow = false;
@@ -230,10 +230,13 @@ class Lesson extends Model {
 
 		$dataArr = $data->toArray();
 		$validationRule = [
+				'institutionid' => 'required|numeric|exists:institution,id',
+				'category_name'=>'required',
+				'subject_name'=>'required',
+				'lesson_name'=>'required|unique:lesson,name|min:3',
 		];
 		$messages = [
 		];
-
 		$validator = Validator::make($dataArr, $validationRule, $messages);
 		if ($validator->fails()) {
 			$messages = $validator->messages();
