@@ -77,13 +77,13 @@ class AssignmentController extends BaseController {
 			$assignments = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
 					->where('assignment.institution_id', '=', $uid)
-					->select('assignment.id', 'assignment.name', 'assessment.name as assessment_name', 'assignment.startdatetime', 'assignment.status')->get();
+					->select('assignment.id', 'assignment.name', 'assessment.name as assessment_name', 'assignment.startdatetime', 'assignment.enddatetime', 'assignment.status')->get();
 			//dd($assignments);
 		}
 		else{
 			$assignments = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
-					->select('assignment.id', 'assignment.name', 'assessment.name as assessment_name', 'assignment.startdatetime', 'assignment.status')->get();
+					->select('assignment.id', 'assignment.name', 'assessment.name as assessment_name', 'assignment.startdatetime', 'assignment.enddatetime', 'assignment.status')->get();
 			//dd($assignments);
 		}
         return view('resources::assignment.list',compact('assignments'));
@@ -331,5 +331,16 @@ class AssignmentController extends BaseController {
 		}	
 
 		return json_encode($users);
+	}
+
+	public function updateAssignmentUserStatus($auid = 0, $status = '')
+	{
+		//echo $auid;
+		if($auid > 0 && $status != '')
+		{
+			$data = $this->assignmentuser->find($auid);
+			$data->status = $status;
+			$data->save();
+		}
 	}
 }

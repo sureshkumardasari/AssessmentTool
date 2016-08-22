@@ -123,4 +123,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('lessonBulkUpload', array('as' => 'lessonBulkUpload', 'uses'=>'ResourceController@lessonBulkUpload'));
     Route::get('BulkLessonTemplate', array('as'=>'bulklessonTemplate','uses'=>'ResourceController@bulklessonTemplate'));
     Route::post('BulkLessonUpload', array('as'=>'bulklessonUpload','uses'=>'ResourceController@bulklessonUpload'));
+
+    Route::get('assignmentuserstatus', array('as' => 'assignment-userstatus', 'uses'=>'AssignmentController@updateAssignmentUserStatus'));
+    Route::get('assignmentuserstatus/{id}/{status}', array('as' => 'assignment-userstatus-update', 'uses'=>'AssignmentController@updateAssignmentUserStatus'));
+    
 });

@@ -25,6 +25,8 @@
 				                <th>Name</th>
 								<th>AssessmentName</th>
 								<th>StartDateTime</th>
+								<th>EndDateTime</th>
+								<th>Status</th>
 				                <th></th>
 				            </tr>
 				        </thead>
@@ -33,7 +35,9 @@
 				            <tr>
 				                <td>{{ $row->name }}</td>
                                 <td>{{$row->assessment_name}}</td>
-								<td>{{$row->startdatetime}}</td>
+								<td>{{date('Y/m/d g:i:s A', strtotime($row->startdatetime))}}</td>
+								<td>{{date('Y/m/d g:i:s A', strtotime($row->enddatetime))}}</td>
+								<td>{{$row->status}}</td>
 									<td>
 				                	<a href="{{ url('/resources/assignmentview/'.$row->id) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>	
 				                	@if($row->status=="upcoming")

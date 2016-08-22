@@ -50,7 +50,7 @@ class Assignment extends Model {
                         ->join('institution', 'institution.id', '=', 'assignment.institution_id')
                        	->where('assignment.id', $id)
                      
-                        ->select('assignment.id as id','assignment.assessment_id','assignment.name','assignment.description','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires','assignment.launchtype','assessment.name as assessment_name','assessment.print_view_file','users.name as proctor_name','assignment.proctor_instructions','institution.name as institution_name','assignment.delivery_method')
+                        ->select('assignment.id as id','assignment.status as status','assignment.assessment_id','assignment.name','assignment.description','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires','assignment.launchtype','assessment.name as assessment_name','assessment.print_view_file','users.name as proctor_name','assignment.proctor_instructions','institution.name as institution_name','assignment.delivery_method')
                         ->get();
 
 		return $assignment[0];
