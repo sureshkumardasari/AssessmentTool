@@ -9,7 +9,7 @@
 			body {font: 18px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; }
 			.header img {display: block; margin: auto; }
 			body {font: 18px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; }
-			.header {width: 816px; margin: auto; overflow: hidden; padding:15px 27px;}
+			.header {width: 800px; margin: auto; overflow: hidden; padding:15px 27px;}
 			.wrapper { background-color: white; }
 			 tr {page-break-inside: avoid !important; }
 			.break {page-break-before:always; }			
