@@ -50,16 +50,14 @@
                         {!! strip_tags(htmlspecialchars_decode($questions['qst_text'])) !!}
                     </div>
                     @endif
-
-                    <?php
-                    $optind = ['A','B','C','D','E'];
-                    ?>
+                    
+                    <ol type="A">
                     @foreach($questions['answers'] as $key => $answer)
-                        <div class="bullet-answer-elem" style='padding: 0 0 5px 75px;'>
-                                    {!! $optind[$key].'. '.$answer['ans_text'] !!}
-                        </div>
-                        <div class="clr"></div>                        
+                        <li>
+                            {!! $answer['ans_text'] !!}
+                        </li>                                             
                     @endforeach
+                    </ol>
 
                     
                 </div>
