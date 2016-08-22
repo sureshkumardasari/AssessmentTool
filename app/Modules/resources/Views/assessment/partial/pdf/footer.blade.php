@@ -45,7 +45,7 @@
 	<div class="wrapper @yield('wrapper-class')">
 		
 		<div class="header" style="text-align:center">			
-			{!! $footer !!}			
+			{!! '#############'.$footer !!}			
 		</div>		
 	</div>
 </body>

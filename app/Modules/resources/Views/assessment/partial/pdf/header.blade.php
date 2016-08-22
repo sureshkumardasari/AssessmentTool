@@ -39,7 +39,7 @@
 	<div class="wrapper @yield('wrapper-class')">
 		
 		<div class="header" style="text-align:center;">			
-			{!! $header !!}			
+			{!! '#############'.$header !!}			
 		</div>		
 	</div>
 </body>
