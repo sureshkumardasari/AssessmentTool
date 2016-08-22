@@ -231,8 +231,8 @@ class Lesson extends Model {
 		$dataArr = $data->toArray();
 		$validationRule = [
 				'institutionid' => 'required|numeric|exists:institution,id',
-				'category_name'=>'required',
-				'subject_name'=>'required',
+				'categoryid'=>'required',
+				'subjectid'=>'required',
 				'lesson_name'=>'required|unique:lesson,name|min:3',
 		];
 		$messages = [
@@ -250,9 +250,9 @@ class Lesson extends Model {
 	{
 		//dd($row);
 
-		$category_id=Category::where('id',$row->category_name)->first()->id;
+		$category_id=Category::where('id',$row->categoryid)->first()->id;
 		//dd($category_id);
-		$subject_id=Lesson::where('id',$row->subject_name)->first()->id;
+		$subject_id=Lesson::where('id',$row->subjectid)->first()->id;
 		//dd($category_id);
 		$obj = new self;
 		$obj->institution_id = $institutionId;
