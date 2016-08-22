@@ -340,12 +340,12 @@ class User extends Model {
 
 	    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 
-		if (!is_dir(public_path() . '/data/tmp')) {
-			mkdir(public_path() . '/data/tmp', 0777);
-			chmod(public_path() . '/data/tmp', 0777);
+		if (!is_dir(public_path('data/tmp/'))) {
+			@mkdir(public_path('data/tmp/'), 0777 ,true);
+			@chmod(public_path('data/tmp/'), 0777 ,true);
 		}
 
-	    $save = $objWriter->save(public_path() . '/data/tmp/' . $filename);
+		$save = $objWriter->save(public_path() . '/data/tmp/' . $filename);
 	    return $save;
 	}
 

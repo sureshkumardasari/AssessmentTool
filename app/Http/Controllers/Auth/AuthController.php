@@ -57,7 +57,12 @@ class AuthController extends Controller {
 		
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
-			return redirect()->intended($this->redirectPath());
+            if (!is_dir(public_path('data/'))) {
+                @mkdir(public_path('data/'), 0777 ,true);
+                @chmod(public_path('data/'), 0777 ,true);
+            }
+
+            return redirect()->intended($this->redirectPath());
 		}
 
 		return redirect($this->loginPath())

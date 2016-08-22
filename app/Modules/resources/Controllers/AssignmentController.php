@@ -186,7 +186,10 @@ class AssignmentController extends BaseController {
 			$assignment = Input::All();		
 			$assignmentUsersArr	= array();
 		}
-		
+		if (!is_dir(public_path('data/assessment_pdf/'))) {
+			@mkdir(public_path('data/assessment_pdf/'), 0777, true);
+		}
+
 		//$assessments_arr = Assessment::lists('name','id');
 		
 		
