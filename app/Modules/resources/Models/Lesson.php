@@ -112,7 +112,7 @@ class Lesson extends Model {
 	    $institution_name="";
 		$category_name=Category::where('institution_id','=',$instituteId)->lists('name');
 		//($category_name);
-		$subject_name=Subject::where('category_id','=',$categoryId)->lists('name');
+		$subject_name=Subject::where('category_id','=',$categoryId)->lists('id');
 		//dd($subject_name);
 		if($instituteId != null){
 			$institution_name = Institution::find($instituteId)->id;
