@@ -38,8 +38,8 @@
 <body>
 	<div class="wrapper @yield('wrapper-class')">
 		
-		<div class="header" style="text-align:center;">			
-			{!! '#############'.$header !!}			
+		<div class="header" style="text-align:center;font-size:14px;border-bottom:1px solid #000;height:auto;word-wrap: break-word;">			
+			{!! $header !!}			
 		</div>		
 	</div>
 </body>
