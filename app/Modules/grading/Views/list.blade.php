@@ -49,7 +49,7 @@
                 <div class="panel-body">
 					<label class="col-md-2 control-label">Institution</label>
 					<div class="col-md-4">
-						<select class="form-control" name="institution_id" id="institution_id" onclick="getAssignmentsforgrading()">
+						<select class="form-control" name="institution_id" id="institution_id" onchange="getAssignmentsforgrading()">
 							<option value="0">Select</option>
 							@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}">{{ $val }}</option>
@@ -126,12 +126,13 @@
 		
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
+			var loadurl = "{{ url('/resources/assignments') }}/" ;
 
 			$.ajax(
 					{
 
 						headers: {"X-CSRF-Token": csrf},
-						url: loadurl + $('#institution_id').val(),
+						url:loadurl + $('#institution_id').val(),
 						type: 'get',
 						success: function (response) {
 							$('#assignmentstable').dataTable().fnDestroy();
@@ -141,6 +142,7 @@
 								tr = $('<tr/>');
 								tr.append("<td>" + response[i].assessment_name + "");
 								tr.append("<td>" + response[i].name + "");
+								tr.append("<td>"+ "</td>");
 								tr.append("<td>"+ "</td>");
 								$('#assignbody').append(tr);
 
