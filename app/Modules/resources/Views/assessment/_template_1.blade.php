@@ -40,7 +40,7 @@
 
                 <div class="other_content_data" data-id="{{ $questions['title'] }}" style="padding-bottom:10px;">
 
-                    <div class="qst-item-text" contenteditable='false' style="float: left; width: 36px; position: relative;">
+                    <div class="qst-item-text" contenteditable='false' style="float: left; width: 25px; position: relative;">
                         {{ $questionCount }}.
                     </div>
 
@@ -51,7 +51,7 @@
                     </div>
                     @endif
                     
-                    <ol type="A">
+                    <ol type="A"  style="margin-left:15px">
                     @foreach($questions['answers'] as $key => $answer)
                         <li>
                             {!! $answer['ans_text'] !!}
