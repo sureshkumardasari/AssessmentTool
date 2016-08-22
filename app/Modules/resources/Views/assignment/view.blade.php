@@ -85,7 +85,7 @@
 
 						<div class="row">
 							<div class="col-md-6 col-md-offset-4">							
-								<!-- <button type="button" class="btn btn-primary">  --><a target="_blank" href="{{asset('data/assessment_pdf/'. $assignment->print_view_file)}}" ><button type="button" class="btn btn-primary"> Print Test</button></a> <!-- </button> -->
+								<!-- <button type="button" class="btn btn-primary">  --><a target="_blank" href="{{asset('data/assessment_pdf/assessment_'. $assignment->id .'.pdf')}}" ><button type="button" class="btn btn-primary"> Print Test</button></a> <!-- </button> -->
 								<button type="button"  class="btn btn-primary btnAnswerKeys">Print Answer Key</button>
 							</div>
 						</div>					
