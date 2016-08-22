@@ -25,7 +25,7 @@
     <div class='question mb10 other_question ' data-passage-type="" data-passage-id="{{ !empty($passage_id) ? $passage_id : '0' }}" data-passage-type="{{ !empty($passage_id) ? 'PassageLines' : 'none' }}">
         <div>
         
-            @if(isset($passage_id)) 
+            @if(isset($passage_id) && $passage_id>0) 
             <div class='questions_passage passage_content_{{ $passage_id }}' data-passage-id="{{ $passage_id }}" data-passage-type="{{ !empty($passage_id) ? 'PassageLines' : 'none' }}">
                 {!! $questionsdata['psg_title'] !!} <br/>
                 {!! strip_tags(htmlspecialchars_decode($questionsdata['psg_txt'])) !!}
@@ -38,22 +38,25 @@
                 <!-- NEVER DELETE THIS DIV other wise test experience will BREAK  >:( -->
                 <div class='question_order' style="display:none;">{{ ++$questionCount }}</div>
 
-                <div class="other_content_data" data-id="{{ $questions['title'] }}">
+                <div class="other_content_data" data-id="{{ $questions['title'] }}" style="padding-bottom:10px;">
 
                     <div class="qst-item-text" contenteditable='false' style="float: left; width: 36px; position: relative;">
                         {{ $questionCount }}.
                     </div>
 
                     @if (isset($questions['qst_text']) && !empty($questions['qst_text']))
-                    <div style="padding: 0 0 15px 40px;" class="qst-item-text">
+                    <div style="padding: 0 0 5px 15px;" class="qst-item-text">
                         <!-- {!! $questions['title'] !!} -->
                         {!! strip_tags(htmlspecialchars_decode($questions['qst_text'])) !!}
                     </div>
                     @endif
 
+                    <?php
+                    $optind = ['A','B','C','D','E'];
+                    ?>
                     @foreach($questions['answers'] as $key => $answer)
-                        <div class="bullet-answer-elem" style='padding: 0 0 8px 93px;'>
-                                    {!! $answer['ans_text'] !!}
+                        <div class="bullet-answer-elem" style='padding: 0 0 5px 75px;'>
+                                    {!! $optind[$key].'. '.$answer['ans_text'] !!}
                         </div>
                         <div class="clr"></div>                        
                     @endforeach

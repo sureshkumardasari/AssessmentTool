@@ -155,7 +155,7 @@
                                                     <span class="click-heading">Click "Enter" to add the line breaks to modify the page layout.</span>
                                                     <div class="side-area">
                                                         <div class="fltR">
-                                                            <a class="btn_preview upload_btn mL0 mt0 mr0" href="javascript:void(0)" id='btn_preview'>save and Preview</a>
+                                                            <a class="btn btn-primary btn_preview upload_btn mL0 mt0 mr0" href="javascript:void(0)" id='btn_preview'>Save and Preview</a>
                                                         </div>
                                                     </div>
                                                 @endif
