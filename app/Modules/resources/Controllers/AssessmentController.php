@@ -439,8 +439,8 @@ class AssessmentController extends BaseController {
  	public function getTemplate($id=0, $tplId=0){
  		$assessment=DB::table('assessment')->where('id','=',$id)->select('name', 'begin_instruction', 'end_instruction', 'header', 'footer', 'titlepage')->get();
  		$title = $assessment[0]->name;
-		$beginInstructions = $assessment[0]->begin_instruction;
-		$endInstructions = $assessment[0]->end_instruction;
+		$beginInstructions = '';// $assessment[0]->begin_instruction;
+		$endInstructions = '';// $assessment[0]->end_instruction;
 		$header = $assessment[0]->header;
 		$footer = $assessment[0]->footer;
 		$titlePage = $assessment[0]->titlepage;
