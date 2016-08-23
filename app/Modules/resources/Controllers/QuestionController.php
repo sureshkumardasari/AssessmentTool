@@ -23,7 +23,15 @@ use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\QuestionType;
 use App\Modules\Resources\Models\Passage;
 use Storage;
-use Request;
+use Illuminate\Http\JsonResponse;
+use Response;
+use App\Modules\Admin\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Modules\Admin\Models\RoleUser;
+// use Request;
+use Illuminate\Http\Request;
+use Session;
+
 
 class QuestionController extends BaseController {
 
@@ -72,7 +80,8 @@ class QuestionController extends BaseController {
 
 		$obj = new Lesson();
 		$this->lesson = $obj;
-	}
+
+  	}
 
 	/**
 	 * Show the application dashboard to the user.
@@ -471,6 +480,7 @@ class QuestionController extends BaseController {
 				->where('institution.id','=',$id)
 				->select('category.id','category.name')
 				->get();
+
 		return $category;
 	}
 	public function subjectList($id){
@@ -611,5 +621,174 @@ class QuestionController extends BaseController {
 			$response['status'] = 'error';
 		}
 		return $response;
+	}
+	public function questionBulkUpload()
+	{
+		$InstitutionObj = new Institution();
+		$inst_arr = $InstitutionObj->getInstitutions();
+		$qtypes = $this->question_type->getQuestionTypes();
+		return view('resources::question.question_bulkupload',compact('inst_arr','qtypes'));
+	}
+
+	public function questionBulkTemplate(Request $request)
+	{
+ 		$userType = $request->input('userType');
+		$institution_id = $request->input('institution_id');
+		//dd($request);
+		$category_id=$request->input('category_name');
+		$subject_id=$request->input('subject_name');
+		$lesson_id=$request->input('lesson_name');
+		$question_type=$request->input('question_name');
+		//dd($category_id.$subject_id.$lesson_id.$question_type);
+		$data=$request->Input();
+		//dd($institution_id);
+ 		$filename = 'question_template_' . $userType . '_' . date('Y-m-d') . '.xls';
+
+		$save = $this->question->questionBulkTemplate($data,$filename, $userType,$institution_id, false, true);
+		if ($save == null) {
+ 			return Response::json(array('file_name' => "../data/tmp/$filename"));
+		} else {
+ 			return Response::json(array('file_name' => false));
+		}
+	}
+
+	public function questionBulkUploadFile(Request $request) {
+ 		$institutionId = $request->input('institutionId');
+		$userType = $request->input('userType');
+
+		if (empty($institutionId)) {
+			$institutionId = Auth::user()->institution_id;
+		}
+
+		$uploadSuccess = false;
+		$file = $request->file('file');
+		$destFileName = '';
+
+		$fileinfo = ['file' => $file, 'extension' => strtolower($file->getClientOriginalExtension())];
+
+		$validator = \Validator::make($fileinfo, ['file' => 'required|max:5000', 'extension' => 'required|in:xls']);
+
+		if ($validator->fails()) {
+			$errorArray = array('status' => 'error', 'msg' => 'Invalid file uploaded');
+			return json_encode($errorArray);
+		}
+
+		if ($file) {
+			$extension = $file->getClientOriginalExtension();
+			if ($extension != 'xls') {
+				$error = array('status' => 'error', 'msg' => 'Upload valid file type.');
+				return json_encode($error);
+			}
+			// Moving the uploaded image to respective directory
+			$destPath = public_path() . '/data/tmp';
+			$destFileName = str_random(6) . '_' . $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destPath, $destFileName);
+		} else {
+			$errorArray = array('status' => 'error', 'msg' => 'File does not exist');
+			return json_encode($errorArray);
+		}
+
+		$this->errorArray=array();
+		return  $some=$this->fileupload($destPath,$destFileName, $institutionId, $userType);
+		// return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+	}
+	public function fileupload($destPath,$destFileName, $institutionId){
+		//dd($institutionId);
+		
+		//dd($role_id );
+		$uploadSuccess = false;
+		$orignalHeaders = ['institution','category','subject','lessons','question_type','question_tittle','question_text','passage','answer_text1','order_id1','is_correct1','explanation1',
+		'answer_text2','order_id2','is_correct2','explanation2',
+		'answer_text3','order_id3','is_correct3','explanation3',
+		'answer_text4','order_id4','is_correct4','explanation4',
+		'answer_text5','order_id5','is_correct5','explanation5','status'];
+		$getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
+	
+		$uploadedFileHeaders = [];
+		if(!empty($getFirstRow[0])){
+			$uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
+		}
+		// dd($getFirstRow[0]);
+		//dd($orignalHeaders);
+		$headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
+		//dd($headerDifference);
+		if(!empty($headerDifference)){
+			$error = array('status' => 'error', 'msg' => 'Invalid file.');
+			return json_encode($error);
+		}
+
+		//        echo '<pre>'; print_r($getFirstRow); die;
+		// if ($uploadSuccess != false) {
+		$errorArray = array();
+		//                    try{
+		$output = Excel::load($destPath . '/' . $destFileName, function($results) use ($institutionId) {
+			$phpExcel = $results->setActiveSheetIndex(1);
+			$fileType = $phpExcel->getCell('D1')->getValue();
+			$phpExcel = $results->setActiveSheetIndex(0);
+			$rowCount = $phpExcel->getHighestRow();
+			$emptyFile = true;
+			if ($rowCount > 1) {
+
+				$phpExcel = $results->setActiveSheetIndex(0);
+				$firstSheet = $results->get()[0];
+				//dd($firstSheet);
+				foreach ($firstSheet as $key => $row) {
+					$arrayCol = $row->toArray();
+					//Ceck Empty Row
+					$rowSize = 0;
+					foreach ($arrayCol as $cell) {
+						$rowSize += strlen($cell);
+					}
+					//echo $rowSize;
+					if ($rowSize == 0) {
+						continue;
+					}
+
+					//Check Empty Row End
+					$emptyFile = false;
+					$status = Question::validateBulUpload($fileType, $row, $key + 2);
+					if (count($status) > 0) {
+						$this->errorArray = array_merge($this->errorArray, $status);
+					} else {
+						//dd($row);
+						Question::createBulkQuestion($row);
+					}
+				}
+				// dd($row);
+
+			} else {
+
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+			if ($emptyFile) {
+				$this->errorArray[] = array('Row #' => '', 'Error Description' => 'File is empty');
+			}
+		});
+		//                    }catch(\Exception $e) {
+		//                        $this->errorArray[] = array('Row #'=>'','Error Description'=>'You have tried to upload a file with invalid fields.');
+		//                    }
+
+		if (count($this->errorArray) > 0) {
+
+			Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($errorArray) {
+				$excel->sheet('error_log', function($sheet) use($errorArray) {
+					$sheet->fromArray($this->errorArray);
+				});
+			})->store('xls', public_path('data/tmp'), true);
+
+			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+
+
+			//return json_encode($errorArray);
+
+		} else {
+
+			Session::flash('success', 'File uploaded successfully.');
+			return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
+			// return json_encode($sucessarray);
+		}
+		//}
+
+
 	}
 }

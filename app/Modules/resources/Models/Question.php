@@ -10,7 +10,22 @@ namespace App\Modules\Resources\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use App\Modules\Resources\Models\QuestionAnswer;
+use \PHPExcel,
+    //\PHPExcel_Style_Fill,
+    \PHPExcel_IOFactory,
+    \PHPExcel_Style_NumberFormat;
+    //\PHPExcel_Reader_Excel5,
+    //\PHPExcel_Shared_Date,
+    //\PHPExcel_Cell,
+    //\PHPExcel_Style_Alignment
+    //\PHPExcel_Cell_DataType;
+use App\Modules\Admin\Models\Institution;
+use App\Modules\Admin\Models\User;
+use \Validator;
+
+
 
 class Question extends Model {
 	/**
@@ -37,6 +52,33 @@ class Question extends Model {
 		return $questions;
 	}
 
+	public function getcategory()
+	{
+		$states  = DB::table('category')->lists('name','id');
+		return $states;
+	}
+
+	public function getsubject()
+	{
+		$states  = DB::table('subject')->lists('name','id');
+		return $states;
+	}
+	public function getlesson()
+	{
+		$states  = DB::table('lesson')->lists('id');
+		return $states;
+	}
+	public function getquestiontype()
+	{
+		$states  = DB::table('question_type')->lists('qst_type_text','id');
+		return $states;
+	}
+	public function getpassages($data)
+	{
+		$lesson_id  = DB::table('lesson')->where('name','=',$data['lesson_name'])->lists('id');
+		$passages  = DB::table('passage')->where('lesson_id','=',$lesson_id)->lists('title','id');
+		return $passages;
+	}
 	public function getDetails($id=0){
 
         $question=DB::table('questions')
@@ -309,4 +351,364 @@ class Question extends Model {
 		$question = Question::find($id);
 		$question->delete();
 	}
+	public function getRoleIdByRole($userType = '')
+	{
+		if($userType != '')
+		{
+			$roles = DB::table('roles')->where("name", $userType)->get();
+			return $roles[0]->id;
+		}
+		else
+			return 0;
+	}
+	public function questionBulkTemplate($data,$filename, $userType, $institution_id, $addSubjects = false, $findInstituteId = false) {
+//dd($institution_id);
+		$cat_data=$data['category_name'];
+	    $sub_data=$data['subject_name'];
+	    $les_data=$data['lesson_name'];
+	    $qt_data=$data['question_type'];
+	    $objPHPExcel = new PHPExcel();
+
+	    //$states = ['AndhraPradesh','Telangana'];
+
+	    $institue = new Institution();
+	    $madeDataValidationColumn = array();
+	    if ($institution_id == null) {
+	        $institues =$institue::orderby('id', 'desc')->take(100)->lists('id');
+	    } else {
+	        if($findInstituteId){
+	            $institues = $institue->where('id', $institution_id)->lists('id');
+	            $madeDataValidationColumn = array();
+	        }else{
+	            $institues = $institue->where('id', $institution_id)->lists('id');
+	        }
+	    }
+	    $lesson=$this->getlesson();
+	    $category=$this->getcategory();
+	    $subject=$this->getsubject();
+	    $question_type=$this->getquestiontype();
+	    $passage=$this->getpassages($data);
+	  //dd($passage);
+	//Create Validation for School and State
+	    $objWorkSheet = $objPHPExcel->createSheet(1); //Setting index when creating
+	    $indexSchool = 1;
+	    $indexState = 1;
+
+	//     foreach ($states as $row) {
+	//         $objWorkSheet->setCellValue('A' . $indexState, $row);
+	//         $indexState++;
+	//     }
+
+	//     foreach ($institues as $row) {
+	//         $objWorkSheet->setCellValue('B' . $indexSchool, $row);
+	//         $indexSchool++;
+	//     }
+
+	//     $objWorkSheet->setCellValue('D1', $userType);
+	// // Rename sheet
+	//     $objWorkSheet->setTitle("options");
+	// //Set Protection
+	//     $objWorkSheet->getProtection()->setSheet(true);
+	//     $objWorkSheet->getProtection()->setSort(true);
+	//     $objWorkSheet->getProtection()->setInsertRows(true);
+	//     $objWorkSheet->getProtection()->setFormatCells(true);
+	//     $objWorkSheet->getProtection()->setPassword('password');
+	    //dd($sub_data);
+	    $exportFields = array(
+	    	'Institution' => array('value'=>[$institution_id]),
+	    	'Category' => array('value'=>[$cat_data]),
+	        'Subject' => array('value'=>[$sub_data]),
+	        'Lessons' => array('value'=>[$les_data]),
+	        'Question Type' =>array('value'=>[$qt_data]),
+ 	    	'Question Tittle' => array(),      
+	    	'Question Text' => array(),
+	     	'Passage' =>array('options'=>$passage),
+
+	     'Answer Text1' => array(),
+	     'Order Id1' =>array(),
+	     'Is correct1' => array('options' => ['YES','NO']),
+	     'Explanation1' => array(),
+	          'Answer Text2' => array(),
+	          'Order Id2' =>array(),
+    	      'Is correct2' => array('options' => ['YES','NO']),
+	          'Explanation2' => array(),
+	      'Answer Text3' => array(),
+	      'Order Id3' =>array(),
+	      'Is correct3' => array('options' => ['YES','NO']),
+	      'Explanation3' => array(),
+	          'Answer Text4' => array(),
+	          'Order Id4' =>array(),
+	          'Is correct4' => array('options' => ['YES','NO']),
+	          'Explanation4' => array(),
+	      'Answer Text5' => array(),
+	      'Order Id5' =>array(),
+	      'Is correct5' => array('options' => ['YES','NO']),
+	      'Explanation5' => array(),
+	        'Status' => array('options' => array('Active', 'Inactive'))
+ 	    );
+
+ 	    //dd($exportFields);
+
+	    $firstRow = false;
+	    $celli = 'A';
+	    $rowsToFill = 100;
+	    foreach ($exportFields as $field => $options) {
+	        $objPHPExcel->getActiveSheet()->setCellValue($celli . '1', $field);
+	        $objPHPExcel->getActiveSheet()->getStyle($celli . '1:' . $celli . $rowsToFill)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+	        if (is_array($options) && isset($options['options'])) {
+	            if (isset($options['multiselect']) && $options['multiselect'] == true) {
+	                for ($j = 0; $j < count($options['options']); $j++) {
+	                    $objPHPExcel->getActiveSheet()->setCellValue($celli . '1', $field . '-' . $options['options'][$j]);
+
+	                    for ($i = 2; $i <= $rowsToFill; $i++) {
+	                        $objValidation = $objPHPExcel->getActiveSheet()->getCell($celli . $i)->getDataValidation();
+	                        $objValidation->setType(\PHPExcel_Cell_DataValidation::TYPE_LIST);
+	                        $objValidation->setErrorStyle(\PHPExcel_Cell_DataValidation::STYLE_INFORMATION);
+	                        $objValidation->setAllowBlank(false);
+	                        $objValidation->setShowInputMessage(true);
+	                        $objValidation->setShowErrorMessage(true);
+	                        $objValidation->setShowDropDown(true);
+	                        $objValidation->setErrorTitle('Input error');
+	                        $objValidation->setError('Value is not in list.');
+	                        $objValidation->setPromptTitle('Pick ' . $field);
+	                        $objValidation->setPrompt('Please pick a value from the drop-down list.');
+	                        $objValidation->setFormula1('"X"');
+	                    }
+	                    if ($j != count($options['options']) - 1)
+	                        $celli++;
+	                }
+	            }else {
+
+	                for ($i = 2; $i <= $rowsToFill; $i++) {
+	                    $objValidation = $objPHPExcel->getActiveSheet()->getCell($celli . $i)->getDataValidation();
+	                    $objValidation->setType(\PHPExcel_Cell_DataValidation::TYPE_LIST);
+	                    $objValidation->setErrorStyle(\PHPExcel_Cell_DataValidation::STYLE_INFORMATION);
+	                    $objValidation->setAllowBlank(false);
+	                    $objValidation->setShowInputMessage(true);
+	                    $objValidation->setShowErrorMessage(true);
+	                    $objValidation->setShowDropDown(true);
+	                    $objValidation->setErrorTitle('Input error');
+	                    $objValidation->setError('Value is not in list.');
+	                    $objValidation->setPromptTitle('Pick ' . $field);
+	                    $objValidation->setPrompt('Please pick a value from the drop-down list.');
+	                    $objValidation->setFormula1('"' . implode(',', $options['options']) . '"');
+
+	                    if (isset($options['validation'])) {
+	                        if (($options['validation'] == 'state') && $indexState > 1) {
+	                            $objValidation->setFormula1('options!$A$1:$A$' . ($indexState - 1));
+	                        }
+	                        if (($options['validation'] == 'school') && $indexSchool > 1) {
+	                            $objValidation->setFormula1('options!$B$1:$B$' . ($indexSchool - 1));
+	                        }
+	                    }
+	                }
+	            }
+	        }
+
+	        $celli++;
+	    }
+	    if($findInstituteId && !empty($institues[0])){
+	        $objPHPExcel->getActiveSheet()->setCellValueExplicit('A2', $institues[0], \
+	        	
+	        	PHPExcel_Cell_DataType::TYPE_STRING);
+	    }
+	      if(!empty($cat_data)){
+	        $objPHPExcel->getActiveSheet()->setCellValueExplicit(
+	        	'B2', $cat_data, \
+	  
+	        	PHPExcel_Cell_DataType::TYPE_STRING);
+	    }
+	      if(!empty($sub_data)){
+	        $objPHPExcel->getActiveSheet()->setCellValueExplicit(
+	        	'C2', $sub_data, \
+	        	
+	        	PHPExcel_Cell_DataType::TYPE_STRING);
+	    }
+	      if(!empty($les_data)){
+	        $objPHPExcel->getActiveSheet()->setCellValueExplicit(
+	        	'D2', $les_data, \
+	        	PHPExcel_Cell_DataType::TYPE_STRING);
+	    }
+	     if(!empty($qt_data)){
+	        $objPHPExcel->getActiveSheet()->setCellValueExplicit(
+	        	'E2', $qt_data, \
+	        	PHPExcel_Cell_DataType::TYPE_STRING);
+	    }
+	    $highestColumn = User::createColumnsArray($objPHPExcel->getActiveSheet()->getHighestColumn());
+	    foreach ($highestColumn as $columnID) {
+	        $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+	    }
+
+	    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+
+		if (!is_dir(public_path() . '/data/tmp')) {
+			mkdir(public_path() . '/data/tmp', 0777);
+			chmod(public_path() . '/data/tmp', 0777);
+		}
+
+	    $save = $objWriter->save(public_path() . '/data/tmp/' . $filename);
+	    return $save;
+	}
+	public static function createBulkQuestion($row)
+	{	
+	//dd($row);
+		$institution_id = 0;
+		if(isset($row->institution)){
+			$institution_id=Institution::where('id',$row->institution)->first()->id;
+		}
+		$category_id = 0;
+		if(isset($row->category)){
+			$category_id=Category::where('name',$row->category)->first()->id;
+		}
+		$subject_id = 0;
+		if(isset($row->subject)){
+			$subject_id=Subject::where('name',$row->subject)->first()->id;
+		}
+	$lesson_id = 0;
+		if(isset($row->lessons)){
+			$lesson_id=Lesson::where('name',$row->lessons)->first()->id;
+		}
+	$question_type_id = 0;
+		if(isset($row->question_type)){
+			$question_type_id=QuestionType::where('qst_type_text',$row->question_type)->first()->id;
+		}
+		//$passage_id = null;
+		if(isset($row->passage)!= 'null'){
+			$passage_id=Passage::where('title',$row->passage)->first()->id; //dd($passage_id);
+		}
+		else{
+			$passage_id= null;
+		}
+		$status=$row->status;
+		 $status = ($status=='Active') ? 1: 0;
+			
+		$obj = new self;
+		//dd($question_type_id);
+		
+		
+				$obj->title = $row->question_tittle;
+				$obj->qst_text =$row->question_text;
+				$obj->question_type_id = $question_type_id;
+				$obj->subject_id = $subject_id;
+				$obj->lesson_id = $lesson_id;
+				$obj->passage_id = $passage_id;
+				$obj->category_id = $category_id;
+				$obj->institute_id = $institution_id;
+				$obj->status=$status;
+				if($obj->save()){
+				
+						$answer = new QuestionAnswer();
+
+						$last_id=$obj->id;
+						$answer->question_id = $last_id;
+	
+						$answer_text_result=[];
+				
+						$data=['answer_text','order_id','is_correct','explanation'];
+ 						
+ 						for($i=1;$i<=5;$i++){
+ 							if($row->{'answer_text'.$i} != NULL){
+ 							$answer = new QuestionAnswer();
+ 							//$last_id=$obj->id;
+ 							$answer->question_id = $last_id;
+ 							$answer->ans_text = $row->{'answer_text'.$i}; 	
+ 							$answer->explanation = $row->{'explanation'.$i};
+							$answer->order_id = $row->{'order_id'.$i};
+							$answer->is_correct = $row->{'is_correct'.$i};
+							$answer->save();
+						}
+						}
+
+					}
+	
+		}
+	
+	public static function validateBulUpload($fileType, $data, $index) {
+	    $error = array();
+
+	    $dataArr = $data->toArray();
+	    $validationRule = [
+	        'institution_id' => 'required|numeric',
+ 	        'question_tittle' => 'required',
+	        'question_text' => 'required',
+	        'category'=> 'required',
+	        'subject'=> 'required',
+	        'lessons'=> 'required',
+	        'question_type_id'=> 'required',
+	        /*'answer_text'=> 'required',
+	        'is_correct'=> 'required',
+	        'order_id'=> 'required',
+	        'explanation'=> 'required',*/
+	        for($i=1;$i<=5;$i++){ 												
+ 							 {'answer_text'.$i} 	=> 'required',
+ 							{'explanation'.$i} => 'required',
+							{'order_id'.$i} => 'required',
+							{'is_correct'.$i} => 'required',
+							}	
+	        'status' => 'required',
+	    ];	    
+	 ost['question_type']==3){
+			$post['answer_textarea']=array();
+			$post['answerIds']=array();
+			$post['is_correct']=array();
+			$post['explanation']=array();
+		}
+		$check_corret_answer = array();
+		// if($post['ans_flg']>0)
+		{
+			$check_corret_answer = $post['is_correct'];
+
+			if($post['question_type']==2){
+
+				$counts = array_count_values($check_corret_answer);
+
+				if(array_key_exists("true", $counts)){
+					$tmp_cnt =  $counts['true'];
+				}else{
+					return Redirect::back()->withInput()->withErrors('Atleast one correct answer is required');
+				}
+			}
+			if($post['question_type']==1){
+				$counts = array_count_values($check_corret_answer);
+				if(array_key_exists("true", $counts)){
+					$tmp_cnt =  $counts['true'];
+					if($tmp_cnt>=2){
+
+					}else{
+						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
+					}
+				}else{
+					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
+				}
+			}
+			if ($post['question_type']==1 && count($post['answerIds']) < 2)
+			{
+				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required');
+			}
+
+			foreach ($post['answer_textarea'] as $key => $value) {
+				if(trim($value)==''){
+					return Redirect::back()->withInput()->withErrors('The Answers text is required');
+				}
+			}
+		}		
+	    $messages = [
+	       
+	    ];
+
+	    $validator = Validator::make($dataArr, $validationRule, $messages);
+
+	    if ($validator->fails()) {
+	        $messages = $validator->messages();
+	        foreach ($messages->all() as $row) {
+	            $error[] = array('Row #' => $index, 'Error Description' => $row);
+	        }
+	    }
+
+	    return $error;
+	}
+
+
+		
 }

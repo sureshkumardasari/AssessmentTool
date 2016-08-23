@@ -23,6 +23,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
 					<a href="{{ url('/resources/questionadd/') }}" class="btn btn-primary btn-sm right" ><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
+					<a href="{{ route('questionBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>	
 				</div>
 				@if (count($errors) > 0)
 					<div class="alert alert-danger">

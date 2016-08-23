@@ -58,6 +58,10 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('question_update_submit/', array('as' => 'update', 'uses'=>'QuestionController@questionSubmit'));
     Route::post('filter_data_question', ['as' => 'filter_data_question', 'uses' => 'QuestionController@questionFilter']);
 
+     Route::get('questionBulkUpload', array('as' => 'questionBulkUpload', 'uses'=>'QuestionController@questionBulkUpload'));
+       Route::get('questionBulkTemplate', array('as'=>'questionBulkTemplate','uses'=>'QuestionController@questionBulkTemplate'));
+      Route::post('questionBulkUploadFile', array('as'=>'questionBulkUploadFile','uses'=>'QuestionController@questionBulkUploadFile'));
+      
     Route::post('categoryList/{id}', array('as' => 'categoryList', 'uses'=>'QuestionController@categoryList'));
     Route::post('subjectList/{id}', array('as' => 'subjectList', 'uses'=>'QuestionController@subjectList'));
     Route::post('lessonsList/{id}', array('as' => 'lessonsList', 'uses'=>'QuestionController@lessonsList'));
