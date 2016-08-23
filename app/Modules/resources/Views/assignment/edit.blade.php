@@ -98,7 +98,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group required">
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader(),getassessment()" >
+								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader(),getassessment(),getProctor()" >
 									<option value="0">Select</option>
 									@foreach($institution_arr as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -133,8 +133,8 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							<div class="col-md-6">
 								<select class="form-control" id="proctor_id" name="proctor_id">
 									<option value="0">Select</option>
-									@foreach($proctor_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $proctor_user_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@foreach($grader as $id=>$val)
+										<option value="{{ $id }}" {{ ($id == $grader_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -351,6 +351,31 @@ $('input:radio[name="launchtype"]').change(
 
 	}
 
+
+function getProctor()
+{
+	var csrf=$('Input#csrf_token').val();
+	var loadurl = "{{ url('/resources/assignment') }}/" ;
+	$.ajax(
+			{
+
+				headers: {"X-CSRF-Token": csrf},
+				url:loadurl+$('#institution_id').val(),
+				type:'get',
+				success:function(response) {
+					var a = response.length;
+					$('#proctor_id').empty();
+					var opt = new Option('--Select Proctor--', '');
+					$('#proctor_id').append(opt);
+					for (i = 0; i < a; i++) {
+						var opt = new Option(response[i].name, response[i].id);
+						$('#proctor_id').append(opt);
+					}
+				}
+			}
+	)
+
+}
 	function getassessment()
 	{
 		var csrf=$('Input#csrf_token').val();
