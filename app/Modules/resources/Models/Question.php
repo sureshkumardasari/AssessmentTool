@@ -640,15 +640,16 @@ class Question extends Model {
 	        'is_correct'=> 'required',
 	        'order_id'=> 'required',
 	        'explanation'=> 'required',*/
-	        for($i=1;$i<=5;$i++){ 												
+	        
+	    ];	
+	    for($i=1;$i<=5;$i++){ 												
  							 {'answer_text'.$i} 	=> 'required',
  							{'explanation'.$i} => 'required',
 							{'order_id'.$i} => 'required',
 							{'is_correct'.$i} => 'required',
 							}	
-	        'status' => 'required',
-	    ];	    
-	 ost['question_type']==3){
+	        'status' => 'required',    
+	 $post['question_type']==3){
 			$post['answer_textarea']=array();
 			$post['answerIds']=array();
 			$post['is_correct']=array();
