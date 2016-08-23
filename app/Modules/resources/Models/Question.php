@@ -628,72 +628,7 @@ class Question extends Model {
 	    $error = array();
 
 	    $dataArr = $data->toArray();
-	    $validationRule = [
-	        'institution_id' => 'required|numeric',
- 	        'question_tittle' => 'required',
-	        'question_text' => 'required',
-	        'category'=> 'required',
-	        'subject'=> 'required',
-	        'lessons'=> 'required',
-	        'question_type_id'=> 'required',
-	        /*'answer_text'=> 'required',
-	        'is_correct'=> 'required',
-	        'order_id'=> 'required',
-	        'explanation'=> 'required',*/
-	        
-	    ];	
-	    for($i=1;$i<=5;$i++){ 												
- 							 {'answer_text'.$i} 	=> 'required',
- 							{'explanation'.$i} => 'required',
-							{'order_id'.$i} => 'required',
-							{'is_correct'.$i} => 'required',
-							}	
-	        'status' => 'required',    
-	 $post['question_type']==3){
-			$post['answer_textarea']=array();
-			$post['answerIds']=array();
-			$post['is_correct']=array();
-			$post['explanation']=array();
-		}
-		$check_corret_answer = array();
-		// if($post['ans_flg']>0)
-		{
-			$check_corret_answer = $post['is_correct'];
-
-			if($post['question_type']==2){
-
-				$counts = array_count_values($check_corret_answer);
-
-				if(array_key_exists("true", $counts)){
-					$tmp_cnt =  $counts['true'];
-				}else{
-					return Redirect::back()->withInput()->withErrors('Atleast one correct answer is required');
-				}
-			}
-			if($post['question_type']==1){
-				$counts = array_count_values($check_corret_answer);
-				if(array_key_exists("true", $counts)){
-					$tmp_cnt =  $counts['true'];
-					if($tmp_cnt>=2){
-
-					}else{
-						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
-					}
-				}else{
-					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
-				}
-			}
-			if ($post['question_type']==1 && count($post['answerIds']) < 2)
-			{
-				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required');
-			}
-
-			foreach ($post['answer_textarea'] as $key => $value) {
-				if(trim($value)==''){
-					return Redirect::back()->withInput()->withErrors('The Answers text is required');
-				}
-			}
-		}		
+	   
 	    $messages = [
 	       
 	    ];
