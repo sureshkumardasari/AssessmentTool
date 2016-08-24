@@ -13,6 +13,7 @@
 $dtFormat = 'Y/m/d g:i:s A';
 $id = (old('id') != NULL) ? old('id') : $assignment->id;
 $grader_id=(old('grader_id') != NULL) ? old('grader_id') : $assignment->grader_id;
+//dd($grader_id);
 $institution_id = (old('institution_id') != NULL) ? old('institution_id') : $assignment->institution_id; 
 $name =  (old('name') != NULL) ? old('name') : $assignment->name;
 $description = (old('assignment_text') != NULL) ? old('assignment_text') : $assignment->description; 
@@ -91,15 +92,16 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
-								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="0" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
+								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="1" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
 							</div>
 						</div>
 
 						<div class="form-group required">
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader(),getassessment(),getProctor()" >
+								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader(),getassessment(),getProctor()" >@if(getRole() == "administrator")
 									<option value="0">Select</option>
+									@endif
 									@foreach($institution_arr as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -131,7 +133,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group">
 							<label class="col-md-3 control-label" >Proctor </label>
 							<div class="col-md-6">
-								<select class="form-control" id="proctor_id" name="proctor_id">
+								<select class="form-control" id="proctor_id" name="proctor_id" @if($launchtype == 'system')disabled @endif>
 									<option value="0">Select</option>
 									@foreach($grader as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $grader_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -143,7 +145,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Proctor Instructions </label>
 							<div class="col-md-6">
-								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions">
+								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions"  @if($launchtype == 'system')disabled @endif>
 									{{ $proctor_instructions }}</textarea>
 							</div>
 						</div>
@@ -237,7 +239,7 @@ $('input:radio[name="launchtype"]').change(
     	//alert($(this).is(':checked'))
         if ($(this).is(':checked') && $(this).val() == 'system') {
             // append goes here
-            // $('#proctor_id').select('disable');
+             $('#proctor_id').val(0);
               $('#proctor_id').prop('disabled', true);
               $('#proctor_instructions').prop('readonly', true);  
           }
@@ -245,6 +247,7 @@ $('input:radio[name="launchtype"]').change(
         {        	
         	$('#proctor_id').prop('disabled', false);
         	$('#proctor_instructions').prop('readonly', false);
+        	$('#proctor_instructions').prop('disabled', false);
         }
     });
 	
@@ -275,7 +278,8 @@ $('input:radio[name="launchtype"]').change(
 		$('#enddatetime').val('');
 		$('#enddatetime').prop('readonly', true);
 
-<?php   }     ?> 
+<?php   }     ?>
+$('#grader_id').val("{{$grader_id}}"); 
 
         function loadunselectedusers(id)
         {
@@ -339,7 +343,7 @@ $('input:radio[name="launchtype"]').change(
 					success:function(response) {
 						var a = response.length;
 						$('#grader_id').empty();
-						var opt = new Option('--Select Grader--', '');
+						var opt = new Option('--Select Grader--', '0');
 						$('#grader_id').append(opt);
 						for (i = 0; i < a; i++) {
 							var opt = new Option(response[i].name, response[i].id);
@@ -365,7 +369,7 @@ function getProctor()
 				success:function(response) {
 					var a = response.length;
 					$('#proctor_id').empty();
-					var opt = new Option('--Select Proctor--', '');
+					var opt = new Option('--Select Proctor--', '0');
 					$('#proctor_id').append(opt);
 					for (i = 0; i < a; i++) {
 						var opt = new Option(response[i].name, response[i].id);

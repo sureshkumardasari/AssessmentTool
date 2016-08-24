@@ -30,9 +30,15 @@
 
                                     $now     = date('Y-m-d H:i:s');
                                     //dd($now.",".$endDateTime.",".$assignment->AssignmentName);
-                                    if ($endDateTime < $now) {
+                                    if($assignment->Expires != "1"){
+                                     //   $isVisible = false;
+                                        if ($endDateTime < $now) {
                                         $isVisible = true;
+                                        }
                                     }
+                                    // elseif ($endDateTime < $now) {
+                                    //     $isVisible = true;
+                                    // }
                                     ?>
                                     <tr class="student-dashboard-assignments-list">
                                         <td><span class="text">{{$assignment->AssignmentName}}</span></td>
@@ -75,7 +81,7 @@
 
                                         </td>
                                         @if( $isVisible==true && $status !="completed")
-                                            <td><span class="text">TimeOut</span></td>
+                                            <td><span class="text">Timeout</span></td>
                                         @elseif($status =="completed")
                                             <td><span class="text">Completed</span></td>
                                         @else

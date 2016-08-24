@@ -98,26 +98,30 @@ class AssignmentController extends BaseController {
 		$id = 0;
 		$assignment = new assignment();
 
-		$assessments_arr = Assessment::lists('name','id');
+		$assessments_arr =[];// Assessment::lists('name','id');
 		$users=Auth::user();
 		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','student')->lists('id');
 
 		$assessment_id = 0;
-		  if(getRole()!='administrator'){
-			  $institution_arr = Institution::where('id',$users->institution_id)->lists('name','id');
-		  }
-		else{
-			$institution_arr = $this->institution->getInstitutions();
-
-		}
 		$institution_id = 0;
-
-		$proctor_arr  = $this->user->getUsersOptionList($institution_id,$teacher_and_admin_role_id);// for proctor displaying teachers
 		$proctor_id = 0;
 	//	$users=Auth::user();
 		$inst_id=$users->institution_id;
-		$grader=$this->user->getUsersOptionList($inst_id,$teacher_and_admin_role_id);
 		$grader_id=0;
+		  if(getRole()!='administrator'){
+			  $institution_arr = Institution::where('id',$users->institution_id)->lists('name','id');
+			  $proctor_arr  = $this->user->getUsersOptionList($institution_id,$teacher_and_admin_role_id);// for proctor 
+			$grader=$this->user->getUsersOptionList($inst_id,$teacher_and_admin_role_id);//displaying teachers
+			$assessments_arr = Assessment::where('institution_id',$users->institution_id)->lists('name','id');
+		  }
+		else{
+			$institution_arr = $this->institution->getInstitutions();
+			$proctor_arr= [];
+			$grader= [];
+
+			
+		}
+		
 
 		//var_dump($proctor_arr); die();
 
@@ -158,13 +162,12 @@ class AssignmentController extends BaseController {
 			$assignment = Input::All();		
 			$assignmentUsersJson	= "[{}]";
 		}
-		
 		$assessments_arr = Assessment::lists('name','id');
-		
+		$teacher_role_id=Role::where('name','teacher')->first()->id;
 
 		$institution_arr = $this->institution->getInstitutions();			
-		$grader= $this->user->getUsersOptionList($assignment->institution_id,3);
-		$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,3);// for proctor displaying teachers
+		$grader= $this->user->getUsersOptionList($assignment->institution_id,$teacher_role_id);
+		$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,$teacher_role_id);// for proctor displaying teachers
 		
 		return view('resources::assignment.edit',compact('assignment','grader','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
@@ -203,7 +206,6 @@ class AssignmentController extends BaseController {
 	public function assignmentupdate($id = 0)
 	{
 		$params = Input::All();
-
    		$rules = [
 			'name' => 'required|min:3',
 			'assignment_text' =>'required',
@@ -220,7 +222,9 @@ class AssignmentController extends BaseController {
 		{
 			$rules['enddatetime'] = 'required';
 		}
-
+		if($params['launchtype']=="proctor"){
+			$rules['launchtype'] = 'required|not_in:0';
+		}
 		$validator = Validator::make($params, $rules);
 
 		if ($validator->fails())

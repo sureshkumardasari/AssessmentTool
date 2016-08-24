@@ -84,7 +84,7 @@ class Assignment extends Model {
 		$obj->description = $params['assignment_text'];
 		$obj->assessment_id = $params['assessment_id'];
 		$obj->startdatetime = date("Y-m-d H:i:s", strtotime($params['startdatetime']));//$params['startdatetime'];
-		$obj->enddatetime = (isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? date("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '';
+		$obj->enddatetime = isset($params['neverexpires'])?"":((isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? date("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '');
 		//gmdate("Y-m-d H:i:s", strtotime($params['enddatetime']));//$params['enddatetime'];
 		$obj->neverexpires = (isset($params['neverexpires'])) ?  $params['neverexpires'] : 0;
 		$obj->launchtype = $params['launchtype'];
