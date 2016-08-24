@@ -80,6 +80,7 @@ class QuestionController extends BaseController {
 
 		$obj = new Lesson();
 		$this->lesson = $obj;
+		$errorArray=[];
 
   	}
 
@@ -714,7 +715,7 @@ class QuestionController extends BaseController {
 		//dd($headerDifference);
 		if(!empty($headerDifference)){
 			$error = array('status' => 'error', 'msg' => 'Invalid file.');
-			return json_encode($error);
+			return $error;
 		}
 
 		//        echo '<pre>'; print_r($getFirstRow); die;
@@ -731,6 +732,7 @@ class QuestionController extends BaseController {
 
 				$phpExcel = $results->setActiveSheetIndex(0);
 				$firstSheet = $results->get()[0];
+		
 				//dd($firstSheet);
 				foreach ($firstSheet as $key => $row) {
 					$arrayCol = $row->toArray();
@@ -746,10 +748,13 @@ class QuestionController extends BaseController {
 
 					//Check Empty Row End
 					$emptyFile = false;
-					$status = Question::validateBulUpload($fileType, $row, $key + 2);
-					if (count($status) > 0) {
-						$this->errorArray = array_merge($this->errorArray, $status);
-						//$this->errorArray = array_merge($this->errorArray, [$status]);
+					$error = Question::validateBulUpload($fileType, $row, $key + 2);
+  					if (count($error) > 0) {
+
+ 
+						array_push($this->errorArray, $error);
+
+						// array_push($errorArray, $status);
 					} else {
 						//dd($row);
 						Question::createBulkQuestion($row);
@@ -768,16 +773,19 @@ class QuestionController extends BaseController {
 		//                    }catch(\Exception $e) {
 		//                        $this->errorArray[] = array('Row #'=>'','Error Description'=>'You have tried to upload a file with invalid fields.');
 		//                    }
-
+		// dd($this->errorArray);
 		if (count($this->errorArray) > 0) {
-
-			Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($errorArray) {
-				$excel->sheet('error_log', function($sheet) use($errorArray) {
-					$sheet->fromArray($this->errorArray);
+ 			$er=$this->errorArray;
+  			Excel::create('errorlog_' . explode('.', $destFileName)[0], function($excel) use($er) {
+				$excel->sheet('error_log', function($sheet) use($er) {
+  					foreach ($er as $key => $value) {
+ 					$sheet->fromArray($value);	
+  					}
+					 					
 				});
 			})->store('xls', public_path('data/tmp'), true);
 
-			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => 'data/tmp/errorlog_' . $destFileName);
+			return $errorArray = array('status' => 'error', 'msg' => 'Please download error log', 'error_log' => url().'/data/tmp/errorlog_' . $destFileName);
 
 
 			//return json_encode($errorArray);

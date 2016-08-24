@@ -628,22 +628,103 @@ class Question extends Model {
 	    $error = array();
 	   //dd($data);
 	    $dataArr = $data->toArray();
-	   
+		    
 	    $validationRule = [
-	        /*'institution_id' => 'required|numeric',
+	        'institution' => 'required|numeric',
  	        'question_tittle' => 'required',
 	        'question_text' => 'required',
 	        'category'=> 'required',
 	        'subject'=> 'required',
 	        'lessons'=> 'required',
-	        'question_type_id'=> 'required',
+	        'question_type'=> 'required',
  			'status' => 'required',  
-	        						*/						
- 						];
-	 		
-	    $messages = [
+	        						
+	    ];	
+	    $check_corret_answer = array();
+	    $counts = array();
+	    //dd($counts);
+	   // dd($check_corret_answer);
+	  for($i=1;$i<=5;$i++)
+	 { 							
+						$validationRule[$data->{'answer_text'.$i}] = 'required';
+ 						//	{'explanation'.$i} => 'required',
+						   $validationRule[$data->{'order_id'.$i}] ='required';
+							$validationRule[$data->{'is_correct'.$i}] = 'required';
+						if($data->{'is_correct'.$i} != ""){
+			$check_corret_answer[] = $data->{'is_correct'.$i};
+			}
+			//dd($check_corret_answer);
+		}	
+		//dd($check_corret_answer);
+					
+	    $question_type_id=QuestionType::where('qst_type_text',$data->question_type)->first()->id;
+	     //  dd($question_type_id);
+	  if($question_type_id==3)
+	   {
+			$data->{'answer_text'.$i}=array();
+			 $data->{'explanation'.$i}=array();
+			$data->{'order_id'.$i}=array();
+			$data->{'is_correct'.$i}=array();
+		}
+		
+		// if($post['ans_flg']>0)
+		
+		//	$check_corret_answer[] = $data->{'is_correct'.$i};
+		//dd($check_corret_answer);
+			if($question_type_id==2)
+			{ 
+				$counts = array_count_values($check_corret_answer);
+					//dd($counts);
+				if(array_key_exists("YES", $counts))
+				{
+					$tmp_cnt =  $counts['YES'];//dd($tmp_cnt);
+					if($tmp_cnt != 1 )
+					{
+						$error[] = array('Atleast one correct answer is required');
+					}
+				}
+			else
+				{
+					$error[] = array('Atleast one correct answer is required');
+				}
+			}
+			if($question_type_id==1)
+			{ 
+				$counts = array_count_values($check_corret_answer);
+				if(array_key_exists("YES", $counts))
+				{
+					$tmp_cnt =  $counts['YES'];
+					if($tmp_cnt>=2)
+					{
+
+					}else
+					{
+						$error[] = array('Row #', 'Atleast two correct answers are required');
+					}
+				}else
+				{
+					$error[] = array('Atleast two correct answers are required');
+				}
+			}
+			if ($question_type_id==1 && count($tmp_cnt) < 2)
+			{
+				$error[] = array('The Atleast Two Answers are required');
+			}
+
+			/*if($data->{'answer_text'.$i} =='')
+			{
+					$error[] = array('The Answers text is required');
+			}*/
+			
+		
+	
+	//	dd($check_corret_answer);
+ 	    $messages = [
 	       
 	    ];
+
+
+
 
 	    $validator = Validator::make($dataArr, $validationRule, $messages);
 
@@ -653,9 +734,23 @@ class Question extends Model {
 	            $error[] = array('Row #' => $index, 'Error Description' => $row);
 	        }
 	    }
+	    
+	    // if ($validator->fails()) {
+	    // 	//dd('dfdsff');
+	    // 	$index=0;
+	    //     $messages = $validator->messages();
+	    //     $message = $messages->all();
+	    //    // dd($message);\
 
-	    return $error;
+	    //     foreach ($message as $row) { 
+	    //         $error[] = array('Row #' => $index, 'Error Description' => $row);
+	    //         $index++;
+	    //     }//dd($error);
+	   	
+	    // }
+	     return $error;
 	}
+
 
 
 		
