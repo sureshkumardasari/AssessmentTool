@@ -123,7 +123,7 @@ class Subject extends Model {
 	{
 		$objPHPExcel = new PHPExcel();
 		/*$institution_name="";*/
-		$category_name=Category::where('institution_id','=',$instituteId)->lists('name');
+		$category_id=Category::where('institution_id','=',$instituteId)->lists('id');
 		if($instituteId != null){
 			$institution_name = Institution::find($instituteId)->id;
 		}
@@ -148,7 +148,7 @@ class Subject extends Model {
 		$indexState = 1;
 		$exportFields = array(
 			'InstitutionID' => array('value'=>[$institution_name]),
-			'category_name' => array('options'=>$category_name),
+			'category_name' => array('options'=>$category_id),
 			'subject_name' => array(),
 		);
 		$firstRow = false;
@@ -231,15 +231,29 @@ class Subject extends Model {
 		$error = array();
 
 		$dataArr = $data->toArray();
+//		dd($dataArr);
 		$validationRule = [
 				'institutionid' => 'required|numeric|exists:institution,id',
 				'category_name'=>'required',
-		        'subject_name'=>'required|unique:subject,name|min:3',
+		        'subject_name'=>'required|min:3',
 		];
 		$messages = [
 		];
 
 		$validator = Validator::make($dataArr, $validationRule, $messages);
+		$messages = $validator->messages();
+		$error=[];
+		$data = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_name'])
+			->where('name', $dataArr['subject_name'])->select('name')->first();
+		if($dataArr['subject_name']==$data['name']){
+			$num = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_name'])
+				->where('name', $dataArr['subject_name'])->count();
+			if ($num > 0) {
+ 				$error[] = array('subject already found');
+			}else{
+
+			}
+		}
 		if ($validator->fails()) {
 			$messages = $validator->messages();
 			foreach ($messages->all() as $row) {
@@ -251,11 +265,13 @@ class Subject extends Model {
 	public static function createBulkUser($row, $institutionId)
 	{
 		//dd($row);
-		$category_id=Category::where('name',$row->category_name)->first()->id;
+		//$category_id=Category::where('name',$row->category_name)->first()->id;
 		//dd($category_id);
-		$obj = new self;
+//		$obj = DB::table('subject');
+
+		$obj = new Subject();
 		$obj->institution_id = $institutionId;
-		$obj->category_id = $category_id;
+		$obj->category_id = $row->category_name;
 		$obj->name = $row->subject_name;
 		$obj->save();
 	}

@@ -27,6 +27,12 @@ function downloadTemplate(type) {
     var subject_id=$('#lessonimport_subject_id').val();
     //alert(institution_id);
     $('.error-log').empty();
+    if($('#lessonimport_subject_id').val() == ''){
+        alert('Input can not be left blank');
+    }
+    //var thisVal = $('#lessonimport_category_id').val();
+    //var msg = (thisVal > 0) ? 'category Id is <u>"' +thisVal+ '</u>"' : "";
+    //$(".lessonimport_category_id").html(msg);
     $.ajax({
         type: "GET",
         url: bulklessonTemplate,
