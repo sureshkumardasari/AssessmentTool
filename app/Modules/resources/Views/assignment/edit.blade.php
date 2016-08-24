@@ -133,7 +133,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group">
 							<label class="col-md-3 control-label" >Proctor </label>
 							<div class="col-md-6">
-								<select class="form-control" id="proctor_id" name="proctor_id" @if($launchtype == 'system')disabled @endif>
+								<select class="form-control" id="proctor_id" name="proctor_id" @if($launchtype == "system" || $launchtype == "") disabled @endif>
 									<option value="0">Select</option>
 									@foreach($grader as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $grader_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -145,7 +145,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Proctor Instructions </label>
 							<div class="col-md-6">
-								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions"  @if($launchtype == 'system')disabled @endif>
+								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions"  @if($launchtype == "system" || $launchtype == "") disabled @endif>
 									{{ $proctor_instructions }}</textarea>
 							</div>
 						</div>
