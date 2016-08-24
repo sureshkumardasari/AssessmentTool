@@ -749,6 +749,7 @@ class QuestionController extends BaseController {
 					$status = Question::validateBulUpload($fileType, $row, $key + 2);
 					if (count($status) > 0) {
 						$this->errorArray = array_merge($this->errorArray, $status);
+						//$this->errorArray = array_merge($this->errorArray, [$status]);
 					} else {
 						//dd($row);
 						Question::createBulkQuestion($row);

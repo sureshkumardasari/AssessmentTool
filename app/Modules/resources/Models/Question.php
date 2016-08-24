@@ -24,7 +24,7 @@ use \PHPExcel,
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Admin\Models\User;
 use \Validator;
-
+use Redirect;
 
 
 class Question extends Model {
@@ -626,9 +626,21 @@ class Question extends Model {
 	
 	public static function validateBulUpload($fileType, $data, $index) {
 	    $error = array();
-
+	   //dd($data);
 	    $dataArr = $data->toArray();
 	   
+	    $validationRule = [
+	        /*'institution_id' => 'required|numeric',
+ 	        'question_tittle' => 'required',
+	        'question_text' => 'required',
+	        'category'=> 'required',
+	        'subject'=> 'required',
+	        'lessons'=> 'required',
+	        'question_type_id'=> 'required',
+ 			'status' => 'required',  
+	        						*/						
+ 						];
+	 		
 	    $messages = [
 	       
 	    ];
