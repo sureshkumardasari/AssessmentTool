@@ -229,17 +229,32 @@ class Lesson extends Model {
 		$error = array();
 
 		$dataArr = $data->toArray();
+		//dd($dataArr);
 		$validationRule = [
 				'institutionid' => 'required|numeric|exists:institution,id',
 				'categoryid'=>'required',
 				'subjectid'=>'required',
-				'lesson_name'=>'required|unique:lesson,name|min:3',
+
+				'lesson_name'=>'required|min:3',
 		];
 		$messages = [
 		];
 		$validator = Validator::make($dataArr, $validationRule, $messages);
-		if ($validator->fails()) {
-			$messages = $validator->messages();
+		$messages = $validator->messages();
+		$error=[];
+		$data = Lesson::where('institution_id', $dataArr['institutionid'])->where('subject_id',$dataArr['subjectid'])
+			->where('name', $dataArr['lesson_name'])->select('name')->first();
+		if($dataArr['lesson_name']==$data['name']){
+			$num = Lesson::where('institution_id', $dataArr['institutionid'])->where('subject_id',$dataArr['subjectid'])
+				->where('name', $dataArr['lesson_name'])->count();
+			if ($num > 0) {
+					$error[] = array('Lesson already found');
+ 			}else{
+
+			}
+ 		}
+ 		if ($validator->fails()) {
+ 			$messages = $validator->messages();
 			foreach ($messages->all() as $row) {
 				$error[] = array('Row #' => $index, 'Error Description' => $row);
 			}
@@ -250,14 +265,14 @@ class Lesson extends Model {
 	{
 		//dd($row);
 
-		$category_id=Category::where('id',$row->categoryid)->first()->id;
-		//dd($category_id);
-		$subject_id=Lesson::where('id',$row->subjectid)->first()->id;
+//		$category_id=Category::where('id',$row->categoryid)->first()->id;
+//		//dd($category_id);
+//		$subject_id=Lesson::where('id',$row->subjectid)->first()->id;
 		//dd($category_id);
 		$obj = new self;
 		$obj->institution_id = $institutionId;
-		$obj->category_id = $category_id;
-		$obj->subject_id= $subject_id;
+		$obj->category_id = $row->categoryid;
+		$obj->subject_id= $row->subjectid;
 		$obj->name = $row->lesson_name;
 		$obj->save();
 	}
