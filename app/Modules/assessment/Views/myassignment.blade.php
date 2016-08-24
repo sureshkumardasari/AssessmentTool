@@ -35,7 +35,7 @@
 						       				<?php
 						       				$now 	= date('Y-m-d H:i:s');
 						       				$startDateTime 	= date('Y-m-d H:i:s', strtotime($test->StartDateTime));
-				       						if($test->EndDateTime == null)
+				       						if(($test->EndDateTime == null )||( $test->EndDateTime == "0000-00-00 00:00:00"))
 				       						{
 				       							$datetime = new DateTime('tomorrow');
 												$endDateTime = $datetime->format('Y-m-d H:i:s');
