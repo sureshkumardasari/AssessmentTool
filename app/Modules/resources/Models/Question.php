@@ -573,8 +573,8 @@ class Question extends Model {
 		if(isset($row->question_type)){
 			$question_type_id=QuestionType::where('qst_type_text',$row->question_type)->first()->id;
 		}
-		//$passage_id = null;
-		if(isset($row->passage)!= 'null'){
+		$passage_id = null;
+		if(isset($row->passage)){
 			$passage_id=Passage::where('title',$row->passage)->first()->id; //dd($passage_id);
 		}
 		else{
