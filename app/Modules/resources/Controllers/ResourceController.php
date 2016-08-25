@@ -134,10 +134,10 @@ class ResourceController extends BaseController
         $rules = [
             'institution_id' => 'required|not_in:0',
             'category_id' => 'required|not_in:0',
-            'name' => 'required|min:3'];
+            'name' => 'required|min:3,'];
 
         if ($post['id'] > 0) {
-            $rules['name'] = 'required|min:3|unique:subject,name,' . $post['id'];
+            $rules['name'] = 'required|min:3,' . $post['id'];
         }
         $validator = Validator::make($post, $rules);
 
@@ -145,7 +145,7 @@ class ResourceController extends BaseController
             return Redirect::back()->withInput()->withErrors($validator);
         } else {
             $params = Input::All();
-            $num = Subject::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id', [$params['id']])->count();
+            $num = Subject::where('institution_id', $params['institution_id'])->where('category_id', $params['category_id'])->where('name', $params['name'])->wherenotin('id', [$params['id']])->count();
             if ($num > 0) {
                 return Redirect::back()->withInput()->withErrors("Subject already entered");
             }
@@ -253,7 +253,7 @@ class ResourceController extends BaseController
             'name' => 'required|min:3'];
 
         if ($post['id'] > 0) {
-            $rules['name'] = 'required|min:3|unique:lesson,name,' . $post['id'];
+            $rules['name'] = 'required|min:3,' . $post['id'];
         }
         $validator = Validator::make($post, $rules);
 
@@ -264,7 +264,7 @@ class ResourceController extends BaseController
             //$num = Lesson::where('institution_id', $params['institution_id'])
             /*->where('category_id', $params['category_id'])
             ->where('subject_id', $params['subject_id'])->where('name', $params['name'])->count();*/
-            $num = Lesson::where('institution_id', $params['institution_id'])->where('name', $params['name'])->wherenotin('id', [$params['id']])->count();
+            $num = Lesson::where('institution_id', $params['institution_id'])->where('category_id', $params['category_id'])->where('subject_id', $params['subject_id'])->where('name', $params['name'])->wherenotin('id', [$params['id']])->count();
             if ($num > 0) {
                 return Redirect::back()->withInput()->withErrors("lesson already entered");
             }
