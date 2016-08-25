@@ -573,12 +573,13 @@ class Question extends Model {
 		if(isset($row->question_type)){
 			$question_type_id=QuestionType::where('qst_type_text',$row->question_type)->first()->id;
 		}
-		$passage_id = null;
-		if(isset($row->passage)){
-			$passage_id=Passage::where('title',$row->passage)->first()->id; //dd($passage_id);
+		//$passage_id = null;
+		if(empty($row->passage)){
+			$passage_id = null;
+			/*$passage_id=Passage::where('title',$row->passage)->first()->id; //dd($passage_id);*/
 		}
 		else{
-			$passage_id= null;
+			$passage_id=Passage::where('title',$row->passage)->first()->id; //dd($passage_id);
 		}
 		$status=$row->status;
 		 $status = ($status=='Active') ? 1: 0;
