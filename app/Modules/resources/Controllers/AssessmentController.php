@@ -239,7 +239,8 @@ class AssessmentController extends BaseController {
 						}
 //					
  				}
- 			return redirect('/resources/assessment');
+ 				return Redirect::route('template', ['id' =>  $assessment_id /*, 'tplId' => $newOrder*/]);
+ 			//return redirect('/resources/assessment');
 		}
  	}
 
@@ -280,7 +281,7 @@ class AssessmentController extends BaseController {
                 umask($oldmask);
             }
 
-            $dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id.'/template_'.$id);
+            $dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id);
 			//$dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id.'/templatge_'.$template_Id);
 
 			// $s3->makeDirectory('assessment_'.$id.'/subsection_'.$template_Id, 'assessment_pdf_images');
@@ -377,9 +378,9 @@ class AssessmentController extends BaseController {
         }
         
         if ($field == 'PdfContent') {  
-            $fullPath = public_path('data/assessment_pdf/template_'. $assessment->id .'.pdf');
+            $fullPath = public_path('data/assessment_pdf/assessment_'. $assessment->id .'.pdf');
         } else {
-            $fullPath = public_path('data/assessment_pdf/template_images_'. $assessment->id .'.pdf');
+            $fullPath = public_path('data/assessment_pdf/assessment_images_'. $assessment->id .'.pdf');
         }
 
         if (!$pdf->saveAs($fullPath)) {
@@ -394,7 +395,7 @@ class AssessmentController extends BaseController {
         
         $s3Path = ''; //$s3->uploadByPath($fullPath, 'subsection_pdf');
         if ($field == 'PdfContent') {  
-        	$fullPath = url().'/data/assessment_pdf/template_'. $assessment->id .'.pdf';
+        	$fullPath = url().'/data/assessment_pdf/assessment_'. $assessment->id .'.pdf';
         }	
         return array('s3Path' => $s3Path, 'pdfPath' => $fullPath);
     }
@@ -438,8 +439,8 @@ class AssessmentController extends BaseController {
  	public function getTemplate($id=0, $tplId=0){
  		$assessment=DB::table('assessment')->where('id','=',$id)->select('name', 'begin_instruction', 'end_instruction', 'header', 'footer', 'titlepage')->get();
  		$title = $assessment[0]->name;
-		$beginInstructions = $assessment[0]->begin_instruction;
-		$endInstructions = $assessment[0]->end_instruction;
+		$beginInstructions = '';// $assessment[0]->begin_instruction;
+		$endInstructions = '';// $assessment[0]->end_instruction;
 		$header = $assessment[0]->header;
 		$footer = $assessment[0]->footer;
 		$titlePage = $assessment[0]->titlepage;
@@ -696,7 +697,8 @@ class AssessmentController extends BaseController {
 				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
 			}}
-			return redirect('/resources/assessment');
+			return Redirect::route('template', ['id' =>  $post['id'] /*, 'tplId' => $newOrder*/]);
+			//return redirect('/resources/assessment');
  		}
 	}
 

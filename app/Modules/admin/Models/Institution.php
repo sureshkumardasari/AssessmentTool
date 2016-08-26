@@ -251,43 +251,20 @@ class Institution extends Model {
 
 		$dataArr = $data->toArray();
 		$validationRule = [
-				/*'institutionid' => 'required|numeric|exists:institution,id',
-			//'username' => 'required|unique:users,UserName|max:50|regex:/^[a-zA-Z0-9@._]+$/',
-				'enrollment_no' => 'required',
-				'email' => 'required|email|max:50',
-				'password' => ['required','min:8','max:50','at_least_one_upper_case','at_least_one_lower_case','at_least_one_number','not_contains:'.$dataArr['first_name'].','.$dataArr['last_name']],
-				'first_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
-			//'middle_name' => 'max:50|regex:/^[a-zA-Z\s-\']+$/',
-				'last_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
-				'gender' => 'required|in:Male,Female',
-			// 'phone' => 'required_without:primary_phone|regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
-			//'phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
+				'institution_id' => 'required|numeric|exists:institution,id',
+				'institution_name' => 'required|unique:institution,name|max:50|regex:/^[a-zA-Z0-9@._]+$/',
 				'phone' => 'required|regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/',
-			// 'primary_phone' => 'required_without:phone|regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
-			//'primary_phone' => 'regex:/^\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}$/',
-			//'primary_phone_type' => 'required_with:primary_phone',
-			// 'email' => 'email|required|max:50',
-				'status' => 'required|in:Active,Inactive',
-			// 'address' => 'max:100|required',
-				'address' => 'required|max:100',
+				'address1' => 'required|max:100',
 			// 'city' => 'max:50|required',
 				'city' => 'required|max:50',
 				'state' => 'required',
 				'country' => 'required',
-			// 'zip' => 'numeric|max:999999|required',
 				'pin' => 'required|regex:/\b\d{6}\b/',
-				'role' => 'required',*/
 		];
 
 		$messages = [
-				/*'first_name.regex' => 'The :attribute field accepts only Alpha, space, - and \'',
-				'last_name.regex' => 'The :attribute field accepts only Alpha, space, - and \'',
-				'phone.regex' => 'The :attribute field should be in format 9999999999.',
-				'password.min' => 'The password must be at least 8 characters',
-				'password.at_least_one_upper_case' => 'The :attribute field must have at least one uppercase character',
-				'password.at_least_one_lower_case' => 'The :attribute field must have at least one lowercase character',
-				'password.at_least_one_number' => 'The :attribute field must have at least one number',
-				'password.not_contains' => 'The :attribute field must not contains first name, last name or username',*/
+
+
 		];
 
 		$validator = Validator::make($dataArr, $validationRule, $messages);
@@ -305,10 +282,12 @@ class Institution extends Model {
 	public static function createBulkInstitutions( $row)
 	{
 		//dd($row);
+		$a=0;
 		$country_id=countries::select('id')->where('country_name',$row->country)->first();
 		$state_id=states::select('id')->where('state_name',$row->state)->first();
 		$obj = new self;
 		$obj->id = $row->institutionid;
+		$obj->name=$row->institution_name;
 		$obj->address1 = $row->address1;
 		$obj->address2 = $row->address2;
 		$obj->address3 = $row->address3;
@@ -317,6 +296,9 @@ class Institution extends Model {
 		$obj->phoneno = $row->phone;
 		$obj->pincode = $row->pin;
 		$obj->country_id = $country_id->id;
+		$obj->parent_id=$a;
+		$obj->updated_by = Auth::user()->id;
+		$obj->added_by = Auth::user()->id;
 
 		$obj->save();
 

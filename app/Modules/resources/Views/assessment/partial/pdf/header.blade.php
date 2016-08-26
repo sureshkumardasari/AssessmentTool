@@ -6,8 +6,8 @@
 	@section('header-assets')
 		<link rel="stylesheet" href="{{ asset('css/pdf.css') }}">
 		<style>			
-			body {font: 18px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; height: 30mm;}
-			.header {width: 816px; margin: auto; overflow: hidden;}
+			body {font: 16px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; height: 30mm;}
+			.header {width: 800px; margin: auto; overflow: hidden;}
 			.wrapper { background-color: white;   overflow: hidden; height: 100%;}
 			table, tr, td, th, tbody, thead, tfoot {page-break-inside: avoid !important; }
 			.break {page-break-before:always; }			
@@ -38,7 +38,7 @@
 <body>
 	<div class="wrapper @yield('wrapper-class')">
 		
-		<div class="header" style="text-align:center;">			
+		<div class="header" style="text-align:center;border-bottom:1px solid #000;height:auto;word-wrap: break-word;">			
 			{!! $header !!}			
 		</div>		
 	</div>

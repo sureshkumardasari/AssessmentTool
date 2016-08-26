@@ -1,271 +1,273 @@
 @extends('default')
 @section('content')
-{!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
-{!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
-<style>
-    .drop_downs {margin-top: 60px;}
-    section .tab_panel ul.mL-1 {margin-top: -37px;}
-    .mce-floatpanel {position: fixed !important; top: 50% !important; left: 0px !important; border: 1px solid #ccc !important; }
-    #editorContent, #editorContent2 { outline: none; }
-    .second_child div p { margin-bottom: 0px !important; line-height: 20px !important; }
-    .edit-view {overflow:hidden; padding:0 30px; }
-    .edit-view .sub-heading {overflow:hidden; padding:10px 0; }
-    .edit-view .sub-heading .click-heading {float:left; font-size:23px; line-height:26px; padding-top:5px; }
-    .side-area {float:right; }
-    .side-area .num {float:right; padding-top:0px; font-size:30px; letter-spacing:5px; }
-    .side-area .num .color {color:#e97564; font-family: 'droid_sansbold'; }
-    .view-area {border:1px solid #d7d7d7; padding:15px 27px; -webkit-box-shadow: inset 0 4px 5px rgba(0,0,0,.2); -moz-box-shadow: inset 0 4px 5px rgba(0,0,0,.2); box-shadow: inset 0 4px 5px rgba(0,0,0,.2); margin-bottom: 40px; }
-    .footer, .header {background:#fff; text-align:center; padding:0; width:100%; margin:0 auto 20px !important; word-wrap: break-word; }
-    .view-area .footer {margin:0; }
-    .view-area .content {font-size:18px;line-height: 28px;}
-    .view-area h1 {margin: 0 0 30px; font-size: 29px; line-height: 30px; }
-    .view-area  h2 {margin: 0 0 20px; font-size: 24px; line-height: 29px; }
-    .content { outline: none; }
-    .inline {display: inline-block;}
-    .view-area {width: 816px; /*margin: auto;*/ overflow: hidden; font-family: helvetica !important;}
-    .page { min-height: 1056px; }
-    .page .line { height: 30px; display: block; border-bottom: 1px solid black; }
-    .questions_passage .bottom_bullet_spn{  position: relative; display: inline; vertical-align: top; padding: 0 0 20px; }
-    .bottom_bullet {position: absolute; bottom: 0; left: 0; right: 0; font-size: 9px !important; top: 16px; }
-    .header img, .footer img {max-width: 100%;}
-    .mh10 {min-height: 10px;}
-    table {border-collapse: collapse; margin: auto; }
-    td, th, caption{border:1px solid #000; padding:5px; border-collapse: collapse; margin:0 auto; }
-    img.Wirisformula{display: inline; max-width: none; }
-    .view-area #content .question p {     margin: 0 0 17px; line-height: 20px; }
-    .view-area #content .question .other_content_data p { margin-bottom: 0; }
-    .edit-view ul {margin: inherit !important; padding-left:36px  !important; }
-    .questions_passage .bottom_bullet_spn{  position: relative; display: inline-block; vertical-align: top; padding: 0 0 20px; }
-    .bottom_bullet { position: absolute; bottom: 0; left:0; right: 0; text-align: center; }
-    .view-area .content {line-height: 20px; }
-    .column > * { padding: 10px }
-    .column img{max-width: 100%;}
-    .bottom_bullet { bottom: 0px !important; top: auto !important;}
-    .footer {overflow: hidden; }
-    .break { background-color: #0E1F5B; color: white; padding: 5px; border-radius: 50px; display: block; width: 280px; text-align: center; font-size: 13px; text-transform: uppercase; margin: 10px auto; letter-spacing: 1px;     font: 9px "droid_sansregular";}
-    .with-lines.break,.lines.break { width: 185px; word-spacing: 0px; width: 280px;}
-    .break .close {color: white; cursor: pointer; }
-    section .msgs_box {margin-bottom: 0px !important;}
-    section .msgs_links {padding: 0 20px;}
-    section .tab_panel {border: none !important; margin-top: 0 !important; }
-    .preview-area { display: none; }
-    .mce-container-body.mce-stack-layout {background-color: #ccc !important;}
-    .mce-container-body.mce-stack-layout button {    background-color: #0e1f5b !important; color: #ffffff !important; border: none !important; cursor: pointer !important; font: 12px "droid_sansregular" !important; width: 112px !important; height: 26px !important;border-radius: 3px; border-bottom: 4px solid #ddd; text-transform: uppercase;}
-    .mce-container-body.mce-stack-layout button:hover {background-color: #01baf2 !important;}
-    .mce-tinymce.mce-tinymce-inline.mce-container.mce-panel.mce-floatpanel {left: -87px !important; cursor: pointer; transition: left 0.5s ease; }
-    .break .close { margin-left: 15px; }
-    .mce-tinymce.mce-tinymce-inline.mce-container.mce-panel.mce-floatpanel.mce-fixed:hover {left: 0px !important; }
-    .view-area img:not(.Wirisformula), .preview-area img:not(.Wirisformula) {max-width: 100%;margin: auto; display: block;height: 100%;padding-top: 5px; padding-bottom: 5px;}
-    @-moz-document url-prefix() {
-        #content {
-            cursor: text;
-            -webkit-user-select: text;  /* Chrome all / Safari all */
-            -moz-user-select: text;     /* Firefox all */
-            -ms-user-select: text;      /* IE 10+ */
-            user-select: text;          /* Likely future */
+    {!! HTML::script(asset('plugins/tinymce/plugins/tiny_mce_wiris/core/display.js')) !!}
+    {!! HTML::script(asset('plugins/tinymce/tinymce.min.js')) !!}
+    <style>
+        .drop_downs {margin-top: 60px;}
+        section .tab_panel ul.mL-1 {margin-top: -37px;}
+        .mce-floatpanel {position: fixed !important; top: 50% !important; left: 0px !important; border: 1px solid #ccc !important; }
+        #editorContent, #editorContent2 { outline: none; }
+        .second_child div p { margin-bottom: 0px !important; line-height: 20px !important; }
+        .edit-view {overflow:hidden; padding:0 30px; }
+        .edit-view .sub-heading {overflow:hidden; padding:10px 0; }
+        .edit-view .sub-heading .click-heading {float:left; font-size:23px; line-height:26px; padding-top:5px; }
+        .side-area {float:right; }
+        .side-area .num {float:right; padding-top:0px; font-size:30px; letter-spacing:5px; }
+        .side-area .num .color {color:#e97564; font-family: 'droid_sansbold'; }
+        .view-area {border:1px solid #d7d7d7; padding:15px 27px; -webkit-box-shadow: inset 0 4px 5px rgba(0,0,0,.2); -moz-box-shadow: inset 0 4px 5px rgba(0,0,0,.2); box-shadow: inset 0 4px 5px rgba(0,0,0,.2); margin-bottom: 40px; }
+        .footer, .header {background:#fff; text-align:center; padding:0; width:100%; margin:0 auto 20px !important; word-wrap: break-word; }
+        .view-area .footer {margin:0; }
+        .view-area .content {font-size:18px;line-height: 28px;}
+        .view-area h1 {margin: 0 0 30px; font-size: 29px; line-height: 30px; }
+        .view-area  h2 {margin: 0 0 20px; font-size: 24px; line-height: 29px; }
+        .content { outline: none; }
+        .inline {display: inline-block;}
+        .view-area {width: 816px; /*margin: auto;*/ overflow: hidden; font-family: helvetica !important;}
+        .page { min-height: 1056px; }
+        .page .line { height: 30px; display: block; border-bottom: 1px solid black; }
+        .questions_passage .bottom_bullet_spn{  position: relative; display: inline; vertical-align: top; padding: 0 0 20px; }
+        .bottom_bullet {position: absolute; bottom: 0; left: 0; right: 0; font-size: 9px !important; top: 16px; }
+        .header img, .footer img {max-width: 100%;}
+        .mh10 {min-height: 10px;}
+        table {border-collapse: collapse; margin: auto; }
+        td, th, caption{border:1px solid #000; padding:5px; border-collapse: collapse; margin:0 auto; }
+        img.Wirisformula{display: inline; max-width: none; }
+        .view-area #content .question p {     margin: 0 0 17px; line-height: 20px; }
+        .view-area #content .question .other_content_data p { margin-bottom: 0; }
+        .edit-view ul {margin: inherit !important; padding-left:36px  !important; }
+        .questions_passage .bottom_bullet_spn{  position: relative; display: inline-block; vertical-align: top; padding: 0 0 20px; }
+        .bottom_bullet { position: absolute; bottom: 0; left:0; right: 0; text-align: center; }
+        .view-area .content {line-height: 20px; }
+        .column > * { padding: 10px }
+        .column img{max-width: 100%;}
+        .bottom_bullet { bottom: 0px !important; top: auto !important;}
+        .footer {overflow: hidden; }
+        .break { background-color: #0E1F5B; color: white; padding: 5px; border-radius: 50px; display: block; width: 280px; text-align: center; font-size: 13px; text-transform: uppercase; margin: 10px auto; letter-spacing: 1px;     font: 9px "droid_sansregular";}
+        .with-lines.break,.lines.break { width: 185px; word-spacing: 0px; width: 280px;}
+        .break .close {color: white; cursor: pointer; }
+        section .msgs_box {margin-bottom: 0px !important;}
+        section .msgs_links {padding: 0 20px;}
+        section .tab_panel {border: none !important; margin-top: 0 !important; }
+        .preview-area { display: none; }
+        .mce-container-body.mce-stack-layout {background-color: #ccc !important;}
+        .mce-container-body.mce-stack-layout button {    background-color: #0e1f5b !important; color: #ffffff !important; border: none !important; cursor: pointer !important; font: 12px "droid_sansregular" !important; width: 112px !important; height: 26px !important;border-radius: 3px; border-bottom: 4px solid #ddd; text-transform: uppercase;}
+        .mce-container-body.mce-stack-layout button:hover {background-color: #01baf2 !important;}
+        .mce-tinymce.mce-tinymce-inline.mce-container.mce-panel.mce-floatpanel {left: -87px !important; cursor: pointer; transition: left 0.5s ease; }
+        .break .close { margin-left: 15px; }
+        .mce-tinymce.mce-tinymce-inline.mce-container.mce-panel.mce-floatpanel.mce-fixed:hover {left: 0px !important; }
+        .view-area img:not(.Wirisformula), .preview-area img:not(.Wirisformula) {max-width: 100%;margin: auto; display: block;height: 100%;padding-top: 5px; padding-bottom: 5px;}
+        @-moz-document url-prefix() {
+            #content {
+                cursor: text;
+                -webkit-user-select: text;  /* Chrome all / Safari all */
+                -moz-user-select: text;     /* Firefox all */
+                -ms-user-select: text;      /* IE 10+ */
+                user-select: text;          /* Likely future */
+            }
         }
-    }
 
-    .mce-tinymce.mce-tinymce-inline.mce-container.mce-panel.mce-floatpanel:hover {left: 0px !important; }
-    .rmv-break { display: block; width: 100% !important; }
-    .sub-heading {/*width: 872px;*/ margin: auto; }
-    #fb-view {min-height: 1056px;}
-    #editorContent ul {float: none !important; }
-    div.clr span.bottom_bullet_spn, li span.bottom_bullet_spn { min-height: 40px !important; display: inline-block !important; position: relative;}
-    .edit-view div.clr {height: 0px;    line-height: 0px;}
-    .bullet-answer-elem img.Wirisformula {margin-top: 2px;}
+        .mce-tinymce.mce-tinymce-inline.mce-container.mce-panel.mce-floatpanel:hover {left: 0px !important; }
+        .rmv-break { display: block; width: 100% !important; }
+        .sub-heading {/*width: 872px;*/ margin: auto; }
+        #fb-view {min-height: 1056px;}
+        #editorContent ul {float: none !important; }
+        div.clr span.bottom_bullet_spn, li span.bottom_bullet_spn { min-height: 40px !important; display: inline-block !important; position: relative;}
+        .edit-view div.clr {height: 0px;    line-height: 0px;}
+        .bullet-answer-elem img.Wirisformula {margin-top: 2px;}
 
-    .content.template-bg {
-        background: rgba(0, 0, 0, 0) url("{{url()}}/images/saprater-temp.png") repeat scroll 0 0;
-    }
-</style>
-
-@if( $templateId == 3 )
-    <style>
-        .view-area img:not(.Wirisformula), .preview-area img:not(.Wirisformula) {max-width: 380px; margin: auto; display: block; height: auto; }
-        .preview-area img:not(.Wirisformula) {max-width: 280px;}
-        .sub-heading {    width: 1110px; margin: inherit; }
-        #editorContent { width: 380px; }
-        .view-area { width: 380px !important; float: left; }
-        .preview-area { display: block; }
-        .edit-view {width: 1320px !important;}
-        .page {margin-bottom: 42px; }
-        .preview-area .grid-item { width: 280px !important; float: left !important; max-height: 1420px !important; height: 1056px !important;font-size: 72%;}
-        .preview-area .page { height: 1056px !important; min-height: 1056px !important; }
-        .preview-area .grid-item { padding: 4px 15px !important; }
-        .preview-area .grid-item.fltR { margin-left: 25px !important; }
-        .preview-area .grid-item .content { display: inline; }
-        .preview-area .grid-item .fltL.answer-content { width: 192px !important; }
-        .content {word-break: break-word; }
-        .preview-area p {margin: 0 0 17px; line-height: 20px; }
-        .preview-area p.mh10 {min-height: 2px; margin-bottom: 2px; line-height: 8px; }
-        .preview-area .bullet-answer-elem p {margin-bottom: 0px !important; }
-        .preview-area .qst-item-text p {margin-bottom: 0px; }
-        .preview-area .page .line {height: 17px !important;}
-        .page table {    word-break: break-all; width: 100% !important;}
+        .content.template-bg {
+            background: rgba(0, 0, 0, 0) url("{{url()}}/images/saprater-temp.png") repeat scroll 0 0;
+        }
     </style>
-@elseif( $templateId == 2 )
-    <style>
-        .view-area img:not(.Wirisformula), .preview-area img:not(.Wirisformula) {max-width: 380px; margin: auto; display: block; height: auto; }
-        .sub-heading {width: 940px;}
-        #editorContent { width: 380px; }
-        #editorContent2 { width: 380px; }
-        .view-area { width: 400px !important; float: left; }
-        .view-areat {  float: left;border:1px solid #d7d7d7; padding:15px 27px;
-            -webkit-box-shadow: inset 0 4px 5px rgba(0,0,0,.2);
-            -moz-box-shadow: inset 0 4px 5px rgba(0,0,0,.2);
-            box-shadow: inset 0 4px 5px rgba(0,0,0,.2); margin-bottom: 5px; }
-        .edit-view { width: 940px !important; margin: auto !important;}
-        .content {word-break: break-word; }
-    </style>
-@endif
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-            <div class="panel-heading">
-                {{$title}} 
-                <a href="{{ url('/resources/assessment') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>               
-            </div>
-            </div>
-            <div class="panel panel-default">
 
-<div class="clr"></div>
-<section>
-    <div class="userSuccMSG" style="display: none; top: 320px; left: 393px;">Please Wait..</div>
-
-    @if (empty($mode))
-        <section class="msgs_box" style='width: auto; border:1px solid #e6e7e8;'>
-            @else
-                <section class="msgs_box" style='width: 950px; border:1px solid #e6e7e8;'>
-                    @endif
-                    <div class="msgs_links">
-                        <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
-                        <h1>@if (empty($mode)) Edit @endif Print &amp; Online View</h1>
-                        <a href="javascript:void(0)" class="icons cross_icon"></a>
-                        <div class="clr"></div>
+    @if( $templateId == 3 )
+        <style>
+            .view-area img:not(.Wirisformula), .preview-area img:not(.Wirisformula) {max-width: 380px; margin: auto; display: block; height: auto; }
+            .preview-area img:not(.Wirisformula) {max-width: 280px;}
+            .sub-heading {    width: 1110px; margin: inherit; }
+            #editorContent { width: 380px; }
+            .view-area { width: 380px !important; float: left; }
+            .preview-area { display: block; }
+            .edit-view {width: 1320px !important;}
+            .page {margin-bottom: 42px; }
+            .preview-area .grid-item { width: 280px !important; float: left !important; max-height: 1420px !important; height: 1056px !important;font-size: 72%;}
+            .preview-area .page { height: 1056px !important; min-height: 1056px !important; }
+            .preview-area .grid-item { padding: 4px 15px !important; }
+            .preview-area .grid-item.fltR { margin-left: 25px !important; }
+            .preview-area .grid-item .content { display: inline; }
+            .preview-area .grid-item .fltL.answer-content { width: 192px !important; }
+            .content {word-break: break-word; }
+            .preview-area p {margin: 0 0 17px; line-height: 20px; }
+            .preview-area p.mh10 {min-height: 2px; margin-bottom: 2px; line-height: 8px; }
+            .preview-area .bullet-answer-elem p {margin-bottom: 0px !important; }
+            .preview-area .qst-item-text p {margin-bottom: 0px; }
+            .preview-area .page .line {height: 17px !important;}
+            .page table {    word-break: break-all; width: 100% !important;}
+        </style>
+    @elseif( $templateId == 2 )
+        <style>
+            .view-area img:not(.Wirisformula), .preview-area img:not(.Wirisformula) {max-width: 380px; margin: auto; display: block; height: auto; }
+            .sub-heading {width: 940px;}
+            #editorContent { width: 380px; }
+            #editorContent2 { width: 380px; }
+            .view-area { width: 400px !important; float: left; }
+            .view-areat {  float: left;border:1px solid #d7d7d7; padding:15px 27px;
+                -webkit-box-shadow: inset 0 4px 5px rgba(0,0,0,.2);
+                -moz-box-shadow: inset 0 4px 5px rgba(0,0,0,.2);
+                box-shadow: inset 0 4px 5px rgba(0,0,0,.2); margin-bottom: 5px; }
+            .edit-view { width: 940px !important; margin: auto !important;}
+            .content {word-break: break-word; }
+        </style>
+    @endif
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{$title}}
+                        @if($tplId != 0)
+                            <a href="{{ url('/resources/assessment') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>
+                        @endif
                     </div>
+                </div>
+                <div class="panel panel-default">
+
                     <div class="clr"></div>
-
-                    <section class="edit-view" id="editor_c">
-                        <div class="sub-heading">
-                            @if (empty($mode))
-                                <span class="click-heading">Click "Enter" to add the line breaks to modify the page layout.</span>
-                                <div class="side-area">
-                                    <div class="fltR">
-                                        <a class="btn_preview upload_btn mL0 mt0 mr0" href="javascript:void(0)" id='btn_preview'>Preview</a>
-                                    </div>
-                                </div>
-                            @endif
-
-                        </div>
-                        @if( $templateId == 2 )
-                            @if (!empty($titlePage) || !empty($beginInstructions))
-                                <div class="view-areat">
-                                    @if (!empty($titlePage))
-                                        <div class='mb10'>
-                                            {!! $titlePage !!}
-                                        </div>
-                                    @endif
-                                    @if (!empty($beginInstructions))
-                                        <div class='mb10 beginins'>
-                                            {!!($beginInstructions) !!}
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                        @endif
-                        @if( $templateId != 2 )
-                            <div class="view-area">
-                                <div id="page_template"> 
-                                    @if($header)
-                                        <div class='header hide'>{!! $header !!}</div>
-                                    @endif
-
-                                    <div id="editorContent">{!! $html !!}</div>
-
-                                    @if($footer)
-                                        <div class='footer hide'>{!! $footer !!}</div>
-                                    @endif
-                                </div>
-                            </div>
-                        @else
-                            {{-- Because for template 2 there are two editors --}}
-                            <div class="view-area fltL">
-                                <div id="page_template">
-                                    @if($header)
-                                        <div class='header hide'>{!! $header !!}</div>
-                                    @endif
-
-                                    <div id="editorContent">
-                                        {!! $html !!}
-                                    </div>
-
-                                    @if($footer)
-                                        <div class='footer hide'>{!! $footer !!}</div>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="view-area fltL mL25">
-
-                                <div id="page_template2">
-                                    @if($header)
-                                        <div class='header hide'>{!! $header !!}</div>
-                                    @endif
-
-                                    <div id="editorContent2">
-                                        {!! $html2 !!}
-                                    </div>
-
-                                    @if($footer)
-                                        <div class='footer hide'>{!! $footer !!}</div>
-                                    @endif
-                                </div>
-
-                            </div>
-                            @if (!empty($endInstructions))
-                                <div class='view-areat endins'>
-                                    {!! ($endInstructions) !!}
-                                </div>
-                            @endif
-                        @endif
-
-                        <div class="preview-area fltL w840" style="padding:0px 20px;">
-                            <div class="page">
-                                <div class="fltL grid-left"></div>
-                                <div class="fltL grid-right"></div>
-                            </div>
-                            <div class="page">
-                                <div class="fltL grid-left"></div>
-                                <div class="fltL grid-right"></div>
-                            </div>
-                            <div class="page">
-                                <div class="fltL grid-left"></div>
-                                <div class="fltL grid-right"></div>
-                            </div>
-                        </div>
-
-                        <div class="clr"></div>
+                    <section>
+                        <div class="userSuccMSG" style="display: none; top: 320px; left: 393px;">Please Wait..</div>
 
                         @if (empty($mode))
-                            <input type="hidden" name="tplId" id="tplId" value="{{ $tplId }}">
-                            <div class="pb40 mt20" data-template_id="{{ $tplId }}" @if($templateId == 1) style="width: 872px; margin: 10px auto !important;" @elseif($templateId == 2) style="width: 940px;" @elseif($templateId == 3) style="width: 1100px;" @endif>
-                                
+                            <section class="msgs_box" style='width: auto; border:1px solid #e6e7e8;'>
+                                @else
+                                    <section class="msgs_box" style='width: 950px; border:1px solid #e6e7e8;'>
+                                        @endif
+                                        <div class="msgs_links">
+                                            <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+                                            <h1>@if (empty($mode)) Edit @endif Print &amp; Online View</h1>
+                                            <a href="javascript:void(0)" class="icons cross_icon"></a>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="clr"></div>
 
-                                <a class="upload_btn mL0 mt0 fltL" href="javascript:void(0)" id='btn_save_and_close'>Save and Close</a>
-                                <div class="clr"></div>
-                            </div>
-                        @endif
+                                        <section class="edit-view" id="editor_c">
+                                            <div class="sub-heading">
+                                                @if (empty($mode))
+                                                    <span class="click-heading">Click "Enter" to add the line breaks to modify the page layout.</span>
+                                                    <div class="side-area">
+                                                        <div class="fltR">
+                                                            <a class="btn btn-primary btn_preview upload_btn mL0 mt0 mr0" href="javascript:void(0)" id='btn_preview'>Save and Preview</a>
+                                                        </div>
+                                                    </div>
+                                                @endif
 
-                    </section>
-                    <div class="clr"></div>
-                </section>
-        </section>
-</div></div></div>
-<?php
-$path = url()."/resources/";
-?>
+                                            </div>
+                                            @if( $templateId == 2 )
+                                                @if (!empty($titlePage) || !empty($beginInstructions))
+                                                    <div class="view-areat">
+                                                        @if (!empty($titlePage))
+                                                            <div class='mb10'>
+                                                                {!! $titlePage !!}
+                                                            </div>
+                                                        @endif
+                                                        @if (!empty($beginInstructions))
+                                                            <div class='mb10 beginins'>
+                                                                {!!($beginInstructions) !!}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            @endif
+                                            @if( $templateId != 2 )
+                                                <div class="view-area">
+                                                    <div id="page_template">
+                                                        @if($header)
+                                                            <div class='header hide'>{!! $header !!}</div>
+                                                        @endif
+
+                                                        <div id="editorContent">{!! $html !!}</div>
+
+                                                        @if($footer)
+                                                            <div class='footer hide'>{!! $footer !!}</div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            @else
+                                                {{-- Because for template 2 there are two editors --}}
+                                                <div class="view-area fltL">
+                                                    <div id="page_template">
+                                                        @if($header)
+                                                            <div class='header hide'>{!! $header !!}</div>
+                                                        @endif
+
+                                                        <div id="editorContent">
+                                                            {!! $html !!}
+                                                        </div>
+
+                                                        @if($footer)
+                                                            <div class='footer hide'>{!! $footer !!}</div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <div class="view-area fltL mL25">
+
+                                                    <div id="page_template2">
+                                                        @if($header)
+                                                            <div class='header hide'>{!! $header !!}</div>
+                                                        @endif
+
+                                                        <div id="editorContent2">
+                                                            {!! $html2 !!}
+                                                        </div>
+
+                                                        @if($footer)
+                                                            <div class='footer hide'>{!! $footer !!}</div>
+                                                        @endif
+                                                    </div>
+
+                                                </div>
+                                                @if (!empty($endInstructions))
+                                                    <div class='view-areat endins'>
+                                                        {!! ($endInstructions) !!}
+                                                    </div>
+                                                @endif
+                                            @endif
+
+                                            <div class="preview-area fltL w840" style="padding:0px 20px;">
+                                                <div class="page">
+                                                    <div class="fltL grid-left"></div>
+                                                    <div class="fltL grid-right"></div>
+                                                </div>
+                                                <div class="page">
+                                                    <div class="fltL grid-left"></div>
+                                                    <div class="fltL grid-right"></div>
+                                                </div>
+                                                <div class="page">
+                                                    <div class="fltL grid-left"></div>
+                                                    <div class="fltL grid-right"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="clr"></div>
+
+                                            @if (empty($mode))
+                                                <input type="hidden" name="tplId" id="tplId" value="{{ $tplId }}">
+                                                <div class="pb40 mt20" data-template_id="{{ $tplId }}" @if($templateId == 1) style="width: 872px; margin: 10px auto !important;" @elseif($templateId == 2) style="width: 940px;" @elseif($templateId == 3) style="width: 1100px;" @endif>
+
+
+                                                    <a class="btn btn-primary upload_btn mL0 mt0 fltL" href="javascript:void(0)" id='btn_save_and_close'>Save and Close</a>
+                                                    <div class="clr"></div>
+                                                </div>
+                                            @endif
+
+                                        </section>
+                                        <div class="clr"></div>
+                                    </section>
+                            </section>
+                </div></div></div>
+        <?php
+        $path = url()."/resources/";
+        ?>
         <script type="text/javascript">
             $(document).on('click', '.cross_icon', function (e) {
                 e.preventDefault();
@@ -552,8 +554,8 @@ $path = url()."/resources/";
                     });
 
                     @endif
-                @endif
-            }
+                    @endif
+                }
 
                 bindEditor('#editorContent');
 
@@ -912,7 +914,7 @@ $path = url()."/resources/";
 
 
                         @if (!$old)
-                            var essay = $('.edit-view .essay');
+                var essay = $('.edit-view .essay');
                 if (templateId == 2) {
                     essay = $('#editorContent2 .essay');
                 }
@@ -928,13 +930,13 @@ $path = url()."/resources/";
                 @endif
 
 
-                $('.btn_preview').on('click', function() {
-                    savePrintOnlineView($('#btn_save'), true);
-                });
-
-                $('#btn_save').on('click', function() {
-                    savePrintOnlineView($(this), false);
-                });
+                //                $('.btn_preview').on('click', function() {
+                //                    savePrintOnlineView($('#btn_save'), true);
+                //                });
+                //
+                //                $('#btn_save').on('click', function() {
+                //                    savePrintOnlineView($(this), false);
+                //                });
 
                 // bind next prev events
                 $('body').on('click', '#next', function(e) {
@@ -1228,7 +1230,7 @@ $path = url()."/resources/";
 
                     $('.preview-area').append( page );
                 };
-                 $('.preview-area').append( endins );
+                $('.preview-area').append( endins );
                 handleColumnarLines();
 
                 // Flag for if the grid has more leftContent than which we can show
@@ -1358,143 +1360,146 @@ $path = url()."/resources/";
             }
 
             function savePrintOnlineView(btn, openPdf) {
-               // alert('asdfgh');
-                var status="false";
-                if(status="false"){
-                    showMsg('Please Wait');
-                }
-                if (!btn.hasClass('disabled')) {
-                    decidePreview();
-                    // change images path to absolute
-                    $('.preview-area img:not([src^=http])').each(function(index, elem){
-                        var src = $(elem).attr('src');
-                        if (src.indexOf("../..") > -1) {
-                            $(elem).attr('src', window.location.origin + '/' + src);
-                        } else {
-                            $(elem).attr('src', window.location.origin + src);
-                        }
-                    });
+                /*
 
-                     var header = $('.view-area .header').html();
+                 // alert('asdfgh');
+                 var status="false";
+                 if(status="false"){
+                 showMsg('Please Wait');
+                 }
+                 if (!btn.hasClass('disabled')) {
+                 decidePreview();
+                 // change images path to absolute
+                 $('.preview-area img:not([src^=http])').each(function(index, elem){
+                 var src = $(elem).attr('src');
+                 if (src.indexOf("../..") > -1) {
+                 $(elem).attr('src', window.location.origin + '/' + src);
+                 } else {
+                 $(elem).attr('src', window.location.origin + src);
+                 }
+                 });
 
-                   // var header = $('.beginins').html();
-                    // alert(header);
-                     var footer = $('.view-area .footer').html();
+                 var header = $('.view-area .header').html();
 
-                   // var footer = $('.endins').html();
-                    var html = $('.preview-area').clone();
-                    html.find('.break.lines, .break, .page:empty').remove();
+                 // var header = $('.beginins').html();
+                 // alert(header);
+                 var footer = $('.view-area .footer').html();
 
-                    /*
-                    //////////////////////////////////////////////
-                    // change s3 images to session based        //
-                    //////////////////////////////////////////////
-                    var imgs = [];
-                    html.find('img').each(function(index, elem) {
-                        var src = $(elem).attr('src');
-                        if (src.search('s3-content') != -1 && src.search('path=') != -1) {
-                            imgs.push(
-                                    {
-                                        src: $(elem).attr('src').split('path=')[1],
-                                        type: (src.search('s3-content-math') != -1) ? 'math' : 'other'
-                                    }
-                            );
-                        } else {
-                            imgs.push('');
-                        }
-                    });
-                    
-                    $.ajax({
-                        url: '/assessment/update-image-path',
-                        data: {imgs: imgs},
-                        method: 'POST',
-                        async: true,
-                        beforeSend: function() {
-                        }, success: function(processedImages) {
+                 // var footer = $('.endins').html();
+                 var html = $('.preview-area').clone();
+                 html.find('.break.lines, .break, .page:empty').remove();
 
-                            html.find('img').each(function(index, elem) {
-                                if (processedImages[index] != '') {
-                                    $(elem).attr('src', processedImages[index]);
-                                }
-                            });
-                        }
-                    });
-                    */
-                    //////////////////////////////////////////////
-                    // END: change s3 images to session based   //
-                    //////////////////////////////////////////////
+                 /!*
+                 //////////////////////////////////////////////
+                 // change s3 images to session based        //
+                 //////////////////////////////////////////////
+                 var imgs = [];
+                 html.find('img').each(function(index, elem) {
+                 var src = $(elem).attr('src');
+                 if (src.search('s3-content') != -1 && src.search('path=') != -1) {
+                 imgs.push(
+                 {
+                 src: $(elem).attr('src').split('path=')[1],
+                 type: (src.search('s3-content-math') != -1) ? 'math' : 'other'
+                 }
+                 );
+                 } else {
+                 imgs.push('');
+                 }
+                 });
 
-                    html.find('.question_order').remove();
-                    html.find('.page').removeAttr('style');
-                    html.find('.bullet-answer-elem p').contents().unwrap();
+                 $.ajax({
+                 url: '/assessment/update-image-path',
+                 data: {imgs: imgs},
+                 method: 'POST',
+                 async: true,
+                 beforeSend: function() {
+                 }, success: function(processedImages) {
 
-                    var untouchedHtml = html.clone();
-                    untouchedHtml.find('#title_bi, #endInstructions, .question_order, .header, .footer').remove();
-                    untouchedHtml.find('.page').removeAttr('style');
-                    if (untouchedHtml.find('.bullet-answer-elem p').size() > 0) {
-                        untouchedHtml.find('.bullet-answer-elem p').contents().unwrap();
-                    }
+                 html.find('img').each(function(index, elem) {
+                 if (processedImages[index] != '') {
+                 $(elem).attr('src', processedImages[index]);
+                 }
+                 });
+                 }
+                 });
+                 *!/
+                 //////////////////////////////////////////////
+                 // END: change s3 images to session based   //
+                 //////////////////////////////////////////////
 
-                    var parentId = '{{ $templateId }}';
-                    var html_orginal = $('#editorContent').clone();
-                    html_orginal.find('.Wirisformula').each(function(_i, _e) {
-                        var mthml = $(_e).data('mathml');
-                        mthml = mthml.replace(/¨/g, "\"");
-                        mthml = mthml.replace(/«/g, "<");
-                        mthml = mthml.replace(/»/g, ">");
-                        mthml = mthml.replace(/§/g, "&");
+                 html.find('.question_order').remove();
+                 html.find('.page').removeAttr('style');
+                 html.find('.bullet-answer-elem p').contents().unwrap();
 
-                        $(_e).replaceWith(mthml);
-                    });
-                    html_orginal = html_orginal.html().trim();
-                    var html_orginal2 = "";
-                    
-                    $('#btn_save').addClass('disabled');
-                    $(document).ajaxSend(function (event, request, settings) {
-                        showMsg('Please Wait');
-                    });
-                    $.ajax({
-                        url: '/assessment/save-print-online-view',
-                        data: {
-                            pdf_content: html.html().trim(),
-                            html_orginal: html_orginal,
-                            html_orginal2: html_orginal2,
-                            html: untouchedHtml.html().trim(),
-                            header: header,
-                            footer: footer,
-                            asmt_id: '{{ $id }}',
-                            parentId: parentId
-                        },
-                        method: 'POST',
-                        async: true,
-                        beforeSend: function() {
-                            status="false";
-                            showMsg('Please Wait');
-                        }, success: function(response) {
-                            $.ajax({
-                                method: "POST",
-                                data:{Id: btn.parent().data('subsection_id'), 'parentId': parentId, perview: openPdf},
-                                url: "/assessment/save-pdf",
-                                async:false,
-                                beforeSend: function() {
-                                },success: function(data) {
+                 var untouchedHtml = html.clone();
+                 untouchedHtml.find('#title_bi, #endInstructions, .question_order, .header, .footer').remove();
+                 untouchedHtml.find('.page').removeAttr('style');
+                 if (untouchedHtml.find('.bullet-answer-elem p').size() > 0) {
+                 untouchedHtml.find('.bullet-answer-elem p').contents().unwrap();
+                 }
 
-                                    $('#btn_save').removeClass('disabled');
+                 var parentId = '{{ $templateId }}';
+                 var html_orginal = $('#editorContent').clone();
+                 html_orginal.find('.Wirisformula').each(function(_i, _e) {
+                 var mthml = $(_e).data('mathml');
+                 mthml = mthml.replace(/¨/g, "\"");
+                 mthml = mthml.replace(/«/g, "<");
+                 mthml = mthml.replace(/»/g, ">");
+                 mthml = mthml.replace(/§/g, "&");
 
-                                    if (!openPdf) {
-                                        status="true";
-                                        showMsg("Customize Print & Online View Successfully Saved.");
-                                        window.location = '/assessment/add/grading/' + $('input#recordId').val();
-                                    } else {
-                                        var win = window.open(data[0], '_blank');
-                                        if (win != undefined && win != "")
-                                            win.focus();
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
+                 $(_e).replaceWith(mthml);
+                 });
+                 html_orginal = html_orginal.html().trim();
+                 var html_orginal2 = "";
+
+                 $('#btn_save').addClass('disabled');
+                 $(document).ajaxSend(function (event, request, settings) {
+                 showMsg('Please Wait');
+                 });
+                 $.ajax({
+                 url: '/assessment/save-print-online-view',
+                 data: {
+                 pdf_content: html.html().trim(),
+                 html_orginal: html_orginal,
+                 html_orginal2: html_orginal2,
+                 html: untouchedHtml.html().trim(),
+                 header: header,
+                 footer: footer,
+                 asmt_id: '{{ $id }}',
+                 parentId: parentId
+                 },
+                 method: 'POST',
+                 async: true,
+                 beforeSend: function() {
+                 status="false";
+                 showMsg('Please Wait');
+                 }, success: function(response) {
+                 $.ajax({
+                 method: "POST",
+                 data:{Id: btn.parent().data('subsection_id'), 'parentId': parentId, perview: openPdf},
+                 url: "/assessment/save-pdf",
+                 async:false,
+                 beforeSend: function() {
+                 },success: function(data) {
+
+                 $('#btn_save').removeClass('disabled');
+
+                 if (!openPdf) {
+                 status="true";
+                 showMsg("Customize Print & Online View Successfully Saved.");
+                 window.location = '/assessment/add/grading/' + $('input#recordId').val();
+                 } else {
+                 var win = window.open(data[0], '_blank');
+                 if (win != undefined && win != "")
+                 win.focus();
+                 }
+                 }
+                 });
+                 }
+                 });
+                 }
+                 */
             }
 
             // Moves the breaks out of the style tags in order
@@ -1542,7 +1547,7 @@ $path = url()."/resources/";
             }
 
             function prepare_A_Preview() {
-               var content = $('#editorContent').clone();
+                var content = $('#editorContent').clone();
 
                 content.find('.break').removeAttr('style');
                 content.find('.break').removeAttr('data-mce-style');
@@ -1597,15 +1602,15 @@ $path = url()."/resources/";
 
 
 
-            $(document).ready(function() {  
+            $(document).ready(function() {
                 $(document).on('click', '#btn_save_and_close', function() {
                     savePrintOnlineView('0', $(this));
-                });  
+                });
                 $(document).on('click', '#btn_preview', function() {
                     savePrintOnlineView('1', $('#btn_save'));
-                });  
-                 
-             
+                });
+
+
             });
 
 
@@ -1634,24 +1639,25 @@ $path = url()."/resources/";
                         // toggleMsg('Please wait..');
                     },
                     success: function(response) {
+                        //   alert(pdfView);
                         //alert(response);
-                     $.ajax({
+                        $.ajax({
                             method: "POST",
                             data:{Id: {{$id}}, 'tplId': response, 'perview': pdfView},
                             url: "{{$path}}save-pdf",
                             success: function(data) {
                                 // alert(data);
                                 if(data=='1'){
-                                   location.href = '{{$path}}assessment';    
+                                    location.href = '{{$path}}assessment';
 
                                 }else{
                                     window.open(data,'_blank');
-                                    location.href = '{{$path}}assessment';
+                                    // location.href = '{{$path}}assessment';
                                 }
-                                
+
                             }
                         });
-                        
+
                     }
                 });
 

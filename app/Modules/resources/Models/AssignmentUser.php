@@ -48,7 +48,7 @@ use Mail;
                 //$join->on('r.id', '=', 'u.role_id');
             //})->select('users.name', 'users.email','Institution.name', 'Roles.name')->get();
             //})
-            ->select(DB::raw('u.name as username, u.email as email, u.status as status, u.id as id'));
+            ->select(DB::raw('u.name as username, u.email as email, u.status as status, u.id as id, au.status,au.takendate,au.rawscore, au.id as auid'));
 
         if($assignment_id > 0)
         {

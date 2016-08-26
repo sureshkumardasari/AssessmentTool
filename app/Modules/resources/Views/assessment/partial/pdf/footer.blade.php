@@ -6,10 +6,10 @@
 	@section('header-assets')
 		<link rel="stylesheet" href="{{ asset('css/pdf.css') }}">
 		<style>
-			body {font: 18px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; }
+			body {font: 16px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; }
 			.header img {display: block; margin: auto; }
-			body {font: 18px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; }
-			.header {width: 816px; margin: auto; overflow: hidden; padding:15px 27px;}
+			body {font: 16px helvetica; color: #403f3c; margin: 0px; background-color: #fff; color: #444; text-shadow: none; }
+			.header {width: 800px; margin: auto; overflow: hidden; padding:15px 27px;}
 			.wrapper { background-color: white; }
 			 tr {page-break-inside: avoid !important; }
 			.break {page-break-before:always; }			
@@ -44,7 +44,7 @@
 <body>
 	<div class="wrapper @yield('wrapper-class')">
 		
-		<div class="header" style="text-align:center">			
+		<div class="header" style="text-align:center;word-wrap: break-word;">			
 			{!! $footer !!}			
 		</div>		
 	</div>

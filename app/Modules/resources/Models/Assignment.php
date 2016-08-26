@@ -50,7 +50,7 @@ class Assignment extends Model {
                         ->join('institution', 'institution.id', '=', 'assignment.institution_id')
                        	->where('assignment.id', $id)
                      
-                        ->select('assignment.id as id','assignment.assessment_id','assignment.name','assignment.description','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires','assignment.launchtype','assessment.name as assessment_name','assessment.print_view_file','users.name as proctor_name','assignment.proctor_instructions','institution.name as institution_name','assignment.delivery_method')
+                        ->select('assignment.id as id','assignment.status as status','assignment.assessment_id','assignment.name','assignment.description','assignment.startdatetime','assignment.enddatetime','assignment.neverexpires','assignment.launchtype','assessment.name as assessment_name','assessment.print_view_file','users.name as proctor_name','assignment.proctor_instructions','institution.name as institution_name','assignment.delivery_method')
                         ->get();
 
 		return $assignment[0];
@@ -84,7 +84,7 @@ class Assignment extends Model {
 		$obj->description = $params['assignment_text'];
 		$obj->assessment_id = $params['assessment_id'];
 		$obj->startdatetime = date("Y-m-d H:i:s", strtotime($params['startdatetime']));//$params['startdatetime'];
-		$obj->enddatetime = (isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? date("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '';
+		$obj->enddatetime = isset($params['neverexpires'])?"":((isset($params['enddatetime']) && ($params['enddatetime'] != "" && $params['enddatetime'] != null)) ? date("Y-m-d H:i:s", strtotime($params['enddatetime'])) : '');
 		//gmdate("Y-m-d H:i:s", strtotime($params['enddatetime']));//$params['enddatetime'];
 		$obj->neverexpires = (isset($params['neverexpires'])) ?  $params['neverexpires'] : 0;
 		$obj->launchtype = $params['launchtype'];

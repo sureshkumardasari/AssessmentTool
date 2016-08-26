@@ -90,10 +90,10 @@ class BrandingController extends Controller {
 
 			$file = Input::file('image');
 			$filename = time() . '.' . $file->getClientOriginalExtension();
-			if (!is_dir(public_path('/data/brandingimages/'))) {
-				@mkdir(public_path('/data/brandingimages/', 0777, true));
+			if (!is_dir(public_path('data/brandingimages/'))) {
+				@mkdir(public_path('data/brandingimages/'), 0777, true);
 			}
-			$path = public_path('/data/brandingimages/' . $filename);
+			$path = public_path('data/brandingimages/' . $filename);
 
 
 			Image::make($file->getRealPath())->resize(200, 200)->save($path);

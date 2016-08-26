@@ -58,6 +58,10 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('question_update_submit/', array('as' => 'update', 'uses'=>'QuestionController@questionSubmit'));
     Route::post('filter_data_question', ['as' => 'filter_data_question', 'uses' => 'QuestionController@questionFilter']);
 
+     Route::get('questionBulkUpload', array('as' => 'questionBulkUpload', 'uses'=>'QuestionController@questionBulkUpload'));
+       Route::get('questionBulkTemplate', array('as'=>'questionBulkTemplate','uses'=>'QuestionController@questionBulkTemplate'));
+      Route::post('questionBulkUploadFile', array('as'=>'questionBulkUploadFile','uses'=>'QuestionController@questionBulkUploadFile'));
+      
     Route::post('categoryList/{id}', array('as' => 'categoryList', 'uses'=>'QuestionController@categoryList'));
     Route::post('subjectList/{id}', array('as' => 'subjectList', 'uses'=>'QuestionController@subjectList'));
     Route::post('lessonsList/{id}', array('as' => 'lessonsList', 'uses'=>'QuestionController@lessonsList'));
@@ -112,4 +116,19 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('view/assignment/{id?}', ['as' => 'viewAssignment', 'uses' => 'AssignmentController@view']);
     Route::get('assignedusersjson', array('as'=>'assignedusersjson','uses'=>'AssignmentController@getAssignUsersInfo'));
     Route::get('unassignedusersjson', array('as'=>'unassignedusersjson','uses'=>'AssignmentController@getunAssignUsersInfo'));
+    Route::get('CategoryBulkUpload', array('as' => 'categoryBulkUpload', 'uses'=>'ResourceController@categoryBulkUpload'));
+    Route::get('BulkCategoryTemplate', array('as'=>'bulkcategoryTemplate','uses'=>'ResourceController@bulkcategoryTemplate'));
+    Route::post('BulkCategoryUpload', array('as'=>'bulkcategoryUpload','uses'=>'ResourceController@bulkcategoryUpload'));
+
+    Route::get('SubjectBulkUpload', array('as' => 'subjectBulkUpload', 'uses'=>'ResourceController@subjectBulkUpload'));
+    Route::get('BulkSubjectTemplate', array('as'=>'bulksubjectTemplate','uses'=>'ResourceController@bulksubjectTemplate'));
+    Route::post('BulkSubjectUpload', array('as'=>'bulksubjectUpload','uses'=>'ResourceController@bulksubjectUpload'));
+
+    Route::get('lessonBulkUpload', array('as' => 'lessonBulkUpload', 'uses'=>'ResourceController@lessonBulkUpload'));
+    Route::get('BulkLessonTemplate', array('as'=>'bulklessonTemplate','uses'=>'ResourceController@bulklessonTemplate'));
+    Route::post('BulkLessonUpload', array('as'=>'bulklessonUpload','uses'=>'ResourceController@bulklessonUpload'));
+
+    Route::get('assignmentuserstatus', array('as' => 'assignment-userstatus', 'uses'=>'AssignmentController@updateAssignmentUserStatus'));
+    Route::get('assignmentuserstatus/{id}/{status}', array('as' => 'assignment-userstatus-update', 'uses'=>'AssignmentController@updateAssignmentUserStatus'));
+    
 });
