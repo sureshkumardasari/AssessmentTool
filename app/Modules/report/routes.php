@@ -49,7 +49,7 @@
         Route::get('testhistorytile',['as'=>'testhistorytile','uses'=>'ReportController@dashboard1']);
 
         Route::get('leastscore',['as'=>'leastscorereport','uses'=>'ReportController@leastscore']);
-
+        Route::get('testhistoryexportPDF/{inst_id}',['as'=>'reportdownload','uses'=>'ReportController@testhistoryexportPDF']);
 
         Route::get('SAR_PDF/{inst_id}/{assi_id}/{std_id}',['as'=>'reportdownload','uses'=>'ReportController@SAR_pdf']);
 

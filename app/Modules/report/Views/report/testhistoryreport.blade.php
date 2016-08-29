@@ -31,11 +31,14 @@
                                 <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                             </div>
                         </div>
-
+                        <div>
+                            <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                        </div>
                     </div>
                     <div id="report">
 
                     </div>
+
                 </div>
             </div>
         </div>
@@ -63,5 +66,9 @@
                     }
             )
         }
+        $('#pdf').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            window.open("{{ url('report/testhistoryexportPDF/')}}/"+inst_id);
+        });
     </script>
 @endsection
