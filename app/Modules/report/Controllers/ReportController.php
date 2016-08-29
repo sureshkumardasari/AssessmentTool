@@ -360,6 +360,31 @@ class ReportController extends Controller {
 	 //dd($assignments);
 		return view('report::report.student_answer_report_list',compact('assignments'));
 	}
+
+	public function SAR_pdf($inst_id,$assign_id,$student_id)
+	{
+		$assignments = DB::table('assignment_user')
+				->join('assignment', 'assignment.id', '=', 'assignment_user.assignment_id')
+				->join('assessment', 'assessment.id', '=', 'assignment_user.assessment_id')
+				->leftjoin('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id', 'and', 'assignment_user.assignment_id', '=', 'question_user_answer.assignment_id')
+				->leftjoin('questions', 'questions.id', '=', 'question_user_answer.question_id')
+				->leftjoin('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
+				->where('question_user_answer.assignment_id', '=', $assign_id)
+				->where('assignment_user.user_id', '=', $student_id)
+				->where('question_answers.is_correct', '=', 'YES')
+				->select('questions.title as question_title', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'assignment.id as id', 'question_user_answer.id as qid')
+				->groupby('questions.id')
+				->get();
+
+		return Excel::create('Assessment report', function ($excel) use ($assignments) {
+			$excel->sheet('mySheet', function ($sheet) use ($assignments) {
+				//$sheet->loadView($students);
+				$sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments));
+				//$sheet->fromArray($students);
+			});
+		})->download("pdf");
+	}
+
 	public function inst_question($id)
 	{
         $d=Assignment::select('id')->where('institution_id','=',$id)->get();
