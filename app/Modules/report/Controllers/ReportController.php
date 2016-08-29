@@ -894,4 +894,28 @@ class ReportController extends Controller {
 
 
     }
+    public function QuestionsexportPDF($inst_id=0,$assign_id=0,$sub_id=0){
+        $assessment=Assignment::find($assign_id);
+        $question=[];
+        if($assessment){
+            $question=AssessmentQuestion::where('assessment_id',$assessment->id)->lists('question_id');
+        }
+        $ques=Question::whereIn('id',$question)->lists('title','id');
+        $questions=Question::whereIn('id',$question);
+        if($sub_id!=0){
+            $questions->where('subject_id','=',$sub_id);
+        }
+        $questions=$questions->lists('id');
+        $user_count=QuestionUserAnswer::where('assignment_id',$assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
+        $user_answered_correct_count=QuestionUserAnswer::whereIn('question_id',$questions)->where('assignment_id',$assign_id)->where('is_correct','Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
+        return Excel::create('Assessment report', function ($excel) use ($ques,$user_answered_correct_count,$user_count) {
+            $excel->sheet('mySheet', function ($sheet) use ($ques,$user_answered_correct_count,$user_count) {
+                //$sheet->loadView($students);
+                $sheet->loadView('report::report.Questionpdf', array("ques" => $ques,"user_answered_correct_count" => $user_answered_correct_count,"user_count" => $user_count));
+                //$sheet->fromArray($students);
+            });
+        })->download("pdf");
+    }
+
+
 }
