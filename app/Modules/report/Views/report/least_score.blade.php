@@ -99,14 +99,25 @@
                         </div>
                     </div>
 
-                    {{--<div>--}}
-                    {{--<a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>--}}
-                    {{--</div>--}}
+                    <div>
+                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
+<script>
+    $('#pdf').on('click',function(){
+        //alert();
+      /*  var inst_id=$('#institution_id').val();
+        var assign_id=$('#assign_student').val();
+        var student_id=$('#student').val();*/
+        //alert(inst_id+","+assmt_id);
+        //location.reload("{{ url('exportPDF/')}}"+inst_id+"/"+assmt_id);
+        window.open("{{ url('report/leastscoreexportPDF/')}}");
 
+    });
+</script>
 
 @endsection

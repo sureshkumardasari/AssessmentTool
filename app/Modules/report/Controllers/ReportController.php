@@ -916,6 +916,61 @@ class ReportController extends Controller {
             });
         })->download("pdf");
     }
+    public function leastscoreexportPDF()
+    {
+        //dd('jhdbckh');
+        $ins = \Auth::user()->institution_id;
+        $InstitutionObj = new Institution();
+        $inst_arr = $InstitutionObj->getInstitutions();
+        /*$assignment = Assignment::select('id')
+            ->where('gradestatus', '=', 'completed')
+            ->take(3)
+            ->orderby('id', 'desc')
+            ->get();
+        $assignment = [];
+        $data = [];*/
+        $assignment = Assignment::where('gradestatus', '=', 'completed')->take(3)->orderby('id', 'desc')->lists('id');
+        $assignmentname=Assignment::whereIn('id',$assignment)->orderby('id', 'desc')->lists('name');
+        //dd($assignmentname);
+        //$ques=Question::whereIn('id',$question)->lists('title','id');
+        /*$students=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('user_id');
+        $asgnmts=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('assignment_id');*/
+        //dd($assignment);
 
+        $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+            ->where('assignment.id','=', $assignment[0])
+            ->orderBy('assignment.id')
+            ->orderby('user_assignment_result.rawscore', 'asc')
+            ->take(10)
+            ->get();
+
+        $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+            ->where('assignment.id','=', $assignment[1])
+            ->orderBy('assignment.id')
+            ->orderby('user_assignment_result.rawscore', 'asc')
+            ->take(10)
+            ->get();
+        $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+            ->where('assignment.id','=', $assignment[2])
+            ->orderBy('assignment.id')
+            ->orderby('user_assignment_result.rawscore', 'asc')
+            ->take(10)
+            ->get();
+
+        //return view('report::report.least_score', compact('report_data','report_data1','report_data2','assignmentname'));
+        return Excel::create('Assessment report', function ($excel) use ($report_data,$report_data1,$report_data2,$assignmentname) {
+            $excel->sheet('mySheet', function ($sheet) use ($report_data,$report_data1,$report_data2,$assignmentname) {
+                //$sheet->loadView($students);
+                $sheet->loadView('report::report.leastpdf', array("report_data" => $report_data,"report_data1" => $report_data1,"report_data2" => $report_data2,"assignmentname" => $assignmentname));
+                //$sheet->fromArray($students);
+            });
+        })->download("pdf");
+    }
 
 }
