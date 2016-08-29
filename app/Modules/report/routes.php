@@ -33,6 +33,7 @@
         Route::get('test-history',['as'=>'test-history','uses'=>'ReportController@TestHistoryReport']);
         Route::post('test_history/{id}','ReportController@TestHistory');
 	  Route::post('assignment_qstn/{inst_id}/{assi_id}/{sub_id}',['as'=>'reportassignment','uses'=>'ReportController@report_questions']);
+        Route::get('QuestionsexportPDF/{inst_id}/{assi_id}/{sub_id}',['as'=>'reportdownload','uses'=>'ReportController@QuestionsexportPDF']);
 	   Route::get('exportPDF/{inst_id}/{assi_id}',['as'=>'reportdownload','uses'=>'ReportController@exportPDF']);
         Route::post('assignment_subjects/{inst_id}-{assi_id}',['as'=>'reportassignment','uses'=>'ReportController@subjects_list']);
 
