@@ -380,7 +380,10 @@ class ReportController extends Controller {
 		public function getDownload()
 		{
 			//PDF file is stored under project/public/download/info.pdf
-			$file= public_path(). "/download/info";
+			if (!is_dir(public_path('download'))) {
+				@mkdir(public_path('download'), 0777, true);
+			}
+			$file= public_path(). "/download";
 			//dd($file);
 
 			$headers = array(
@@ -446,32 +449,57 @@ class ReportController extends Controller {
 	//Generating pdf...
 	public function exportPDF($inst_id=0,$assi_id=0)
 	{
-		$students=$this->class_average_and_student_scores($inst_id,$assi_id);
-//		$userids=QuestionUserAnswer::select('user_id')->where('assignment_id','=',$assi_id)->get();
-//		$c=array();
-//		foreach($userids as $userid)
-//			array_push($c,$userid->user_id);
-//		$students=DB::table('assignment_user')
-//				->leftjoin ('users','assignment_user.user_id','=','users.id')
-//				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
-//				->where('assignment_user.assignment_id','=',$assi_id)
-//				->select( DB::raw('
-//					assignment_user.user_id,
-//					users.name,
-//					(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
-//					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\') as answers_count
-//					'))
-//				-> groupby('assignment_user.user_id')
-//				->get();
-//		//dd($students);
-		return Excel::create('Assessment report', function($excel) use ($students) {
-			$excel->sheet('mySheet', function($sheet) use ($students)
-			{
-				//$sheet->loadView($students);
-                $sheet->loadView('report::report.pdf', array("students"=>$students));
-				//$sheet->fromArray($students);
-			});
-		})->download("pdf");
+		$assignment = Assignment::find($assi_id);
+		if ($assignment) {
+			$marks = Assessment::find($assignment->assessment_id);
+			//dd($marks);
+			$question_ids = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
+					//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
+					->select('questions.question_type_id as qstype', 'questions.id')->lists('qstype', 'id');//->groupBy('questions.question_type_id')
+			//->get();//)->keyBy('question_type_id');
+			$type = [];
+			foreach ($question_ids as $key => $id) {
+				if (!isset($type[$id])) {
+					$type[$id] = [];
+				}
+				array_push($type[$id], $key);
+			}
+			$multi_total_count = 0;
+			$multi_answers_count = 0;
+			$essay_total_count = 0;
+			if (isset($type[2])) {
+				$multi_total_count = count($type[2]);
+			} else {
+				$type[2] = [0];
+			}
+			if (isset($type[3])) {
+				$essay_total_count = count($type[3]);
+			} else {
+				$type[3] = [0];
+			}
+			$total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+
+			$assignment = Assignment::find($assi_id);
+			if ($assignment) {
+				$students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+						->join('users', 'users.id', '=', 'assignment_user.user_id')
+						->where('user_assignment_result.assignment_id', '=', $assi_id)
+						->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+						->groupby('users.name')
+						->get();
+			} else {
+				$students = [];
+			}
+			return Excel::create('Assessment report', function ($excel) use ($students) {
+				$excel->sheet('mySheet', function ($sheet) use ($students) {
+					//$sheet->loadView($students);
+					$sheet->loadView('report::report.pdf', array("students" => $students));
+					//$sheet->fromArray($students);
+				});
+			})->download("pdf");
+		}
+
+				//return Redirect::route('class_average_and_student_scores_report');
 	}
 //getting subjects list based on assignment...
 	public function subjects_list($inst_id,$assign_id){
