@@ -46,9 +46,9 @@
 
                     </div>
 
-                    {{--<div>--}}
-                        {{--<a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>--}}
-                    {{--</div>--}}
+                    <div>
+                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                    </div>
 
             </div>
             </div>
