@@ -651,15 +651,19 @@ class Question extends Model {
 
 	  for($i=1;$i<=5;$i++)
 	 { 		
- 	 	if($data->{'answer_text'.$i}){
+ 	 	if((
+ 	 		($data->{'answer_text'.$i} == "") and ($data->{'order_id'.$i} == "") and ($data->{'is_correct'.$i} == "") ) or (($data->{'answer_text'.$i})  and ($data->{'order_id'.$i}) and ($data->{'is_correct'.$i})))
+ 	 	{
 
 	 	}else{
 
 	 		$error[]=array('Row #' => $index, 'Error Description' =>  'Answer Text'.$i.'is required');
+	 		$error[]=array('Row #' => $index, 'Error Description' =>  'The Order Id'.$i.'is required');
+	 		$error[]=array('Row #' => $index, 'Error Description' =>  'The Is Correct'.$i.'is required');
  	 		// $error[] = array('The Answer Text'.$i.'is required');
 	 		// $validationRule[$data->{'answer_text'.$i}] = 'required';
 	 	}
-	 	if($data->{'order_id'.$i}){
+	 	/*if($data->{'order_id'.$i}){
 
 	 	}else{
 	 		$error[]=array('Row #' => $index, 'Error Description' =>  'The Order Id'.$i.'is required');
@@ -673,7 +677,7 @@ class Question extends Model {
 			// $error[] = array('The Is correct'.$i.'is required');
 
 	 		// $validationRule[$data->{'is_correct'.$i}] = 'required';
-	 	}
+	 	}*/
 						
 			if($data->{'is_correct'.$i} != ""){
 			$check_corret_answer[] = $data->{'is_correct'.$i};
