@@ -52,6 +52,8 @@
         Route::get('leastscoreexportPDF',['as'=>'leastscoreexportPDF','uses'=>'ReportController@leastscoreexportPDF']);
 
         Route::get('testhistoryexportPDF/{inst_id}',['as'=>'reportdownload','uses'=>'ReportController@testhistoryexportPDF']);
+        Route::get('testhistoryexportXLS/{inst_id}',['as'=>'reportdownload','uses'=>'ReportController@testhistoryexportXLS']);
+
         Route::get('QuestionsexportPDF/{inst_id}/{assi_id}/{sub_id}',['as'=>'reportdownload','uses'=>'ReportController@QuestionsexportPDF']);
 
 

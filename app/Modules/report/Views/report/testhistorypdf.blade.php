@@ -1,4 +1,5 @@
 <html>
+<h3>Test-History-Class-Averages</h3>
 <head>
     <style>
         table, th, td {
@@ -9,6 +10,20 @@
 </head>
 
 <body>
+<table border="0">
+    <thead>
+    <tr>
+        <th>Selected Institution</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        @foreach($inst as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+    </tr>
+    </tbody>
+</table>
 <table class="table">
     <thead>
     <th>Assignment</th>

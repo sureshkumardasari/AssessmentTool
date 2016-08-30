@@ -847,7 +847,64 @@ class ReportController extends Controller {
 	     	  }
 	  return view('report::report.wholescoretile',compact('student','score','user'));
 	 }
-    public function testhistoryexportPDF($id){
+    public function testhistoryexportPDF($id)
+	{
+		$inst=Institution::where('id','=',$id)->select('name')->get();
+
+		$counts=Array();
+        $rec=Array();
+        //$assessment_arr=Array();
+        $lists=Assignment::where('institution_id','=',$id)->lists('assessment_id','id');
+        $assignments=array_keys($lists);
+        $users=AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->whereIn('assignment_id',$assignments)->GroupBy('assignment_id')->get();
+        $completed_users=AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->GroupBy('assignment_id')->where('status','completed')->get();
+        foreach($users as $user){
+            $All_users[$user->assignment_id]=$user->count;
+        }
+        foreach($completed_users as $completed_user){
+            $complete_users[$completed_user->assignment_id]=$completed_user->count;
+        }
+        $assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $id))->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')->get();
+        $assessment_arr=array_unique($lists);
+        foreach($assessment_arr as $arr){
+            $counts[$arr]=AssessmentQuestion::where('assessment_id',$arr)->count('question_id');
+        }
+        $records=Assessment::whereIn('id',$assessment_arr)->select('id','guessing_panality','mcsingleanswerpoint','essayanswerpoint')->get();
+        //dd($records);
+        foreach($records as $record){
+            $rec[$record['id']]=Array();
+            array_push($rec[$record['id']],$record);
+        }
+        $a=Array();
+        $marks=Array();
+        foreach($lists as $key=>$list){
+            $correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
+            $wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
+            $lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
+            $mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
+            //dd($mark);
+            $marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;
+        }
+//		dd($rec);
+//		dd($counts);
+//		dd($complete_users);
+//		dd($lost_marks);
+//		dd($marks);
+        //return view('report::report.testhistory',compact('assignments','marks','All_users','complete_users'));
+        return Excel::create('Assessment report', function ($excel) use ($assignments,$marks,$All_users,$complete_users,$inst) {
+            $excel->sheet('mySheet', function ($sheet) use ($assignments,$marks,$All_users,$complete_users,$inst) {
+                //$sheet->loadView($students);
+                $sheet->loadView('report::report.testhistorypdf', array("assignments" => $assignments,"marks" => $marks,"All_users" => $All_users,"complete_users" => $complete_users,"inst" => $inst));
+                //$sheet->fromArray($students);
+            });
+        })->download("pdf");
+
+
+    }
+    public function testhistoryexportXLS($id)
+    {
+        $inst=Institution::where('id','=',$id)->select('name')->get();
+
         $counts=Array();
         $rec=Array();
         //$assessment_arr=Array();
@@ -888,17 +945,22 @@ class ReportController extends Controller {
 //		dd($lost_marks);
 //		dd($marks);
         //return view('report::report.testhistory',compact('assignments','marks','All_users','complete_users'));
-        return Excel::create('Assessment report', function ($excel) use ($assignments,$marks,$All_users,$complete_users) {
-            $excel->sheet('mySheet', function ($sheet) use ($assignments,$marks,$All_users,$complete_users) {
+        return Excel::create('Assessment report', function ($excel) use ($assignments,$marks,$All_users,$complete_users,$inst) {
+            $excel->sheet('mySheet', function ($sheet) use ($assignments,$marks,$All_users,$complete_users,$inst) {
                 //$sheet->loadView($students);
-                $sheet->loadView('report::report.testhistorypdf', array("assignments" => $assignments,"marks" => $marks,"All_users" => $All_users,"complete_users" => $complete_users));
+                $sheet->loadView('report::report.testhistorypdf', array("assignments" => $assignments,"marks" => $marks,"All_users" => $All_users,"complete_users" => $complete_users,"inst" => $inst));
                 //$sheet->fromArray($students);
             });
-        })->download("pdf");
+        })->download("xls");
 
 
     }
-    public function QuestionsexportPDF($inst_id=0,$assign_id=0,$sub_id=0){
+    public function QuestionsexportPDF($inst_id=0,$assign_id=0,$sub_id=0)
+    {
+        $inst=Institution::where('id','=',$inst_id)->select('name')->get();
+        $assign=Assignment::where('id','=',$assign_id)->select('name')->get();
+        $sub=Subject::where('id','=',$sub_id)->select('name')->get();
+
         $assessment=Assignment::find($assign_id);
         $question=[];
         if($assessment){
@@ -912,10 +974,10 @@ class ReportController extends Controller {
         $questions=$questions->lists('id');
         $user_count=QuestionUserAnswer::where('assignment_id',$assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
         $user_answered_correct_count=QuestionUserAnswer::whereIn('question_id',$questions)->where('assignment_id',$assign_id)->where('is_correct','Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
-        return Excel::create('Assessment report', function ($excel) use ($ques,$user_answered_correct_count,$user_count) {
-            $excel->sheet('mySheet', function ($sheet) use ($ques,$user_answered_correct_count,$user_count) {
+        return Excel::create('Assessment report', function ($excel) use ($ques,$user_answered_correct_count,$user_count,$inst,$assign,$sub) {
+            $excel->sheet('mySheet', function ($sheet) use ($ques,$user_answered_correct_count,$user_count,$inst,$assign,$sub) {
                 //$sheet->loadView($students);
-                $sheet->loadView('report::report.Questionpdf', array("ques" => $ques,"user_answered_correct_count" => $user_answered_correct_count,"user_count" => $user_count));
+                $sheet->loadView('report::report.Questionpdf', array("ques" => $ques,"user_answered_correct_count" => $user_answered_correct_count,"user_count" => $user_count,"inst"=>$inst,"assign"=>$assign,"sub"=>$sub));
                 //$sheet->fromArray($students);
             });
         })->download("pdf");
