@@ -9,6 +9,8 @@ use App\Modules\Resources\Models\AssessmentQuestion;
 use App\Modules\Resources\Models\AssignmentUser;
 use App\Modules\Resources\Models\Question;
 use App\Modules\Resources\Models\Subject;
+//use App\Modules\Resources\Models\Subject;
+use App\Modules\Resources\Models\Lesson;
 use App\User;
 use Illuminate\Http\Request;
 use App\Modules\Admin\Models\Institution;
@@ -652,87 +654,130 @@ class ReportController extends Controller {
 		//dd($subjects);
 		return $subjects;
 	}
-	public function report_wholeclass($inst_id,$assi_id,$sub_id){
-		$stds=DB::table('assignment_user')
-				->leftjoin ('users','assignment_user.user_id','=','users.id')
-				->leftjoin ('question_user_answer','assignment_user.user_id','=','question_user_answer.user_id','and','assignment_user.assignment_id','=','question_user_answer.assignment_id')
-				->where('assignment_user.assignment_id','=',$assi_id)
-				->select( DB::raw('
-					assignment_user.user_id,
-					users.name,question_user_answer.points as points
-					'))
-				-> groupby('assignment_user.user_id')
-				->get();
-		//dd($students);
-		/*$assignment=AssignmentUser::join('assignment','assignment_user.assignment_id','=','assignment.id')
-				->select('assignment.name as assignmentname')
-				->groupby('assignment.id')
-				->get();*/// dd($assignment);
-		$subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
-				->join('subject','assessment.subject_id','=','subject.id')
-				->where('assignment.id','=',$assi_id)
-				->select('subject.name as subject','assignment.name as assignmentname')
-				->groupby('subject.id')
-				->get();//dd($subjects);
+    public function report_wholeclass($inst_id = 0,$assi_id = 0,$sub_id = 0,$less_id = 0){
+        if($assi_id == 0 || $assi_id == "null" || $sub_id == "null" || $sub_id ==0){
+            return "";
+        }
+        $assignment = Assignment::find($assi_id);
+        $assessment = Assessment::find($assignment->assessment_id);
 
-		$assignment=Assignment::find($assi_id);
-		if($assignment) {
-			$marks = Assessment::find($assignment->assessment_id);
+        if($sub_id != "null" || $sub_id != 0){
+            $subjects= explode(",",$sub_id);
+        }
+        else{
+            $subjects = [$sub_id];
+        }
 
 
-			//dd($marks);
-			$question_ids = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
-					//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
-					->select('questions.question_type_id as qstype', 'questions.id')->lists('qstype', 'id');//->groupBy('questions.question_type_id')
-			//->get();//)->keyBy('question_type_id');
-			$type = [];
-			foreach ($question_ids as $key => $id) {
-				if (!isset($type[$id])) {
-					$type[$id] = [];
-				}
-				array_push($type[$id], $key);
-			}
-			$multi_total_count = 0;
-			$essay_total_count = 0;
-			if (isset($type[2])) {
-				$multi_total_count = count($type[2]);
-			} else {
-				$type[2] = [0];
-			}
-			if (isset($type[3])) {
-				$essay_total_count = count($type[3]);
-			} else {
-				$type[3] = [0];
-			}
-			$total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
-			//dd($total_marks);
-			//dd($type);
-//dd(array_values($question_type_count));
-			$question_type_count = collect(AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
-					//->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
-					->selectRaw('questions.question_type_id ,count(questions.question_type_id) as count')->groupBy('questions.question_type_id')->get())->keyBy('question_type_id');
-			//dd($question_type_count);
-			$students = collect(Assignment::join('assignment_user', 'assignment.id', '=', DB::Raw('assignment_user.assignment_id && assignment.id =' . $assi_id))
-					->join('users', 'assignment_user.user_id', '=', 'users.id')
-					->join('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id')
-					->join('assessment_question', 'assignment.assessment_id', '=', 'assessment_question.assessment_id')
-					->join('questions', 'assessment_question.question_id', '=', 'questions.id')
-					//->select('assignment.name','assignment.assessment_id','users.id as user_id','users.name as user_name')
-					->selectRaw('
-					assignment_user.user_id,
-					users.name,
-					(select count(*) from assessment_question aq where aq.assessment_id = assignment_user.assessment_id) as total_count,
-					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\' and  question_user_answer.question_id IN(' . implode(',', $type[2]) . ')) as multi_answers_count,
-					(select count(*) from question_user_answer qua where qua.user_id = question_user_answer.user_id and qua.assignment_id=question_user_answer.assignment_id and qua.is_correct=\'Yes\' and  question_user_answer.question_id IN(' . implode(',', $type[3]) . ')) as essay_answers_count
-					')
-					->get())->keyBy('user_id');
-		}
-		else{
-			$students=[];
-		}
+        //  dd($lessons);
+        if(count($subjects)>1){
+            $case = 1;
+        }
+        else{
+            $case = 2;
+            if($less_id != "null" || $less_id != 0){
+                $lessons= explode(",",$less_id);
+                $lessons = Lesson::whereIn('id',$lessons)->lists('name','id');
+            }
+            else{
+                $lessons = Lesson::whereIn('subject_id',$subjects)->lists('name','id');
+            }
 
-		return view('report::report.wholescoreview',compact('stds','multi_total_count','essay_total_count','type','marks','total_marks','students','subjects'));
-	}
+        }
+
+        $subjects = Subject::whereIn('id',$subjects)->lists('name','id');
+        $multi_answer_type_id = DB::table('question_type')->where('qst_type_text',"Multiple Choice - Multi Answer")->first()->id;
+        $single_answer_type_id = DB::table('question_type')->where('qst_type_text',"Multiple Choice - Single Answer")->first()->id;
+        $essay_answer_type_id = DB::table('question_type')->where('qst_type_text',"Essay")->first()->id;
+        $subject_questions=[];
+
+        //dd($subject_questions);
+        $students= AssignmentUser::join('users','assignment_user.user_id','=',DB::raw('users.id and assignment_user.assignment_id ='.$assi_id))
+            ->select('users.name','users.id')
+            ->lists('name','id');
+        // dd($students);
+        switch($case){
+            case  1 :{
+                $type="subjects";
+                foreach($subjects as $key=>$sub){
+                    $subject_questions[$key]['multi_or_single_answer_type']=AssessmentQuestion::join('questions','assessment_question.question_id','=','questions.id')
+                        ->where('assessment_question.assessment_id',$assignment->assessment_id)
+                        ->where('questions.subject_id',$key)
+                        ->whereIn('questions.question_type_id',[$multi_answer_type_id,$single_answer_type_id])
+                        ->select('questions.id')
+                        ->lists('id');
+                    $subject_questions[$key]['essay_answer_type']=AssessmentQuestion::join('questions','assessment_question.question_id','=','questions.id')
+                        ->where('assessment_question.assessment_id',$assignment->assessment_id)
+                        ->where('questions.subject_id',$key)
+                        ->where('questions.question_type_id',$essay_answer_type_id)
+                        ->select('questions.id')
+                        ->lists('id');
+                }
+                $subject_score=[];
+                $penality=[];
+                foreach($students as $stud_id=>$student) {
+                    foreach ($subjects as $key => $name) {
+                        $total_questions= array_merge($subject_questions[$key]['multi_or_single_answer_type'],$subject_questions[$key]['essay_answer_type']);
+                        $subject_score[$stud_id][$key] = QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                            ->whereIn('question_id',$total_questions)->selectRaw(' sum(points) as sum, count(*) as total')->get();
+                        $penality[$stud_id][$key]['multi_single']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                            ->whereIn('question_id',$subject_questions[$key]['multi_or_single_answer_type'])
+                            ->where('is_correct',"No")
+                            ->count();
+                        $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                            ->whereIn('question_id',$subject_questions[$key]['essay_answer_type'])
+                            ->where('is_correct',"Open")
+                            ->count();
+//
+                    }
+                }
+
+                //  dd($subject_score);
+                return view('report::report.wholescoreview_duplicate',compact('type','subjects','assignment','subject_score','students','penality'));
+            }
+            case 2 :{
+                $type="lessons";
+                foreach($lessons as $key=>$lesson){
+                    $lesson_questions[$key]['multi_or_single_answer_type']=AssessmentQuestion::join('questions','assessment_question.question_id','=','questions.id')
+                        ->where('assessment_question.assessment_id',$assignment->assessment_id)
+                        ->where('questions.subject_id',$sub_id)
+                        ->where('questions.lesson_id',$key)
+                        ->whereIn('questions.question_type_id',[$multi_answer_type_id,$single_answer_type_id])
+                        ->select('questions.id')
+                        ->lists('id');
+                    $lesson_questions[$key]['essay_answer_type']=AssessmentQuestion::join('questions','assessment_question.question_id','=','questions.id')
+                        ->where('assessment_question.assessment_id',$assignment->assessment_id)
+                        ->where('questions.subject_id',$sub_id)
+                        ->where('questions.lesson_id',$key)
+                        ->where('questions.question_type_id',$essay_answer_type_id)
+                        ->select('questions.id')
+                        ->lists('id');
+                }
+                // dd($lessons);
+                $lesson_score=[];
+                $penality=[];
+                foreach($students as $stud_id=>$student) {
+                    foreach ($lessons as $key => $name) {
+                        $total_questions= array_merge($lesson_questions[$key]['multi_or_single_answer_type'],$lesson_questions[$key]['essay_answer_type']);
+                        $lesson_score[$stud_id][$key] = QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                            ->whereIn('question_id',$total_questions)->selectRaw('sum(points) as sum, count(*) as total')->get();
+                        $penality[$stud_id][$key]['multi_single']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                            ->whereIn('question_id',$lesson_questions[$key]['multi_or_single_answer_type'])
+                            ->where('is_correct',"No")
+                            ->count();
+                        $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                            ->whereIn('question_id',$lesson_questions[$key]['essay_answer_type'])
+                            ->where('is_correct',"Open")
+                            ->count();
+//
+                    }
+                }
+                // dd($lesson_score);
+                return view('report::report.wholescoreview_duplicate',compact('type','lessons','assignment','students','lesson_score','subjects','sub_id','penality'));
+            }
+        }
+      //  dd($lessons);
+    }
 	public function assignmentdash($parent_id = 0)
 	{
 		$assignments = DB::table('assignment')
@@ -1199,5 +1244,14 @@ class ReportController extends Controller {
                 $sheet->loadView('report::report.leastpdf', array("report_data" => $report_data, "report_data1" => $report_data1, "report_data2" => $report_data2, "assignmentname" => $assignmentname));
             });
         })->download("xls");
+    }
+
+    public function lesson_change($sub)
+    {
+        $subject_id = explode(',',$sub);
+        $lessons= Lesson::whereIn('subject_id',$subject_id)->lists('name','id');
+        //dd($lessons);
+
+        return $lessons;
     }
 }

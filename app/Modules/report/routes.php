@@ -37,12 +37,16 @@ Route::group(array('module'=>'report', 'prefix' => 'report', 'middleware' => 'au
 
     Route::post('assignment_subjects/{inst_id}-{assi_id}',['as'=>'reportassignment','uses'=>'ReportController@subjects_list']);
 
-    Route::get('wholeclass',['as'=>'wholeclass','uses'=>'ReportController@wholeclassscorereport']);
-    Route::post('assignment_wholeclass/{id}','ReportController@report_inst');
-    Route::post('assignment_subject/{id}','ReportController@subject_change');
-    Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
-    Route::post('assignment_wholeclass/{inst_id}/{assi_id}/{sub_id}',['as'=>'wholeclassreport','uses'=>'ReportController@report_wholeclass']);
-    Route::get('wholeclasstile',['as'=>'wholeclasstile','uses'=>'ReportController@dashboardwholeclass']);
+
+      //  Route::get('lesson-report',['as'=>'lesson-report','uses'=>'ReportController@LessonReport']);
+
+        Route::get('wholeclass',['as'=>'wholeclass','uses'=>'ReportController@wholeclassscorereport']);
+        Route::post('assignment_wholeclass/{id}','ReportController@report_inst');
+        Route::post('assignment_subject/{id}','ReportController@subject_change');
+        Route::post('assignment_lesson/{id}','ReportController@lesson_change');
+        Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
+        Route::post('assignment_wholeclass/{inst_id}/{assi_id}/{sub_id}/{less_id}',['as'=>'wholeclassreport','uses'=>'ReportController@report_wholeclass']);
+        Route::get('wholeclasstile',['as'=>'wholeclasstile','uses'=>'ReportController@dashboardwholeclass']);
 
 
     Route::get('dashboard',['as'=>'Dashboard','uses'=>'ReportController@dashboard']);
