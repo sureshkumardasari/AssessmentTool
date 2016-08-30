@@ -48,6 +48,7 @@
 
                     <div>
                         <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                        <a href="#" class="btn btn-primary" id="xls">Export xls</a>
                     </div>
 
             </div>
@@ -123,19 +124,15 @@
 //            )
 //
 //        }
-
         $('#pdf').on('click',function(){
-            //alert();
             var inst_id=$('#institution_id').val();
             var assign_id=$('#assignment_id').val();
-            //alert(inst_id+","+assmt_id);
-            //location.reload("{{ url('exportPDF/')}}"+inst_id+"/"+assmt_id);
           window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
-
         });
-
-
+        $('#xls').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment_id').val();
+            window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
+        });
     </script>
-
-
 @endsection

@@ -24,13 +24,15 @@
     </tr>
     </tbody>
 </table>
-<table class="table">
+<table class="table table-bordered table-hover table-striped" id="report">
     <thead>
-    <th>Assignment</th>
-    <th>Assessment</th>
-    <th>Total Students</th>
-    <th>Students attended</th>
-    <th>Average of Assignment for Completed users</th>
+     <tr>
+      <th>Assignment</th>
+      <th>Assessment</th>
+      <th>Total Students</th>
+      <th>Students attended</th>
+      <th>Average of Assignment for Completed users</th>
+     </tr>
     </thead>
     <tbody>
     @if(count($assignments)>0)
