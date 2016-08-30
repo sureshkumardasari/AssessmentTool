@@ -9,6 +9,25 @@
 </head>
 
 <body>
+{{--<input type="text">Selected Institution: $inst</input>--}}
+<table border="0">
+    <thead>
+    <tr>
+        <th>Selected Institution</th>
+        <th>Selcted Assignment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        @foreach($inst as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+        @foreach($assi as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+    </tr>
+    </tbody>
+</table>
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
