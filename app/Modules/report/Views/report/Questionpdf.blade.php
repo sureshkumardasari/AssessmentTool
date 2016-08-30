@@ -1,5 +1,6 @@
 
 <html>
+   <h3 align="center">Questions & Answers Report</h3>
 <head>
     <style>
         table, th, td {
@@ -10,6 +11,28 @@
 </head>
 
 <body>
+<table border="0">
+    <thead>
+    <tr>
+        <th>Selected Institution</th>
+        <th>Selcted Assignment</th>
+        <th>Selected Subject</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        @foreach($inst as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+        @foreach($assign as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+            @foreach($sub as $val)
+                <td>{{$val->name}}</td>
+            @endforeach
+      </tr>
+    </tbody>
+</table>
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
