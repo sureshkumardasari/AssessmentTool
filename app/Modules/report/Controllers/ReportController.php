@@ -362,7 +362,11 @@ class ReportController extends Controller {
 	}
 
 	public function SAR_pdf($inst_id,$assign_id,$student_id)
-	{
+	{ //dd($student_id);
+        $inst=Institution::where('id','=',$inst_id)->select('name')->get();
+        $assign=Assignment::where('id','=',$assign_id)->select('name')->get();
+        $user=User::where('id','=',$student_id)->select('name')->get();
+
 		$assignments = DB::table('assignment_user')
 				->join('assignment', 'assignment.id', '=', 'assignment_user.assignment_id')
 				->join('assessment', 'assessment.id', '=', 'assignment_user.assessment_id')
@@ -376,14 +380,41 @@ class ReportController extends Controller {
 				->groupby('questions.id')
 				->get();
 
-		return Excel::create('Assessment report', function ($excel) use ($assignments) {
-			$excel->sheet('mySheet', function ($sheet) use ($assignments) {
+		return Excel::create('Assessment report', function ($excel) use ($assignments,$inst,$assign,$user) {
+			$excel->sheet('mySheet', function ($sheet) use ($assignments,$inst,$assign,$user) {
 				//$sheet->loadView($students);
-				$sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments));
+				$sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments,"inst"=>$inst,"assign"=>$assign,"user"=>$user));
 				//$sheet->fromArray($students);
 			});
 		})->download("pdf");
 	}
+    public function SAR_xls($inst_id,$assign_id,$student_id)
+    { //dd($student_id);
+        $inst=Institution::where('id','=',$inst_id)->select('name')->get();
+        $assign=Assignment::where('id','=',$assign_id)->select('name')->get();
+        $user=User::where('id','=',$student_id)->select('name')->get();
+
+        $assignments = DB::table('assignment_user')
+            ->join('assignment', 'assignment.id', '=', 'assignment_user.assignment_id')
+            ->join('assessment', 'assessment.id', '=', 'assignment_user.assessment_id')
+            ->leftjoin('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id', 'and', 'assignment_user.assignment_id', '=', 'question_user_answer.assignment_id')
+            ->leftjoin('questions', 'questions.id', '=', 'question_user_answer.question_id')
+            ->leftjoin('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
+            ->where('question_user_answer.assignment_id', '=', $assign_id)
+            ->where('assignment_user.user_id', '=', $student_id)
+            ->where('question_answers.is_correct', '=', 'YES')
+            ->select('questions.title as question_title', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'assignment.id as id', 'question_user_answer.id as qid')
+            ->groupby('questions.id')
+            ->get();
+
+        return Excel::create('Assessment report', function ($excel) use ($assignments,$inst,$assign,$user) {
+            $excel->sheet('mySheet', function ($sheet) use ($assignments,$inst,$assign,$user) {
+                //$sheet->loadView($students);
+                $sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments,"inst"=>$inst,"assign"=>$assign,"user"=>$user));
+                //$sheet->fromArray($students);
+            });
+        })->download("xls");
+    }
 
 	public function inst_question($id)
 	{
@@ -530,6 +561,61 @@ class ReportController extends Controller {
 
 				//return Redirect::route('class_average_and_student_scores_report');
 	}
+    public function exportXLS($inst_id=0,$assi_id=0)
+    {
+        $inst=Institution::where('id','=',$inst_id)->select('name')->get();
+
+        $assi=Assignment::where('id','=',$assi_id)->select('name')->get();
+        $assignment = Assignment::find($assi_id);
+        if ($assignment) {
+            $marks = Assessment::find($assignment->assessment_id);
+            //dd($marks);
+            $question_ids = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', DB::Raw('questions.id and assessment_question.assessment_id =' . $assignment->assessment_id))
+                //->where(' questions.question_type_id = 3 AND questions.id = assessment_question.question_id')
+                ->select('questions.question_type_id as qstype', 'questions.id')->lists('qstype', 'id');//->groupBy('questions.question_type_id')
+            //->get();//)->keyBy('question_type_id');
+            $type = [];
+            foreach ($question_ids as $key => $id) {
+                if (!isset($type[$id])) {
+                    $type[$id] = [];
+                }
+                array_push($type[$id], $key);
+            }
+            $multi_total_count = 0;
+            $multi_answers_count = 0;
+            $essay_total_count = 0;
+            if (isset($type[2])) {
+                $multi_total_count = count($type[2]);
+            } else {
+                $type[2] = [0];
+            }
+            if (isset($type[3])) {
+                $essay_total_count = count($type[3]);
+            } else {
+                $type[3] = [0];
+            }
+            $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+
+            $assignment = Assignment::find($assi_id);
+            if ($assignment) {
+                $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+                    ->join('users', 'users.id', '=', 'assignment_user.user_id')
+                    ->where('user_assignment_result.assignment_id', '=', $assi_id)
+                    ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+                    ->groupby('users.name')
+                    ->get();
+            } else {
+                $students = [];
+            }
+            return Excel::create('Assessment report', function ($excel) use ($students,$inst,$assi) {
+                $excel->sheet('mySheet', function ($sheet) use ($students,$inst,$assi) {
+                    //$sheet->loadView($students);
+                    $sheet->loadView('report::report.pdf', array("students" => $students,"inst" => $inst,"assi" => $assi));
+                    //$sheet->fromArray($students);
+                });
+            })->download("xls");
+        }
+    }
 //getting subjects list based on assignment...
 	public function subjects_list($inst_id,$assign_id){
 		$assignment=Assignment::find($assign_id);
@@ -982,9 +1068,35 @@ class ReportController extends Controller {
             });
         })->download("pdf");
     }
+    public function QuestionsexportXLS($inst_id=0,$assign_id=0,$sub_id=0)
+    {
+        $inst=Institution::where('id','=',$inst_id)->select('name')->get();
+        $assign=Assignment::where('id','=',$assign_id)->select('name')->get();
+        $sub=Subject::where('id','=',$sub_id)->select('name')->get();
+
+        $assessment=Assignment::find($assign_id);
+        $question=[];
+        if($assessment){
+            $question=AssessmentQuestion::where('assessment_id',$assessment->id)->lists('question_id');
+        }
+        $ques=Question::whereIn('id',$question)->lists('title','id');
+        $questions=Question::whereIn('id',$question);
+        if($sub_id!=0){
+            $questions->where('subject_id','=',$sub_id);
+        }
+        $questions=$questions->lists('id');
+        $user_count=QuestionUserAnswer::where('assignment_id',$assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
+        $user_answered_correct_count=QuestionUserAnswer::whereIn('question_id',$questions)->where('assignment_id',$assign_id)->where('is_correct','Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count','question_id');
+        return Excel::create('Assessment report', function ($excel) use ($ques,$user_answered_correct_count,$user_count,$inst,$assign,$sub) {
+            $excel->sheet('mySheet', function ($sheet) use ($ques,$user_answered_correct_count,$user_count,$inst,$assign,$sub) {
+                //$sheet->loadView($students);
+                $sheet->loadView('report::report.Questionpdf', array("ques" => $ques,"user_answered_correct_count" => $user_answered_correct_count,"user_count" => $user_count,"inst"=>$inst,"assign"=>$assign,"sub"=>$sub));
+                //$sheet->fromArray($students);
+            });
+        })->download("xls");
+    }
     public function leastscoreexportPDF()
     {
-        //dd('jhdbckh');
         $ins = \Auth::user()->institution_id;
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
@@ -1038,5 +1150,54 @@ class ReportController extends Controller {
             });
         })->download("pdf");
     }
+    public function leastscoreexportXLS()
+    {
+        $ins = \Auth::user()->institution_id;
+        $InstitutionObj = new Institution();
+        $inst_arr = $InstitutionObj->getInstitutions();
+        /*$assignment = Assignment::select('id')
+            ->where('gradestatus', '=', 'completed')
+            ->take(3)
+            ->orderby('id', 'desc')
+            ->get();
+        $assignment = [];
+        $data = [];*/
+        $assignment = Assignment::where('gradestatus', '=', 'completed')->take(3)->orderby('id', 'desc')->lists('id');
+        $assignmentname = Assignment::whereIn('id', $assignment)->orderby('id', 'desc')->lists('name');
+        //dd($assignmentname);
+        //$ques=Question::whereIn('id',$question)->lists('title','id');
+        /*$students=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('user_id');
+        $asgnmts=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('assignment_id');*/
+        //dd($assignment);
 
+        $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+            ->where('assignment.id', '=', $assignment[0])
+            ->orderBy('assignment.id')
+            ->orderby('user_assignment_result.rawscore', 'asc')
+            ->take(10)
+            ->get();
+        $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+            ->where('assignment.id', '=', $assignment[1])
+            ->orderBy('assignment.id')
+            ->orderby('user_assignment_result.rawscore', 'asc')
+            ->take(10)
+            ->get();
+        $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+            ->where('assignment.id', '=', $assignment[2])
+            ->orderBy('assignment.id')
+            ->orderby('user_assignment_result.rawscore', 'asc')
+            ->take(10)
+            ->get();
+        return Excel::create('Assessment report', function ($excel) use ($report_data, $report_data1, $report_data2, $assignmentname) {
+            $excel->sheet('mySheet', function ($sheet) use ($report_data, $report_data1, $report_data2, $assignmentname) {
+                $sheet->loadView('report::report.leastpdf', array("report_data" => $report_data, "report_data1" => $report_data1, "report_data2" => $report_data2, "assignmentname" => $assignmentname));
+            });
+        })->download("xls");
+    }
 }

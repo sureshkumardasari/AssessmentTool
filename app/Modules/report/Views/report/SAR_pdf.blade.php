@@ -1,4 +1,5 @@
 <html>
+<h3>Student Answer Report</h3>
 <?php
 $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
 ?>
@@ -10,8 +11,28 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
         }
     </style>
 </head>
-
-
+<table border="0">
+    <thead>
+    <tr>
+        <th>Selected Institution</th>
+        <th>Selected Assignment</th>
+        <th>Selected Student</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        @foreach($inst as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+        @foreach($assign as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+        @foreach($user as $val)
+            <td>{{$val->name}}</td>
+        @endforeach
+    </tr>
+    </tbody>
+</table>
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     @if($assignments)

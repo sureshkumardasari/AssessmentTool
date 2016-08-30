@@ -1,4 +1,5 @@
 <html>
+<h3>Class Average and Student Scores Report</h3>
 <head>
     <style>
         table, th, td {

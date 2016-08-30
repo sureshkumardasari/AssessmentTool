@@ -15,7 +15,7 @@
     <thead>
     <tr>
         <th>Selected Institution</th>
-        <th>Selcted Assignment</th>
+        <th>Selected Assignment</th>
         <th>Selected Subject</th>
     </tr>
     </thead>
