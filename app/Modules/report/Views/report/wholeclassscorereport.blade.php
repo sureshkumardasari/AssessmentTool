@@ -44,9 +44,18 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group required">
+                            <label class="col-md-4 control-label">Lesson</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
+                                    <option value="0">-Select Lesson-</option>
+
+                                </select>
+                            </div>
+                        </div>
                              <div class="form-group">
                                <div class="col-md-6 col-md-offset-4">
-                                    <button type="button" class="btn btn-info  pull-right btn-md"  id="applyFiltersBtn" onclick="subject_change()"><i>Update</i></button>
+                                    <button type="button" class="btn btn-info  pull-right btn-md"  id="applyFiltersBtn" onclick="update()"><i>Update</i></button>
                                        
                                 </div>
                             </div>
@@ -68,16 +77,18 @@
 
         $( document ).ready(function() {
              $('#subject_id').multiselect();
-            $('#subject_id').multiselect('refresh');
-        }); 
-        function subject_change(){
+          //  $('#subject_id').multiselect('refresh');
+            $('#lesson_id').multiselect();
+          //  $('#lesson_id').multiselect('refresh');
+        });
+        function update(){
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url:loadurl+$('#institution_id').val()+'/'+$('#assignment_id').val()+'/'+$('#subject_id').val(),
+                        url:loadurl+$('#institution_id').val()+'/'+$('#assignment_id').val()+'/'+$('#subject_id').val()+'/'+$('#lesson_id').val(),
                         type:'post',
                             success:function(response){
                                 $('#wholescore').empty();
@@ -89,6 +100,7 @@
         }
 
         $('#institution_id').on('change',function(){
+
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -100,7 +112,9 @@
                             var a = response.length;
                             $('#assignment_id').empty();
                             $('#subject_id').empty();
-                            var opt = new Option('--Select Assignment--', '');
+                            $('#lesson_id').empty(0);
+                            //$('#lesson_id').empty();
+                            var opt = new Option('--Select Assignment--', '0');
                             $('#assignment_id').append(opt);
                             for (i = 0; i < a; i++) {
                                 var opt = new Option(response[i].name, response[i].id);
@@ -112,6 +126,7 @@
         });
           $('#assignment_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
+
             $.ajax(
                     {
 
@@ -121,6 +136,7 @@
                         success: function (response) {
                             var a = response.length;
                             $('#subject_id').empty();
+                            $('#lesson_id').empty();
                             // var opt = new Option('--Select Subjects--', '');
                             // $('#subject_id').append(opt);
                             $('#subject_id').multiselect('destroy');
@@ -135,6 +151,51 @@
                     }
             )
         });
+        $('#subject_id').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
+            var a=$('#subject_id').val();
+
+            if(a == null || a == "undefined"){
+              
+                var  length=1;
+            }
+            else{
+
+                var length=$('#subject_id').val().length;
+            }
+
+            if(length>1){
+                $('#lesson_id').attr('disabled',true);
+            }
+            else{
+                $('#lesson_id').attr('disabled',false);
+            }
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:'assignment_lesson/'+ $('#subject_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            var a = response.length;
+                           // $('#subject_id').empty();
+                            // var opt = new Option('--Select Subjects--', '');
+                            // $('#subject_id').append(opt);
+                            $('#lesson_id').multiselect('destroy');
+                            $('#lesson_id').empty();
+                            $.each(response,function(id,name){
+                                var opt = new Option(name, id);
+                                $('#lesson_id').append(opt);
+                            });
+
+                            $('#lesson_id').multiselect();
+                            $('#lesson_id').multiselect('refresh');
+                            $('#subject_id').multiselect('refresh');
+                        }
+                    }
+            )
+        });
+
 
       /*  function inst_change(){
 
