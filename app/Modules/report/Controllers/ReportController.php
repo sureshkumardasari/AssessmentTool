@@ -474,6 +474,10 @@ class ReportController extends Controller {
 	//Generating pdf...
 	public function exportPDF($inst_id=0,$assi_id=0)
 	{
+		$inst=Institution::where('id','=',$inst_id)->select('name')->get();
+		//dd($inst);
+		$assi=Assignment::where('id','=',$assi_id)->select('name')->get();
+		//dd($assi);
 		$assignment = Assignment::find($assi_id);
 		if ($assignment) {
 			$marks = Assessment::find($assignment->assessment_id);
@@ -515,10 +519,10 @@ class ReportController extends Controller {
 			} else {
 				$students = [];
 			}
-			return Excel::create('Assessment report', function ($excel) use ($students) {
-				$excel->sheet('mySheet', function ($sheet) use ($students) {
+			return Excel::create('Assessment report', function ($excel) use ($students,$inst,$assi) {
+				$excel->sheet('mySheet', function ($sheet) use ($students,$inst,$assi) {
 					//$sheet->loadView($students);
-					$sheet->loadView('report::report.pdf', array("students" => $students));
+					$sheet->loadView('report::report.pdf', array("students" => $students,"inst" => $inst,"assi" => $assi));
 					//$sheet->fromArray($students);
 				});
 			})->download("pdf");
