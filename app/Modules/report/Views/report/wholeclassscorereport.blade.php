@@ -111,8 +111,12 @@
                         success: function (response) {
                             var a = response.length;
                             $('#assignment_id').empty();
+                            $('#subject_id').multiselect('destroy');
                             $('#subject_id').empty();
-                            $('#lesson_id').empty(0);
+                            $('#subject_id').multiselect();
+                             $('#lesson_id').multiselect('destroy');
+                            $('#lesson_id').empty();
+                            $('#lesson_id').multiselect();
                             //$('#lesson_id').empty();
                             var opt = new Option('--Select Assignment--', '0');
                             $('#assignment_id').append(opt);
@@ -135,8 +139,10 @@
                         type: 'post',
                         success: function (response) {
                             var a = response.length;
-                            $('#subject_id').empty();
+                            
+                           $('#lesson_id').multiselect('destroy');
                             $('#lesson_id').empty();
+                            $('#lesson_id').multiselect();
                             // var opt = new Option('--Select Subjects--', '');
                             // $('#subject_id').append(opt);
                             $('#subject_id').multiselect('destroy');
