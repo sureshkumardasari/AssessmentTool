@@ -14,7 +14,7 @@
                 <td>{{$students[$stud_id]}}</td>
                 @foreach($subject as $id=>$score)
     <?php $sum=(($score[0]->sum == "null")||($score[0]->sum == ""))?0:$score[0]->sum;?>
-                <td>{{$sum - ($penality[$stud_id][$id]['essay'] +$penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
+                <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
                 @endforeach
             </tr>
         @endforeach
@@ -38,10 +38,10 @@
                 <td>{{$students[$stud_id]}}</td>
                 @foreach($lesson as $score)
                     <?php $sum=(($score[0]->sum == "null")||($score[0]->sum == ""))?0:$score[0]->sum;?>
-                    <td>{{$sum - ($penality[$stud_id][$id]['essay'] +$penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
+                    <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
                 @endforeach
             </tr>
-        @endforeach
+        @endforeach 
         </tbody>
     </table>
 

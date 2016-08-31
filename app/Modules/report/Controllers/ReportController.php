@@ -724,10 +724,11 @@ class ReportController extends Controller {
                             ->whereIn('question_id',$subject_questions[$key]['multi_or_single_answer_type'])
                             ->where('is_correct',"No")
                             ->count();
-                        $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
-                            ->whereIn('question_id',$subject_questions[$key]['essay_answer_type'])
-                            ->where('is_correct',"Open")
-                            ->count();
+                        // $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                        //     ->whereIn('question_id',$subject_questions[$key]['essay_answer_type'])
+                        //     ->where('is_correct',"Open")
+                        //     ->count();
+                           // dd($penality);
 //
                     }
                 }
@@ -765,10 +766,10 @@ class ReportController extends Controller {
                             ->whereIn('question_id',$lesson_questions[$key]['multi_or_single_answer_type'])
                             ->where('is_correct',"No")
                             ->count();
-                        $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
-                            ->whereIn('question_id',$lesson_questions[$key]['essay_answer_type'])
-                            ->where('is_correct',"Open")
-                            ->count();
+                        // $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
+                        //     ->whereIn('question_id',$lesson_questions[$key]['essay_answer_type'])
+                        //     ->where('is_correct',"Open")
+                        //     ->count();
 //
                     }
                 }
