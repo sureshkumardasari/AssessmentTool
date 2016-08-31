@@ -47,7 +47,8 @@ Route::group(array('module'=>'report', 'prefix' => 'report', 'middleware' => 'au
         Route::post('assignment_inst/{id}',['as'=>'instreport','uses'=>'ReportController@report_inst']);
         Route::post('assignment_wholeclass/{inst_id}/{assi_id}/{sub_id}/{less_id}',['as'=>'wholeclassreport','uses'=>'ReportController@report_wholeclass']);
         Route::get('wholeclasstile',['as'=>'wholeclasstile','uses'=>'ReportController@dashboardwholeclass']);
-
+    Route::get('wholeclassscoreexportPDF/{inst_id}/{assi_id}/{sub_id}/{less_id}',['as'=>'wholeclassreport','uses'=>'ReportController@wholeclassscoreexportPDF']);
+    Route::get('wholeclassscoreexportXLS/{inst_id}/{assi_id}/{sub_id}/{less_id}',['as'=>'wholeclassreport','uses'=>'ReportController@wholeclassscoreexportXLS']);
 
     Route::get('dashboard',['as'=>'Dashboard','uses'=>'ReportController@dashboard']);
     Route::get('studentquestionteacher',['as'=>'studentquestionteacher','uses'=>'ReportController@sqt']);
