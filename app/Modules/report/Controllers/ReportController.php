@@ -1013,9 +1013,9 @@ class ReportController extends Controller
         }
         return view('report::report.wholescoretile', compact('student', 'score', 'user'));
     }
-
     public function testhistoryexportPDF($id)
     {
+
         $inst = Institution::where('id', '=', $id)->select('name')->get();
 
         $counts = Array();
@@ -1052,21 +1052,14 @@ class ReportController extends Controller
             //dd($mark);
             $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
         }
-//		dd($rec);
-//		dd($counts);
-//		dd($complete_users);
-//		dd($lost_marks);
-//		dd($marks);
-        //return view('report::report.testhistory',compact('assignments','marks','All_users','complete_users'));
-        return Excel::create('Assessment report', function ($excel) use ($assignments, $marks, $All_users, $complete_users, $inst) {
-            $excel->sheet('mySheet', function ($sheet) use ($assignments, $marks, $All_users, $complete_users, $inst) {
-                //$sheet->loadView($students);
-                $sheet->loadView('report::report.testhistorypdf', array("assignments" => $assignments, "marks" => $marks, "All_users" => $All_users, "complete_users" => $complete_users, "inst" => $inst));
-                //$sheet->fromArray($students);
-            });
-        })->download("pdf");
 
-
+        //$footerHtml = view('layouts.pdf_partials.footer', compact('footerMeta'))->render();
+        $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
+       // dd($htmlForPdf);
+        $fileName = 'testpdf';
+        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        //dd($fileFullUrl);
+        return $fileFullUrl;
     }
 
     public function testhistoryexportXLS($id)

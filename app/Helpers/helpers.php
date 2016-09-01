@@ -560,7 +560,7 @@ function storeCSV($data, $fileName = 'import.csv') {
  * @return $fileFullUrl string
  *
  */
-function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required = "", $defaultMarginBottom = '20mm') {
+function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required = "", $defaultMarginBottom = '20mm'){
     ini_set('max_execution_time', 0);
     set_time_limit(0);
     ini_set('memory_limit', -1);
@@ -596,7 +596,6 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
     if (!empty($footerHtml)) {
         $options['footer-html'] = $footerHtml;
     }
-
     $pdf = new Pdf($options);
     $pdf->binary = 'wkhtmltopdf';
     // $pdf = new Pdf(array(
@@ -619,9 +618,13 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
 
     $fileName = $fileName . '-' . uniqid() . '-'. time() . '.pdf';
     $fileFullPathWithName = $dir . $fileName;
+   // dd($fileFullPathWithName);
     $pdf->saveAs($fileFullPathWithName);
+   // dd($pdf);
     $fileFullUrl = url('data/reports/' . $fileName);
+   //dd($fileFullUrl);
     if (file_exists($fileFullPathWithName)) {
+        //dd($fileFullPathWithName);
         if (!empty($required)) {
             return $fileName;
         } else {

@@ -6,7 +6,7 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
 <head>
     <style>
         table, th, td {
-            border: 1px solid black;
+            border: 0px solid black;
             border-collapse: collapse;
         }
     </style>

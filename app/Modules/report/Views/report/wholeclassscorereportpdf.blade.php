@@ -3,7 +3,7 @@
 <head>
     <style>
         table, th, td {
-            border: 1px solid #04060e;
+            border: 0px solid #04060e;
             border-collapse: collapse;
         }
     </style>
