@@ -458,9 +458,9 @@ class ReportController extends Controller
         return view('report::report.question_answer_view', compact('questions'));
     }
 
-    public function getDownload($filename)
+    public function download($filename)
     {
-        $file= public_path(). "/reports/";
+        $file= $filename;
         $headers = array(
             'Content-Type: application/pdf',
             'Content-Disposition:attachment; filename="cv.pdf"',
@@ -468,7 +468,7 @@ class ReportController extends Controller
             'Content-Length:'.filesize($file),
         );
 
-        return response()->download($file,$headers, "Ahmed Badawy - CV.pdf");
+        return response()->download($file,$headers);
     }
 
 // test history class average report home page...
