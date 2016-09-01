@@ -25,6 +25,7 @@ use Excel;
 class ReportController extends Controller
 {
 
+
     /**
      * Display a listing of the resource.
      *
@@ -458,7 +459,7 @@ class ReportController extends Controller
         return view('report::report.question_answer_view', compact('questions'));
     }
 
-    public function download($filename)
+    public function getDownload($filename)
     {
         $file= $filename;
         $headers = array(
@@ -1057,8 +1058,8 @@ class ReportController extends Controller
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
 
-        return url($fileFullUrl);
-       // return response()->download($fileFullUrl);
+       // return url($fileFullUrl);
+        return $this->getDownload($fileFullUrl);
     }
 
 
