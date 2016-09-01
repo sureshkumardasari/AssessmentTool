@@ -1057,8 +1057,8 @@ class ReportController extends Controller
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
 
-       // return $fileFullUrl;
-        return response()->download($fileFullUrl);
+        return url($fileFullUrl);
+       // return response()->download($fileFullUrl);
     }
 
 
