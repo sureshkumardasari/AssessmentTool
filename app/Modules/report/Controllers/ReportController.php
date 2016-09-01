@@ -461,7 +461,7 @@ class ReportController extends Controller
     public function getDownload()
     {
         //PDF file is stored under project/public/download/info.pdf
-        if (!is_dir(public_path('download'))) {
+       /* if (!is_dir(public_path('download'))) {
             @mkdir(public_path('download'), 0777, true);
         }
         $file = public_path() . "/download";
@@ -469,9 +469,16 @@ class ReportController extends Controller
 
         $headers = array(
             'Content-Type: application/pdf',
+        );*/
+        $filename = public_path() . "/download";
+        $headers = array(
+            'Content-Type: application/pdf',
+            /*'Content-Disposition:attachment; filename="cv.pdf"',
+            'Content-Transfer-Encoding:binary',
+            'Content-Length:'.filesize($file),*/
         );
 
-        return Response::download($file, 'filename.pdf', $headers);
+        return Response::download($filename, 'filename.pdf', $headers);
     }
 
 // test history class average report home page...
@@ -1054,12 +1061,12 @@ class ReportController extends Controller
         }
 
         //$footerHtml = view('layouts.pdf_partials.footer', compact('footerMeta'))->render();
-        $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
+        $htmlForPdf = view('report::report.testhistoryreport', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
        // dd($htmlForPdf);
         $fileName = 'testpdf';
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
-        return $fileFullUrl;
+        return response()->download($fileFullUrl);
     }
 
     public function testhistoryexportXLS($id)
