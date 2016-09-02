@@ -625,7 +625,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
    //dd($fileFullUrl);
     // dd($fileFullPathWithName);
     if (file_exists($fileFullPathWithName)) {
-        dd("exists");
+        //dd("exists");
         //dd($fileFullPathWithName);
         if (!empty($required)) {
             return $fileName;
@@ -633,7 +633,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
             return $fileFullUrl;
         }
     } else {
-        dd("not exists");
+       // dd("not exists");
         //return 'Error: ' . $pdf->getError();
         return url('data/error.pdf');
     }
