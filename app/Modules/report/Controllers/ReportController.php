@@ -1055,7 +1055,7 @@ class ReportController extends Controller
         $htmlForPdf = view('report::report.testhistoryreport', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
        // dd($htmlForPdf);
         $fileName = 'testhistoryreport';
-        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf,"Test-History-Class Average","required");
         //dd($fileFullUrl);
 
        // return url($fileFullUrl);
