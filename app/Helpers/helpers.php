@@ -623,8 +623,9 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
     //dd($pdf);
     $fileFullUrl = url('data/reports/' . $fileName);
    //dd($fileFullUrl);
-     dd($fileFullPathWithName);
+    // dd($fileFullPathWithName);
     if (file_exists($fileFullPathWithName)) {
+        dd("exists");
         //dd($fileFullPathWithName);
         if (!empty($required)) {
             return $fileName;
@@ -632,6 +633,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
             return $fileFullUrl;
         }
     } else {
+        dd("not exists");
         //return 'Error: ' . $pdf->getError();
         return url('data/error.pdf');
     }
