@@ -464,12 +464,12 @@ class ReportController extends Controller
         $file= $filename;
         $headers = array(
             'Content-Type: application/pdf',
-            'Content-Disposition:attachment; filename="cv.pdf"',
-            'Content-Transfer-Encoding:binary',
-            'Content-Length:'.filesize($file),
+           // 'Content-Disposition:attachment; filename="cv.pdf"',
+//            'Content-Transfer-Encoding:binary',
+//            'Content-Length:'.filesize($file)
         );
 
-        return response()->download($file,$headers);
+        return response()->download($file,"abc.pdf",$headers);
     }
 
 // test history class average report home page...
@@ -1059,7 +1059,7 @@ class ReportController extends Controller
         //dd($fileFullUrl);
 
        // return url($fileFullUrl);
-        return $this->getDownload($fileFullUrl);
+        return response()->Download($fileFullUrl);
     }
 
 
