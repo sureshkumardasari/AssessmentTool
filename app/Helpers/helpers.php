@@ -620,9 +620,10 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
     $fileFullPathWithName = $dir . $fileName;
    // dd($fileFullPathWithName);
     $pdf->saveAs($fileFullPathWithName);
-   // dd($pdf);
+    //dd($pdf);
     $fileFullUrl = url('data/reports/' . $fileName);
    //dd($fileFullUrl);
+     dd($fileFullPathWithName);
     if (file_exists($fileFullPathWithName)) {
         //dd($fileFullPathWithName);
         if (!empty($required)) {
