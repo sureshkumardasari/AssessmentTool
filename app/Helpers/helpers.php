@@ -627,6 +627,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
     if (file_exists($fileFullPathWithName)) {
         //dd("exists");
         //dd($fileFullPathWithName);
+         return $fileName;
         if (!empty($required)) {
             return $fileName;
         } else {
