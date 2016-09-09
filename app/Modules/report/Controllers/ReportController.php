@@ -1052,14 +1052,16 @@ class ReportController extends Controller
         }
 
         //$footerHtml = view('layouts.pdf_partials.footer', compact('footerMeta'))->render();
-        $htmlForPdf = view('report::report.testhistoryreport', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
+        $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
        // dd($htmlForPdf);
         $fileName = 'testhistoryreport';
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
-
+$name=explode('/',$fileFullUrl);
+        $name=$name[5];
        // return url($fileFullUrl);
-        return response()->Download($fileFullUrl);
+       // return response()->Download($fileFullUrl);
+        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
 
 
