@@ -1,5 +1,5 @@
 <html>
-<h3>Least Score Report</h3>
+<h3 align="center">Least Score Report</h3>
 <head>
     <style>
         table, th, td {

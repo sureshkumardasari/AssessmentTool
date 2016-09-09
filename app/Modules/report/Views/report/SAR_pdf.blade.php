@@ -1,5 +1,5 @@
 <html>
-<h3>Student Answer Report</h3>
+<h3 align="center">Student Answer Report</h3>
 <?php
 $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
 ?>

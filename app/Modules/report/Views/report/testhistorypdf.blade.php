@@ -1,5 +1,5 @@
 <html>
-<h3>Test-History-Class-Averages</h3>
+<h3 align="center">Test-History-Class-Averages</h3>
 <head>
     <style>
         table, th, td {

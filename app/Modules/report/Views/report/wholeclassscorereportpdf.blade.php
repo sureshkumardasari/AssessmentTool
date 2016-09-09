@@ -1,5 +1,5 @@
 <html>
-<h3>Whole Class Score Report</h3>
+<h3 align="center">Whole Class Score Report</h3>
 <head>
     <style>
         table, th, td {

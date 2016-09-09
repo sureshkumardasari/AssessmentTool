@@ -406,17 +406,16 @@ class ReportController extends Controller
             ->groupby('questions.id')
             ->get();
 
-        return Excel::create('Assessment report', function ($excel) use ($assignments, $inst, $assign, $user) {
-            $excel->sheet('mySheet', function ($sheet) use ($assignments, $inst, $assign, $user) {
-                //$sheet->loadView($students);
-                $sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments, "inst" => $inst, "assign" => $assign, "user" => $user));
-                //$sheet->fromArray($students);
-            });
-        })->download("pdf");
+        $htmlForPdf = view('report::report.SAR_pdf', compact('assignments', 'inst', 'assign','user'))->render();
+        $fileName = 'sar_pdf';
+        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        $name=explode('/',$fileFullUrl);
+        $name=$name[5];
+        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
 
     public function SAR_xls($inst_id, $assign_id, $student_id)
-    { //dd($student_id);
+    {
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
         $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
         $user = User::where('id', '=', $student_id)->select('name')->get();
@@ -575,13 +574,16 @@ class ReportController extends Controller
             } else {
                 $students = [];
             }
-            return Excel::create('Assessment report', function ($excel) use ($students, $inst, $assi) {
-                $excel->sheet('mySheet', function ($sheet) use ($students, $inst, $assi) {
-                    //$sheet->loadView($students);
-                    $sheet->loadView('report::report.pdf', array("students" => $students, "inst" => $inst, "assi" => $assi));
-                    //$sheet->fromArray($students);
-                });
-            })->download("pdf");
+            $htmlForPdf = view('report::report.pdf', compact('inst', 'students', 'assi'))->render();
+            // dd($htmlForPdf);
+            $fileName = 'pdf';
+            $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+            //dd($fileFullUrl);
+            $name=explode('/',$fileFullUrl);
+            $name=$name[5];
+            // return url($fileFullUrl);
+            // return response()->Download($fileFullUrl);
+            return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
         }
 
         //return Redirect::route('class_average_and_student_scores_report');
@@ -1103,12 +1105,6 @@ class ReportController extends Controller
             //dd($mark);
             $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
         }
-//		dd($rec);
-//		dd($counts);
-//		dd($complete_users);
-//		dd($lost_marks);
-//		dd($marks);
-        //return view('report::report.testhistory',compact('assignments','marks','All_users','complete_users'));
         return Excel::create('Assessment report', function ($excel) use ($assignments, $marks, $All_users, $complete_users, $inst) {
             $excel->sheet('mySheet', function ($sheet) use ($assignments, $marks, $All_users, $complete_users, $inst) {
                 //$sheet->loadView($students);
@@ -1140,13 +1136,6 @@ class ReportController extends Controller
         $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
         $user_answered_correct_count = QuestionUserAnswer::whereIn('question_id', $questions)->where('assignment_id', $assign_id)->where('is_correct', 'Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
 
-       /* return Excel::create('Assessment report', function ($excel) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
-            $excel->sheet('mySheet', function ($sheet) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
-                //$sheet->loadView($students);
-                $sheet->loadView('report::report.Questionpdf', array("ques" => $ques, "user_answered_correct_count" => $user_answered_correct_count, "user_count" => $user_count, "inst" => $inst, "assign" => $assign, "sub" => $sub));
-                //$sheet->fromArray($students);
-            });
-        })->download("pdf");*/
         $htmlForPdf = view('report::report.Questionpdf', compact('ques', 'user_answered_correct_count', 'user_count', 'inst', 'assign','sub'))->render();
         $fileName = 'answer';
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
@@ -1154,20 +1143,6 @@ class ReportController extends Controller
         $name=$name[5];
         return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
-
-
-            /*$htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
-                // dd($htmlForPdf);
-            $fileName = 'testhistoryreport';
-            $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
-                //dd($fileFullUrl);
-            $name=explode('/',$fileFullUrl);
-            $name=$name[5];
-                // return url($fileFullUrl);
-                // return response()->Download($fileFullUrl);
-            return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-            }*/
-
     public function QuestionsexportXLS($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
@@ -1241,15 +1216,20 @@ class ReportController extends Controller
             ->orderby('user_assignment_result.rawscore', 'asc')
             ->take(10)
             ->get();
-
         //return view('report::report.least_score', compact('report_data','report_data1','report_data2','assignmentname'));
-        return Excel::create('Assessment report', function ($excel) use ($report_data, $report_data1, $report_data2, $assignmentname) {
+       /* return Excel::create('Assessment report', function ($excel) use ($report_data, $report_data1, $report_data2, $assignmentname) {
             $excel->sheet('mySheet', function ($sheet) use ($report_data, $report_data1, $report_data2, $assignmentname) {
                 //$sheet->loadView($students);
                 $sheet->loadView('report::report.leastpdf', array("report_data" => $report_data, "report_data1" => $report_data1, "report_data2" => $report_data2, "assignmentname" => $assignmentname));
                 //$sheet->fromArray($students);
             });
-        })->download("pdf");
+        })->download("pdf");*/
+        $htmlForPdf = view('report::report.leastpdf', compact('report_data','report_data1','report_data2','assignmentname'));
+        $fileName = 'least_score';
+        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        $name=explode('/',$fileFullUrl);
+        $name=$name[5];
+        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
 
     public function leastscoreexportXLS()
@@ -1317,7 +1297,7 @@ class ReportController extends Controller
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
         $assign = Assignment::where('id', '=', $assi_id)->select('name')->get();
         $sub = Subject::where('id', '=', $sub_id)->select('name')->get();
-        $less=Lesson::where('id', '=',$less_id)->select('name')->get();
+        $less = Lesson::where('id', '=', $less_id)->select('name')->get();
 
         if ($assi_id == 0 || $assi_id == "null" || $sub_id == "null" || $sub_id == 0) {
             return "";
@@ -1434,19 +1414,17 @@ class ReportController extends Controller
 //
                     }
                 }
-                // dd($lesson_score);
-                // return view('report::report.wholescoreview_duplicate', compact('type', 'lessons', 'assignment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'));
-                return Excel::create('Assessment report', function ($excel) use ($type, $lessons, $assignment, $students, $lesson_score, $subjects, $sub_id, $penality,$inst,$assign,$sub,$less) {
-                    $excel->sheet('mySheet', function ($sheet) use ($type, $lessons, $assignment, $students, $lesson_score, $subjects, $sub_id, $penality,$inst,$assign,$sub,$less) {
-                        //$sheet->loadView($students);
-                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "lessons" => $lessons, "assignment" => $assignment, "students" => $students, "lesson_score" => $lesson_score, "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,'inst' =>$inst,'assign'=>$assign,'sub'=>$sub,'less'=>$less));
-                        //$sheet->fromArray($students);
-                    });
-                })->download("pdf");
+                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub','less','type', 'lessons', 'assignment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'))->render();
+                $fileName = 'wholeclassscorereportpdf';
+                $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+                $name=explode('/',$fileFullUrl);
+                $name=$name[5];
+                return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+              }
             }
 
         }
-    }
+
 
     public function wholeclassscoreexportXLS($inst_id = 0, $assi_id = 0, $sub_id = 0, $less_id = 0)
     {
