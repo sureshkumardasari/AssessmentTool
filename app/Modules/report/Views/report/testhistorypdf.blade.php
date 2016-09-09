@@ -23,7 +23,7 @@
         @endforeach
     </tr>
     </tbody>
-</table>
+</table><br>
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
      <tr>
@@ -52,6 +52,6 @@
     @endif
 
     </tbody>
-</table>
+</table><br>
 </body>
 </html>

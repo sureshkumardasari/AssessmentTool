@@ -31,7 +31,7 @@
     @endif
 
     </tbody>
-</table>
+</table><br>
 <table class="table">
     <thead>
     <tr>
@@ -54,7 +54,7 @@
     @endif
 
     </tbody>
-</table>
+</table><br>
 <table class="table">
     <thead>
     <tr>
@@ -76,6 +76,6 @@
         </tr>
     @endif
     </tbody>
-</table>
+</table><br>
 </body>
 </html>
