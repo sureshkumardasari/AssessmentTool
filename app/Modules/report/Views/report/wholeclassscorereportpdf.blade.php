@@ -12,10 +12,10 @@
 <table border="0">
     <thead>
     <tr>
-        <th>Selected Institution</th>
-        <th>Selected Assignment</th>
-        <th>Selected Subject</th>
-        <th>Selected Lesson</th>
+        <th colspan="3">Selected Institution</th>
+        <th colspan="3">Selected Assignment</th>
+        <th colspan="3">Selected Subject</th>
+        <th colspan="3">Selected Lesson</th>
     </tr>
     </thead>
     <tbody>

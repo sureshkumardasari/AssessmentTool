@@ -27,11 +27,11 @@
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
      <tr>
-      <th>Assignment</th>
-      <th>Assessment</th>
-      <th>Total Students</th>
-      <th>Students attended</th>
-      <th>Average of Assignment for Completed users</th>
+      <th colspan="3">Assignment</th>
+      <th colspan="3">Assessment</th>
+      <th colspan="3">Total Students</th>
+      <th colspan="3">Students attended</th>
+      <th colspan="3">Average of Assignment for Completed users</th>
      </tr>
     </thead>
     <tbody>
