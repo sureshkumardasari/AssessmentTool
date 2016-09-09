@@ -1057,10 +1057,11 @@ class ReportController extends Controller
         $fileName = 'testhistoryreport';
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
-
+$name=explode('/',$fileFullUrl);
+        $name=$name[3];
        // return url($fileFullUrl);
        // return response()->Download($fileFullUrl);
-        return response()->Download("/var/www/AssessmentTool/public/data/reports/testhistoryreport-57d27c83c6569-1473412227.pdf");
+        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
 
 
