@@ -1058,7 +1058,7 @@ class ReportController extends Controller
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
 $name=explode('/',$fileFullUrl);
-        $name=$name[3];
+        $name=$name[4];
        // return url($fileFullUrl);
        // return response()->Download($fileFullUrl);
         return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
