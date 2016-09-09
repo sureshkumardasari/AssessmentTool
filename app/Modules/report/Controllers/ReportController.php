@@ -1057,7 +1057,7 @@ class ReportController extends Controller
         $fileName = 'testhistoryreport';
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
-$name=explode('/',$fileFullUrl);
+         $name=explode('/',$fileFullUrl);
         $name=$name[5];
        // return url($fileFullUrl);
        // return response()->Download($fileFullUrl);
@@ -1139,14 +1139,34 @@ $name=explode('/',$fileFullUrl);
         $questions = $questions->lists('id');
         $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
         $user_answered_correct_count = QuestionUserAnswer::whereIn('question_id', $questions)->where('assignment_id', $assign_id)->where('is_correct', 'Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
-        return Excel::create('Assessment report', function ($excel) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
+
+       /* return Excel::create('Assessment report', function ($excel) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
             $excel->sheet('mySheet', function ($sheet) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
                 //$sheet->loadView($students);
                 $sheet->loadView('report::report.Questionpdf', array("ques" => $ques, "user_answered_correct_count" => $user_answered_correct_count, "user_count" => $user_count, "inst" => $inst, "assign" => $assign, "sub" => $sub));
                 //$sheet->fromArray($students);
             });
-        })->download("pdf");
+        })->download("pdf");*/
+        $htmlForPdf = view('report::report.Questionpdf', compact('ques', 'user_answered_correct_count', 'user_count', 'inst', 'assign','sub'))->render();
+        $fileName = 'answer';
+        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        $name=explode('/',$fileFullUrl);
+        $name=$name[5];
+        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
+
+
+            /*$htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
+                // dd($htmlForPdf);
+            $fileName = 'testhistoryreport';
+            $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+                //dd($fileFullUrl);
+            $name=explode('/',$fileFullUrl);
+            $name=$name[5];
+                // return url($fileFullUrl);
+                // return response()->Download($fileFullUrl);
+            return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+            }*/
 
     public function QuestionsexportXLS($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {

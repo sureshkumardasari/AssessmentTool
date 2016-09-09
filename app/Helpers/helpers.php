@@ -632,7 +632,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
             return $fileFullUrl;
         }
     } else {
-        dd("else");
+       // dd("else");
         //return 'Error: ' . $pdf->getError();
         return url('data/error.pdf');
     }
