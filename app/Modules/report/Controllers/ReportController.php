@@ -1059,7 +1059,8 @@ class ReportController extends Controller
         //dd($fileFullUrl);
 
        // return url($fileFullUrl);
-        return response()->Download($fileFullUrl);
+       // return response()->Download($fileFullUrl);
+        return response()->Download("c://xampp/htdocs/AssessmentTool/public/data/reports/testhistoryreport-57d27c83c6569-1473412227.pdf");
     }
 
 
