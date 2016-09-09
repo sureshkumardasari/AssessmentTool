@@ -34,11 +34,11 @@
             @endforeach
     </tr>
     </tbody>
-</table>
+</table><br>
 
 
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
-    <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p>
+    <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p><br>
 
     <table class="table table-bordered table-hover table-striped" id="wholescore">
         <caption><center><b>Lessons</b></center></caption>
@@ -61,7 +61,7 @@
             </tr>
         @endforeach
         </tbody>
-    </table>
+    </table><br>
 
 
 </body>

@@ -32,7 +32,7 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
         @endforeach
     </tr>
     </tbody>
-</table>
+</table><br>
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     @if($assignments)
@@ -70,5 +70,5 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
         </tr>
         </tbody>
     @endif
-</table>
+</table><br>
 </html>

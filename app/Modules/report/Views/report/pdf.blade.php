@@ -28,7 +28,7 @@
         @endforeach
     </tr>
     </tbody>
-</table>
+</table><br>
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
@@ -61,14 +61,14 @@
     @endforeach
 
     </tbody>
-</table>
+</table><br>
 @if(count($students)>0)
     <table class="table average">
         <tr>
             <td>class average score:</td>
             <td> {{$all_users_count/(count($students))}}</td>
         </tr>
-    </table>
+    </table><br>
 @endif
 </body>
 </html>
