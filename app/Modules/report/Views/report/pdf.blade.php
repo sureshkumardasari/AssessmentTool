@@ -14,17 +14,17 @@
 <table border="0">
     <thead>
     <tr>
-        <th>Selected Institution</th>
-        <th>Selcted Assignment</th>
+        <th colspan="6">Selected Institution</th>
+        <th colspan="6">Selcted Assignment</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         @foreach($inst as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="6">{{$val->name}}</td>
         @endforeach
         @foreach($assi as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="6">{{$val->name}}</td>
         @endforeach
     </tr>
     </tbody>
@@ -32,23 +32,23 @@
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
-        <th>Student Name</th>
-        <th>marks</th>
-        <th>Percentage(%)</th>
+        <th colspan="4">Student Name</th>
+        <th colspan="4">marks</th>
+        <th colspan="4">Percentage(%)</th>
     </tr>
     </thead>
     <tbody>
     <?php $all_users_count=0; ?>
     @foreach($students as $student )
         <tr>
-            <td>
+            <td colspan="4">
                 {{$student->name}}
             </td>
-            <td>
+            <td colspan="4">
                 {{$student->score}}
                 <?php $all_users_count+=$student->score;?>
             </td>
-            <td>
+            <td colspan="4">
                 {{$student->percentage}}
             </td>
             {{-- --}}{{--<td>--}}{{--
@@ -65,8 +65,8 @@
 @if(count($students)>0)
     <table class="table average">
         <tr>
-            <td>class average score:</td>
-            <td> {{$all_users_count/(count($students))}}</td>
+            <td colspan="6">class average score:</td>
+            <td colspan="6"> {{$all_users_count/(count($students))}}</td>
         </tr>
     </table><br>
 @endif

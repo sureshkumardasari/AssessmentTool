@@ -21,16 +21,16 @@
     <tbody>
     <tr>
         @foreach($inst as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="3">{{$val->name}}</td>
         @endforeach
         @foreach($assign as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="3">{{$val->name}}</td>
         @endforeach
         @foreach($sub as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="3">{{$val->name}}</td>
         @endforeach
             @foreach($less as $val)
-                <td>{{$val->name}}</td>
+                <td colspan="3">{{$val->name}}</td>
             @endforeach
     </tr>
     </tbody>
@@ -44,19 +44,19 @@
         <caption><center><b>Lessons</b></center></caption>
         <thead>
         <tr>
-        <th>Student Name</th>
+        <th colspan="6">Student Name</th>
         @foreach($lessons as $id=>$lesson)
-            <th>{{$lesson}}</th>
+            <th colspan="6">{{$lesson}}</th>
         @endforeach
         </tr>
         </thead>
         <tbody>
         @foreach($lesson_score as $stud_id=>$lesson)
             <tr>
-                <td>{{$students[$stud_id]}}</td>
+                <td colspan="6">{{$students[$stud_id]}}</td>
                 @foreach($lesson as $score)
                     <?php $sum=(($score[0]->sum == "null")||($score[0]->sum == ""))?0:$score[0]->sum;?>
-                    <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
+                    <td colspan="6">{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
                 @endforeach
             </tr>
         @endforeach

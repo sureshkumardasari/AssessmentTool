@@ -14,21 +14,21 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
 <table border="0">
     <thead>
     <tr>
-        <th>Selected Institution</th>
-        <th>Selected Assignment</th>
-        <th>Selected Student</th>
+        <th colspan="4">Selected Institution</th>
+        <th colspan="4">Selected Assignment</th>
+        <th colspan="4">Selected Student</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         @foreach($inst as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="4">{{$val->name}}</td>
         @endforeach
         @foreach($assign as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="4">{{$val->name}}</td>
         @endforeach
         @foreach($user as $val)
-            <td>{{$val->name}}</td>
+            <td colspan="4">{{$val->name}}</td>
         @endforeach
     </tr>
     </tbody>
@@ -37,9 +37,9 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
     <thead>
     @if($assignments)
         <tr>
-            <th>Questions</th>
-            <th>Correct Answer</th>
-            <th>Your Answer</th>
+            <th colspan="4">Questions</th>
+            <th colspan="4">Correct Answer</th>
+            <th colspan="4">Your Answer</th>
         </tr>
     </thead>
     <tbody>

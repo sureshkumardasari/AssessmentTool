@@ -13,7 +13,7 @@
 <table border="0">
     <thead>
     <tr>
-        <th>Selected Institution</th>
+        <th colspan="12">Selected Institution</th>
     </tr>
     </thead>
     <tbody>
@@ -38,11 +38,11 @@
     @if(count($assignments)>0)
         @foreach($assignments as $assignment)
             <tr>
-                <td>{{$assignment->assign_name}}</td>
-                <td>{{$assignment->assess_name}}</td>
-                <td>{{$All_users[$assignment->assign_id]}}</td>
-                <td>{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
-                <td>{{$marks[$assignment->assign_id]}}%</td>
+                <td colspan="3">{{$assignment->assign_name}}</td>
+                <td colspan="3">{{$assignment->assess_name}}</td>
+                <td colspan="3">{{$All_users[$assignment->assign_id]}}</td>
+                <td colspan="3">{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
+                <td colspan="3">{{$marks[$assignment->assign_id]}}%</td>
             </tr>
         @endforeach
     @else
