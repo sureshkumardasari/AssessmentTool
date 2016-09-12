@@ -11,62 +11,56 @@
 
 <body>
 {{--<input type="text">Selected Institution: $inst</input>--}}
-<table border="0">
+<table border="0" width="100%">
     <thead>
     <tr>
-        <th colspan="6">Selected Institution</th>
-        <th colspan="6">Selcted Assignment</th>
+        <th>Selected Institution</th>
+        <th>Selected Assignment</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         @foreach($inst as $val)
-            <td colspan="6">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
         @foreach($assi as $val)
-            <td colspan="6">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
     </tr>
     </tbody>
 </table><br>
-<table class="table table-bordered table-hover table-striped" id="report">
+<table class="table table-bordered table-hover table-striped" id="report" width="100%">
     <thead>
     <tr>
-        <th colspan="4">Student Name</th>
-        <th colspan="4">marks</th>
-        <th colspan="4">Percentage(%)</th>
+        <th>Student Name</th>
+        <th>marks</th>
+        <th>Percentage(%)</th>
     </tr>
     </thead>
     <tbody>
     <?php $all_users_count=0; ?>
     @foreach($students as $student )
         <tr>
-            <td colspan="4">
+            <td>
                 {{$student->name}}
             </td>
-            <td colspan="4">
+            <td>
                 {{$student->score}}
                 <?php $all_users_count+=$student->score;?>
             </td>
-            <td colspan="4">
+            <td>
                 {{$student->percentage}}
             </td>
-            {{-- --}}{{--<td>--}}{{--
-             --}}{{--{{$student->answers_count}}--}}{{--
-             --}}{{--</td>--}}{{--
-             --}}{{--<td>--}}{{--
-             --}}{{--{{($student->answers_count/$student->total_count)*100}}%--}}{{--
-             --}}{{--</td>--}}
         </tr>
     @endforeach
 
     </tbody>
 </table><br>
 @if(count($students)>0)
-    <table class="table average">
+    <table class="table average" width="100%">
         <tr>
-            <td colspan="6">class average score:</td>
-            <td colspan="6"> {{$all_users_count/(count($students))}}</td>
+            <td>class average score:</td>
+            <td> {{$all_users_count/(count($students))}}</td>
         </tr>
     </table><br>
 @endif

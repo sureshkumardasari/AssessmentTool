@@ -11,35 +11,35 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
         }
     </style>
 </head>
-<table border="0">
+<table border="0" width="100%">
     <thead>
     <tr>
-        <th colspan="4">Selected Institution</th>
-        <th colspan="4">Selected Assignment</th>
-        <th colspan="4">Selected Student</th>
+        <th>Selected Institution</th>
+        <th>Selected Assignment</th>
+        <th>Selected Student</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         @foreach($inst as $val)
-            <td colspan="4">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
         @foreach($assign as $val)
-            <td colspan="4">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
         @foreach($user as $val)
-            <td colspan="4">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
     </tr>
     </tbody>
 </table><br>
-<table class="table table-bordered table-hover table-striped" id="report">
+<table class="table table-bordered table-hover table-striped" id="report" width="100%">
     <thead>
     @if($assignments)
         <tr>
-            <th colspan="4">Questions</th>
-            <th colspan="4">Correct Answer</th>
-            <th colspan="4">Your Answer</th>
+            <th>Questions</th>
+            <th>Correct Answer</th>
+            <th>Your Answer</th>
         </tr>
     </thead>
     <tbody>

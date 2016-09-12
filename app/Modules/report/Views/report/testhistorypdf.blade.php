@@ -10,10 +10,10 @@
 </head>
 
 <body>
-<table border="0">
+<table border="0" width="100%">
     <thead>
     <tr>
-        <th colspan="12">Selected Institution</th>
+        <th>Selected Institution</th>
     </tr>
     </thead>
     <tbody>
@@ -24,25 +24,25 @@
     </tr>
     </tbody>
 </table><br>
-<table class="table table-bordered table-hover table-striped" id="report">
+<table class="table table-bordered table-hover table-striped" id="report" width="100%">
     <thead>
      <tr>
-      <th colspan="3">Assignment</th>
-      <th colspan="3">Assessment</th>
-      <th colspan="3">Total Students</th>
-      <th colspan="3">Students attended</th>
-      <th colspan="3">Average of Assignment for Completed users</th>
+      <th>Assignment</th>
+      <th>Assessment</th>
+      <th>Total Students</th>
+      <th>Students attended</th>
+      <th>Average of Assignment for Completed users</th>
      </tr>
     </thead>
     <tbody>
     @if(count($assignments)>0)
         @foreach($assignments as $assignment)
             <tr>
-                <td colspan="3">{{$assignment->assign_name}}</td>
-                <td colspan="3">{{$assignment->assess_name}}</td>
-                <td colspan="3">{{$All_users[$assignment->assign_id]}}</td>
-                <td colspan="3">{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
-                <td colspan="3">{{$marks[$assignment->assign_id]}}%</td>
+                <td>{{$assignment->assign_name}}</td>
+                <td>{{$assignment->assess_name}}</td>
+                <td>{{$All_users[$assignment->assign_id]}}</td>
+                <td>{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
+                <td>{{$marks[$assignment->assign_id]}}%</td>
             </tr>
         @endforeach
     @else

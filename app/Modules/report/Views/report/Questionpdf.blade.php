@@ -11,42 +11,42 @@
 </head>
 
 <body>
-<table border="0">
+<table border="0" width="100%">
     <thead>
     <tr>
-        <th colspan="4">Selected Institution</th>
-        <th colspan="4">Selected Assignment</th>
-        <th colspan="4">Selected Subject</th>
+        <th>Selected Institution</th>
+        <th>Selected Assignment</th>
+        <th>Selected Subject</th>
     </tr>
     </thead>
     <tbody>
       <tr>
         @foreach($inst as $val)
-            <td colspan="4">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
         @foreach($assign as $val)
-            <td colspan="4">{{$val->name}}</td>
+            <td>{{$val->name}}</td>
         @endforeach
             @foreach($sub as $val)
-                <td colspan="4">{{$val->name}}</td>
+                <td>{{$val->name}}</td>
             @endforeach
       </tr>
     </tbody>
 </table><br>
-<table class="table table-bordered table-hover table-striped" id="report">
+<table class="table table-bordered table-hover table-striped" id="report" width="100%">
     <thead>
     <tr>
-        <th colspan="6">Question Id </th>
-        <th colspan="6">Accuracy Percentage</th>
+        <th>Question Id </th>
+        <th>Accuracy Percentage</th>
     </tr>
     </thead>
     <tbody>
     @foreach($ques as $id=>$question )
         <tr>
-            <td colspan="6">
+            <td>
                 {{$question}}
             </td>
-            <td colspan="6">
+            <td>
                 {{isset($user_answered_correct_count[$id])?(($user_answered_correct_count[$id]/$user_count[$id])*100).'%':'no one answer the question'}}
             </td>
         </tr>
