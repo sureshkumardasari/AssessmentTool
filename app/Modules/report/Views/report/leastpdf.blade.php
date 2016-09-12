@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-<table class="table">
+<table class="table" width="100%">
     <thead>
     <tr>
     <th colspan="6">Student Name</th>
@@ -32,7 +32,7 @@
 
     </tbody>
 </table><br>
-<table class="table">
+<table class="table" width="100%">
     <thead>
     <tr>
     <th colspan="6">Student Name</th>
@@ -55,7 +55,7 @@
 
     </tbody>
 </table><br>
-<table class="table">
+<table class="table" width="100%">
     <thead>
     <tr>
     <th colspan="6">Student Name</th>
