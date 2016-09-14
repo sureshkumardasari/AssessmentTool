@@ -99,14 +99,25 @@
                         </div>
                     </div>
 
-                    {{--<div>--}}
-                    {{--<a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>--}}
-                    {{--</div>--}}
+                    <div>
+                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                        <a href="#" class="btn btn-primary" id="xls">Export xls</a>
+
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
+<script>
+    $('#pdf').on('click',function(){
+        window.open("{{ url('report/leastscoreexportPDF/')}}");
 
+    });
+    $('#xls').on('click',function(){
+        window.open("{{ url('report/leastscoreexportXLS/')}}");
+
+    });
+</script>
 
 @endsection

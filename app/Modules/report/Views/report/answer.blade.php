@@ -57,6 +57,10 @@
                     <div id="report">
 
                     </div>
+                    <div>
+                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                        <a href="#" class="btn btn-primary" id="xls">Export xls</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,6 +128,20 @@
                         }
                     }
             )
+        });
+        $('#pdf').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment').val();
+            var sub_id=$('#subject').val();
+            window.open("{{ url('report/QuestionsexportPDF/')}}/"+inst_id+"/"+assign_id+"/"+sub_id);
+
+        });
+        $('#xls').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment').val();
+            var sub_id=$('#subject').val();
+            window.open("{{ url('report/QuestionsexportXLS/')}}/"+inst_id+"/"+assign_id+"/"+sub_id);
+
         });
     </script>
 @endsection

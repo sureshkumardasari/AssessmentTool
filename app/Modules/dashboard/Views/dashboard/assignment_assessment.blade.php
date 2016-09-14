@@ -18,7 +18,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                             <center><a class="btn btn-info" role="button" href="{{ url('/resources/assessment') }}">View More</a></button></center>
+                             <center><a class="btn btn-info" role="button" href="{{ url('/resources/assessment') }}">View More</a></center>
                         </div>
                     </div>
                 </div>
