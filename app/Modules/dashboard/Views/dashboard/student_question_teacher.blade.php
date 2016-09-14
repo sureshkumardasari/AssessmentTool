@@ -90,7 +90,7 @@
                     <table>
                         <thead>
                              <tr>
-                               <th id="mahesh">Name </th>
+                               <th id="text">Name </th>
                                 <th>StartDateTime</th>
                             </tr>
                         </thead>
@@ -160,7 +160,7 @@
 
 </div>
 <style>
-    #mahesh
+    #text
     {
         width: 140px;
         border: 0px solid #000000;
