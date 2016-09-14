@@ -1,4 +1,5 @@
 
+
 <div class="container">
         <div class="row" style="margin:-33px -15px -33px -33px;">
             <div class="col-md-4">
@@ -79,6 +80,7 @@
                     <center><a class="btn btn-info" role="button" href="{{  url('user/users_list/teacher')  }}">View More</a></center>
             </div>
             <div class="row" style="margin-bottom:20px;"> </div>
+
             <div class="col-md-4">
                 <div class="panel panel-default">
                 <div class="panel-heading">List of Assignments
@@ -88,7 +90,7 @@
                     <table>
                         <thead>
                              <tr>
-                               <th>Name</th>
+                               <th id="mahesh">Name </th>
                                 <th>StartDateTime</th>
                             </tr>
                         </thead>
@@ -156,4 +158,12 @@
             </div>
         </div>
 
-</div> 
+</div>
+<style>
+    #mahesh
+    {
+        width: 140px;
+        border: 0px solid #000000;
+        word-break: keep-all;
+    }
+</style>
