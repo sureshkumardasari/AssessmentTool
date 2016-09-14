@@ -411,7 +411,8 @@ class ReportController extends Controller
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
         $name=$name[5];
-        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+       // return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+        return response()->Download(public_path()."/data/reports/".$name);
     }
 
     public function SAR_xls($inst_id, $assign_id, $student_id)
@@ -583,7 +584,8 @@ class ReportController extends Controller
             $name=$name[5];
             // return url($fileFullUrl);
             // return response()->Download($fileFullUrl);
-            return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+          //  return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+            return response()->Download(public_path()."/data/reports/".$name);
         }
 
         //return Redirect::route('class_average_and_student_scores_report');
@@ -1142,7 +1144,8 @@ class ReportController extends Controller
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
         $name=$name[5];
-        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+       // return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+        return response()->Download(public_path()."/data/reports/".$name);
     }
     public function QuestionsexportXLS($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {
@@ -1230,7 +1233,8 @@ class ReportController extends Controller
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
         $name=$name[5];
-        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+        //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+        return response()->Download(public_path()."/data/reports/".$name);
     }
 
     public function leastscoreexportXLS()
@@ -1420,7 +1424,8 @@ class ReportController extends Controller
                 $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
                 $name=explode('/',$fileFullUrl);
                 $name=$name[5];
-                return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+                //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+                return response()->Download(public_path()."/data/reports/".$name);
               }
             }
 

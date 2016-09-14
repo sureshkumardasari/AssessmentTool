@@ -8,7 +8,7 @@
                 </div> 
                 <div class="panel-body">
 
-                    <table>
+                    <table id="text">
                         <thead>
                             <tr>
                                <th>Question Title</th>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <table >
+                    <table id="text">
                         <thead>
                             <tr>
                                <th>Students Title</th>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <table>
+                    <table id="text">
                         <thead>
                             <tr>
                                <th>Teacher Title</th>
@@ -87,10 +87,10 @@
                 </div>
                 <div class="panel-body">
 
-                    <table>
+                    <table id="text">
                         <thead>
                              <tr>
-                               <th id="text">Name </th>
+                               <th >Name </th>
                                 <th>StartDateTime</th>
                             </tr>
                         </thead>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <table>
+                    <table id="text">
                         <thead>
                             <tr>
                                <th>Name</th>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <table>
+                    <table id="text">
                         <thead>
                             <tr>
                                <th>Lesson Title</th>
@@ -160,10 +160,10 @@
 
 </div>
 <style>
-    #text
+    #text,th
     {
-        width: 140px;
+        width: 300px;
         border: 0px solid #000000;
-        word-break: keep-all;
+        word-break: break-all;
     }
 </style>
