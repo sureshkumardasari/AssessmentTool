@@ -1062,8 +1062,9 @@ class ReportController extends Controller
          $name=explode('/',$fileFullUrl);
         $name=$name[5];
        // return url($fileFullUrl);
-        return response()->Download($fileFullUrl);
-        //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+       // return response()->Download($fileFullUrl);
+          return response()->Download(public_path()."/data/reports/".$name);
+//        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
     }
 
 
