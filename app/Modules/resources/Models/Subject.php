@@ -148,7 +148,7 @@ class Subject extends Model {
 		$indexState = 1;
 		$exportFields = array(
 			'InstitutionID' => array('value'=>[$institution_name]),
-			'category_name' => array('options'=>$category_id),
+			'category_id' => array('options'=>$category_id),
 			'subject_name' => array(),
 		);
 		$firstRow = false;
@@ -234,7 +234,7 @@ class Subject extends Model {
 //		dd($dataArr);
 		$validationRule = [
 				'institutionid' => 'required|numeric|exists:institution,id',
-				'category_name'=>'required',
+				'category_id'=>'required',
 		        'subject_name'=>'required|min:3',
 		];
 		$messages = [
@@ -243,10 +243,10 @@ class Subject extends Model {
 		$validator = Validator::make($dataArr, $validationRule, $messages);
 		$messages = $validator->messages();
 		$error=[];
-		$data = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_name'])
+		$data = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_id'])
 			->where('name', $dataArr['subject_name'])->select('name')->first();
 		if($dataArr['subject_name']==$data['name']){
-			$num = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_name'])
+			$num = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_id'])
 				->where('name', $dataArr['subject_name'])->count();
 			if ($num > 0) {
  				$error[] = array('subject already found');
