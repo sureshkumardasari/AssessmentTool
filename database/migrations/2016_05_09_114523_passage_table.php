@@ -16,7 +16,7 @@ class PassageTable extends Migration {
 		{
 			//
 			$table->increments('id');
-			$table->string('title', 250);
+			$table->string('title', 250)->unique();
 			$table->text('passage_text');
 			$table->text('passage_lines');
 			$table->integer('subject_id')->nullable();
