@@ -28,12 +28,21 @@
                         {{--</div>--}}
                         <div class="form-group">
                             <div class="col-md-2">
+                                @if(getRole()=="administrator")
                                 <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
+                                    @else
+                                    <button type="button" class="btn btn-primary pull-left" id="applyFiltersBtn" onclick="inst_change()"> Generate Report</button>
+                                @endif
                             </div>
                         </div>
                         <div>
+                            @if(getRole()=="administrator")
                             <a href="#" class="btn btn-primary" id="pdf">Export pdf</a>
                             <a href="#" class="btn btn-primary" id="xls">Export xls</a>
+                                @else
+                                <a href="#" class="btn btn-primary pull-right" id="pdf">Export pdf</a>
+                                <a href="#" class="btn btn-primary pull-right" id="xls">Export xls</a>
+                                @endif
 
                         </div>
                     </div>

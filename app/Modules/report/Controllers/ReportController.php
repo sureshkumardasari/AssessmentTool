@@ -82,23 +82,30 @@ class ReportController extends Controller
     public function studentAnswerReport()
     {
         $users = Array();
+        $assignments=[];
         if (getRole() != "administrator") {
             $ins = \Auth::user()->institution_id;
-            $ass = Assignment::where('institution_id', $ins)->select('id')->first();
-            $ass_users = AssignmentUser::where('assignment_id', $ass->id)->lists('user_id');
-            $users = User::whereNotIn('id', $ass_users)->select('id', 'name')->get();
+            $assignments = Assignment::where('institution_id', $ins)->lists('name','id');
+            //$ass_users = AssignmentUser::where('assignment_id', $ass->id)->lists('user_id');
+           // $users = User::whereNotIn('id', $ass_users)->select('id', 'name')->get();
             //AssignmentUser::where('assignment_id',$ass->id)->select(user_)
         }
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
-        return view('report::report.student_answer_report', compact('inst_arr', 'users'));
+        return view('report::report.student_answer_report', compact('inst_arr', 'assignments'));
     }
 
     public function answer()
     {
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
-        return view('report::report.answer', compact('inst_arr'));
+        $assignment =[];
+        if(getRole()!="administrator"){
+            $ids=array_keys($inst_arr);
+            $assignment = Assignment::where('institution_id', $ids[0])->select('assignment.name', 'assignment.id')->get();
+        }
+        return view('report::report.answer', compact('inst_arr','assignment'));
+
     }
 
     public function report_inst($id)

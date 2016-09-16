@@ -17,6 +17,11 @@
                                     <div class="col-md-2">
                                         <select name="assign_id" class='form-control' id="assign_student" onchange="assignmt_change()">
                                             <option value="0" selected >-Select-</option>
+                                            @if(getRole()!="administrator")
+                                                @foreach($assignments as $id=>$ass)
+                                                    <option value="{{$id}}">{{$ass}}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                             </div>
@@ -25,11 +30,11 @@
                                 <div class="col-md-2">
                                     <select name="student_id" class='form-control' id="student" >
                                         <option value="0" selected >-Select-</option>
-                                        @if(getRole()!="administrator")
-                                            @foreach($users as $user)
-                                                <option value="{{$user->id}}">{{$user->name}}</option>
-                                            @endforeach
-                                        @endif
+                                        {{--@if(getRole()!="administrator")--}}
+                                            {{--@foreach($users as $user)--}}
+                                                {{--<option value="{{$user->id}}">{{$user->name}}</option>--}}
+                                            {{--@endforeach--}}
+                                        {{--@endif--}}
                                     </select>
                                 </div>
                             </div>
