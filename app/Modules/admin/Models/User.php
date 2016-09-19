@@ -392,7 +392,7 @@ class User extends Model {
 	        'institutionid' => 'required|numeric|exists:institution,id',
 	        //'username' => 'required|unique:users,UserName|max:50|regex:/^[a-zA-Z0-9@._]+$/',
 	        'enrollment_no' => 'required',
-	        'email' => 'required|email|max:50',
+	        'email' => 'required|email|max:50|unique:users',
 	        'password' => ['required','min:8','max:50','at_least_one_upper_case','at_least_one_lower_case','at_least_one_number','not_contains:'.$dataArr['first_name'].','.$dataArr['last_name']],
 	        'first_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
 	        //'middle_name' => 'max:50|regex:/^[a-zA-Z\s-\']+$/',
@@ -464,7 +464,7 @@ class User extends Model {
 		$obj->country_id = $country_id->id;
 
 		$obj->save();
-		
-		$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (".$obj->id.",".$obj->role_id.")"));
+		$roleobj = DB::table('role_user')->insert(['user_id'=>$obj->id,'role_id'=>$obj->role_id]);
+		//$roleobj = DB::select(DB::raw("insert into role_user (user_id,role_id) values (".$obj->id.",".$obj->role_id.")"));
 	}
 }
