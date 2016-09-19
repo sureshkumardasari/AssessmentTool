@@ -271,7 +271,7 @@ class AssessmentController extends BaseController {
             $pdf_path = $_imagesPdf['pdfPath'];
             $id = $assessment_Id;
             $pdf_image_dir="/data/assessment_pdf_images";
-            if(!is_dir(pdf_image_dir)){
+            if(!is_dir($pdf_image_dir)){
             	 $oldmask = umask(0);
                 mkdir($pdf_image_dir, 0777);
                 umask($oldmask);
