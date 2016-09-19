@@ -1080,7 +1080,7 @@ class ReportController extends Controller
     public function testhistoryexportXLS($id)
     {
         $inst = Institution::where('id', '=', $id)->select('name')->get();
-
+        $All_users=[];
         $counts = Array();
         $rec = Array();
         //$assessment_arr=Array();

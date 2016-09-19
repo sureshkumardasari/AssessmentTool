@@ -78,13 +78,14 @@
                     if (xhr.status === 200) {
                     } else {
                         $('.user-file').val('');
-    //                    alert('An error occurred!');
+    //
+                        // alert('An error occurred!');
                     }
                 }
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4) {
                         result = jQuery.parseJSON(xhr.responseText);
-                        alert(result);
+                      //  alert(result);
                         if(result.status == 'error'){
                             if(typeof result.error_log != 'undefined'){
                                 //alert("dsfgadsg");
