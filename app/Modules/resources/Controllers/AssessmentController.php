@@ -270,6 +270,12 @@ class AssessmentController extends BaseController {
             // PDF TO IMAGE PROCESS FOR TEST TAKING
             $pdf_path = $_imagesPdf['pdfPath'];
             $id = $assessment_Id;
+            $pdf_image_dir="/data/assessment_pdf_images";
+            if(!is_dir(pdf_image_dir)){
+            	 $oldmask = umask(0);
+                mkdir($pdf_image_dir, 0777);
+                umask($oldmask);
+            }
             // make images
             $dirPath = public_path('/data/assessment_pdf_images/assessment_'.$id);
             // $s3->deleteDirectory('assessment_'.$id, 'assessment_pdf_images');
