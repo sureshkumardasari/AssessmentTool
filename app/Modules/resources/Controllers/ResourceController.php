@@ -675,7 +675,7 @@ class ResourceController extends BaseController
     public function subjectfileupload($destPath, $destFileName, $institutionId, $subjectType)
     {
         $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','category_name','subject_name'];
+        $orignalHeaders = ['institutionid','category_id','subject_name'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
 
         $uploadedFileHeaders = [];
