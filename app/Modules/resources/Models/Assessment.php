@@ -48,7 +48,7 @@ class Assessment extends Model {
 		$assessments = DB::table('assessment_question')
 				//->join('assessment', 'assessment.id', '=', 'assessment_question.assessment_id')
 				->join('questions', 'questions.id', '=', 'assessment_question.question_id')
-				->join('question_answers','question_answers.question_id','=','assessment_question.question_id')
+				->leftjoin('question_answers','question_answers.question_id','=','assessment_question.question_id')
 				->leftjoin('passage','passage.id','=','assessment_question.passage_id')
 				->where('assessment_question.assessment_id','=',$id)
 

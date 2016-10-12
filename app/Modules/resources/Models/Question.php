@@ -85,7 +85,7 @@ class Question extends Model {
             ->join('category', 'category.id', '=', 'questions.category_id')
             ->join('subject', 'subject.id', '=', 'questions.subject_id')
             ->join('lesson','lesson.id','=','questions.lesson_id')
-			->join('question_answers','question_answers.question_id','=','questions.id')
+			->leftjoin('question_answers','question_answers.question_id','=','questions.id')
             ->join('institution', 'institution.id', '=', 'questions.institute_id')
             ->join('question_type','question_type.id','=','questions.question_type_id')
             ->leftjoin('passage','passage.id','=','questions.passage_id')
@@ -318,7 +318,7 @@ class Question extends Model {
 		$obj->difficulty_id ='';
  		if($obj->save()){
 
-			if($params['question_type']==3){
+			if($params['question_type']==3 || 4){
 				$params['explanation']=[];
 				$params['is_correct']=[];
 				$params['answer_textarea']=[];
