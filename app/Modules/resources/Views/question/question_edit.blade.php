@@ -35,7 +35,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Institution</label>
 							<div class="col-md-10">
-								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()" readonly>
 									<option value="0">--Select Institution--</option>
  									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['institute_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -46,7 +46,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Category</label>
 							<div class="col-md-10">
-								<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+								<select class="form-control" name="category_id" id="category_id" onchange="change_category()" readonly>
 									<option value="0">--Select Category--</option>
  									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['category_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -57,7 +57,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Subject</label>
 							<div class="col-md-10">
-								<select class="form-control" name="subject_id" id="subject_id"  onchange="change_lessons()">
+								<select class="form-control" name="subject_id" id="subject_id"  onchange="change_lessons()" readonly>
 									<option value="0">--Select Subject--</option>
  									@foreach($subjects as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['subject_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -68,7 +68,7 @@
 						<div class="form-group required">
 							<label class="col-md-2 control-label">Lessons</label>
 							<div class="col-md-10">
-								<select class="form-control" name="lessons_id" id="lessons_id">
+								<select class="form-control" name="lessons_id" id="lessons_id" readonly>
 									<option value="0">--Select Lessons--</option>
 									@foreach($lessons as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['lesson_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -79,7 +79,7 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
-								<select class="form-control" name="question_type" id="question_type">
+								<select class="form-control" name="question_type" id="question_type" readonly>
 									<option value="0">--Select Question Type--</option>
  									@foreach($qtypes as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['question_type_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -122,11 +122,21 @@
 						<p class="mb18 mr0">
 			            	<label class="mr20 mt8 w200"></label>
 			            </p>
-			            <p class="w815 fltL">
+			            <div id="answer_append">
+			            <p class="w815 fltL answer_add">
+
 			            <?php if(!$value){?>
+			      
 			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary mb10 mr5 mt10 fltR create_answer">Add New Answer</a>
+			     			@if($question_type == "Fill in the blank")
+			                <script>
+			                $('.create_answer').hide();
+			                </script>
+			                @endif
+
 			            <?php }?>
 			            </p>
+			            </div>
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">
 							@if (isset($answersLisitng) && !empty($answersLisitng))
@@ -150,6 +160,56 @@
 	</div>
 </div>
 <script>
+$('#question_type').change(function () {
+		var tr;
+		var question_type=$('#question_type').val(); 
+		var question_type_text=$('#question_type').find('option:selected').text(); 
+   		if(question_type_text=="Essay"){
+			// $(".answer_add").remove(); 
+			  $(".create_answer").hide(); 
+			  $(".answers").children().each(function(){
+			  	$(this).remove();
+			  });
+ 		}
+ 		else if(question_type_text=="Fill in the blank"){
+			$(".create_answer").hide(); 
+			  $(".answers").children().each(function(){
+			  	$(this).remove();
+			  });
+			 // var answer=document.createElement('textarea');
+			 // answer.className("")
+			  var temp="<div class='answer_container mb40'>" +
+                    "<div class='mb18 mr10 mt20 pos_rel'>" +
+                    "<div class='col-md-2'><label class='mr20 mt8 w200 question_answer_count control-label'>Answer<i>*</i></label>" +
+                    "<input type='hidden' name='answerIds[]' class='hanswerId' value=''>" +
+                    "<input type='hidden' name='is_correct[]' id='is_correct[]' value='true'/>" +
+                    // "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
+                    "</div><div class='col-md-10'><p style='w93 fltL'>" +
+                    "<textarea name='answer_textarea[]' id='answer_textarea' class='required w722 hgt125 create_inpt alphanumeric' data-type='tinymce' data-name='Answer Text' data-read_only='false'></textarea>" +
+                    "<div class='clr'></div>" +
+                    "</p></div>" +
+                    "<div class='clr'></div>" +
+                    "</div>"+
+                    "<div class='mb18 mr10 mt20'><div class='col-md-2'>" +
+                    "<label class='mr20 mt8 w200'>Explanation</label></div>" +
+                    "<div class='col-md-10'><div class='w742 fltL'>" +
+                    "<textarea name='explanation[]' class='textarea textarea_explanation w722 hgt125 create_inpt alphanumeric' maxlength='1500'></textarea>" +
+                    "<div class='clr'></div></div>" +
+                 //   "<p class='exp_links Lht30 mt15 mr0 fltR'><i class='del icons mr10 delBtn' id='del_" + randomId + "'></i> Delete</p>" +
+                  //  "<p class='exp_links mt20 mr30 fltR'><i class='" + moveDir + " icons mr20 upDownBtn'></i> Move " + (moveDir[0].toUpperCase() + moveDir.slice(1)) + "</p>" +                    "<div class='clr'></div>" +
+                    "</div></div>" ;
+						temp.toString();
+                     $(temp).appendTo('.answers');
+                     $('#ans_flg').val(1);
+			//  $('.answers').append(answer);
+ 		}
+		else{
+			 $(".create_answer").show(); 
+			 $(".answers").children().each(function(){
+			  	$(this).remove();
+			  });
+ 		}
+});
 	var elfinderRoute = '{{route('elfinder.tinymce4')}}';
 	var fileBrowser = '{{route('launchFileBrowser',['question_attachments'])}}';
 	var js = document.createElement("script");
