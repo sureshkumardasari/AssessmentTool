@@ -42,7 +42,7 @@
 				                <td>{{$ass_qst['qst_text']}}</td>
 				            </tr> 	
 				            {{--*/ $i = 0 /*--}}
-							@if($ass_qst['question_type']!="Essay")
+							@if($ass_qst['question_type']!=("Essay" ||"Fill in the blank"))
 								@foreach($ass_qst['answers'] as $idx => $a )
 									{{--*/
 									$ans_label = 'default';
@@ -73,7 +73,7 @@
 									        <div class="modal-body">
 									          <p>Q. {{$ass_qst['qst_text']}}</p>
 									          	{{--*/ $i = 0 /*--}}
-												@if($ass_qst['question_type']!="Essay")
+												@if($ass_qst['question_type']!=("Essay" ||"Fill in the blank"))
 													@foreach($ass_qst['answers'] as $idx => $a )
 													<div>
 														@if(($ass_qst['question_type'])=="Multiple Choice - Single Answer")
@@ -94,12 +94,16 @@
 													</div>
 													{{--*/ $i++ /*--}}
 													@endforeach
+												@elseif($ass_qst['question_type']=="Fill in the blank" )
+													<div>
+														<textarea id="fib{{$ass_qst['Id']}}"></textarea>
+														<input type="number" name="fib_score" id="fib_score{{$ass_qst["Id"]}}" max={{$ass_qst['essayanswerpoint']}}>/{{$ass_qst['essayanswerpoint']}}
+													</div>
 												@else
 													<div>
 														<textarea id="essay{{$ass_qst['Id']}}"></textarea>
 														<input type="number" name="essay_score" id="essay_score{{$ass_qst["Id"]}}" max={{$ass_qst['essayanswerpoint']}}>/{{$ass_qst['essayanswerpoint']}}
 													</div>
-
 												@endif
 
 									            <div>
@@ -270,6 +274,9 @@
 			else if(question_type=="Essay"){
 				var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_answer_text,'selected_answer_score':selected_answer_score,"user_id":user_id ,"nextuserid":nextuserid};
 			}
+			else if(question_type=="Fill in the blank"){
+				var data={"assessment_id":'{{$assessment_id}}',"assignment_id":"{{$assignment_id}}","question_type":question_type,"selected_answer_text":selected_answer_text,'selected_answer_score':selected_answer_score,"user_id":user_id ,"nextuserid":nextuserid};
+			}
 			var user_id=$('#status').val();
 			
 			var csrf=$('Input#csrf_token').val();
@@ -351,6 +358,15 @@
 							status=1;
 							$('#essay'+question_id).val(text);
 							$('#essay_score'+question_id).val(score);
+							selected_answer_text=text;
+							selected_answer_score=score;
+						});
+					}
+					else if(question_type == "Fill in the blank"){
+						$.each(response,function(score,text){
+							status=1;
+							$('#fib'+question_id).val(text);
+							$('#fib_score'+question_id).val(score);
 							selected_answer_text=text;
 							selected_answer_score=score;
 						});
