@@ -118,6 +118,8 @@ class QuestionController extends BaseController {
 	public function questionadd()
 	{
 		//dd(Input::all());
+		//dd(\Session::get('question_type'));
+		$question_type="";
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
@@ -139,16 +141,23 @@ class QuestionController extends BaseController {
 		if((\Session::get('is_correct'))){
 			$is_correct=\Session::get('is_correct');
 		}
-		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation'));
+		if((\Session::get('question_type'))){
+			//dd();
+			$type_id = \Session::get('question_type');
+			$question_type=QuestionType::find($type_id)->qst_type_text;
+			
+		}
+		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation','question_type'));
 		//dd($answersListing);
 
 		$questions = Question::get()->toArray();
-		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions'));
+		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type'));
 	}
 
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
+		//dd($post);
 		// dd($post['question_type']);
 		$messages=[
 				// 'answerIds.required'=>'The Answer field is required',
@@ -198,20 +207,20 @@ class QuestionController extends BaseController {
 					if($tmp_cnt>=2){
 
 					}else{
-						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
+						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation'])->with('question_type',$post['question_type']);
 					}
 				}else{
-					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
+					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation'])->with('question_type',$post['question_type']);
 				}
 			}
 			if ($post['question_type']==1 && count($post['answerIds']) < 2)
 			{
-				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
+				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation'])->with('question_type',$post['question_type']);
 			}
 
 			foreach ($post['answer_textarea'] as $key => $value) {
 				if(trim($value)==''){
-					return Redirect::back()->withInput()->withErrors('The Answers text is required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
+					return Redirect::back()->withInput()->withErrors('The Answers text is required')->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation'])->with('question_type',$post['question_type']);
 				}
 			}
 		}
@@ -229,7 +238,7 @@ class QuestionController extends BaseController {
 			if($post['question_type']==3){
 				return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea']);
 			}else{
-			return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation']);
+			return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea'])->with('answerIds',$post['answerIds'])->with('is_correct',$post['is_correct'])->with('explanation',$post['explanation'])->with('question_type',$post['question_type']);
 			}
 		} else
 		{
@@ -275,7 +284,7 @@ class QuestionController extends BaseController {
 				if(array_key_exists("true", $counts)){
 					$tmp_cnt =  $counts['true'];
 				}else{
-					return Redirect::back()->withInput()->withErrors('Atleast one correct answer is required');
+					return Redirect::back()->withInput()->withErrors('Atleast one correct answer is required')->with('question_type',$post['question_type']);
 				}
 			}
 			if($post['question_type']==1){
@@ -285,20 +294,20 @@ class QuestionController extends BaseController {
 					if($tmp_cnt>=2){
 
 					}else{
-						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
+						return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('question_type',$post['question_type']);
 					}
 				}else{
-					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required');
+					return Redirect::back()->withInput()->withErrors('Atleast two correct answers are required')->with('question_type',$post['question_type']);
 				}
 			}
 			if ($post['question_type']==1 && count($post['answerIds']) < 2)
 			{
-				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required');
+				return Redirect::back()->withInput()->withErrors('The Atleast Two Answers are required')->with('question_type',$post['question_type']);
 			}
 
 			foreach ($post['answer_textarea'] as $key => $value) {
 				if(trim($value)==''){
-					return Redirect::back()->withInput()->withErrors('The Answers text is required');
+					return Redirect::back()->withInput()->withErrors('The Answers text is required')->with('question_type',$post['question_type']);
 				}
 			}
 		}
@@ -306,12 +315,12 @@ class QuestionController extends BaseController {
 		$validator=Validator::make($post,$rules,$messages); 
 		if ($post['question_type']==1 && count($post['answerIds']) < 2)
 		{
-			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required');
+			return Redirect::back()->withInput()->withErrors('The Atleast Two Answers is required')->with('question_type',$post['question_type']);
 		}
 		if ($validator->fails())
 		{	
 			if($post['question_type']==3){
-				return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea']);
+				return Redirect::back()->withInput()->withErrors($validator)->with('answer_textarea',$post['answer_textarea'])->with('question_type',$post['question_type']);
 			}else{
 			return Redirect::back()->withInput()->withErrors($validator);
 			}
@@ -418,11 +427,19 @@ class QuestionController extends BaseController {
 				->where('question_answers.question_id',$id)
 				->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
 				->get()->toArray();
-
-		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers'));
+				//dd($oldAnswers);
+//$question_type=Question::join('question_type','question.question_type_id','=','question_type')
+				$question_type_id=Question::find($id)->question_type_id;
+				$question_type=QuestionType::find($question_type_id)->qst_type_text;
+				if((\Session::get('question_type'))){
+					$type_id = \Session::get('question_type');
+					$question_type=QuestionType::find($type_id)->qst_type_text;
+				}
+				//dd($question_type);
+		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers','question_type'));
 		//dd($answersLisitng);
 
-		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng'));
+		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
 
 
 //

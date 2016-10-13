@@ -118,9 +118,16 @@
 			            <div id="answer_append">
 						    <p class="w815 fltL answer_add">
  						            <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
- 						    </p>	
+ 						    </p>
+
 			            </div>
 			            <input type="hidden" name="ans_flg" id="ans_flg" value="0">
+			             @if($question_type == "Fill in the blank")
+				                <script>
+				                $('#ans_flg').val(1);
+				                $('.create_answer').hide();
+				                </script>
+			                @endif	
 						<div class="clr"></div>
 						<div class="answers mt20 col-md-12">
 							@if (isset($answersListing) && !empty($answersListing))
@@ -149,16 +156,65 @@ $('#question_type').change(function () {
 		var question_type=$('#question_type').val(); 
 		var question_type_text=$('#question_type').find('option:selected').text(); 
    		if(question_type_text=="Essay"){
-			 $(".answer_add").remove(); 
+			// $(".answer_add").remove(); 
+			  $(".create_answer").hide(); 
+			  $(".answers").children().each(function(){
+			  	$(this).remove();
+			  });
+ 		}
+ 		else if(question_type_text=="Fill in the blank"){
+			$(".create_answer").hide(); 
+			  $(".answers").children().each(function(){
+			  	$(this).remove();
+			  });
+			 // var answer=document.createElement('textarea');
+			 // answer.className("")
+			  var temp="<div class='answer_container mb40'>" +
+                    "<div class='mb18 mr10 mt20 pos_rel'>" +
+                    "<div class='col-md-2'><label class='mr20 mt8 w200 question_answer_count control-label'>Answer<i>*</i></label>" +
+                    "<input type='hidden' name='answerIds[]' class='hanswerId' value=''>" +
+                    "<input type='hidden' name='is_correct[]' id='is_correct[]' value='true'/>" +
+                    // "<i class='switch_off icons L0 correct' data-answer_selection=''></i>" + 
+                    "</div><div class='col-md-10'><p style='w93 fltL'>" +
+                    "<textarea name='answer_textarea[]' id='answer_textarea' class='required w722 hgt125 create_inpt alphanumeric' data-type='tinymce' data-name='Answer Text' data-read_only='false'></textarea>" +
+                    "<div class='clr'></div>" +
+                    "</p></div>" +
+                    "<div class='clr'></div>" +
+                    "</div>"+
+                    "<div class='mb18 mr10 mt20'><div class='col-md-2'>" +
+                    "<label class='mr20 mt8 w200'>Explanation</label></div>" +
+                    "<div class='col-md-10'><div class='w742 fltL'>" +
+                    "<textarea name='explanation[]' class='textarea textarea_explanation w722 hgt125 create_inpt alphanumeric' maxlength='1500'></textarea>" +
+                    "<div class='clr'></div></div>" +
+                 //   "<p class='exp_links Lht30 mt15 mr0 fltR'><i class='del icons mr10 delBtn' id='del_" + randomId + "'></i> Delete</p>" +
+                  //  "<p class='exp_links mt20 mr30 fltR'><i class='" + moveDir + " icons mr20 upDownBtn'></i> Move " + (moveDir[0].toUpperCase() + moveDir.slice(1)) + "</p>" +                    "<div class='clr'></div>" +
+                    "</div></div>" ;
+						temp.toString();
+                     $(temp).appendTo('.answers');
+                     $('#ans_flg').val(1);
+			//  $('.answers').append(answer);
  		}
 		else{
-			var c=$("#answer_append").is("create_answer");
-   			if($('#answer_append .answer_add').length > 0){
-  			}else{
-  			$('#answer_append').append("<p class='w815 fltL answer_add'>")
-			$('#answer_append').append("<a href='javascript:void(0)' class='upload_btn clr btn btn-primary col-md-offset-10 create_answer'>Add New Answer</a>"); 
-			$('#answer_append').append("</p>");
- 			}
+			 $(".create_answer").show(); 
+			 $(".answers").children().each(function(){
+			  	$(this).remove();
+			  });
+			//var c=$("#answer_append").is("create_answer");
+//    			if($('#answer_append .answer_add').length > 0){
+//   			}else{
+//   				var p=document.createElement("p");
+//   				p.className='w815 fltL answer_add';
+//   				var a=document.createElement("a");
+//   				a.setAttribute('href','javascript:void(0)');
+//   				var txt = document.createTextNode("Add New Answer");
+//   				a.appendC(txt);
+//   				a.className="upload_btn clr btn btn-primary col-md-offset-10 create_answer";
+//   				p.appendChild(a);
+//   				$('#answer_append').append(p);
+// //  			$('#answer_append').append("<p class='w815 fltL answer_add'><a href='javascript:void(0)' class='upload_btn clr btn btn-primary col-md-offset-10 create_answer'>Add New Answer</a></p>");
+// //			$('#answer_append').append("<a href='javascript:void(0)' class='upload_btn clr btn btn-primary col-md-offset-10 create_answer'>Add New Answer</a>"); 
+// //			$('#answer_append').append("</p>");
+//  			}
  		}
 });
 	var elfinderRoute = '{{route('elfinder.tinymce4')}}';
