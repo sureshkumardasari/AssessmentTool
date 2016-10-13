@@ -121,7 +121,7 @@
             @endforeach        
         </ul>
         
-    @elseif(($question['question_type'] == "Free Form") || ($question['question_type'] == "Essay") || ($question['question_type'] == "Fill in The Blanks "))
+    @elseif(($question['question_type'] == "Free Form") || ($question['question_type'] == "Essay") || ($question['question_type'] == "Fill in the blank"))
         <ul class="ans-sheet">
             <li>{{ str_pad(++$index, 2, '0', STR_PAD_LEFT) }}</li>
             <li>

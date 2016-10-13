@@ -195,7 +195,7 @@ class GradingController extends BaseController {
 	{
 		$post = Input::all();
 		//dd($post);
-		if ($post['question_type'] != "Essay") {
+		if ($post['question_type'] != ("Essay" || "Fill in the blank")) {
 			if (isset($post['selected_answer'])) {
 				$grade = new Grade();
 				//dd($post);
@@ -609,7 +609,7 @@ class GradingController extends BaseController {
 		$question=[];
 		foreach($question_type as $id=>$type){
 			$q=QuestionUserAnswer::join('questions','question_user_answer.question_id','=',DB::raw('questions.id && questions.question_type_id ='.$id.' && question_user_answer.user_id ='.(int)$user_id.' && question_user_answer.assignment_id = '.(int)$assignment_id.' && question_user_answer.assessment_id='.$assessment_id));
-				if($type=="Essay"){
+				if($type=="Essay"||"Fill in the blank"){
 					$q->select('question_answer_text','question_id','points');
 				}
 			else{
@@ -646,7 +646,7 @@ class GradingController extends BaseController {
 					}
 				//}
 
-				if($key=="Essay"){
+				if($key=="Essay" ||"Fill in the blank"){
 					//$b['student_answers'][$key][$a['question_id']]=$a['question_answer_text'];
 					$b['student_answers'][$key][$a['question_id']]['text']=$a['question_answer_text'];
 					$b['student_answers'][$key][$a['question_id']]['score']=$a['points'];
@@ -665,6 +665,8 @@ class GradingController extends BaseController {
 
 	public function submit_essay_score($assessment_id,$assignment_id,$user_id=0){
 		$post=Input::all();
+       // dd($post);
+		//dd($assessment_id);
 		//dd($assessment_id);
 		//dd($assignment_id);
 		//dd($user_id);
@@ -685,6 +687,41 @@ class GradingController extends BaseController {
 				$qua->question_id=$key;
 				//$qua->question_answer_text=$essay_answer;
 				$qua->points=$essay_answer;
+				$qua->save();
+			}
+
+		}
+
+		//dd($post);
+		//dd($assessment_id);
+		return "over";
+
+	}
+
+	public function submit_fib_score($assessment_id,$assignment_id,$user_id=0){
+		$post=Input::all();
+		//dd($post);
+		//dd($assessment_id);
+		//dd($assignment_id);
+		//dd($user_id);
+		//dd($post);
+		$questions_list=QuestionUserAnswer::where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('user_id',(int)$user_id)->lists('question_id');
+		//dd($questions_list);
+		$qua=new QuestionUserAnswer();
+		foreach($post['fib_answer_scores'] as $key=>$fib_answer){
+			//dd($key);
+			if(in_array($key,$questions_list)){
+				$answer=$qua->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
+						->update(['points'=>$fib_answer/*,'question_answer_text'=>$essay_answer*/]);
+			//dd($answer);
+            }
+			else{
+				$qua->assessment_id=$assessment_id;
+				$qua->assignment_id=$assignment_id;
+				$qua->user_id=$user_id;
+				$qua->question_id=$key;
+				//$qua->question_answer_text=$essay_answer;
+				$qua->points=$fib_answer;
 				$qua->save();
 			}
 

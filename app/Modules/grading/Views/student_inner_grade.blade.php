@@ -9,7 +9,10 @@
         var Question_selected_single_answers={};// grader selected answers of the single answer type question.
         var Question_actual_answer={};// actual answer of the question
         var Essay_question_ids=[];//list of essay question ids
-
+        var fib_answers={};
+        var fib_scores={};
+        var fib_answer_scores={};
+        var fib_question_ids=[];
         //---
         // var Question_actual_answer={};
         var Question_ids=[];// list of question ids of assignment assessment
@@ -30,6 +33,15 @@
                     Essay_question_ids.push({{$id}});
                 </script>
             @endforeach
+        @elseif($key=="Fill in the blank")
+
+                @foreach($answer as $id=>$value)
+                    <script>
+                        fib_answers["{{$id}}"]="{{$value['text']}}";
+                        fib_answer_scores["{{$id}}"]="{{$value['score']}}";
+                        fib_question_ids.push({{$id}});
+                    </script>
+                @endforeach
         @elseif($key=="Multiple Choice - Multi Answer")
             @foreach($answer as $id=>$value)
                 <script>Question_selected_multi_answers["{{$id}}"]=[];</script>
@@ -168,6 +180,62 @@
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
                                 </div>
+                            @elseif($question =="Fill in the blank")
+                                        <div id="question_type{{$key}}">
+                                            <table>
+                                                @foreach($qst[$key] as $quest)
+                                                    <tr>
+                                                        {{--//for displaying that the question is graded or not?--}}
+                                                        <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span></td>
+                                                        <td>Q.{{$quest['Title']}}</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{$quest['ans_text']}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="modal fade" id="myModal{{$j}}" role="dialog">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            <h4 class="modal-title">{{$quest['Title']}} </h4>
+                                                                        </div>
+                                                                        <div class="modal-body" id="{{$j}}">
+                                                                            <p>Q. {{$quest['ans_text']}}</p>
+                                                                            <div id={{$quest['Id']}}>
+                                                                                Response.<p id='fib{{$quest["Id"]}}'></p>
+                                                                            </div>
+                                                                            <div></div>
+                                                                        </div>
+
+                                                                        <input type="number" name="fib_score" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}}>/{{$quest['essayanswerpoint']}}
+
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_fib_answer({{$quest['Id']}})">OK</button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <div class="col-md-offset-4">
+                                                <button type="button" class="btn btn-primary" onclick="save_student_fib_answers()">save</button>
+                                                <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+                                                <button type="button" class="btn btn-primary grade">Grade</button>
+                                            </div>
+                                        </div>
+
                             @elseif( $question=="Multiple Choice - Multi Answer")
                                 <div id="question_type{{$key}}">
 
@@ -480,6 +548,21 @@
             $('#incomplete_status'+id).hide();
             $('#complete_status'+id).show();
         }
+
+        function change_fib_answer(id){
+            //alert(id);
+            var t=$('#fib'+id);
+            // var essay_answer= t.val() || t.html() || t.text();
+            // alert(essay_answer);
+            //  alert($('#essay'+id).text());
+            //  Essay_answers[id]=essay_answer;
+            fib_answer_scores[id]=$('#fib_score'+id).val();
+            // alert(JSON.stringify(Essay_answers));
+            // alert(JSON.stringify(fib_answer_scores));
+            $('#incomplete_status'+id).hide();
+            $('#complete_status'+id).show();
+        }
+
         function save_student_essay_answers(){
 
             // alert(JSON.stringify(Essay_answers));
@@ -506,6 +589,34 @@
                 alert("please grade atlesat one Question");
             }
         }
+
+        function save_student_fib_answers(){
+
+            // alert(JSON.stringify(Essay_answers));
+            // alert(Object.keys(Essay_answers).length);
+            var student_id=$('#student').val();
+            if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(fib_answer_scores).length!=0){
+
+                var csrf=$('Input#csrf_token').val();
+                $.ajax({
+                    headers: {"X-CSRF-Token": csrf},
+                    url:"fib_grading_submit/{{$assessment_id}}/{{$assignment_id}}/"+student_id,
+                    type:"post",
+                    data:{
+                        //'essay_answers':Essay_answers,
+                        'fib_answer_scores':fib_answer_scores
+                    },
+                    success:function(response){
+                        //alert(response);
+                    }
+                });
+
+            }
+            else{
+                alert("please grade atleast one Question");
+            }
+        }
+
         function save_student_single_answers(){
             var user_id=$('#student').val();
             var next_student=2;
@@ -569,6 +680,7 @@
             user_multi_answers();
             user_single_answers();
             user_essay_answers();
+            user_fib_answers();
         });
 
         function user_answers(){
@@ -576,6 +688,7 @@
             user_multi_answers();
             user_single_answers();
             user_essay_answers();
+            user_fib_answers();
 
         }
         function user_multi_answers(){
@@ -636,6 +749,20 @@
                 $('#essay_score'+id).val(Essay_answer_scores[id]);
             });
         }
+
+        function  user_fib_answers(){
+            // alert(JSON.stringify(Essay_answers));
+            $.each(fib_question_ids,function(id,val){
+                $('#fib'+val).html('');
+            });
+            $.each(Essay_answers, function(id,val){
+                $('#incomplete_status'+id).hide();
+                $('#complete_status'+id).show();
+                $('#fib'+id).html(val);
+                $('#fib_score'+id).val(fib_answer_scores[id]);
+            });
+        }
+
         $('#student').on('change',function(){
             //alert($('#student').val());
 
@@ -652,6 +779,8 @@
                     Question_selected_single_answers={};
                     Essay_answers={};
                     Essay_answer_scores={};
+                    fib_answers={};
+                    fib_answer_scores={};
                     var student_details=response['student_details'];
                     var student_answers=response['student_answers'];
                     $.each(student_answers,function(i,val){
@@ -663,6 +792,16 @@
                             });
 
                         }
+
+                        else if(i=="Fill in the blank"){
+                            $.each(val,function(q_id,answers){
+                                fib_answers[q_id]=answers['text'];
+                                fib_answer_scores[q_id]=answers['score'];
+
+                            });
+
+                        }
+
                         else if(i=="Multiple Choice - Multi Answer"){
                             $.each(val,function(q_id,answers){
                                 Question_selected_multi_answers[q_id]=[];
