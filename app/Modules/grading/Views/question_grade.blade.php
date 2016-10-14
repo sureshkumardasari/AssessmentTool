@@ -316,6 +316,7 @@
 				url:'next_student_answers_for_grade_by_question/'+user_id+'/'+question_type+','+assessment_id+','+assignment_id+','+'{{$qst_id}}',
 				type:'get',
 				success:function(response){
+					//alert(response);
 					$('.answer_selection_part').prop( "checked", false );
 					$('.multiple_answer').prop("checked",false);
 					$.each(ans_label , function(i, val) {
@@ -431,6 +432,11 @@
 				//alert(selected_answer_text);
 				//alert(selected_answer_score);
 			}
+            else if(question_type=="Fill in the blank"){
+                var t=$('#fib'+question_id);
+                selected_answer_text= t.val() || t.html() || t.text();
+                selected_answer_score=$('#fib_score'+question_id).val();
+            }
 		});
 	</script>
 @endsection
