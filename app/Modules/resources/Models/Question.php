@@ -318,7 +318,7 @@ class Question extends Model {
 		$obj->difficulty_id ='';
  		if($obj->save()){
 
-			if($params['question_type']==3 || 4){
+			if($params['question_type']==3){
 				$params['explanation']=[];
 				$params['is_correct']=[];
 				$params['answer_textarea']=[];
