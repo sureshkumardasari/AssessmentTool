@@ -312,7 +312,7 @@ class Question extends Model {
 		$obj->subject_id = $params['subject_id'];
 		$obj->category_id = $params['category_id'];
 		$obj->lesson_id = $params['lessons_id'];
-		$obj->passage_id = $params['passage'];
+		$obj->passage_id = isset($params['passage'])?$params['passage']:0;
 		$obj->institute_id = $params['institution_id'];
  		$obj->status =  $params['status'];
 		$obj->difficulty_id ='';
