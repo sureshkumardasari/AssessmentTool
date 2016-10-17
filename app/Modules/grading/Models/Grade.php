@@ -431,7 +431,7 @@ class Grade extends Model {
             if($questionType == "Essay"){
                 $totalPoints= $totalPoints+$question['essayanswerpoint'];
             }
-            if($questionType=="Multiple Choice - Multi Answer"||$questionType=="Multiple Choice - Single Answer" || $questionType=="Selection"){
+            if($questionType=="Multiple Choice - Multi Answer"||$questionType=="Multiple Choice - Single Answer" || $questionType=="Selection" || $questionType == "Fill in the blank"){
                 $totalPoints= $totalPoints+$question['mcsingleanswerpoint'];
             }            
         }
