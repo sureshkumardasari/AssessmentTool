@@ -121,11 +121,18 @@
             @endforeach        
         </ul>
         
-    @elseif(($question['question_type'] == "Free Form") || ($question['question_type'] == "Essay") || ($question['question_type'] == "Fill in the blank"))
+    @elseif(($question['question_type'] == "Free Form") || ($question['question_type'] == "Essay") )
         <ul class="ans-sheet">
             <li>{{ str_pad(++$index, 2, '0', STR_PAD_LEFT) }}</li>
             <li>
                 <a href="{{ route('essay-popuop', array('subSecQuestionId' => $question['Id'], 'questionId' => $question['Id'])) }}?retake={{ $retaking }}" class="load_more_btn mL0 mt0 mr0 w104 txt-c ff_essay fancybox fancybox.ajax" data-value="_{{ $question['Id'] }}" id="ff_essay_{{ $question['Id'] }}" data-essay="{{ isset($question[$ansTable][0]['QuestionAnswerText']) ? 'good-to-go' : '' }}">Respond</a>
+            </li>
+        </ul>
+        @elseif(($question['question_type'] == "Fill in the blank"))
+         <ul class="ans-sheet">
+            <li>{{ str_pad(++$index, 2, '0', STR_PAD_LEFT) }}</li>
+            <li>
+                <a href="{{ route('fib-popuop', array('subSecQuestionId' => $question['Id'], 'questionId' => $question['Id'])) }}?retake={{ $retaking }}" class="load_more_btn mL0 mt0 mr0 w104 txt-c ff_essay fancybox fancybox.ajax" data-value="_{{ $question['Id'] }}" id="ff_essay_{{ $question['Id'] }}" data-essay="{{ isset($question[$ansTable][0]['QuestionAnswerText']) ? 'good-to-go' : '' }}">Respond</a>
             </li>
         </ul>
         @endif
