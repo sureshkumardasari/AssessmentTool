@@ -284,7 +284,7 @@ class Grade extends Model {
                         ->leftjoin("question_answers as qa", 'qa.question_id', '=', 'q.id')
                        // ->leftjoin('question_user_answers as qua','q.id','=','qua.question_id')
                         ->where("aq.assessment_id","=", $assessment_id)
-                        ->select("q.id","q.title","qt.id as qtype_id","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->select("q.id","q.title","q.qst_text","qt.id as qtype_id","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
                         ->orderby('qt.id','ASC')
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
@@ -295,6 +295,7 @@ class Grade extends Model {
             $questions[$row->id]['Id'] = $row->id;
             $questions[$row->id]['qtype_id'] = $row->qtype_id;
             $questions[$row->id]['Title'] = $row->title;
+            $questions[$row->id]['qst_text'] = $row->qst_text;
             $questions[$row->id]['ans_text'] = $row->ans_text;
             $questions[$row->id]['question_type'] = $row->question_type;
             $questions[$row->id]['guessing_panality'] = $row->guessing_panality;

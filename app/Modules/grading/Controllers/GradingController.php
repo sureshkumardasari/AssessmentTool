@@ -179,6 +179,7 @@ class GradingController extends BaseController {
 //					->get();
 //		}
 		$first_student_answers = $this->studentAnswers($assessment_id,$assignment_id,$id);
+		//dd($first_student_answers);
 		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','id','first_student_answers','question_type','institution_name','details'));
 	}
 
@@ -615,7 +616,7 @@ class GradingController extends BaseController {
 		$question=[];
 		foreach($question_type as $id=>$type){
 			$q=QuestionUserAnswer::join('questions','question_user_answer.question_id','=',DB::raw('questions.id && questions.question_type_id ='.$id.' && question_user_answer.user_id ='.(int)$user_id.' && question_user_answer.assignment_id = '.(int)$assignment_id.' && question_user_answer.assessment_id='.$assessment_id));
-				if($type=="Essay"||"Fill in the blank"){
+				if($type=="Essay"|| $type=="Fill in the blank"){
 					$q->select('question_answer_text','question_id','points');
 				}
 			else{
@@ -652,7 +653,7 @@ class GradingController extends BaseController {
 					}
 				//}
 
-				if($key=="Essay" ||"Fill in the blank"){
+				if($key=="Essay" || $key == "Fill in the blank"){
 					//$b['student_answers'][$key][$a['question_id']]=$a['question_answer_text'];
 					$b['student_answers'][$key][$a['question_id']]['text']=$a['question_answer_text'];
 					$b['student_answers'][$key][$a['question_id']]['score']=$a['points'];
