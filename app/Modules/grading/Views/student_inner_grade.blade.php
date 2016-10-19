@@ -128,19 +128,27 @@
                         @foreach($qst_select as $key=>$question)
                             @if($question =="Essay")
                                 <div id="question_type{{$key}}">
-                                    <table>
+                                <div>
+                                    
                                         @foreach($qst[$key] as $quest)
-                                            <tr>
+                                        <div class="form-group">
+                                            
                                                 {{--//for displaying that the question is graded or not?--}}
-                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span></td>
-                                                <td>Q.{{$quest['Title']}}</td>
+                                                <span class="glyphicon glyphicon-ok completed essay_complete_status" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted essay_incomplete_status" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>
+                                                Q.{{$quest['Title']}}
+                                                
 
-                                            </tr>
-                                            <tr>
-                                                <td>{{$quest['ans_text']}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
+                                            
+                                        </div>
+                                        <div class="form-group">
+                                            
+                                            <div>{{$quest['ans_text']}}</div>
+                                        
+                                        </div>
+                                        <div class="form-group">
+                                           
+
+                                                
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
@@ -149,35 +157,57 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{$quest['ans_text']}}</p>
-                                                                    <div id={{$quest['Id']}}>
-                                                                        Response.<p id='essay{{$quest["Id"]}}'></p>
+                                                                    <div>
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-md-2">Q.</label>
+                                                                        <p> {{$quest['qst_text']}}</p>
+                                                                        <div id={{$quest['Id']}}>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                        <label class="control-label col-md-2">Response.</label><p id='essay{{$quest["Id"]}}' style="color:red">No Response</p>
+                                                                            
+                                                                        </div>
+                                                                    </div>
                                                                     </div>
                                                                     <div></div>
-                                                                </div>
-                                                                <input type="number" name="essay_score" id="essay_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}}>/{{$quest['essayanswerpoint']}}
+                                                                
+                                                                    <div>
+                                                                        <div class="form-group">
+                                                                        <label class="control-label col-md-2">
+                                                                        Score:
+                                                                        </label>
 
+                                                                        <input type="number" class="essay_score_field" name="essay_score" id="essay_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} min=0>/{{$quest['essayanswerpoint']}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_essay_answer({{$quest['Id']}})">OK</button>
+                                                                </div>
                                                                 </div>
                                                             </div>
 
                                                         </div>
 
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
+                                                
+                                            
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
                                                     <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
-                                                </td>
-                                            </tr>
+                                            </div>
+                                        
+                                        </div>
                                         @endforeach
-                                    </table>
+                                    
+                                
                                     <div class="col-md-offset-4">
                                         <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">save</button>
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
+                                    </div>
                                     </div>
                                 </div>
                             @elseif($question =="Fill in the blank")
@@ -186,12 +216,12 @@
                                                 @foreach($qst[$key] as $quest)
                                                     <tr>
                                                         {{--//for displaying that the question is graded or not?--}}
-                                                        <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span></td>
-                                                        <td>Q.{{$quest['Title']}}</td>
+                                                        <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="fib_complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="fib_incomplete_status{{$quest['Id']}}"></span>Q.  {{$quest['Title']}}</td>
+                                                    
 
                                                     </tr>
                                                     <tr>
-                                                        <td>{{$quest['ans_text']}}</td>
+                                                        <td> A. {{$quest['ans_text']}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -203,17 +233,29 @@
                                                                             <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                         </div>
                                                                         <div class="modal-body" id="{{$j}}">
-                                                                            <p>Q. {{$quest['ans_text']}}</p>
-                                                                            <div id={{$quest['Id']}}>
-                                                                                Response.<p id='fib{{$quest["Id"]}}'></p>
+                                                                        
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-md-2"> Q. </label><p>{{$quest['qst_text']}}</p>
+                                                                        </div>
+                                                                        
+
+                                                                            <div id={{$quest['Id']}} class="form-group">
+                                                                                <label class="control-label col-md-2">Response.</label><p id='fib{{$quest["Id"]}}' style="color:red">No Response</p>
                                                                             </div>
                                                                             <div></div>
-                                                                        </div>
+                                                                             <div>
+                                                                        <div class="form-group">
+                                                                        <label class="control-label col-md-2">Score:</label>
 
-                                                                        <input type="number" name="fib_score" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}}>/{{$quest['essayanswerpoint']}}
+                                                                        <input type="number" name="fib_score" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} class="fib_score_field">/{{$quest['essayanswerpoint']}}
+                                                                        </div>
+                                                                         </div>
+                                                                        
+                                                                        </div>
 
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_fib_answer({{$quest['Id']}})">OK</button>
+                                                                        </div>
                                                                         </div>
                                                                     </div>
 
@@ -246,8 +288,8 @@
                                             </script>
                                             <tr>
                                                 {{--//for displaying that the question is graded or not?--}}
-                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span></td>
-                                                <td>Q.{{$quest['Title']}}</td>
+                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>Q.{{$quest['Title']}}</td>
+                                               
 
                                             </tr>
                                             <tr>
@@ -347,8 +389,8 @@
                                             </script>
                                             <tr>
                                                 {{--//for displaying that the question is graded or not?--}}
-                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span></td>
-                                                <td>Q.{{$quest['Title']}}</td>
+                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>Q.{{$quest['Title']}}</td>
+                                                
 
                                             </tr>
                                             <tr>
@@ -565,9 +607,9 @@
 
         function save_student_essay_answers(){
 
-            // alert(JSON.stringify(Essay_answers));
+           // alert(JSON.stringify(Essay_answer_scores));
             // alert(Object.keys(Essay_answers).length);
-           var student_id=$('#student').val();
+            var student_id=$('#student').val();
             if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(Essay_answer_scores).length!=0){
 
                 var csrf=$('Input#csrf_token').val();
@@ -677,6 +719,7 @@
             //alert(JSON.strinify(Essay_answers));
             $('.completed').hide();
             // alert(JSON.stringify(selected_student_answers));
+            $('#student').val({{$id}});
             user_multi_answers();
             user_single_answers();
             user_essay_answers();
@@ -738,29 +781,50 @@
             });
         }
         function  user_essay_answers(){
-            // alert(JSON.stringify(Essay_answers));
+           //  alert(JSON.stringify(Essay_answers));
+              //alert(JSON.stringify(Essay_question_ids));
+              //alert(JSON.stringify(Question_ids));
             $.each(Essay_question_ids,function(id,val){
-                $('#essay'+val).html('');
+                $('#essay'+val).html('No Response');
+                 $('#incomplete_status'+val).show();
+                $('#complete_status'+val).hide();
             });
             $.each(Essay_answers, function(id,val){
                 $('#incomplete_status'+id).hide();
                 $('#complete_status'+id).show();
-                $('#essay'+id).html(val);
+                //$('#essay'+id).html(''); 
+                if(val !=""){
+                $('#essay'+id).html(val);        
+                }
                 $('#essay_score'+id).val(Essay_answer_scores[id]);
             });
+            if(jQuery.isEmptyObject(Essay_answers)){
+                $('.essay_score_field').each(function(){
+                   
+                    $(this).val(0);
+                })
+            }
+            
         }
 
         function  user_fib_answers(){
             // alert(JSON.stringify(Essay_answers));
             $.each(fib_question_ids,function(id,val){
-                $('#fib'+val).html('');
+                $('#fib'+val).html('No Response');
+                $('#fib_incomplete_status'+val).show();
+                $('#fib_complete_status'+val).hide();
             });
-            $.each(Essay_answers, function(id,val){
-                $('#incomplete_status'+id).hide();
-                $('#complete_status'+id).show();
+            $.each(fib_answers, function(id,val){
+                $('#fib_incomplete_status'+id).hide();
+                $('#fib_complete_status'+id).show();
                 $('#fib'+id).html(val);
                 $('#fib_score'+id).val(fib_answer_scores[id]);
             });
+            if(jQuery.isEmptyObject(fib_answers)){
+                $('.fib_score_field').each(function(){
+                    $(this).val(0);
+                })
+            }
         }
 
         $('#student').on('change',function(){
@@ -773,7 +837,7 @@
                 url:assessment_id+"/"+assignment_id+"/"+user_id,
                 type:'get',
                 success:function(response){
-                    //alert(JSON.stringify(response));
+                   // alert(JSON.stringify(response));
                     selected_student_answers=[];
                     Question_selected_multi_answers={};
                     Question_selected_single_answers={};
@@ -785,11 +849,14 @@
                     var student_answers=response['student_answers'];
                     $.each(student_answers,function(i,val){
                         if(i=="Essay"){
+
                             $.each(val,function(q_id,answers){
+
                                 Essay_answers[q_id]=answers['text'];
                                 Essay_answer_scores[q_id]=answers['score'];
 
                             });
+                          //  alert(JSON.stringify(Essay_answers));
 
                         }
 
