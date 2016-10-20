@@ -27,38 +27,40 @@
 				</div>
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 				<div class="panel-body">
-					<table  width="100%">
-				       <tbody>
+					<div>
+				       
 				       		<?php
 				       		$ans_arr = ['A', 'B', 'C', 'D', 'E'];
 				       		?>
-				            <tr>
+				            <div class="form-group">
 								{{--//for displaying that the question is graded or not?--}}
-								<td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$ass_qst['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted"  style="color:red" id="incomplete_status{{$ass_qst['Id']}}"></span></td>
-				                <td><b>Q. {{$ass_qst['Title']}}</b></td>
-				            </tr>  
+								<div class="col-md-2"><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$ass_qst['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted"  style="color:red" id="incomplete_status{{$ass_qst['Id']}}"></span>
+				                <b><label style="color:green" class="control-label">Question Title:</label></b></div><div class="col-md-10"><p> <b>{{$ass_qst['Title']}}</b></p></div>
+				            </div>  
 
-				            <tr>				                
-				                <td>{{$ass_qst['qst_text']}}</td>
-				            </tr> 	
+				            <div class="form-group">				                
+				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				            </div> 
+				            <div></div>	
 				            {{--*/ $i = 0 /*--}}
-							@if($ass_qst['question_type']!=("Essay" ||"Fill in the blank"))
+							@if(!(($ass_qst['question_type']=="Essay" )||($ass_qst['question_type']=="Fill in the blank")))
 								@foreach($ass_qst['answers'] as $idx => $a )
 									{{--*/
 									$ans_label = 'default';
 									if($a['is_correct']=='YES')$ans_label = 'success' ;
 									/*--}}
-								<tr>
-									<td>
+								<div class="form-group">
+									
 									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
-									</td>
-								</tr>
+									
+								</div>
 								 {{--*/ $i++ /*--}}
 								@endforeach
 							@endif
-				            <tr>
-				                <td>	
+				            <div>
+				                	<div class="form-group col-md-offset-2">
 				                	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Edit</button>
+				                	</div>
 
 			                         <!-- Modal -->
 									  <div class="modal fade" id="myModal" role="dialog">
@@ -73,10 +75,10 @@
 									        <div class="modal-body">
 									          <p>Q. {{$ass_qst['qst_text']}}</p>
 									          	{{--*/ $i = 0 /*--}}
-												@if($ass_qst['question_type']!=("Essay" ||"Fill in the blank"))
-													@foreach($ass_qst['answers'] as $idx => $a )
+												@if(($ass_qst['question_type']!="Essay") && ($ass_qst['question_type']!="Fill in the blank"))
+													@foreach( $ass_qst['answers'] as $idx => $a )
 													<div>
-														@if(($ass_qst['question_type'])=="Multiple Choice - Single Answer")
+														@if(($ass_qst['question_type'])== "Multiple Choice - Single Answer")
 														<input type="radio" name="ans_val" id="ans_val" editattr="{{$a['Id']}}" class="answer_selection_part" value="{{$a['Id']}}">
 														@elseif(($ass_qst['question_type'])=="Multiple Choice - Multi Answer")
 														<input type="checkbox" name="ans_val[]" id="ans_val{{$a['Id']}}" editattr="{{$a['Id']}}" class="multiple_answer" value="{{$a['Id']}}">
@@ -96,12 +98,16 @@
 													@endforeach
 												@elseif($ass_qst['question_type']=="Fill in the blank" )
 													<div>
-														<textarea id="fib{{$ass_qst['Id']}}"></textarea>
+													<label>Response:</label>
+														<p id="fib{{$ass_qst['Id']}}"></p>
+														<label>Score:</label>
 														<input type="number" name="fib_score" id="fib_score{{$ass_qst["Id"]}}" max={{$ass_qst['essayanswerpoint']}}>/{{$ass_qst['essayanswerpoint']}}
 													</div>
 												@else
 													<div>
-														<textarea id="essay{{$ass_qst['Id']}}"></textarea>
+													<label>Response:</label>
+														<p id="essay{{$ass_qst['Id']}}"></p>
+														<label>Score:</label>
 														<input type="number" name="essay_score" id="essay_score{{$ass_qst["Id"]}}" max={{$ass_qst['essayanswerpoint']}}>/{{$ass_qst['essayanswerpoint']}}
 													</div>
 												@endif
@@ -121,10 +127,10 @@
 									    </div>
 									  </div>
 									  <!-- Modal end -->
-								</td>
-				            </tr>
-					   <tr>
-						   <td>
+								
+				            </div>
+					   <div>
+						   
 							   <br>
 							   <div class="form-group">
 								   <div>
@@ -138,11 +144,11 @@
 							   {{--<div class="col-md-1 col-md-offset-7">--}}
 							   {{--<button type="button" class="btn btn-info btn-sm">save & grade next student</button>--}}
 							   {{--</div>--}}
-						   </td>
-					   </tr>
+					
+					   </div>
 				            		            
-				        </tbody>
-				    </table>
+				        
+				    </div>
 				</div>
 
 			</div>
@@ -362,6 +368,9 @@
 							selected_answer_text=text;
 							selected_answer_score=score;
 						});
+						if(jQuery.isEmptyObject(response)){
+                			$('#essay_score'+question_id).val(0);
+            			}
 					}
 					else if(question_type == "Fill in the blank"){
 						$.each(response,function(score,text){
@@ -371,6 +380,9 @@
 							selected_answer_text=text;
 							selected_answer_score=score;
 						});
+						if(jQuery.isEmptyObject(response)){
+                			$('#fib_score'+question_id).val(0);
+            			}
 					}
 					if(status==1){
 						$('#incomplete_status'+question_id).hide();

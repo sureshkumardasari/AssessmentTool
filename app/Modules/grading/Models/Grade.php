@@ -51,7 +51,7 @@ class Grade extends Model {
            
 
         $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
-        
+        dd($AssignmentQstUsrAnws);
         $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
         if( !isset($params['essay_grade'])) {
 
@@ -311,6 +311,7 @@ class Grade extends Model {
     }
 
     public function calculateQuestionPoints( $params ){
+        //dd($params);
         $sQuAnws     = (isset($params['retake']) && $params['retake'] == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
         $userAnswers = $sQuAnws->getUserAssignmentAnswers( $params['user_id'], $params['assignment_id'] );
         $assignmentq =   $this->loadAssignmentQuestion( $params['assignment_id'], $params['assessment_id'] );
@@ -360,9 +361,10 @@ class Grade extends Model {
                     $questionAnwerPoint[$key]['points']      = $points;
                     $questionAnwerPoint[$key]['is_correct']  = swapValue($userAnswerStatus);
                 }      
-                elseif( $question['question_type'] == 'Essay' ){
+                elseif( ($question['question_type'] == 'Essay') || ($question['question_type'] == "Fill in the blank" )){
+                    $essay_points=QuestionUserAnswer::where('user_id',$params['user_id'])->where('assessment_id',$params['assessment_id'])->where('assignment_id',$params['assignment_id'])->first()->points;
                      $questionAnwerPoint[$key]['question_id'] = $question['Id'];
-                     $questionAnwerPoint[$key]['points']               = 0;
+                     $questionAnwerPoint[$key]['points']               = ($essay_points == null)? 0:$essay_points;
                      $questionAnwerPoint[$key]['is_correct']            = 'Open';
                      $questionAnwerPoint[$key]['essay'] =              "";
                 }
