@@ -51,7 +51,6 @@ class Grade extends Model {
            
 
         $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
-        dd($AssignmentQstUsrAnws);
         $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
         if( !isset($params['essay_grade'])) {
 

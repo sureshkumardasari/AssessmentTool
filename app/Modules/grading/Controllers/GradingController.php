@@ -180,7 +180,8 @@ class GradingController extends BaseController {
 //		}
 		$first_student_answers = $this->studentAnswers($assessment_id,$assignment_id,$id);
 		//dd($first_student_answers);
-		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','id','first_student_answers','question_type','institution_name','details'));
+		$student_id=$id;
+		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','student_id','first_student_answers','question_type','institution_name','details'));
 	}
 
 	public function studentGradingInner($assignment_id){

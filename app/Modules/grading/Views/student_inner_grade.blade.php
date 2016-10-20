@@ -719,7 +719,7 @@
             //alert(JSON.strinify(Essay_answers));
             $('.completed').hide();
             // alert(JSON.stringify(selected_student_answers));
-            $('#student').val({{$id}});
+            $('#student').val({{$student_id}});
             user_multi_answers();
             user_single_answers();
             user_essay_answers();
