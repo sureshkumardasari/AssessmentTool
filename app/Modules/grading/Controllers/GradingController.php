@@ -196,7 +196,7 @@ class GradingController extends BaseController {
 	{
 		$post = Input::all();
 		//dd($post);
-		if ($post['question_type'] != ("Essay" || "Fill in the blank")) {
+		if (($post['question_type'] != "Essay") && ($post['question_type'] != "Fill in the blank")) {
 			if (isset($post['selected_answer'])) {
 				$grade = new Grade();
 				//dd($post);
@@ -396,8 +396,10 @@ class GradingController extends BaseController {
 			}
 		}
 		else {
+
 			$grade=new Grade();
 			if ($post['user_id'] != 0) {
+
 				$users_already_answered = QuestionUserAnswer::where('assessment_id', $post['assessment_id'])->where('assignment_id', $post['assignment_id'])
 					->where('question_id', $question_id)->where('user_id', $post['user_id'])->get();
 				if (count($users_already_answered) == 0) {
@@ -407,16 +409,19 @@ class GradingController extends BaseController {
 					$uAnswer->assessment_id = $post['assessment_id'];
 					$uAnswer->assignment_id = $post['assignment_id'];
 					//$uAnswer->question_answer_id = $post['selected_answer'];
-					$uAnswer->question_answer_text = $post['selected_answer_text'];
+					//$uAnswer->question_answer_text = $post['selected_answer_text'];
 					$uAnswer->points = $post['selected_answer_score'];
 					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
 					$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
 
 					$uAnswer->save();
 				} else {
+					$correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+					$points=$post['selected_answer_score'];
+					//dd($post['selected_answer_score']);
 					QuestionUserAnswer::where('user_id', $post['user_id'])->where('question_id', $question_id)
 						->where('assessment_id', $post['assessment_id'])->where('assignment_id', $post['assignment_id'])
-						->update(['is_correct' => isset($post['is_correct']) ? $post['is_correct'] : 'Open', 'question_answer_text' => $post['selected_answer_text'],'points'=> $post['selected_answer_score']]);
+						->update(['is_correct' => $correct, 'points'=>$points ]);
 				}
 
 				//for updating the scores of the students after grading for only single user..
@@ -453,7 +458,7 @@ class GradingController extends BaseController {
 						$uAnswer->assessment_id = $post['assessment_id'];
 						$uAnswer->assignment_id = $post['assignment_id'];
 						//$uAnswer->question_answer_id = $post['selected_answer'];
-						$uAnswer->question_answer_text = $post['selected_answer_text'];
+						//$uAnswer->question_answer_text = $post['selected_answer_text'];
 						$uAnswer->points = $post['selected_answer_score'];
 						//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
 						$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
@@ -490,26 +495,28 @@ class GradingController extends BaseController {
 	public function nextStudentAnswersForQuestionGrade($user_id=0,$ids=0){
 
 		$ids=explode(',',$ids);
+		//dd($ids);
 		$question_type=$ids[0];
 		$assessment_id=(int)$ids[1];
 		$assignment_id=(int)$ids[2];
 		$question_id=(int)$ids[3];
 		//dd($question_type);
-		if($question_type!=("Essay"||"Fill in the blank")){
+		if(!(($question_type=="Essay") || ($question_type == "Fill in the blank"))){
 			//dd("not");
 			$next_user_answers = QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)
 				->where('user_id',(int)$user_id)->where('question_id',$question_id)->lists('question_answer_id');
 		}
-		else if($question_type==="Fill in the blank"){
+		else if($question_type == "Fill in the blank"){
 			//dd("jyguh");
 				$next_user_answers = QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)
 					->where('user_id',(int)$user_id)->where('question_id',$question_id)->lists('question_answer_text','points');
 		}
 		else {
-			//dd("jyguh");
+		//	dd("jyguhddd");
 			$next_user_answers = QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)
 					->where('user_id',(int)$user_id)->where('question_id',$question_id)->lists('question_answer_text','points');
 		}
+		//dd($next_user_answers);
 		return $next_user_answers;
 	}
 
