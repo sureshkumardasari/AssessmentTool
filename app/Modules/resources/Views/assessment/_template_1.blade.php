@@ -50,7 +50,7 @@
                         {!! strip_tags(htmlspecialchars_decode($questions['qst_text'])) !!}
                     </div>
                     @endif
-                    
+                    @if(!(($questions['qst_type'] == "Essay") || ($questions['qst_type'] =="Fill in the blank")))
                     <ol type="A"  style="margin-left:15px">
                     @foreach($questions['answers'] as $key => $answer)
                         <li>
@@ -58,6 +58,8 @@
                         </li>                                             
                     @endforeach
                     </ol>
+                    
+                    @endif
 
                     
                 </div>
