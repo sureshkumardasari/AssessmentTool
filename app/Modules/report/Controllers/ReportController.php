@@ -837,53 +837,46 @@ class ReportController extends Controller
         $ins = \Auth::user()->institution_id;
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
-        /*$assignment = Assignment::select('id')
-            ->where('gradestatus', '=', 'completed')
-            ->take(3)
-            ->orderby('id', 'desc')
-            ->get();
-        $assignment = [];
-        $data = [];*/
+       
         $assignment = Assignment::where('gradestatus', '=', 'completed')->take(3)->orderby('id', 'desc')->lists('id');
-        $assignmentname = Assignment::whereIn('id', $assignment)->orderby('id', 'desc')->lists('name');
-        //dd($assignmentname);
-        //$ques=Question::whereIn('id',$question)->lists('title','id');
-        /*$students=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('user_id');
-        $asgnmts=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('assignment_id');*/
         //dd($assignment);
+        $assignmentname = Assignment::whereIn('id', $assignment)->orderby('id', 'desc')->lists('name');
+        $length = 0;
+        if(!empty($assignment)){
+            //dd("empty");
+            $length=count($assignment);
+        
+            $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+                ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+                ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+                ->where('assignment.id', '=', isset($assignment[0])?$assignment[0]:0)
+                ->orderBy('assignment.id')
+                ->orderby('user_assignment_result.rawscore', 'asc')
+                ->take(10)
+                ->get();
+            if($length >1){
+                $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+                    ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+                    ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+                    ->where('assignment.id', '=', isset($assignment[1])?$assignment[1]:0)
+                    ->orderBy('assignment.id')
+                    ->orderby('user_assignment_result.rawscore', 'asc')
+                    ->take(10)
+                    ->get();
+            }
+            if($length >2){
+                $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+                    ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
+                    ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+                    ->where('assignment.id', '=', isset($assignment[2])?$assignment[2]:0)
+                    ->orderBy('assignment.id')
+                    ->orderby('user_assignment_result.rawscore', 'asc')
+                    ->take(10)
+                    ->get();
+            }
+        }
 
-        $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
-            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
-            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
-            ->where('assignment.id', '=', $assignment[0])
-            ->orderBy('assignment.id')
-            ->orderby('user_assignment_result.rawscore', 'asc')
-            ->take(10)
-            ->get();
-
-        $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
-            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
-            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
-            ->where('assignment.id', '=', $assignment[1])
-            ->orderBy('assignment.id')
-            ->orderby('user_assignment_result.rawscore', 'asc')
-            ->take(10)
-            ->get();
-        $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
-            ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
-            ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
-            ->where('assignment.id', '=', $assignment[2])
-            ->orderBy('assignment.id')
-            ->orderby('user_assignment_result.rawscore', 'asc')
-            ->take(10)
-            ->get();
-
-        /*$assignment_data = [];
-        foreach ($report_data as $report) {
-            $assignment_data['ass_data'][] = $report->assignment_name;
-        }*/
-//		dd($assignment_data);
-        return view('report::report.least_score', compact('report_data', 'report_data1', 'report_data2', 'assignmentname'));
+        return view('report::report.least_score', compact('report_data', 'report_data1', 'report_data2', 'assignmentname','length'));
     }
 
     public function dashboard()
