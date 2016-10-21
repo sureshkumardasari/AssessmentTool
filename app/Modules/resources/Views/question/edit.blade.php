@@ -161,6 +161,7 @@ $('#question_type').change(function () {
 			  $(".answers").children().each(function(){
 			  	$(this).remove();
 			  });
+			  $('#ans_flg').val(0);
  		}
  		else if(question_type_text=="Fill in the blank"){
 			$(".create_answer").hide(); 
@@ -199,6 +200,7 @@ $('#question_type').change(function () {
 			 $(".answers").children().each(function(){
 			  	$(this).remove();
 			  });
+			 $('#ans_flg').val(1);
 			//var c=$("#answer_append").is("create_answer");
 //    			if($('#answer_append .answer_add').length > 0){
 //   			}else{
