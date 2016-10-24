@@ -79,7 +79,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         return;
     }
     $current_params = $current_params->parameters();
-    //     dd($current_params);
+         //dd($current_params);
     $links = array(
         //------------------users---------------------
         'mainhome' => array(
@@ -297,7 +297,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'studentGrading' => array(
             'displayName' => 'Grade By Student',
             'route' => 'studentGrading',
-            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'), //
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'),//
         ),
          'studentQuestion' => array(
             'displayName' => 'Student Questions',
@@ -375,21 +375,13 @@ function breadcrumb($displayName = '', $urlSlug = '') {
                 'postfix' =>array('mainhome' => 'Home' , 'myassignment' => 'My Assignments'),
                 ),
 
-
-
-
-
-
-
-
-
-
     );
     $currentRoute = Route::currentRouteName();
     if (array_key_exists($currentRoute, $links)) {
         $breadcrumbLinks = $links[$currentRoute];
     }
-    echo view('breadcrumb', compact('breadcrumbLinks'))->__tostring() ;
+    //dd($currentRoute);
+    echo view('breadcrumb', compact('breadcrumbLinks','current_params','currentRoute'))->__tostring() ;
 }
 
 /**
