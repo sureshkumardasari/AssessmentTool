@@ -164,11 +164,12 @@
 
                     }
                     echo ucwords($status);
+                    //dd($status == 'available' , ($startDateTime < $now && (($now <= $endDateTime) ||($endDateTime="false") )), ($assignment->AssignmentUserStatus != "completed"));
                     ?>
             </span></span>
 
                                         </td>
-                                        @if ($status == 'available' && ($startDateTime < $now && ($now <= $endDateTime ) && $assignment->AssignmentUserStatus != "completed"))
+                                        @if ($status == 'available' && ($startDateTime < $now && (($now <= $endDateTime) ||($endDateTime="false") ) && $assignment->AssignmentUserStatus != "completed"))
                                             <td><span class="text"><a class="anchar" href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId))}}">Instructions</a></span></td>
                                         @elseif ($status == 'inprogress' && $assignment->AssignmentUserStatus == "instructions")
                                             <td><span class="text"><a href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId)) }}" class="btn btn-primary">Start Test</a></span></td>
