@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="form-group">
                                             
-                                            <div>{{$quest['ans_text']}}</div>
+                                            <div>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</div>
                                         
                                         </div>
                                         <div class="form-group">
@@ -221,7 +221,7 @@
 
                                                     </tr>
                                                     <tr>
-                                                        <td> A. {{$quest['ans_text']}}</td>
+                                                        <td> A. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -293,7 +293,7 @@
 
                                             </tr>
                                             <tr>
-                                                <td>{{$quest['ans_text']}}</td>
+                                                <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
                                             </tr>
                                             <?php
                                             $i=0;
@@ -309,7 +309,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}}</span>
                                                     </td>
 
                                                 </tr>
@@ -329,7 +329,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{$quest['ans_text']}}</p>
+                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
@@ -394,7 +394,7 @@
 
                                             </tr>
                                             <tr>
-                                                <td>{{$quest['ans_text']}}</td>
+                                                <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
                                             </tr>
                                             <?php
                                             $i=0;
@@ -431,7 +431,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{$quest['ans_text']}}</p>
+                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
