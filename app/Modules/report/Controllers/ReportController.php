@@ -313,17 +313,24 @@ class ReportController extends Controller
             else{
                 $students=[];
             }*/
+
+            /*select `users`.`name`, `user_assignment_result`.`rawscore` as `score`, `user_assignment_result`.`percentage` from `assignment_user` join `users` on `users`.`id` = `assignment_user`.`user_id` left join `user_assignment_result` on `user_assignment_result`.`assignment_id` = `assignment_user`.`assignment_id` and `user_assignment_result`.`user_id` = `assignment_user`.`user_id` where `assignment_user`.`assignment_id` = '2'*/
+
             $assignment = Assignment::find($assign_id);
             if ($assignment) {
-                $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-                    ->join('users', 'users.id', '=', 'assignment_user.user_id')
-                    ->where('user_assignment_result.assignment_id', '=', $assign_id)
+                $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
+                    ->leftjoin('user_assignment_result', function($join){
+			                $join->on('user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id');
+			                $join->on('user_assignment_result.user_id', '=', 'assignment_user.user_id');
+			            })
+                    ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
                     ->get();
             } else {
                 $students = [];
             }
+           //dd($students);
             return view('report::report.assignmentview', compact('students', 'multi_total_count', 'multi_answers_count', 'essay_total_count', 'type', 'marks', 'total_marks'));
         }
     }
