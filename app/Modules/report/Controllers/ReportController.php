@@ -1065,7 +1065,7 @@ class ReportController extends Controller
         //$footerHtml = view('layouts.pdf_partials.footer', compact('footerMeta'))->render();
         $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
        // dd($htmlForPdf);
-        $fileName = 'testhistoryreport';
+        $fileName = 'testhistory';
         $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
          $name=explode('/',$fileFullUrl);
