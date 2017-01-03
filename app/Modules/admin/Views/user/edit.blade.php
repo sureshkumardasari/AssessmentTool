@@ -16,13 +16,13 @@
 	$last_name =  (old('last_name') != NULL) ? old('last_name') : $last_name; 
 	$email = (old('email') != NULL) ? old('email') : $email; 
 	$password = (old('password') != NULL) ? old('password') : $password; 
-	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
+	$enrollno = (old('enrollment') != NULL) ? old('enrollment') : $enrollno; 
 	$address1 = (old('address1') != NULL) ? old('address1') : $address1; 
 	$city = (old('city') != NULL) ? old('city') : $city; 
 	$state = (old('state') != NULL) ? old('state') : $state; 
 	$pincode=(old('pincode') != NULL)? old('pincode') : $pincode;
-	$phoneno = (old('phoneno') != NULL)? old('phoneno') : $phoneno;
-	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
+	$phoneno = (old('phone') != NULL)? old('phone') : $phoneno;
+	$country_id=(old('country')!=NULL)? old('country'):$country_id;
 	$status = (old('status') != NULL) ? old('status') : $status; 
 	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
 
@@ -160,9 +160,9 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Enrollment No.</label>
+							<label class="col-md-4 control-label">Enrollment#</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
+								<input type="text" class="form-control" name="enrollment" value="{{ $enrollno }}">
 							</div>
 						</div>
 						<!--  -->
@@ -185,9 +185,14 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">City</label>
+							<label class="col-md-4 control-label">Country</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="city" value="{{ $city }}">
+								<select class="form-control" name="country">
+									<option value="0">Select</option>
+									@foreach($country_arr as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 						
@@ -203,16 +208,12 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Country</label>
+							<label class="col-md-4 control-label">City</label>
 							<div class="col-md-6">
-								<select class="form-control" name="country_id">
-									<option value="0">Select</option>
-									@foreach($country_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
-								</select>
+								<input type="text" class="form-control" name="city" value="{{ $city }}">
 							</div>
 						</div>
+						
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Pincode</label>
 							<div class="col-md-6">
@@ -220,9 +221,9 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Phone No.</label>
+							<label class="col-md-4 control-label">Phone#</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}" maxlength="10">
+								<input type="text" class="form-control" name="phone" value="{{ $phoneno }}" maxlength="10">
 							</div>
 						</div>
 						<!--  -->
