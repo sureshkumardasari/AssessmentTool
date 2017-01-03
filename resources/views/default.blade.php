@@ -53,9 +53,10 @@
 
 	</section>--}}
 	<!-- breadcrumb -->
-
+	<div class="middle_content_top">
 	@yield('content')
-
+	</div>
+	
 	@section('footer')
         @include('footer')
     @show

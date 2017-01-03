@@ -3980,8 +3980,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    /*padding-top: 15px;
+    padding-bottom: 15px;*/
   }
 }
 .navbar-form {
@@ -6240,6 +6240,7 @@ label,
 .right{
   float: right;
   margin-right: 10px;
+  margin-top: -5px;
 }
 .left{
   float: left;
@@ -6266,4 +6267,19 @@ footer {
 }
 .pointer{
     cursor: pointer;
+}
+
+.middle_content_top {
+    padding: 0 0 50px;
+}
+.footer {
+    background: #8d8d8d none repeat scroll 0 0;
+    bottom: 0;
+    /*display: table-row;*/
+    height: auto;
+    left: 0;
+    padding: 10px 0 6px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
 }
