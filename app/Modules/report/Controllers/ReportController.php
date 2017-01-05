@@ -162,11 +162,14 @@ class ReportController extends Controller
 
 
         $assessment = Assignment::find($assign_id);
+        //dd($assessment->assessment_id);
         $question = [];
         if ($assessment) {
-            $question = AssessmentQuestion::where('assessment_id', $assessment->id)->lists('question_id');
+            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
         }
+        //dd($question);
         $ques = Question::whereIn('id', $question)->lists('title', 'id');
+
         $questions = Question::whereIn('id', $question);
         if ($sub_id != 0) {
             $questions->where('subject_id', '=', $sub_id);
