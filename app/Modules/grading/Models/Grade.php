@@ -348,9 +348,12 @@ class Grade extends Model {
                           $userAnswerStatus = 'wrong';
                         }
 
-                        if ( $userAnswerStatus == 'correct' ) {
+                        if ( $userAnswerStatus == 'correct' ) 
+                        {
                             $points = 1;
-                        } else if ( $userAnswerStatus == 'wrong' ) {
+                        } 
+                        else if ( $userAnswerStatus == 'wrong' ) 
+                        {
                             if (  $question['guessing_panality'] == 0.25) {
                                 $points = '-' . $question['guessing_panality'];
                             }
@@ -386,6 +389,8 @@ class Grade extends Model {
         if ( !empty( $assignmentq )) {
             foreach ( $assignmentq as $key => $value ) {
                 $questionId[] = $value['Id'];
+                $guessing_panality=$value['guessing_panality'];
+                //dd($guessing_panality);
             }
         }
 
@@ -393,6 +398,7 @@ class Grade extends Model {
         $rawScore = 0;
         $gradeAllQuestion = false;
         $correctCount = 0;
+        $wrongCount=0;
         $totalCount = 0;
 
         $sqstAns = $AssignQstAns->whereIn('question_id',$questionId)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->whereNotNull('points')->groupBy('question_id','points')->select(DB::Raw('min(id)'),'points', DB::Raw('is_correct as IsCorrect'))->get();
@@ -403,17 +409,17 @@ class Grade extends Model {
             $gradeAllQuestion = true;
 
             foreach ($sqstAns as $key => $value) {
-                $rawScore += $value->points;
-
-                if ( strtolower($value->IsCorrect) == 'yes' ) {
-                    $correctCount++;
-                }
-
+                $rawScore += $value->points; 
                 $totalCount++;
+                if($guessing_panality>0 && ( strtolower($value->IsCorrect) != 'yes' ))
+                    {
+                     $wrongCount += $guessing_panality;
+                    }
             }
         }
+        $rawScore=$rawScore-$wrongCount;
         
-
+        //dd($rawScore);
         return array(
             'rawscore'     => $rawScore,
             'is_gradedAll' => $gradeAllQuestion

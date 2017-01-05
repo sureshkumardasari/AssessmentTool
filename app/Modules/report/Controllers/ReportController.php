@@ -530,7 +530,9 @@ class ReportController extends Controller
         foreach ($lists as $key => $list) {
             $correct = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'Yes')->count();
             $wrong = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'No')->count();
+            //dd($wrong);
             $lost_marks[$key] = (float)($wrong) * ($rec[$list][0]->guessing_panality);
+
             $mark = ((float)$correct * $rec[$list][0]->mcsingleanswerpoint) - (float)$lost_marks[$key];
             //dd($mark);
             $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
@@ -538,8 +540,8 @@ class ReportController extends Controller
 //		dd($rec);
 //		dd($counts);
 //		dd($complete_users);
-//		dd($lost_marks);
-//		dd($marks);
+		//dd($lost_marks);
+		//dd($marks);
         return view('report::report.testhistory', compact('assignments', 'marks', 'All_users', 'complete_users'));
 
     }
