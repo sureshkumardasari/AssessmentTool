@@ -23,6 +23,12 @@ class QuestionTypeSeeder extends Seeder {
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime
    		]);
+   		DB::table('question_type')->insert([
+			'id' => '4',
+			'qst_type_text' => 'Fill in the blank',
+			'created_at' => new DateTime,
+			'updated_at' => new DateTime
+   		]);
 
   	}
 

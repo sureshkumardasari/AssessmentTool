@@ -11,7 +11,7 @@
                     <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                     <div class="col-md-5">
                         <table id="student_table" class="table table-striped table-bordered parent-grid">
-                            <caption style="color:red"><center><b>Not Started Students</b></center></caption>
+                            <caption style="color:red"><center><b>Students Not Started</b></center></caption>
                             <thead>
                             <td></td>
                             <td></td>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-md-5">
                         <table id="student_selected_table" class="table table-striped table-bordered students-selected-parent-grid">
-                            <caption style="color:red"><center><b>Started Students</b></center></caption>
+                            <caption style="color:red"><center><b>Students Started</b></center></caption>
                             <thead>
                             <td></td>
                             <td></td>
@@ -156,13 +156,13 @@
                                 "paging": false,
                                 "scrollY": 300
                             });
-                            $('<caption style="color:red"/>').html("<center><b>not students started</b></center>").prependTo('#student_table');
+                            $('<caption style="color:red"/>').html("<center><b>Students Not Started</b></center>").prependTo('#student_table');
                             $('#student_selected_table').DataTable({
                                 "dom": '<"top">rt<"bottom"i><"clear">',
                                 "paging": false,
                                 "scrollY": 300
                             });
-                            $('<caption style="color:red"/>').html("<center><b>students started</b></center>").prependTo('#student_selected_table');
+                            $('<caption style="color:red"/>').html("<center><b>Students Started</b></center>").prependTo('#student_selected_table');
                             hide_or_show_buttons();
                         }
                         else if(response == "no"){

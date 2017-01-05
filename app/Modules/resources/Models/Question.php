@@ -85,7 +85,7 @@ class Question extends Model {
             ->join('category', 'category.id', '=', 'questions.category_id')
             ->join('subject', 'subject.id', '=', 'questions.subject_id')
             ->join('lesson','lesson.id','=','questions.lesson_id')
-			->join('question_answers','question_answers.question_id','=','questions.id')
+			->leftjoin('question_answers','question_answers.question_id','=','questions.id')
             ->join('institution', 'institution.id', '=', 'questions.institute_id')
             ->join('question_type','question_type.id','=','questions.question_type_id')
             ->leftjoin('passage','passage.id','=','questions.passage_id')
@@ -312,7 +312,7 @@ class Question extends Model {
 		$obj->subject_id = $params['subject_id'];
 		$obj->category_id = $params['category_id'];
 		$obj->lesson_id = $params['lessons_id'];
-		$obj->passage_id = $params['passage'];
+		$obj->passage_id = isset($params['passage'])?$params['passage']:0;
 		$obj->institute_id = $params['institution_id'];
  		$obj->status =  $params['status'];
 		$obj->difficulty_id ='';

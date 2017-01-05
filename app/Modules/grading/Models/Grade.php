@@ -51,7 +51,6 @@ class Grade extends Model {
            
 
         $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
-        
         $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
         if( !isset($params['essay_grade'])) {
 
@@ -284,7 +283,7 @@ class Grade extends Model {
                         ->leftjoin("question_answers as qa", 'qa.question_id', '=', 'q.id')
                        // ->leftjoin('question_user_answers as qua','q.id','=','qua.question_id')
                         ->where("aq.assessment_id","=", $assessment_id)
-                        ->select("q.id","q.title","qt.id as qtype_id","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
+                        ->select("q.id","q.title","q.qst_text","qt.id as qtype_id","qt.qst_type_text as question_type","qa.id as answer_id","qa.ans_text as ans_text","qa.is_correct","a.guessing_panality","a.mcsingleanswerpoint","a.essayanswerpoint")
                         ->orderby('qt.id','ASC')
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
@@ -295,6 +294,7 @@ class Grade extends Model {
             $questions[$row->id]['Id'] = $row->id;
             $questions[$row->id]['qtype_id'] = $row->qtype_id;
             $questions[$row->id]['Title'] = $row->title;
+            $questions[$row->id]['qst_text'] = $row->qst_text;
             $questions[$row->id]['ans_text'] = $row->ans_text;
             $questions[$row->id]['question_type'] = $row->question_type;
             $questions[$row->id]['guessing_panality'] = $row->guessing_panality;
@@ -310,6 +310,7 @@ class Grade extends Model {
     }
 
     public function calculateQuestionPoints( $params ){
+        //dd($params);
         $sQuAnws     = (isset($params['retake']) && $params['retake'] == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
         $userAnswers = $sQuAnws->getUserAssignmentAnswers( $params['user_id'], $params['assignment_id'] );
         $assignmentq =   $this->loadAssignmentQuestion( $params['assignment_id'], $params['assessment_id'] );
@@ -359,9 +360,10 @@ class Grade extends Model {
                     $questionAnwerPoint[$key]['points']      = $points;
                     $questionAnwerPoint[$key]['is_correct']  = swapValue($userAnswerStatus);
                 }      
-                elseif( $question['question_type'] == 'Essay' ){
+                elseif( ($question['question_type'] == 'Essay') || ($question['question_type'] == "Fill in the blank" )){
+                    $essay_points=QuestionUserAnswer::where('user_id',$params['user_id'])->where('assessment_id',$params['assessment_id'])->where('assignment_id',$params['assignment_id'])->first()->points;
                      $questionAnwerPoint[$key]['question_id'] = $question['Id'];
-                     $questionAnwerPoint[$key]['points']               = 0;
+                     $questionAnwerPoint[$key]['points']               = ($essay_points == null)? 0:$essay_points;
                      $questionAnwerPoint[$key]['is_correct']            = 'Open';
                      $questionAnwerPoint[$key]['essay'] =              "";
                 }
@@ -431,7 +433,7 @@ class Grade extends Model {
             if($questionType == "Essay"){
                 $totalPoints= $totalPoints+$question['essayanswerpoint'];
             }
-            if($questionType=="Multiple Choice - Multi Answer"||$questionType=="Multiple Choice - Single Answer" || $questionType=="Selection"){
+            if($questionType=="Multiple Choice - Multi Answer"||$questionType=="Multiple Choice - Single Answer" || $questionType=="Selection" || $questionType == "Fill in the blank"){
                 $totalPoints= $totalPoints+$question['mcsingleanswerpoint'];
             }            
         }

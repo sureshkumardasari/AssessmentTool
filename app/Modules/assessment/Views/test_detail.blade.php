@@ -202,6 +202,22 @@
                 'Option': null,
                 'QuestionAnswerText': val,
                 'UserId': '{{Auth::user()->id}}',
+                //'question_type':'Fill in the blank'
+            }]); 
+        });
+
+        $(document).on('click', '#btn-fib-save', function() {
+            
+            var val = $('textarea[name="fib_text"]').val().trim().replace(/\n\r?/g, '<br />');
+            saveAnswer([{
+                'SubsectionQuestionId': $('textarea[name="fib_text"]').data('subsecquestionid'),
+                'QuestionAnswerId': 0,
+                'AssessmentAssignmentId': ids[1],
+                'AssessmentId': ids[0],
+                'Option': null,
+                'QuestionAnswerText': val,
+                'UserId': '{{Auth::user()->id}}',
+                'question_type':'Fill in the blank'
             }]); 
         });
 

@@ -212,7 +212,8 @@ class MainDashboardController extends BaseController
 	//dd($user_id);
 	$now=date('Y-m-d h:i:s');
 	//dd($now);
-	$upcoming_assignments=Assignment::where('status',"upcoming")->where('startdatetime','>',$now)->where('enddatetime','!<=',$now)->get();
+	$upcoming_assignments=Assignment::where('status','=','upcoming')->where('startdatetime','>',$now)->where('enddatetime','>=',$now)->get();
+	//dd($upcoming_assignments);
 	$available_assignments=Assignment::where('startdatetime','<=',$now)->where('enddatetime','!<=',$now)->get();
 	$query=\DB::table('user_assignment_result as uar')
 		//->join('assignment_user as auser','ass.id','=','uar.assignment_id')

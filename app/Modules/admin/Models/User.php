@@ -146,7 +146,7 @@ class User extends Model {
 
 		$obj->name = $params['first_name'] . ' ' . $params['last_name'];
 		$obj->email = $params['email'];
-		$obj->enrollno = $params['enrollno'];
+		$obj->enrollno = $params['enrollment'];
 		//$obj->role_id = $params['role_id'];
 		$obj->institution_id = $params['institution_id'];
 		
@@ -158,9 +158,9 @@ class User extends Model {
 		$obj->address3 = (isset($params['address3'])) ? $params['address3'] : '';
 		$obj->city = $params['city'];
 		$obj->state = $params['state'];
-		$obj->phoneno = $params['phoneno'];
+		$obj->phoneno = $params['phone'];
 		$obj->pincode = $params['pincode'];
-		$obj->country_id = $params['country_id'];
+		$obj->country_id = $params['country'];
 		$obj->profile_picture = $params['profile_picture'];
 		$obj->pic_coords = $params['pic_coords'];
 

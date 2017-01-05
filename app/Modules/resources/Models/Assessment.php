@@ -48,11 +48,12 @@ class Assessment extends Model {
 		$assessments = DB::table('assessment_question')
 				//->join('assessment', 'assessment.id', '=', 'assessment_question.assessment_id')
 				->join('questions', 'questions.id', '=', 'assessment_question.question_id')
-				->join('question_answers','question_answers.question_id','=','assessment_question.question_id')
+				->join('question_type', 'questions.question_type_id','=', 'question_type.id')
+				->leftjoin('question_answers','question_answers.question_id','=','assessment_question.question_id')
 				->leftjoin('passage','passage.id','=','assessment_question.passage_id')
 				->where('assessment_question.assessment_id','=',$id)
 
-				->select('questions.id as qstn_id','questions.title as qstn_title','question_answers.id as answer_id','question_answers.is_correct','question_answers.ans_text','questions.qst_text','passage.id as psg_id','passage.title as psg_title','passage.passage_text as psg_txt','passage.passage_lines as psg_lines')
+				->select('questions.id as qstn_id','questions.title as qstn_title','question_answers.id as answer_id','question_answers.is_correct','question_answers.ans_text','questions.qst_text','passage.id as psg_id','passage.title as psg_title','passage.passage_text as psg_txt','passage.passage_lines as psg_lines','question_type.qst_type_text as qst_type')
 				//->orderby('psg_id','qstn_id')
 				->get();
 		//dd($assessments);
@@ -64,6 +65,7 @@ class Assessment extends Model {
 			$questions[$question->psg_id]['questions'][$question->qstn_id]['title'] = $question->qstn_title;
 			$questions[$question->psg_id]['questions'][$question->qstn_id]['qst_text'] = $question->qst_text;
 			$questions[$question->psg_id]['questions'][$question->qstn_id]['answers'][] = ['Id' => $question->answer_id, 'ans_text' => $question->ans_text, 'is_correct' => $question->is_correct];
+			$questions[$question->psg_id]['questions'][$question->qstn_id]['qst_type'] = $question->qst_type;
 		}
 
 		//dd($questions);

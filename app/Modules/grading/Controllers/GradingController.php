@@ -179,7 +179,9 @@ class GradingController extends BaseController {
 //					->get();
 //		}
 		$first_student_answers = $this->studentAnswers($assessment_id,$assignment_id,$id);
-		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','id','first_student_answers','question_type','institution_name','details'));
+		//dd($first_student_answers);
+		$student_id=$id;
+		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','student_id','first_student_answers','question_type','institution_name','details'));
 	}
 
 	public function studentGradingInner($assignment_id){
@@ -195,7 +197,7 @@ class GradingController extends BaseController {
 	{
 		$post = Input::all();
 		//dd($post);
-		if ($post['question_type'] != "Essay") {
+		if (($post['question_type'] != "Essay") && ($post['question_type'] != "Fill in the blank")) {
 			if (isset($post['selected_answer'])) {
 				$grade = new Grade();
 				//dd($post);
@@ -395,8 +397,10 @@ class GradingController extends BaseController {
 			}
 		}
 		else {
+
 			$grade=new Grade();
 			if ($post['user_id'] != 0) {
+
 				$users_already_answered = QuestionUserAnswer::where('assessment_id', $post['assessment_id'])->where('assignment_id', $post['assignment_id'])
 					->where('question_id', $question_id)->where('user_id', $post['user_id'])->get();
 				if (count($users_already_answered) == 0) {
@@ -406,16 +410,19 @@ class GradingController extends BaseController {
 					$uAnswer->assessment_id = $post['assessment_id'];
 					$uAnswer->assignment_id = $post['assignment_id'];
 					//$uAnswer->question_answer_id = $post['selected_answer'];
-					$uAnswer->question_answer_text = $post['selected_answer_text'];
+					//$uAnswer->question_answer_text = $post['selected_answer_text'];
 					$uAnswer->points = $post['selected_answer_score'];
 					//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
 					$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
 
 					$uAnswer->save();
 				} else {
+					$correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
+					$points=$post['selected_answer_score'];
+					//dd($post['selected_answer_score']);
 					QuestionUserAnswer::where('user_id', $post['user_id'])->where('question_id', $question_id)
 						->where('assessment_id', $post['assessment_id'])->where('assignment_id', $post['assignment_id'])
-						->update(['is_correct' => isset($post['is_correct']) ? $post['is_correct'] : 'Open', 'question_answer_text' => $post['selected_answer_text'],'points'=> $post['selected_answer_score']]);
+						->update(['is_correct' => $correct, 'points'=>$points ]);
 				}
 
 				//for updating the scores of the students after grading for only single user..
@@ -452,7 +459,7 @@ class GradingController extends BaseController {
 						$uAnswer->assessment_id = $post['assessment_id'];
 						$uAnswer->assignment_id = $post['assignment_id'];
 						//$uAnswer->question_answer_id = $post['selected_answer'];
-						$uAnswer->question_answer_text = $post['selected_answer_text'];
+						//$uAnswer->question_answer_text = $post['selected_answer_text'];
 						$uAnswer->points = $post['selected_answer_score'];
 						//$uAnswer->points = ( trim($post['points']) === '-'  ? 0 : $post['points'] );
 						$uAnswer->is_correct = isset($post['is_correct']) ? $post['is_correct'] : 'Open';
@@ -487,22 +494,30 @@ class GradingController extends BaseController {
 
 
 	public function nextStudentAnswersForQuestionGrade($user_id=0,$ids=0){
-		//dd((int)$user_id);
+
 		$ids=explode(',',$ids);
+		//dd($ids);
 		$question_type=$ids[0];
 		$assessment_id=(int)$ids[1];
 		$assignment_id=(int)$ids[2];
 		$question_id=(int)$ids[3];
-		if($question_type!="Essay"){
+		//dd($question_type);
+		if(!(($question_type=="Essay") || ($question_type == "Fill in the blank"))){
 			//dd("not");
 			$next_user_answers = QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)
 				->where('user_id',(int)$user_id)->where('question_id',$question_id)->lists('question_answer_id');
 		}
-		else{
+		else if($question_type == "Fill in the blank"){
 			//dd("jyguh");
 				$next_user_answers = QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)
 					->where('user_id',(int)$user_id)->where('question_id',$question_id)->lists('question_answer_text','points');
 		}
+		else {
+		//	dd("jyguhddd");
+			$next_user_answers = QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)
+					->where('user_id',(int)$user_id)->where('question_id',$question_id)->lists('question_answer_text','points');
+		}
+		//dd($next_user_answers);
 		return $next_user_answers;
 	}
 
@@ -609,7 +624,7 @@ class GradingController extends BaseController {
 		$question=[];
 		foreach($question_type as $id=>$type){
 			$q=QuestionUserAnswer::join('questions','question_user_answer.question_id','=',DB::raw('questions.id && questions.question_type_id ='.$id.' && question_user_answer.user_id ='.(int)$user_id.' && question_user_answer.assignment_id = '.(int)$assignment_id.' && question_user_answer.assessment_id='.$assessment_id));
-				if($type=="Essay"){
+				if($type=="Essay"|| $type=="Fill in the blank"){
 					$q->select('question_answer_text','question_id','points');
 				}
 			else{
@@ -646,7 +661,7 @@ class GradingController extends BaseController {
 					}
 				//}
 
-				if($key=="Essay"){
+				if($key=="Essay" || $key == "Fill in the blank"){
 					//$b['student_answers'][$key][$a['question_id']]=$a['question_answer_text'];
 					$b['student_answers'][$key][$a['question_id']]['text']=$a['question_answer_text'];
 					$b['student_answers'][$key][$a['question_id']]['score']=$a['points'];
@@ -665,6 +680,8 @@ class GradingController extends BaseController {
 
 	public function submit_essay_score($assessment_id,$assignment_id,$user_id=0){
 		$post=Input::all();
+       // dd($post);
+		//dd($assessment_id);
 		//dd($assessment_id);
 		//dd($assignment_id);
 		//dd($user_id);
@@ -673,10 +690,11 @@ class GradingController extends BaseController {
 		//dd($questions_list);
 		$qua=new QuestionUserAnswer();
 		foreach($post['essay_answer_scores'] as $key=>$essay_answer){
-			//dd($post['essay_answers']);
+			//dd($essay_answer);
 			if(in_array($key,$questions_list)){
-				$answer=$qua->where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
+				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
 					->update(['points'=>$essay_answer/*,'question_answer_text'=>$essay_answer*/]);
+
 			}
 			else{
 				$qua->assessment_id=$assessment_id;
@@ -685,6 +703,41 @@ class GradingController extends BaseController {
 				$qua->question_id=$key;
 				//$qua->question_answer_text=$essay_answer;
 				$qua->points=$essay_answer;
+				$qua->save();
+			}
+
+		}
+
+		//dd($post);
+		//dd($assessment_id);
+		return "over";
+
+	}
+
+	public function submit_fib_score($assessment_id,$assignment_id,$user_id=0){
+		$post=Input::all();
+		//dd($post);
+		//dd($assessment_id);
+		//dd($assignment_id);
+		//dd($user_id);
+		//dd($post);
+		$questions_list=QuestionUserAnswer::where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('user_id',(int)$user_id)->lists('question_id');
+		//dd($questions_list);
+		$qua=new QuestionUserAnswer();
+		foreach($post['fib_answer_scores'] as $key=>$fib_answer){
+			//dd($fib_answer);
+			if(in_array($key,$questions_list)){
+				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
+						->update(['points'=>$fib_answer/*,'question_answer_text'=>$essay_answer*/]);
+
+            }
+			else{
+				$qua->assessment_id=$assessment_id;
+				$qua->assignment_id=$assignment_id;
+				$qua->user_id=$user_id;
+				$qua->question_id=$key;
+				//$qua->question_answer_text=$essay_answer;
+				$qua->points=$fib_answer;
 				$qua->save();
 			}
 

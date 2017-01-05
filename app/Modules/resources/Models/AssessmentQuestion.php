@@ -46,7 +46,7 @@ class AssessmentQuestion extends Model {
 						->join("assessment as a", 'a.id', '=', 'aq.assessment_id')
 						->join("questions as q", 'aq.question_id', '=', 'q.id')
 						->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
-						->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
+						->leftjoin("question_answers as qa", 'qa.question_id', '=', 'q.id')
 						->where("aq.assessment_id","=", $aId)
 						->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id")
 						->orderby('aq.id', 'ASC')

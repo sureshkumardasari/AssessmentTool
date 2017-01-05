@@ -24,6 +24,7 @@ use App\Modules\Assessment\Models\QuestionUserAnswer;
 use App\Modules\Assessment\Models\QuestionUserAnswerRetake;
 use App\Modules\Grading\Models\Grade;
 use App\Modules\Resources\Models\Question;
+use App\Modules\Resources\Models\QuestionAnswer;
 
 
 class AssessmentAssignmentController extends BaseController {
@@ -170,6 +171,7 @@ class AssessmentAssignmentController extends BaseController {
 
         $retaking = false;
         View::share('retaking', $retaking);
+        //dd($questions);
 
     	$ansPanel = view('assessment::partial._answer_panel', compact('questions', 'bulletType'));
     	return view('assessment::test_detail', compact( 'secs', 'id', 'filesArr', 'filesCount', 'path', 'ansPanel', 'aId', 'assessment'));
@@ -248,7 +250,7 @@ class AssessmentAssignmentController extends BaseController {
         $this->_updateTestTime($data['id']);
         //dd($data['credentials']);
         $questionAnswer = new QuestionUserAnswer();            
-        if (isset($data['retaking']) && $data['retaking'] == '1') {
+        if (isset($data['retaking']) && $data['retaking'] == '1') {  
             $questionAnswer = new QuestionUserAnswerRetake();
         }
 
@@ -280,7 +282,33 @@ class AssessmentAssignmentController extends BaseController {
             if ((empty($credential['QuestionAnswerId']) || $credential['QuestionAnswerId'] == 0) && empty($credential['Option']) && empty($credential['QuestionAnswerText'])) {
                 unset($update[$key]);
             }
-         }
+            if(isset($credential['question_type']) && $credential['question_type']== "Fill in the blank") {
+                $points=0;
+                $is_correct="No";
+                $qst_act_ans= QuestionAnswer::where('question_id',$credential['SubsectionQuestionId'])->select('id','ans_text')->first();
+               // dd($qst_act_ans->ans_text);
+                if($qst_act_ans['ans_text'] == $credential['QuestionAnswerText']){
+                    $credential['QuestionAnswerId']=$qst_act_ans['id'];
+                    $points= 1;
+                    $is_correct="Yes";
+                }
+                $update[$key]['question_id'] = $credential['SubsectionQuestionId'];
+                $update[$key]['assignment_id'] = $credential['AssessmentAssignmentId'];
+                $update[$key]['assessment_id'] = $credential['AssessmentId'];
+                $update[$key]['user_id'] = Auth::user()->id;
+                $update[$key]['question_answer_id'] = $credential['QuestionAnswerId'];
+                $update[$key]['added_by'] = Auth::user()->id;
+                $update[$key]['updated_by'] = Auth::user()->id;
+                // set empty values to null
+                $update[$key]['question_answer_text'] = $credential['QuestionAnswerText'];
+                $update[$key]['answer_option'] = $credential['Option'];
+                $update[$key]['points'] = $points;
+                $update[$key]['is_correct'] = $is_correct;
+                // add timestamp fields to array
+                $update[$key]['created_at'] = date('Y-m-d H:i:s');
+                $update[$key]['updated_at'] = date('Y-m-d H:i:s');
+            }
+         }  
 
 
         if (count($update)) {
@@ -337,6 +365,31 @@ class AssessmentAssignmentController extends BaseController {
                                         'user_id' => Auth::user()->id
                                     ])->first();
         return view('assessment::partial._essay_popup', compact('questionText', 'subSecQuestionId', 'oldEssay'));
+    }    
+
+    //for fill in the blank type pop-up
+
+    public function openFIBPopuop($subSecQuestionId, $questionId) {
+
+        $retaking = Input::get('retake', '');
+
+        $questionObj = Question::find($questionId);
+        $questionText = "";
+        if(!empty($questionObj)){
+            $questionText= $questionObj->qst_text;
+        }
+        
+        $qAnswer = new QuestionUserAnswer();
+        if ($retaking == "1") {
+            $qAnswer = new QuestionUserAnswerRetake();
+        }
+
+        // get old entered essay
+        $oldEssay = $qAnswer::where([
+                                        'question_id' => $subSecQuestionId,
+                                        'user_id' => Auth::user()->id
+                                    ])->first();
+        return view('assessment::partial._fib_popup', compact('questionText', 'subSecQuestionId', 'oldEssay'));
     }    
 
     public function submitTest(Request $request) {
