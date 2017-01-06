@@ -823,8 +823,8 @@ class ReportController extends Controller
 //
                     }
                 }
-                // dd($lesson_score);
-                return view('report::report.wholescoreview_duplicate', compact('type', 'lessons', 'assignment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'));
+                 //dd($assessment->guessing_panality);
+                return view('report::report.wholescoreview_duplicate', compact('type', 'lessons', 'assignment','assessment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'));
             }
         }
         //  dd($lessons);
