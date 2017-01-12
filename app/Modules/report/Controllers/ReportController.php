@@ -1249,7 +1249,7 @@ class ReportController extends Controller
                 //$sheet->fromArray($students);
             });
         })->download("pdf");*/
-        $htmlForPdf = view('report::report.leastpdf', compact('report_data','report_data1','report_data2','assignmentname'));
+        $htmlForPdf = view('report::report.leastpdf', compact('report_data','report_data1','report_data2','assignmentname'))->__toString();
         $fileName = 'least_score';
 
         /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
