@@ -63,7 +63,7 @@ class UserDataSeeder extends Seeder {
 		]);
 		DB::table('countries')->insert([
 			'id' => '1',
-			'country_name' => 'india',
+			'country_name' => 'India',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
 		]);
