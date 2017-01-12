@@ -564,7 +564,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
     }
     // deleteOldPdfFile($dir);
     //****End Clean Directory
-    $options = array(
+    $options1 = array(
         'encoding' => 'UTF-8', // option with argument
         'page-size' => 'A3', // option with argument
         //'user-style-sheet' => public_path('assets/css/style.css'),
@@ -584,7 +584,15 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
         'disable-smart-shrinking',
         'no-outline'
     );
-
+    $options = array(
+            'javascript-delay' => 2000,
+            'encoding'         => 'UTF-8',
+            'footer-line',
+            'footer-font-size' => 10,
+            'footer-spacing'   => 10,
+            'margin-bottom' => '25mm',
+            'header-spacing' => 15,
+        );  
     if (!empty($footerHtml)) {
         $options['footer-html'] = $footerHtml;
     }
