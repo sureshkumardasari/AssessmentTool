@@ -1207,6 +1207,8 @@ class ReportController extends Controller
         $asgnmts=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('assignment_id');*/
         //dd($assignment);
 
+        if(isset($assignment[0]) && $assignment[0]>0)
+        {
         $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
             ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
             ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
@@ -1216,7 +1218,10 @@ class ReportController extends Controller
             ->take(10)
             ->get();
 
-        $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+        }
+        if(isset($assignment[1]) && $assignment[1]>0)
+        { 
+            $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
             ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
             ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
             ->where('assignment.id', '=', $assignment[1])
@@ -1224,6 +1229,9 @@ class ReportController extends Controller
             ->orderby('user_assignment_result.rawscore', 'asc')
             ->take(10)
             ->get();
+        }
+        if(isset($assignment[2]) && $assignment[2]>0)
+        {
         $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
             ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
             ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
@@ -1232,6 +1240,7 @@ class ReportController extends Controller
             ->orderby('user_assignment_result.rawscore', 'asc')
             ->take(10)
             ->get();
+        }
         //return view('report::report.least_score', compact('report_data','report_data1','report_data2','assignmentname'));
        /* return Excel::create('Assessment report', function ($excel) use ($report_data, $report_data1, $report_data2, $assignmentname) {
             $excel->sheet('mySheet', function ($sheet) use ($report_data, $report_data1, $report_data2, $assignmentname) {
@@ -1242,11 +1251,14 @@ class ReportController extends Controller
         })->download("pdf");*/
         $htmlForPdf = view('report::report.leastpdf', compact('report_data','report_data1','report_data2','assignmentname'));
         $fileName = 'least_score';
-        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+
+        /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
-        $name=$name[5];
+        $name=$name[5];*/
+        $name = createPdfForReport($fileName, $htmlForPdf);
+        
         //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-        return response()->Download(public_path()."/data/reports/".$name);
+        return response()->Download($name);
     }
 
     public function leastscoreexportXLS()
