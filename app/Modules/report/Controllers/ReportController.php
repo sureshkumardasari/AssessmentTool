@@ -1265,8 +1265,7 @@ class ReportController extends Controller
         $name=explode('/',$fileFullUrl);
         $name=$name[5];*/
         $name = createPdfForReport($fileName, $htmlForPdf);
-        return $name;
-        //return response()->Download($name);
+        return response()->file($name);
     }
 
     public function leastscoreexportXLS()
