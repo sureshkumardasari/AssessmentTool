@@ -598,7 +598,7 @@ class ReportController extends Controller
             // dd($htmlForPdf);
             $fileName = 'pdf';
             $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
-            //dd($fileFullUrl);
+            dd($fileFullUrl);
             $name=explode('/',$fileFullUrl);
             $name=$name[5];
             // return url($fileFullUrl);
