@@ -430,8 +430,15 @@ class ReportController extends Controller
         $name=$name[5];
        // return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
         return response()->Download(public_path()."/data/reports/".$name);*/
-        $name = createPdfForReport($fileName, $htmlForPdf);
-        return response()->Download($name);
+        $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+        if($name == url('data/error.pdf'))
+        {
+            return response()->download(public_path()."/data/error.pdf");    
+        }
+        else
+        {
+            return response()->download(public_path()."/data/reports/".$name);
+        }
     }
 
     public function SAR_xls($inst_id, $assign_id, $student_id)
@@ -607,8 +614,15 @@ class ReportController extends Controller
             // return response()->Download($fileFullUrl);
             //  return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
             return response()->Download(public_path()."/data/reports/".$name);*/
-            $name = createPdfForReport($fileName, $htmlForPdf);
-            return response()->Download($name);
+            $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+            if($name == url('data/error.pdf'))
+            {
+                return response()->download(public_path()."/data/error.pdf");    
+            }
+            else
+            {
+                return response()->download(public_path()."/data/reports/".$name);
+            }
         }
 
         //return Redirect::route('class_average_and_student_scores_report');
@@ -1083,8 +1097,15 @@ class ReportController extends Controller
        // return response()->Download($fileFullUrl);
           return response()->Download(public_path()."/data/reports/".$name);
 //        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);*/
-          $name = createPdfForReport($fileName, $htmlForPdf);
-          return response()->Download($name);
+          $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+            if($name == url('data/error.pdf'))
+            {
+                return response()->download(public_path()."/data/error.pdf");    
+            }
+            else
+            {
+                return response()->download(public_path()."/data/reports/".$name);
+            }
     }
 
 
@@ -1164,8 +1185,15 @@ class ReportController extends Controller
         $name=$name[5];
        // return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
         return response()->Download(public_path()."/data/reports/".$name);*/
-        $name = createPdfForReport($fileName, $htmlForPdf);
-        return response()->Download($name);
+        $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+        if($name == url('data/error.pdf'))
+        {
+            return response()->download(public_path()."/data/error.pdf");    
+        }
+        else
+        {
+            return response()->download(public_path()."/data/reports/".$name);
+        }
     }
     public function QuestionsexportXLS($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {
@@ -1464,8 +1492,15 @@ class ReportController extends Controller
                 $name=$name[5];
                 //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
                 return response()->Download(public_path()."/data/reports/".$name);*/
-                $name = createPdfForReport($fileName, $htmlForPdf);
-                return response()->Download($name);
+                $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+                if($name == url('data/error.pdf'))
+                {
+                    return response()->download(public_path()."/data/error.pdf");    
+                }
+                else
+                {
+                    return response()->download(public_path()."/data/reports/".$name);
+                }
               }
             }
 
