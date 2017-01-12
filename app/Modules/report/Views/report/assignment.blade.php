@@ -7,7 +7,7 @@
                     <div class="panel-heading" style="text-align:center; ">Scores By Assignment</div>
                     <div class="panel-body">
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
                         <div class="form-group">
                             {{--<div class="form-group">--}}
                                 {{--<label class="col-md-2 control-label">Select institution:</label>--}}
@@ -20,9 +20,9 @@
                                     {{--</select>--}}
                                 {{--</div>--}}
                             {{--</div>--}}
-                            <div class="form-group">
-                                <label class="col-md-2 control-label">Select Assignment:</label>
-                                <div class="col-md-2">
+                            <div class="form-group col-md-12">
+                                <label class="col-md-4 control-label">Select Assignment:</label>
+                                <div class="col-md-6">
                                     <select name="assessment_id" class='form-control' id="assignment" >
                                         <option value="0" selected >-Select-</option>
                                         @if(getRole()!="administrator")
@@ -33,8 +33,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-2">
+                            <div class="form-group col-md-12">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-6">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="assignment_change()"> Go</button>
                                        
                                 </div>
