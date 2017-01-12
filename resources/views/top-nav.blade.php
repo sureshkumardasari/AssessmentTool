@@ -26,12 +26,12 @@
 
 			<div class="collapse navbar-collapse" id="top-navbar-collapse-1">
 				@if (Auth::guest())
-				<ul class="nav navbar-nav">
+				<!-- <ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					<li><a href="{{ url('/') }}">About Us</a></li>
 					<li><a href="{{ url('/') }}">Licensing</a></li>
 					<li><a href="{{ url('/') }}">Contact Us</a></li>
-				</ul>
+				</ul> -->
 				@else
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
