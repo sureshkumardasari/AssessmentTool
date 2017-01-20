@@ -98,6 +98,8 @@
 							</div>
 							<div class="col-md-6 col-md-offset-4" >
 								<button type="submit"  class="btn btn-primary"  class="addbtn">Save</button>
+								<button type="Cancel"  class="btn btn-danger"  class="addbtn1">Cancel</button>
+
 							</div>
 						</form>
 					</div>
