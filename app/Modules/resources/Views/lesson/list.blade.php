@@ -37,7 +37,7 @@
 								{{--<div class="col-md-6">--}}
 									{{--<input type="hidden" name="page" id="page" value="lesson">--}}
 									{{--<select class="form-control" name="institution_id" id="institution_id">--}}
-										{{--<option value="0">Select</option>--}}
+										{{--<option value="10">Select</option>--}}
 										{{--@foreach($inst_arr as $id=>$val)--}}
 										{{--<option value="{{ $id }}">{{ $val }}</option>--}}
 										{{--@endforeach--}}
@@ -62,7 +62,7 @@
 								<div class="col-md-6">
 									<select class="form-control" name="subject_id" id="subject_id">
 										<option value="0">Select</option>
-										{{--<option value="0">Select</option>
+										{{--<option value="10">Select</option>
 										@foreach($subjects as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach--}}
