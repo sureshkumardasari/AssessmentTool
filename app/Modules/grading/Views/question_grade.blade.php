@@ -134,15 +134,15 @@
 							   <br>
 							   <div class="form-group">
 								   <div>
-									   <button type="button" class="btn btn-info btn-sm" id="save" >save & grade next student</button>
+									   <button type="button" class="btn btn-info btn-sm" id="save" >Save & Grade next student</button>
 								   &nbsp
-									   <a  type="button" class="btn btn-danger btn-sm" href="{{ url('/grading/list-question/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+									   <a  type="button" class="btn btn-danger btn-sm" href="{{ url('/grading/list-question/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
 								   </div>
 							   </div>
 
 
 							   {{--<div class="col-md-1 col-md-offset-7">--}}
-							   {{--<button type="button" class="btn btn-info btn-sm">save & grade next student</button>--}}
+							   {{--<button type="button" class="btn btn-info btn-sm">Save & Grade next student</button>--}}
 							   {{--</div>--}}
 					
 					   </div>
