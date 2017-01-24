@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                 <div class="col-md-5 right">
-                    <button type="submit" class="btn btn-primary btn-sm right">Download</button>
+                    <button type="submit" class="btn btn-primary btn-sm right" style="margin: 2px;">Download</button>
                 </div>
             </div>
         </form>
