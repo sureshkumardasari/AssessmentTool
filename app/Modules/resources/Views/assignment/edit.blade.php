@@ -194,6 +194,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">							
 								<button type="submit" class="btn btn-primary">Submit</button>
+									<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/assignment/') }}">Cancel</a>
 							</div>
 						</div>
 					</form>

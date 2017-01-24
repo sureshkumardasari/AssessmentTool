@@ -48,6 +48,7 @@
 								<button type="submit" class="btn btn-primary">
 									Submit
 								</button>
+								<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/category/') }}">Cancel</a>
 							</div>
 						</div>
 					</form>

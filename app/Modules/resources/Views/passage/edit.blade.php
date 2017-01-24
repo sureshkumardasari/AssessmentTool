@@ -111,11 +111,11 @@
       </div>
       <div class="form-group">
        <div class="col-md-6 col-md-offset-4">
-       <button  class="btn btn-primary btn-sm  fancybox fancybox.ajax" onclick="popup()"> Preview </button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <button  class="btn btn-primary  fancybox fancybox.ajax" onclick="popup()"> Preview </button>
         <button type="submit" class="btn btn-primary">
          Submit
         </button>
+        <a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/passage/') }}">Cancel</a>
        </div>
       </div>
      </form>
