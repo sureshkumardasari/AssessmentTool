@@ -205,8 +205,7 @@
                                 
                                     <div class="col-md-offset-4">
                                         <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
-                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">C
-                                        ancel</a>
+                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
                                     </div>
