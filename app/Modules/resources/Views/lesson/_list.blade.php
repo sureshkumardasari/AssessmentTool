@@ -8,7 +8,7 @@
 		<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
 	@endif
 	</div>
-	<table id="lessonstable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<table id="lessonstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 						<thead>
 				            <tr>
 								<th>Category</th>
@@ -34,3 +34,23 @@
 
 
 					{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+<script>
+  	@if(isset($from) && $from == 'search')
+  	$(document).ready(function() {
+	    $('.datatableclass').DataTable({
+	    	language: {
+		        paginate: {
+		            previous: '‹',
+		            next:     '›'
+		        },
+		        aria: {
+		            paginate: {
+		                previous: 'Previous',
+		                next:     'Next'
+		            }
+		        }
+		    }
+	    });
+	});
+	@endif
+</script>

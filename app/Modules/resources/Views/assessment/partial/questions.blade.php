@@ -31,8 +31,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		</div>
 		<div class="panel-body searchfilter-body">
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label" >Institution</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label" >Institution</label>
+				<div class="col-md-9">
 					<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')">
 						<option value="0">--Select Institution--</option>
 						@foreach($inst_arr as $id=>$val)
@@ -42,8 +42,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Category</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Category</label>
+				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 						{{--<option value="0">--Select Category--</option>--}}
 						<!-- @foreach($category as $id=>$val)
@@ -53,8 +53,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Subject</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Subject</label>
+				<div class="col-md-9">
 					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						{{--<option value="0">--Select Subject--</option>--}}
 						<!-- @foreach($subjects as $id=>$val)
@@ -65,8 +65,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Lessons</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Lessons</label>
+				<div class="col-md-9">
 					<select class="form-control multipleSelect" multiple name="lessons_id[]" id="lessons_id"  onchange="change_question_type()">
 						{{--<option value="0">--Select Lessons--</option>--}}
 						<!-- @foreach($lesson as $id=>$val)
@@ -77,8 +77,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div id="question_type_div"class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Question Type</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Question Type</label>
+				<div class="col-md-9">
 					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
 						<option value="0">--Select Question Type--</option>
 					</select>
