@@ -146,9 +146,6 @@
                                         
                                         </div>
                                         <div class="form-group">
-                                           
-
-                                                
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
@@ -309,7 +306,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}</span>
                                                     </td>
 
                                                 </tr>
@@ -431,7 +428,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}}</p>
+                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
