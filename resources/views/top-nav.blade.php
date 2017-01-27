@@ -70,8 +70,7 @@
 			            <li role="separator" class="divider"></li>
 
 						@if($rolename == 'administrator')
-			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>
-			            <li role="separator" class="divider"></li>			            
+			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>	          
 			            <!-- <li><a href="{{ url('/user/role') }}">Roles</a></li> -->
 			            @endif
 			          </ul>
