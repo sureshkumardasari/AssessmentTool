@@ -564,7 +564,7 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
     }
     // deleteOldPdfFile($dir);
     //****End Clean Directory
-    $options = array(
+    $options1 = array(
         'encoding' => 'UTF-8', // option with argument
         'page-size' => 'A3', // option with argument
         //'user-style-sheet' => public_path('assets/css/style.css'),
@@ -584,7 +584,15 @@ function createPdfForReport($fileName, $htmlForPdfs, $footerHtml = "", $required
         'disable-smart-shrinking',
         'no-outline'
     );
-
+    $options = array(
+            'javascript-delay' => 2000,
+            'encoding'         => 'UTF-8',
+            'footer-line',
+            'footer-font-size' => 10,
+            'footer-spacing'   => 10,
+            'margin-bottom' => '25mm',
+            'header-spacing' => 15,
+        );  
     if (!empty($footerHtml)) {
         $options['footer-html'] = $footerHtml;
     }
@@ -893,11 +901,11 @@ function getInstitutionsSelectBox($name = 'institution_id', $id = 'institution_i
     //$users = User::get();
     $obj = DB::table('institution');
     if ($parent_id > 0) {
-        $inst_arr = $obj->where("id", $parent_id)->orWhere('parent_id', $parent_id)->lists('name', 'id');
+        $inst_arr = $obj->groupBy('id')->where("id", $parent_id)->orWhere('parent_id', $parent_id)->lists('name', 'id');
     } else {
         if ($sessrole != 'administrator')
             $obj->where('id', '<>', '1');
-        $inst_arr = $obj->lists('name', 'id');
+        $inst_arr = $obj->groupBy('id')->lists('name', 'id');
     }
 
     if ($sessrole == 'administrator') {

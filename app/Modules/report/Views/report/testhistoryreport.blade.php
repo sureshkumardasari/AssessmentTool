@@ -14,7 +14,7 @@
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
                         {{--<div class="form-group">--}}
                         {{--<label class="col-md-2 control-label">Select institution:</label>--}}
                         {{--<div class="col-md-2">--}}
@@ -26,24 +26,28 @@
                         {{--</select>--}}
                         {{--</div>--}}
                         {{--</div>--}}
-                        <div class="form-group">
-                            <div class="col-md-2">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6">
                                 @if(getRole()=="administrator")
                                 <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                     @else
                                     <button type="button" class="btn btn-primary pull-left" id="applyFiltersBtn" onclick="inst_change()"> Generate Report</button>
                                 @endif
                             </div>
-                        </div>
-                        <div>
-                            @if(getRole()=="administrator")
-                            <a href="#" class="btn btn-primary" id="pdf">Export pdf</a>
-                            <a href="#" class="btn btn-primary" id="xls">Export xls</a>
-                                @else
-                                <a href="#" class="btn btn-primary pull-right" id="pdf">Export pdf</a>
-                                <a href="#" class="btn btn-primary pull-right" id="xls">Export xls</a>
-                                @endif
 
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                            @if(getRole()=="administrator")
+                            <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
+                                @else
+                                <a href="#" class="btn btn-primary pull-right" id="pdf" style="margin: 2px !important;">Export PDF</a>
+                                <a href="#" class="btn btn-primary pull-right" id="xls" style="margin: 2px !important;">Export XLS</a>
+                                @endif
+                                </div>
                         </div>
                     </div>
                     <div id="report">
@@ -57,7 +61,7 @@
 
     <script>
         $("#institution_id option[value=0]").remove();
-        var op=new Option('select',0)
+        var op=new Option('Select',0)
         $("#institution_id").append(op);
         $("#institution_id").val(0);
         function inst_change(){

@@ -31,8 +31,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		</div>
 		<div class="panel-body searchfilter-body">
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label" >Institution</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label" >Institution</label>
+				<div class="col-md-9">
 					<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')">
 						<option value="0">--Select Institution--</option>
 						@foreach($inst_arr as $id=>$val)
@@ -42,8 +42,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Category</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Category</label>
+				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 						{{--<option value="0">--Select Category--</option>--}}
 						<!-- @foreach($category as $id=>$val)
@@ -53,8 +53,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Subject</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Subject</label>
+				<div class="col-md-9">
 					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						{{--<option value="0">--Select Subject--</option>--}}
 						<!-- @foreach($subjects as $id=>$val)
@@ -65,8 +65,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Lessons</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Lessons</label>
+				<div class="col-md-9">
 					<select class="form-control multipleSelect" multiple name="lessons_id[]" id="lessons_id"  onchange="change_question_type()">
 						{{--<option value="0">--Select Lessons--</option>--}}
 						<!-- @foreach($lesson as $id=>$val)
@@ -77,8 +77,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				</div>
 			</div>
 			<div id="question_type_div"class="form-group col-md-6 required">
-				<label class="col-md-2 control-label">Question Type</label>
-				<div class="col-md-10">
+				<label class="col-md-3 control-label">Question Type</label>
+				<div class="col-md-9">
 					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
 						<option value="0">--Select Question Type--</option>
 					</select>
@@ -97,9 +97,13 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                 </div> -->
 			<div class="form-group">
 				<div class="col-md-2 " >
-					<button type="button" class="btn btn-danger btn-sm" id="clear_filters">clear</button>
+<<<<<<< HEAD
+					<button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button>
+=======
+					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button> -->
+					<button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-danger btn-sm">Clear</button>
+>>>>>>> aeabf705b6692cf0b30cd2372a1ed1a67864a118
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -110,7 +114,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="" value="" class="check-all-question"></th>
+				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
 				<th>Question Name</th>
 
 			</tr>
@@ -131,18 +135,21 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 			<div class="col-md-4">
 				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add");' href="javascript:;">Add Question</a>
+					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add"),uncheck();' href="javascript:;" id="#btnn">Add Question</a>
+	
 				</div>
 			</div>
 		</div>
+		
 		<b>{{"Selected Questions"}}</b>
 		<table id="selected-questions" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
+				<th><input type="checkbox" name="" class="check-all-selected-question" value=""  id="QuestionId"></th>
 				<th>Question Name</th>
 			</tr>
 			</thead>
+
 			<?php
 			if (count($errors) > 0){
 			if(old('QuestionIds'))
@@ -164,7 +171,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 			<div class="col-md-4">
 				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove");' href="javascript:;">Remove question</a>
+					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove"),
+					uncheck();' href="javascript:;" id="#btnn">Remove question</a>
 				</div>
 			</div>
 		</div>
@@ -243,6 +251,12 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
+	function uncheck(){
+		$('#QuestionIds').attr('checked', false);
+	}
+	function uncheck(){
+		$('#QuestionId').attr('checked', false);
+	}
 
 	$(document).ready(function() {
 		$('#question_table').DataTable( {
@@ -290,7 +304,15 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 	} );
 
 
+// if('#btnn').on('click',function(){
+// // $('#QuestionIds').attr('checked', true); // Checks it
+// // $('#QuestionIds').attr('checked', false); 
+// $('#QuestionIds').removeAttr('checked');// Unchecks it
+// }
+// $("input:checkbox").uniform();
 
-
-
+// $('#btnn').live('click', function() {
+//     $('#QuestionIds').attr('checked', 'checked').uniform();
+// });
+//$('.btn btn-primary').get(0).checked = true
 </script>

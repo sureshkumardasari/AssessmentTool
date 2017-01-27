@@ -115,10 +115,13 @@ $class="col-md-12";
                     </div>
                     @endif
 
-                    <div>
-                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
+                    <div class="col-md-12">
+                         <div class="col-md-6"></div>
+                          <div class="col-md-6">
+                        <a href="#" class="btn btn-primary" id="pdf" style="margin:7px;">Export Pdf</a>
+                        
                         <a href="#" class="btn btn-primary" id="xls">Export xls</a>
-
+                        </div>
                     </div>
                     @else
                     <div class="{{$class}}"><p class="pull-middle" align="center" style="color:red"><b>!..OOPS..! No Assignments To Show.</b></p></div>

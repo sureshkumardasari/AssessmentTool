@@ -42,13 +42,13 @@ class Institution extends Model {
 			$sessRole = getRole() ;
 			if($sessRole != 'administrator')
 			{
-				$institutions = $obj->where('id','=' , Auth::user()->institution_id)->lists('name', 'id');
+				$institutions = $obj->where('id','=' , Auth::user()->institution_id)->groupBy('id')->lists('name', 'id');
 			}
 			else{
-				$institutions = $obj->lists('name', 'id');
+				$institutions = $obj->groupBy('id')->lists('name', 'id');
 			}			
 		}
-		
+		 //dd($institutions);
 		return $institutions;
 	}
 

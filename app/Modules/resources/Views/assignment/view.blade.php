@@ -87,9 +87,9 @@
 					</div>
 					<div class="row" style="width: 95%; margin-left: 10px;">						
 						<div class="row" style="border: 1px solid #ccc;padding:5px">
-							<div class="col-md-1"></div>
+							<div class="col-md-1">S.No</div>
 							<div class="col-md-2">Name</div>
-							<div class="col-md-1">Test Status</div>
+							<div class="col-md-2">Test Status</div>
 							<div class="col-md-3">Test TakenDate</div>
 							<div class="col-md-1">Score</div>
 							<div class="col-md-3"></div>
@@ -103,7 +103,7 @@
 						<div class="row" style="border: 1px solid #ccc;">
 							<div class="col-md-1">{{$i+1}}</div>
 							<div class="col-md-2">{{ $assignmentUsersArr[$i]->username}}</div>
-							<div class="col-md-1">{{ $starr[$assignmentUsersArr[$i]->status]}}</div>
+							<div class="col-md-2">{{ $starr[$assignmentUsersArr[$i]->status]}}</div>
 							
 							<div class="col-md-3">{{ ($assignmentUsersArr[$i]->status == 'completed') ? date($dtFormat, strtotime($assignmentUsersArr[$i]->takendate)) : '' }}</div>
 							<div class="col-md-1">{{ ($assignmentUsersArr[$i]->status == 'completed') ? $assignmentUsersArr[$i]->rawscore : ''}}</div>

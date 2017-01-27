@@ -169,8 +169,7 @@ class UserController extends BaseController
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
-			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 
 	public function edit($userid = 0)
@@ -215,13 +214,13 @@ class UserController extends BaseController
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
-			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 
 	public function update($institutionId = 0)
 	{
 		$post = Input::All();
+		//dd($post);
 
 		$rules = [
 			'institution_id' => 'required|not_in:0',
@@ -229,15 +228,15 @@ class UserController extends BaseController
 			'first_name' => 'required|min:3',
 			'last_name' => 'required',
 			'email' => 'required|email|max:255|unique:users',
-			'enrollment' => 'required',
+			'enrollno' => 'required',
 			'address1' => 'required',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
-			'phone' => array('required', 'numeric', 'regex: /^\d{10}$/'),
+			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
 			'gender' => 'required',
 			'state' => 'required|not_in:0',
-			'country' => 'required|not_in:0'];
+			'country_id' => 'required|not_in:0'];
 
 		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];

@@ -18,7 +18,11 @@
         </ul>
         <form class="form-horizontal" id="bulkuseruploadFrm" role="form" method="POST" action="{{ url('/user/bulkuserupload') }}">
             <div class="form-group required">
-                <label class="col-md-5 control-label">Choose File(.xls)</label>
+<<<<<<< HEAD
+                <label class="col-md-5">Choose File(.xls)</label>
+=======
+                <label class="col-md-5 ">Choose File(.xls)</label>
+>>>>>>> aeabf705b6692cf0b30cd2372a1ed1a67864a118
                 <div class="col-md-10">
                     <input type="file" class="user-file" name="file">
                 </div>

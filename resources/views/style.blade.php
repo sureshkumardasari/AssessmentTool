@@ -86,9 +86,14 @@
 }
 .rcorners1 {
     border-radius: 25px;
-    background: #73AD21;
+    background: {{$button_bg_color}};
     padding: 20px;
     width: 200px;
-    height: 150px;
+    height: 80px;
+    color: {{$button_text_color}};
+}
+.rcorners1 a{
+      color: {{$button_text_color}};
+       font-weight: bold;
 }
 </style>

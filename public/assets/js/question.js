@@ -1545,7 +1545,12 @@ function addOrRemoveInGrid(elem, type) {
             $('#selected-passage').dataTable();
             //alert(JSON.stringify(selected_question_ids));
             addOrRemoveInPassage(this, "remove",removePassage);
+
+
+
         }
+
+        $(".check-all-question").removeAttr("checked");
     }
 }
 function addOrRemoveInPassage(elem, type,id) {

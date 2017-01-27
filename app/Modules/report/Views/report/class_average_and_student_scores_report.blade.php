@@ -9,7 +9,7 @@
 
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
                             {{--<div class="form-group">--}}
                                 {{--<label class="col-md-2 control-label" >Select institution:</label>--}}
                                 {{--<div class="col-md-2">--}}
@@ -21,9 +21,9 @@
                                     {{--</select>--}}
                                 {{--</div>--}}
                             {{--</div>--}}
-                            <div class="form-group">
-                                <label class="col-md-2 control-label">Select Assignment:</label>
-                                <div class="col-md-2">
+                            <div class="form-group col-md-12">
+                                <label class="col-md-4 control-label">Select Assignment:</label>
+                                <div class="col-md-6">
                                     <select name="assignment_id" class='form-control' id="assignment_id" >
                                         <option value="0" selected >-Select-</option>
                                         @if(getRole()!="administrator")
@@ -34,23 +34,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-2">
+                            <div class="form-group col-md-12">
+                                 <label class="col-md-4 control-label"></label>
+                                <div class="col-md-6">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="report()"> Go</button>
                                        
                                 </div>
                             </div>
 
-                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                        <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
+                        <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                    </div></div>
                     <div id="report">
 
                     </div>
 
-                    <div>
-                        <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
-                        <a href="#" class="btn btn-primary" id="xls">Export xls</a>
-                    </div>
-
+                    
+</div>
             </div>
             </div>
         </div>

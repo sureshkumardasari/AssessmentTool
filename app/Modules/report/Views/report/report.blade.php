@@ -11,7 +11,7 @@
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
                         <div class="rcorners1 col-md-6" >
-                            <a href="{{ url('/report/class_average_and_student_scores_report') }}">Class averages and student scores report</a>
+                            <a href="{{ url('/report/class_average_and_student_scores_report') }}">Class Averages And Student Scores Report</a>
                         </div>
 
                         <div class="col-md-3" ></div>
@@ -22,7 +22,7 @@
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
                         {{--<div class="rcorners1  col-md-6" >--}}
-                            {{--<a href="{{ url('/report/student') }}">Scores by Students</a>--}}
+                            {{--<a href="{{ url('/report/student') }}">Scores By Students</a>--}}
                         {{--</div>--}}
                         <div class="col-md-3" ></div>
                         <div class="rcorners1  col-md-6" >
@@ -32,7 +32,7 @@
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
                         <div class="rcorners1  col-md-6" >
-                            <a href="{{ url('/report/test-history') }}">Test-History-Class-Averages</a>
+                            <a href="{{ url('/report/test-history') }}">Test History Class Averages</a>
                         </div>
                         <div class="col-md-3" ></div>
                         <div class="rcorners1  col-md-6" >
@@ -42,7 +42,7 @@
                     <div class="panel-body">
                     <div class="col-md-5" ></div>
                     <div class="rcorners1 col-md-6" >
-                        <a href="{{ url('/report/leastscore') }}">least score Report</a>
+                        <a href="{{ url('/report/leastscore') }}">Least Scorers Report</a>
                     </div><br>
                 </div>
                 </div>

@@ -35,11 +35,13 @@
 				            <div class="form-group">
 								{{--//for displaying that the question is graded or not?--}}
 								<div class="col-md-2"><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$ass_qst['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted"  style="color:red" id="incomplete_status{{$ass_qst['Id']}}"></span>
-				                <b><label style="color:green" class="control-label">Question Title:</label></b></div><div class="col-md-10"><p> <b>{{$ass_qst['Title']}}</b></p></div>
+				                <b><label style="color:green" class="control-label">Question Title:</label></b></div><div class="col-md-10"><p> {{$ass_qst['Title']}}</p></div>
 				            </div>  
 
 				            <div class="form-group">				                
-				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div>
+				                <div class="col-md-10">
+				                <p>{{$ass_qst['qst_text']}}</p></div>
 				            </div> 
 				            <div></div>	
 				            {{--*/ $i = 0 /*--}}
@@ -134,15 +136,15 @@
 							   <br>
 							   <div class="form-group">
 								   <div>
-									   <button type="button" class="btn btn-info btn-sm" id="save" >save & grade next student</button>
+									   <button type="button" class="btn btn-info btn-sm" id="save" >Save & Grade next student</button>
 								   &nbsp
-									   <a  type="button" class="btn btn-danger btn-sm" href="{{ url('/grading/list-question/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+									   <a  type="button" class="btn btn-danger btn-sm" href="{{ url('/grading/list-question/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
 								   </div>
 							   </div>
 
 
 							   {{--<div class="col-md-1 col-md-offset-7">--}}
-							   {{--<button type="button" class="btn btn-info btn-sm">save & grade next student</button>--}}
+							   {{--<button type="button" class="btn btn-info btn-sm">Save & Grade next student</button>--}}
 							   {{--</div>--}}
 					
 					   </div>

@@ -10,7 +10,7 @@
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
                         
-                            {{--<div class="form-group required">--}}
+                            <div class="form-group required">
                                 {{--<label class="col-md-2 control-label">institution:</label>--}}
                                 {{--<div class="col-md-2">--}}
                                     {{--<select name="inst_id" class='form-control' id="institution_id" >--}}
@@ -20,7 +20,7 @@
                                         {{--@endforeach--}}
                                     {{--</select>--}}
                                 {{--</div>--}}
-                            {{--</div>--}}
+                            </div>
                             
                             <div class="form-group required">
                                 <label class="col-md-4 control-label">Assignment:</label>
@@ -54,16 +54,17 @@
                             </div>
                         </div>
                              <div class="form-group">
-                               <div class="col-md-6 col-md-offset-4">
-                                    <button type="button" class="btn btn-info  pull-right btn-md"  id="applyFiltersBtn" onclick="update()"><i>Update</i></button>
+                               <div class="col-md-5">
+                                    <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><i>Go</i></button>
                                        
                                 </div>
                             </div>
 
-                        <div>
-                            <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
-                            <a href="#" class="btn btn-primary" id="xls">Export xls</a>
-                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-6 col-md-offset-8">
+                            <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                        </div></div>
                     </form>
                     <div id="wholescore">
 

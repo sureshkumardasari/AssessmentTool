@@ -21,17 +21,18 @@
   							$logopath = asset('/images/logo.png');
   						}
 				?>
-				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ $logopath }}" width="250" height=""></a>
+				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ $logopath }}" width="250" height="60px" 
+				style="margin-top:-10px";></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="top-navbar-collapse-1">
 				@if (Auth::guest())
-				<ul class="nav navbar-nav">
+				<!-- <ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					<li><a href="{{ url('/') }}">About Us</a></li>
 					<li><a href="{{ url('/') }}">Licensing</a></li>
 					<li><a href="{{ url('/') }}">Contact Us</a></li>
-				</ul>
+				</ul> -->
 				@else
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
@@ -69,8 +70,12 @@
 			            <li role="separator" class="divider"></li>
 
 						@if($rolename == 'administrator')
+<<<<<<< HEAD
 			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>
-			            <li role="separator" class="divider"></li>			            
+			            <!-- <li role="separator" class="divider"></li>			             -->
+=======
+			            <li><a href="{{ url('/user/institution') }}">Institutions</a></li>	          
+>>>>>>> aeabf705b6692cf0b30cd2372a1ed1a67864a118
 			            <!-- <li><a href="{{ url('/user/role') }}">Roles</a></li> -->
 			            @endif
 			          </ul>

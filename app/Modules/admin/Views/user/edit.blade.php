@@ -16,13 +16,13 @@
 	$last_name =  (old('last_name') != NULL) ? old('last_name') : $last_name; 
 	$email = (old('email') != NULL) ? old('email') : $email; 
 	$password = (old('password') != NULL) ? old('password') : $password; 
-	$enrollno = (old('enrollment') != NULL) ? old('enrollment') : $enrollno; 
+	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
 	$address1 = (old('address1') != NULL) ? old('address1') : $address1; 
 	$city = (old('city') != NULL) ? old('city') : $city; 
 	$state = (old('state') != NULL) ? old('state') : $state; 
 	$pincode=(old('pincode') != NULL)? old('pincode') : $pincode;
-	$phoneno = (old('phone') != NULL)? old('phone') : $phoneno;
-	$country_id=(old('country')!=NULL)? old('country'):$country_id;
+	$phoneno = (old('phoneno') != NULL)? old('phoneno') : $phoneno;
+	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
 	$status = (old('status') != NULL) ? old('status') : $status; 
 	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
 
@@ -162,7 +162,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Enrollment#</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="enrollment" value="{{ $enrollno }}">
+								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
 							</div>
 						</div>
 						<!--  -->
@@ -187,10 +187,11 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Country</label>
 							<div class="col-md-6">
-								<select class="form-control" name="country">
+								<select class="form-control" name="country_id">
 									<option value="0">Select</option>
 									@foreach($country_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}
+									</option>
 									@endforeach
 								</select>
 							</div>
@@ -223,7 +224,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Phone#</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="phone" value="{{ $phoneno }}" maxlength="10">
+								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}" maxlength="10">
 							</div>
 						</div>
 						<!--  -->
@@ -243,6 +244,7 @@
 								<button type="submit" class="btn btn-primary">
 									Submit
 								</button>
+								<a type="Cancel"  class="btn btn-danger"  href="{{  url('/user/') }}">Cancel</a>
 							</div>
 						</div>
 					</form>

@@ -146,9 +146,6 @@
                                         
                                         </div>
                                         <div class="form-group">
-                                           
-
-                                                
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
@@ -204,8 +201,8 @@
                                     
                                 
                                     <div class="col-md-offset-4">
-                                        <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">save</button>
-                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+                                        <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
+                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
                                     </div>
@@ -235,7 +232,7 @@
                                                                         <div class="modal-body" id="{{$j}}">
                                                                         
                                                                         <div class="form-group">
-                                                                            <label class="control-label col-md-2"> Q. </label><p>{{$quest['qst_text']}}</p>
+                                                                            <label class="control-label col-md-2"> Q. </label>{{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
                                                                         </div>
                                                                         
 
@@ -272,8 +269,8 @@
                                                 @endforeach
                                             </table>
                                             <div class="col-md-offset-4">
-                                                <button type="button" class="btn btn-primary" onclick="save_student_fib_answers()">save</button>
-                                                <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+                                                <button type="button" class="btn btn-primary" onclick="save_student_fib_answers()">Save</button>
+                                                <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                                 <button type="button" class="btn btn-primary grade">Grade</button>
                                             </div>
                                         </div>
@@ -309,7 +306,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}</span>
                                                     </td>
 
                                                 </tr>
@@ -343,7 +340,7 @@
 
 
                                                                             {{$ans_arr[$i]}}.
-                                                                            <span  class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                                            <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
                                                                         {{--*/ $i++ /*--}}
@@ -374,8 +371,8 @@
                                         @endforeach
                                     </table>
                                     <div class="col-md-offset-4">
-                                        <button type="button" class="btn btn-primary" onclick="save_student_multi_answers()">save</button>
-                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>
+                                        <button type="button" class="btn btn-primary" onclick="save_student_multi_answers()">Save</button>
+                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
 
@@ -410,7 +407,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
                                                     </td>
 
                                                 </tr>
@@ -431,7 +428,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}}</p>
+                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
@@ -446,7 +443,7 @@
 
 
                                                                             {{$ans_arr[$i]}}.
-                                                                            <span  class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                                            <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
                                                                         {{--*/ $i++ /*--}}
@@ -477,8 +474,8 @@
                                         @endforeach
                                     </table>
                                     <div class="col-md-offset-4">
-                                        <button type="button" class="btn btn-primary" onclick="save_student_single_answers()">save</button>&nbsp
-                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">cancel</a>&nbsp
+                                        <button type="button" class="btn btn-primary" onclick="save_student_single_answers()">Save</button>&nbsp
+                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>&nbsp
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
 

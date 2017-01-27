@@ -425,11 +425,20 @@ class ReportController extends Controller
 
         $htmlForPdf = view('report::report.SAR_pdf', compact('assignments', 'inst', 'assign','user'))->render();
         $fileName = 'sar_pdf';
-        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
         $name=$name[5];
        // return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-        return response()->Download(public_path()."/data/reports/".$name);
+        return response()->Download(public_path()."/data/reports/".$name);*/
+        $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+        if($name == url('data/error.pdf'))
+        {
+            return response()->download(public_path()."/data/error.pdf");    
+        }
+        else
+        {
+            return response()->download(public_path()."/data/reports/".$name);
+        }
     }
 
     public function SAR_xls($inst_id, $assign_id, $student_id)
@@ -597,14 +606,23 @@ class ReportController extends Controller
             $htmlForPdf = view('report::report.pdf', compact('inst', 'students', 'assi'))->render();
             // dd($htmlForPdf);
             $fileName = 'pdf';
-            $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+            /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
             //dd($fileFullUrl);
             $name=explode('/',$fileFullUrl);
             $name=$name[5];
             // return url($fileFullUrl);
             // return response()->Download($fileFullUrl);
-          //  return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-            return response()->Download(public_path()."/data/reports/".$name);
+            //  return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+            return response()->Download(public_path()."/data/reports/".$name);*/
+            $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+            if($name == url('data/error.pdf'))
+            {
+                return response()->download(public_path()."/data/error.pdf");    
+            }
+            else
+            {
+                return response()->download(public_path()."/data/reports/".$name);
+            }
         }
 
         //return Redirect::route('class_average_and_student_scores_report');
@@ -1071,14 +1089,23 @@ class ReportController extends Controller
         $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
        // dd($htmlForPdf);
         $fileName = 'testhistoryreport';
-        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         //dd($fileFullUrl);
          $name=explode('/',$fileFullUrl);
         $name=$name[5];
        // return url($fileFullUrl);
        // return response()->Download($fileFullUrl);
           return response()->Download(public_path()."/data/reports/".$name);
-//        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+//        return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);*/
+          $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+            if($name == url('data/error.pdf'))
+            {
+                return response()->download(public_path()."/data/error.pdf");    
+            }
+            else
+            {
+                return response()->download(public_path()."/data/reports/".$name);
+            }
     }
 
 
@@ -1153,11 +1180,20 @@ class ReportController extends Controller
 
         $htmlForPdf = view('report::report.Questionpdf', compact('ques', 'user_answered_correct_count', 'user_count', 'inst', 'assign','sub'))->render();
         $fileName = 'answer';
-        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+        /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
         $name=$name[5];
        // return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-        return response()->Download(public_path()."/data/reports/".$name);
+        return response()->Download(public_path()."/data/reports/".$name);*/
+        $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+        if($name == url('data/error.pdf'))
+        {
+            return response()->download(public_path()."/data/error.pdf");    
+        }
+        else
+        {
+            return response()->download(public_path()."/data/reports/".$name);
+        }
     }
     public function QuestionsexportXLS($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {
@@ -1207,6 +1243,9 @@ class ReportController extends Controller
         $asgnmts=UserAssignmentResult::whereIn('assignment_id',$assignment)->take(10)->select('rawscore','user_id','assignment_id')->lists('assignment_id');*/
         //dd($assignment);
 
+        $report_data = $report_data1 = $report_data2 = [];
+        if(isset($assignment[0]) && $assignment[0]>0)
+        {
         $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
             ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
             ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
@@ -1216,7 +1255,10 @@ class ReportController extends Controller
             ->take(10)
             ->get();
 
-        $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
+        }
+        if(isset($assignment[1]) && $assignment[1]>0)
+        { 
+            $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
             ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
             ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
             ->where('assignment.id', '=', $assignment[1])
@@ -1224,6 +1266,9 @@ class ReportController extends Controller
             ->orderby('user_assignment_result.rawscore', 'asc')
             ->take(10)
             ->get();
+        }
+        if(isset($assignment[2]) && $assignment[2]>0)
+        {
         $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
             ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
             ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
@@ -1232,6 +1277,7 @@ class ReportController extends Controller
             ->orderby('user_assignment_result.rawscore', 'asc')
             ->take(10)
             ->get();
+        }
         //return view('report::report.least_score', compact('report_data','report_data1','report_data2','assignmentname'));
        /* return Excel::create('Assessment report', function ($excel) use ($report_data, $report_data1, $report_data2, $assignmentname) {
             $excel->sheet('mySheet', function ($sheet) use ($report_data, $report_data1, $report_data2, $assignmentname) {
@@ -1240,13 +1286,21 @@ class ReportController extends Controller
                 //$sheet->fromArray($students);
             });
         })->download("pdf");*/
-        $htmlForPdf = view('report::report.leastpdf', compact('report_data','report_data1','report_data2','assignmentname'));
+        $htmlForPdf = view('report::report.leastpdf', compact('report_data','report_data1','report_data2','assignmentname'))->render();
         $fileName = 'least_score';
-        $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+
+        /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
-        $name=$name[5];
-        //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-        return response()->Download(public_path()."/data/reports/".$name);
+        $name=$name[5];*/
+        $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+        if($name == url('data/error.pdf'))
+        {
+            return response()->download(public_path()."/data/error.pdf");    
+        }
+        else
+        {
+            return response()->download(public_path()."/data/reports/".$name);
+        }        
     }
 
     public function leastscoreexportXLS()
@@ -1433,11 +1487,20 @@ class ReportController extends Controller
                 }
                 $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub','less','type', 'lessons', 'assignment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'))->render();
                 $fileName = 'wholeclassscorereportpdf';
-                $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+                /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
                 $name=explode('/',$fileFullUrl);
                 $name=$name[5];
                 //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-                return response()->Download(public_path()."/data/reports/".$name);
+                return response()->Download(public_path()."/data/reports/".$name);*/
+                $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+                if($name == url('data/error.pdf'))
+                {
+                    return response()->download(public_path()."/data/error.pdf");    
+                }
+                else
+                {
+                    return response()->download(public_path()."/data/reports/".$name);
+                }
               }
             }
 

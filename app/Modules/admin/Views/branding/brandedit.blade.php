@@ -93,7 +93,9 @@
                             </div>
                             <div class="col-md-6 col-md-offset-4" >
                                 <button type="submit" class="btn btn-primary">Update</button>
-                                <button type="reset" class="btn btn-default">Reset</button>
+                                <!-- <button type="reset" class="btn btn-default">Reset</button> -->
+                                <button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-default">Reset
+                                </button>
                                 <a class="btn btn-default" href="@if(getRole()=='administrator'){{  url('user/brandings') }}@else {{url('/home')}} @endif">Cancel</a>
                             </div>
                         </form>
