@@ -232,7 +232,7 @@
                                                                         <div class="modal-body" id="{{$j}}">
                                                                         
                                                                         <div class="form-group">
-                                                                            <label class="control-label col-md-2"> Q. </label><p>{{$quest['qst_text']}}</p>
+                                                                            <label class="control-label col-md-2"> Q. </label>{{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
                                                                         </div>
                                                                         
 
@@ -340,7 +340,7 @@
 
 
                                                                             {{$ans_arr[$i]}}.
-                                                                            <span  class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                                            <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
                                                                         {{--*/ $i++ /*--}}
@@ -407,7 +407,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
                                                     </td>
 
                                                 </tr>
@@ -443,7 +443,7 @@
 
 
                                                                             {{$ans_arr[$i]}}.
-                                                                            <span  class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                                            <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
                                                                         {{--*/ $i++ /*--}}
