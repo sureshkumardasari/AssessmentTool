@@ -26,7 +26,7 @@
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id" >
 										@if(getRole()=="administrator")
-										<option value="0" data-id="0">-- Select --</option>
+										<option value="0" data-id="0">--- Select ---</option>
 										@endif
 										@foreach($inst_arr as $id => $name)
 											<option value="{{$id}}" data-id="{{(isset($brandingIds[$id]))? $brandingIds[$id] : 0 }}">{{$name}}</option>
@@ -98,7 +98,7 @@
 							</div>
 							<div class="col-md-6 col-md-offset-4" >
 								<button type="submit"  class="btn btn-primary"  class="addbtn">Save</button>
-								<button type="Cancel"  class="btn btn-danger"  class="addbtn1">Cancel</button>
+								<a type="Cancel"  class="btn btn-danger"  href="{{  url('/user/brandings/') }}">Cancel</a>
 
 							</div>
 						</form>

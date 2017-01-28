@@ -41,11 +41,11 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                             @if(getRole()=="administrator")
-                            <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                            <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
                                 @else
-                                <a href="#" class="btn btn-primary pull-right" id="pdf">Export PDF</a>
-                                <a href="#" class="btn btn-primary pull-right" id="xls">Export XLS</a>
+                                <a href="#" class="btn btn-primary pull-right" id="pdf" style="margin: 2px !important;">Export PDF</a>
+                                <a href="#" class="btn btn-primary pull-right" id="xls" style="margin: 2px !important;">Export XLS</a>
                                 @endif
                                 </div>
                         </div>

@@ -46,8 +46,9 @@
 								</div>
 							</div> -->
 							<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+							<br><br>
 							<div class="form-group col-md-5">
-								<label class="col-md-4 control-label">Select Role</label>
+								<label class="col-md-4" style="margin-left:-15px;">Select Role</label>
 								<div class="col-md-6">
 									<select class="form-control" name="role_id" id="role_id">
 										<option value=0>All</option>

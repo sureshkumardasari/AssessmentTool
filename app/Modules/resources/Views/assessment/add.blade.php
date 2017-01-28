@@ -116,6 +116,7 @@
 						<button id="submit" type="submit" class="btn btn-primary">
 							Submit
 						</button>
+							<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/assessment/') }}">Cancel</a>
 					</div>
 				</div>
 			</form>

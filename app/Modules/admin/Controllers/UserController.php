@@ -220,6 +220,7 @@ class UserController extends BaseController
 	public function update($institutionId = 0)
 	{
 		$post = Input::All();
+		//dd($post);
 
 		$rules = [
 			'institution_id' => 'required|not_in:0',
@@ -227,15 +228,15 @@ class UserController extends BaseController
 			'first_name' => 'required|min:3',
 			'last_name' => 'required',
 			'email' => 'required|email|max:255|unique:users',
-			'enrollment' => 'required',
+			'enrollno' => 'required',
 			'address1' => 'required',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
-			'phone' => array('required', 'numeric', 'regex: /^\d{10}$/'),
+			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
 			'gender' => 'required',
 			'state' => 'required|not_in:0',
-			'country' => 'required|not_in:0'];
+			'country_id' => 'required|not_in:0'];
 
 		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
