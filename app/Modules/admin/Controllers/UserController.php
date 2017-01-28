@@ -169,8 +169,7 @@ class UserController extends BaseController
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
-			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 
 	public function edit($userid = 0)
@@ -215,8 +214,7 @@ class UserController extends BaseController
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
-			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 
 	public function update($institutionId = 0)

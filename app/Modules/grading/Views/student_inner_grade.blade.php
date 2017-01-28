@@ -310,7 +310,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}</span>
                                                     </td>
 
                                                 </tr>

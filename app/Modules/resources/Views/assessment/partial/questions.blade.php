@@ -97,7 +97,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                 </div> -->
 			<div class="form-group">
 				<div class="col-md-2 " >
-					<button type="button" class="btn btn-danger btn-sm" id="clear_filters">clear</button>
+					<button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button>
 				</div>
 
 			</div>
@@ -110,7 +110,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="" value="" class="check-all-question"></th>
+				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
 				<th>Question Name</th>
 
 			</tr>
@@ -131,18 +131,21 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 			<div class="col-md-4">
 				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add");' href="javascript:;">Add Question</a>
+					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add"),uncheck();' href="javascript:;" id="#btnn">Add Question</a>
+	
 				</div>
 			</div>
 		</div>
+		
 		<b>{{"Selected Questions"}}</b>
 		<table id="selected-questions" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
+				<th><input type="checkbox" name="" class="check-all-selected-question" value=""  id="QuestionId"></th>
 				<th>Question Name</th>
 			</tr>
 			</thead>
+
 			<?php
 			if (count($errors) > 0){
 			if(old('QuestionIds'))
@@ -164,7 +167,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 			<div class="col-md-4">
 				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove");' href="javascript:;">Remove question</a>
+					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove"),
+					uncheck();' href="javascript:;" id="#btnn">Remove question</a>
 				</div>
 			</div>
 		</div>
@@ -243,6 +247,12 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
+	function uncheck(){
+		$('#QuestionIds').attr('checked', false);
+	}
+	function uncheck(){
+		$('#QuestionId').attr('checked', false);
+	}
 
 	$(document).ready(function() {
 		$('#question_table').DataTable( {
@@ -290,7 +300,15 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 	} );
 
 
+// if('#btnn').on('click',function(){
+// // $('#QuestionIds').attr('checked', true); // Checks it
+// // $('#QuestionIds').attr('checked', false); 
+// $('#QuestionIds').removeAttr('checked');// Unchecks it
+// }
+// $("input:checkbox").uniform();
 
-
-
+// $('#btnn').live('click', function() {
+//     $('#QuestionIds').attr('checked', 'checked').uniform();
+// });
+//$('.btn btn-primary').get(0).checked = true
 </script>

@@ -35,11 +35,13 @@
 				            <div class="form-group">
 								{{--//for displaying that the question is graded or not?--}}
 								<div class="col-md-2"><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$ass_qst['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted"  style="color:red" id="incomplete_status{{$ass_qst['Id']}}"></span>
-				                <b><label style="color:green" class="control-label">Question Title:</label></b></div><div class="col-md-10"><p> <b>{{$ass_qst['Title']}}</b></p></div>
+				                <b><label style="color:green" class="control-label">Question Title:</label></b></div><div class="col-md-10"><p> {{$ass_qst['Title']}}</p></div>
 				            </div>  
 
 				            <div class="form-group">				                
-				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div>
+				                <div class="col-md-10">
+				                <p>{{$ass_qst['qst_text']}}</p></div>
 				            </div> 
 				            <div></div>	
 				            {{--*/ $i = 0 /*--}}

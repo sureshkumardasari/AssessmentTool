@@ -126,6 +126,8 @@ class QuestionController extends BaseController {
 		$lessons = $this->lesson->getLesson();
 		$passage = $this->passage->getPassage();
 		$qtypes = $this->question_type->getQuestionTypes();
+	
+
 
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$name = '';

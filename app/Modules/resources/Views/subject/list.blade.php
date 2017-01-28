@@ -47,7 +47,7 @@
 									<select class="form-control" name="category_id" id="category_id">
 										<option value="0">Select</option>
 
-										{{--<option value="0">Select</option>--}}
+										<!-- {{--<option value="0">Select</option>--}} -->
 										@if(getRole()!="administrator")
 										@foreach($category as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>

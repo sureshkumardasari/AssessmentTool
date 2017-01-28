@@ -10,7 +10,7 @@
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
                         
-                            {{--<div class="form-group required">--}}
+                            <div class="form-group required">
                                 {{--<label class="col-md-2 control-label">institution:</label>--}}
                                 {{--<div class="col-md-2">--}}
                                     {{--<select name="inst_id" class='form-control' id="institution_id" >--}}
@@ -20,7 +20,7 @@
                                         {{--@endforeach--}}
                                     {{--</select>--}}
                                 {{--</div>--}}
-                            {{--</div>--}}
+                            </div>
                             
                             <div class="form-group required">
                                 <label class="col-md-4 control-label">Assignment:</label>

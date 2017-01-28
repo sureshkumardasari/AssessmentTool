@@ -1459,6 +1459,7 @@ function addOrRemoveInGrid(elem, type) {
        // $('#selected-questions').dataTable();
 
     }
+    $(".check-all-question").removeAttr("checked");
 }
 function addOrRemoveInPassage(elem, type,id) {
     var flag=0;

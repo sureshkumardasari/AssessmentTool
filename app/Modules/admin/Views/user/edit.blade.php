@@ -190,7 +190,8 @@
 								<select class="form-control" name="country">
 									<option value="0">Select</option>
 									@foreach($country_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}
+									</option>
 									@endforeach
 								</select>
 							</div>

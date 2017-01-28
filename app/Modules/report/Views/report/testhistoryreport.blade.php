@@ -61,7 +61,7 @@
 
     <script>
         $("#institution_id option[value=0]").remove();
-        var op=new Option('select',0)
+        var op=new Option('Select',0)
         $("#institution_id").append(op);
         $("#institution_id").val(0);
         function inst_change(){
