@@ -46,7 +46,7 @@
 							{{--</div>--}}
 							<div class="form-group">
 								<label class="col-md-4 control-label">Category</label>
-								<div class="col-md-10">
+								<div class="col-md-6">
 									<select class="form-control" name="category_id" id="category_id">
 										<option value="0">Select</option>
 										@if(getRole()!="administrator")
@@ -59,7 +59,7 @@
 							</div>
 							<div class="form-group">
 								<label class="col-md-4 control-label">Subject</label>
-								<div class="col-md-10">
+								<div class="col-md-6">
 									<select class="form-control" name="subject_id" id="subject_id">
 										<option value="0">Select</option>
 										{{--<option value="0">Select</option>
