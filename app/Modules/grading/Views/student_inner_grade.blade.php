@@ -118,7 +118,7 @@
                     <div class="panel-heading">
                         Grading List
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" >
                         <?php
                         $j=1;
                         $ans_arr=['A','B','C','D','E'];
@@ -208,7 +208,7 @@
                                     </div>
                                 </div>
                             @elseif($question =="Fill in the blank")
-                                        <div id="question_type{{$key}}">
+                                        <div id="question_type{{$key}}" style="padding:15px;">
                                             <table>
                                                 @foreach($qst[$key] as $quest)
                                                     <tr>
