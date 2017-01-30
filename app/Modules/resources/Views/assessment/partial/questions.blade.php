@@ -98,7 +98,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<div class="form-group">
 				<div class="col-md-2 " >
 					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button> -->
-					<button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-danger btn-sm">Clear</button>
+					<button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-danger">Clear</button>
 				</div>
 			</div>
 		</div>
