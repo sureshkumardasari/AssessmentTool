@@ -114,7 +114,7 @@
 
 
                 </div>
-                <div class="panel panel-default">
+                <div class="panel panel-default" style="margin: 0 60px 60px 60px;">
                     <div class="panel-heading">
                         Grading List
                     </div>
