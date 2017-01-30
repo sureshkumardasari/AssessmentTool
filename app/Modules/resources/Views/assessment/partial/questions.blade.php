@@ -158,6 +158,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			}
 			?>
 			<tbody class="child-grid">
+
 			</tbody>
 		</table>
 
@@ -252,6 +253,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			"scrollCollapse": true,
 			"paging":         true
 		} );
+		
 		$('#passage_table').DataTable( {
 			order: [],
 			columnDefs: [ { orderable: false, targets: [0] } ],
