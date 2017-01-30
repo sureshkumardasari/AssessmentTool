@@ -75,7 +75,8 @@
 }
 .ssi-tip {
   position: absolute;
-  z-index: 3; }
+  z-index: 3;
+   }
 
 .tip-container {
   background-color: #fff;
@@ -87,29 +88,25 @@
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
-  position: absolute;
+  position: relative;
   padding: 14px 11px;
   z-index: 0;
   width: auto;
   min-width: 201px;
-  right: 0px;
-  top: 0;
+  left: 0px;
+  top: -33px;
   border: 1px solid #ccc; }
 
 .ie8 .tip-container {
   border: solid 1px #bebebe; }
 
 .ssi-tip-arrow {
-  background: url(../images/ie8WhitArrow.png) left top no-repeat;
-  width: 19px;
-  height: 10px;
+  background: url(../images/arrow.png) ;
+  height: 20px;
   position: absolute;
-  top: -9px;
-  right: 25px;
-  z-index: 99; }
-
-.ie8 .ssi-tip-arrow {
-  top: -9px; }
+  left: -16px;
+  top: -33px;
+  right: 25px; }
 
 .tip-msg-outer .tip-message {
   font-size: 12px;
