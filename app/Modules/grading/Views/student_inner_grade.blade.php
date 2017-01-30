@@ -98,20 +98,22 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="clr"></div>
+                        
                     </div>
-
+                    <div class="clr" style="clear: both;"></div>
+                   
+                    <div class="form-group">
                     <div>
                         <div>
                             <label class="col-md-2 control-label">Taken Date:</label>
-                            <p id="date_taken">{{$first_student_answers['student_details']['takendate']}}</p>
+                            <p id="date_taken" class="col-md-4"> {{$first_student_answers['student_details']['takendate']}}</p>
                         </div>
                         <div>
                             <label class="col-md-2 control-label">Graded Date:</label>
-                            <p id="graded_date">{{$first_student_answers['student_details']['gradeddate']}}</p>
+                            <p id="graded_date" class="col-md-4">{{$first_student_answers['student_details']['gradeddate']}}</p>
                         </div>
                     </div>
-
+                    </div>
 
                 </div>
                 <div class="panel panel-default" style="margin: 0 60px 60px 60px;">
