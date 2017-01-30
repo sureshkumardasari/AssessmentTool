@@ -98,13 +98,13 @@
 					<div class="form-group required">
 						<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
 						<div class="col-md-6">
-							<textarea class="form-control numeric" name="mcsingleanswerpoint">{{old('mcsingleanswerpoint')}}</textarea>
+							<textarea class="form-control numeric" name="mcsingleanswerpoint" style="max-width:442px;">{{old('mcsingleanswerpoint')}}</textarea>
 						</div>
 					</div>
 					<div class="form-group required">
 						<label class="col-md-4 control-label"> Essay AnswerPoint</label>
 						<div class="col-md-6">
-							<textarea class="form-control numeric" name="essayanswerpoint">{{old('essayanswerpoint')}}</textarea>
+							<textarea class="form-control numeric" name="essayanswerpoint" style="max-width:442px;">{{old('essayanswerpoint')}}</textarea>
 						</div>
 					</div>
 					<div id="subjects_list"></div>
