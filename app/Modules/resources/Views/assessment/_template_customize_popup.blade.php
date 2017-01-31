@@ -15,7 +15,16 @@
         .side-area .num {float:right; padding-top:0px; font-size:30px; letter-spacing:5px; }
         .side-area .num .color {color:#e97564; font-family: 'droid_sansbold'; }
         .view-area {border:1px solid #d7d7d7; padding:15px 27px; -webkit-box-shadow: inset 0 4px 5px rgba(0,0,0,.2); -moz-box-shadow: inset 0 4px 5px rgba(0,0,0,.2); box-shadow: inset 0 4px 5px rgba(0,0,0,.2); margin-bottom: 40px; }
-        .footer, .header {background:#fff; text-align:center; padding:0; width:100%; margin:0 auto 20px !important; word-wrap: break-word; }
+        .footer {    background: #8d8d8d none repeat scroll 0 0;
+    bottom: 0;
+    /* display: table-row; */
+    height: auto;
+    left: 0;
+    padding: 10px 0 6px;
+    position: fixed;
+    text-align: center;
+    width: 100%; word-wrap: break-word; }
+        .header {background:#fff; text-align:center; padding:0; width:100%; margin:0 auto 20px !important; word-wrap: break-word; }
         .view-area .footer {margin:0; }
         .view-area .content {font-size:18px;line-height: 28px;}
         .view-area h1 {margin: 0 0 30px; font-size: 29px; line-height: 30px; }

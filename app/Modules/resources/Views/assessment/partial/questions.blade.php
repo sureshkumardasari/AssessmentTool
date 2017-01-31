@@ -98,9 +98,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<div class="form-group">
 				<div class="col-md-2 " >
 					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button> -->
-					<button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-danger btn-sm">Clear</button>
+					<button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-danger">Clear</button>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -111,7 +110,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="" value="" class="check-all-question"></th>
+				<th><input type="checkbox" id="question_table1" value="" class="check-all-question"></th>
 				<th>Question Name</th>
 
 			</tr>
@@ -159,6 +158,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			}
 			?>
 			<tbody class="child-grid">
+
 			</tbody>
 		</table>
 
@@ -247,27 +247,32 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 	$(document).ready(function() {
 		$('#question_table').DataTable( {
-
+			order: [],
+			columnDefs: [ { orderable: false, targets: [0] } ],
 			"scrollY":        "850px",
 			"scrollCollapse": true,
 			"paging":         true
 		} );
+		
 		$('#passage_table').DataTable( {
-
+			order: [],
+			columnDefs: [ { orderable: false, targets: [0] } ],
 			"scrollY":        "850px",
 			"scrollCollapse": true,
 			"paging":         true
 		} );
 
 		$('#selected-questions').DataTable( {
-
+			order: [],
+			columnDefs: [ { orderable: false, targets: [0] } ],
 			"scrollY":        "850px",
 			"scrollCollapse": true,
 			"paging":         true
 		} );
 
 		$('#selected-passage').DataTable( {
-
+			order: [],
+			columnDefs: [ { orderable: false, targets: [0] } ],
 			"scrollY":        "850px",
 			"scrollCollapse": true,
 			"paging":         true
@@ -290,8 +295,10 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		});
 	} );
 
+		
 
-
-
+/*$('#question_table1').DataTable({ "bLengthChange": false,
+"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}] // this line does your work!
+});*/
 
 </script>

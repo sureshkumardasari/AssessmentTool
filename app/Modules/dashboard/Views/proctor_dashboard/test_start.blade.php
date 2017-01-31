@@ -13,8 +13,8 @@
                         <table id="student_table" class="table table-striped table-bordered parent-grid">
                             <caption style="color:red"><center><b>Students Not Started</b></center></caption>
                             <thead>
-                            <td></td>
-                            <td></td>
+                            <td style="height:14px;"></td>
+                            <td style="height:14px;"></td>
                             </thead>
                             <tbody>
                             @foreach($assignment_not_started_users as $user)
@@ -36,8 +36,8 @@
                         <table id="student_selected_table" class="table table-striped table-bordered students-selected-parent-grid">
                             <caption style="color:red"><center><b>Students Started</b></center></caption>
                             <thead>
-                            <td></td>
-                            <td></td>
+                            <td style="height:14px;"></td>
+                            <td style="height:14px;"></td>
                             </thead>
                             <tbody class="child-grid">
                             @foreach($assignment_started_users as $user)

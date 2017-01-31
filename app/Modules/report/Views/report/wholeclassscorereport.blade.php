@@ -8,19 +8,19 @@
                     <div class="panel-body">
                     <form class="form-horizontal">
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
-                        
-                            {{--<div class="form-group required">--}}
-                                {{--<label class="col-md-2 control-label">institution:</label>--}}
-                                {{--<div class="col-md-2">--}}
-                                    {{--<select name="inst_id" class='form-control' id="institution_id" >--}}
-                                        {{--<option value="0" selected >-Select Institution-</option>--}}
-                                        {{--@foreach($inst_arr as $id=>$val)--}}
-                                            {{--<option value="{{ $id }}">{{ $val }}</option>--}}
-                                        {{--@endforeach--}}
-                                    {{--</select>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+<!--                         <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+ -->                        
+                            <div class="form-group required">
+                                <label class="col-md-4 control-label">Institution:</label>
+                                <div class="col-md-6">
+                                    <select name="inst_id" class='form-control' id="institution_id" >
+                                        <option value="0" selected >-Select Institution-</option>
+                                       @foreach($inst_arr as $id=>$val)
+                                            <option value="{{ $id }}">{{ $val }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                           </div>
                             
                             <div class="form-group required">
                                 <label class="col-md-4 control-label">Assignment:</label>
@@ -55,7 +55,7 @@
                         </div>
                              <div class="form-group">
                                <div class="col-md-5">
-                                    <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><i>Go</i></button>
+                                    <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
                                        
                                 </div>
                             </div>

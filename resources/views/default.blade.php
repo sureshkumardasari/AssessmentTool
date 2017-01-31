@@ -33,6 +33,8 @@
     @show
 
 	<!-- breadcrumb -->	
+	@if (Auth::guest())
+	@else
 	<div class="container">
 		<div class="row">
 		    @section('breadcrumb')
@@ -41,6 +43,7 @@
             @show
 		</div>
 	</div>
+	@endif
 	{{--<section class="main-area">
 		<div class="breadcrumb">
 			@section('breadcrumb')

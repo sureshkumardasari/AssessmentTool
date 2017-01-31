@@ -34,7 +34,7 @@
         </ul>
         <form class="form-horizontal" id="bulklessonuploadFrm" role="form" method="POST" action="{{ url('/lesson/bulklessonUpload') }}">
             <div class="form-group required">
-                <label class="col-md-5 control-label">Choose File(.xls)</label>
+                <label class="col-md-5 ">Choose File(.xls)</label>
                 <div class="col-md-10">
                     <input type="file" class="lesson-file" name="file">
                 </div>

@@ -98,27 +98,29 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="clr"></div>
+                        
                     </div>
-
+                    <div class="clr" style="clear: both;"></div>
+                   
+                    <div class="form-group">
                     <div>
                         <div>
                             <label class="col-md-2 control-label">Taken Date:</label>
-                            <p id="date_taken">{{$first_student_answers['student_details']['takendate']}}</p>
+                            <p id="date_taken" class="col-md-4"> {{$first_student_answers['student_details']['takendate']}}</p>
                         </div>
                         <div>
                             <label class="col-md-2 control-label">Graded Date:</label>
-                            <p id="graded_date">{{$first_student_answers['student_details']['gradeddate']}}</p>
+                            <p id="graded_date" class="col-md-4">{{$first_student_answers['student_details']['gradeddate']}}</p>
                         </div>
                     </div>
-
+                    </div>
 
                 </div>
-                <div class="panel panel-default">
+                <div class="panel panel-default" style="margin: 0 60px 60px 60px;">
                     <div class="panel-heading">
                         Grading List
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" >
                         <?php
                         $j=1;
                         $ans_arr=['A','B','C','D','E'];
@@ -146,9 +148,6 @@
                                         
                                         </div>
                                         <div class="form-group">
-                                           
-
-                                                
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
@@ -205,14 +204,13 @@
                                 
                                     <div class="col-md-offset-4">
                                         <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
-                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">C
-                                        ancel</a>
+                                        <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
                                     </div>
                                 </div>
                             @elseif($question =="Fill in the blank")
-                                        <div id="question_type{{$key}}">
+                                        <div id="question_type{{$key}}" style="padding:15px;">
                                             <table>
                                                 @foreach($qst[$key] as $quest)
                                                     <tr>
@@ -236,7 +234,7 @@
                                                                         <div class="modal-body" id="{{$j}}">
                                                                         
                                                                         <div class="form-group">
-                                                                            <label class="control-label col-md-2"> Q. </label><p>{{$quest['qst_text']}}</p>
+                                                                            <label class="control-label col-md-2"> Q. </label>{{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
                                                                         </div>
                                                                         
 
@@ -310,7 +308,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{ strip_tags(htmlspecialchars_decode($a['ans_text'])) }}</span>
                                                     </td>
 
                                                 </tr>
@@ -344,7 +342,7 @@
 
 
                                                                             {{$ans_arr[$i]}}.
-                                                                            <span  class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                                            <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
                                                                         {{--*/ $i++ /*--}}
@@ -411,7 +409,7 @@
                                                 <tr>
                                                     <td>
                                                         <script>Answer_ids.push("{{$a['Id']}}");</script>
-                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                        {{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="editable-{{$quest['Id']}} label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
                                                     </td>
 
                                                 </tr>
@@ -432,7 +430,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}}</p>
+                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
@@ -447,7 +445,7 @@
 
 
                                                                             {{$ans_arr[$i]}}.
-                                                                            <span  class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+                                                                            <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
                                                                         {{--*/ $i++ /*--}}
