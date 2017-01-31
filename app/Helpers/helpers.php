@@ -82,11 +82,11 @@ function breadcrumb($displayName = '', $urlSlug = '') {
          //dd($current_params);
     $links = array(
         //------------------users---------------------
-        'mainhome' => array(
-            'displayName' => 'Dashboard',
-            'route' => 'userlist',
-            'postfix' => array('mainhome' => 'Home'), //, 'userlist' => 'Users'
-        ),
+        // 'mainhome' => array(
+        //     'displayName' => 'Dashboard',
+        //     'route' => 'userlist',
+        //     'postfix' => array('mainhome' => 'Home'), //, 'userlist' => 'Users'
+        // ),
         'userlist' => array(
             'displayName' => 'Users',
             'route' => 'userlist',
