@@ -873,9 +873,9 @@ class ReportController extends Controller
         $assignmentname = Assignment::whereIn('id', $assignment)->orderby('id', 'desc')->lists('name');
         $length = 0;
         if(!empty($assignment)){
-            //dd("empty");
+            // dd("empty");
             $length=count($assignment);
-        
+        // dd($length);
             $report_data = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
                 ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
                 ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
@@ -884,6 +884,7 @@ class ReportController extends Controller
                 ->orderby('user_assignment_result.rawscore', 'asc')
                 ->take(10)
                 ->get();
+                //dd($report_data);
             if($length >1){
                 $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
                     ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
@@ -897,7 +898,7 @@ class ReportController extends Controller
             if($length >2){
                 $report_data2 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
                     ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')
-                    ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name')
+                    ->select('user_assignment_result.rawscore', 'users.name as user_name', 'assignment.name as assignment_name','users.id as uid')
                     ->where('assignment.id', '=', isset($assignment[2])?$assignment[2]:0)
                     ->orderBy('assignment.id')
                     ->orderby('user_assignment_result.rawscore', 'asc')
@@ -905,7 +906,7 @@ class ReportController extends Controller
                     ->get();
             }
         }
-
+//dd($report_data2);
         return view('report::report.least_score', compact('report_data', 'report_data1', 'report_data2', 'assignmentname','length'));
     }
 
