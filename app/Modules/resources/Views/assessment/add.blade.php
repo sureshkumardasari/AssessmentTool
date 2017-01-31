@@ -32,7 +32,7 @@
 					
 
 					<div class="form-group required">
-						<label class="col-md-4 control-label">Title</label>
+						<label class="col-md-4 control-label">Name</label>
 						<div class="col-md-6">
 							<input type="text" class="form-control" name="name" value="{{old('name')}}">
 							<?php
