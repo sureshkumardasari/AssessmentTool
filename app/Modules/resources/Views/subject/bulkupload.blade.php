@@ -13,7 +13,7 @@
             </li>
             <li>2. Download the <a href="javascript:;" onclick="downloadTemplate('subject')">bulk import template</a> for subject use </li>
             <li>3. Click “Browse” to choose the saved file.</li>
-            <li>4. Click “Upload” to upload the file.</li>
+            <li>4. Click “Submit” to upload the file.</li>
         </ul>
         <form class="form-horizontal" id="bulksubjectuploadFrm" role="form" method="POST" action="{{ url('/subject/bulksubjectUpload') }}">
             <div class="form-group required">
