@@ -3,7 +3,7 @@
 use Zizaco\Entrust\EntrustFacade;
 use Zizaco\Entrust\Entrust;
 //use \App\Modules\Accounts\Models\Institution;
-use \DB;
+//use \DB;
 use mikehaertl\wkhtmlto\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
