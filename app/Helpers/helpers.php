@@ -82,11 +82,11 @@ function breadcrumb($displayName = '', $urlSlug = '') {
          //dd($current_params);
     $links = array(
         //------------------users---------------------
-        'mainhome' => array(
-            'displayName' => 'Dashboard',
-            'route' => 'userlist',
-            'postfix' => array('mainhome' => 'Home'), //, 'userlist' => 'Users'
-        ),
+        // 'mainhome' => array(
+        //     'displayName' => 'Dashboard',
+        //     'route' => 'userlist',
+        //     'postfix' => array('mainhome' => 'Home'), //, 'userlist' => 'Users'
+        // ),
         'userlist' => array(
             'displayName' => 'Users',
             'route' => 'userlist',
@@ -901,11 +901,11 @@ function getInstitutionsSelectBox($name = 'institution_id', $id = 'institution_i
     //$users = User::get();
     $obj = DB::table('institution');
     if ($parent_id > 0) {
-        $inst_arr = $obj->where("id", $parent_id)->orWhere('parent_id', $parent_id)->lists('name', 'id');
+        $inst_arr = $obj->groupBy('id')->where("id", $parent_id)->orWhere('parent_id', $parent_id)->lists('name', 'id');
     } else {
         if ($sessrole != 'administrator')
             $obj->where('id', '<>', '1');
-        $inst_arr = $obj->lists('name', 'id');
+        $inst_arr = $obj->groupBy('id')->lists('name', 'id');
     }
 
     if ($sessrole == 'administrator') {
