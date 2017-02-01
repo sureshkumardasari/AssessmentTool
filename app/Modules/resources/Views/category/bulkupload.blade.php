@@ -13,7 +13,7 @@
             </li>
             <li>2. Download the <a href="javascript:;" onclick="downloadTemplate('category')">bulk import template</a> for category use </li>
             <li>3. Click “Browse” to choose the saved file.</li>
-            <li>4. Click “Upload” to upload the file.</li>
+            <li>4. Click “Submit” to upload the file.</li>
         </ul>
         <form class="form-horizontal" id="bulkcategoryuploadFrm" role="form" method="POST" action="{{ url('/category/bulkcategoryUpload') }}">
             <div class="form-group required">
