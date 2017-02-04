@@ -76,12 +76,16 @@
         $(document).ready(function(){
 
             $('#student_table').DataTable({
+                order: [],
+            columnDefs: [ { orderable: false, targets: [0] } ],
                 "dom": '<"top">rt<"bottom"i><"clear">',
                 "paging":   false,
                 "scrollY": 300
 
             });
             $('#student_selected_table').DataTable({
+                order: [],
+            columnDefs: [ { orderable: false, targets: [0] } ],
                 "dom": '<"top">rt<"bottom"i><"clear">',
                 "paging":   false,
                 "scrollY": 300
@@ -154,7 +158,7 @@
                             $('#student_table').DataTable({
                                 "dom": '<"top">rt<"bottom"i><"clear">',
                                 "paging": false,
-                                "scrollY": 300
+                          "scrollY": 300
                             });
                             $('<caption style="color:red"/>').html("<center><b>Students Not Started</b></center>").prependTo('#student_table');
                             $('#student_selected_table').DataTable({
