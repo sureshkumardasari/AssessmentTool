@@ -5,16 +5,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Assessment Tool</title>
-	<link href="{{ asset('/css/style.css') }}" rel='stylesheet' type='text/css'>
-	<!-- <link href="{{ asset('/css/common.css') }}" rel='stylesheet' type='text/css'> -->
-	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-
 	<!-- Fonts -->
 	<link href="{{ asset('/css/fonts.googleapis.css') }}" rel='stylesheet' type='text/css'>
-
-    
     <link href="{{ asset('/css/dataTables.bootstrap.min.css') }}" rel='stylesheet' type='text/css'>
-    @section('style')
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/style.css') }}" rel='stylesheet' type='text/css'>
+	<!-- <link href="{{ asset('/css/common.css') }}" rel='stylesheet' type='text/css'> -->
+@section('style')
         @include('style')
     @show
     @section('header-assets')
