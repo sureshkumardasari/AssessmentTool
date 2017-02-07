@@ -3453,6 +3453,7 @@ tbody.collapse.in {
   float: left;
   width: 100%;
   margin-bottom: 0;
+  z-index: 0;
 }
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
@@ -4376,6 +4377,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   background-color: #337ab7;
   border-color: #337ab7;
   cursor: default;
+  z-index: 0;
 }
 .pagination > .disabled > span,
 .pagination > .disabled > span:hover,
