@@ -22,7 +22,7 @@
   						}
 				?>
 				<a class="navbar-brand" href="/"><img class="logo-img" src="{{ $logopath }}" 
-				style=" width=250; height=60px;"></a>
+				style=" width:250px; height:60px;margin-top: -10px;"></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="top-navbar-collapse-1">
