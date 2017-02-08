@@ -654,6 +654,7 @@ class UserController extends BaseController
 				$inputs['image_path_s3'] = $image192x192fromS3;
 			}
 		}
+		
 		else
 		{
 			if (!empty($resizeArray)) {
