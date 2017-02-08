@@ -10,6 +10,7 @@
                         </div>
 
                         <table id="categorytable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+                        
 				        <thead>
 				            <tr>
 				                <th>Name</th>
