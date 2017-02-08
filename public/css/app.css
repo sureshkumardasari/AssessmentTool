@@ -4388,6 +4388,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   border-color: #dddddd;
   cursor: not-allowed;
 }
+.dataTables_paginate a:focus{outline:none;}
 .pagination-lg > li > a,
 .pagination-lg > li > span {
   padding: 10px 16px;
