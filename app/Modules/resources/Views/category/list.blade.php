@@ -27,20 +27,20 @@
 
 						<div class="panel-body searchfilter-body hide">
 							<form class="form-inline" role="form">
-								<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
-									<input type="hidden" name="page" id="page" value="category">
+<!-- 								<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
+ -->									<input type="hidden" name="page" id="page" value="category">
 							<div class="form-group">
 								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
 									<input type="hidden" name="page" id="page" value="category">
 								<select class="form-control" name="instfghitution_id" id="instfghitution_id">
-										<option value="0">Select</option>
+										<option value="0">--All Institutions--</option>
 										@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach
 									</select>
 								</div>
-							</div><br>
+							</div>
 							<div class="form-group">
 								<div class="col-md-6 col-md-offset-4">
 									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
@@ -52,6 +52,7 @@
 							</form>
 						</div>
 					</div>
+
 					<!-- filters start -->
 					<div id="category-list" style="min-height:50px;"> {!! $categoryList !!} </div>	
 				</div>
