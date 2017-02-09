@@ -110,7 +110,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="question_table1" value="" class="check-all-question"></th>
+				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
 				<th>Question Name</th>
 
 			</tr>
@@ -129,9 +129,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		</table>
 
 		<div class="form-group">
-			<div class="col-md-4">
-				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add");' href="javascript:;">Add Question</a>
+		 <div class="col-md-4">
+		<div class="move-arrow-box">
+			<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add"), uncheck();' href="javascript:;" id="#btnn">Add Question</a>
 				</div>
 			</div>
 		</div>
@@ -139,7 +139,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="selected-questions" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
+				<th><input type="checkbox" name="" class="check-all-selected-question" value="" id="QuestionId"></th>
 				<th>Question Name</th>
 			</tr>
 			</thead>
@@ -163,9 +163,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		</table>
 
 		<div class="form-group">
-			<div class="col-md-4">
-				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove");' href="javascript:;">Remove question</a>
+		 <div class="col-md-4">
+		  <div class="move-arrow-box">
+		    <a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove"), uncheck();' href="javascript:;" id="#btnn">Remove question</a>
 				</div>
 			</div>
 		</div>
@@ -244,6 +244,13 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
+
+function uncheck(){
+	//alert('Hi');
+	$("#QuestionId").attr('checked', false);
+	$("#QuestionIds").attr('checked', false);
+}
+
 
 	$(document).ready(function() {
 		$('#question_table').DataTable( {
