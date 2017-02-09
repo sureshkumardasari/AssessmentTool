@@ -164,6 +164,6 @@
     {
         width: 300px;
         border: 0px solid #000000;
-        word-break: break-all;
+        word-break: break-word;
     }
 </style>
