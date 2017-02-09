@@ -1619,7 +1619,6 @@
                     savePrintOnlineView('1', $('#btn_save'));
                 });
 
-
             });
 
 
