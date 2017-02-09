@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                     <div class="col-md-5">
-                        <table id="student_table" class="table table-striped table-bordered parent-grid">
+                        <table id="student_table" class="table table-striped table-bordered parent-grid" ><ion-content overflow-scroll="false">
                             <caption style="color:red"><center><b>Students Not Started</b></center></caption>
                             <thead>
                             <td style="height:14px;"></td>
@@ -33,7 +33,7 @@
                         </table>
                     </div>
                     <div class="col-md-5">
-                        <table id="student_selected_table" class="table table-striped table-bordered students-selected-parent-grid">
+                        <table id="student_selected_table" class="table table-striped table-bordered students-selected-parent-grid"><ion-content overflow-scroll="false">
                             <caption style="color:red"><center><b>Students Started</b></center></caption>
                             <thead>
                             <td style="height:14px;"></td>
@@ -78,6 +78,7 @@
             $('#student_table').DataTable({
                 order: [],
             columnDefs: [ { orderable: false, targets: [0] } ],
+
                 "dom": '<"top">rt<"bottom"i><"clear">',
                 "paging":   false,
                 "scrollY": 300
@@ -283,3 +284,15 @@
 
 @endsection
 {{--No newline at end of file--}}
+
+
+<!-- .student_table {
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.student_selected_table {
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 15px;
+} -->
