@@ -41,7 +41,7 @@
 				            <div class="form-group">				                
 				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
 				            </div> 
-				            <div></div>	
+				            <div style="clear:both;"></div>	
 				            {{--*/ $i = 0 /*--}}
 							@if(!(($ass_qst['question_type']=="Essay" )||($ass_qst['question_type']=="Fill in the blank")))
 								@foreach($ass_qst['answers'] as $idx => $a )
@@ -58,7 +58,7 @@
 								@endforeach
 							@endif
 				            <div>
-				                	<div class="form-group col-md-offset-2">
+				                	<div class="form-group">
 				                	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Edit</button>
 				                	</div>
 
