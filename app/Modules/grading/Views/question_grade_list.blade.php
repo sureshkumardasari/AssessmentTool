@@ -13,11 +13,12 @@
 						<label class="col-md-2 control-label">Status</label>
 						<div class="col-md-4">
 							<select class="form-control" name="status" id="status" onchange="change_status()">
-								<option value="">All</option>
+								<option value="">--Select--</option>
 								<option value="Not Started">Not Started</option>
 								<option value="In Progress">In Progress</option>
 								<option value="complete">Complete</option>
-							</select>
+							</
+							>
 						</div>				
 				</div>	
 

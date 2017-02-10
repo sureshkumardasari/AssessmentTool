@@ -16,7 +16,7 @@
                             </tr>
                           </thead>
                            <tbody>
-                            @foreach( $assignments_user as $id => $row )
+                            @foreach( $assignments as $id => $row )
                                 <tr>
                                     <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}">{{  $row->name }}</a></td>
                                     <td>{{$row->startdatetime}}</td>

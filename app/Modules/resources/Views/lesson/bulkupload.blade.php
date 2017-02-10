@@ -6,7 +6,7 @@
         <ul>
             <li>1. Select Institution to get Institution ID in Download template
                 <select class="form-control" name="institution_id" id="lessonimport_institution_id" style="width:150px" onchange="change_institution()">
-                    <option value="0">Select</option>
+                    <option value="0">--Select--</option>
                     @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
@@ -14,7 +14,7 @@
             </li>
             <li>2. Select Category to get Category ID in Download template</br>
                 <select class="form-contro2" name="category_id" id="lessonimport_category_id" style="width:150px" onchange="change_category()">
-                    <option value="0">Select</option>
+                    <option value="0">--Select--</option>
                     {{--@foreach($cate_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach--}}
@@ -22,7 +22,7 @@
             </li>
             <li>3. Select subject to get subject ID in Download template
                 <select class="form-control" name="subject_id" id="lessonimport_subject_id" style="width:150px" >
-                    <option value="0">Select</option>
+                    <option value="0">--Select--</option>
                     {{--@foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach--}}
