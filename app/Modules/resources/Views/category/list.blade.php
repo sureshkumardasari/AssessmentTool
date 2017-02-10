@@ -40,7 +40,7 @@
 										@endforeach
 									</select>
 								</div>
-							</div><br>
+							</div>
 							<div class="form-group">
 								<div class="col-md-6 col-md-offset-4">
 									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
