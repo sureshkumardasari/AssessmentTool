@@ -95,7 +95,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'profile' => array(
             'displayName' => 'Profile',
             'route' => 'profile',
-            /*'postfix' => array('mainhome' => 'Home', 'userlist' => 'User'), //*/
+            'postfix' => array('mainhome' => 'Home'), 
         ),
         'useradd' => array(
             'displayName' => 'Create User',

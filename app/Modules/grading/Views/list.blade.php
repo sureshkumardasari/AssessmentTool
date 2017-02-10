@@ -50,7 +50,7 @@
 					<label class="col-md-2 control-label">Institution</label>
 					<div class="col-md-4">
 						<select class="form-control" name="institution_id" id="institution_id" onchange="getAssignmentsforgrading()">
-							<option value="0">Select</option>
+							<option value="0">--Select--</option>
 							@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}">{{ $val }}</option>
 							@endforeach

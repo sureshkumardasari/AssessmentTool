@@ -22,7 +22,7 @@
                                     <td>{{$row->startdatetime}}</td>
                                 </tr>
                             @endforeach
-                           </tbody>
+                           </tbody> 
                          </table>
                    <button><a href="{{ url('/resources/assignment') }}">View More</a></button>
                 </div>

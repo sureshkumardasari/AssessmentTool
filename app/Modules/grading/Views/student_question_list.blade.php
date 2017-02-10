@@ -13,7 +13,7 @@
 						<div class="col-md-4">
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 							<select class="form-control" name="user" id="user" onchange="change_user()">
-								<option value="">All</option>
+								<option value="">--Select--</option>
 								@foreach($ass_usrs as $id=>$val)
 									<option value="{{ $val->id }}">{{ $val->first_name." ".$val->last_name }}</option>
 								@endforeach

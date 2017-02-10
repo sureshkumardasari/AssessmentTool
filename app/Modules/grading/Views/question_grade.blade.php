@@ -18,7 +18,7 @@
 						<label class="col-md-2 control-label">Users</label>
 						<div class="col-md-4">
 							<select class="form-control" name="status" id="status" onchange="change_user_answers()">
-								<option value="0">All</option>
+								<option value="0">--Select--</option>
 								@foreach($assignmentUsersArr as $idx => $a )
 									<option value="{{$a->id}}">{{$a->username}}</option>		
 								@endforeach	

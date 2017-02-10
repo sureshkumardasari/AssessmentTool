@@ -16,7 +16,7 @@
                                     <label class="col-md-4 control-label">Select Assignment:</label>
                                     <div class="col-md-6">
                                         <select name="assign_id" class='form-control' id="assign_student" onchange="assignmt_change()">
-                                            <option value="0" selected >-Select-</option>
+                                            <option value="0" selected >--Select--</option>
                                             @if(getRole()!="administrator")
                                                 @foreach($assignments as $id=>$ass)
                                                     <option value="{{$id}}">{{$ass}}</option>
@@ -29,7 +29,7 @@
                                 <label class="col-md-4 control-label">Select Student:</label>
                                 <div class="col-md-6">
                                     <select name="student_id" class='form-control' id="student" >
-                                        <option value="0" selected >-Select-</option>
+                                        <option value="0" selected >--Select--</option>
                                         {{--@if(getRole()!="administrator")--}}
                                             {{--@foreach($users as $user)--}}
                                                 {{--<option value="{{$user->id}}">{{$user->name}}</option>--}}
@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="col-md-4"></div><div class="col-md-6">
-                                    <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()"> Go</button>
+                                    <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()">Go</button>
                                 </div>
                             </div>
                     

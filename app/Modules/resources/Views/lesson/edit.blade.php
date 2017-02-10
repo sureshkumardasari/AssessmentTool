@@ -38,7 +38,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 							<div class="col-md-6">
 								<input type="hidden" name="page" id="page" value="lessonedit">
 								<select class="form-control" name="institution_id" id="institution_id">
-									<option value="0">Select</option>
+									<option value="0">--Select--</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -49,7 +49,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 							<label class="col-md-4 control-label">Category</label>
 							<div class="col-md-6">
 								<select class="form-control" name="category_id" id="category_id">
-									<option value="0">Select</option>
+									<option value="0">--Select--</option>
 									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -60,7 +60,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 							<label class="col-md-4 control-label">Subject</label>
 							<div class="col-md-6">
 								<select class="form-control" name="subject_id" id="subject_id">
-									<option value="0">Select</option>
+									<option value="0">--Select--</option>
 									@foreach($subjects as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
