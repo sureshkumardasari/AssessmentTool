@@ -726,7 +726,7 @@ class ReportController extends Controller
 
     public function report_wholeclass($inst_id = 0, $assi_id = 0, $sub_id = 0, $less_id = 0)
     {
-        if ($assi_id == 0 || $assi_id == "null" || $sub_id == "null" || $sub_id == 0) {
+        if ($assi_id == 0 || $assi_id == "null" || $sub_id == "null" || $sub_id == 0|| $less_id == "null" || $less_id == 0) {
             return "";
         }
         $assignment = Assignment::find($assi_id);
@@ -736,6 +736,11 @@ class ReportController extends Controller
             $subjects = explode(",", $sub_id);
         } else {
             $subjects = [$sub_id];
+        }
+        if ($less_id != "null" || $less_id != 0) {
+            $lessons = explode(",", $less_id);
+        } else {
+            $lessons = [$less_id];
         }
 
 
