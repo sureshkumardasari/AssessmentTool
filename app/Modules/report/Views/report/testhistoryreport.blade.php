@@ -64,8 +64,13 @@
         var op=new Option('select',0)
         $("#institution_id").append(op);
         $("#institution_id").val(0);
+         var loadurl = "{{ url('/report/test_history/') }}/" ;
         function inst_change(){
-            var loadurl = "{{ url('/report/test_history/') }}/" ;
+           
+             if(($('#institution_id').val()==0)){
+                alert("please select  the institution field");
+            }
+            else{
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -81,6 +86,7 @@
                     }
             )
         }
+    }
         $('#pdf').on('click',function(){
             var inst_id=$('#institution_id').val();
             window.open("{{ url('report/testhistoryexportPDF/')}}/"+inst_id);

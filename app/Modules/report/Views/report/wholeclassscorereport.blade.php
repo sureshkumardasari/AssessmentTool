@@ -85,6 +85,10 @@
           //  $('#lesson_id').multiselect('refresh');
         });
         function update(){
+            if(($('#institution_id').val()==0) || ($('#assignment_id').val()==0) || ($('#lesson_id').val() == 0) || ($('#subject_id').val()==0)){
+                alert("please select all the fields");
+            }
+            else{
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
@@ -101,7 +105,7 @@
                     }
             )
         }
-
+    }
         $('#institution_id').on('change',function(){
 
             var csrf=$('Input#csrf_token').val();
