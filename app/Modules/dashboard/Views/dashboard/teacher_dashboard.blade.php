@@ -16,13 +16,13 @@
                             </tr>
                           </thead>
                            <tbody>
-                            @foreach( $assignments as $id => $row )
+                            @foreach( $assignments_user as $id => $row )
                                 <tr>
                                     <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}">{{  $row->name }}</a></td>
                                     <td>{{$row->startdatetime}}</td>
                                 </tr>
                             @endforeach
-                           </tbody>
+                           </tbody> 
                          </table>
                    <button><a href="{{ url('/resources/assignment') }}">View More</a></button>
                 </div>
