@@ -148,6 +148,7 @@
                                         
                                         </div>
                                         <div class="form-group">
+                                           
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">

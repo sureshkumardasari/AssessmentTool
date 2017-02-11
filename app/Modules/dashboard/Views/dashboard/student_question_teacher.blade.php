@@ -162,8 +162,8 @@
 <style>
     #text,th
     {
-        width: 300px;
+        width: 350px;
         border: 0px solid #000000;
-        word-break: break-all;
+        word-break: break-word;
     }
 </style>
