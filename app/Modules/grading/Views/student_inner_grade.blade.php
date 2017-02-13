@@ -204,7 +204,8 @@
                                     
                                 
                                     <div class="col-md-offset-4">
-                                        <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
+                                        <button type="button" class="btn btn-primary" 
+                                        onclick="save_student_essay_answers()">Save</button>
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
@@ -610,7 +611,7 @@
            // alert(JSON.stringify(Essay_answer_scores));
             // alert(Object.keys(Essay_answers).length);
             var student_id=$('#student').val();
-            if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(Essay_answer_scores).length!=0){
+            if( Object.keys(Essay_answer_scores).length!=0){
 
                 var csrf=$('Input#csrf_token').val();
                 $.ajax({
@@ -698,7 +699,7 @@
                     type:"post",
                     data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_multi_answers,'next_student':next_student,'user_selected_correct_answers':user_selected_correct_answers},
                     success:function(response){
-                        // alert(response);
+                         alert("your changes have be saved successfully");
                     }
                 });
 
