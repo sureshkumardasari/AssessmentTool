@@ -230,16 +230,16 @@ class UserController extends BaseController
 			'first_name' => 'required|min:3',
 			'last_name' => 'required',
 			'email' => 'required|email|max:255|unique:users',
+			'gender' => 'required',
 			'enrollno' => 'required',
 			'address1' => 'required',
+			'country_id' => 'required|not_in:0',
+			'state' => 'required|not_in:0',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
-			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
-			'gender' => 'required',
-			'state' => 'required|not_in:0',
-			'country_id' => 'required|not_in:0'];
-
+			'phoneno'=>'required|regex: /\b\d{10}\b/',];
+			
 		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
 			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
