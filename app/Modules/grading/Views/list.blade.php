@@ -121,7 +121,13 @@
 	<script>
 	$(document).ready(function(){
 		var loadurl = "{{ url('/resources/assignments') }}/" ;
-		$('#assignmentstable').dataTable();
+		$('#assignmentstable').dataTable( {
+			order: [],
+			columnDefs: [ { orderable: false, targets: [3] } ],
+			"scrollY":        "850px",
+			"scrollCollapse": true,
+			"paging":         true
+		} );
 	});
 		
 		function getAssignmentsforgrading(){
@@ -152,5 +158,6 @@
 					})
 
 		}
+		
 	</script>
 @endsection
