@@ -680,7 +680,7 @@
 
             }
             else{
-                alert("please grade atlesat one Question");
+                alert("please grade atleast one Question");
             }
 
         }
