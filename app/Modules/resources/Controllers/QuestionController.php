@@ -157,8 +157,6 @@ class QuestionController extends BaseController {
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
-		//dd($post);
-		// dd($post['question_type']);
 		$messages=[
 				// 'answerIds.required'=>'The Answer field is required',
 				'subject_id.required'=>'The Subject field is required',
@@ -169,14 +167,13 @@ class QuestionController extends BaseController {
 		$rules = [
 				'institution_id' => 'required|not_in:0',
 				'category_id' => 'required|not_in:0',
-				'subject_id' => 'required',
-				'lessons_id' => 'required',
-				'question_type' => 'required',
+				'subject_id' => 'required|not_in:0',
+				'lessons_id' => 'required|not_in:0',
+				'question_type' => 'required|not_in:0',
 				'question_title' => 'required',
-				// 'answerIds' => 'required',
 				'question_textarea' => 'required',
-				// 'answer_textarea' =>'required'
 				];
+				
 
 		if ($post['id'] > 0)
 		{
