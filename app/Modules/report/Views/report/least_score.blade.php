@@ -47,10 +47,10 @@ $class="col-md-12";
                                         </table>
                                     </div>
                                 </div>
-                                 <div class="col-md-12">
+                                 <div class="col-md-12" style="padding-left:31em;">
                          <div class="col-md-6"> <a href="#" class="btn btn-primary" id="pdf">Export Pdf</a>
                         </div>
-                          <div class="col-md-6">
+                          <div class="col-md-6" style="padding-left: 39em;margin-top: -34px;">
                        
                         <a href="#" class="btn btn-primary" id="xls">Export xls</a>
                         </div>
