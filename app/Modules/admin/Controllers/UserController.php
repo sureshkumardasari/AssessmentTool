@@ -232,7 +232,7 @@ class UserController extends BaseController
 			'last_name' => 'required',
 			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:6',
-			'cpassword' =>'required|confirmed|min:6',
+			'conform password' =>'required|confirmed|min:6',
 			'gender' => 'required',
 			'enrollno' => 'required',
 			'address1' => 'required',
