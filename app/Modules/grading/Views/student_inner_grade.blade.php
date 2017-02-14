@@ -293,9 +293,9 @@
                                                
 
                                             </tr>
-                                            <tr>
+                                           <!--  <tr>
                                                 <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
-                                            </tr>
+                                            </tr> -->
                                             <?php
                                             $i=0;
                                             ?>
