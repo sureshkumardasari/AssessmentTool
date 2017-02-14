@@ -16,7 +16,7 @@
 	$last_name =  (old('last_name') != NULL) ? old('last_name') : $last_name; 
 	$email = (old('email') != NULL) ? old('email') : $email; 
 	$password = (old('password') != NULL) ? old('password') : $password; 
-	$cpassword = (old('cpassword') != NULL) ? old('cpassword') : $cpassword; 
+	//$cpassword = (old('cpassword') != NULL) ? old('cpassword') : $cpassword; 
 	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
 	$address1 = (old('address1') != NULL) ? old('address1') : $address1; 
 	$city = (old('city') != NULL) ? old('city') : $city; 
@@ -150,7 +150,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Confirm Password</label>
 							<div class="col-md-6">
-								<input type="cpassword" class="form-control" name="password_confirmation">
+								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
 						<div class="form-group required">

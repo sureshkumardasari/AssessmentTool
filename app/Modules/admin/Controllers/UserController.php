@@ -195,7 +195,7 @@ class UserController extends BaseController
 			$status = $user->status;
 			$gender = $user->gender;
 			$password = $user->password;
-			$cpassword = $user->cpassword;
+			//$cpassword = $user->cpassword;
 			$first_name = $user->first_name;
 			$last_name = $user->last_name;
 			$address1 = $user->address1;
