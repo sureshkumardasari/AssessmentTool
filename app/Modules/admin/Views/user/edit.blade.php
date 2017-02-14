@@ -16,7 +16,6 @@
 	$last_name =  (old('last_name') != NULL) ? old('last_name') : $last_name; 
 	$email = (old('email') != NULL) ? old('email') : $email; 
 	$password = (old('password') != NULL) ? old('password') : $password; 
-	//$cpassword = (old('cpassword') != NULL) ? old('cpassword') : $cpassword; 
 	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
 	$address1 = (old('address1') != NULL) ? old('address1') : $address1; 
 	$city = (old('city') != NULL) ? old('city') : $city; 
