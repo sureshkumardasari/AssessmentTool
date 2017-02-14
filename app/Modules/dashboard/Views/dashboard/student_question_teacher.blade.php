@@ -51,7 +51,7 @@
                     </table> 
                     </div>
                 </div>
-                <center><a class="btn btn-info" role="button" href="{{ url('user/users_list/student') }}">View More</a></center>
+                <center><a class="btn btn-info" role="button" href="{{ url('user/') }}">View More</a></center>
                          
             </div>
             <div class="col-md-4">
