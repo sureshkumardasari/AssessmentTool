@@ -44,6 +44,7 @@
 									{{--</select>--}}
 								{{--</div>--}}
 							{{--</div>--}}
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<div class="form-group">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
@@ -69,6 +70,7 @@
 									</select>
 								</div>
 							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<div class="form-group">
 								<div class="col-md-6 col-md-offset-4">
 									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
