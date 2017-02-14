@@ -117,7 +117,6 @@
 								<div class="form-group ">
 									<div class="col-md-6 col-md-offset-4">
 										<button type="submit" class="btn btn-primary" onclick="setTimeout(myFunction, 3000);">Register</button>
-										<!-- <button type="button"  class="btn btn-danger"  href="{{ url('/auth/login') }}">Cancel</button> -->
 										<a type="button"  class="btn btn-danger"  href='{{ url("/auth/login") }}'>Cancel</a>
 									</div>
 								</div>
