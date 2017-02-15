@@ -147,7 +147,7 @@
                                             <div>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</div>
                                         
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                            
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
@@ -199,7 +199,7 @@
                                                     <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
                                             </div>
                                         
-                                        </div>
+                                        </div> -->
                                         @endforeach
                                     
                                 
