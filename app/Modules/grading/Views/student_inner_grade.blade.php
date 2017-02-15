@@ -675,6 +675,8 @@
                     data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_single_answers,'next_student':next_student,'user_selected_correct_answers':user_selected_correct_answers},
                     success:function(response){
                         //alert(JSON.stringify(response));
+                        
+                         alert("your changes have be saved successfully");
                     }
                 });
 
@@ -699,7 +701,7 @@
                     type:"post",
                     data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_multi_answers,'next_student':next_student,'user_selected_correct_answers':user_selected_correct_answers},
                     success:function(response){
-                        
+
                          alert("your changes have be saved successfully");
                     }
                 });
