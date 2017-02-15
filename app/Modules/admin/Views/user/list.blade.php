@@ -17,6 +17,7 @@
 					<a href="{{ URL::to('user/download') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
 				</div>
 				<div>
+				
 					@if(Session::has('flash_message'))
 						<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
 					@endif

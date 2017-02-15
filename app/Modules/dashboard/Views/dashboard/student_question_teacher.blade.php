@@ -76,8 +76,7 @@
                         </tbody>
                     </table>
                 </div>
-                </div>
-                    
+                </div> 
                     <center><a class="btn btn-info" role="button" href="{{ url('user/') }}">View More</a></center>
             </div>
             <div class="row" style="margin-bottom:20px;"> </div>
