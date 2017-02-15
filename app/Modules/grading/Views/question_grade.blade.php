@@ -16,6 +16,7 @@
 				</div>
 				<div class="panel-body">				
 						<label class="col-md-2 control-label">Users</label>
+
 						<div class="col-md-4">
 							<select class="form-control" name="status" id="status" onchange="change_user_answers()">
 								<option value="0">--Select--</option>
@@ -87,6 +88,7 @@
 														{{--*/
 														$ans_label = 'default';
 														if($a['is_correct']=='YES')$ans_label = 'success' ;
+
 														/*--}}
 
 
@@ -317,6 +319,7 @@
 			var status=null;
 			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
+			if (user_id>0){
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
 				url:'next_student_answers_for_grade_by_question/'+user_id+'/'+question_type+','+assessment_id+','+assignment_id+','+'{{$qst_id}}',
@@ -392,6 +395,10 @@
 				}
 
 			});
+		}
+			else{
+				window.location.reload();
+		}
 
 		}
 
