@@ -112,7 +112,6 @@ class AuthController extends Controller {
 			'last_name' =>'required',
 			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:6',
-			'password_confirmation' => 'required|confirmed|min:6',
 			'enrollno' =>'required',
 			'address1' =>'required',
 			'city' =>'required',
