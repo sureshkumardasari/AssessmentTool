@@ -319,6 +319,7 @@
 			var status=null;
 			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
+			
 			if (user_id>0){
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
