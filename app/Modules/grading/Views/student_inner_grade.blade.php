@@ -513,11 +513,16 @@
         });
         function change_question_type(){
             // alert(question_types);
+            if (question_types>0){
             $.each(question_types,function(index,val){
                 $('#question_type'+val).hide();
             });
             var val=$('#question_type').val();
             $('#question_type'+val).show();
+        }
+        else{
+            window.location.reload();
+        }
         }
 
         function  change_multi_answer(question_id){
