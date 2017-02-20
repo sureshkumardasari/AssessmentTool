@@ -40,7 +40,7 @@
 				            </div>  
 
 				            <div class="form-group">				                
-				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{strip_tags(htmlspecialchars_decode($ass_qst['qst_text']))}}</b></div>
 				            </div> 
 				            <div style="clear:both;"></div>	
 				            {{--*/ $i = 0 /*--}}
@@ -52,7 +52,7 @@
 									/*--}}
 								<div class="form-group">
 									
-									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
+									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 									
 								</div>
 								 {{--*/ $i++ /*--}}
