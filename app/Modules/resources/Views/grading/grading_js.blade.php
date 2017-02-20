@@ -17,6 +17,54 @@ $path = url()."/grading/";
 //    });
 
 </script>
+<!-- <script>
+	$(document).ready(function(){
+		var loadurl = "{{ url('/resources/assignments') }}/" ;
+		$('#assignmentstable').dataTable( {
+			order: [],
+			columnDefs: [ { orderable: false, targets: [1] } ],
+			"scrollY":        "850px",
+			"scrollCollapse": true,
+			"paging":         true
+		} );
+	});
+		
+		function getAssignmentsforgrading(){
+			var csrf=$('Input#csrf_token').val();
+			var loadurl = "{{ url('/resources/assignments') }}/" ;
+
+			$.ajax(
+					{
+
+						headers: {"X-CSRF-Token": csrf},
+						url:loadurl + $('#institution_id').val(),
+						type: 'get',
+						success: function (response) {
+							$('#assignmentstable').dataTable().fnDestroy();
+							$('#assignbody').empty();
+							var tr;
+							for (var i = 0; i < response.length; i++) {
+								tr = $('<tr/>');
+								tr.append("<td>" + response[i].assessment_name + "");
+								tr.append("<td>" + response[i].name + "");
+								tr.append("<td>"+ "</td>");
+								tr.append("<td>"+ "</td>");
+								$('#assignbody').append(tr);
+
+							}
+							$('#assignmentstable').dataTable( {
+			order: [],
+			columnDefs: [ { orderable: false, targets: [1] } ],
+			"scrollY":        "850px",
+			"scrollCollapse": true,
+			"paging":         true
+		} );
+						}
+					})
+
+		}
+		
+	</script> -->
 <script>
 	function change_user(){
 		var csrf=$('Input#csrf_token').val();
@@ -26,15 +74,18 @@ $path = url()."/grading/";
 					url:'{{$path}}list-student-ajax/'+$('#user').val(),
 					type:'post',
 					success:function(response){
+						//alert(response);
  						$('#student_list').empty();
+ 						 $('#assignmentstable').dataTable().fnDestroy();
 						var tr;
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
  							tr.append("<td>" + response[i].first_name +'\t'+ response[i].last_name + "</td>");
-  							tr.append("<td></td>");
+  							//tr.append("<td></td>");
   							tr.append("<td><a href=''><i class='icons ico-grade'></i></a></td>");
  							$('#student_list').append(tr);
-						}
+					}
+						$('#assignmentstable').dataTable();
  					}
 				}
 		)
