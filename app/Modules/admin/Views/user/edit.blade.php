@@ -18,11 +18,11 @@
 	$password = (old('password') != NULL) ? old('password') : $password; 
 	$enrollno = (old('enrollno') != NULL) ? old('enrollno') : $enrollno; 
 	$address1 = (old('address1') != NULL) ? old('address1') : $address1; 
-	$city = (old('city') != NULL) ? old('city') : $city; 
+	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
 	$state = (old('state') != NULL) ? old('state') : $state; 
 	$pincode=(old('pincode') != NULL)? old('pincode') : $pincode;
 	$phoneno = (old('phoneno') != NULL)? old('phoneno') : $phoneno;
-	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
+	$city = (old('city') != NULL) ? old('city') : $city; 
 	$status = (old('status') != NULL) ? old('status') : $status; 
 	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
 
@@ -35,6 +35,7 @@
 		$profile_picture = asset('/images/profile_pic.jpg');	
 	}*/	
 ?>
+
 <style>
 		.image_add{
 			width: 86px;
@@ -187,7 +188,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Country</label>
 							<div class="col-md-6">
-								<select class="form-control" name="country_id">
+								<select class="form-control" id="country_id" name="country_id" onchange="change_user()">
 									<option value="0">--Select--</option>
 									@foreach($country_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -199,9 +200,11 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">State</label>
 							<div class="col-md-6">
-								<select class="form-control" name="state">
+								<select class="form-control" id="state" name="state">
 									<option value="0">--Select--</option>
+									
 									   @foreach($state_arr as $id=>$val)
+									
 									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									   @endforeach
 								</select>
@@ -267,5 +270,33 @@
 	if(gender!=""){
 		$('#'+gender).prop('checked',true);
 	}
+	</script>
+	<script>
+		function change_user(){
+			//alert('hai');
+		var csrf=$('Input#csrf_token').val();
+		var loadurl = "{{  url('/user/state') }}/" ;
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:loadurl+$('#country_id').val(),
+					type:'get',
+					success:function(response) {
+						var a = response.length;
+						$('#state').empty();
+						var opt = new Option('--Select--', '0');
+						$('#state').append(opt);
+						for (i = 0; i < a; i++) {
+							var opt = new Option(response[i].name, response[i].id);
+							$('#state').append(opt);
+						}
+					}
+				}
+		)
+
+	}
+
 </script>
+
 @endsection
