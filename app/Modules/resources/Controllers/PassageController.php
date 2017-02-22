@@ -119,7 +119,7 @@ class PassageController extends BaseController {
 		$category = $this->category->getCategory($passages[0]['institute_id']);
 		$lessons = $this->lesson->getLesson($passages[0]['subject_id']);
 		$passage = $this->passage->getPassage();
-		//dd($category);
+		//dd($passage);
 		if(isset($id) && $id > 0)
 		{
 			$passage = $this->passage->find($id);

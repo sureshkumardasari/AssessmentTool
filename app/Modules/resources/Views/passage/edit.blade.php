@@ -93,13 +93,13 @@
       <div class="form-group required">
        <label class="col-md-2 control-label">Passage Text</label>
        <div class="col-md-6">
-        <textarea class="form-control" id="passage_text"  class="mceSimple"  name="passage_text">{{ $passage->passage_text }}</textarea>
+        <textarea class="form-control" id="passagetext"   name="passage_text" >{{ $passage->passage_text }}</textarea>
        </div>
       </div>
        <div class="form-group required">
-       <label class="col-md-2 control-label" >Passage Lines</label>
+       <label class="col-md-2 control-label">Passage Lines</label>
        <div class="col-md-6">
-        <textarea class="form-control" id="passage_lines" class="mceAdvanced" name="passage_lines">{{ $passage->passage_lines }}</textarea>
+        <textarea class="form-control" id="passagelines" name="passage_lines" >{{ $passage->passage_lines }}</textarea>
        </div>
       </div>
       <div class="form-group required">

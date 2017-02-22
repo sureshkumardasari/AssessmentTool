@@ -199,9 +199,9 @@ if (count($errors) > 0){?>
 		var category_id=$('#category_id').val();
 		var subject_id=$('#subject_id').val();
 		var lessons_id=$('#lessons_id').val();
-		var passage_text=$('#passage_text').val();
+		var passage_text=$('#passagetext').val();
 		var passage_title=$('#passage_title').val();
-		var passage_lines=$('#passage_lines').val();
+		var passage_lines=$('#passagelines').val();
 		var csrf=$('Input#csrf_token').val(); 
 		if(subject_id=='')subject_id=0;
 		if(institution_id=='')institution_id=0;
@@ -210,7 +210,7 @@ if (count($errors) > 0){?>
         if(passage_text=='')passage_text=0;
 		if(passage_title=='')passage_title=0;
 		if(passage_lines=='')passage_lines=0;
-		//alert(passage_title);
+		//alert(passage_text);
 		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'passagetext':passage_text,'passagelines':passage_lines,'passagetitle':passage_title};
 		//alert(data);
 		var url='{{$path}}passagepopup';

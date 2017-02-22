@@ -1,3 +1,4 @@
+     
       <div id="popup_data">
       <div class="form-group ">
        Institution:
@@ -34,12 +35,15 @@
       </div>
       <div class="form-group ">
        Passage Text:
-       {{ strip_tags(htmlspecialchars_decode($passage['passagetext']))}}
+
+       {{ strip_tags(htmlspecialchars_decode($passage['passagetext'])) }}
        
       </div>
        <div class="form-group ">
       Passage Lines:
-       {{ strip_tags(htmlspecialchars_decode($passage['passagelines']))}}
+
+       {{ strip_tags(htmlspecialchars_decode($passage['passagelines'])) 
+       }}
        
       </div>
       
