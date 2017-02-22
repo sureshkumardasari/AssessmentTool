@@ -200,7 +200,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 					Add passage
 				</button>
 			</div>
-            <div class="clearfix"></div>
+
+
+			<div class="clearfix"></div>
 			<b>{{"Selected Passages"}}</b>
 			<table id="selected-passage" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 				<thead>

@@ -16,7 +16,6 @@
 				</div>
 				<div class="panel-body">				
 						<label class="col-md-2 control-label">Users</label>
-
 						<div class="col-md-4">
 							<select class="form-control" name="status" id="status" onchange="change_user_answers()">
 								<option value="0">--Select--</option>
@@ -40,9 +39,9 @@
 				            </div>  
 
 				            <div class="form-group">				                
-				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{strip_tags(htmlspecialchars_decode($ass_qst['qst_text']))}}</b></div>
+				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
 				            </div> 
-				            <div style="clear:both;"></div>	
+				            <div></div>	
 				            {{--*/ $i = 0 /*--}}
 							@if(!(($ass_qst['question_type']=="Essay" )||($ass_qst['question_type']=="Fill in the blank")))
 								@foreach($ass_qst['answers'] as $idx => $a )
@@ -52,14 +51,14 @@
 									/*--}}
 								<div class="form-group">
 									
-									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
+									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
 									
 								</div>
 								 {{--*/ $i++ /*--}}
 								@endforeach
 							@endif
 				            <div>
-				                	<div class="form-group">
+				                	<div class="form-group col-md-offset-2">
 				                	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Edit</button>
 				                	</div>
 
@@ -88,7 +87,6 @@
 														{{--*/
 														$ans_label = 'default';
 														if($a['is_correct']=='YES')$ans_label = 'success' ;
-
 														/*--}}
 
 
@@ -319,8 +317,6 @@
 			var status=null;
 			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
-			
-			if (user_id>0){
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
 				url:'next_student_answers_for_grade_by_question/'+user_id+'/'+question_type+','+assessment_id+','+assignment_id+','+'{{$qst_id}}',
@@ -396,10 +392,6 @@
 				}
 
 			});
-		}
-			else{
-				window.location.reload();
-		}
 
 		}
 

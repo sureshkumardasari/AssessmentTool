@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                 <div class="col-md-5 right">
-                    <button type="submit" class="btn btn-primary btn-sm right" onclick="parent.$.fancybox.close()" style="margin: 2px;">Download</button>
+                    <button type="submit" class="btn btn-primary btn-sm right" style="margin: 2px;">Download</button>
                 </div>
             </div>
         </form>
@@ -43,6 +43,5 @@
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
         $(".UserImportInstitutionId").html(msg);
     });
-   
 </script>
 {!! HTML::script(asset('/js/custom/user_bulk_upload.js')) !!}

@@ -161,14 +161,16 @@ class UserController extends BaseController
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 		$country_arr = $this->user->getcountries();
-		$state_arr = [];
+		$state_arr = $this->user->getstates();
+
 		$id = $institution_id = $role_id = $country_id = $state = 0;
 		$name = $email = $status = $gender = $enrollno = $password = '';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
+			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 
 	public function edit($userid = 0)
@@ -209,17 +211,14 @@ class UserController extends BaseController
 			$pic_data = ['coords' => $user->pic_coords, 'image' => $user->profile_picture, 'id' => $user->id];
 		} else {
 			$id = $institution_id = $role_id = $country_id = $state = 0;
-			$name = $email = $status = $enrollno = $password =  '';
+			$name = $email = $status = $enrollno = $password = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
 
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
+			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
-function state($country_id=0)
-	{
-        $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
-      	return $state_arr;    
-    }
+
 	public function update($institutionId = 0)
 	{
 		$post = Input::All();
@@ -231,18 +230,16 @@ function state($country_id=0)
 			'first_name' => 'required|min:3',
 			'last_name' => 'required',
 			'email' => 'required|email|max:255|unique:users',
-			'password' => 'required|confirmed|min:6',
-			//'conform password' =>'required|confirmed|min:6',
-			'gender' => 'required',
 			'enrollno' => 'required',
 			'address1' => 'required',
-			'country_id' => 'required|not_in:0',
-			'state' => 'required|not_in:0',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
-			'phoneno'=>'required|regex: /\b\d{10}\b/',];
-			
+			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
+			'gender' => 'required',
+			'state' => 'required|not_in:0',
+			'country_id' => 'required|not_in:0'];
+
 		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
 			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
@@ -252,7 +249,7 @@ function state($country_id=0)
 			}
 		} else {
 			$rules['role_id'] = 'required|not_in:0';
-			//$rules['password'] = 'required|confirmed|min:6';
+			$rules['password'] = 'required|confirmed|min:6';
 		}
 
 		$validator = Validator::make($post, $rules);

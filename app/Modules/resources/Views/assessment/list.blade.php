@@ -15,14 +15,13 @@
 
 		<div class="col-md-10 col-md-offset-1">
 			<ul class="nav nav-tabs" role="tablist">
-			 <!-- <li><a href="{{ url('/resources') }}">Resources</a></li> -->
+			 <li><a href="{{ url('/resources') }}">Resources</a></li>
 			    <li class="active"><a href="{{ url('/resources/assessment') }}">Assessment</a></li>
 
 		        <li><a href="{{ url('/resources/assignment') }}">Assignment</a></li>
 			</ul>
 			<div class="panel panel-default">
-			
-				<div class="panel-heading">Assessment
+				<div class="panel-heading">&nbsp;<!-- Lessons -->
 					<a href="{{ url('/resources/assessmentcreate/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Assessment</a>
 				</div>
 

@@ -159,108 +159,108 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'category-list' => array(
             'displayName' => 'Category',
             'route' => 'category-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'category-add' => array(
             'displayName' => 'Create Category',
             'route' => 'category-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'category-list' => 'Category'), //
         ),
         'category-edit' => array(
             'displayName' => 'Modify Category',
             'route' => 'category-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'category-list' => 'Category'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'category-list' => 'Category'), //
         ),
         //------------subject--------------------   
         'subject-list' => array(
             'displayName' => 'Subjects',
             'route' => 'subject-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'subject-add' => array(
             'displayName' => 'Create Subject',
             'route' => 'subject-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'subject-list' => 'Subjects'), //
         ),
         'subject-edit' => array(
             'displayName' => 'Modify Subject',
             'route' => 'subject-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'subject-list' => 'Subjects'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'subject-list' => 'Subjects'), //
         ),
         ////------------lesson--------------------   
         'lesson-list' => array(
             'displayName' => 'Lessons',
             'route' => 'lesson-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'lesson-add' => array(
             'displayName' => 'Create Lesson',
             'route' => 'lesson-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'lesson-list' => 'Lessons'), //
         ),
         'lesson-edit' => array(
             'displayName' => 'Modify Lesson',
             'route' => 'lesson-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'lesson-list' => 'Lessons'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'lesson-list' => 'Lessons'), //
         ),
         //------------questions--------------------   
     
         'question-list' => array(
             'displayName' => 'Questions',
             'route' => 'question-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'question-add' => array(
             'displayName' => 'Create Questions',
             'route' => 'question-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'question-list' => 'Questions'), //
         ),
         'question-edit' => array(
             'displayName' => 'Modify Questions',
             'route' => 'question-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'question-list' => 'Questions'), //
         ),
         'edit' => array(
             'displayName' => 'Questions View',
             'route' => 'edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'question-list' => 'Questions'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'question-list' => 'Questions'), //
         ),
         //------------passages--------------------   
          'passage-list' => array(
             'displayName' => 'Passages',
             'route' => 'passage-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'passage-add' => array(
             'displayName' => 'Create Passage',
             'route' => 'passage-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'passage-list' => 'Passages'), //
         ),
         'passage-edit' => array(
             'displayName' => 'Modify Passage',
             'route' => 'passage-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'passage-list' => 'Passages'), //
         ),
         'passageview' => array(
             'displayName' => 'Passage View',
             'route' => 'passageview',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'passage-list' => 'Passages'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'passage-list' => 'Passages'), //
         ),
          //------------assessments--------------------   
          'assessmentlist' => array(
             'displayName' => 'Assessments',
             'route' => 'assessmentlist',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'assessment-create' => array(
             'displayName' => 'Create Assessment',
             'route' => 'assessment-create',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
         'assessmentedit' => array(
             'displayName' => 'Modify Assessment',
             'route' => 'assessmentedit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          'assessmentview' => array(
             'displayName' => 'Assessment View',
@@ -271,22 +271,22 @@ function breadcrumb($displayName = '', $urlSlug = '') {
          'assignment-list' => array(
             'displayName' => 'Assignments',
             'route' => 'assignment-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources'), //
         ),
         'assignment-add' => array(
             'displayName' => 'Create Assignment',
             'route' => 'assignment-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
         'assignment-edit' => array(
             'displayName' => 'Modify Assignment',
             'route' => 'assignment-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
         'assignmentview' => array(
             'displayName' => 'Assignment View',
             'route' => 'assignmentview',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assignment-list' => 'Assignments'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assignment-list' => 'Assignments'), //
         ),
          //------------grading-----studentGrading----------questionGrading----------   
          'allassignment' => array(

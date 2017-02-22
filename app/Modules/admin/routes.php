@@ -17,7 +17,6 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('profile', array('as' => 'profile', 'uses'=>'UserController@edit'));
     Route::get('add', array('as' => 'useradd', 'uses'=>'UserController@add'));
     Route::get('edit/{id}', array('as' => 'useredit', 'uses'=>'UserController@edit'));
-    Route::get('state/{id}', array('as' => 'useredit', 'uses'=>'UserController@state'));
     Route::get('del/{id}', array('as' => 'userdelete', 'uses'=>'UserController@delete'));
     Route::post('update', array('as' => 'userupdate', 'uses'=>'UserController@update'));
     Route::get('search', array('as' => 'usersearch', 'uses'=>'UserController@searchByInstitution'));

@@ -13,7 +13,7 @@
                         <thead>
                             <tr>
                                 <th>Institution Name</th>
-                                <th style="visibility: hidden;"></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

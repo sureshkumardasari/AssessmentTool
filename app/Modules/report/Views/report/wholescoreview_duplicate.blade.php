@@ -36,7 +36,7 @@
         @foreach($lesson_score as $stud_id=>$lesson)
             <tr>
                 <td>{{$students[$stud_id]}}</td>
-                @foreach($lesson as $id=>$score)
+                @foreach($lesson as $score)
                     <?php $sum=(($score[0]->sum == "null")||($score[0]->sum == ""))?0:$score[0]->sum;?>
                     <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assessment->guessing_panality}}/{{$score[0]->total}}</td>
                 @endforeach

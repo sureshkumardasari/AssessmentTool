@@ -147,7 +147,7 @@
                                             <div>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</div>
                                         
                                         </div>
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                            
                                                     <div class="modal fade" id="myModal{{$j}}" role="dialog">
                                                         <div class="modal-dialog">
@@ -199,13 +199,12 @@
                                                     <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
                                             </div>
                                         
-                                        </div> -->
+                                        </div>
                                         @endforeach
                                     
                                 
                                     <div class="col-md-offset-4">
-                                        <button type="button" class="btn btn-primary" 
-                                        onclick="save_student_essay_answers()">Save</button>
+                                        <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
@@ -293,9 +292,9 @@
                                                
 
                                             </tr>
-                                           <!--  <tr>
+                                            <tr>
                                                 <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
-                                            </tr> -->
+                                            </tr>
                                             <?php
                                             $i=0;
                                             ?>
@@ -394,9 +393,9 @@
                                                 
 
                                             </tr>
-                                            <!-- <tr>
+                                            <tr>
                                                 <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
-                                            </tr> -->
+                                            </tr>
                                             <?php
                                             $i=0;
                                             ?>
@@ -611,7 +610,7 @@
            // alert(JSON.stringify(Essay_answer_scores));
             // alert(Object.keys(Essay_answers).length);
             var student_id=$('#student').val();
-            if( Object.keys(Essay_answer_scores).length!=0){
+            if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(Essay_answer_scores).length!=0){
 
                 var csrf=$('Input#csrf_token').val();
                 $.ajax({
@@ -675,14 +674,12 @@
                     data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_single_answers,'next_student':next_student,'user_selected_correct_answers':user_selected_correct_answers},
                     success:function(response){
                         //alert(JSON.stringify(response));
-                        
-                         alert("your changes have be saved successfully");
                     }
                 });
 
             }
             else{
-                alert("please grade atleast one Question");
+                alert("please grade atlesat one Question");
             }
 
         }
@@ -701,8 +698,7 @@
                     type:"post",
                     data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_multi_answers,'next_student':next_student,'user_selected_correct_answers':user_selected_correct_answers},
                     success:function(response){
-
-                         alert("your changes have be saved successfully");
+                        // alert(response);
                     }
                 });
 

@@ -11,7 +11,7 @@
 <!--                         <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
  -->                        
                             <div class="form-group required">
-                                <label class="col-md-4 " style="padding-left: 60px;">Institution:</label>
+                                <label class="col-md-4 control-label">Institution:</label>
                                 <div class="col-md-6">
                                     <select name="inst_id" class='form-control' id="institution_id" >
                                         <option value="0" selected >-Select Institution-</option>
@@ -23,7 +23,7 @@
                            </div>
                             
                             <div class="form-group required">
-                                <label class="col-md-4" style="padding-left: 60px;">Assignment:</label>
+                                <label class="col-md-4 control-label">Assignment:</label>
                                 <div class="col-md-6">
                                     <select name="assignment_id" class='form-control' id="assignment_id"  >
                                         <option value="0" selected >-Select Assignment-</option>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                            <label class="col-md-4" style="padding-left: 60px;">Subject</label>
+                            <label class="col-md-4 control-label">Subject</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
                                     <option value="0">-Select Subject-</option>
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="form-group required">
-                            <label class="col-md-4 " style="padding-left: 60px;">Lesson</label>
+                            <label class="col-md-4 control-label">Lesson</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
                                     <option value="0">-Select Lesson-</option>
@@ -85,10 +85,6 @@
           //  $('#lesson_id').multiselect('refresh');
         });
         function update(){
-            if(($('#institution_id').val()==0) || ($('#assignment_id').val()==0) || ($('#lesson_id').val() == 0) || ($('#subject_id').val()==0)){
-                alert("please select all the fields");
-            }
-            else{
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
@@ -105,7 +101,7 @@
                     }
             )
         }
-    }
+
         $('#institution_id').on('change',function(){
 
             var csrf=$('Input#csrf_token').val();

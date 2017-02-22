@@ -156,7 +156,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group required">
 							<label class="col-md-3 control-label" ></label>
 							<div class="col-md-6">
-								<div id="dual-list-box" class="row" style="marign-bottom:15px;">
+								<div id="dual-list-box" class="form-group row">
 						            <select id="student_ids" name="student_ids[]" multiple="multiple" data-title="Students" data-source="{{ url('/user/usersjson') }}" data-value="id" data-text="username" data-horizontal="false">
 
 						            </select>
