@@ -83,6 +83,10 @@
                     success:function(response){
                         var a=response.length;
                         $('#lessonimport_category_id').empty();
+                        $('#lessonimport_subject_id').empty();
+                        var opt=new Option('--Select Subject--','');
+                        $('#lessonimport_subject_id').append(opt);
+
                         var opt=new Option('--Select Category--','');
                         //opt.addClass('selected','disabled','hidden');
                         $('#lessonimport_category_id').append(opt);
@@ -96,6 +100,10 @@
     }
     function change_category(){
         var csrf=$('Input#csrf_token').val();
+        $('#lessonimport_subject_id').empty();
+
+                        var opt=new Option('--Select Subject--','');
+                        $('#lessonimport_subject_id').append(opt);
         $.ajax(
                 {
 
@@ -104,10 +112,7 @@
                     type:'post',
                     success:function(response){
                         var a=response.length;
-                        $('#lessonimport_subject_id').empty();
-
-                        var opt=new Option('--Select Subject--','');
-                        $('#lessonimport_subject_id').append(opt);
+                        
                         for(i=0;i<a;i++){
                             var opt=new Option(response[i].name,response[i].id);
                             $('#lessonimport_subject_id').append(opt);
