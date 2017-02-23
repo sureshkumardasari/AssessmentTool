@@ -22,6 +22,7 @@
 								@foreach($assignmentUsersArr as $idx => $a )
 									<option value="{{$a->id}}">{{$a->username}}</option>		
 								@endforeach	
+
 							</select>
 						</div>				
 				</div>
@@ -32,6 +33,7 @@
 				       		<?php
 				       		$ans_arr = ['A', 'B', 'C', 'D', 'E'];
 				       		?>
+				       		
 				            <div class="form-group">
 								{{--//for displaying that the question is graded or not?--}}
 								<div class="col-md-2"><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$ass_qst['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted"  style="color:red" id="incomplete_status{{$ass_qst['Id']}}"></span>
@@ -317,6 +319,7 @@
 			var status=null;
 			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
+			if (user_id>0){
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
 				url:'next_student_answers_for_grade_by_question/'+user_id+'/'+question_type+','+assessment_id+','+assignment_id+','+'{{$qst_id}}',
@@ -392,6 +395,11 @@
 				}
 
 			});
+		}
+            else{
+                window.location.reload();
+        }
+
 
 		}
 
