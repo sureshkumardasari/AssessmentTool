@@ -708,7 +708,7 @@ class ReportController extends Controller
         $inst_arr = $InstitutionObj->getInstitutions();
         $assignment = Assignment::where('institution_id', $ins)->select('assignment.name', 'assignment.id')->get();
         $subjectObj = new Subject();
-        $subjects = $subjectObj->getSubject();    //dd($subjects);
+        $subjects = $subjectObj->getSubject();  //dd($subjects);
 
         return view('report::report.wholeclassscorereport', compact('inst_arr', 'subjects', 'assignment'));
     }
@@ -718,8 +718,8 @@ class ReportController extends Controller
         $assignment = Assignment::find($assi_id);
         $assessment = Assessment::find($assignment->assessment_id);
         $sub_list = explode(',', $assessment->subject_id);
+        //dd($sub_list);
         $subjects = Subject::whereIn('id', $sub_list)->select('name', 'id')->get();
-
         //dd($subjects);
         return $subjects;
     }

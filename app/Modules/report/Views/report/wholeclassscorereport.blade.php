@@ -174,7 +174,7 @@
             }
 
             if(length>1){
-                $('#lesson_id').attr('disabled',true);
+                $('#lesson_id').attr('disabled',false);
             }
             else{
                 $('#lesson_id').attr('disabled',false);
@@ -186,7 +186,7 @@
                         url:'assignment_lesson/'+ $('#subject_id').val(),
                         type: 'post',
                         success: function (response) {
-                            var a = response.length;
+                            var b = response.length;
                            // $('#subject_id').empty();
                             // var opt = new Option('--Select Subjects--', '');
                             // $('#subject_id').append(opt);
