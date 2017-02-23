@@ -407,7 +407,7 @@ class QuestionController extends BaseController {
 		$subjects = $this->subject->getSubject($questions[0]['category_id']);
 		$category = $this->category->getCategory($questions[0]['institute_id']);
 		$lessons = $this->lesson->getLesson($questions[0]['subject_id']);
-		$passage = $this->passage->getPassage();
+        $passage = $this->passage->getPassage($questions[0]['subject_id']);
 		$qtypes = $this->question_type->getQuestionTypes();
 		if(isset($id) && $id > 0)
 		{
