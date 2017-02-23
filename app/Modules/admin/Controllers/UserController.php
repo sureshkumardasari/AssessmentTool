@@ -161,7 +161,8 @@ class UserController extends BaseController
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 		$country_arr = $this->user->getcountries();
-		$state_arr = $this->user->getstates();
+		/*$state_arr = $this->user->getstates();
+*/        $state_arr = [];
 
 		$id = $institution_id = $role_id = $country_id = $state = 0;
 		$name = $email = $status = $gender = $enrollno = $password = '';
@@ -218,6 +219,12 @@ class UserController extends BaseController
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
+	function state($country_id=0)
+    {
+        $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
+          return $state_arr;    
+    }
+
 
 	public function update($institutionId = 0)
 	{
