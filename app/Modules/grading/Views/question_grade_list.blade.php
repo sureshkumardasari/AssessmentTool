@@ -17,8 +17,7 @@
 								<option value="Not Started">Not Started</option>
 								<option value="In Progress">In Progress</option>
 								<option value="complete">Complete</option>
-							</
-							>
+							</select>
 						</div>				
 				</div>	
 
