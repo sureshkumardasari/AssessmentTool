@@ -259,6 +259,7 @@ class AssessmentController extends BaseController {
         $template = Template::find($template_Id);
 		//dd($template);
 		$assessment = Assessment::find($template->assessment_id);
+		//dd($assessment);
         $s3 = ''; //new \App\Models\S3;
         
         $_pdf       = $this->_generatePdf($template, $assessment, $s3, 'PdfContent');
@@ -354,11 +355,11 @@ class AssessmentController extends BaseController {
 		);        
 
         $pages = '';
-        
+        //dd($pages);
         $splitOn = '<div class="page">';
         //dd($splitOn);
         $temps = explode($splitOn, $template->pdf_content);
-        //dd($temps);
+       // dd($temps);
         if ($field == 'PdfContent') {
             // Add Header And Footer
             $header = $template->header;
@@ -366,7 +367,7 @@ class AssessmentController extends BaseController {
             // update options
             $options['header-html'] = view('resources::assessment.partial.pdf.header', compact('header'))->render();
             $options['footer-html'] = view('resources::assessment.partial.pdf.footer', compact('footer'))->render();   
-          //  dd($options);         
+          //dd($options['header-html']);         
         }
         $pdf->setOptions($options);
         // init wkhtmltopdf       
@@ -380,12 +381,13 @@ class AssessmentController extends BaseController {
                 continue;
             }
             $temp = substr(trim($temp), 0,-6);     // to remove closing div'
-            //dd($temp);
+           //dd($temp);
             $content = '<div class="page">'.$temp.'</div>';
-            dd($content);
+            //dd($content);
             $parentId = 1;
-            $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
             //dd($pages);
+            $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
+     
             $pdf->addPage($pages);
             //dd($pdf);
         }
