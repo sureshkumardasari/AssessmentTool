@@ -6,7 +6,7 @@
 				                <th>Institution</th>
 				                <th>Role</th>
 				                <th>Status</th>
-				                <th></th>
+				                <th style="visibility: hidden;"></th>
 				            </tr>
 				        </thead>
 				        <tbody>
@@ -46,4 +46,52 @@
 	});
 	@endif
 </script>
+<!-- <script>
+	$(document).ready(function(){
+		var loadurl = "{{ url('/user') }}/" ;
+		$('#userstable').dataTable( {
+			order: [],
+			columnDefs: [ { orderable: false, targets: [5] } ],
+			"scrollY":        "850px",
+			"scrollCollapse": true,
+			"paging":         true
+		} );
+	});
+		
+		function getAssignmentsforgrading(){
+			var csrf=$('Input#csrf_token').val();
+			var loadurl = "{{ url('/user') }}/" ;
+
+			$.ajax(
+					{
+
+						headers: {"X-CSRF-Token": csrf},
+						url:loadurl + $('#institution_id').val(),
+						type: 'get',
+						success: function (response) {
+							$('#userstable').dataTable().fnDestroy();
+							//$('#assignbody').empty();
+							var tr;
+							for (var i = 0; i < response.length; i++) {
+								tr = $('<tr/>');
+								tr.append("<td>" + response[i].assessment_name + "");
+								tr.append("<td>" + response[i].name + "");
+								tr.append("<td>"+ "</td>");
+								tr.append("<td>"+ "</td>");
+								//$('#assignbody').append(tr);
+
+							}
+							$('#userstable').dataTable( {
+			order: [],
+			columnDefs: [ { orderable: false, targets: [5] } ],
+			"scrollY":        "850px",
+			"scrollCollapse": true,
+			"paging":         true
+		} );
+						}
+					})
+
+		}
+		
+	</script> -->
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
