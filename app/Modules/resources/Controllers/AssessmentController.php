@@ -357,7 +357,7 @@ class AssessmentController extends BaseController {
         
         $splitOn = '<div class="page">';
         $temps = explode($splitOn, $template->pdf_content);
-
+        dd($temps);
         if ($field == 'PdfContent') {
             // Add Header And Footer
             $header = $template->header;
@@ -410,6 +410,7 @@ class AssessmentController extends BaseController {
  		$html = $request->input('html');  
         $originalTemplate = $request->input('html_orginal');
         $originalTemplate_2 = $request->input('html_orginal2');
+        //dd($originalTemplate_2);
         $pdfContent = $request->input('pdf_content');
         $headerHtml = $request->input('header');
     	$footerHtml = $request->input('footer');
@@ -877,7 +878,7 @@ class AssessmentController extends BaseController {
 		return "passage listing";
 	}
 	public function _renderQbankGrid($questionIds = []) {
-		dd('question grid');
+		//dd('question grid');
 		$data = [];
 		$addedListOfQuestions = '';
 		$data['selectedIds'] = $questionIds;
@@ -910,7 +911,7 @@ class AssessmentController extends BaseController {
 	}
 
 	public function _renderPassagesGrid($passagesIds = []) {
-		dd('passage grid');
+		//dd('passage grid');
 		$data = [];
 		$addedListOfPassages = '';
 		$data['selectedIds'] = $passagesIds;
