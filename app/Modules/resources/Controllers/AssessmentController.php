@@ -373,7 +373,7 @@ class AssessmentController extends BaseController {
 
         // Add Pages        
         $tempsCount = count($temps);
-       dd($tempsCount);
+       //dd($tempsCount);
         foreach($temps as $key => $temp){
             $temp = trim($temp);
             if (empty($temp)) {
@@ -382,7 +382,7 @@ class AssessmentController extends BaseController {
             $temp = substr(trim($temp), 0,-6);     // to remove closing div'
             //dd($temp);
             $content = '<div class="page">'.$temp.'</div>';
-            //dd($content);
+            dd($content);
             $parentId = 1;
             $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
             //dd($pages);
