@@ -85,7 +85,7 @@ class GradingController extends BaseController {
 	}
 
 	public function studentGradeListing($assignment_id,$assessment_id){
-		// print_r($assignment_id);
+		 //print_r($assignment_id=0);
 		//$assignment_id=$assignment_id;
 		$ass_usrs = $this->grade->getUsersByAssignment($assignment_id);
 
@@ -95,8 +95,13 @@ class GradingController extends BaseController {
 
 	public function studentGradeListingAjax($student_id){
 
-		$ass_usrs = $this->grade->getUsersById($student_id);
+		$ass_usrs = $this->grade
+		// ->where('id',$institute['institution_id'])
+		->where('assignment_id',$assignment_id)
+		->getUsersById($student_id);
+		// dd($ass_usrs);
 		return $ass_usrs;
+
 	}
 
 
