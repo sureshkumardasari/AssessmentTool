@@ -27,7 +27,7 @@
 				            <tr>
 				                <th>Student Name</th>
 				                
-				                <th>Action</th>
+				                <th style="visibility: hidden;">Action</th>
 				            </tr>
 				        </thead>
 				        <tbody id="student_list">
