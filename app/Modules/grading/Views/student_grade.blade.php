@@ -26,16 +26,17 @@
 				        <thead>
 				            <tr>
 				                <th>Student Name</th>
-				                
-				                <th style="visibility: hidden;">Action</th>
+				                 <th >Action</th>
+				              <!--  <th><span> <b>Action</b></span></th> -->
+
 				            </tr>
 				        </thead>
 				        <tbody id="student_list">
 				            @foreach($ass_usrs as $id=>$val)
 				            	<tr>
-				            	<td>{{ $val->first_name." ".$val->last_name }} </td>
+				            	<td >{{ $val->first_name." ".$val->last_name }} </td>
 				            	
-				            	<td> <a href="{{ url('/grading/list-student-question/'.$val->id.-$assignment_id.-$assessment_id) }}"><i class="icons ico-grade"></i></a></td>
+				            	<td > <a href="{{ url('/grading/list-student-question/'.$val->id.-$assignment_id.-$assessment_id) }}"><i class="icons ico-grade" ></i></a></td>
 				            	</tr>
 				            @endforeach
 				        </tbody>
