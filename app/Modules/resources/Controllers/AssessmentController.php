@@ -356,7 +356,7 @@ class AssessmentController extends BaseController {
         $pages = '';
         
         $splitOn = '<div class="page">';
-        dd($splitOn);
+        //dd($splitOn);
         $temps = explode($splitOn, $template->pdf_content);
         //dd($temps);
         if ($field == 'PdfContent') {
@@ -373,7 +373,7 @@ class AssessmentController extends BaseController {
 
         // Add Pages        
         $tempsCount = count($temps);
-        //dd($tempsCount);
+       dd($tempsCount);
         foreach($temps as $key => $temp){
             $temp = trim($temp);
             if (empty($temp)) {
