@@ -356,31 +356,38 @@ class AssessmentController extends BaseController {
         $pages = '';
         
         $splitOn = '<div class="page">';
+        dd($splitOn);
         $temps = explode($splitOn, $template->pdf_content);
-        dd($temps);
+        //dd($temps);
         if ($field == 'PdfContent') {
             // Add Header And Footer
             $header = $template->header;
             $footer = $template->footer;
             // update options
             $options['header-html'] = view('resources::assessment.partial.pdf.header', compact('header'))->render();
-            $options['footer-html'] = view('resources::assessment.partial.pdf.footer', compact('footer'))->render();            
+            $options['footer-html'] = view('resources::assessment.partial.pdf.footer', compact('footer'))->render();   
+          //  dd($options);         
         }
         $pdf->setOptions($options);
         // init wkhtmltopdf       
 
         // Add Pages        
         $tempsCount = count($temps);
+        //dd($tempsCount);
         foreach($temps as $key => $temp){
             $temp = trim($temp);
             if (empty($temp)) {
                 continue;
             }
-            $temp = substr(trim($temp), 0,-6);     // to remove closing div
+            $temp = substr(trim($temp), 0,-6);     // to remove closing div'
+            //dd($temp);
             $content = '<div class="page">'.$temp.'</div>';
+            //dd($content);
             $parentId = 1;
             $pages = view('resources::assessment.partial.pdf.page', compact('content', 'parentId'))->render();
+            //dd($pages);
             $pdf->addPage($pages);
+            //dd($pdf);
         }
         
         if ($field == 'PdfContent') {  
