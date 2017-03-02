@@ -91,6 +91,7 @@
                         url:loadurl+ $('#institution_id').val(),
                         type: 'post',
                         success: function (response) {
+                            $('#report').empty();
                             var a = response.length;
                             $('#assignment_id').empty();
                             var opt = new Option('--Select Assignment--', '0');
