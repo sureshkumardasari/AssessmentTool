@@ -114,8 +114,8 @@
                 {{--*/ break; /*--}}
             @endif
             <li class='answerradio'>
-                <label for="01A">{{ $answersBullets[$counter] }}</label>
-                <input type="checkbox" id="01A" name="multi_{{ $question['Id'] }}" value="_{{ $question['Id'] }}_{{ $answer['Id'] }}_{{ $answersBullets[$counter] }}" class="multi_chk_box mc" {{ (!empty($ansIds) && in_array($answer['Id'], $ansIds)) ? 'checked' : '' }}/>
+                <label>{{ $answersBullets[$counter] }}</label>
+                <input type="checkbox" id="01A_{{ $question['Id'] }}" name="multi_{{ $question['Id'] }}" value="_{{ $question['Id'] }}_{{ $answer['Id'] }}_{{ $answersBullets[$counter] }}" class="multi_chk_box mc" {{ (!empty($ansIds) && in_array($answer['Id'], $ansIds)) ? 'checked' : '' }}/>
             </li>
             {{--*/ $counter++; /*--}}
             @endforeach        
