@@ -45,8 +45,8 @@
                     <div class="form-group col-md-12">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                        <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
-                        <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                        <a href="#" class="btn btn-primary" id="pdf" onclick="report()">Export PDF</a>
+                        <a href="#" class="btn btn-primary" id="xls" onclick="report()">Export XLS</a>
                     </div></div>
                     <div id="report">
 
