@@ -83,9 +83,9 @@
 				                <td>{{ $name['name'] }}</td>
 				                <td>
 									<!-- <a href="{{ url('/resources/assessmentview/'.$name['id']) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a> -->
-{{--
+<!-- {{--
 									<a target="_blank" href="{{asset('data/assessment_pdf/assessment_'. $name['id'] .'.pdf')}}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
---}}
+--}} -->
 									<a target="_blank" href="{{url('/resources/assessmentview/'.$name['id'])}}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
 									<a href="{{ url('/resources/assessmentedit/'.$name['id']) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
