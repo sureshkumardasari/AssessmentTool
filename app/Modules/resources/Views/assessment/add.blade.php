@@ -72,7 +72,7 @@
 						</div>
 					</div>
 					<div class="form-group required">
-						<label class="col-md-4 control-label">Never Expires</label>
+						<label class="col-md-4 control-label" id="never_expires">Never Expires</label>
 						<div class="col-md-6">
 							<input type="checkbox" name="never_expires" id="never_expires">
 						</div>
