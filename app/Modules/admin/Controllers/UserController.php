@@ -286,7 +286,7 @@ class UserController extends BaseController
                    
 			}
             if(Auth::user()->role_id == 1)
-			return redirect('/user');
+			return redirect('/dashboard/home');
 		else
 			return redirect('/dashboard/home');
 		}
