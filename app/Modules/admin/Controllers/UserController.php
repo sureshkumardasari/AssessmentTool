@@ -285,8 +285,10 @@ class UserController extends BaseController
                     
                    
 			}
-
+            if(Auth::user()->role_id == 1)
 			return redirect('/user');
+		else
+			return redirect('/dashboard/home');
 		}
 		/*
         $params = Input::All();

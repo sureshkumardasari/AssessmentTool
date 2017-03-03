@@ -13,7 +13,8 @@
 						<label class="col-md-2 control-label">Student Name</label>
 						<div class="col-md-4">
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
- 							<select class="form-control" name="user" id="user" onchange="change_user()">
+							<input type="hidden" name="assignmentid" id="assignmentid" value="{{ $assignment_id }}">
+ 							<select class="form-control" name="user" id="user" onchange="change_user1()">
 								<option value="0">All</option>
 								@foreach($ass_usrs as $id=>$val)
 									<option value="{{ $val->id }}">{{ $val->first_name." ".$val->last_name }}</option>
@@ -26,17 +27,16 @@
 				        <thead>
 				            <tr>
 				                <th>Student Name</th>
-				                 <th >Action</th>
-				              <!--  <th><span> <b>Action</b></span></th> -->
-
+				                
+				                <th style="visibility: hidden;">Action</th>
 				            </tr>
 				        </thead>
-				        <tbody id="student_list">
+				        <tbody class="student_list">
 				            @foreach($ass_usrs as $id=>$val)
 				            	<tr>
-				            	<td >{{ $val->first_name." ".$val->last_name }} </td>
+				            	<td>{{ $val->first_name." ".$val->last_name }} </td>
 				            	
-				            	<td > <a href="{{ url('/grading/list-student-question/'.$val->id.-$assignment_id.-$assessment_id) }}"><i class="icons ico-grade" ></i></a></td>
+				            	<td> <a href="{{ url('/grading/list-student-question/'.$val->id.-$assignment_id.-$assessment_id) }}"><i class="icons ico-grade"></i></a></td>
 				            	</tr>
 				            @endforeach
 				        </tbody>
