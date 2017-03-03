@@ -6255,7 +6255,7 @@ label,
 
 #never_expires:after{
   content:" ";
-  /*color:white  !important;*/
+  color:white  !important;
 }
 .clear {
     clear: both;
