@@ -78,11 +78,6 @@
 						</div>
 					</div>
 
-
-
-
-
-
 					<div class="col-md-12">
 						@include('resources::assessment.partial.questions')
                     </div>

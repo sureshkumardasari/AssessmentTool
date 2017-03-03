@@ -6252,6 +6252,7 @@ label,
    content:"*";
    color:red;
 }
+
 #never_expires:after{
   content:" ";
   /*color:white  !important;*/
