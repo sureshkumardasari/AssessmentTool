@@ -22,7 +22,7 @@
                                 {{--</div>--}}
                             {{--</div>--}}
 
-                        <div class="form-group col-md-12">
+                         <div class="form-group required">
                             <label class="col-md-4 control-label">Select Assignment:</label>
                             <div class="col-md-6">
                                 <select name="assessment_id" class='form-control' id="assignment" >
@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                         <div class="form-group required">
                             <label class="col-md-4 control-label">Select Subject:</label>
                             <div class="col-md-6">
                                 <select name="subject_id" class='form-control' id="subject" >

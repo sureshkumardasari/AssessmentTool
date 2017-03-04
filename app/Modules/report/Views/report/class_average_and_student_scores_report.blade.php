@@ -21,7 +21,7 @@
                                     {{--</select>--}}
                                 {{--</div>--}}
                             {{--</div>--}}
-                            <div class="form-group col-md-12">
+                            <div class="form-group required">
                                 <label class="col-md-4 control-label">Select Assignment:</label>
                                 <div class="col-md-6">
                                     <select name="assignment_id" class='form-control' id="assignment_id" >

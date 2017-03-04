@@ -89,7 +89,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							</div>
 						</div>
 
-						<div class="form-group required">
+						<div class="form-group">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
 								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="1" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
