@@ -5,27 +5,27 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading" style="text-align:center; ">Questions & Answers</div>
-                    <div class="panel-body">
+                    <div class="panel-body" >
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
-                            <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
-                            {{--<div class="form-group">--}}
-                                {{--<label class="col-md-2 control-label">Select institution:</label>--}}
-                                {{--<div class="col-md-2">--}}
-                                    {{--<select name="inst_id" class='form-control' id="institution_id" >--}}
-                                        {{--<option value="0" selected >-Select-</option>--}}
-                                        {{--@foreach($inst_arr as $id=>$val)--}}
-                                            {{--<option value="{{ $id }}">{{ $val }}</option>--}}
-                                        {{--@endforeach--}}
-                                    {{--</select>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                           <!--  <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" id="mandatory" style="margin-left: 225px"> Institution:</label>
+                                <div class="col-md-2">
+                                   <select name="inst_id" class='form-control' id="institution_id" >
+                                        <option value="0" selected >-Select-</option>
+                                        @foreach($inst_arr as $id=>$val)
+                                           <option value="{{ $id }}">{{ $val }}</option>
+                                        @endforeach
+                                   </select>
+                                </div>
+                           </div><br><br>
 
-                        <div class="form-group col-md-12">
-                            <label class="col-md-4 control-label">Select Assignment:</label>
+                         <div class="form-group required" >
+                            <label class="col-md-4 control-label"  style="margin-left: 225px"> Assignment:</label>
                             <div class="col-md-6">
-                                <select name="assessment_id" class='form-control' id="assignment" >
+                                <select name="assessment_id" class='form-control' id="assignment" style="margin:-25px 0 0 410px">
                                     <option value="0" selected >-Select-</option>
                                     @if(getRole()!="administrator")
                                         @foreach($assignment as $ass)
@@ -34,11 +34,11 @@
                                     @endif
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label class="col-md-4 control-label">Select Subject:</label>
+                        </div><br><br>
+                         <div class="form-group required">
+                            <label class="col-md-4 control-label"  style="margin-left: 225px"> Subject:</label>
                             <div class="col-md-6">
-                                <select name="subject_id" class='form-control' id="subject" >
+                                <select name="subject_id" class='form-control' id="subject" style="margin:-25px 0 0 410px">
                                     <option value="0" selected >-Select-</option>
                                     @if(getRole()!="administrator")
 
@@ -75,6 +75,10 @@
     <script>
         var loadurl = "{{ url('/report/assignment_qstn/') }}/" ;
         function inst_change(){
+            if($('#institution_id').val()==0 || $('#assignment').val()==0|| $('#subject').val()==0){
+                alert("please select all the fields");
+            }
+            else {
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -90,6 +94,7 @@
                     }
             )
         }
+    }
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
             $.ajax(

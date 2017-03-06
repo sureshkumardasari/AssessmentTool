@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                            <label class="col-md-4 control-label">Subject</label>
+                            <label class="col-md-4 control-label">Subject:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
                                     <option value="0">-Select Subject-</option>
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="form-group required">
-                            <label class="col-md-4 control-label">Lesson</label>
+                            <label class="col-md-4 control-label">Lesson:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
                                     <option value="0">-Select Lesson-</option>
@@ -85,6 +85,12 @@
           //  $('#lesson_id').multiselect('refresh');
         });
         function update(){
+          /* var $subject_id = ('#subject_id').val();
+            alert($subject_id);*/
+        if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+                alert("please select all the fields");
+            }
+            else {
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
@@ -101,6 +107,7 @@
                     }
             )
         }
+    }
 
         $('#institution_id').on('change',function(){
 
