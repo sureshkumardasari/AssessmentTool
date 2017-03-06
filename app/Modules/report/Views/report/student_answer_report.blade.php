@@ -10,7 +10,7 @@
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         
-                            <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
+                            <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?><br><br>
                         
                               <div class="form-group required">
                                     <label class="col-md-4 control-label">Select Assignment:</label>
@@ -25,6 +25,7 @@
                                         </select>
                                     </div>
                             </div>
+                            <br><br>
                              <div class="form-group required">
                                 <label class="col-md-4 control-label">Select Student:</label>
                                 <div class="col-md-6">

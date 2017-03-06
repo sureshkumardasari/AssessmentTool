@@ -20,7 +20,7 @@
                                         {{--@endforeach--}}
                                     {{--</select>--}}
                                 {{--</div>--}}
-                            {{--</div>--}}
+                            {{--</div>--}}<br><br>
 
                          <div class="form-group required">
                             <label class="col-md-4 control-label">Select Assignment:</label>
@@ -34,7 +34,7 @@
                                     @endif
                                 </select>
                             </div>
-                        </div>
+                        </div><br><br>
                          <div class="form-group required">
                             <label class="col-md-4 control-label">Select Subject:</label>
                             <div class="col-md-6">
