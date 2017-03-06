@@ -23,6 +23,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="col-md-4 control-label" style="margin-left:200px" id="mandatory"> Assignment:</label>
+                                
                                 <div class="col-md-6" style="margin-left:-201px">
                                     <select name="assignment_id" class='form-control' id="assignment_id" >
                                         <option value="0" selected >-Select-</option>
