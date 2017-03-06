@@ -9,21 +9,21 @@
 
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
-                            {{--<div class="form-group">--}}
-                                {{--<label class="col-md-2 control-label" >Select institution:</label>--}}
-                                {{--<div class="col-md-2">--}}
-                                    {{--<select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()">--}}
-                                        {{--<option value="0" selected >-Select-</option>--}}
-                                        {{--@foreach($inst_arr as $id=>$val)--}}
-                                            {{--<option value="{{ $id }}">{{ $val }}</option>--}}
-                                        {{--@endforeach--}}
-                                    {{--</select>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                   <!--   <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>  -->
+                            <div class="form-group"  style="margin-left: 225px">
+                                <label class="col-md-2 control-label" id="mandatory" >Institution:</label>
+                               <div class="col-md-2">
+                                   <select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()">
+                                        <option value="0" selected >-Select-</option>
+                                       @foreach($inst_arr as $id=>$val)
+                                            <option value="{{ $id }}">{{ $val }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group col-md-12">
-                                <label class="col-md-4 control-label">Select Assignment:</label>
-                                <div class="col-md-6">
+                                <label class="col-md-4 control-label" style="margin-left:200px" id="mandatory"> Assignment:</label>
+                                <div class="col-md-6" style="margin-left:-201px">
                                     <select name="assignment_id" class='form-control' id="assignment_id" >
                                         <option value="0" selected >-Select-</option>
                                         @if(getRole()!="administrator")
