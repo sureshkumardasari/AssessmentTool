@@ -110,7 +110,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
+				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question" onclick="uncheck();"></th>
 				<th>Question Name</th>
 
 			</tr>
@@ -247,7 +247,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 function uncheck(){
 	//alert('Hi');
-	$("#QuestionId").attr('checked', false);
+	 
 	$("#QuestionIds").attr('checked', false);
 }
 

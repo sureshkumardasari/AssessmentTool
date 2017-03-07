@@ -72,7 +72,7 @@
 						</div>
 					</div>
 					<div class="form-group required">
-                        <label class="col-md-4 control-label">Never Expires</label>
+                        <label class="col-md-4 control-label" id="never_expires">Never Expires</label>
 						<div class="col-md-6">
 
 							<input type="checkbox" name="never_expires" id="never_expires"  @if($assessment_details['unlimitedtime']==1)checked @endif >
@@ -121,7 +121,14 @@
 			</div>
 		</div>
 	</div>
-
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 	{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
 $( document ).ready(function() {

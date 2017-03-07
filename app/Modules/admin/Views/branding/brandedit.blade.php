@@ -1,5 +1,6 @@
 @extends('default')
 @section('content')
+
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -110,4 +111,12 @@
     <script> $(function() {
         $('.jscolor').colorpicker({  format: 'hex' }); }); 
     </script> 
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 @endsection

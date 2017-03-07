@@ -17,7 +17,7 @@
 					<a href="{{ url('/resources/categoryadd/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 					<a href="{{ route('categoryBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
 				</div>
-
+			
 				<div class="panel-body">
 					<!-- filters start -->
 					<div class="panel panel-default">
@@ -63,4 +63,12 @@
 <script>
   	var searchRoute = "{{URL::route('category-search')}}";
 </script>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 @endsection

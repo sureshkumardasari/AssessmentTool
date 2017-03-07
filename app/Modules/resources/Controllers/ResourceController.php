@@ -101,6 +101,7 @@ class ResourceController extends BaseController
 
         $inst_arr = $this->institution->getInstitutions();
         $category = $this->category->getCategory($institution_id);
+        \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id'));
     }
@@ -123,6 +124,7 @@ class ResourceController extends BaseController
 
         $inst_arr = $this->institution->getInstitutions();
         $category = $this->category->getCategory($institution_id);
+        \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id'));
     }
@@ -150,6 +152,8 @@ class ResourceController extends BaseController
                 return Redirect::back()->withInput()->withErrors("Subject already entered");
             }
             $this->subject->updateSubject($params);
+                    \Session::flash('flash_message','Information saved successfully.');
+
             return redirect('/resources/subject');
         }
     }
@@ -209,6 +213,8 @@ class ResourceController extends BaseController
  // dd($subjects);
         $id = $institution_id = $subject_id = $category_id = 0;
         $name = '';
+                \Session::flash('flash_message','Information saved successfully.');
+
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id'));
     }
 
@@ -239,6 +245,8 @@ class ResourceController extends BaseController
         $category = $this->category->getCategory($institution_id);
         $subjects = $this->subject->getSubject($category_id);
 // dd($subjects);
+                \Session::flash('flash_message','Information saved successfully.');
+
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id'));
     }
 
@@ -269,6 +277,7 @@ class ResourceController extends BaseController
                 return Redirect::back()->withInput()->withErrors("lesson already entered");
             }
             $this->lesson->updatelesson($params);
+        \Session::flash('flash_message','Information saved successfully.');
 
             return redirect('/resources/lesson');
         }
@@ -307,6 +316,8 @@ class ResourceController extends BaseController
         $inst_arr = $this->institution->getInstitutions();
         $category = $this->category->getCategory();
         //return view('resources::category.list',compact('inst_arr','category'));
+                
+
         return view('resources::category.list', compact('inst_arr'))
             ->nest("categoryList", 'resources::category._list', compact('category'));
     }
@@ -317,6 +328,8 @@ class ResourceController extends BaseController
 
         $id = $institution_id = 0;
         $name = '';
+                \Session::flash('flash_message','Information saved successfully.');
+
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr'));
     }
 
@@ -333,6 +346,8 @@ class ResourceController extends BaseController
             $id = $institution_id = 0;
             $name = '';
         }
+                \Session::flash('flash_message','Information saved successfully.');
+
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr'));
     }
 
@@ -359,6 +374,7 @@ class ResourceController extends BaseController
             }
             //var_dump($params);
             $this->category->updatecategory($params);
+        \Session::flash('flash_message','Information saved successfully.');
 
             return redirect('/resources/category');
         }

@@ -126,6 +126,7 @@ class AssignmentController extends BaseController {
 		//var_dump($proctor_arr); die();
 
 		$assignmentUsersJson	= "[{}]";
+		        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assignment.edit',compact('assignment','grader_id','grader','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
 	}
@@ -168,7 +169,8 @@ class AssignmentController extends BaseController {
 		$institution_arr = $this->institution->getInstitutions();			
 		$grader= $this->user->getUsersOptionList($assignment->institution_id,$teacher_role_id);
 		$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,$teacher_role_id);// for proctor displaying teachers
-		
+				        \Session::flash('flash_message','Information saved successfully.');
+
 		return view('resources::assignment.edit',compact('assignment','grader','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
 
@@ -264,6 +266,8 @@ class AssignmentController extends BaseController {
 				return Redirect::back()->withInput()->withErrors("Assignment already entered");
 			} 
 			$this->assignment->updateassignment($params);
+					        \Session::flash('flash_message','Information saved successfully.');
+
 			return redirect('/resources/assignment');
 		}		
 	}

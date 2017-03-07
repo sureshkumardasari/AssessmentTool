@@ -88,6 +88,14 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 <script>
 
 

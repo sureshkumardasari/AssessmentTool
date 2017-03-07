@@ -1,16 +1,7 @@
 @extends('default')
 @section('content')
 <div class="container">
-	<div>
-		@if(Session::has('flash_message'))
-			<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-		@endif
-	</div>
-	<div>
-		@if(Session::has('flash_message_failed'))
-			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-		@endif
-	</div>
+	
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<ul class="nav nav-tabs" role="tablist">
@@ -36,11 +27,23 @@
 					</div>
 				@endif
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
+				<div>
+		@if(Session::has('flash_message'))
+			<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
+		@endif
+	</div>
+	<div>
+		@if(Session::has('flash_message_failed'))
+			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
+		@endif
+	</div>
 				<div class="panel-body">
 				<div class="panel panel-default">
+
 					<div class="panel-heading searchfilter pointer"  id="clear">Advanced Filters
 						<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
 					</div>
+
 					<div class="panel-body searchfilter-body hide">	
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label" >Institution</label>
@@ -284,4 +287,12 @@ $( document ).ready(function() {
 		// $('#question_list_filer').empty(); 
 	}); */
 </script>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 @endsection

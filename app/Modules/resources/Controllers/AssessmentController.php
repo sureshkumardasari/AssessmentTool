@@ -135,7 +135,7 @@ class AssessmentController extends BaseController {
 		$user_institution_id=$user_institution['institution_id'];
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
-		$lesson = $this->lesson->getLesson();
+		$lesson = $this->lesson->getLesson ();
 		$questions = $this->question->getQuestions();
 		$question_type=$this->question_type->getQuestionType();
 		
@@ -148,6 +148,8 @@ class AssessmentController extends BaseController {
 			->select('passage.title as title','passage.id as id')
  			->get();
 //		$inst_questions_list=[];
+ 					        \Session::flash('flash_message','Information saved successfully.');
+
 	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson','question_type'));
 	}
 	public function assessmentInsert(){
@@ -239,6 +241,8 @@ class AssessmentController extends BaseController {
 						}
 //					
  				}
+ 						        \Session::flash('flash_message','Information saved successfully.');
+
  				return Redirect::route('template', ['id' =>  $assessment_id /*, 'tplId' => $newOrder*/]);
  			//return redirect('/resources/assessment');
 		}
@@ -374,7 +378,7 @@ class AssessmentController extends BaseController {
 
         // Add Pages        
         $tempsCount = count($temps);
-       //dd($tempsCount);
+       dd($tempsCount);
         foreach($temps as $key => $temp){
             $temp = trim($temp);
             if (empty($temp)) {
@@ -644,6 +648,8 @@ class AssessmentController extends BaseController {
 		//$lesson = $this->lesson->getLesson($subject_id);
 		$category = $this->category->getCategory($institution_id);
 		//dd($institution_id);
+				        \Session::flash('flash_message','Information saved successfully.');
+
 		return view('resources::assessment.edit',compact('passages_list_not','lesson','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
  	}
 	public function assessmentupdate($id=0){
@@ -713,6 +719,8 @@ class AssessmentController extends BaseController {
 				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
 			}}
+					        \Session::flash('flash_message','Information saved successfully.');
+
 			return Redirect::route('template', ['id' =>  $post['id'] /*, 'tplId' => $newOrder*/]);
 			//return redirect('/resources/assessment');
  		}

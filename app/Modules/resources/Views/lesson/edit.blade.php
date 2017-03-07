@@ -88,6 +88,14 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 <script>  	
   	var categoryRoute = "{{URL::route('getcategory')}}";
   	var subjectRoute = "{{URL::route('getsubject')}}";

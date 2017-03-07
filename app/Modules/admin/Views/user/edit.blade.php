@@ -62,6 +62,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
+			
 			<div class="panel panel-default">
 				<div class="panel-heading">User Information</div>
 				<div class="panel-body">
@@ -91,7 +92,7 @@
 						<input type="hidden" value="{{ !empty($pic_data['coords'])?$pic_data['coords']:'' }}" name="pic_coords" id="pic_coords">
 						<input type="hidden" value="{{ !empty($pic_data['image'])?$pic_data['image']:'' }}" name="profile_picture" id="profile_picture">
 						<input type="hidden" value="{{ !empty($pic_data['id'])?$pic_data['id'] : 0 }}" name="image_user_id" id="image_user_id">
-						<!-- <div class="form-group required">
+						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id">
@@ -101,7 +102,7 @@
 									@endforeach
 								</select>								
 							</div>
-						</div> -->
+						</div>
 						<?php getInstitutionsSelectBox('institution_id', 'institution_id', $institution_id, 'required','Select'); ?>
 						
 						@if( (Auth::user()->id != $user_id) || $user_id == 1)
@@ -255,6 +256,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	var gender="";
 
@@ -297,5 +299,12 @@
     }
 
 </script>
-
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 @endsection

@@ -89,7 +89,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
 								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="1" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
@@ -203,7 +203,14 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 <script type="text/javascript">
 //var selected = new Array(1,2,3);
 

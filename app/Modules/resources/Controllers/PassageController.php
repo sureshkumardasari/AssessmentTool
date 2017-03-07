@@ -97,6 +97,8 @@ class PassageController extends BaseController {
 		$passage = new passage();
 		//dd($passages);
 		//dd($inst_arr);
+				        \Session::flash('flash_message','Information saved successfully.');
+
 		return view('resources::passage.edit',compact('passage','sCategory','sLesson','sSubject','passages','inst_arr','institution_id','category','lessons','subjects'));
 	}
 	public function passageview($id = 0)
@@ -137,6 +139,8 @@ class PassageController extends BaseController {
 			$name = '';
 		}
 		//dd($passages);
+				        \Session::flash('flash_message','Information saved successfully.');
+
 		return view('resources::passage.edit',compact('id','sCategory','sLesson','sSubject','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id','lessons_id'));
 	}
 
@@ -182,6 +186,7 @@ class PassageController extends BaseController {
 		}
 		else{
 		$this->passage->updatepassage($post);
+		        \Session::flash('flash_message','Information saved successfully.');
 
 		return redirect('/resources/passage');
 	    }

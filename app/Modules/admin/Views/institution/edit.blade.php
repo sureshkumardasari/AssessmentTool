@@ -1,6 +1,7 @@
 @extends('default')
 
 @section('content')
+
 <?php
 	$name =  (old('name') != NULL) ? old('name') : $name;
 	$address1 =  (old('address1') != NULL) ? old('address1') : $address1;
@@ -15,6 +16,7 @@
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading">Institution Details</div>
+				
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -125,4 +127,12 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 @endsection

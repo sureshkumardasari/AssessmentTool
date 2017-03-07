@@ -25,6 +25,45 @@ class BrandingController extends Controller {
 	public function add($param=null)
 	{
 //dd($param);
+		/*$post = Input::All();
+		$messages = [
+			'institution_id.required' => ' Institution Name  is required',
+			//'title.required' => 'Enter Name of the Title',
+			'hbcolor.required' => 'BackGround color is required  ',
+			'headertc.required' => ' HeadTextColor is required',
+			'boxhbc.required' => ' BoxTextColor is required',
+			'boxhtcolor.required' => ' BoxHeaderColor is required',
+			'btextc.required' => ' BoxTextColor is required',
+			'buttonc.required' => ' ButtonColor is required',
+			'buttontc.required' => ' ButtonTextColor is required',
+		];
+		$rules = [
+			'institution_id' => 'required',
+			//'title'=>'required|unique:title',
+			'hbcolor' => 'required',
+			'headertc' => 'required',
+			'boxhbc' => 'required',
+			'boxhtcolor' => 'required',
+			'btextc' => 'required',
+			'buttonc' => 'required',
+			'buttontc' => 'required',
+		];
+		$validator = Validator::make($post, $rules);
+		if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
+		}*/
+		/*$createArr = [
+			//'title' => $post['title'],
+			'filepath' => $filename,
+			'header_bg_color' => $post['hbcolor'],
+			'header_text_color' => $post['headertc'],
+			'box_header_bg_color' => $post['boxhbc'],
+			'box_header_text_color' => $post['boxhtcolor'],
+			'box_text_color' => $post['btextc'],
+			'button_bg_color' => $post['buttonc'],
+			'button_text_color' => $post['buttontc'],
+			'institution_id' => $post['institution_id'],
+		];*/
 		$brandingInstitutions=Branding::lists('institution_id');
 		//dd($brandingInstitutions);
 		$brandingIds=Branding::lists('id','institution_id');
@@ -39,6 +78,7 @@ class BrandingController extends Controller {
 			$InstitutionObj = new Institution();
 			$inst_arr = $InstitutionObj->getInstitutions();
 		}
+		//$branding = Branding::create($createArr);
 		//$inst_arr=Institution::get();
 		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions','brandingIds'));
 	}
@@ -74,6 +114,8 @@ class BrandingController extends Controller {
 			'buttontc' => 'required',
 		];
 		$validator = Validator::make($post, $rules);
+
+		
 		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
@@ -128,7 +170,7 @@ class BrandingController extends Controller {
 	 * @return Response
 	 */
 
-	/*public function store(Request $request)
+	public function store(Request $request)
 	{
         $image = new Branding();
         $this->validate($request, [
@@ -149,8 +191,9 @@ class BrandingController extends Controller {
             $file->move(public_path().'/images/', $name);
         }
         $image->save();
+        \Session::flash('flash_message','Information saved successfully.');
         return $this->create()->with('success', 'Image Uploaded Successfully');
-	}*/
+	}
 	/**
 	 * Display the specified resource.
 	 *
@@ -199,6 +242,7 @@ class BrandingController extends Controller {
         $institution=Institution::select('name','id')->where('id',$branding['institution_id'])->first();
 		//$branding = Branding::find($id);
         //dd($branding->institution_id);
+        \Session::flash('flash_message','Information saved successfully.');
 		return view('admin::branding.brandedit', compact('branding', 'institution'));
 
 	}

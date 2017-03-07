@@ -1,10 +1,4 @@
 @extends('default')
-
-@section('header-assets')
-@parent
-{!! HTML::script(asset('/js/custom/users.js')) !!}
-@stop
-
 @section('content')
 <div class="container">
 	<div class="row">
@@ -34,7 +28,7 @@
 						</div>
 
 						<div class="panel-body searchfilter-body hide">
-							<!-- <div class="form-group col-md-6">
+							<div class="form-group col-md-6">
 								<label class="col-md-4 control-label">Select Institution</label>
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id">
@@ -44,7 +38,7 @@
 										@endforeach
 									</select>
 								</div>
-							</div> -->
+							</div>
 							<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
 							<br><br>
 							<div class="form-group ">
@@ -71,4 +65,13 @@
 <script>
   	var userSearchRoute = "{{URL::route('usersearch')}}";
 </script>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
+ {!! HTML::script(asset('/js/custom/users.js')) !!}
 @endsection

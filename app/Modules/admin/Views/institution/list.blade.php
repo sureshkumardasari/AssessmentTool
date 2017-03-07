@@ -1,5 +1,6 @@
 @extends('default')
 @section('content')
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
@@ -44,5 +45,13 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
 @endsection

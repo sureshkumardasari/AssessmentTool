@@ -160,6 +160,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 $('#question_type').change(function () {
 		var tr;
@@ -218,6 +219,14 @@ $('#question_type').change(function () {
 	js.src = "{{ asset('plugins/tinymce/plugins/tiny_mce_wiris/integration/WIRISplugins.js?viewer=mathml') }}";
 	document.head.appendChild(js);
 </script>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
     {!! HTML::script(asset('js/custom/question.js')) !!}
 @include('resources::question.qst_js_validation')
 @endsection

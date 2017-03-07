@@ -151,6 +151,8 @@ class QuestionController extends BaseController {
 		//dd($answersListing);
 
 		$questions = Question::get()->toArray();
+		        \Session::flash('flash_message','Information saved successfully.');
+
 		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type'));
 	}
 
@@ -244,6 +246,7 @@ class QuestionController extends BaseController {
 		{
 			$params = Input::All();
 			$this->question->updateQuestion($params);
+        \Session::flash('flash_message','Information saved successfully.');
 
 			return redirect('/resources/question');
 		}
@@ -438,6 +441,7 @@ class QuestionController extends BaseController {
 				//dd($question_type);
 		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers','question_type'));
 		//dd($answersLisitng);
+        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
 

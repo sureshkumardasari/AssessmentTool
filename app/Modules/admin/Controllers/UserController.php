@@ -170,6 +170,8 @@ class UserController extends BaseController
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
+		 \Session::flash('flash_message','Information saved successfully.');
+
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
@@ -215,9 +217,9 @@ class UserController extends BaseController
 			$name = $email = $status = $enrollno = $password = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}
+        \Session::flash('flash_message','Information saved successfully.');
 
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
-			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 	function state($country_id=0)
     {
@@ -288,6 +290,8 @@ class UserController extends BaseController
             if(Auth::user()->role_id == 1)
 			return redirect('/user');
 		else
+			\Session::flash('flash_message','Information saved successfully.');
+
 			return redirect('/dashboard/home');
 		}
 		/*

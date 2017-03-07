@@ -69,7 +69,7 @@ class InstitutionController extends BaseController {
 		$country_arr = $this->institution->getcountries();
 		$id = $parent_id = $country_id = 0;
 		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
-
+        \Session::flash('flash_message','Information saved successfully.');
 		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode','inst_arr'));
 	}
 
@@ -97,6 +97,7 @@ class InstitutionController extends BaseController {
 			$id = $parent_id = $country_id = 0;
 			$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 		}
+        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode'));
 	}
@@ -135,6 +136,7 @@ class InstitutionController extends BaseController {
 			$params = Input::All();
 			//var_dump($params);
 			$this->institution->updateInstitution($params);
+        \Session::flash('flash_message','Information saved successfully.');
 
 			return redirect('/user/institution');
 		}
