@@ -65,7 +65,10 @@
         var studentturl = "{{ url('/report/student_assignmt_inst/') }}/" ;
         var stdansloadurl = "{{ url('/report/students_ans_list/') }}/" ;
         function student_change(){
-            if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+            if($('#institution_id').val()==0 || $('#assign_student').val()==0){
+                alert("please select all the fields");
+            }
+            else if($('#student').val()==0){
                 alert("please select all the fields");
             }
              else{
