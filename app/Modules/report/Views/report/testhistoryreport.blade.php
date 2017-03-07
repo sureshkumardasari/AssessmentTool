@@ -65,6 +65,10 @@
         $("#institution_id").append(op);
         $("#institution_id").val(0);
         function inst_change(){
+            if($('#institution_id').val()==0){
+                alert("please select the field");
+            }
+            else{
             var loadurl = "{{ url('/report/test_history/') }}/" ;
             var csrf=$('Input#csrf_token').val();
             $.ajax(
@@ -79,7 +83,8 @@
 
 
                     }
-            )
+                )
+            }
         }
         $('#pdf').on('click',function(){
             var inst_id=$('#institution_id').val();

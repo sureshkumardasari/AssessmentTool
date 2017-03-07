@@ -75,6 +75,10 @@
     <script>
         var loadurl = "{{ url('/report/assignment_qstn/') }}/" ;
         function inst_change(){
+            if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+                alert("please select all the fields");
+            }
+            else{
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -88,7 +92,8 @@
 
 
                     }
-            )
+                )
+            }
         }
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();

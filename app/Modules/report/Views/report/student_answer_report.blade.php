@@ -65,6 +65,10 @@
         var studentturl = "{{ url('/report/student_assignmt_inst/') }}/" ;
         var stdansloadurl = "{{ url('/report/students_ans_list/') }}/" ;
         function student_change(){
+            if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+                alert("please select all the fields");
+            }
+             else{
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
@@ -79,7 +83,8 @@
                             $('#report').append(response);
                         }
                     }
-            )
+               )
+            }
         }
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
