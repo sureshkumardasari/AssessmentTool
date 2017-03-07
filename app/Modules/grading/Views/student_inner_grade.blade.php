@@ -203,7 +203,7 @@
                                             </div>
                                         
                                         </div>
-                                        @endforeach
+                                       
                                     
                                 
                                     <div class="col-md-offset-4">
@@ -211,6 +211,7 @@
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
+                                     @endforeach
                          </div>
                                         
                                     
@@ -284,12 +285,6 @@
                                         </div>
                      </div>
                      
-                     
-                     
-                     
-                  
-
-
                             @elseif( $question=="Multiple Choice - Multi Answer")
                                 <div id="question_type{{$key}}">
 
