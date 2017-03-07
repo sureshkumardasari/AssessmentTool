@@ -85,13 +85,12 @@
           //  $('#lesson_id').multiselect('refresh');
         });
         function update(){
-            if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+          /* var $subject_id = ('#subject_id').val();
+            alert($subject_id);*/
+        if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
                 alert("please select all the fields");
             }
-             else if($('#subject_id').multiselect()==0 || $('#lesson_id').multiselect()==0){
-                alert("please select all the fields");
-            }
-          else{
+            else {
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
@@ -106,9 +105,9 @@
                                 $('#wholescore').prepend($('.average'));
                         }
                     }
-                )
-            }
-       }         
+            )
+        }
+    }
         $('#institution_id').on('change',function(){
 
             var csrf=$('Input#csrf_token').val();

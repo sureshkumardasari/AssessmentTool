@@ -70,9 +70,9 @@
                     }
             )
         }
-
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
+            $('#report').empty();
             $.ajax(
                     {
 
@@ -82,6 +82,7 @@
                         success: function (response) {
                             var a = response.length;
                             $('#assignment').empty();
+
                             var opt = new Option('--Select Assignment--', '');
                             $('#assignment').append(opt);
                             for (i = 0; i < a; i++) {

@@ -10,12 +10,22 @@
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         
-                            <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?><br><br>
-                        
+                            <!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?><br><br> -->
+                        <div class="form-group">
+                        <label class="col-md-2 control-label" id="mandatory"  id="institution_id" style="margin:0px 0 0 225px">Institution:</label>
+                        <div class="col-md-2">
+                        <select name="inst_id" class='form-control' id="institution_id" style="margin-left:-50px;">
+                        <option value="0" selected >Select</option>
+                        @foreach($inst_arr as $id=>$val)
+                        <option value="{{ $id }}">{{ $val }}</option>
+                        @endforeach
+                        </select>
+                        </div>
+                        </div>
                               <div class="form-group required">
-                                    <label class="col-md-4 control-label">Select Assignment:</label>
+                                    <label class="col-md-4 control-label"    style="margin:0px 0 0 225px">Assignment:</label>
                                     <div class="col-md-6">
-                                        <select name="assign_id" class='form-control' id="assign_student" onchange="assignmt_change()">
+                                        <select name="assign_id" class='form-control' id="assign_student" style="margin:-15px 0 0 359px" onchange="assignmt_change()">
                                             <option value="0" selected >--Select--</option>
                                             @if(getRole()!="administrator")
                                                 @foreach($assignments as $id=>$ass)
@@ -27,9 +37,9 @@
                             </div>
                             <br><br>
                              <div class="form-group required">
-                                <label class="col-md-4 control-label">Select Student:</label>
+                                <label class="col-md-4 control-label"  style="margin:0px 0 0 225px">Student:</label>
                                 <div class="col-md-6">
-                                    <select name="student_id" class='form-control' id="student" >
+                                    <select name="student_id" class='form-control' id="student" style="margin:-15px 0 0 359px">
                                         <option value="0" selected >--Select--</option>
                                         {{--@if(getRole()!="administrator")--}}
                                             {{--@foreach($users as $user)--}}
@@ -43,8 +53,7 @@
                                 <div class="col-md-4"></div><div class="col-md-6">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()">Go</button>
                                 </div>
-                            </div>
-                    
+                            </div>                 
                    <div class="form-group col-md-12">
                                 <div class="col-md-7"></div><div class="col-md-5">
                         <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
@@ -65,13 +74,10 @@
         var studentturl = "{{ url('/report/student_assignmt_inst/') }}/" ;
         var stdansloadurl = "{{ url('/report/students_ans_list/') }}/" ;
         function student_change(){
-            if($('#institution_id').val()==0 || $('#assign_student').val()==0){
+            if($('#institution_id').val()==0 || $('#assign_student').val()==0|| $('#student').val()==0){
                 alert("please select all the fields");
             }
-            else if($('#student').val()==0){
-                alert("please select all the fields");
-            }
-             else{
+            else {
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
@@ -86,9 +92,9 @@
                             $('#report').append(response);
                         }
                     }
-               )
-            }
+            )
         }
+    }
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
             $.ajax(
