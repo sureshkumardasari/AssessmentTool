@@ -916,7 +916,7 @@ function getInstitutionsSelectBox($name = 'institution_id', $id = 'institution_i
 
     if ($sessrole == 'administrator') {
         $institutions_select = '<div class="form-group required">
-                            <label class="col-md-4 control-label">Institution</label>
+                             <label class="col-md-4 control-label">Institution</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="' . $name . '" id="' . $id . '">
                                     <option value="0">--' . $default . '--</option>';
