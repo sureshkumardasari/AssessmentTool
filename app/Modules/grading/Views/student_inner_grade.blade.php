@@ -24,7 +24,7 @@
 
         //---
     </script>
-    @foreach($first_student_answers['student_answers'] as $key=>$answer)
+  @foreach($first_student_answers['student_answers'] as $key=>$answer)
         @if($key=="Essay")
             @foreach($answer as $id=>$value)
                 <script>
@@ -33,7 +33,7 @@
                     Essay_question_ids.push({{$id}});
                 </script>
             @endforeach
-        @elseif($key=="Fill in the blank")
+@elseif($key=="Fill in the blank")
 
                 @foreach($answer as $id=>$value)
                     <script>
@@ -66,14 +66,15 @@
         @endif
     @endforeach
 
-    <div class="container">
-        <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+
+  <div class="container">
+       <div class="row">
+           <div class="panel panel-default">
+               <div class="panel-heading">
                     Grading By Student
                     <a href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>
                 </div>
-                <div class="panel-body">
+               <div class="panel-body">
                     <div class="form-group">
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         <div class="form-group">
@@ -116,11 +117,12 @@
                     </div>
 
                 </div>
-                <div class="panel panel-default" style="margin: 0 60px 60px 60px;">
-                    <div class="panel-heading">
+               
+                 <div class="panel panel-default" style="margin: 0 60px 60px 60px;">
+                       <div class="panel-heading">
                         Grading List
                     </div>
-                    <div class="panel-body" >
+                     <div class="panel-body" >
                         <?php
                         $j=1;
                         $ans_arr=['A','B','C','D','E'];
@@ -191,10 +193,11 @@
                                                         </div>
 
                                                     </div>
-                                                
+                                            </div>    
                                             
-                                        </div>
-                                        <div class="form-group">
+                                        
+                         
+                                    <div class="form-group">
                                             <div>
                                                     <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
                                             </div>
@@ -208,9 +211,14 @@
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
+                         </div>
+                                        
                                     </div>
-                                </div>
-                            @elseif($question =="Fill in the blank")
+                     
+                     
+                     
+                     
+                       @elseif($question =="Fill in the blank")
                                         <div id="question_type{{$key}}" style="padding:15px;">
                                             <table>
                                                 @foreach($qst[$key] as $quest)
@@ -259,7 +267,7 @@
                                                                         </div>
                                                                     </div>
 
-                                                                </div>
+                                                                
 
                                                             </div>
                                                         </td>
@@ -277,6 +285,7 @@
                                                 <button type="button" class="btn btn-primary grade">Grade</button>
                                             </div>
                                         </div>
+
 
                             @elseif( $question=="Multiple Choice - Multi Answer")
                                 <div id="question_type{{$key}}">
@@ -495,16 +504,17 @@
                             </div>
                         @endforeach
 
+               </div>
+               
+               
+                 
+           </div>
+      </div>
+</div>
 
-                    </div>
-                </div>
 
-            </div>
 
-        </div>
-
-    </div>
-    <script>
+  <script>
         $(function (){
             $.each(question_types,function(index,val){
                 $('#question_type'+val).hide();
