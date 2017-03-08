@@ -171,7 +171,7 @@
                                                                         </div>
                                                                     </div>
                                                                     </div>
-                                                                    <div></div>
+                                                                   
                                                                 
                                                                     <div>
                                                                         <div class="form-group">
@@ -213,12 +213,9 @@
                                     </div>
                          </div>
                                         
-                                    </div>
+                                    
                      
-                     
-                     
-                     
-                       @elseif($question =="Fill in the blank")
+                          @elseif($question =="Fill in the blank")
                                         <div id="question_type{{$key}}" style="padding:15px;">
                                             <table>
                                                 @foreach($qst[$key] as $quest)
@@ -285,6 +282,12 @@
                                                 <button type="button" class="btn btn-primary grade">Grade</button>
                                             </div>
                                         </div>
+                     </div>
+                     
+                     
+                     
+                     
+                  
 
 
                             @elseif( $question=="Multiple Choice - Multi Answer")
