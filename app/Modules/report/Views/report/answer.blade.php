@@ -75,7 +75,10 @@
     <script>
         var loadurl = "{{ url('/report/assignment_qstn/') }}/" ;
         function inst_change(){
-            if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+            if($('#institution_id').val()==0 || $('#assignment').val()==0){
+                alert("please select all the fields");
+            }
+            else if($('#subject').val()==0){
                 alert("please select all the fields");
             }
             else{
