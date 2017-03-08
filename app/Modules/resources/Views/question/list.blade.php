@@ -27,7 +27,14 @@
 					</div>
 				@endif
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-				<div>
+				
+				<div class="panel-body">
+				<div class="panel panel-default">
+
+					<div class="panel-heading searchfilter pointer"  id="clear">Advanced Filters
+						<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
+					</div>
+<div>
 		@if(Session::has('flash_message'))
 			<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
 		@endif
@@ -37,13 +44,6 @@
 			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
 		@endif
 	</div>
-				<div class="panel-body">
-				<div class="panel panel-default">
-
-					<div class="panel-heading searchfilter pointer"  id="clear">Advanced Filters
-						<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
-					</div>
-
 					<div class="panel-body searchfilter-body hide">	
 					<div class="form-group col-md-6">
 						<label class="col-md-2 control-label" >Institution</label>
