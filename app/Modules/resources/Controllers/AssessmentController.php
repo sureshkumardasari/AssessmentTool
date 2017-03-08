@@ -111,20 +111,7 @@ class AssessmentController extends BaseController {
         return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category', 'templates'));
 	}
 
-	public function assessmentdel($aid)
-	{
-		$ass = Assignment::where('assessment_id', $aid)->count();
-		if ($ass == 0) {
-		$assessment_question=AssessmentQuestion::where('assessment_id',$aid)->delete();
-			Assessment::find($aid)->delete();
-			\Session::flash('flash_message', 'delete!');
-			return redirect('/resources/assessment');
-		}
-		else {
-			\Session::flash('flash_message_failed', 'Can not Delete this Assessment.');
-			return Redirect::back();
-		}
-	}
+	
 
 	public function assessmentcreate(){
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
@@ -241,7 +228,7 @@ class AssessmentController extends BaseController {
 						}
 //					
  				}
- 						        \Session::flash('flash_message','Information saved successfully.');
+ 						       // \Session::flash('flash_message','Information saved successfully.');
 
  				return Redirect::route('template', ['id' =>  $assessment_id /*, 'tplId' => $newOrder*/]);
  			//return redirect('/resources/assessment');
@@ -1011,5 +998,19 @@ $assignmentId = $post['assignmentId'];
         }
         return Response::json($response);
     }
+    public function assessmentdel($aid)
+	{
+		$ass = Assignment::where('assessment_id', $aid)->count();
+		if ($ass == 0) {
+		$assessment_question=AssessmentQuestion::where('assessment_id',$aid)->delete();
+			Assessment::find($aid)->delete();
+			\Session::flash('flash_message', 'delete!');
+			return redirect('/resources/assessment');
+		}
+		else {
+			\Session::flash('flash_message_failed', 'Can not Delete this Assessment.');
+			return Redirect::back();
+		}
+	}
 
 }

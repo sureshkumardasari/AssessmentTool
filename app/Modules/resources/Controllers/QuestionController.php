@@ -155,7 +155,53 @@ class QuestionController extends BaseController {
 
 		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type'));
 	}
+public function questionedit($id = 0)
+	{
+		$questions = Question::where('id',$id)->get()->toArray();
+		$inst_arr = $this->institution->getInstitutions();
+		$subjects = $this->subject->getSubject($questions[0]['category_id']);
+		$category = $this->category->getCategory($questions[0]['institute_id']);
+		$lessons = $this->lesson->getLesson($questions[0]['subject_id']);
+        $passage = $this->passage->getPassage($questions[0]['subject_id']);
+		$qtypes = $this->question_type->getQuestionTypes();
+		if(isset($id) && $id > 0)
+		{
+			$obj = $this->question->find($id);
+			$id = $obj->id;
+			$institution_id = $obj->institution_id;
+			$subject_id = $obj->subject_id;
+			$category_id = $obj->category_id;
+			$name = $obj->name;
+		}
+		else
+		{
+			$id = $institution_id = $subject_id = $category_id = 0;
+			$name = '';
+		}
+		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
+				->where('question_answers.question_id',$id)
+				->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
+				->get()->toArray();
+				//dd($oldAnswers);
+//$question_type=Question::join('question_type','question.question_type_id','=','question_type')
+				$question_type_id=Question::find($id)->question_type_id;
+				$question_type=QuestionType::find($question_type_id)->qst_type_text;
+				if((\Session::get('question_type'))){
+					$type_id = \Session::get('question_type');
+					$question_type=QuestionType::find($type_id)->qst_type_text;
+				}
+				//dd($question_type);
+		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers','question_type'));
+		//dd($answersLisitng);
+        \Session::flash('flash_message','Information saved successfully.');
 
+		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
+
+
+//
+//   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
+//			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
+	}
 	public function questionupdate($id = 0)
 	{
 		$post = Input::All();
@@ -403,53 +449,7 @@ class QuestionController extends BaseController {
 		return view('resources::question.question_view',compact('question','oldAnswers','qstn'));
 	}
 
-	public function questionedit($id = 0)
-	{
-		$questions = Question::where('id',$id)->get()->toArray();
-		$inst_arr = $this->institution->getInstitutions();
-		$subjects = $this->subject->getSubject($questions[0]['category_id']);
-		$category = $this->category->getCategory($questions[0]['institute_id']);
-		$lessons = $this->lesson->getLesson($questions[0]['subject_id']);
-        $passage = $this->passage->getPassage($questions[0]['subject_id']);
-		$qtypes = $this->question_type->getQuestionTypes();
-		if(isset($id) && $id > 0)
-		{
-			$obj = $this->question->find($id);
-			$id = $obj->id;
-			$institution_id = $obj->institution_id;
-			$subject_id = $obj->subject_id;
-			$category_id = $obj->category_id;
-			$name = $obj->name;
-		}
-		else
-		{
-			$id = $institution_id = $subject_id = $category_id = 0;
-			$name = '';
-		}
-		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
-				->where('question_answers.question_id',$id)
-				->select('questions.title','question_answers.id','question_answers.ans_text','question_answers.is_correct','question_answers.order_id','question_answers.explanation')
-				->get()->toArray();
-				//dd($oldAnswers);
-//$question_type=Question::join('question_type','question.question_type_id','=','question_type')
-				$question_type_id=Question::find($id)->question_type_id;
-				$question_type=QuestionType::find($question_type_id)->qst_type_text;
-				if((\Session::get('question_type'))){
-					$type_id = \Session::get('question_type');
-					$question_type=QuestionType::find($type_id)->qst_type_text;
-				}
-				//dd($question_type);
-		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers','question_type'));
-		//dd($answersLisitng);
-        \Session::flash('flash_message','Information saved successfully.');
-
-		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
-
-
-//
-//   		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','category_id','passage','qtypes'))
-//			->nest('answersLisitng', 'resources::question.partial.listing_answers', compact('oldAnswers'));
-	}
+	
 	public function questionFilter(){
 		$post = Input::All();
 		$institution=$post['institution'];
