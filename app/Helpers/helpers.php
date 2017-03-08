@@ -348,7 +348,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         ),
          
          'leastscorereport' => array(
-            'displayName' => 'Least Score Report',
+            'displayName' => 'Least Scores Report',
             'route' => 'leastscorereport',
             'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
