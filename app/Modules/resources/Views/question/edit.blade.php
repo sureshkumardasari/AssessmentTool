@@ -235,6 +235,7 @@ $('#question_type').change(function () {
 	js.src = "{{ asset('plugins/tinymce/plugins/tiny_mce_wiris/integration/WIRISplugins.js?viewer=mathml') }}";
 	document.head.appendChild(js);
 </script>
+
     {!! HTML::script(asset('js/custom/question.js')) !!}
 @include('resources::question.qst_js_validation')
 @endsection
