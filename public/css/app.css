@@ -6171,6 +6171,9 @@ button.close {
 @media (max-width: 767px) {
   .hidden-xs {
     display: none !important;
+
+
+    
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -6255,7 +6258,7 @@ label,
 
 #never_expires:after{
   content:" ";
-  color:white  !important;
+  color:white !important;
 }
 .clear {
     clear: both;
