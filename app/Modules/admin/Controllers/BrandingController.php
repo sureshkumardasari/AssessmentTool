@@ -66,6 +66,7 @@ class BrandingController extends Controller {
 	public function create( Request $request)
 	{
 		$post = Input::All();
+		//dd($post);
 		$messages = [
 			'institution_id.required' => ' Institution Name  is required',
 			//'title.required' => 'Enter Name of the Title',
@@ -129,11 +130,14 @@ class BrandingController extends Controller {
 		];
 		
 		$branding = Branding::create($createArr);
-		\Session::flash('success', 'Successfully added.');
+		\Session::flash('flash_message','Information saved successfully.');
+		//dd($record);
 		if(getRole()=="administrator"){
-		return Redirect::route('branding-view');
+			return Redirect::route('branding-view');
 		}
-		//\Session::put('flash_message', 'you are almost done');
+		\Session::put('flash_message', 'you are almost done');
+		
+
 		return Redirect::route('mainhome');
 	}
 
@@ -191,12 +195,12 @@ class BrandingController extends Controller {
 		}
 		elseif($role=="admin"){
 			if(Branding::where('institution_id',$inst)->count()==0){
-				//dd("kjh");
+				\Session::flash('flash_message','Information saved successfully.');
 				return $this->add($inst);
 			}
 			else{
 				$branding=Branding::where('institution_id',$inst)->select('id')->first();
-				        \Session::flash('flash_message','Information saved successfully.');
+				      //  \Session::flash('flash_message','Information saved successfully.');
 
 				return $this->edit($branding['id']);
 				//return view('admin::branding.brandedit');
@@ -220,7 +224,7 @@ class BrandingController extends Controller {
         $institution=Institution::select('name','id')->where('id',$branding['institution_id'])->first();
 		//$branding = Branding::find($id);
         //dd($branding->institution_id);
-        \Session::flash('flash_message','Information saved successfully.');
+        //\Session::flash('flash_message','Information saved successfully.');
 		return view('admin::branding.brandedit', compact('branding', 'institution'));
 
 	}
