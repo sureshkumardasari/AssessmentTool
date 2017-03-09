@@ -81,8 +81,12 @@
 						<div class="col-md-10">
 							<select class="form-control" name="question_type" id="question_type">
 								<option value="0">--Select Question Type--</option>
+								<option value="1">Multiple Choice-Multi Answer</option>
+								<option value="2">Multiple Choice-Single Answer</option>
+								<option value="3">Essay</option>
+								<option value="4">Fill in the Blank</option>
 							</select>
-						</div>
+
 					</div>
 					<div class="form-group col-md-10">
 					</div>
