@@ -3,28 +3,17 @@
     <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
     <script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
     <script type="text/javascript" src="{{asset('/js/fusioncharts-jquery-plugin/src/fusioncharts-jquery-plugin.js')}}"></script>
-    <style>
-        .flash {
-            position:absolute;
-            z-index:1;
-            left:600px;
-            width: 300px;
-            border: 5px;
-            background-color:grey;
-            padding: 10px;
-            margin: 25px;
-        }
-    </style>
-    @if(Session::has('flash_message'))
-
-        <div class="flash">
-            <p>
-                <b>
-                    {{ Session::pull('flash_message') }}
-                </b>
-            </p>
-        </div>
-    @endif
+    
+    <div>
+                    @if(Session::has('flash_message'))
+                        <div class="alert alert-success col-md-10 col-md-offset-1"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
+                    @endif
+                </div>
+                <div>
+                    @if(Session::has('flash_message_failed'))
+                        <div class="alert alert-danger col-md-10 col-md-offset-1"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
+                    @endif
+                </div>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
