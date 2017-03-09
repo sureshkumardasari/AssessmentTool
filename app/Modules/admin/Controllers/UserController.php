@@ -239,6 +239,7 @@ class UserController extends BaseController
 			$status = $user->status;
 			$gender = $user->gender;
 			$password = $user->password;
+			$password_confirmation= $user->password_confirmation;
 			$first_name = $user->first_name;
 			$last_name = $user->last_name;
 			$address1 = $user->address1;
@@ -255,11 +256,11 @@ class UserController extends BaseController
 			$pic_data = ['coords' => $user->pic_coords, 'image' => $user->profile_picture, 'id' => $user->id];
 		} else {
 			$id = $institution_id = $role_id = $country_id = $state = 0;
-			$name = $email = $status = $enrollno = $password = '';
+			$name = $email = $status = $enrollno = $password = $password_confirmation = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}      
 
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password', 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
 	function state($country_id=0)
     {

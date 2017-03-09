@@ -139,7 +139,7 @@
 								<input type="email" class="form-control" name="email" value="{{ $email }}">
 							</div>
 						</div>
-
+						@if ($user_id == 0)			
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Password</label>
 							<div class="col-md-6">
@@ -153,6 +153,21 @@
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
+						@else
+						<div class="form-group ">
+							<label class="col-md-4 control-label">Password</label>
+							<div class="col-md-6">
+								<input type="password" class="form-control" name="password">
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<label class="col-md-4 control-label">Confirm Password</label>
+							<div class="col-md-6">
+								<input type="password" class="form-control" name="password_confirmation">
+							</div>
+						</div>
+						@endif
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Gender</label>
 							<div class="col-md-6">
