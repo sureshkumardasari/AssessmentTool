@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="text-align:center; ">Test History Report</div>
+                    <div class="panel-heading" style="text-align:center; ">Test History Class Averages</div>
                     <div class="panel-body">
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">

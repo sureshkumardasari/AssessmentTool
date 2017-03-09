@@ -42,7 +42,7 @@
                     <div class="panel-body">
                     <div class="col-md-5" ></div>
                     <div class="rcorners1 col-md-6" >
-                        <a href="{{ url('/report/leastscore') }}">Least Scorers Report</a>
+                        <a href="{{ url('/report/leastscore') }}">Least Scores Report</a>
                     </div><br>
                 </div>
                 </div>
