@@ -2,7 +2,8 @@
 @section('content')
 
 	<div class="container">
-	
+	 
+    
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1"> 
 				<div class="panel panel-default">
@@ -109,6 +110,9 @@
 		</div>
 	</div>
 	</div>
+
+ </script>
+	
 	<script src="{{ asset('assets/js/bootstrap-colorpicker.min.js')}}"></script>
 	<link href="{{ asset('css/bootstrap-colorpicker.min.css') }}" rel='stylesheet' type='text/css'>
 	<script> $(function() {
@@ -153,16 +157,11 @@
 		    $('.userSuccMSG').css("left", (($(window).width() / 2 - $('.userSuccMSG').width() / 2) - 38) + "px");
 		   // alert("rvtbtyu");
 		    $('.userSuccMSG').fadeOut(4000);
-
+ 
 		}
+
 	</script>
-	<script type="text/javascript">
-     $(document).ready(function(){
-     setTimeout(function(){
-         var csrf=$('Input#csrf_token').val();
-         $('#flash').fadeOut();
-     }, 10000);
- })
+<script type="text/javascript">
+    	$('div.alert').delay(3000).slideUp(300);
  </script>
-	
 @endsection

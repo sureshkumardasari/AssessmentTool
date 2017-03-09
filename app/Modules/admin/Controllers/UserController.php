@@ -177,6 +177,48 @@ class UserController extends BaseController
 
 	public function edit($userid = 0)
 	{
+		/*$post = Input::All();
+		$messages = [
+			'institution_id.required' => ' Institution Name  is required',
+			//'title.required' => 'Enter Name of the Title',
+			'first_name.required' => 'first_name  is required  ',
+			'last_name.required' => ' last_name is required',
+			'email.required' => ' email is required',
+			'password_confirmation.required' => ' password_confirmation is required',
+			'gender.required' => ' gender is required',
+			'enrollno.required' => ' enrollno is required',
+			'address1.required' => ' address1 is required',
+			'country_id.required' => ' country_id is required',
+			'state.required' => ' state is required',
+			'city.required' => ' city is required',
+			'pincode.required' => ' pincode is required',
+			'phoneno.required' => ' phoneno is required',
+
+		];
+		$rules = [
+			'institution_id' => 'required|not_in:0',
+			//'title'=>'required|unique:title',
+			'first_name' => 'required',
+			'last_name' => 'required',
+			'email' => 'required',
+			'password_confirmation' => 'required',
+			'gender' => 'required',
+			'enrollno' => 'required',
+			'address1' => 'required',
+			'country_id' => 'required',
+			'state' => 'required',
+			'city' => 'required',
+			'pincode' => 'required',
+			'phoneno' => 'required',
+			
+		];
+		$validator = Validator::make($post, $rules);
+
+		
+		if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
+		}*/
+
 		$userid = ($userid > 0) ? $userid : Auth::user()->id;
 		$params = Input::All();
 		$InstitutionObj = new Institution();

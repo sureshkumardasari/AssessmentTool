@@ -288,6 +288,7 @@
         <?php
         $path = url()."/resources/";
         ?>
+    
         <script type="text/javascript">
             $(document).on('click', '.cross_icon', function (e) {
                 e.preventDefault();
@@ -1682,5 +1683,13 @@
 
             }
         </script>
+            <script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 5000);
+ })
+ </script>
 
 @endsection        

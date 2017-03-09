@@ -10,7 +10,7 @@
                 </div>
     <div>
         @if(Session::has('flash_message'))
-            <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
+            <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {{ Session('flash_message') }}</em></div>
         @endif
     </div>
     <div>
@@ -43,14 +43,14 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
      $(document).ready(function(){
      setTimeout(function(){
          var csrf=$('Input#csrf_token').val();
          $('#flash').fadeOut();
      }, 5000);
  })
- </script>
+ </script> -->
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}.
 
 @endsection

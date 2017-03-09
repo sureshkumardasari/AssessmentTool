@@ -48,7 +48,7 @@ class Institution extends Model {
 				$institutions = $obj->lists('name', 'id');
 			}			
 		}
-		
+		//dd($institutions);
 		return $institutions;
 	}
 

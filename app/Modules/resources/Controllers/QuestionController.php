@@ -544,6 +544,8 @@ public function questionedit($id = 0)
 				->select('question_type.qst_type_text','questions.question_type_id','questions.title')
 				->groupBy('question_type.qst_type_text')
 				->get();
+						//dd($questiontype);
+
 		$pass=Passage::join('questions','questions.passage_id','=','passage.id')->whereIn('passage.lesson_id',$id);
 		//$pass->whereIn('lesson_id',$id);
 		//if($passage_Ids > 0){
