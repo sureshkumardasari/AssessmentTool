@@ -19,7 +19,7 @@
                         @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                         @endforeach
-                        </select>
+                        </select><br>
                         </div>
                         </div>
                               <div class="form-group required">
@@ -32,7 +32,7 @@
                                                     <option value="{{$id}}">{{$ass}}</option>
                                                 @endforeach
                                             @endif
-                                        </select>
+                                        </select><br>
                                     </div>
                             </div>
                             <br><br>
@@ -46,7 +46,7 @@
                                                 {{--<option value="{{$user->id}}">{{$user->name}}</option>--}}
                                             {{--@endforeach--}}
                                         {{--@endif--}}
-                                    </select>
+                                    </select><br>
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
