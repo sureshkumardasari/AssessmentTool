@@ -17,7 +17,7 @@ $class="col-md-12";
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="text-align:center; ">Least Scorers Report</div>
+                    <div class="panel-heading" style="text-align:center; ">Least Scores Report</div>
                     <div class="panel-body">
                     @if($length !=0)
                         <div class="{{$class}}">
