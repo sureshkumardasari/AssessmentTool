@@ -39,8 +39,8 @@
 					<div class="panel-body searchfilter-body hide">
 
 					<div class="form-group col-md-6 required">
-						<label class="col-md-2 control-label">Institution</label>
-						<div class="col-md-10">
+						<label class="col-md-4 control-label">Institution</label>
+						<div class="col-md-6">
 							<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
 								<option value="0">--Select Institution--</option>
 								@foreach($inst_arr as $id=>$val)
@@ -50,8 +50,8 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6 required">
-						<label class="col-md-2 control-label">Category</label>
-						<div class="col-md-10">
+						<label class="col-md-4 control-label">Category</label>
+						<div class="col-md-6">
 							<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
 								<option value="0">--Select Category--</option>
 								
@@ -59,8 +59,8 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6 required">
-						<label class="col-md-2 control-label">Subject</label>
-						<div class="col-md-10">
+						<label class="col-md-4 control-label">Subject</label>
+						<div class="col-md-6">
 							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
 								<option value="0">--Select Subject--</option>
 								
@@ -68,8 +68,8 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6 required">
-						<label class="col-md-2 control-label">Lessons</label>
-						<div class="col-md-10">
+						<label class="col-md-4 control-label">Lessons</label>
+						<div class="col-md-6">
 							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
 								<option value="0">--Select Lesson--</option>
 								
@@ -77,15 +77,15 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6 required">
-						<label class="col-md-2 control-label">Question Type</label>
-						<div class="col-md-10">
-							<select class="form-control" name="question_type" id="question_type">
-								<option value="0">--Select Question Type--</option>
+						<label class="col-md-4 control-label">Question Type</label>
+						<div class="col-md-6">
+						 <select class="form-control" name="question_type" id="question_type">
+								<option value="0">Select Question Type</option>
 								<option value="1">Multiple Choice-Multi Answer</option>
 								<option value="2">Multiple Choice-Single Answer</option>
 								<option value="3">Essay</option>
 								<option value="4">Fill in the Blank</option>
-							</select>
+					     </select>
 
 					</div>
 					<div class="form-group col-md-10">
@@ -94,7 +94,7 @@
 					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
-								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Apply Filter</a>
+								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
 							</div>
 						</div>
 					</div>
@@ -283,10 +283,10 @@ $( document ).ready(function() {
 					success:function(response){
 						var a=response.length;
 						$('#question_type').empty();
-						var opt=new Option('--Select QuestionType--','');
+						var opt=new Option('Select QuestionType','');
 						$('#question_type').append(opt);
 						for(i=0;i<a;i++){
-							var opt=new Option(response[i].qst_type_text,response[i].question_type_id);
+							var opt=new Option(response[i].qst_type_text,response[i].id);
 							$('#question_type').append(opt);
 						}
 					}
