@@ -24,34 +24,9 @@ class BrandingController extends Controller {
 	}
 	public function add($param=null)
 	{
-//dd($param);
-		//$post = Input::All();
-		/*$messages = [
-			'institution_id.required' => ' Institution Name  is required',
-			//'title.required' => 'Enter Name of the Title',
-			'hbcolor.required' => 'BackGround color is required  ',
-			'headertc.required' => ' HeadTextColor is required',
-			'boxhbc.required' => ' BoxTextColor is required',
-			'boxhtcolor.required' => ' BoxHeaderColor is required',
-			'btextc.required' => ' BoxTextColor is required',
-			'buttonc.required' => ' ButtonColor is required',
-			'buttontc.required' => ' ButtonTextColor is required',
-		];
-		$rules = [
-			'institution_id' => 'required',
-			//'title'=>'required|unique:title',
-			'hbcolor' => 'required',
-			'headertc' => 'required',
-			'boxhbc' => 'required',
-			'boxhtcolor' => 'required',
-			'btextc' => 'required',
-			'buttonc' => 'required',
-			'buttontc' => 'required',
-		];*/
-		/*$validator = Validator::make($post, $rules);
-		if ($validator->fails()) {
-			return Redirect::back()->withInput()->withErrors($validator);
-		}
+
+		
+		/*
 		$createArr = [
 			//'title' => $post['title'],
 			'filepath' => $filename,
@@ -103,7 +78,7 @@ class BrandingController extends Controller {
 			'buttontc.required' => ' ButtonTextColor is required',
 		];
 		$rules = [
-			'institution_id' => 'required',
+			'institution_id' => 'required|not_in:0',
 			//'title'=>'required|unique:title',
 			'hbcolor' => 'required',
 			'headertc' => 'required',
@@ -221,6 +196,8 @@ class BrandingController extends Controller {
 			}
 			else{
 				$branding=Branding::where('institution_id',$inst)->select('id')->first();
+				        \Session::flash('flash_message','Information saved successfully.');
+
 				return $this->edit($branding['id']);
 				//return view('admin::branding.brandedit');
 			}
