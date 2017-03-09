@@ -29,7 +29,7 @@
 							<form class="form-inline" role="form">
 								<!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
 									<input type="hidden" name="page" id="page" value="category"> -->
-							<div class="form-group">
+							<div class="form-group required">
 								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
 									<input type="hidden" name="page" id="page" value="category">
