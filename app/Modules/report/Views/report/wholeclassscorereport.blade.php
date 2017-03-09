@@ -14,7 +14,7 @@
                                 <label class="col-md-4 control-label">Institution:</label>
                                 <div class="col-md-6">
                                     <select name="inst_id" class='form-control' id="institution_id" >
-                                        <option value="0" selected >-Select Institution-</option>
+                                        <option value="0" selected >--Select Institution--</option>
                                        @foreach($inst_arr as $id=>$val)
                                             <option value="{{ $id }}">{{ $val }}</option>
                                         @endforeach
@@ -26,7 +26,7 @@
                                 <label class="col-md-4 control-label">Assignment:</label>
                                 <div class="col-md-6">
                                     <select name="assignment_id" class='form-control' id="assignment_id"  >
-                                        <option value="0" selected >-Select Assignment-</option>
+                                        <option value="0" selected >--Select Assignment--</option>
                                         @if(getRole()!="administrator")
                                             @foreach($assignment as $ass)
                                                 <option value="{{$ass->id}}">{{$ass->name}}</option>
@@ -39,7 +39,7 @@
                             <label class="col-md-4 control-label">Subject:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
-                                    <option value="0">-Select Subject-</option>
+                                    <option value="0">--Select Subject--</option>
                                   
                                 </select>
                             </div>
@@ -48,7 +48,7 @@
                             <label class="col-md-4 control-label">Lesson:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
-                                    <option value="0">-Select Lesson-</option>
+                                    <option value="0">--Select Lesson--</option>
 
                                 </select>
                             </div>
@@ -90,6 +90,7 @@
         if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
                 alert("please select all the fields");
             }
+
             else {
             var csrf=$('Input#csrf_token').val();
 

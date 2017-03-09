@@ -26,7 +26,7 @@
                                 <label class="col-md-4 control-label">Select Assignment:</label>
                                 <div class="col-md-6">
                                     <select name="assignment_id" class='form-control' id="assignment_id" >
-                                        <option value="0" selected >-Select-</option>
+                                        <option value="0" selected >--Select--</option>
                                         @if(getRole()!="administrator")
                                             @foreach($assignments as $id => $name)
                                                 <option value="{{$id}}">{{$name}}</option>
