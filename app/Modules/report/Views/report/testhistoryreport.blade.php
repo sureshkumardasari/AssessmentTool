@@ -19,9 +19,12 @@
                         <label class="col-md-2 control-label" id="mandatory" style="margin:0px 0 0 225px">Institution:</label>
                         <div class="col-md-2">
                         <select name="inst_id" class='form-control' id="institution_id" style="margin-left:-50px;">
-                        <option value="0" selected>--Select--</option>
+                       <option value="0" selected>--Select--</option>
                         @foreach($inst_arr as $id=>$val)
+
+
                         <option value="{{ $id }}">{{ $val }}</option>
+
                         @endforeach
                         </select>
                         </div>
@@ -59,10 +62,10 @@
         </div>
     </div>
     <script>
-        $("#institution_id option[value=0]").remove();
+        //$("#institution_id option[value=0]").remove();
         var op=new Option('select',0)
-        $("#institution_id").append(op);
-        $("#institution_id").val(0);
+        //$("#institution_id").append(op);
+       // $("#institution_id").val(0);
         function inst_change(){
             if($('#institution_id').val()==0 ){
                 alert("please select the institution field");
