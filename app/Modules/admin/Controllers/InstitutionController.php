@@ -106,7 +106,7 @@ class InstitutionController extends BaseController {
 	{
 		$post = Input::All();
 		$messages=[
-			'phoneno.required'=>'The Phone field is required',
+			'phoneno.required'=>'The Phone no field is required',
 		];
 		$rules = [
 			/*'parent institution_id' => 'required|not_in:0',*/
