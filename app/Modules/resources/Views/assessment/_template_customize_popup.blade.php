@@ -139,9 +139,20 @@
                         @endif
                     </div>
                 </div>
+                <div>
+        @if(Session::has('flash_message'))
+            <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
+        @endif
+    </div>
+    <div>
+        @if(Session::has('flash_message_failed'))
+            <div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
+        @endif
+    </div>
                 <div class="panel panel-default">
 
                     <div class="clr"></div>
+
                     <section>
                         <div class="userSuccMSG" style="display: none; top: 320px; left: 393px;">Please Wait..</div>
 
