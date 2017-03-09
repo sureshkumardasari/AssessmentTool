@@ -257,6 +257,7 @@ class UserController extends BaseController
 		} else {
 			$rules['role_id'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
+			$rules['conform password'] = 'required';
 		}
 
 		$validator = Validator::make($post, $rules);

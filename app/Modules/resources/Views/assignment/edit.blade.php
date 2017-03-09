@@ -81,7 +81,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							<label class="col-md-3 control-label">End Date Time </label>
 							<div class="col-md-6">
 							 <div class='input-group date'>
-								<input type="text" class="form-control date" id="enddatetime" name="enddatetime" value="{{ ($enddatetime) ? date($dtFormat, strtotime($enddatetime)) : ''}}}}">
+								<input type="text" class="form-control date" id="enddatetime" name="enddatetime" value="{{ ($enddatetime) ? date($dtFormat, strtotime($enddatetime)) : ''}}">
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -89,7 +89,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							</div>
 						</div>
 
-						<div class="form-group required">
+						<div class="form-group">
 							<label class="col-md-3 control-label">Never Expires </label>
 							<div class="col-md-6 checkbox">
 								<label><input type="checkbox" id="neverexpires" name="neverexpires" value="1" {{ ($neverexpires == 1 ) ? 'checked="checked"' : '' }} ></label>
@@ -153,7 +153,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 
 
 
-						<div class="form-group required">
+						<div class="form-group">
 							<label class="col-md-3 control-label" ></label>
 							<div class="col-md-6">
 								<div id="dual-list-box" class="form-group row">

@@ -10,11 +10,11 @@
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 
                          <!--    <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>  -->
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label class="col-md-2 control-label" id="mandatory" style="margin-left: 225px"> Institution:</label>
                                 <div class="col-md-2">
                                    <select name="inst_id" class='form-control' id="institution_id" >
-                                        <option value="0" selected >-Select-</option>
+                                        <option value="0" selected >--Select--</option>
                                         @foreach($inst_arr as $id=>$val)
                                            <option value="{{ $id }}">{{ $val }}</option>
                                         @endforeach
@@ -26,7 +26,7 @@
                             <label class="col-md-4 control-label"  style="margin-left: 225px"> Assignment:</label>
                             <div class="col-md-6">
                                 <select name="assessment_id" class='form-control' id="assignment" style="margin:-25px 0 0 410px">
-                                    <option value="0" selected >-Select-</option>
+                                    <option value="0" selected >--Select--</option>
                                     @if(getRole()!="administrator")
                                         @foreach($assignment as $ass)
                                             <option value="{{$ass->id}}">{{$ass->name}}</option>
@@ -39,7 +39,7 @@
                             <label class="col-md-4 control-label"  style="margin-left: 225px"> Subject:</label>
                             <div class="col-md-6">
                                 <select name="subject_id" class='form-control' id="subject" style="margin:-25px 0 0 410px">
-                                    <option value="0" selected >-Select-</option>
+                                    <option value="0" selected >--Select--</option>
                                     @if(getRole()!="administrator")
 
                                     @endif
