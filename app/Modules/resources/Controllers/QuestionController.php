@@ -417,6 +417,8 @@ public function questionedit($id = 0)
 			}else{
 
 			}
+			        \Session::flash('flash_message','Information saved successfully.');
+
 			return redirect('/resources/question');
 		}
 	}
@@ -473,6 +475,8 @@ public function questionedit($id = 0)
 				->orderby('qid')
 				->get();
 		//$question_list = $this->question->getQuestionFilter($institution);
+				        \Session::flash('flash_message','Information saved successfully.');
+
 		return $list;
 	}
 

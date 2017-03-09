@@ -4983,6 +4983,10 @@ a.list-group-item-danger.active:focus {
   margin-bottom: 0;
   line-height: 1.3;
 }
+#mandatory:after{
+  content: "*";
+  color: red;
+}
 .panel {
   margin-bottom: 20px;
   background-color: #ffffff;

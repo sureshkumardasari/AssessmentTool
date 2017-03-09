@@ -228,7 +228,7 @@ class AssessmentController extends BaseController {
 						}
 //					
  				}
- 						       // \Session::flash('flash_message','Information saved successfully.');
+ 						       \Session::flash('flash_message','Information saved successfully.');
 
  				return Redirect::route('template', ['id' =>  $assessment_id /*, 'tplId' => $newOrder*/]);
  			//return redirect('/resources/assessment');
@@ -242,6 +242,8 @@ class AssessmentController extends BaseController {
         $preview = $request->get('perview', '0'); //for testing
         // $subsectionId = $request->get('Id');
         $tpl = Template::find($template_Id);
+        		        \Session::flash('flash_message','Information saved successfully.');
+
         return $this->_savePdf($assessment_Id, $template_Id, $preview);
     }
 
@@ -467,6 +469,7 @@ class AssessmentController extends BaseController {
 		$html2 = '';
 		$blade = $templateId;
 		$html = $html2 = $this->renderTemplate($blade, $questions, $beginInstructions, $endInstructions, $titlePage);
+		        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assessment._template_customize_popup', compact('title', 'html', 'templateId', 'header', 'footer', 'mode',  'type', 'old', 'html2','endInstructions', 'beginInstructions', 'id', 'tplId'));
 
