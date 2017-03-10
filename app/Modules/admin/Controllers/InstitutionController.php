@@ -112,9 +112,9 @@ class InstitutionController extends BaseController {
 			/*'parent institution_id' => 'required|not_in:0',*/
 			'name' => 'required|min:3|unique:institution',
 			'address1' => 'required',
-			'city' => 'required',
-			'state' => 'required|not_in:0',
 			'country_id' => 'required|not_in:0',
+			'state' => 'required|not_in:0',
+			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required'];
 			'phoneno'=>array('required','numeric','regex: /^\d{10}$/'),];
