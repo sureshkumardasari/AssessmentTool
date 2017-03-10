@@ -868,8 +868,8 @@ class ReportController extends Controller
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
         $insts = array_keys($inst_arr);
-       //dd($ins);
-        $assignment = Assignment::where('gradestatus', '=', 'completed')->where('institution_id','=',$ins)->take(3)->orderby('id', 'desc')->lists('id');
+     //dd($insts);
+        $assignment = Assignment::where('gradestatus', '=', 'completed')->whereIn('institution_id',$insts)->take(3)->orderby('id', 'desc')->lists('id');
         //dd($assignment);
         $assignmentname = Assignment::whereIn('id', $assignment)->orderby('id', 'desc')->lists('name');
         $length = 0;
@@ -885,7 +885,7 @@ class ReportController extends Controller
                 ->orderby('user_assignment_result.rawscore', 'asc')
                 ->take(10)
                 ->get();
-                //dd($report_data);
+               // dd($report_data);
             if($length >1){
                 $report_data1 = UserAssignmentResult::join('users', 'users.id', '=', 'user_assignment_result.user_id')
                     ->join('assignment', 'assignment.id', '=', 'user_assignment_result.assignment_id')

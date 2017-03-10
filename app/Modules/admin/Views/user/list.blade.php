@@ -28,8 +28,8 @@
 						</div>
 
 						<div class="panel-body searchfilter-body hide">
-							<div class="form-group col-md-6">
-								<label class="col-md-4 control-label">Select Institution</label>
+							<div class="form-group col-md-6  required">
+								<label class="col-md-6 control-label">Select Institution</label>
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id">
 										<option value=0>All</option>
@@ -39,13 +39,14 @@
 									</select>
 								</div>
 							</div>
-							<?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>
 							<br><br>
-							<div class="form-group ">
-								<label class="col-md-4" >Select Role</label>
+							<!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>  -->
+							<br><br>
+							<div class="form-group col-md-6">
+								<label class="col-md-6">Select Role<span style="color:red;">*</span></label>
 								<div class="col-md-6">
 									<select class="form-control" name="role_id" id="role_id">
-										<option value=0>All</option>
+										<option value=0>Select</option>
 										@foreach($roles_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach

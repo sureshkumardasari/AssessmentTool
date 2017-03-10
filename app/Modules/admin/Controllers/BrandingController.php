@@ -25,8 +25,8 @@ class BrandingController extends Controller {
 	public function add($param=null)
 	{
 //dd($param);
-		/*$post = Input::All();
-		$messages = [
+		//$post = Input::All();
+		/*$messages = [
 			'institution_id.required' => ' Institution Name  is required',
 			//'title.required' => 'Enter Name of the Title',
 			'hbcolor.required' => 'BackGround color is required  ',
@@ -47,12 +47,12 @@ class BrandingController extends Controller {
 			'btextc' => 'required',
 			'buttonc' => 'required',
 			'buttontc' => 'required',
-		];
-		$validator = Validator::make($post, $rules);
+		];*/
+		/*$validator = Validator::make($post, $rules);
 		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
-		}*/
-		/*$createArr = [
+		}
+		$createArr = [
 			//'title' => $post['title'],
 			'filepath' => $filename,
 			'header_bg_color' => $post['hbcolor'],
@@ -191,7 +191,8 @@ class BrandingController extends Controller {
             $file->move(public_path().'/images/', $name);
         }
         $image->save();
-        
+        \Session::flash('flash_message','Information saved successfully.');
+
         return $this->create()->with('success', 'Image Uploaded Successfully');
 	}
 	/**
@@ -324,7 +325,7 @@ class BrandingController extends Controller {
 			$updateArr['filepath'] = $filename;
 
 		$record = Branding::where('id', $id)->update($updateArr);
-\Session::flash('flash_message','Information saved successfully.');
+		\Session::flash('flash_message','Information saved successfully.');
 		//dd($record);
 		if(getRole()=="administrator"){
 			return Redirect::route('branding-view');
