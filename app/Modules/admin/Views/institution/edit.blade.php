@@ -5,9 +5,9 @@
 <?php
 	$name =  (old('name') != NULL) ? old('name') : $name;
 	$address1 =  (old('address1') != NULL) ? old('address1') : $address1;
-	$city =  (old('city') != NULL) ? old('city') : $city;
-	$state = (old('state') != NULL) ? old('state') : $state; 
 	$country_id =  (old('country_id') != NULL) ? old('country_id') : $country_id;
+	$state = (old('state') != NULL) ? old('state') : $state; 
+	$city =  (old('city') != NULL) ? old('city') : $city;
 	$pincode =  (old('pincode') != NULL) ? old('pincode') : $pincode;
 	$phoneno =  (old('phoneno') != NULL) ? old('phoneno') : $phoneno;
 ?>

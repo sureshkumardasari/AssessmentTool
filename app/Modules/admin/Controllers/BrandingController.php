@@ -191,7 +191,7 @@ class BrandingController extends Controller {
             $file->move(public_path().'/images/', $name);
         }
         $image->save();
-        \Session::flash('flash_message','Information saved successfully.');
+        
         return $this->create()->with('success', 'Image Uploaded Successfully');
 	}
 	/**
@@ -324,12 +324,13 @@ class BrandingController extends Controller {
 			$updateArr['filepath'] = $filename;
 
 		$record = Branding::where('id', $id)->update($updateArr);
-
+\Session::flash('flash_message','Information saved successfully.');
 		//dd($record);
 		if(getRole()=="administrator"){
 			return Redirect::route('branding-view');
 		}
 		\Session::put('flash_message', 'you are almost done');
+		
 
 		return Redirect::route('mainhome');
 	}
