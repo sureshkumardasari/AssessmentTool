@@ -74,11 +74,17 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">City</label>
+							<label class="col-md-4 control-label">Country</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="city" value="{{ $city }}">
+								<select class="form-control" name="country_id">
+									<option value="0">Select</option>
+									@foreach($country_arr as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
+						
 						<div class="form-group required">
 							<label class="col-md-4 control-label">State</label>
 							<div class="col-md-6">
@@ -91,14 +97,9 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Country</label>
+							<label class="col-md-4 control-label">City</label>
 							<div class="col-md-6">
-								<select class="form-control" name="country_id">
-									<option value="0">Select</option>
-									@foreach($country_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
-								</select>
+								<input type="text" class="form-control" name="city" value="{{ $city }}">
 							</div>
 						</div>
 						<div class="form-group required">
