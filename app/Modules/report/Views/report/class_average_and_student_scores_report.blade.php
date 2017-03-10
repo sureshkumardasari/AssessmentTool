@@ -46,8 +46,8 @@
                     <div class="form-group col-md-12">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                        <a href="#" class="btn btn-primary" id="pdf" onclick="report()">Export PDF</a>
-                        <a href="#" class="btn btn-primary" id="xls" onclick="report()">Export XLS</a>
+                        <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
+                        <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
                     </div></div>
                     <div id="report">
 
@@ -83,6 +83,24 @@
                 )
             }
         }
+        function reports(){
+            
+                $.ajax(
+                        {
+
+                            headers: {"X-CSRF-Token": csrf},
+                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
+                            type: 'post',
+                            success: function (response) {
+                                $('#report').empty();
+                                $('#report').append(response);
+                                $('#report').prepend($('.average'));
+                            }
+                        }
+                )
+            
+        }
+
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
             $.ajax(
@@ -130,14 +148,36 @@
 //
 //        }
         $('#pdf').on('click',function(){
+
             var inst_id=$('#institution_id').val();
             var assign_id=$('#assignment_id').val();
-          window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
+
+            if(inst_id==0 || assign_id==0)
+            {
+                          alert("please select all the fields");
+                           
+            }
+            else
+            {
+                window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
+            }
+          
         });
         $('#xls').on('click',function(){
             var inst_id=$('#institution_id').val();
             var assign_id=$('#assignment_id').val();
+
+            if(inst_id==0 || assign_id==0)
+            {
+                          alert("please select all the fields");
+                           
+            }
+            else
+            {
             window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
+        }
         });
     </script>
+
+   
 @endsection

@@ -591,7 +591,7 @@ class ReportController extends Controller
                 $type[3] = [0];
             }
             $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
-
+            //dd($assignment);
             $assignment = Assignment::find($assi_id);
             if ($assignment) {
                 $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
@@ -601,19 +601,22 @@ class ReportController extends Controller
                     ->groupby('users.name')
                     ->get();
             } else {
+
                 $students = [];
             }
+             //dd($students);
+
             $htmlForPdf = view('report::report.pdf', compact('inst', 'students', 'assi'))->render();
             // dd($htmlForPdf);
             $fileName = 'pdf';
-            /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+            $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
             //dd($fileFullUrl);
             $name=explode('/',$fileFullUrl);
             $name=$name[5];
             // return url($fileFullUrl);
             // return response()->Download($fileFullUrl);
             //  return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-            return response()->Download(public_path()."/data/reports/".$name);*/
+            return response()->Download(public_path()."/data/reports/".$name);
             $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
             if($name == url('data/error.pdf'))
             {
@@ -625,7 +628,7 @@ class ReportController extends Controller
             }
         }
 
-        //return Redirect::route('class_average_and_student_scores_report');
+        return Redirect::route('class_average_and_student_scores_report');
     }
 
     public function exportXLS($inst_id = 0, $assi_id = 0)
