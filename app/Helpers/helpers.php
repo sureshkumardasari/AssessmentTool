@@ -331,7 +331,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
          'test-history' => array(
-            'displayName' => 'Test History Report',
+            'displayName' => 'Test History  Class Averages',
             'route' => 'test-history',
             'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
