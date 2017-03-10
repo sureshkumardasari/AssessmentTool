@@ -62,8 +62,8 @@
 
                         <div class="form-group col-md-12">
                             <div class="col-md-6 col-md-offset-8">
-                            <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
                         </div></div>
                     </form>
                     <div id="wholescore">
@@ -273,7 +273,77 @@
             )
 
         }*/
+ function reports(){
+            
+                $.ajax(
+                        {
 
+                            headers: {"X-CSRF-Token": csrf},
+                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
+                            type: 'post',
+                            success: function (response) {
+                                $('#report').empty();
+                                $('#report').append(response);
+                                $('#report').prepend($('.average'));
+                            }
+                        }
+                )
+            
+        }
+
+        $('#institution_id').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:loadurl+ $('#institution_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            $('#report').empty();
+                            var a = response.length;
+                            $('#assignment_id').empty();
+                            var opt = new Option('--Select Assignment--', '0');
+                            $('#assignment_id').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#assignment_id').append(opt);
+                            }
+                        }
+                    }
+            )
+        });
+
+        $('#pdf').on('click',function(){
+
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment_id').val();
+
+            if(inst_id==0 || assign_id==0)
+            {
+                          alert("please select all the fields");
+                           
+            }
+            else
+            {
+                window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
+            }
+          
+        });
+        $('#xls').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment_id').val();
+
+            if(inst_id==0 || assign_id==0)
+            {
+                          alert("please select all the fields");
+                           
+            }
+            else
+            {
+            window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
+        }
+        });
     </script> 
     <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
 

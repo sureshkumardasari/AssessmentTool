@@ -124,29 +124,6 @@
             )
         });
 
-//        function inst_change(){
-//
-//            var csrf=$('Input#csrf_token').val();
-//            $.ajax(
-//                    {
-//
-//                        headers: {"X-CSRF-Token": csrf},
-//                        url:loadurl+ $('#institution_id').val(),
-//                        type: 'post',
-//                        success: function (response) {
-//                            var a = response.length;
-//                            $('#assignment_id').empty();
-//                            var opt = new Option('--Select Assessment--', '');
-//                            $('#assignment_id').append(opt);
-//                            for (i = 0; i < a; i++) {
-//                                var opt = new Option(response[i].name, response[i].id);
-//                                $('#assignment_id').append(opt);
-//                            }
-//                        }
-//                    }
-//            )
-//
-//        }
         $('#pdf').on('click',function(){
 
             var inst_id=$('#institution_id').val();
