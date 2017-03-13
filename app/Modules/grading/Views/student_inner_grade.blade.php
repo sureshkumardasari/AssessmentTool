@@ -193,7 +193,7 @@
                                                         </div>
 
                                                     </div>
-                                             
+                                            </div>    
                                             
                                         
                          
@@ -211,10 +211,9 @@
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
-                                    
-                                      </div>  
+                                     @endforeach
                          </div>
-                            @endforeach             
+                                        
                                     
                      
                           @elseif($question =="Fill in the blank")
