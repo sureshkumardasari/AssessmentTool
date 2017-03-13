@@ -193,7 +193,7 @@
                                                         </div>
 
                                                     </div>
-                                            </div>    
+                                             
                                             
                                         
                          
@@ -212,6 +212,7 @@
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
                                      @endforeach
+                                      </div>  
                          </div>
                                         
                                     
