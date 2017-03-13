@@ -43,7 +43,7 @@
 				            </div>  
 
 				            <div class="form-group">				                
-				                <div class="col-md-2"><b><p style="color:green">Question Text:</p></b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				                <div class="col-md-2"><b style="color:green">Question Text:</b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
 				            </div> 
 				            <div></div>	
 				            {{--*/ $i = 0 /*--}}
@@ -77,7 +77,7 @@
 									          <h4 class="modal-title">{{$ass_qst['Title']}} </h4>
 									        </div>
 									        <div class="modal-body">
-									          <p>Q. {{$ass_qst['qst_text']}}</p>
+									          Q. {{$ass_qst['qst_text']}}
 									          	{{--*/ $i = 0 /*--}}
 												@if(($ass_qst['question_type']!="Essay") && ($ass_qst['question_type']!="Fill in the blank"))
 													@foreach( $ass_qst['answers'] as $idx => $a )
