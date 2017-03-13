@@ -6,7 +6,7 @@
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading">Assignments
-					<a href="{{ url('/resources/assignmentadd/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
+					<a href="{{ url('/resources/assignmentadd/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Assignment</a>
 				</div>
 <div>
 		@if(Session::has('flash_message'))

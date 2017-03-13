@@ -135,9 +135,7 @@ class AssessmentController extends BaseController {
 			->select('passage.title as title','passage.id as id')
  			->get();
 //		$inst_questions_list=[];
- 					        \Session::flash('flash_message','Information saved successfully.');
-
-	    return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson','question_type'));
+ 			return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson','question_type'));
 	}
 	public function assessmentInsert(){
 
@@ -469,7 +467,7 @@ class AssessmentController extends BaseController {
 		$html2 = '';
 		$blade = $templateId;
 		$html = $html2 = $this->renderTemplate($blade, $questions, $beginInstructions, $endInstructions, $titlePage);
-		        \Session::flash('flash_message','Information saved successfully.');
+		     \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assessment._template_customize_popup', compact('title', 'html', 'templateId', 'header', 'footer', 'mode',  'type', 'old', 'html2','endInstructions', 'beginInstructions', 'id', 'tplId'));
 

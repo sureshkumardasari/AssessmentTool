@@ -97,7 +97,7 @@ class PassageController extends BaseController {
 		$passage = new passage();
 		//dd($passages);
 		//dd($inst_arr);
-				        \Session::flash('flash_message','Information saved successfully.');
+				        // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::passage.edit',compact('passage','sCategory','sLesson','sSubject','passages','inst_arr','institution_id','category','lessons','subjects'));
 	}

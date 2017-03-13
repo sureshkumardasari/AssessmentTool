@@ -79,12 +79,9 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-4 control-label">Question Type</label>
 						<div class="col-md-6">
-						 <select class="form-control" name="question_type" id="question_type">
+						 <select class="form-control" name="question_type" id="question_type" onchange="filter()">
 								<option value="0">Select Question Type</option>
-								<option value="1">Multiple Choice-Multi Answer</option>
-								<option value="2">Multiple Choice-Single Answer</option>
-								<option value="3">Essay</option>
-								<option value="4">Fill in the Blank</option>
+		
 					     </select>
 
 					</div>
@@ -94,13 +91,13 @@
 					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
-								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
+								<a class="btn btn-primary" onchange="filter();" href="javascript:;">Go</a>
 							</div>
 						</div>
 					</div>
 					</div>
 				</div>
-				</div>	
+					
 					<div class="clearfix"></div>
 					<div>
 		@if(Session::has('flash_message'))
@@ -161,12 +158,14 @@ $path = url()."/resources/";
 		var category_id=$('#category_id').val();
 		var subject_id=$('#subject_id').val();
 		var lessons_id=$('#lessons_id').val();
+		var question_type=$('#question_type').val();
 		if(subject_id=='')subject_id=0;
 		if(institution_id=='')institution_id=0;
 		if(category_id=='')category_id=0;
 		if(lessons_id=='')lessons_id=0;
-		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id};
-		var url="filter_data_question";
+		if(question_type=='')question_type=0;
+		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'question_type':question_type};
+		var url="question_list_filer";
 		ajax(url,data,csrf);
 	}
 	function ajax(url,data,csrf){
@@ -180,12 +179,11 @@ $path = url()."/resources/";
 						$('#question_list_filer').empty();
 						var tr;
 						for (var i = 0; i < response.length; i++) {
- 							tr = $('<tr/>');
-							tr.append("<td>" + response[i].question_title + "");
-							tr.append("<td>" + response[i].question_type + "");
-							tr.append("<td>" + response[i].passage_title + "");
-							tr.append("<td>"+"<a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a>"+"<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>"+"<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>"+"</td>");
- 							$('#question_list_filer').append(tr);
+							tr = $('<tr/>');
+							tr.append("<td>" + response[i].title + "");
+							tr.append("<a href='assessmentedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
+							tr.append("<a href='assessmentdel/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							$('#question_list_filer').append(tr);
 						}
 					}
 				}
@@ -274,26 +272,49 @@ $( document ).ready(function() {
 
 	function change_question_type(){
 		var csrf=$('Input#csrf_token').val();
+		passage_Ids=[];
+		var passage_id=document.getElementsByName('passageIds[]');
+		for (var i = 0; i < passage_id.length; i++) {
+			passage_Ids.push(passage_id[i].value);
+		}
 		$.ajax(
 				{
 
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}questiontypeList/'+$('#lessons_id').val(),
 					type:'post',
+					data:{'passages':passage_Ids},
 					success:function(response){
-						var a=response.length;
+						var a=response['question_type'].length;
+						//$('#question_type').multiselect('destroy');
 						$('#question_type').empty();
+						$('#passage_table').dataTable().fnDestroy();
+						$('#passages-list').empty();
+
+						//$('#question_type').multiselect();
 						var opt=new Option('Select QuestionType','');
 						$('#question_type').append(opt);
 						for(i=0;i<a;i++){
-							var opt=new Option(response[i].qst_type_text,response[i].id);
+							var opt=new Option(response['question_type'][i].qst_type_text,response['question_type'][i].question_type);
 							$('#question_type').append(opt);
 						}
+						$.each(response['passages'],function(index,val){
+							//alert('enter');
+
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='"+val['pid']+"' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
+							tr.append("<td>" + val['passage_title'] + "</td>");
+							$('#passages-list').append(tr);
+						});
+						//$('#question_table').dataTable();
+						$('#passage_table').dataTable();
+						/*$('#question_type').multiselect();
+						 $('#question_type').multiselect('refresh');*/
 					}
-				});
-
+				}
+		)
 	}
-
 	/*$('#clear').click(function(){
 		$("#institution_id").val($("#institution_id option:first").val());
 		$("#category_id").val($("#category_id option:first").val());
