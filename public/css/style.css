@@ -88,25 +88,25 @@
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   position: absolute;
-  padding: 14px 11px;
+  padding: 0px 0px;
   z-index: 0;
   width: auto;
-  min-width: 201px;
-  right: 0px;
-  top: 0;
+  min-width: 228px;
+  right: -15em;
+  top: -38px;
   border: 1px solid #ccc; }
 
 .ie8 .tip-container {
   border: solid 1px #bebebe; }
 
 .ssi-tip-arrow {
-  background: url(../images/ie8WhitArrow.png) left top no-repeat;
-  width: 19px;
-  height: 10px;
-  position: absolute;
-  top: -9px;
-  right: 25px;
-  z-index: 99; }
+  background: url(../images/ie8WhitArrow1.png) left top no-repeat;
+    width: 20px;
+    height: 29px;
+    position: absolute;
+    top: -30px;
+    right: 7px;
+    z-index: 99; }
 
 .ie8 .ssi-tip-arrow {
   top: -9px; }
@@ -123,8 +123,8 @@
   min-width: 201px; }
 
 .tip-btns ul.tip-btn-list {
-  text-align: center;
-  margin: 0px !important; }
+  text-align: left !important;
+  margin:15px!important; }
 
 .tip-btns ul.tip-btn-list li {
   display: inline-block;

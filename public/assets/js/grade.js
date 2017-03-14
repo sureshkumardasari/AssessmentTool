@@ -47,6 +47,6 @@ function mapTollTip(tipTarget){
   });
   $('.tip-container').addClass('r0');
   $("input.orderTopicToolTip").val(val);
-//            $('.ssi-tip').attr('style','top: 483px; left: 1048.5px;');
+//        $('.ssi-tip').attr('style','top: 300px; left: 1074px;');
 //            var val = $("input.orderTopicToolTip").val();
 }
