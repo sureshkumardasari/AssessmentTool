@@ -1,5 +1,18 @@
 @extends('default')
 @section('content')
+
+
+                <div class="col-md-10 col-md-offset-1">
+					@if(Session::has('flash_message'))
+						<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
+					@endif
+				</div>
+				<div class="col-md-10 col-md-offset-1">
+					@if(Session::has('flash_message_failed'))
+						<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
+					@endif
+				</div>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
@@ -10,16 +23,7 @@
 					<a href="{{ route('userBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
 					<a href="{{ URL::to('user/download') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
 				</div>
-				<div>
-					@if(Session::has('flash_message'))
-						<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-					@endif
-				</div>
-				<div>
-					@if(Session::has('flash_message_failed'))
-						<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-					@endif
-				</div>
+				
 				<div class="panel-body">
 
 					<div class="panel panel-default">
