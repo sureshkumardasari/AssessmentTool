@@ -25,8 +25,8 @@
 		    $('.datatableclass').DataTable({
 		    	language: {
 			        paginate: {
-			            previous: '‹',
-			            next:     '›'
+			            previous: 'Previous',
+			            next:     'Next'
 			        },
 			        aria: {
 			            paginate: {
@@ -46,8 +46,8 @@
 			$('#lessonstable').DataTable({
 				language: {
 					paginate: {
-						previous: '‹',
-						next:     '›'
+						previous: 'Previous',
+						next:     'Next'
 					},
 					aria: {
 						paginate: {
@@ -85,8 +85,8 @@
 			$('#subjectstable').DataTable({
 				language: {
 					paginate: {
-						previous: '‹',
-						next:     '›'
+						previous: 'Previous',
+						next:     'Next'
 					},
 					aria: {
 						paginate: {

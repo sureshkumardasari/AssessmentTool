@@ -9,23 +9,23 @@
 
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
-                        <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>
-                            {{--<div class="form-group">--}}
-                                {{--<label class="col-md-2 control-label" >Select institution:</label>--}}
-                                {{--<div class="col-md-2">--}}
-                                    {{--<select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()">--}}
-                                        {{--<option value="0" selected >-Select-</option>--}}
-                                        {{--@foreach($inst_arr as $id=>$val)--}}
-                                            {{--<option value="{{ $id }}">{{ $val }}</option>--}}
-                                        {{--@endforeach--}}
-                                    {{--</select>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                      <!--   <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
+                           <div class="form-group required">
+                                <label class="col-md-2 control-label" >Select institution:</label>
+                               <div class="col-md-6">
+                                    <select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()" style="margin-left: 215px;">
+                                        <option value="0" selected >-Select-</option>
+                                     @foreach($inst_arr as $id=>$val)
+                                            <option value="{{ $id }}">{{ $val }}</option>
+                                        @endforeach
+                                   </select>
+                                </div>
+                            </div>
                             <br><br>
                             <div class="form-group required">
                                 <label class="col-md-4 control-label">Select Assignment:</label>
                                 <div class="col-md-6">
-                                    <select name="assignment_id" class='form-control' id="assignment_id" >
+                                    <select name="assignment_id" class='form-control' id="assignment_id" style="margin-left: 30px;">
                                         <option value="0" selected >--Select--</option>
                                         @if(getRole()!="administrator")
                                             @foreach($assignments as $id => $name)
@@ -124,29 +124,6 @@
             )
         });
 
-//        function inst_change(){
-//
-//            var csrf=$('Input#csrf_token').val();
-//            $.ajax(
-//                    {
-//
-//                        headers: {"X-CSRF-Token": csrf},
-//                        url:loadurl+ $('#institution_id').val(),
-//                        type: 'post',
-//                        success: function (response) {
-//                            var a = response.length;
-//                            $('#assignment_id').empty();
-//                            var opt = new Option('--Select Assessment--', '');
-//                            $('#assignment_id').append(opt);
-//                            for (i = 0; i < a; i++) {
-//                                var opt = new Option(response[i].name, response[i].id);
-//                                $('#assignment_id').append(opt);
-//                            }
-//                        }
-//                    }
-//            )
-//
-//        }
         $('#pdf').on('click',function(){
 
             var inst_id=$('#institution_id').val();
