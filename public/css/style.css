@@ -100,23 +100,13 @@
 .ie8 .tip-container {
   border: solid 1px #bebebe; }
 
-/*.ssi-tip-arrow {
+.ssi-tip-arrow {
   background: url(../images/arrow.png) ;
   height: 20px;
   position: absolute;
   left: -16px;
   top: -33px;
   right: 25px; }
-*/
-  .ssi-tip-arrow {
-    background: url(../images/arrow.png) left top no-repeat;
-    width: 19px;
-    height: 10px;
-    position: absolute;
-    top: -9px;
-    right: 25px;
-    z-index: 99;
-}
 
 .tip-msg-outer .tip-message {
   font-size: 12px;
@@ -219,10 +209,7 @@ section .list_active_msg div.rply_icons {
     top: 100%;
     width: 0;
 }
-#HeaderLogo{
-  content: " ";
-  color:white;
-}
+
 
 
 
