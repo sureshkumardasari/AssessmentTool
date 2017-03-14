@@ -203,7 +203,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Country</label>
 							<div class="col-md-6">
-								                                <select class="form-control" id="country_id" name="country_id" onchange="change_user()">
+							<select class="form-control" id="country_id" name="country_id" onchange="change_user()">
 
 									<option value="0">--Select--</option>
 									@foreach($country_arr as $id=>$val)
@@ -296,7 +296,7 @@
                 {
 
                     headers: {"X-CSRF-Token": csrf},
-                    url:loadurl+$('#country_id').val(),
+                    url:loadurl+$('#state').val(),
                     type:'get',
                     success:function(response) {
                         var a = response.length;
