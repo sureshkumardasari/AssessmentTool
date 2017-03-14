@@ -28,9 +28,9 @@
                                     <select name="assignment_id" class='form-control' id="assignment_id"  >
                                         <option value="0" selected >--Select Assignment--</option>
                                         @if(getRole()!="administrator")
-                                            @foreach($assignment as $ass)
+                                           <!--  @foreach($assignment as $ass)
                                                 <option value="{{$ass->id}}">{{$ass->name}}</option>
-                                            @endforeach
+                                            @endforeach -->
                                         @endif
                                     </select>
                                 </div>
@@ -39,8 +39,8 @@
                             <label class="col-md-4 control-label">Subject:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
-                                    <option value="0">--Select Subject--</option>
-                                  
+<!--                                     <option value="0" selected>--Select Subject--</option>
+ -->                                  
                                 </select>
                             </div>
                         </div>
@@ -48,8 +48,8 @@
                             <label class="col-md-4 control-label">Lesson:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
-                                    <option value="0">--Select Lesson--</option>
-
+<!--                                     <option value="0" selected>--Select Lesson--</option>
+ -->
                                 </select>
                             </div>
                         </div>

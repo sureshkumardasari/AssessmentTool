@@ -28,9 +28,9 @@
                                         <select name="assign_id" class='form-control' id="assign_student" style="margin:-15px 0 0 359px" onchange="assignmt_change()">
                                             <option value="0" selected >--Select--</option>
                                             @if(getRole()!="administrator")
-                                                @foreach($assignments as $id=>$ass)
+                                               <!--  @foreach($assignments as $id=>$ass)
                                                     <option value="{{$id}}">{{$ass}}</option>
-                                                @endforeach
+                                                @endforeach -->
                                             @endif
                                         </select><br>
                                     </div>
