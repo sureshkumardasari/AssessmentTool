@@ -193,7 +193,51 @@ if (count($errors) > 0){?>
 				}
 		)
 	}
+function change_question_type(){
+		var csrf=$('Input#csrf_token').val();
+		passage_Ids=[];
+		var passage_id=document.getElementsByName('passageIds[]');
+		for (var i = 0; i < passage_id.length; i++) {
+			passage_Ids.push(passage_id[i].value);
+		}
+		$.ajax(
+				{
 
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}questiontypeList/'+$('#lessons_id').val(),
+					type:'post',
+					data:{'passages':passage_Ids},
+					success:function(response){
+						var a=response['question_type'].length;
+						//$('#question_type').multiselect('destroy');
+						$('#question_type').empty();
+						$('#passage_table').dataTable().fnDestroy();
+						$('#passages-list').empty();
+
+						//$('#question_type').multiselect();
+						var opt=new Option('--Select QuestionType--','');
+						$('#question_type').append(opt);
+						for(i=0;i<a;i++){
+							var opt=new Option(response['question_type'][i].qst_type_text,response['question_type'][i].question_type_id);
+							$('#question_type').append(opt);
+						}
+						$.each(response['passages'],function(index,val){
+							//alert('enter');
+
+							tr = $('<tr/>');
+							tr.append("<td><input type='checkbox' value='"+val['pid']+"' class='assess_qst check-passage' data-group-cls='btn-group-sm'></td>");
+//							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
+							tr.append("<td>" + val['passage_title'] + "</td>");
+							$('#passages-list').append(tr);
+						});
+						//$('#question_table').dataTable();
+						$('#passage_table').dataTable();
+						/*$('#question_type').multiselect();
+						 $('#question_type').multiselect('refresh');*/
+					}
+				}
+		)
+	}
 	function popup(){
 		var institution_id=$('#institution_id').val();
 		var category_id=$('#category_id').val();

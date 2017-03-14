@@ -151,7 +151,7 @@ class QuestionController extends BaseController {
 		//dd($answersListing);
 
 		$questions = Question::get()->toArray();
-		        \Session::flash('flash_message','Information saved successfully.');
+		        // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type'));
 	}
