@@ -203,7 +203,8 @@
             if(inst_id==0 || assign_id==0)
             {
                           alert("please select all the fields");
-                           
+                          return false;
+
             }
             else
             {
@@ -218,6 +219,8 @@
             if(inst_id==0 || assign_id==0)
             {
                           alert("please select all the fields");
+                           return false;
+
                            
             }
             else
