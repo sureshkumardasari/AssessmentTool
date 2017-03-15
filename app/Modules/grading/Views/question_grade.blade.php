@@ -220,6 +220,7 @@
 			// var questionUrl = $(tipTarget).attr('question-url');
 			// var url="grading/list-question/1-1";
 			var val = tipTarget.html();
+			var Text = "Do you want to save & grade next student?"
 			var OkBtnText     = "Yes";
 			var cnclBtnText   = "No";
 			var headerText    = "";
@@ -230,6 +231,21 @@
 				headerText: "",
 				message: headerText,
 				buttons: [
+				{
+						text: Text,
+						//className: okclassName,
+						click: function(e) {
+							$('.tip-container').remove();
+							$('.ssi-tip-arrow').remove();
+							//save_question_grade_for_student();
+							//    if(typeof id =="undefined"){
+							//
+							//    }
+							//     //window.location.href=url;
+							//    else
+							//        sendRequest('delete',id);
+						}
+					},
 					{
 						text: OkBtnText,
 						//className: okclassName,
