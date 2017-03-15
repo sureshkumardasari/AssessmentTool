@@ -142,6 +142,7 @@
 								tr = $('<tr/>');
 								tr.append("<td>" + response[i].assessment_name + "");
 								tr.append("<td>" + response[i].name + "");
+								tr.append("<td>" + response[i].status + "");
 								tr.append("<td>"+ "</td>");
 								tr.append("<td>"+ "</td>");
 								$('#assignbody').append(tr);
