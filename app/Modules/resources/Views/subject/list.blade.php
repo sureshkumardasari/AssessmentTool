@@ -29,7 +29,7 @@
 							<form class="form-inline" role="form">
 								<!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','Select'); ?> -->
 								<input type="hidden" name="page" id="page" value="subject">
-							<div class="form-group required">
+							<div class="form-group required col-md-12">
 								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
 									<input type="hidden" name="page" id="page" value="subject">
@@ -42,7 +42,7 @@
 								</div>
 							</div>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<div class="form-group required">
+							<div class="form-group required col-md-12">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
 									<select class="form-control" name="category_id" id="category_id">
@@ -57,7 +57,7 @@
 									</select>
 								</div>
 							</div>	
-							<div class="form-group">
+							<div class="form-group col-md-12">
 								<div class="col-md-6 col-md-offset-4">
 									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
 										Go
