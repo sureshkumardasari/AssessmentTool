@@ -15,7 +15,7 @@
 								<th>Category</th>
 								<th>Subject</th>
 								<th>Lesson</th>
-								<th></th>
+								<th style="visibility: hidden;"></th>
 				            </tr>
 				        </thead>
 				        <tbody>
