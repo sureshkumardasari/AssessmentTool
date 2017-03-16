@@ -177,7 +177,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						</div>
 
 						<div class="form-group required">
-							<label class="col-md-3 control-label">Delivary Method </label>
+							<label class="col-md-3 control-label">Delivery Method </label>
 							<div class="col-md-6">
 								<label class="radio-inline"><input type="radio" name="delivery_method" id="delivery_method_yes" value="online" {{ ($delivery_method == "online" || $delivery_method == "" ) ? 'checked="checked"' : '' }}> Online </label>
 								<label class="radio-inline"><input type="radio" class="" name="delivery_method" id="delivery_method_no" value="print" {{ ($delivery_method == "print") ? 'checked="checked"' : '' }}> Print </label>
