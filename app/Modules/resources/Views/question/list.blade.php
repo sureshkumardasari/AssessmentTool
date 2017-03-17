@@ -97,7 +97,7 @@
 					</div>
 					</div>
 				</div>
-					
+				</div>	
 					<div class="clearfix"></div>
 					<div>
 		@if(Session::has('flash_message'))
