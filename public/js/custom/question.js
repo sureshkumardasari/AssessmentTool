@@ -888,7 +888,7 @@ var me = null;
               tinymce.activeEditor.windowManager.open({
                 file: elfinderRoute,// use an absolute path!
                 title: 'Insert Image',
-                width: 900,
+                width: 903,
                 height: 450,
                 resizable: 'yes'
               }, {
@@ -909,7 +909,7 @@ var me = null;
             }
             tinymce.init({
                 selector: '#question_textarea',
-                width :  isMacintosh() ? 792 : 807,
+                width :  isMacintosh() ? 792 : 690,
                 height : 200,
                 auto_focus:false,
                 statusbar : false,
@@ -1015,7 +1015,7 @@ var me = null;
             }
             tinymce.init({
                 selector: '#'+id,
-                width : 739,
+                width : 690,
                 height : 200,
                 auto_focus:false,
                 statusbar : false,
