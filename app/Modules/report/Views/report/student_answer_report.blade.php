@@ -50,7 +50,8 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="col-md-4"></div><div class="col-md-6">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6" style="padding-left: 93px;">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()">Go</button>
                                 </div>
                             </div>                 

@@ -54,7 +54,7 @@
                             </div>
                         </div>
                              <div class="form-group">
-                               <div class="col-md-5">
+                               <div class="col-md-5" style="width: 455px;">
                                     <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
                                        
                                 </div>
