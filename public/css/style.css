@@ -218,7 +218,11 @@ section .list_active_msg div.rply_icons {
     padding-top: 7px;
   }
 
-
+.assignment_text1 {
+    width: 404px;
+    max-width: 450px;
+    max-height: 100px;
+}
 
 
 
