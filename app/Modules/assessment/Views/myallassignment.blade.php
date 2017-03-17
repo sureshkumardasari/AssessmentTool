@@ -17,7 +17,7 @@
                                     <th><span class="text">Start Date Time</span></th>
                                     <th><span class="text">End Date Time</span></th>
                                     <th><span class="text">Status</span></th>
-                                    <th></th>
+                                    <th><span class="text">Action</span></th>
                                 </tr>
                                 </thead>
                                 <tbody id='all-test'>

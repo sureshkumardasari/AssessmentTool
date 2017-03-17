@@ -61,7 +61,7 @@
 
 
 				<div class="panel-body">
-					<table  class="table table-striped table-bordered " cellspacing="0" width="100%">
+					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Assessment Name</th>
@@ -121,12 +121,12 @@
 	<script>
 	$(document).ready(function(){
 		var loadurl = "{{ url('/resources/assignments') }}/" ;
-		$('#assignmentstable').dataTable();
+		 // $('#assignmentstable').dataTable();
 	});
 		
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
-			var loadurl = "{{ url('/resources/assignments') }}/" ;
+			 var loadurl = "{{ url('/resources/assignments') }}/" ;
 
 			$.ajax(
 					{
@@ -135,23 +135,23 @@
 						url:loadurl + $('#institution_id').val(),
 						type: 'get',
 						success: function (response) {
-							$('#assignmentstable').dataTable().fnDestroy();
+							 $('#assignmentstable').dataTable().fnDestroy();
 							$('#assignbody').empty();
 							var tr;
 							for (var i = 0; i < response.length; i++) {
 								tr = $('<tr/>');
 								tr.append("<td>" + response[i].assessment_name + "");
 								tr.append("<td>" + response[i].name + "");
-								tr.append("<td>" + response[i].status + "");
-								tr.append("<td>"+ "</td>");
+								tr.append("<td>" + response[i].gradestatus + "");
 								tr.append("<td>"+ "</td>");
 								$('#assignbody').append(tr);
 
 							}
-							$('#assignmentstable').dataTable();
+							 $('#assignmentstable').dataTable();
 						}
 					})
 
 		}
 	</script>
+	
 @endsection
