@@ -173,6 +173,7 @@ class MainDashboardController extends BaseController
 				->select('subject.name as subject','assignment.name as assignmentname')
 				->groupby('subject.id')
 				->get();
+				//dd($subjects);
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
 	     ->where('gradestatus','=','completed')
@@ -194,20 +195,21 @@ class MainDashboardController extends BaseController
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
 	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	     ->join('subject','subject.id','=','assessment.subject_id')
 	     ->where('gradestatus','=','completed')
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
-	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
+	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname')
 	     ->orderby('assignment_user.gradeddate', 'desc');
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
-	  // dd($subject);
+	   //dd($students);
 	      // dd($assignments_user);
 	     	  }
-        //c
-	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession'));
+        
+	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
 	       
     }public function getStudentDetails(){
 	$user_id=\Auth::user()->id;

@@ -122,6 +122,11 @@
                 "dataset": [
                     {
                         "data": [
+                        @foreach($students as $user_id => $assignment)
+                        {
+                        'label' : '{{$assignment->sname}}',
+                         },
+                    @endforeach
                                {
                                
                                 'value' : '{{$score}}'

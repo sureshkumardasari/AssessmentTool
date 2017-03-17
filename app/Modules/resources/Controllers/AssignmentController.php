@@ -65,7 +65,7 @@ class AssignmentController extends BaseController {
 			$assignments->where('assignment.institution_id',$id);
 		}
 
-		$result=$assignments->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime','assignment.status')->get();
+		$result=$assignments->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.startdatetime','assignment.gradestatus')->get();
 		//dd($assignments);
 		return $result;
 	}
