@@ -12,7 +12,7 @@
                       <!--   <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
                       
                            <div class="form-group required">
-                                <label class="col-md-2 control-label" >Select institution:</label>
+                                <label class="col-md-2 control-label" > institution:</label>
                                <div class="col-md-6">
                                     <select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()" style="margin-left: 215px;">
                                         <option value="0" selected >-Select-</option>
@@ -24,7 +24,7 @@
                             </div>
                             <br><br>
                             <div class="form-group required">
-                                <label class="col-md-4 control-label">Select Assignment:</label>
+                                <label class="col-md-4 control-label"> Assignment:</label>
                                 <div class="col-md-6">
                                     <select name="assignment_id" class='form-control' id="assignment_id" style="margin-left: 30px;">
                                         <option value="0" selected >--Select--</option>

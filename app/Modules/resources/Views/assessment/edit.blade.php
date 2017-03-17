@@ -85,7 +85,7 @@
 								@include('resources::assessment.partial.questions_edit')
 							</div>
 							<div class="form-group required">
-								<label class="col-md-4 control-label">Guessing_Penality</label>
+								<label class="col-md-4 control-label">Guessing_Penalty</label>
 								<div class="col-md-6">
 									<select class="form-control" name="guessing_penality" id="guessing_penality"  value="">{{$assessment_details['guessing_panality']}}
 										<option value="1">0</option>

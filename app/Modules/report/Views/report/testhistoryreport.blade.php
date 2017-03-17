@@ -17,7 +17,7 @@
                         <!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
                         <div class="form-group required">
                         <label class="col-md-2 control-label" id="mandatory" style="margin:0px 0 0 225px">Institution:</label>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                         <select name="inst_id" class='form-control' id="institution_id" style="margin-left:-50px;">
                        <option value="0" selected>--Select--</option>
                         @foreach($inst_arr as $id=>$val)
