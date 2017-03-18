@@ -46,9 +46,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 						{{--<option value="0">--Select Category--</option>--}}
-						<!-- @foreach($category as $id=>$val)
+						@foreach($category as $id=>$val)
 								<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach -->
+								@endforeach
 					</select>
 				</div>
 			</div>
@@ -57,9 +57,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<div class="col-md-9">
 					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						{{--<option value="0">--Select Subject--</option>--}}
-						<!-- @foreach($subjects as $id=>$val)
+						@foreach($subjects as $id=>$val)
 								<option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach -->
+								@endforeach
 					</select>
 
 				</div>
@@ -69,14 +69,14 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<div class="col-md-9">
 					<select class="form-control multipleSelect" multiple name="lessons_id[]" id="lessons_id"  onchange="change_question_type()">
 						{{--<option value="0">--Select Lessons--</option>--}}
-						<!-- @foreach($lesson as $id=>$val)
+						@foreach($lesson as $id=>$val)
 								<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach -->
+								@endforeach
 
 					</select>
 				</div>
 			</div>
-			<div id="question_type_div"class="form-group col-md-6 required">
+			<div id="question_type_div" class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Question Type</label>
 				<div class="col-md-9">
 					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
@@ -98,7 +98,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<div class="form-group">
 				<div class="col-md-2 " >
 					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button> -->
-					<button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-danger">Clear</button>
+					<button type="reset" value="Reset" onclick="clear();" class="btn btn-danger">Clear</button>
 				</div>
 			</div>
 		</div>
@@ -110,7 +110,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question" onclick="uncheck();"></th>
+				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
 				<th>Question Name</th>
 
 			</tr>
@@ -245,9 +245,20 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 <script type="text/javascript">
 
+function clear(){
+	$('#institution_id').val('0');
+		$('#category_id').val('0');
+	$('#multipleSelect').val('0');
+	$('#lessons_id[]').val('0');
+		$('#question_type').val('0');
+
+
+}
+
 function uncheck(){
 	//alert('Hi');
-	 
+	
+	$("#QuestionId").attr('checked', false);
 	$("#QuestionIds").attr('checked', false);
 }
 
