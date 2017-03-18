@@ -43,7 +43,7 @@
 							</div>
 							<div class="form-group col-md-12">
 								<div class="col-md-6 col-md-offset-4">
-									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
+									<button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="instituton_change()">
 										Go
 									</button>
 								</div>
@@ -71,4 +71,11 @@
      }, 5000);
  })
  </script>
+ <script type="text/javascript">
+ function instituton_change(){
+            if($('#institution_id').val()==0){
+                alert("please select the field");
+            }
+    }
+    </script>
 @endsection
