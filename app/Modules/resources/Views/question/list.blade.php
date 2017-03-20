@@ -82,8 +82,6 @@
 
 						 <select class="form-control" name="question_type" id="question_type" >
 
-						 <select class="form-control" name="question_type" id="question_type">
-
 								<option value="0">Select Question Type</option>
 		
 					     </select>
@@ -97,8 +95,6 @@
 							<div class="move-arrow-box">
 
 								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
-
-								<a class="btn btn-primary" onchange="filter();" href="javascript:;" onclick="question_change()">Go</a>
 
 							</div>
 						</div>
