@@ -46,8 +46,9 @@
 
 
             $('.uploadBtn').off("click").on("click",function(){
-                            
+                        alert('hi');    
                 institutionId = $("#userimport_institution_id").val();
+                
                 userType = 'student';
                 if(institutionId == 0){
                     $('.error-log').html("<p class='error'>Please select an institution</p>");
