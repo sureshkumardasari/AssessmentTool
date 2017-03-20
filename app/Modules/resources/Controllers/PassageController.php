@@ -139,7 +139,7 @@ class PassageController extends BaseController {
 			$name = '';
 		}
 		//dd($passages);
-				        \Session::flash('flash_message','Information saved successfully.');
+				        //\Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::passage.edit',compact('id','sCategory','sLesson','sSubject','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id','lessons_id'));
 	}
