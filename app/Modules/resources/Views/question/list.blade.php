@@ -79,23 +79,17 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-4 control-label">Question Type</label>
 						<div class="col-md-6">
-
-						 <select class="form-control" name="question_type" id="question_type" >
-
-								<option value="0">Select Question Type</option>
-		
-					     </select>
-
-					</div>
+						<select class="form-control" name="question_type" id="question_type" >
+                            <option value="0">Select Question Type</option>
+                            </select>
+                     </div>
 					<div class="form-group col-md-10">
 					</div>
 
-					<div class="form-group col-md-2">
+					<<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
-
-								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
-
+								<a class="btn btn-primary" onchange="filter();" href="javascript:;">Go</a>
 							</div>
 						</div>
 					</div>
