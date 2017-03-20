@@ -86,7 +86,7 @@
 					<div class="form-group col-md-10">
 					</div>
 
-					<<div class="form-group col-md-2">
+					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
 								<a class="btn btn-primary" onchange="filter();" href="javascript:;">Go</a>
