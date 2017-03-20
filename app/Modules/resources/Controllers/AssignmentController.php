@@ -169,7 +169,7 @@ class AssignmentController extends BaseController {
 		$institution_arr = $this->institution->getInstitutions();			
 		$grader= $this->user->getUsersOptionList($assignment->institution_id,$teacher_role_id);
 		$proctor_arr  = $this->user->getUsersOptionList($assignment->institution_id,$teacher_role_id);// for proctor displaying teachers
-				        \Session::flash('flash_message','Information saved successfully.');
+				      //  \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assignment.edit',compact('assignment','grader','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
