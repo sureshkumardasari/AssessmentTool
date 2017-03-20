@@ -95,10 +95,10 @@
 					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
-<!-- 
-								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a> -->
 
-								<a class="btn btn-primary"  href="javascript:;" onclick="question_change()">Go</a>
+								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
+
+						<!-- 		<a class="btn btn-primary"  href="javascript:;" onclick="question_change()">Go</a> -->
 
 							</div>
 						</div>
