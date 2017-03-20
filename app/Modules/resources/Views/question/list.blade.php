@@ -79,7 +79,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-4 control-label">Question Type</label>
 						<div class="col-md-6">
-						 <select class="form-control" name="question_type" id="question_type" onchange="filter()">
+						 <select class="form-control" name="question_type" id="question_type" >
 								<option value="0">Select Question Type</option>
 		
 					     </select>
@@ -91,7 +91,7 @@
 					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
-								<a class="btn btn-primary" onchange="filter();" href="javascript:;">Go</a>
+								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
 							</div>
 						</div>
 					</div>
@@ -153,6 +153,7 @@ $path = url()."/resources/";
 ?>
 <script>
 	function filter(){
+		alert('hi');
 		var csrf=$('Input#csrf_token').val();
 		var institution_id=$('#institution_id').val();
 		var category_id=$('#category_id').val();

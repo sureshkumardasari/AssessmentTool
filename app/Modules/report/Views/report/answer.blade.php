@@ -77,6 +77,7 @@
         function inst_change(){
             if($('#institution_id').val()==0 || $('#assignment').val()==0|| $('#subject').val()==0){
                 alert("please select all the fields");
+                return false;
             }
             else {
             var csrf=$('Input#csrf_token').val();

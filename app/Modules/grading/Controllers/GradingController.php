@@ -575,6 +575,7 @@ class GradingController extends BaseController {
 						$user_selected_correct_answers=[];
 					}
 					if(in_array($answer,$user_selected_correct_answers)){
+						$grade_s = "Do u want to grade student?";
 						$is_correct = "Yes";
 					}
 					else{

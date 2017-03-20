@@ -33,6 +33,10 @@ class ReportController extends Controller
      */
     public function view()
     {
+      /*   if (Auth::user()->role_id == 2) {
+         $message = "You don't have permission";
+           \Session::put("success", $message);
+            return redirect()->route('home');*/
         return view('report::report.report');
     }
 
@@ -40,6 +44,10 @@ class ReportController extends Controller
     //-----class average and student scores report
     public function class_average_and_student_scores_report()
     {
+      /*   if (Auth::user()->role_id == 2) {
+         $message = "You don't have permission";
+           \Session::put("success", $message);
+            return redirect()->route('home');*/
         $ins = \Auth::user()->institution_id;
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();

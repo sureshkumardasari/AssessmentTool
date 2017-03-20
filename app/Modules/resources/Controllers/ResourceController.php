@@ -186,7 +186,13 @@ class ResourceController extends BaseController
         }
 
     }
-
+ /*  public function lesson_info($id)
+    {
+        $lesson_info = Assignment::where('institution_id', $id)
+            ->select('name', 'id')
+            ->get();
+        return $lesson_info;
+    }*/
     public function lesson($parent_id = 0)
     {
         //$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
@@ -450,8 +456,9 @@ class ResourceController extends BaseController
     public function getcategory($institution_id = 0)
     {
         $params = Input::All();
-        $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+       $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
         $category = $this->category->getCategory($institution_id);
+        //dd($category);
         return json_encode($category);
     }
 
@@ -914,6 +921,14 @@ class ResourceController extends BaseController
             return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
             // return json_encode($sucessarray);
         }
+
+    }
+    public function catageryget($inst_id=0)
+    {
+          $params = Input::All();
+    //dd($params);
+       $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+        $category = $this->category->getCategory($institution_id);
 
     }
 }
