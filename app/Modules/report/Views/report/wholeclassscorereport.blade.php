@@ -36,26 +36,34 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                            <label class="col-md-4 control-label1">Subject:</label>
+                            <label class="col-md-4 control-label">Subject:</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
-<!--                                     <option value="0" selected>--Select Subject--</option>
- -->                                  
+                                <select class="form-control" name="subject" id="subject_id" class="multipleSelect" multiple="multiple">
+                            <option value="0">--Select Subject--</option>
+                             @if(getRole()!="administrator")
+                        <!-- @foreach($subjects as $id=>$val)
+                                <option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+                                @endforeach   -->
+                                @endif                                 
                                 </select>
                             </div>
                         </div>
                         <div class="form-group required">
                             <label class="col-md-4 control-label">Lesson:</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
-<!--                                     <option value="0" selected>--Select Lesson--</option>
- -->
+                                <select class="form-control" name="lesson" id="lesson_id" class="multipleSelect" multiple="multiple">
+                            <option value="0">--Select Lessons--</option>
+                             @if(getRole()!="administrator")
+                       <!--  @foreach($lesson as $id=>$val)
+                                <option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+                                @endforeach -->
+                                    @endif
                                 </select>
                             </div>
                         </div>
                              <div class="form-group">
                                <div class="col-md-5" style="width: 455px;">
-                                    <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
+                                    <button type="button" class="btn btn-primary  pull-right" id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
                                        
                                 </div>
                             </div>
