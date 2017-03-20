@@ -34,7 +34,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
 						<div class="form-group required">
-							<label class="col-md-4 control-label" >Institution</label>
+							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<input type="hidden" name="page" id="page" value="lessonedit">
 								<select class="form-control" name="institution_id" id="institution_id">
@@ -50,16 +50,20 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 							<div class="col-md-6">
 								<select class="form-control" name="category_id" id="category_id">
 									<option value="0">--Select--</option>
-								
+									@foreach($category as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
 								</select>
 							</div>
 						</div>
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Subject</label>
 							<div class="col-md-6">
-								<select class="form-control" name="subject_id" id="subject_id" >
+								<select class="form-control" name="subject_id" id="subject_id">
 									<option value="0">--Select--</option>
-									
+									@foreach($subjects as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $subject_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
 								</select>
 							</div>
 						</div>
@@ -72,7 +76,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary" id="applyFiltersBtn" onclick="report()">
+								<button type="submit" class="btn btn-primary">
 									Submit
 								</button>
 								<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/lesson/') }}">Cancel</a>
@@ -96,6 +100,4 @@ $name =  (old('name') != NULL) ? old('name') : $name;
   	var categoryRoute = "{{URL::route('getcategory')}}";
   	var subjectRoute = "{{URL::route('getsubject')}}";
 </script>
-
-
 @endsection
