@@ -27,7 +27,7 @@
 								<th>StartDateTime</th>
 								<th>EndDateTime</th>
 								<th>Status</th>
-				                <th></th>
+				                <th style="visibility: hidden;"></th>
 				            </tr>
 				        </thead>
 				        <tbody>

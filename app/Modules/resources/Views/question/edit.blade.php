@@ -106,7 +106,8 @@
 							<label class="col-md-3 control-label">Status</label>
 							<div class="col-md-6">
 								<input type="radio" class="" name="status" id="status_yes" value="1" checked="checked" > Active
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0" > Inactive
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" class="" name="status" id="status_no" value="0" > Inactive
 							</div>
 						</div>
 						<?php $path = url()."/resources/"; ?>	
