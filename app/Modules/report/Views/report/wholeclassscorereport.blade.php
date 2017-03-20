@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                            <label class="col-md-4 control-label">Subject:</label>
+                            <label class="col-md-4 control-label1">Subject:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
 <!--                                     <option value="0" selected>--Select Subject--</option>
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="form-group required">
-                            <label class="col-md-4 control-label">Lesson:</label>
+                            <label class="col-md-4 control-label1">Lesson:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
 <!--                                     <option value="0" selected>--Select Lesson--</option>
