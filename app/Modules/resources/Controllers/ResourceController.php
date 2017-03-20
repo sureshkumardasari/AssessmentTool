@@ -1,4 +1,3 @@
-
 <?php namespace App\Modules\Resources\Controllers;
 
 use App\Modules\Resources\Models\Passage;
