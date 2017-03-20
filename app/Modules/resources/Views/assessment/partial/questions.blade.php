@@ -79,7 +79,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<div id="question_type_div" class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Question Type</label>
 				<div class="col-md-9">
-					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
+					<select class="form-control" name="question_type" id="question_type" >
 						<option value="0">--Select Question Type--</option>
 					</select>
 
@@ -97,7 +97,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                 </div> -->
 			<div class="form-group">
 				<div class="col-md-2 " >
-					<button type="button" class="btn btn-danger btn-sm" id="clear_filters" >Clear</button>
+					<button type="button" class="btn btn-danger btn-sm" id="clear_filters"  onchange="clear()" >Clear</button>
 					<!-- <button type="buton" value="Reset" onclick="clear();" class="btn btn-danger">Clear</button> -->
 				</div>
 			</div>
