@@ -82,6 +82,8 @@
 
 						 <select class="form-control" name="question_type" id="question_type" >
 
+						 <select class="form-control" name="question_type" id="question_type">
+
 								<option value="0">Select Question Type</option>
 		
 					     </select>
@@ -96,7 +98,7 @@
 
 								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
 
-								<!-- <a class="btn btn-primary" onchange="filter();" href="javascript:;" onclick="question_change()">Go</a> -->
+								<a class="btn btn-primary" onchange="filter();" href="javascript:;" onclick="question_change()">Go</a>
 
 							</div>
 						</div>
@@ -159,7 +161,7 @@ $path = url()."/resources/";
 ?>
 <script>
 	function filter(){
-		//alert('hi');
+		alert('hi');
 		var csrf=$('Input#csrf_token').val();
 		var institution_id=$('#institution_id').val();
 		var category_id=$('#category_id').val();

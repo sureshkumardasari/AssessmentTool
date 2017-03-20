@@ -36,22 +36,20 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                            <label class="col-md-4 control-label1">Subject:</label>
+                            <label class="col-md-4 control-label">Subject:</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="subject" id="subject_id" class="multipleSelect" multiple="multiple">
-                                     <option value="0" selected>--Select Subject--</option>
-                                  @if(getRole()!="administrator")
-
-                                    @endif
+                                <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
+<!--                                     <option value="0" selected>--Select Subject--</option>
+ -->                                  
                                 </select>
                             </div>
                         </div>
                         <div class="form-group required">
-                            <label class="col-md-4 control-label1">Lesson:</label>
+                            <label class="col-md-4 control-label">Lesson:</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">                                  
-                                <option value="0" selected>--Select Lesson--</option>
-
+                                <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
+<!--                                     <option value="0" selected>--Select Lesson--</option>
+ -->
                                 </select>
                             </div>
                         </div>
@@ -89,7 +87,7 @@
         function update(){
           /* var $subject_id = ('#subject_id').val();
             alert($subject_id);*/
-        if($('#institution_id').val()==0 || $('#assignment_id').val()==0|| $('#subject').val()==0 || $('#lesson').val()==0){
+        if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
                 alert("please select all the fields");
             }
 
