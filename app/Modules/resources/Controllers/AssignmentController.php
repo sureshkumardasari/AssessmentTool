@@ -135,8 +135,9 @@ class AssignmentController extends BaseController {
 	{
 		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','student')->lists('id');
 		$grader=$this->user->getGrader($id,$teacher_and_admin_role_id);
-		//dd($grader);
+		// dd($grader);
 		return $grader;
+
 	}
 
 	public function GetAssessment($id)

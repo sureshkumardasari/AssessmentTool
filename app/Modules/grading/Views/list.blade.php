@@ -83,11 +83,11 @@
 				                <td>
 				             
 					                @if($grading_status[1][$asn->assignmentId]==0)
-					                	Not Started
+					                	notstarted
 					                @elseif($grading_status[0][$asn->assignmentId]==$grading_status[1][$asn->assignmentId])
-					                	Completed
+					                	completed
 					                @else
-					                	In Progress
+					                	inprogress
 					                @endif
 
 				                </td>
@@ -149,7 +149,7 @@
 							}
 							 $('#assignmentstable').dataTable();
 						}
-					})
+					});
 
 		}
 	</script>

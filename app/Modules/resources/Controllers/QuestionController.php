@@ -314,6 +314,7 @@ public function questionedit($id = 0)
 				'institution_id' => 'required|not_in:0',
 				'category_id' => 'required|not_in:0',
 				'subject_id' => 'required',
+				'lessons_id' => 'required',
 				'question_type' => 'required',
 				'question_title' => 'required',
 				'question_textarea' => 'required',
