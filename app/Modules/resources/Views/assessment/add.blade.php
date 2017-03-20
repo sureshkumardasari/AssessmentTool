@@ -82,7 +82,7 @@
 						@include('resources::assessment.partial.questions')
                     </div>
 					<div class="form-group required">
-						<label class="col-md-4 control-label">Guessing_Penality</label>
+						<label class="col-md-4 control-label1">Guessing_Penality</label>
 						<div class="col-md-6">
 							<select class="form-control" name="guessing_penality" id="guessing_penality">
 								<option value="1">0</option>
@@ -91,13 +91,13 @@
 						</div>
 					</div>
 					<div class="form-group required">
-						<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
+						<label class="col-md-4 control-label1">MC SingleAnswerPoint</label>
 						<div class="col-md-6">
 							<textarea class="form-control numeric" name="mcsingleanswerpoint" style="max-width:442px;">{{old('mcsingleanswerpoint')}}</textarea>
 						</div>
 					</div>
 					<div class="form-group required">
-						<label class="col-md-4 control-label"> Essay AnswerPoint</label>
+						<label class="col-md-4 control-label1"> Essay AnswerPoint</label>
 						<div class="col-md-6">
 							<textarea class="form-control numeric" name="essayanswerpoint" style="max-width:442px;">{{old('essayanswerpoint')}}</textarea>
 						</div>

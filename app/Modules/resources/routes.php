@@ -21,9 +21,13 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::post('subjectupdate', array('as' => 'subject-update', 'uses'=>'ResourceController@subjectupdate'));
     Route::get('subjectsearch', array('as' => 'subject-search', 'uses'=>'ResourceController@subjectsearch'));
     Route::get('getsubject', array('as' => 'getsubject', 'uses'=>'ResourceController@getsubject'));
+    Route::post('subject_add/{inst_id}', array('as' => 'getsubject', 'uses'=>'ResourceController@getcategory'));
+    
 
     Route::get('lesson', array('as' => 'lesson-list', 'uses'=>'ResourceController@lesson'));
     Route::get('lessonadd', array('as' => 'lesson-add', 'uses'=>'ResourceController@lessonadd'));
+    /*Route::post('lessonadd/{cid}', array('as' => 'lesson-add', 'uses'=>'ResourceController@lessoncat'));*/
+    Route::post('lesson_add/{id}',['as'=>'instreport','uses'=>'ResourceController@lesson']);
     Route::get('lessonedit/{id}', array('as' => 'lesson-edit', 'uses'=>'ResourceController@lessonedit'));
     Route::get('lessondel/{id}', array('as' => 'lesson-delete', 'uses'=>'ResourceController@lessondelete'));
     Route::post('lessonupdate', array('as' => 'lesson-update', 'uses'=>'ResourceController@lessonupdate'));

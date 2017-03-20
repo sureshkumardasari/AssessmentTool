@@ -6256,6 +6256,10 @@ label,
    content:"*";
    color:red;
 }
+.form-control.required .guessing_penality:after{
+   content:" ";
+  color:white !important;
+}
 
 #never_expires:after{
   content:" ";
