@@ -50,9 +50,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 							<div class="col-md-6">
 								<select class="form-control" name="category_id" id="category_id">
 									<option value="0">--Select--</option>
-								@foreach($inst_arr as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+								
 								</select>
 							</div>
 						</div>
@@ -61,9 +59,7 @@ $name =  (old('name') != NULL) ? old('name') : $name;
 							<div class="col-md-6">
 								<select class="form-control" name="subject_id" id="subject_id" >
 									<option value="0">--Select--</option>
-									@foreach($category as $id=>$val)
-									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach
+									
 								</select>
 							</div>
 						</div>
