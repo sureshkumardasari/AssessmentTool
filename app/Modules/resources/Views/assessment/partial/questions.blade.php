@@ -45,7 +45,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<label class="col-md-3 control-label">Category</label>
 				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
-						<option value="0">--Select Category--</option>
+					<option value="0">--Select Category--</option>
 						@foreach($category as $id=>$val)
 								<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 								@endforeach
@@ -79,7 +79,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<div id="question_type_div" class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Question Type</label>
 				<div class="col-md-9">
-					<select class="form-control" name="question_type" id="question_type" >
+					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
 						<option value="0">--Select Question Type--</option>
 					</select>
 
@@ -97,8 +97,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                 </div> -->
 			<div class="form-group">
 				<div class="col-md-2 " >
-					<button type="button" class="btn btn-danger btn-sm" id="clear_filters"  onchange="clear()" >Clear</button>
-					<!-- <button type="buton" value="Reset" onclick="clear();" class="btn btn-danger">Clear</button> -->
+					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button> -->
+					<button type="reset" value="Reset" onclick="clear();" class="btn btn-danger">Clear</button>
 				</div>
 			</div>
 		</div>
@@ -246,12 +246,14 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 <script type="text/javascript">
 
 function clear(){
+	alert('hi');
 	$('#institution_id').val('0');
-	$('#category_id').val('0');
+		$('#category_id').val('0');
 	$('#subject_id').val('0');
 	$('#lessons_id').val('0');
-	$('#question_type').val('0');
-	return false;
+		$('#question_type').val('0');
+
+
 }
 
 function uncheck(){
@@ -295,7 +297,7 @@ function uncheck(){
 			"paging":         true
 		} );
 		$('#subject_id').multiselect();
-		$('#lessons_id').multiselect();
+		  $('#lessons_id').multiselect();
 		$('#passage_subject_id').multiselect();
 		//$('#passage_lessons_id').multiselect();
 		// $('#question_type').multiselect();

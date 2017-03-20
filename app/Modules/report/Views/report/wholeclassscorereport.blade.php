@@ -95,7 +95,7 @@
         function update(){
           /* var $subject_id = ('#subject_id').val();
             alert($subject_id);*/
-        if($('#institution_id').val()==0 || $('#assignment_id').val()==0 ||$('#subject_id').val('') || $('#lesson_id').val('')){
+        if($('#institution_id').val()==0 || $('#assignment_id').val()==0 /*| $('#subject_id').val('') || $('#lesson_id').val('')*/){
                 alert("please select all the fields");
             }
 
@@ -175,8 +175,8 @@
                     }
             )
         });
-        $('#subject_id').on('change',function(){    
-            var csrf=$('Input#csrf_token').val();
+        $('#subject_id').on('change',function(){  
+          var csrf=$('Input#csrf_token').val();
             var a=$('#subject_id').val();
             //alert(a);
             if(a == null || a == "undefined"){
