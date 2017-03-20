@@ -213,6 +213,9 @@ public function questionedit($id = 0)
 				'category_id.required'=>'The Category field is required',
 				'lessons_id.required'=>'The Lessons field is required',
 				'institution_id.required'=>'The Institution field is required',
+				'question_type.required'=>'The Question Type field is required',
+				'question_title.required'=>'The Question Title field is required',
+				'question_textarea.required'=>'The Question Text filed is required',
 		];
 		$rules = [
 				'institution_id' => 'required|not_in:0',
@@ -305,6 +308,7 @@ public function questionedit($id = 0)
 				'subject_id.required'=>'The Subject field is required',
 				'category_id.required'=>'The Category field is required',
 				'institution_id.required'=>'The Institution field is required',
+				
 		];
 		$rules = [
 				'institution_id' => 'required|not_in:0',

@@ -49,7 +49,7 @@
 
                             <div class="form-group col-md-12">
                                 <label class="col-md-4 control-label"></label>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="padding-left: 52px;">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                 </div>
                             </div>

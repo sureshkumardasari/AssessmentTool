@@ -41,6 +41,7 @@
 									</select>
 								</div>
 							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<div class="form-group required col-md-12">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
@@ -58,7 +59,7 @@
 							</div>	
 							<div class="form-group col-md-12">
 								<div class="col-md-6 col-md-offset-4">
-									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
+									<button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="category_change()">
 										Go
 									</button>
 								</div>
@@ -86,4 +87,11 @@
   	var searchRoute = "{{URL::route('subject-search')}}";
   	var categoryRoute = "{{URL::route('getcategory')}}";
 </script>
+<script type="text/javascript">
+ function category_change(){
+            if($('#institution_id').val()==0 || ($('#category_id').val()==0)){
+                alert("please select all the fields");
+            }
+    }
+    </script>
 @endsection

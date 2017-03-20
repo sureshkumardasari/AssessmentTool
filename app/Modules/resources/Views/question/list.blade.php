@@ -79,7 +79,11 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-4 control-label">Question Type</label>
 						<div class="col-md-6">
+<<<<<<< HEAD
 						 <select class="form-control" name="question_type" id="question_type" >
+=======
+						 <select class="form-control" name="question_type" id="question_type">
+>>>>>>> 73836f4f423f317833ded122e9643453f941d870
 								<option value="0">Select Question Type</option>
 		
 					     </select>
@@ -91,13 +95,17 @@
 					<div class="form-group col-md-2">
 						<div class="col-md-6">
 							<div class="move-arrow-box">
+<<<<<<< HEAD
 								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
+=======
+								<a class="btn btn-primary" onchange="filter();" href="javascript:;" onclick="question_change()">Go</a>
+>>>>>>> 73836f4f423f317833ded122e9643453f941d870
 							</div>
 						</div>
 					</div>
 					</div>
 				</div>
-				</div>	
+					
 					<div class="clearfix"></div>
 					<div>
 		@if(Session::has('flash_message'))
@@ -115,7 +123,7 @@
 				                <th>Question Title</th>
 				                <th>Question Type</th>
 				                 <th>Question Passage</th>
-								<th></th>
+								<th style="visibility: hidden;"></th>
 				            </tr>
 				        </thead>
 				        <tbody id="question_list_filer">
@@ -325,5 +333,11 @@ $( document ).ready(function() {
 		// $('#question_list_filer').empty(); 
 	}); */
 </script>
-
+<script type="text/javascript">
+ function question_change(){
+            if($('#institution_id').val()==0 || ($('#category_id').val()==0 || ($('#subject_id').val()==0 || ($('#lessons_id').val()==0 || ($('#question_type').val()==0))))){
+                alert("please select all the fields");
+            }
+    }
+    </script>
 @endsection
