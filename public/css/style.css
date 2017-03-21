@@ -99,15 +99,6 @@
 .ie8 .tip-container {
   border: solid 1px #bebebe; }
 
-.ssi-tip-arrow {
-/*  background: url(../images/ie8WhitArrow1.png) left top no-repeat;
-*/    width: 20px;
-    height: 29px;
-    position: absolute;
-    top: -30px;
-    right: 7px;
-    z-index: 99; }
-
 .ie8 .ssi-tip-arrow {
   top: -9px; }
 
@@ -221,11 +212,11 @@ section .list_active_msg div.rply_icons {
 }
 
 
-.form-horizontal .control-label1{
+/*.form-horizontal .control-label1{
     text-align: right;
     margin-bottom: 0;
     padding-top: 7px;
-  }
+  }*/
 
 
 

@@ -84,7 +84,7 @@
 							<div class="col-md-12">
 								@include('resources::assessment.partial.questions_edit')
 							</div>
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label">Guessing_Penalty</label>
 								<div class="col-md-6">
 									<select class="form-control" name="guessing_penality" id="guessing_penality"  value="">{{$assessment_details['guessing_panality']}}
@@ -93,13 +93,13 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
 								<div class="col-md-6">
 									<textarea class="form-control numeric" name="mcsingleanswerpoint"  value="">{{$assessment_details['mcsingleanswerpoint']}}</textarea>
 								</div>
 							</div>
-							<div class="form-group required">
+							<div class="form-group ">
 								<label class="col-md-4 control-label"> Essay AnswerPoint</label>
 								<div class="col-md-6">
 									<textarea class="form-control numeric" name="essayanswerpoint"  value="">{{$assessment_details['essayanswerpoint']}}</textarea>
