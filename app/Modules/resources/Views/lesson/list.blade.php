@@ -71,7 +71,7 @@
 							</div>
 							<div class="form-group col-md-12">
 								<div class="col-md-6 col-md-offset-4">
-									<button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="subject_change()">
+									<button type="button" class="btn btn-primary" id="applyFiltersBtn">
 										Go
 									</button>
 								</div>
