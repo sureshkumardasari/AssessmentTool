@@ -252,6 +252,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		
 		//alert(JSON.stringify(subjects_list));
 		$('#question_table').DataTable( {
 
