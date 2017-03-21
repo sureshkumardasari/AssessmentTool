@@ -7,7 +7,6 @@
                     <div class="panel-heading" style="text-align:center; ">Class Average and Student Scores Report</div>
                     <div class="panel-body">
 
-
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                       <!--   <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
                       
