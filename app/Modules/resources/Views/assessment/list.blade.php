@@ -9,8 +9,7 @@
 			             <li><a href="{{ url('/resources/category') }}">Resources</a></li>
 
 			    <li class="active"><a href="{{ url('/resources/assessment') }}">Assessment</a></li>
-                <li><a href="{{ url('/
-                /assignment') }}">Assignment</a></li>
+                <li><a href="{{ url('/resources/assignment') }}">Assignment</a></li>
 
 		        <!-- <li><a href="{{ url('/resources/assignment') }}">Assignment</a></li> -->
 			</ul>
