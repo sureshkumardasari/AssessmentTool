@@ -73,9 +73,9 @@ class ResourceController extends BaseController
     {
         //$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
         $inst_arr = $this->institution->getInstitutions();
-//		if(getRole()=="administrator"){
-//			$category = $this->category->getCategory();
-//		}
+//      if(getRole()=="administrator"){
+//          $category = $this->category->getCategory();
+//      }
         //$category=[];
         if (getRole() != "administrator") {
             $category = $this->category->getCategory(Auth::user()->institution_id);
@@ -84,7 +84,7 @@ class ResourceController extends BaseController
         }
         $category = $this->category->getCategory();
 
-//		$categorylist = $this->category->getCategoryList();
+//      $categorylist = $this->category->getCategoryList();
         $subjects = $this->subject->getSubject();
         $subjectcategory = $this->subject->getSubjectCategory();
         return view('resources::subject.list', compact('inst_arr', 'category', 'subjectcategory'))
@@ -124,7 +124,7 @@ class ResourceController extends BaseController
 
         $inst_arr = $this->institution->getInstitutions();
         $category = $this->category->getCategory($institution_id);
-       // \Session::flash('flash_message','Information saved successfully.');
+        \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id'));
     }
@@ -186,13 +186,7 @@ class ResourceController extends BaseController
         }
 
     }
- /*  public function lesson_info($id)
-    {
-        $lesson_info = Assignment::where('institution_id', $id)
-            ->select('name', 'id')
-            ->get();
-        return $lesson_info;
-    }*/
+
     public function lesson($parent_id = 0)
     {
         //$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
@@ -200,7 +194,7 @@ class ResourceController extends BaseController
         $subjects = $this->subject->getSubject();
         $category = $this->category->getCategory();
         $lessons = $this->lesson->getSubjectCategoryLesson();
-        //		$lessons = $this->lesson->getLesson();
+        //      $lessons = $this->lesson->getLesson();
         //return view('resources::lesson.list',compact('inst_arr', 'lessons','subjects','category'));
         return view('resources::lesson.list', compact('inst_arr', 'subjects', 'category'))
             ->nest("lessonsList", 'resources::lesson._list', compact('lessons'));
@@ -251,7 +245,7 @@ class ResourceController extends BaseController
         $category = $this->category->getCategory($institution_id);
         $subjects = $this->subject->getSubject($category_id);
 // dd($subjects);
-                //\Session::flash('flash_message','Information saved successfully.');
+                \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id'));
     }
@@ -352,7 +346,7 @@ class ResourceController extends BaseController
             $id = $institution_id = 0;
             $name = '';
         }
-               // \Session::flash('flash_message','Information saved successfully.');
+                \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr'));
     }
@@ -418,7 +412,7 @@ class ResourceController extends BaseController
         $category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
         $subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
 
-//		$lessons=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
+//      $lessons=$this->lesson->getLesson($institution_id, $category_id, $subject_id);
         $lessons = $this->lesson->getSubjectCategoryLesson($institution_id, $category_id, $subject_id);
 
         $from = 'search';
@@ -432,7 +426,7 @@ class ResourceController extends BaseController
         $category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
         $subject_id = (isset($params['subject_id'])) ? $params['subject_id'] : $subject_id;
 
-//		$subjects=$this->subject->getSubject($institution_id, $category_id);
+//      $subjects=$this->subject->getSubject($institution_id, $category_id);
         $subjectcategory = $this->subject->getSubjectCategory($institution_id, $category_id);
 
         $from = 'search';
@@ -456,9 +450,8 @@ class ResourceController extends BaseController
     public function getcategory($institution_id = 0)
     {
         $params = Input::All();
-       $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+        $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
         $category = $this->category->getCategory($institution_id);
-        //dd($category);
         return json_encode($category);
     }
 
@@ -921,14 +914,6 @@ class ResourceController extends BaseController
             return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
             // return json_encode($sucessarray);
         }
-
-    }
-    public function catageryget($inst_id=0)
-    {
-          $params = Input::All();
-    //dd($params);
-       $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
-        $category = $this->category->getCategory($institution_id);
 
     }
 }
