@@ -6,8 +6,7 @@
 
 		<div class="col-md-10 col-md-offset-1">
 			<ul class="nav nav-tabs" role="tablist">
-			             <li><a href="{{ url('/
-                /resources') }}">Resources</a></li>
+			             <li><a href="{{ url('/resources/category') }}">Resources</a></li>
 
 			    <li class="active"><a href="{{ url('/resources/assessment') }}">Assessment</a></li>
                 <li><a href="{{ url('/
