@@ -118,7 +118,7 @@
 			            </p>
 			            <div id="answer_append">
 						    <p class="w815 fltL answer_add">
- 						            <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer" onclick="add_new()">Add New Answer</a>
+ 						            <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
  						    </p>
 
 			            </div>
