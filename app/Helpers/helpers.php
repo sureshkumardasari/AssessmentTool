@@ -265,7 +265,12 @@ function breadcrumb($displayName = '', $urlSlug = '') {
          'assessmentview' => array(
             'displayName' => 'Assessment View',
             'route' => 'assessmentview',
-            'postfix' => array('mainhome' => 'Home', '' => 'Resources', 'assessmentlist' => 'Assessments'), //
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assessmentlist' => 'Assessments'), //
+        ),
+         'template'=> array(
+            'displayName' => 'Assessment Save',
+            'route' => 'template',
+            'postfix' => array('mainhome' => 'Home', 'category-list' => 'Resources', 'assessmentlist' => 'Assessments'), //
         ),
          //------------assignments--------------------   
          'assignment-list' => array(
