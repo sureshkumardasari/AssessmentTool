@@ -619,8 +619,9 @@
             // alert(Object.keys(Essay_answers).length);
             var student_id=$('#student').val();
             if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(Essay_answer_scores).length!=0){
-
+                alert("successfully graded student");
                 var csrf=$('Input#csrf_token').val();
+                // alert("successfully graded student");
                 $.ajax({
                     headers: {"X-CSRF-Token": csrf},
                     url:"essay_grading_submit/{{$assessment_id}}/{{$assignment_id}}/"+student_id,
@@ -630,7 +631,7 @@
                         'essay_answer_scores':Essay_answer_scores
                     },
                     success:function(response){
-                        // alert(response);
+                         alert(response);
                     }
                 });
 
@@ -643,10 +644,10 @@
         function save_student_fib_answers(){
 
             // alert(JSON.stringify(Essay_answers));
-            // alert(Object.keys(Essay_answers).length);
+           
             var student_id=$('#student').val();
-            if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(fib_answer_scores).length!=0){
-
+            if(Object.keys(fib_answer_scores).length!=0){
+                    alert("successfully graded student");
                 var csrf=$('Input#csrf_token').val();
                 $.ajax({
                     headers: {"X-CSRF-Token": csrf},
@@ -657,10 +658,10 @@
                         'fib_answer_scores':fib_answer_scores
                     },
                     success:function(response){
-                        //alert(response);
+                       
                     }
                 });
-
+             
             }
             else{
                 alert("please grade atleast one Question");
@@ -668,6 +669,7 @@
         }
 
         function save_student_single_answers(){
+            alert("successfully graded student");
             var user_id=$('#student').val();
             var next_student=2;
             var question_type="Multiple Choice - Single Answer";
@@ -692,7 +694,7 @@
 
         }
         function save_student_multi_answers(){
-            // alert(JSON.stringify(Question_selected_multi_answers));
+            alert("successfully graded student");
             var user_id=$('#student').val();
             var next_student=0;
             var question_type="Multiple Choice - Multi Answer";
