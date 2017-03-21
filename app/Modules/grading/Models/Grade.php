@@ -538,8 +538,7 @@ class Grade extends Model {
 //dd($graded_students);
 
         if($role=="administrator"){
- 
-          $total_students=$obj->selectRaw('assignment.id,count(assignment_user.user_id) as total_students')->groupBy('assignment.id')->lists('total_students','id');
+         $total_students=$obj->selectRaw('assignment.id,count(assignment_user.user_id) as total_students')->groupBy('assignment.id')->lists('total_students','id');
             $graded_students=$obj->where('assignment_user.gradestatus',"completed")
            ->selectRaw('assignment.id,count(assignment_user.user_id) as completed_students')->groupBy('assignment.id')->lists('completed_students','id');
         }

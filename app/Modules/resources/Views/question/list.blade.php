@@ -61,7 +61,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-4 control-label">Subject</label>
 						<div class="col-md-6">
-							<select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
+							<select class="form-control" name="subject" id="subject_id" onchange="change_lessons()">
 								<option value="0">--Select Subject--</option>
 								
 							</select>
@@ -70,7 +70,7 @@
 					<div class="form-group col-md-6 required">
 						<label class="col-md-4 control-label">Lessons</label>
 						<div class="col-md-6">
-							<select class="form-control" name="lessons_id" id="lessons_id" onchange="change_question_type()">
+							<select class="form-control" name="lessons" id="lessons_id" onchange="change_question_type()">
 								<option value="0">--Select Lesson--</option>
 								
 							</select>
@@ -80,9 +80,7 @@
 						<label class="col-md-4 control-label">Question Type</label>
 						<div class="col-md-6">
 
-						<!--  <select class="form-control" name="question_type" id="question_type" > -->
-
-						 <select class="form-control" name="question_type" id="question_type">
+						 <select class="form-control" name="question" id="question_type">
 
 							<option value="0">Select Question Type</option>
 		
@@ -96,7 +94,7 @@
 						<div class="col-md-6">
 							<div class="move-arrow-box">
 
-								<a class="btn btn-primary" onclick="filter();" href="javascript:;">Go</a>
+								<button class="btn btn-primary" onclick="filter()" href="javascript:;">Go</button> 
 
 						<!-- 		<a class="btn btn-primary"  href="javascript:;" onclick="question_change()">Go</a> -->
 
@@ -159,9 +157,16 @@
 <?php
 $path = url()."/resources/";
 ?>
-<script>
-	function filter(){
+<script type="text/javascript">
+ function filter(){
+            if($('#institution_id').val()==0 || ($('#category_id').val()==0)|| ($('#subject_id').val()==0)|| ($('#lessons_id').val()==0)|| ($('#question_type').val()==0)){
+                alert("please select all the fields");
+            }
+    }
+ 
+/*	function filter(){
 		//alert('hi');
+
 		var csrf=$('Input#csrf_token').val();
 		var institution_id=$('#institution_id').val();
 		var category_id=$('#category_id').val();
@@ -176,7 +181,7 @@ $path = url()."/resources/";
 		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'question_type':question_type};
 		var url="question_list_filer";
 		ajax(url,data,csrf);
-	}
+	}*/
 	function ajax(url,data,csrf){
 		$.ajax(
 				{

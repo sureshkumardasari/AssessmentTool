@@ -330,12 +330,8 @@ class UserController extends BaseController
                    
 			}
 			\Session::flash('flash_message','Information saved successfully.');
-            if(Auth::user()->role_id == 1)
-
-            {
-            	
-            
-			return redirect('/user');
+            if(Auth::user()->role_id == 1){
+            return redirect('/user');
 			}
 		else{
 			return redirect('/dashboard/home');

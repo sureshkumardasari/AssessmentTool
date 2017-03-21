@@ -21,6 +21,7 @@ class BrandingController extends Controller {
 	 */
 	public function index()
 	{
+		
 	}
 	public function add($param=null)
 	{
