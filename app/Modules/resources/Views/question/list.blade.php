@@ -103,7 +103,7 @@
 					</div>
 					</div>
 				</div>
-					
+				</div>	
 					<div class="clearfix"></div>
 					<div>
 		@if(Session::has('flash_message'))
@@ -141,7 +141,7 @@
 				    </table>
 				</div>
 
-			</div>
+			
 		</div>
 	</div>
 </div>
@@ -158,30 +158,33 @@
 $path = url()."/resources/";
 ?>
 <script type="text/javascript">
- function filter(){
-            if($('#institution_id').val()==0 || ($('#category_id').val()==0)|| ($('#subject_id').val()==0)|| ($('#lessons_id').val()==0)|| ($('#question_type').val()==0)){
+function filter(){
+  //alert('hi');
+
+  var csrf=$('Input#csrf_token').val();
+  var institution_id=$('#institution_id').val();
+  var category_id=$('#category_id').val();
+  var subject_id=$('#subject_id').val();
+  var lessons_id=$('#lessons_id').val();
+  var question_type=$('#question_type').val();
+  if(subject_id=='')subject_id=0;
+  if(institution_id=='')institution_id=0;
+  if(category_id=='')category_id=0;
+  if(lessons_id=='')lessons_id=0;
+  if(question_type=='')question_type=0;
+
+  if( (institution_id ==0) || (category_id==0)|| (subject_id==0)|| (lessons_id==0)|| (question_type==0))
+   {
                 alert("please select all the fields");
             }
-    }
- 
-/*	function filter(){
-		//alert('hi');
-
-		var csrf=$('Input#csrf_token').val();
-		var institution_id=$('#institution_id').val();
-		var category_id=$('#category_id').val();
-		var subject_id=$('#subject_id').val();
-		var lessons_id=$('#lessons_id').val();
-		var question_type=$('#question_type').val();
-		if(subject_id=='')subject_id=0;
-		if(institution_id=='')institution_id=0;
-		if(category_id=='')category_id=0;
-		if(lessons_id=='')lessons_id=0;
-		if(question_type=='')question_type=0;
-		var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'question_type':question_type};
-		var url="question_list_filer";
-		ajax(url,data,csrf);
-	}*/
+        else
+            {
+             var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'question_type':question_type};
+    var url="question_list_filer";
+    ajax(url,data,csrf);
+            }
+  
+ }
 	function ajax(url,data,csrf){
 		$.ajax(
 				{
