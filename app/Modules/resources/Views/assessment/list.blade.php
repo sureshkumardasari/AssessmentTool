@@ -8,8 +8,8 @@
 			<ul class="nav nav-tabs" role="tablist">
 			           
 
-			    <li class="active"><a href="{{ url('/resources/assessment') }}">Assessment</a></li>
-                <li><a href="{{ url('/resources/assignment') }}">Assignment</a></li>
+			    <li class="active"><a href="{{ url('/resources/assessment') }}">Assessments</a></li>
+                <li><a href="{{ url('/resources/assignment') }}">Assignments</a></li>
 
 		        <!-- <li><a href="{{ url('/resources/assignment') }}">Assignment</a></li> -->
 			</ul>
