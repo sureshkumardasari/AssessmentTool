@@ -101,7 +101,8 @@
 
 	var searchRoute = "{{URL::route('lesson-search')}}";
   	var categoryRoute = "{{URL::route('getcategory')}}";
-  	var subjectRoute = "{{URL::route('getsubject')}}";
+  	//var subjectRoute = "{{URL::route('getsubject')}}";
+  	var subjectRoute = "{{url('/resources/getsubject/')}}";
 </script>
 <script type="text/javascript">
  function subject_change(){

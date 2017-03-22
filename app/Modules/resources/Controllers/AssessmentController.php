@@ -91,6 +91,7 @@ class AssessmentController extends BaseController {
 	 */
 	public function index()
 	{
+		
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
 		$inst_arr = $this->institution->getInstitutions();	
 		$subjects = $this->subject->getSubject();	
