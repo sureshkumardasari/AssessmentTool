@@ -300,7 +300,7 @@ class UserController extends BaseController
 		} else {
 			$rules['role_id'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
-			$rules['password_confirmation'] = 'required';
+			$rules['conform password'] = 'required';
 		}
 
 		$validator = Validator::make($post, $rules);
@@ -330,8 +330,12 @@ class UserController extends BaseController
                    
 			}
 			\Session::flash('flash_message','Information saved successfully.');
-            if(Auth::user()->role_id == 1){
-            return redirect('/user');
+            if(Auth::user()->role_id == 1)
+
+            {
+            	
+            
+			return redirect('/user');
 			}
 		else{
 			return redirect('/dashboard/home');
