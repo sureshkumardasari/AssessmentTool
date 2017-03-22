@@ -90,7 +90,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'userlist' => array(
             'displayName' => 'Users',
             'route' => 'userlist',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //, 'userlist' => 'Users'
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration'), //, 'userlist' => 'Users'
         ),
         'profile' => array(
             'displayName' => 'Profile',
@@ -100,60 +100,60 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'useradd' => array(
             'displayName' => 'Create User',
             'route' => 'useradd',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'userlist' => 'User'), //
         ),
         'useredit' => array(
             'displayName' => 'Modify User',
             'route' => 'useredit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'userlist' => 'User'), //
         ),
         //--------institutions-------------
         'institution-list' => array(
             'displayName' => 'Institutions',
             'route' => 'institution-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration'), //
         ),
         'institution-add' => array(
             'displayName' => 'Create Institution',
             'route' => 'institution-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'institution-list' => 'Institutions'), //
         ),
         'institution-edit' => array(
             'displayName' => 'Modify Institution',
             'route' => 'institution-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'institution-list' => 'Institutions'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'institution-list' => 'Institutions'), //
         ),
         //------------roles-------------------
         'role-list' => array(
             'displayName' => 'Roles',
             'route' => 'role-list',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration'), //
         ),
         'role-add' => array(
             'displayName' => 'Create Role',
             'route' => 'role-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'role-list' => 'Roles'), //
         ),
         'role-edit' => array(
             'displayName' => 'Modify Role',
             'route' => 'role-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'role-list' => 'Roles'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'role-list' => 'Roles'), //
         ),
         //---------------branding ----------------
          'branding-view' => array(
             'displayName' => 'Branding',
             'route' => 'branding-view',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration'), //
         ),
         'branding-add' => array(
             'displayName' => 'Create Branding',
             'route' => 'branding-add',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'branding-view' => 'Branding'), //
         ),
         'branding-edit' => array(
             'displayName' => 'Modify Branding',
             'route' => 'branding-edit',
-            'postfix' => array('mainhome' => 'Home', '' => 'Administration', 'branding-view' => 'Branding'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'branding-view' => 'Branding'), //
         ),
         //------------category--------------------        
         'category-list' => array(
