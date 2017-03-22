@@ -38,32 +38,24 @@
                             <div class="form-group required">
                             <label class="col-md-4 control-label">Subject:</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="subject" id="subject_id" class="multipleSelect" multiple="multiple">
-                            <option value="0">--Select Subject--</option>
-                             @if(getRole()!="administrator")
-                        <!-- @foreach($subjects as $id=>$val)
-                                <option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-                                @endforeach   -->
-                                @endif                                 
+                                <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
+<!--                                     <option value="0" selected>--Select Subject--</option>
+ -->                                  
                                 </select>
                             </div>
                         </div>
                         <div class="form-group required">
                             <label class="col-md-4 control-label">Lesson:</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="lesson" id="lesson_id" class="multipleSelect" multiple="multiple">
-                            <option value="0">--Select Lessons--</option>
-                             @if(getRole()!="administrator")
-                       <!--  @foreach($lesson as $id=>$val)
-                                <option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-                                @endforeach -->
-                                    @endif
+                                <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
+<!--                                     <option value="0" selected>--Select Lesson--</option>
+ -->
                                 </select>
                             </div>
                         </div>
                              <div class="form-group">
-                               <div class="col-md-5" style="width: 455px;">
-                                    <button type="button" class="btn btn-primary  pull-right" id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
+                               <div class="col-md-5">
+                                    <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
                                        
                                 </div>
                             </div>
@@ -95,7 +87,7 @@
         function update(){
           /* var $subject_id = ('#subject_id').val();
             alert($subject_id);*/
-        if($('#institution_id').val()==0 || $('#assignment_id').val()==0 /*| $('#subject_id').val('') || $('#lesson_id').val('')*/){
+        if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
                 alert("please select all the fields");
             }
 
@@ -175,10 +167,10 @@
                     }
             )
         });
-        $('#subject_id').on('change',function(){  
-          var csrf=$('Input#csrf_token').val();
+        $('#subject_id').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
             var a=$('#subject_id').val();
-            //alert(a);
+
             if(a == null || a == "undefined"){
               
                 var  length=1;
