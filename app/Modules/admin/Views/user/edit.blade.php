@@ -103,7 +103,7 @@
 								</select>								
 							</div>
 						</div>
-						<?php getInstitutionsSelectBox('institution_id', 'institution_id', $institution_id, 'required','Select'); ?>
+						
 						
 						@if( (Auth::user()->id != $user_id) || $user_id == 1)
 						<div class="form-group required">
