@@ -5,7 +5,7 @@
 @section('content')
 
 <?php 
- $dtFormat = 'd/m/y g:i:s A';
+ $dtFormat = 'Y/m/d g:i:s A';
 ?>
 <style type="text/css">
 .row {
@@ -92,7 +92,7 @@
 							<div class="col-md-2">Test Status</div>
 							<div class="col-md-3">Test TakenDate</div>
 							<div class="col-md-1">Score</div>
-							<div class="col-md-3"></div>
+							<div class="col-md-3">Status</div>
 						</div>
 					</div>
 					<?php
