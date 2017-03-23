@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <h5><b>Test History Report:<b></h5>
+            <h5><b>Test History Class Averages:<b></h5>
             <div id="chart-1">    
             FusionCharts XT will load here!
             </div>
