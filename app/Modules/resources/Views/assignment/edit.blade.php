@@ -59,7 +59,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Description </label>
 							<div class="col-md-6">
-								<textarea class="form-control assignment_text1" id="assignment_text" name="assignment_text">{{ $description }}</textarea>
+								<textarea class="form-control " id="assignment_text" name="assignment_text" style="max-width: 150%;">{{ $description }}</textarea>
 							</div>
 						</div>
 
