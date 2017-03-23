@@ -5,7 +5,7 @@
 @section('content')
 
 <?php 
- $dtFormat = 'Y/m/d g:i:s A';
+ $dtFormat = 'd/m/y g:i:s A';
 ?>
 <style type="text/css">
 .row {
@@ -96,10 +96,11 @@
 						</div>
 					</div>
 					<?php
-					$starr = ['upcoming'=>'Upcoming', 'instructions'=>'Instruction', 'test'=>'Test', 'completed'=>'Completed'];
+					$starr = ['upcoming'=>'Upcoming', 'instructions'=>'Instruction', 'test'=>'Test', 'completed'=>'Completed', 'inprogress'=>'Inprogress'];
 					?>
 					<div class="row" style="width: 95%; margin-left: 10px;">						
 						@for($i=0;$i< count($assignmentUsersArr);$i++)
+						
 						<div class="row" style="border: 1px solid #ccc;">
 							<div class="col-md-1">{{$i+1}}</div>
 							<div class="col-md-2">{{ $assignmentUsersArr[$i]->username}}</div>
