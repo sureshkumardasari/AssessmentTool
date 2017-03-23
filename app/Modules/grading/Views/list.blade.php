@@ -67,7 +67,7 @@
 				                <th>Assessment Name</th>
 				                <th>Assignment Name</th>
 				                <th>Status</th>
-				                <th>Action</th>
+				              <!--   <th>Action</th> -->
 				            </tr>
 				        </thead>
 				        <tbody id="assignbody">
@@ -91,19 +91,19 @@
 					                @endif
 
 				                </td>
-				                <td>
-				                	<!-- <a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
+				               <!--  <td>
+				                	<a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
 				                	<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
-				                	</a> -->
+				                	</a>
                              @if($sessRole!='administrator')
-				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}" >
+				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" >
 			                             <span class="reply_box">
 			                                Grade
 			                            </span>
 			                         </i>
                                 @endif
 
-								</td>
+								</td> -->
 				            </tr>
 				            @endforeach		
 				                       
