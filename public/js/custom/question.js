@@ -909,7 +909,7 @@ var me = null;
             }
             tinymce.init({
                 selector: '#question_textarea',
-                width :  isMacintosh() ? 792 : 690,
+                width :  isMacintosh() ? 792 : 818,
                 height : 200,
                 auto_focus:false,
                 statusbar : false,
@@ -1015,7 +1015,7 @@ var me = null;
             }
             tinymce.init({
                 selector: '#'+id,
-                width : 690,
+                width : 806,
                 height : 200,
                 auto_focus:false,
                 statusbar : false,
