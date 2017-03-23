@@ -23,7 +23,7 @@ Route::group(array('module'=>'report', 'prefix' => 'report', 'middleware' => 'au
     Route::post('assessment_inst/{inst_id}/{assi_id}',['as'=>'reportassessment','uses'=>'ReportController@class_average_and_student_scores']);
 
     Route::post('students_inst/{id}','ReportController@student_inst');
-    Route::post('assignmt_inst/{id}','ReportController@assignmtInst');
+    Route::post('assignmt_inst/{id}','ReportController@report_inst');
     Route::post('student_assignmt_inst/{inst_id}/{assign_id}','ReportController@stuentsAssignmtInst');
     Route::post('students_inst/{inst_id}/{student_id}','ReportController@inst_student');
 
