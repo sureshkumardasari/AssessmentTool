@@ -9,7 +9,7 @@
 <div class="tab-content">
 	<div class="panel panel-default">
 		<div class="pull-right">
-			<button type="button" class="btn btn-danger" id="filters_show">show filters</button>
+			<button type="button" class="btn btn-danger" id="filters_show" style="margin-top: 5px;">Show Filters</button>
 		</div>
 		<div class="edit_assessment">
 		<div class="panel-heading searchfilter pointer">Filters
@@ -164,7 +164,7 @@
 		<div class="form-group">
 			<div class="col-md-4">
 				<div class="move-arrow-box">
-					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove");' href="javascript:;">Remove question</a>
+					<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove");' href="javascript:;">Remove Question</a>
 				</div>
 			</div>
 		</div>
