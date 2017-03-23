@@ -10,9 +10,9 @@
 
                         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                         
-                            <!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?><br><br> -->
+        
                         <div class="form-group required">
-                        <label class="col-md-2 control-label" id="mandatory"  id="institution_id" style="margin:0px 0 0 225px">Institution:</label>
+                        <label class="col-md-2 control-label" id="mandatory" style="margin:0px 0 0 225px">Institution:</label>
                         <div class="col-md-6">
                         <select name="inst_id" class='form-control' id="institution_id" style="margin-left:-50px;">
                         <option value="0" selected >--Select--</option>
@@ -119,7 +119,7 @@
             )
         });
 
-        function inst_change(){
+ /*       function inst_change(){
 
             var csrf=$('Input#csrf_token').val();
             $.ajax(
@@ -141,7 +141,7 @@
                     }
             )
 
-        }
+        }*/
 
           function assignmt_change(){
            var csrf=$('Input#csrf_token').val();
@@ -195,28 +195,7 @@
             
         }
 
-        $('#institution_id').on('change',function(){
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-
-                        headers: {"X-CSRF-Token": csrf},
-                        url:loadurl+ $('#institution_id').val(),
-                        type: 'post',
-                        success: function (response) {
-                            $('#report').empty();
-                            var a = response.length;
-                            $('#assignment_id').empty();
-                            var opt = new Option('--Select Assignment--', '0');
-                            $('#assignment_id').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#assignment_id').append(opt);
-                            }
-                        }
-                    }
-            )
-        });
+        
 
         $('#pdf').on('click',function(){
 

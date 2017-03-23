@@ -65,7 +65,7 @@
         //$("#institution_id option[value=0]").remove();
         var op=new Option('select',0)
         //$("#institution_id").append(op);
-       // $("#institution_id").val(0);
+       var loadurl = "{{ url('/report/test_history/') }}/" ;
         function inst_change(){
             if($('#institution_id').val()==0 ){
                 alert("please select the institution field");

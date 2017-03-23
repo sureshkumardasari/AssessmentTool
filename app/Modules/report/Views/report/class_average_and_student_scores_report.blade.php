@@ -13,7 +13,7 @@
                            <div class="form-group required">
                                 <label class="col-md-2 control-label" > institution:</label>
                                <div class="col-md-6">
-                                    <select name="inst_id" class='form-control' id="institution_id" onchange="inst_change()" style="margin-left: 215px;">
+                                    <select name="inst_id" class='form-control' id="institution_id" style="margin-left: 215px;">
                                         <option value="0" selected >-Select-</option>
                                      @foreach($inst_arr as $id=>$val)
                                             <option value="{{ $id }}">{{ $val }}</option>
