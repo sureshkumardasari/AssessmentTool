@@ -26,7 +26,7 @@
 				        <thead>
 				            <tr>
 				                <th>Question Title</th>
-				                <th></th>
+				                <th>Status</th>
 				                <th>Action</th>
 				            </tr>
 				        </thead>
