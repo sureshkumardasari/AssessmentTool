@@ -67,7 +67,10 @@
 				                <th>Assessment Name</th>
 				                <th>Assignment Name</th>
 				                <th>Status</th>
+				                
+				                @if(Auth::user()->role_id ==3)
 				                <th>Action</th>
+				                @endif
 				            </tr>
 				        </thead>
 				        <tbody id="assignbody">
@@ -91,19 +94,21 @@
 					                @endif
 
 				                </td>
+				                @if(Auth::user()->role_id ==3)
 				                <td>
-				                	<!-- <a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
+				                <!-- 	<a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
 				                	<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
 				                	</a> -->
-                             @if($sessRole!='administrator')
-				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId."-".$asn->assessmentId))}}" >
+                             
+				                	<i class="icons ico-grade"  id="grade"  formative-url="{{route('studentGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" question-url="{{route('questionGrading',array('id'=>$asn->assignmentId,$asn->assessmentId))}}" >
 			                             <span class="reply_box">
 			                                Grade
 			                            </span>
 			                         </i>
-                                @endif
+                                
 
 								</td>
+								@endif
 				            </tr>
 				            @endforeach		
 				                       

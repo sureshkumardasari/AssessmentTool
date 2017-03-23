@@ -366,7 +366,7 @@ class AssessmentController extends BaseController {
 
         // Add Pages        
         $tempsCount = count($temps);
-       dd($tempsCount);
+       //dd($tempsCount);
         foreach($temps as $key => $temp){
             $temp = trim($temp);
             if (empty($temp)) {
