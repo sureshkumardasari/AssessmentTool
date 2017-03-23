@@ -9,7 +9,7 @@
         $role=getRole();
         ?>
         @if($role =="administrator")
-         <li>{{$i++}}. Select Institution to get Institutipn ID's and Assigment Id's in Download Template                               
+         <li>{{$i++}}. Select Institution to get Institution ID's and Assigment ID's in Download Template                               
                 <select class="form-control" name="institution_id" id="gradesimport_institution_id" style="width:150px">
                     <option value="0">--Select--</option>
                     @foreach($institution_arr as $id=>$val)
