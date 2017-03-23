@@ -296,7 +296,7 @@
                 {
 
                     headers: {"X-CSRF-Token": csrf},
-                    url:loadurl+$('#state').val(),
+                    url:loadurl+$('#country_id').val(),
                     type:'get',
                     success:function(response) {
                         var a = response.length;
