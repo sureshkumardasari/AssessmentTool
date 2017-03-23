@@ -85,13 +85,13 @@
 
 
       <div class="form-group required">
-       <label class="col-md-2 control-label">Passage Title</label>
+       <label class="col-md-2 control-label" >Passage Title</label>
        <div class="col-md-10">
-        <input type="text" class="form-control" name="passage_title" id="passage_title" value="{{ $passage->title }}">
+        <input type="text" class="form-control" name="passage_title" id="passage_title" value="{{ $passage->title }}" style="max-width: 150% !important;">
        </div>
       </div>
       <div class="form-group required">
-       <label class="col-md-2 control-label">Passage Text</label>
+       <label class="col-md-2 control-label" >Passage Text</label>
        <div class="col-md-6">
         <textarea class="form-control" id="passagetext"   name="passage_text" >{{ $passage->passage_text }}</textarea>
        </div>
@@ -99,7 +99,7 @@
        <div class="form-group required">
        <label class="col-md-2 control-label">Passage Lines</label>
        <div class="col-md-6">
-        <textarea class="form-control" id="passagelines" name="passage_lines" >{{ $passage->passage_lines }}</textarea>
+        <textarea class="form-control" id="passagelines" name="passage_lines" style="max-width: 150% !important;">{{ $passage->passage_lines }}</textarea>
        </div>
       </div>
       <div class="form-group required">
