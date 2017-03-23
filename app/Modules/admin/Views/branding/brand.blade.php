@@ -24,7 +24,7 @@
 						<form class="form-horizontal" enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="{{ url('user/brandingcreate') }}" >
 							<input type="hidden" name="_token" value="{{ csrf_token()}}" id="csrf_token">
 							<div class="form-group required">
-								<label class="col-md-4 control-label">Select Institution</label>
+								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id" >
 										@if(getRole()=="administrator")
