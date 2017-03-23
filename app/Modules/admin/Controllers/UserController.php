@@ -76,7 +76,7 @@ class UserController extends BaseController
             ->leftjoin('roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
             })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
-            $query->where("u.role_id", $role_id->id);
+            $query->where("u.role_id", $role_id->id)->where('u.institution_id','=',Auth::user()->institution_id);
         $users = $query->get();
         return view('admin::user.list', compact('inst_arr', 'roles_arr'))
             ->nest('usersList', 'admin::user._list', compact('users'));
@@ -96,7 +96,7 @@ class UserController extends BaseController
 
     
        
-            $query->where("u.role_id", $role_id->id);
+            $query->where("u.role_id", $role_id->id)->where('u.institution_id','=',Auth::user()->institution_id);;
       
         $users = $query->get();
       
