@@ -177,6 +177,7 @@ class MainDashboardController extends BaseController
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
 	     ->where('gradestatus','=','completed')
+	     ->join('subject','subject.id','=','assessment.subject_id')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 	     ->orderby('assignment_user.gradeddate', 'desc');
@@ -240,6 +241,7 @@ class MainDashboardController extends BaseController
 		//close mallikarjun
 		return view('dashboard::dashboard.student_dashboard',compact('user','completed_assignments','upcoming_assignments','percentage'));
     }public function getTeacherAndAdminDetails(){
+   // dd('dgcg');
     	$ins= \Auth::user()->institution_id;
     	$assignments_user = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
@@ -358,6 +360,7 @@ class MainDashboardController extends BaseController
 				->get();
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
+
 	     ->where('gradestatus','=','completed')
 	     ->where('institution_id','=',$ins)
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
@@ -377,10 +380,14 @@ class MainDashboardController extends BaseController
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
 	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	     ->join('subject','subject.id','=','assessment.subject_id')
+
 	     ->where('gradestatus','=','completed')
 
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
-	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
+	     //->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
+	              ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname','students')
+
 	     ->orderby('assignment_user.gradeddate', 'desc');
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
@@ -391,8 +398,8 @@ class MainDashboardController extends BaseController
 	     //dd($sun);
 	     	  }
         //close
-	     	  //dd($list_details);
-	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession'));
+	     	  // dd($students);
+	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
 	       
     }
 

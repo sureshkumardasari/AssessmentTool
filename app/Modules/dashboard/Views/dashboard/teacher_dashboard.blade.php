@@ -84,8 +84,8 @@
                 "chart": {
                     "caption": "Test History Report",
                     "subCaption": "",
-                    "xAxisName": "Assignment Name",
-                    "yAxisName": "Total Students",
+                    "xAxisName": "Subject Name",
+                    "yAxisName": "Average Marks",
                     "numberPrefix": "",
                     "theme": "fint"
                 },
@@ -100,6 +100,37 @@
             // ]
                     // }
                 ]
+            }
+        }).render();
+    });
+      FusionCharts.ready(function(){
+        var salesChart = new FusionCharts({
+            type: 'column2d',
+            dataFormat: 'json',
+            renderAt: 'chart-1',
+            width: '360',
+            height: '350',
+            dataSource: {
+                "chart": {
+                    "caption": "Most Recent Whole Class Score Report",
+                    "subCaption": "",
+                    "xAxisName": "Subject Name",
+                    "yAxisName": "Average Marks",
+                    "numberPrefix": "",
+                    "theme": "fint"
+                },
+
+               "data": [
+                        @foreach($students as $user_id => $assignment)
+                        {
+                        'label' : '{{$assignment->sname}}',
+                         },
+                    @endforeach
+                               {
+                               
+                                'value' : '{{$score}}'
+                          }
+                    ]
             }
         }).render();
     });
