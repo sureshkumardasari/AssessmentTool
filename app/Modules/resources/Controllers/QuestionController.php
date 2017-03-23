@@ -115,6 +115,24 @@ class QuestionController extends BaseController {
 		return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
 	}
 
+
+	public function questionlist()
+	{
+		$post = Input::All();
+		dd($post);
+		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
+				->leftjoin('passage','questions.passage_id','=','passage.id')
+				->where('questions.institute_id','=',$post['institution'])
+				->where('questions.category_id','=',$post['category'])
+				->where('questions.subject_id','=',$post['subject'])
+				->where('questions.lesson_id','=',$post['lessons'])
+				->where('questions.question_type_id','=',$post['question_type'])
+				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+				->orderby('qid')
+				->get();
+		/*return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));*/
+	}
+
 	public function questionadd()
 	{
 		//dd(Input::all());
