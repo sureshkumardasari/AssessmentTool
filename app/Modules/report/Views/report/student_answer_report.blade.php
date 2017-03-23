@@ -57,8 +57,8 @@
                             </div>                 
                    <div class="form-group col-md-12">
                                 <div class="col-md-7"></div><div class="col-md-5">
-                        <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                        <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
+                        <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
+                        <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
                     </div></div>
  
                     <div id="report">
@@ -177,7 +177,7 @@
             var student_id=$('#student').val();
             window.open("{{ url('report/SAR_XLS/')}}/"+inst_id+"/"+assign_id+"/"+student_id);
         });
-         function reports(){
+        /* function reports(){
             
                 $.ajax(
                         {
@@ -195,8 +195,8 @@
             
         }
 
-        
-
+        */
+/*
         $('#pdf').on('click',function(){
 
             var inst_id=$('#institution_id').val();
@@ -226,6 +226,6 @@
             {
             window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
         }
-        });
+        });*/
     </script>
     @endsection

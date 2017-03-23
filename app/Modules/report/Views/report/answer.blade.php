@@ -59,8 +59,8 @@
                     <div class="form-group col-md-12">
                                 <label class="col-md-6 control-label"></label>
                                 <div class="col-md-6">
-                        <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                        <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
+                        <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
+                        <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
                     </div></div>
                     <div id="report">
 
@@ -155,7 +155,7 @@
             window.open("{{ url('report/QuestionsexportXLS/')}}/"+inst_id+"/"+assign_id+"/"+sub_id);
 
         });
-         function reports(){
+        /* function reports(){
             
                 $.ajax(
                         {
@@ -171,7 +171,7 @@
                         }
                 )
             
-        }
+        }*/
 
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
@@ -196,7 +196,7 @@
             )
         });
 
-        $('#pdf').on('click',function(){
+       /* $('#pdf').on('click',function(){
 
             var inst_id=$('#institution_id').val();
             var assign_id=$('#assignment_id').val();
@@ -228,6 +228,6 @@
             {
             window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
         }
-        });
+        });*/
     </script>
 @endsection
