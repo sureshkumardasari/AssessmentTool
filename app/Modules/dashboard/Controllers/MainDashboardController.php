@@ -313,7 +313,8 @@ class MainDashboardController extends BaseController
 		foreach($completed_users as $completed_user){
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
-		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
+		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->join('subject','subject.id','=','assessment.subject_id')
+		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
 				->orderby('startdatetime','desc')
 				->take(2)
 				->get();
