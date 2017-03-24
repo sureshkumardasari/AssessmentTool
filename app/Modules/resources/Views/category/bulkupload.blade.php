@@ -17,7 +17,7 @@
         </ul>
         <form class="form-horizontal" id="bulkcategoryuploadFrm" role="form" method="POST" action="{{ url('/category/bulkcategoryUpload') }}">
             <div class="form-group required">
-                <label class="col-md-5 ">Choose File(.xls)</label>
+                <label class="col-md-5 control-label control-label2">Choose File(.xls)</label>
                 <div class="col-md-10">
                     <input type="file" class="category-file" name="file">
                 </div>
