@@ -294,7 +294,7 @@
                 )
             
         }
-
+/*
         $('#institution_id').on('change',function(){
             var csrf=$('Input#csrf_token').val();
             $.ajax(
@@ -351,7 +351,7 @@
             {
             window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
         }
-        });
+        });*/
     </script> 
     <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
 

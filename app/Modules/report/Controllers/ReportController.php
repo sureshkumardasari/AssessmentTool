@@ -1500,11 +1500,11 @@ class ReportController extends Controller
                 }
                 $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub','less','type', 'lessons', 'assignment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'))->render();
                 $fileName = 'wholeclassscorereportpdf';
-                $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+                /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
                 $name=explode('/',$fileFullUrl);
                 $name=$name[5];
                 //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-                return response()->Download(public_path()."/data/reports/".$name);
+                return response()->Download(public_path()."/data/reports/".$name);*/
                 $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
                 if($name == url('data/error.pdf'))
                 {
