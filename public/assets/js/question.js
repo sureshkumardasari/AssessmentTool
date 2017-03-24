@@ -1402,7 +1402,7 @@ function addOrRemoveInGrid(elem, type) {
 
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
-
+            //alert('test');
             $('.selectall input[type="checkbox"]').on('change', function () 
             {
                                 var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
