@@ -586,12 +586,12 @@ class AssessmentController extends BaseController {
 	public function assessmentedit($id=0){
 		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
-		//$subjects = $this->subject->getSubject();
+		$subjects = $this->subject->getSubject();
 		//var_dump($subjects);exit;
 
-		//$lesson=$this->lesson->getLesson();
+		$lesson=$this->lesson->getLesson();
 		//$questions = $this->question->getQuestions();
-		//$questiontype=$this->question_type->getQuestionType();
+		$questiontype=$this->question_type->getQuestionType();
 		//dd($questiontype);
 		$assessment_details = Assessment::find($id);
 		//$obj = $this->assessment->find($id);
@@ -634,7 +634,7 @@ class AssessmentController extends BaseController {
 			$lessons_id=$assessment_details->lesson_id;
 			$question_type_id=$assessment_details->questiontype_id;
 		$subjects=Subject::where('category_id',$category_id)->lists('name','id');
-		//$lesson = $this->lesson->getLesson($subject_id);
+		$lesson = $this->lesson->getLesson($subject_id);
 		$category = $this->category->getCategory($institution_id);
 		//dd($institution_id);
 				       // \Session::flash('flash_message','Information saved successfully.');

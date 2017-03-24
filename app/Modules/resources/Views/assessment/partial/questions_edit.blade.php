@@ -44,7 +44,7 @@
 					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						{{--<option value="0">--Select Subject--</option>--}}
 						@foreach($subjects as $id=>$val)
-							<option value="{{ $id }}">{{ $val }}</option>
+							<option value="{{ $id }}"{{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -54,9 +54,9 @@
 				<div class="col-md-10">
 					<select class="form-control" name="lessons_id[]" id="lessons_id" multiple onchange="change_question_type('question')">
 						{{--<option value="0">--Select Lessons--</option>--}}
-						{{--@foreach($lesson as $id=>$val)--}}
-							{{--<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>--}}
-						{{--@endforeach--}}
+						@foreach($lesson as $id=>$val)
+							<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>
@@ -65,9 +65,9 @@
 				<div  class="col-md-10">
 					<select class="form-control" name="question_type" id="question_type" onchange="filter()">
 						{{--<option value="0">--Select Question Type--</option>--}}
-						{{--@foreach($questiontype as $id=>$val)--}}
-							{{--<option value="{{ $id }}" {{($id == $question_type_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>--}}
-						{{--@endforeach--}}
+						@foreach($questiontype as $id=>$val)
+							<option value="{{ $id }}" {{($id == $question_type_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>

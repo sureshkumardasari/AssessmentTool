@@ -97,8 +97,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                 </div> -->
 			<div class="form-group">
 				<div class="col-md-2 " >
-					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button> -->
-					<button type="reset" value="Reset" onclick="clear();" class="btn btn-danger">Clear</button>
+					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button>  -->
+					 <button type="reset" value="Reset" id="reset" class="btn btn-danger">Clear</button>
 				</div>
 			</div>
 		</div>
@@ -115,7 +115,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 			</tr>
 			</thead>
-			<tbody id="questions-list">
+			<tbody id="questions-list" class="test">
 			{{--@foreach( $inst_questions_list as $id => $name )--}}
 				{{--<tr>--}}
 					{{--<td>--}}
@@ -139,7 +139,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<table id="selected-questions" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" name="" class="check-all-selected-question" value="" id="QuestionId"></th>
+				<th><input type="checkbox" name="" class="check-all-selected-question" value="" id="QuestionIds11"></th>
 				<th>Question Name</th>
 			</tr>
 			</thead>
@@ -157,7 +157,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			}
 			}
 			?>
-			<tbody class="child-grid">
+			<tbody class="child-grid selectall">
 
 			</tbody>
 		</table>
@@ -165,7 +165,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 		 <div class="col-md-4">
 		  <div class="move-arrow-box">
-		    <a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove"), uncheck();' href="javascript:;" id="#btnn">Remove Question</a>
+		    <a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove")' href="javascript:;" id="#btnn">Remove question</a>
 				</div>
 			</div>
 		</div>
@@ -244,17 +244,18 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
+$('#reset').on('click',function(){
+	$('#institution_id').val('');
+	$('#category_id').val('');
+	$('#subject_id').multiselect('refresh');
+	$('#lessons_id').multiselect('refresh');
+	$('#passage_subject_id').multiselect('refresh');
+	$('#passage_lessons_id').multiselect('refresh');
+	
+	$('#question_type').val('');
+	
+	});
 
-function clear(){
-	alert('hi');
-	$('#institution_id').val('0');
-		$('#category_id').val('0');
-	$('#subject_id').val('0');
-	$('#lessons_id').val('0');
-		$('#question_type').val('0');
-
-
-}
 
 function uncheck(){
 	//alert('Hi');
