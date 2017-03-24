@@ -87,11 +87,15 @@
         function update(){
           /* var $subject_id = ('#subject_id').val();
             alert($subject_id);*/
-        if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
+        if($('#institution_id').val()==0 || $('#assignment_id').val()==0 || $('#lesson_id').val()==null || $('#subject_id').val()==null){
                 alert("please select all the fields");
             }
-
+// else if($('#subject_id').val==0 || $('#lesson_id').val==0)
+// {
+//     alert("please select all the fields");
+// }
             else {
+                 // alert($('#lesson_id').val()); return'';
             var csrf=$('Input#csrf_token').val();
 
             $.ajax(
