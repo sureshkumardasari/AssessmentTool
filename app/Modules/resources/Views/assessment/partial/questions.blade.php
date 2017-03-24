@@ -165,7 +165,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 		 <div class="col-md-4">
 		  <div class="move-arrow-box">
-		    <a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove")' href="javascript:;" id="#btnn">Remove question</a>
+		    <a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove")' href="javascript:;" id="#btnn">Remove Question</a>
 				</div>
 			</div>
 		</div>
