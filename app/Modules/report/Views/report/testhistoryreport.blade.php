@@ -35,7 +35,7 @@
                                 @if(getRole()=="administrator")
                                 <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                     @else
-                                    <button type="button" class="btn btn-primary pull-left" id="applyFiltersBtn" onclick="inst_change()"> Generate Report</button>
+                                    <button type="button" class="btn btn-primary pull-left" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                 @endif
                             </div>
 
