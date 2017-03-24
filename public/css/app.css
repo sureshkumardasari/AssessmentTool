@@ -2699,7 +2699,7 @@ select[multiple].form-group-lg .form-control {
 }
 @media (min-width: 768px) {
   .form-horizontal .control-label {
-    text-align: right;
+    /*text-align: right;*/
     margin-bottom: 0;
     padding-top: 7px;
   }
