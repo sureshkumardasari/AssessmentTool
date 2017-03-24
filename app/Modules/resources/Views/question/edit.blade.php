@@ -118,7 +118,7 @@
 			            </p>
 			            <div id="answer_append">
 						    <p class="w815 fltL answer_add">
- 						            <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer">Add New Answer</a>
+ 						            <a href="javascript:void(0)" class="upload_btn clr btn btn-primary col-md-offset-10 create_answer" onclick="question_change()">Add New Answer</a>
  						    </p>
 
 			            </div>
@@ -243,6 +243,13 @@ $('#question_type').change(function () {
             }
     }
 </script> -->
+<script type="text/javascript">
+ function question_change(){
+            if($('#institution_id').val()==0 || ($('#category_id').val()==0 || ($('#subject_id').val()==0 || ($('#lessons_id').val()==0 || ($('#question_type').val()==0))))){
+                alert("please select all the fields");
+            }
+    }
+    </script>
     {!! HTML::script(asset('js/custom/question.js')) !!}
 @include('resources::question.qst_js_validation')
 @endsection

@@ -53,9 +53,9 @@
        <div class="col-md-10">
         <select class="form-control" name="category_id" id="category_id" onchange="change_category()">
          <option value="0">--Select Category--</option>
-          @foreach($category as $id=>$val)
+          <!-- @foreach($category as $id=>$val)
          <option value="{{ $id }}" {{ ($id == $sCategory) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-         @endforeach
+         @endforeach -->
         </select>
        </div>
       </div>
@@ -64,9 +64,9 @@
        <div class="col-md-10">
         <select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
          <option value="0">--Select Subject--</option>
-          @foreach($subjects as $id=>$val)
+         <!--  @foreach($subjects as $id=>$val)
          <option value="{{ $id }}" {{ ($id == $sSubject) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-         @endforeach
+         @endforeach -->
         </select>
        </div>
       </div>
@@ -75,9 +75,9 @@
        <div class="col-md-10">
         <select class="form-control" name="lessons_id" id="lessons_id">
          <option value="0">--Select Lessons--</option>
-         @foreach($lessons as $id=>$val)
+         <!-- @foreach($lessons as $id=>$val)
          <option value="{{ $id }}" {{ ($id == $sLesson) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-         @endforeach
+         @endforeach -->
         </select>
        </div>
       </div>
