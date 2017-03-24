@@ -46,9 +46,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
 					<option value="0">--Select Category--</option>
-						@foreach($category as $id=>$val)
+						<!-- @foreach($category as $id=>$val)
 								<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach
+								@endforeach -->
 					</select>
 				</div>
 			</div>
@@ -57,9 +57,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<div class="col-md-9">
 					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						<option value="0">--Select Subject--</option>
-						@foreach($subjects as $id=>$val)
+						<!-- @foreach($subjects as $id=>$val)
 								<option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach
+								@endforeach -->
 					</select>
 
 				</div>
@@ -69,9 +69,9 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<div class="col-md-9">
 					<select class="form-control multipleSelect" multiple name="lessons_id[]" id="lessons_id"  onchange="change_question_type()">
 						<option value="0">--Select Lessons--</option>
-						@foreach($lesson as $id=>$val)
+						<!-- @foreach($lesson as $id=>$val)
 								<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-								@endforeach
+								@endforeach -->
 
 					</select>
 				</div>
