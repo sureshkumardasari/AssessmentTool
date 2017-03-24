@@ -210,9 +210,15 @@ section .list_active_msg div.rply_icons {
     max-width: 450px;
     max-height: 100px;
 }
-
-
-
+.control-label1 {
+    text-align: right;
+}
+.numeric{
+max-width: 120%;
+}
+.control-label2{
+text-align: left !important;
+}
 
 
 

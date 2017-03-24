@@ -59,7 +59,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group required">
 							<label class="col-md-3 control-label">Description </label>
 							<div class="col-md-6">
-								<textarea class="form-control " id="assignment_text" name="assignment_text" style="max-width: 150%;">{{ $description }}</textarea>
+								<textarea class="form-control numeric" id="assignment_text" name="assignment_text" >{{ $description }}</textarea>
 							</div>
 						</div>
 
@@ -145,7 +145,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Proctor Instructions </label>
 							<div class="col-md-6">
-								<textarea class="form-control" id="proctor_instructions" name="proctor_instructions"  @if($launchtype == "system" || $launchtype == "") disabled @endif>
+								<textarea class="form-control numeric" id="proctor_instructions" name="proctor_instructions"  @if($launchtype == "system" || $launchtype == "") disabled @endif>
 									{{ $proctor_instructions }}</textarea>
 							</div>
 						</div>
