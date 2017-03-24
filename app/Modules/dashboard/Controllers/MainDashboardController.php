@@ -261,10 +261,12 @@ class MainDashboardController extends BaseController
 	//dd($assessment);
 	$class_students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 			->join('users', 'users.id', '=', 'assignment_user.user_id')
+			->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	     	->join('subject','subject.id','=','assessment.subject_id')
 			->where('gradestatus', '=', 'completed')
 			->where('users.institution_id','=',$ins)
             // ->where('institution_id','=',$ins)
-			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
+			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage','subject.name as sname')
 			->orderby('assignment_user.gradeddate', 'desc')
 			->take(2)
 			->get();
@@ -361,7 +363,7 @@ class MainDashboardController extends BaseController
 				->get();
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
-
+		//->join('subject','subject.id','=','assessment.subject_id')
 	     ->where('gradestatus','=','completed')
 	     ->where('institution_id','=',$ins)
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
@@ -382,7 +384,6 @@ class MainDashboardController extends BaseController
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
 	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
 	     ->join('subject','subject.id','=','assessment.subject_id')
-
 	     ->where('gradestatus','=','completed')
 
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
@@ -399,7 +400,7 @@ class MainDashboardController extends BaseController
 	     //dd($sun);
 	     	  }
         //close
-	     	  // dd($students);
+	     	  // dd($class_students);
 	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
 	       
     }
