@@ -1332,6 +1332,7 @@ var selected_question_ids={};
 var subjects_list=[];
 var lessons_list=[];
 function addOrRemoveInGrid(elem, type) {
+
     var selectedTab = $('li.tab.active').children('a').attr('data-tab');
     window.selectedTab =selectedTab;
     var checkboxName = window.selectedTab.split('-')[0];
@@ -1344,6 +1345,7 @@ function addOrRemoveInGrid(elem, type) {
     RemoveQuestionIds=[];
     removePassage=[];
     if (type == 'add') {
+       
         if(checkboxName=="question"){
             $('#question_table').dataTable().fnDestroy();
             $('#selected-questions').dataTable().fnDestroy();
@@ -1394,10 +1396,21 @@ function addOrRemoveInGrid(elem, type) {
                 selected.append("<input type='hidden' value="+value+" name='QuestionIds[]' id='QuestionIds'>");
                 //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
                 $('#selected-questions'+' .child-grid').append(selected);
+
+
             });
 
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
+
+            $('.selectall input[type="checkbox"]').on('change', function () 
+            {
+                                var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
+                                $('#QuestionIds11').prop('checked', allChecked);
+
+            });
+            
+           
 
         }
         else if(checkboxName == "passage"){
@@ -1436,6 +1449,7 @@ function addOrRemoveInGrid(elem, type) {
             addPassageforQuestion(this, "add","questions",passage);
     }
     else {
+        //alert('bbb');
          var removeIds=[];
         if(checkboxName == "question"){
             $('#question_table').dataTable().fnDestroy();
@@ -1495,15 +1509,17 @@ function addOrRemoveInGrid(elem, type) {
                         $('#passages-list').append(clone);
                     }
                 }
+                $( "#QuestionIds11" ).prop( "checked", false );
 
             });
             //alert(JSON.stringify(selected_question_ids));
-            //alert(RemoveQuestionIds);
+           // alert(RemoveQuestionIds);
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
             $('#selected-passage').dataTable();
             $('#passage_table').dataTable();
            // addPassageforQuestion(this, "remove","question",RemoveQuestionIds);
+
         }
         else if(checkboxName == "passage"){
             $('#passage_table').dataTable().fnDestroy();

@@ -57,6 +57,7 @@ $path = url()."/resources/";
 	}
 
 	function ajax(url,data,csrf){
+
 		$.ajax(
 				{
 					url:url,
@@ -78,10 +79,20 @@ $path = url()."/resources/";
 //							if(){
 //
 //							}
-
+ 						$('#QuestionIds').prop('checked', false);
 						}
 						$('#question_table').dataTable();
 						$('#selected-questions').dataTable();
+						//alert('ttt');
+
+						$('.test input[type="checkbox"]').on('change', function () 
+					    {
+					    	//alert('abc');
+				
+					            var allChecked = $(' .test input:checked').length === $(' .test input').length;
+
+					            $('#QuestionIds').prop('checked', allChecked);
+					    });
 					}
 				}
 		);
@@ -341,6 +352,7 @@ if (count($errors) > 0){?>
 		clear_selected();
 	});
 	function clear_selected(){
+
 		$('#question_table').dataTable().fnDestroy();
 		$('#selected-questions').dataTable().fnDestroy();
 		$('#selected-passage').dataTable().fnDestroy();
