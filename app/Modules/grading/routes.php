@@ -20,7 +20,7 @@ Route::group(array('module'=>'grading', 'prefix' => 'grading', 'middleware' => '
     Route::get('list-student-question/{id}-{assignment_id}-{assessment_id}', ['as' => 'studentQuestion', 'uses' => 'GradingController@studentQuestionList']);
 //    Route::get('student-inner-grade/{id}', ['as' => 'studentGradingInner', 'uses' => 'GradingController@studentGradingInner']);
 
-    Route::get('list-question/{id}', ['as' => 'questionGrading', 'uses' => 'GradingController@questionGradeListing']);
+    Route::get('list-question/{id}-{assessment_id}', ['as' => 'questionGrading', 'uses' => 'GradingController@questionGradeListing']);
 
     Route::post('grade-question/save_answer_for_student_by_question_grade/{question_Id}','GradingController@saveAnswerByQuestionGrade');
 

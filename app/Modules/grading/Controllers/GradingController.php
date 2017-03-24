@@ -102,10 +102,10 @@ class GradingController extends BaseController {
 	}
 
 
-	public function questionGradeListing($iid){
-		$ids = explode("-", $iid);
+	public function questionGradeListing($assignment_id,$assessment_id){
+	/*	$ids = explode("-", $iid);
 		$assignment_id = $ids[0];
-		$assessment_id = $ids[1];
+		$assessment_id = $ids[1];*/
 
 		// print_r($assignment_id);
 		$ass_qst = $this->grade->loadAssignmentQuestion($assignment_id, $assessment_id);

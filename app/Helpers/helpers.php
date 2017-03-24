@@ -317,7 +317,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
          'questiongrade' => array(
             'displayName' => 'Questions Grade',
             'route' => 'questiongrade',
-            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading', '' => 'Grade By Question'), //
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading', 'questionGrading' => 'Grade By Question'), //
         ),
          //------------------reports------------------
          'report' => array(
