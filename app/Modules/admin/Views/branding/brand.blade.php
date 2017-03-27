@@ -161,7 +161,7 @@
 		}
 
 	</script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     	$('div.alert').delay(3000).slideUp(300);
- </script>
+ </script> -->
 @endsection

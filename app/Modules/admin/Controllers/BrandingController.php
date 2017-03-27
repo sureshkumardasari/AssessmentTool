@@ -80,7 +80,7 @@ class BrandingController extends Controller {
 			'buttontc.required' => ' ButtonTextColor is required',
 		];
 		$rules = [
-			'institution_id' => 'required|not_in:0',
+			'institution' => 'required|not_in:0',
 			//'title'=>'required|unique:title',
 			'hbcolor' => 'required',
 			'headertc' => 'required',
@@ -257,7 +257,7 @@ class BrandingController extends Controller {
 			'buttontc.required' => ' ButtonTextColor is required',
 		];
 		$rules = [
-			'institution_id' => 'required',
+			'institution' => 'required',
 			//'title'=>'required|unique:title',
 			'hbcolor' => 'required',
 			'headertc' => 'required',
