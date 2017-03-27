@@ -32,7 +32,7 @@ if (count($errors) > 0){?>
 						$('#category_id').empty();
 						$('#subject_id').empty();
 						$('#lessons_id').empty();
-						var opt=new Option('--Select --','');
+						var opt=new Option('--Select--','');
 						$('#category_id').append(opt);
 						for(i=0;i<a;i++){
 							var opt=new Option(response[i].name,response[i].id);

@@ -10,13 +10,12 @@
 					<a href="{{ url('/grading/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>				
 				</div>
 				<div class="panel-body">				
-						<label class="col-md-2 control-label">Status</label>
+						<!-- <label class="col-md-2 control-label">Status</label> -->
 						<div class="col-md-4">
-							<select class="form-control" name="status" id="status" onchange="change_status()">
-								<option value="">--Select--</option>
-								<option value="Not Started">Not Started</option>
-								<option value="In Progress">In Progress</option>
-								<option value="complete">Complete</option>
+							<!-- <select class="form-control" name="status" id="status" onchange="change_status()">
+								<option value="">--All--</option> -->
+								<!-- <option value="Not Started">Not Started</option>
+								<option value="complete">Complete</option> -->
 							</select>
 						</div>				
 				</div>	
@@ -30,13 +29,19 @@
 				                <th>Action</th>
 				            </tr>
 				        </thead>
-				        <tbody>
+				        <tbody id="assignbody">
 				            @foreach($ass_qst as $id => $asn )
 				            <tr>				                
 				                <td>{{$asn['Title']}}</td>
 
 				                <td>
-
+                                      
+					                @if($asn['Status']==0)
+					                	Not Started
+					               
+					                @else
+					                	Completed
+					                @endif
 				                </td>
 
 				                <td>	
@@ -59,3 +64,33 @@
 	</div>
 </div>
 @endsection
+// <script type="text/javascript">
+// 	function change_status(){
+// 			var csrf=$('Input#csrf_token').val();
+// 			 var loadurl = "{{ url('/resources/assignments/grading') }}/" ;
+
+// 			$.ajax(
+// 					{
+
+// 						headers: {"X-CSRF-Token": csrf},
+// 						url:loadurl + $('#status').val(),
+// 						type: 'get',
+// 						success: function (response) {
+// 							 $('#assignmentstable').dataTable().fnDestroy();
+// 							$('#assignbody').empty();
+// 							var tr;
+// 							for (var i = 0; i < response.length; i++) {
+// 								tr = $('<tr/>');
+// 								tr.append("<td>" + response[i].assessment_name + "");
+// 								tr.append("<td>" + response[i].name + "");
+// 								tr.append("<td>" + response[i].gradestatus + "");
+// 								tr.append("<td>"+ "</td>");
+// 								$('#assignbody').append(tr);
+
+// 							}
+// 							 $('#assignmentstable').dataTable();
+// 						}
+// 					});
+
+// 		}
+// </script>
