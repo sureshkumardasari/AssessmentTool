@@ -37,7 +37,7 @@
 <table class="table average">
     <tr>
         <td>class average score:</td>
-        <td> {{$all_users_count/(count($students))}}</td>
+        <td style="width: 50%;"> {{$all_users_count/(count($students))}}</td>
     </tr>
 </table>
 @endif
