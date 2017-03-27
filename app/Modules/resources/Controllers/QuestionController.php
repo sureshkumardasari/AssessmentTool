@@ -236,11 +236,11 @@ public function questionedit($id = 0)
 				'question_textarea.required'=>'The Question Text filed is required',
 		];
 		$rules = [
-				'institution_id' => 'required|not_in:0',
-				'category_id' => 'required|not_in:0',
-				'subject_id' => 'required|not_in:0',
-				'lessons_id' => 'required|not_in:0',
-				'question_type' => 'required|not_in:0',
+				'Institution' => 'required|not_in:0',
+				'Category' => 'required|not_in:0',
+				'Subject' => 'required|not_in:0',
+				'Lessons' => 'required|not_in:0',
+				'Question Type' => 'required|not_in:0',
 				'question_title' => 'required',
 				// 'answerIds' => 'required',
 				'question_textarea' => 'required',
@@ -329,10 +329,10 @@ public function questionedit($id = 0)
 				
 		];
 		$rules = [
-				'institution_id' => 'required|not_in:0',
-				'category_id' => 'required|not_in:0',
-				'subject_id' => 'required',
-				'lessons_id' => 'required',
+				'institution' => 'required|not_in:0',
+				'category' => 'required|not_in:0',
+				'subject' => 'required',
+				'lessons' => 'required',
 				'question_type' => 'required',
 				'question_title' => 'required',
 				'question_textarea' => 'required',

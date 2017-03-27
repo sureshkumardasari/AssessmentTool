@@ -160,14 +160,23 @@ class AuthController extends Controller {
 		}
         return view('auth.registersuccessmsg');
 	}
+
 	public function getRegister()
 	{
 		$stateObj =new User();
 		$countryObj =new User();
-		$state_arr = $stateObj->getstates();
+		/*$state_arr = $stateObj->getstates();*/
+		$state_arr = [];
 		$country_arr = $countryObj->getcountries();
 		$country_id = 0;
 		$state = 0;
 		return view('auth.register' , compact('country_arr','country_id','state_arr','state'));
 	}
+	 function state($country_id=0)
+    {
+    	dd($country_id);
+    	
+        $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
+          return $state_arr;    
+    }
 }

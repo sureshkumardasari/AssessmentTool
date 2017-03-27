@@ -268,6 +268,8 @@ class UserController extends BaseController
 	}
 	function state($country_id=0)
     {
+    	//dd($country_id);
+    	
         $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
           return $state_arr;    
     }
@@ -279,7 +281,7 @@ class UserController extends BaseController
 		//dd($post);
 
 		$rules = [
-			'institution_id' => 'required|not_in:0',
+			'institution' => 'required|not_in:0',
 			//'name' => 'required|min:3|unique:users',
 			'first_name' => 'required|min:3',
 			'last_name' => 'required',
@@ -291,8 +293,8 @@ class UserController extends BaseController
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
 			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
 			'gender' => 'required',
-			'state' => 'required|not_in:0',
-			'country_id' => 'required|not_in:0'];
+			'state_' => 'required|not_in:0',
+			'country' => 'required|not_in:0'];
 
 		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
@@ -302,7 +304,7 @@ class UserController extends BaseController
 				$rules['password'] = 'confirmed|min:6';
 			}
 		} else {
-			$rules['role_id'] = 'required|not_in:0';
+			$rules['role'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
 			$rules['conform password'] = 'required';
 		}
@@ -334,16 +336,13 @@ class UserController extends BaseController
                    
 			}
 			\Session::flash('flash_message','Information saved successfully.');
-            if(Auth::user()->role_id == 1)
-
-            {
-            	
-            
-			return redirect('/user');
+            if(Auth::user()->role_id == 1){
+            	return redirect('/user');
 			}
 		else{
 			return redirect('/dashboard/home');
 		}
+
 		}
 		/*
         $params = Input::All();

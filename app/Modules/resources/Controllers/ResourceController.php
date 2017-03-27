@@ -134,8 +134,8 @@ class ResourceController extends BaseController
 
         $post = Input::All();
         $rules = [
-            'institution_id' => 'required|not_in:0',
-            'category_id' => 'required|not_in:0',
+            'institution' => 'required|not_in:0',
+            'category' => 'required|not_in:0',
             'name' => 'required|min:3,'];
 
         if ($post['id'] > 0) {
@@ -255,9 +255,9 @@ class ResourceController extends BaseController
         $post = Input::All();
 
         $rules = [
-            'institution_id' => 'required|not_in:0',
-            'category_id' => 'required|not_in:0',
-            'subject_id' => 'required|not_in:0',
+            'institution' => 'required|not_in:0',
+            'category' => 'required|not_in:0',
+            'subject' => 'required|not_in:0',
             'name' => 'required|min:3'];
 
         if ($post['id'] > 0) {
@@ -326,7 +326,7 @@ class ResourceController extends BaseController
     {
         $inst_arr = $this->institution->getInstitutions();
 
-        $id = $institution_id = 0;
+        $id = $institution_id = '';
         $name = '';
                 // \Session::flash('flash_message','Information saved successfully.');
 
@@ -356,7 +356,7 @@ class ResourceController extends BaseController
         $post = Input::All();
 
         $rules = [
-            'institution_id' => 'required|not_in:0',
+            'institution' => 'required|not_in:0',
             'name' => 'required|min:3'];
 
         /*if ($post['id'] > 0) {
