@@ -286,7 +286,7 @@ class UserController extends BaseController
 		//dd($post);
 
 		$rules = [
-			'institution' => 'required|not_in:0',
+			'institution_id' => 'required|not_in:0',
 			//'name' => 'required|min:3|unique:users',
 			'first_name' => 'required|min:3',
 			'last_name' => 'required',
@@ -298,7 +298,7 @@ class UserController extends BaseController
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
 			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
 			'gender' => 'required',
-			'state_' => 'required|not_in:0',
+			'state' => 'required|not_in:0',
 			'country' => 'required|not_in:0'];
 
 		if ($post['id'] > 0) {
@@ -309,7 +309,7 @@ class UserController extends BaseController
 				$rules['password'] = 'confirmed|min:6';
 			}
 		} else {
-			$rules['role'] = 'required|not_in:0';
+			$rules['role_id'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
 			/*$rules['conform password'] = 'required';*/
 		}
