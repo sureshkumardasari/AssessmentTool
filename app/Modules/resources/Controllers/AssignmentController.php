@@ -210,15 +210,15 @@ class AssignmentController extends BaseController {
 	{
 		$params = Input::All();
    		$rules = [
-			'Name' => 'required|min:3',
+			'name' => 'required|min:3',
 			'assignment_text' =>'required',
 			'startdatetime' =>'required',
 			//'enddatetime' => 'required',
-			'assessment' =>'required|not_in:0',
-			'institution' =>'required|not_in:0',
-			'student' =>'required|array',
+			'assessment_id' =>'required|not_in:0',
+			'institution_id' =>'required|not_in:0',
+			'student_ids' =>'required|array',
 			'launchtype' =>'required',
-			'grader'=>'required|not_in:0',
+			'grader_id'=>'required|not_in:0',
 			'delivery_method' =>'required'];
 
 		if(!isset($params['neverexpires']))

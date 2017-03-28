@@ -158,10 +158,10 @@ class PassageController extends BaseController {
 			'passage_lines.required'=>'The Passage Lines is required'
       		];
 		$rules = [
-			'institution' => 'required|not_in:0',
-			'subject' => 'required|not_in:0',
-			'lessons' => 'required|not_in:0',
-			'category'=>'required|not_in:0',
+			'institution_id' => 'required|not_in:0',
+			'subject_id' => 'required|not_in:0',
+			'lessons_id' => 'required|not_in:0',
+			'category_id'=>'required|not_in:0',
  			'passage_text' => 'required',
  			'passage_title'=>'required',
  			'passage_lines'=>'required'

@@ -211,7 +211,7 @@ public function questionedit($id = 0)
 				//dd($question_type);
 		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers','question_type'));
 		//dd($answersLisitng);
-       
+        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
 
@@ -231,16 +231,13 @@ public function questionedit($id = 0)
 				'category_id.required'=>'The Category field is required',
 				'lessons_id.required'=>'The Lessons field is required',
 				'institution_id.required'=>'The Institution field is required',
-				'question_type.required'=>'The Question Type field is required',
-				'question_title.required'=>'The Question Title field is required',
-				'question_textarea.required'=>'The Question Text filed is required',
 		];
 		$rules = [
-				'Institution' => 'required|not_in:0',
-				'Category' => 'required|not_in:0',
-				'Subject' => 'required|not_in:0',
-				'Lessons' => 'required|not_in:0',
-				'Question Type' => 'required|not_in:0',
+				'institution_id' => 'required|not_in:0',
+				'category_id' => 'required|not_in:0',
+				'subject_id' => 'required|not_in:0',
+				'lessons_id' => 'required|not_in:0',
+				'question_type' => 'required|not_in:0',
 				'question_title' => 'required',
 				// 'answerIds' => 'required',
 				'question_textarea' => 'required',
@@ -326,13 +323,11 @@ public function questionedit($id = 0)
 				'subject_id.required'=>'The Subject field is required',
 				'category_id.required'=>'The Category field is required',
 				'institution_id.required'=>'The Institution field is required',
-				
 		];
 		$rules = [
-				'institution' => 'required|not_in:0',
-				'category' => 'required|not_in:0',
-				'subject' => 'required',
-				'lessons' => 'required',
+				'institution_id' => 'required|not_in:0',
+				'category_id' => 'required|not_in:0',
+				'subject_id' => 'required',
 				'question_type' => 'required',
 				'question_title' => 'required',
 				'question_textarea' => 'required',
@@ -437,12 +432,10 @@ public function questionedit($id = 0)
 
 					}
 				}
-				\Session::flash('flash_message','Information saved successfully.');
-			}
-			else{
+			}else{
 
 			}
-			        
+			        \Session::flash('flash_message','Information saved successfully.');
 
 			return redirect('/resources/question');
 		}

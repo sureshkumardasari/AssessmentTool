@@ -106,7 +106,7 @@ class ResourceController extends BaseController
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id'));
     }
 
-    public function subjectedit($id = 0)
+     public function subjectedit($id = 0)
     {
         if (isset($id) && $id > 0) {
             $obj = $this->subject->find($id);
@@ -124,7 +124,7 @@ class ResourceController extends BaseController
 
         $inst_arr = $this->institution->getInstitutions();
         $category = $this->category->getCategory($institution_id);
-        //\Session::flash('flash_message','Information saved successfully.');
+        \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id'));
     }
@@ -134,8 +134,8 @@ class ResourceController extends BaseController
 
         $post = Input::All();
         $rules = [
-            'institution' => 'required|not_in:0',
-            'category' => 'required|not_in:0',
+            'institution_id' => 'required|not_in:0',
+            'category_id' => 'required|not_in:0',
             'name' => 'required|min:3,'];
 
         if ($post['id'] > 0) {
@@ -152,7 +152,7 @@ class ResourceController extends BaseController
                 return Redirect::back()->withInput()->withErrors("Subject already entered");
             }
             $this->subject->updateSubject($params);
-                   // \Session::flash('flash_message','Information saved successfully.');
+                    \Session::flash('flash_message','Information saved successfully.');
 
             return redirect('/resources/subject');
         }
@@ -250,14 +250,14 @@ class ResourceController extends BaseController
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id'));
     }
 
-    public function lessonupdate($id = 0)
+     public function lessonupdate($id = 0)
     {
         $post = Input::All();
 
         $rules = [
-            'institution' => 'required|not_in:0',
-            'category' => 'required|not_in:0',
-            'subject' => 'required|not_in:0',
+            'institution_id' => 'required|not_in:0',
+            'category_id' => 'required|not_in:0',
+            'subject_id' => 'required|not_in:0',
             'name' => 'required|min:3'];
 
         if ($post['id'] > 0) {
@@ -326,14 +326,14 @@ class ResourceController extends BaseController
     {
         $inst_arr = $this->institution->getInstitutions();
 
-        $id = $institution_id = '';
+        $id = $institution_id = 0;
         $name = '';
                 // \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr'));
     }
 
-    public function categoryedit($id = 0)
+   public function categoryedit($id = 0)
     {
         $inst_arr = $this->institution->getInstitutions();
 
@@ -346,17 +346,18 @@ class ResourceController extends BaseController
             $id = $institution_id = 0;
             $name = '';
         }
-                //\Session::flash('flash_message','Information saved successfully.');
+                \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr'));
     }
+
 
     public function categoryupdate($id = 0)
     {
         $post = Input::All();
 
         $rules = [
-            'institution' => 'required|not_in:0',
+            'institution_id' => 'required|not_in:0',
             'name' => 'required|min:3'];
 
         /*if ($post['id'] > 0) {
