@@ -637,7 +637,7 @@ class AssessmentController extends BaseController {
 		$lesson = $this->lesson->getLesson($subject_id);
 		$category = $this->category->getCategory($institution_id);
 		//dd($institution_id);
-				       // \Session::flash('flash_message','Information saved successfully.');
+				        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assessment.edit',compact('passages_list_not','lesson','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
  	}

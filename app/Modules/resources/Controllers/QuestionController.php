@@ -310,7 +310,7 @@ public function questionedit($id = 0)
 		{
 			$params = Input::All();
 			$this->question->updateQuestion($params);
-        \Session::flash('flash_message','Information saved successfully.');
+        // \Session::flash('flash_message','Information saved successfully.');
 
 			return redirect('/resources/question');
 		}
