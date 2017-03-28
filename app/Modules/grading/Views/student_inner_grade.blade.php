@@ -492,14 +492,7 @@
                                 </div>
 
                             @endif
-                            <div>
-                                <table>
-
-
-
-
-                                </table>
-                            </div>
+                           
                         @endforeach
 
                </div>

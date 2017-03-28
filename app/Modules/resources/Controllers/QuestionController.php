@@ -211,7 +211,7 @@ public function questionedit($id = 0)
 				//dd($question_type);
 		$answersLisitng = view('resources::question.partial.edit_listing_answers', compact('oldAnswers','question_type'));
 		//dd($answersLisitng);
-        \Session::flash('flash_message','Information saved successfully.');
+        // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
 
