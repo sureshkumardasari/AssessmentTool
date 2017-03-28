@@ -63,10 +63,11 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
+		
 		        $inst_arr=[];
         $roles_arr=[];
-
-        if($institution_id === "teacher"){
+        //dd($institution_id);
+	 if($institution_id === "teacher"){
             //dd();
             $role_id=DB::table('roles')->where('name',"teacher")->select('id')->first();
         $query = DB::table('users as u')
@@ -76,9 +77,13 @@ class UserController extends BaseController
             ->leftjoin('roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
             })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
-            if(Auth::user()->role_id!=1){
-            $query->where("u.role_id", $role_id->id)->where('u.institution_id','=',Auth::user()->institution_id);
-        }
+            if(Auth::user()->role_id!=1)
+           	{
+           		$query->where('u.institution_id','=',Auth::user()->institution_id);
+	        	$query->where("u.role_id",3);
+	        }else         
+            $query->where("u.role_id", $role_id->id);
+        
         $users = $query->get();
         return view('admin::user.list', compact('inst_arr', 'roles_arr'))
             ->nest('usersList', 'admin::user._list', compact('users'));
@@ -94,13 +99,13 @@ class UserController extends BaseController
             //})->select('Users.name', 'Users.email','institution.name', 'Roles.name')->get();
             //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
             })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
-
-
-    
        if(Auth::user()->role_id!=1)
        {
-            $query->where("u.role_id", $role_id->id)->where('u.institution_id','=',Auth::user()->institution_id);
-       }
+        $query->where('u.institution_id','=',Auth::user()->institution_id);
+        	$query->where("u.role_id",2);
+        }else
+            $query->where("u.role_id", $role_id->id);
+       
       
         $users = $query->get();
       
@@ -112,9 +117,9 @@ class UserController extends BaseController
 		$params = Input::All();
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
 
+
 		$users = $this->user->getUsers($institution_id);
 		//dd($users);
-
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
