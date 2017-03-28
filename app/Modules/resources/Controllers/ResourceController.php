@@ -245,7 +245,7 @@ class ResourceController extends BaseController
         $category = $this->category->getCategory($institution_id);
         $subjects = $this->subject->getSubject($category_id);
 // dd($subjects);
-                //\Session::flash('flash_message','Information saved successfully.');
+                \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id'));
     }
