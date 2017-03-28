@@ -49,9 +49,9 @@
 							<div class="col-md-6">
 								<select class="form-control" name="category_id" id="category_id">
 									<option value="0">--Select--</option>
-									<!-- @foreach($category as $id=>$val)
+									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									@endforeach -->
+									@endforeach
 								</select>
 							</div>
 						</div>
