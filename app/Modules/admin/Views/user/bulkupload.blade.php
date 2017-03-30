@@ -4,7 +4,8 @@
     </div>
     <div class="panel-body">
         <ul>
-            <li>1. Select Institution to get Institution ID in Download templace                               
+            <li>1. Select Institution to get Institution ID in Download template
+                                      
                 <select class="form-control" name="institution_id" id="userimport_institution_id" style="width:150px">
                     <option value="0">--Select--</option>
                     @foreach($inst_arr as $id=>$val)
