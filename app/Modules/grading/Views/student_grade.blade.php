@@ -15,7 +15,7 @@
 							<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
 							<input type="hidden" name="assignmentid" id="assignmentid" value="{{ $assignment_id }}">
  							<select class="form-control" name="user" id="user" onchange="change_user1()">
-								<option value="0">All</option>
+								<option value="0">--All--</option>
 								@foreach($ass_usrs as $id=>$val)
 									<option value="{{ $val->id }}">{{ $val->first_name." ".$val->last_name }}</option>
 								@endforeach

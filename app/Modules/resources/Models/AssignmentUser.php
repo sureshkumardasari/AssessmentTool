@@ -18,6 +18,7 @@ use Mail;
 	 *
 	 * @var string
 	 */
+    
 	protected $table = 'assignment_user';
 	protected $primaryKey = 'id';
 
@@ -107,7 +108,7 @@ use Mail;
         $results = $this->where('assignment_id',$filters['assignment_id'] )->where('user_id',$filters['user_id'])->first();
         $grade = "completed";
         $results->rawscore = $filters['rawscore'];
-
+        
         $user = Auth::user();
         $userId = !empty( $user->id ) ? $user->id : 0;
 
@@ -130,6 +131,7 @@ use Mail;
         }
         $results->gradestatus = $grade;
         $results->gradeddate = date('Y-m-d H:i:s'); 
+        $results->takendate = date('Y-m-d H:i:s');
         return $results->save();
 
     }

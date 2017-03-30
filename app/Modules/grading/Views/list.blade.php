@@ -61,7 +61,9 @@
 
 
 				<div class="panel-body">
-					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+				 <table  class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+
+
 				        <thead>
 				            <tr>
 				                <th>Assessment Name</th>
@@ -126,7 +128,7 @@
 	<script>
 	$(document).ready(function(){
 		var loadurl = "{{ url('/resources/assignments') }}/" ;
-		 // $('#assignmentstable').dataTable();
+		 $('#assignmentstable').dataTable();
 	});
 		
 		function getAssignmentsforgrading(){
@@ -140,7 +142,7 @@
 						url:loadurl + $('#institution_id').val(),
 						type: 'get',
 						success: function (response) {
-							 $('#assignmentstable').dataTable().fnDestroy();
+							  $('#assignmentstable').dataTable().fnDestroy();
 							$('#assignbody').empty();
 							var tr;
 							for (var i = 0; i < response.length; i++) {
@@ -152,11 +154,31 @@
 								$('#assignbody').append(tr);
 
 							}
-							 $('#assignmentstable').dataTable();
+							  $('#assignmentstable').dataTable();
 						}
 					});
 
 		}
 	</script>
-	
+	{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+	<script>
+  	@if(isset($from) && $from == 'search')
+  	$(document).ready(function() {
+	    $('.datatableclass').DataTable({
+	    	language: {
+		        paginate: {
+		            previous: '‹',
+		            next:     '›'
+		        },
+		        aria: {
+		            paginate: {
+		                previous: 'Previous',
+		                next:     'Next'
+		            }
+		        }
+		    }
+	    });
+	});
+	@endif
+
 @endsection
