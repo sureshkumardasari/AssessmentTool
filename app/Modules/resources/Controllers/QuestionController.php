@@ -147,6 +147,7 @@ class QuestionController extends BaseController {
 
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$name = '';
+		$title='Create Questions';
 
 		// old answers listing
 		$oldAnswers =$answerIds=$explanation=$is_correct= array(); //
@@ -165,13 +166,13 @@ class QuestionController extends BaseController {
 			$question_type=QuestionType::find($type_id)->qst_type_text;
 			
 		}
-		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation','question_type'));
+		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation','question_type','title'));
 		//dd($answersListing);
 
 		$questions = Question::get()->toArray();
 		        // \Session::flash('flash_message','Information saved successfully.');
 
-		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type'));
+		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type','title'));
 	}
 public function questionedit($id = 0)
 	{
@@ -182,6 +183,7 @@ public function questionedit($id = 0)
 		$lessons = $this->lesson->getLesson($questions[0]['subject_id']);
         $passage = $this->passage->getPassage($questions[0]['subject_id']);
 		$qtypes = $this->question_type->getQuestionTypes();
+		$title='Modify Questions';
 		if(isset($id) && $id > 0)
 		{
 			$obj = $this->question->find($id);
@@ -190,11 +192,13 @@ public function questionedit($id = 0)
 			$subject_id = $obj->subject_id;
 			$category_id = $obj->category_id;
 			$name = $obj->name;
+			$title='Modify Questions';
 		}
 		else
 		{
 			$id = $institution_id = $subject_id = $category_id = 0;
 			$name = '';
+			$title='Modify Questions';
 		}
 		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
 				->where('question_answers.question_id',$id)
@@ -213,7 +217,7 @@ public function questionedit($id = 0)
 		//dd($answersLisitng);
         // \Session::flash('flash_message','Information saved successfully.');
 
-		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type'));
+		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type','title'));
 
 
 //

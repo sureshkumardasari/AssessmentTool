@@ -17,7 +17,7 @@
   <div class="col-md-8 col-md-offset-2">
    <div class="panel panel-default">
    <?php 
-    $operation = ($passage->id) ? "Update" : "Create";
+    $operation = ($passage->id) ? "Modify" : "Create";
 
    ?>
     <div class="panel-heading">{{$operation}} Passage</div>
