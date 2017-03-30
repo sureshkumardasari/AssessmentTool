@@ -31,7 +31,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 			<?php 
-				$operation = ($assignment->id) ? "Update" : "Create";
+				$operation = ($assignment->id) ? "Modify" : "Create";
 			?>
 				<div class="panel-heading">{{$operation}} Assignment</div>
 				<div class="panel-body">
