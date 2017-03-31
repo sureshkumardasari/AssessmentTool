@@ -59,7 +59,6 @@ class InstitutionController extends BaseController {
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		$institutions = $this->institution->getInstitutions($parent_id);
         return view('admin::institution.list',compact('institutions'));
-        
 	}
     
 	public function add()
@@ -113,8 +112,8 @@ class InstitutionController extends BaseController {
 			/*'parent institution_id' => 'required|not_in:0',*/
 			'name' => 'required|min:3|unique:institution',
 			'address1' => 'required',
-			'country' => 'required|not_in:0',
-			'state_' => 'required|not_in:0',
+			'country_id' => 'required|not_in:0',
+			'state' => 'required|not_in:0',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required'];

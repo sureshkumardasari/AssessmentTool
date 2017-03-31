@@ -361,7 +361,10 @@
 						is_correct=ans_label[val];
 						selected_answer_id=val;
 						selected_answer_text=$('#'+val).text();
+
 					});
+						$('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 					}
 					else if(question_type=="Multiple Choice - Multi Answer"){
 						selected_multi_answer=[];
@@ -378,6 +381,8 @@
 
 							selected_multi_answer.push(val);
 							selected_multi_answer_text[val]=($('#'+val).text());
+							$('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 						});
 					}
 					else if(question_type == "Essay"){
@@ -391,6 +396,8 @@
 						if(jQuery.isEmptyObject(response)){
                 			$('#essay_score'+question_id).val(0);
             			}
+            			$('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 					}
 					else if(question_type == "Fill in the blank"){
 						$.each(response,function(score,text){
@@ -436,13 +443,15 @@
 				selected_answer_correct[checked_ans_val]=ans_label[checked_ans_val];
 				if(ans_label[checked_ans_val]!="YES"){
 					$('#'+checked_ans_val).addClass('label-danger');
+
 				}
 				else{
-
+                    
 				}
 				//alert(selected_multi_answer);
 				// alert(JSON.stringify(selected_answer_correct));
-			
+			$('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 			}
 			else{
 					//alert(JSON.stringify(selected_answer_correct));
@@ -473,7 +482,10 @@
                 var t=$('#fib'+question_id);
                 selected_answer_text= t.val() || t.html() || t.text();
                 selected_answer_score=$('#fib_score'+question_id).val();
+
             }
+            $('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 		});
 	</script>
 @endsection
