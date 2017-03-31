@@ -11,9 +11,9 @@
                       <!--   <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
                       
                            <div class="form-group required">
-                                <label class="col-md-2 control-label" > Institution:</label>
+                                <label class="col-md-2 control-label col-md-offset-2" > Institution:</label>
                                <div class="col-md-6">
-                                    <select name="inst_id" class='form-control' id="institution_id" style="margin-left: 215px;">
+                                    <select name="inst_id" class='form-control' id="institution_id">
                                         <option value="0" selected >-Select-</option>
                                      @foreach($inst_arr as $id=>$val)
                                             <option value="{{ $id }}">{{ $val }}</option>
@@ -23,9 +23,9 @@
                             </div>
                             <br><br>
                             <div class="form-group required">
-                                <label class="col-md-4 control-label"> Assignment:</label>
+                                <label class="col-md-2 control-label col-md-offset-2"> Assignment:</label>
                                 <div class="col-md-6">
-                                    <select name="assignment_id" class='form-control' id="assignment_id" style="margin-left: 30px;">
+                                    <select name="assignment_id" class='form-control' id="assignment_id" >
                                         <option value="0" selected >--Select--</option>
                                         @if(getRole()!="administrator")
                                            <!--  @foreach($assignments as $id => $name)
@@ -37,7 +37,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                  <label class="col-md-4 control-label"></label>
-                                <div class="col-md-6" style="padding-left: 43px;">
+                                <div class="col-md-6">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="report()"> Go</button>
                                        
                                 </div>
