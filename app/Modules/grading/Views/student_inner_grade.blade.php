@@ -179,7 +179,7 @@
                                                                         Score:
                                                                         </label>
 
-                                                                        <input type="number" class="essay_score_field" name="essay_score" id="essay_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} min=0>/{{$quest['essayanswerpoint']}}
+                                                                        <input type="number" class="essay_score_field" name="essay_score" id="essay_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}}>/{{$quest['essayanswerpoint']}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -196,22 +196,19 @@
                                             </div>    
                                             
                                         
-                         
-                                    <div class="form-group">
-                                            <div>
-                                                    <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
-                                            </div>
-                                        
-                                        </div>
-                                       
-                                    
+                          <tr>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info btn-sm open-modal" data-toggle="modal" value="{{$quest['Id']}}" data-target="#myModal{{$j++}}" >Response</button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                 
                                     <div class="col-md-offset-4">
                                         <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
                                         <button type="button" class="btn btn-primary grade">Grade</button>
                                     </div>
-                                     @endforeach
+                                   
                          </div>
                                         
                                     
@@ -538,6 +535,8 @@
                     else{
                         user_selected_correct_answers[question_id].push(val.value);
                        // alert(JSON.stringify(user_selected_correct_answers));
+                       $('#complete_status'+question_id).show();
+                        $('#incomplete_status'+question_id).hide();
                     }
                     //$('#'+val.value).addClass('label-danger');
                 }
@@ -550,8 +549,8 @@
 
             //Multi_answer_answers[]
             // alert(id);
-            $('#incomplete_status'+question_id).hide();
-            $('#complete_status'+question_id).show();
+            // $('#incomplete_status'+question_id).hide();
+            
         }
         function change_single_answer(question_id){
             var myControls=$('input[type="radio"][name=ans_val'+question_id+']');
@@ -574,9 +573,10 @@
             }
             else{
                 user_selected_correct_answers[question_id].push(id);
-            }
-            $('#incomplete_status'+question_id).hide();
+                 $('#incomplete_status'+question_id).hide();
             $('#complete_status'+question_id).show();
+            }
+           
         }
         function change_essay_answer(id){
             // alert(id);
@@ -611,7 +611,7 @@
            // alert(JSON.stringify(Essay_answer_scores));
             // alert(Object.keys(Essay_answers).length);
             var student_id=$('#student').val();
-            if(/*Object.keys(Essay_answers).length!=0 &&*/ Object.keys(Essay_answer_scores).length!=0){
+            if(Object.keys(Essay_answer_scores).length!=0){
                 alert("successfully graded student");
                 var csrf=$('Input#csrf_token').val();
                 // alert("successfully graded student");
@@ -624,7 +624,7 @@
                         'essay_answer_scores':Essay_answer_scores
                     },
                     success:function(response){
-                         alert(response);
+                         // alert(response);
                     }
                 });
 
@@ -701,7 +701,7 @@
                     type:"post",
                     data:{'question_type':question_type,'user_id':user_id,'question_selected_answers':Question_selected_multi_answers,'next_student':next_student,'user_selected_correct_answers':user_selected_correct_answers},
                     success:function(response){
-                        // alert(response);
+                        alert(response);
                     }
                 });
 
