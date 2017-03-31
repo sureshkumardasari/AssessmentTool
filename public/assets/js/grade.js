@@ -2,7 +2,7 @@ $(document).ready(function() {
    $(document).on('click','#grade',function(e){
           e.preventDefault();
           mapTollTip($(this));
-        
+          $(".tip-container").fadeOut(10000);
     });
 });
 function mapTollTip(tipTarget){
@@ -38,8 +38,8 @@ function mapTollTip(tipTarget){
                     window.location.href=questionUrl;
                 } else {
                      e.preventDefault();
-                    // $('.ssi-tip').remove();
-                    // $('.tip-container').remove();
+                     //$('.ssi-tip').remove();
+                    //$('.tip-container').remove();
                 }
               }
           }

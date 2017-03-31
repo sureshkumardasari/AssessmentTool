@@ -331,7 +331,7 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
          'wholeclass' => array(
-            'displayName' => 'Most Recent Whole Class Score Report',
+            'displayName' => 'Whole Class Score Report',
             'route' => 'wholeclass',
             'postfix' => array('mainhome' => 'Home','report' => 'Reports'), //
         ),
