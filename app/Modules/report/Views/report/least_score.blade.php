@@ -49,6 +49,14 @@ $class="col-md-12";
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                         <div class="col-md-6"></div>
+                          <div class="col-md-6">
+                        <a href="#" class="btn btn-primary" id="pdf" style="margin:7px;">Export Pdf</a>
+                        
+                        <a href="#" class="btn btn-primary" id="xls">Export xls</a>
+                        </div>
+                    </div>
                         </div>
                         @if($length >1)
                         <div class="{{$class}}">
@@ -116,14 +124,14 @@ $class="col-md-12";
                     </div>
                     @endif
 
-                    <div class="col-md-12">
+                   <!--  <div class="col-md-12">
                          <div class="col-md-6"></div>
                           <div class="col-md-6">
                         <a href="#" class="btn btn-primary" id="pdf" style="margin:7px;">Export Pdf</a>
                         
                         <a href="#" class="btn btn-primary" id="xls">Export xls</a>
                         </div>
-                    </div>
+                    </div> -->
                     @else
                     <div class="{{$class}}"><p class="pull-middle" align="center" style="color:red"><b>!..OOPS..! No Assignments To Show.</b></p></div>
                     @endif
