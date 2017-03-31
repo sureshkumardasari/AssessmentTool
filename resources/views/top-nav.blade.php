@@ -44,7 +44,7 @@
 					@endif
 					@if($rolename == 'admin' || $rolename == 'teacher' || $rolename == 'administrator')
 					<li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
+			          <a href=" " class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
 			          	<li><a href="{{ url('/resources/category') }}">Categories</a></li>
 			            <li><a href="{{ url('/resources/subject') }}">Subjects</a></li>
@@ -62,7 +62,7 @@
 					@endif
 					@if($rolename == 'admin' || $rolename == 'administrator')
 			        <li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
+			          <a href=" " class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
 			          <ul class="dropdown-menu"> 
                        <li><a href="{{ url('/user/brandings') }}">Branding</a></li>
 			          	<li role="separator" class="divider"></li>

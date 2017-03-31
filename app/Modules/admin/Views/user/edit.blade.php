@@ -261,7 +261,7 @@
 									Submit
 								</button>
 
-								<a type="Cancel"  class="btn btn-danger"  href="{{  url('/dashboard/home') }}">Cancel</a>
+								<a type="Cancel"  class="btn btn-danger"  href="{{  url('/user') }}">Cancel</a>
 							</div>
 						</div>
 					</form>

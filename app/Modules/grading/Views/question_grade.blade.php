@@ -42,7 +42,8 @@
 				            </div>  
 
 				            <div class="form-group">				                
-				                <div class="col-md-2"><b style="color:green">Question Text:</b></div><div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				                <div class="col-md-2"><b style="color:green">Question Text:</b></div>
+				                <div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
 				            </div> 
 				            <div></div>	
 				            {{--*/ $i = 0 /*--}}
@@ -258,8 +259,11 @@
 							//     //window.location.href=url;
 							//    else
 							//        sendRequest('delete',id);
+							 $('#incomplete_status'+question_id).show();
+            $('#complete_status'+question_id).hide();
 						}
-					}, {
+					}, 
+					{
 						text: cnclBtnText,
 						//className: okclassName,
 						click: function(e) {
@@ -280,6 +284,7 @@
 			$("input.orderTopicToolTip").val(val);
 //            $('.ssi-tip').attr('style','top: 483px; left: 1048.5px;');
 //            var val = $("input.orderTopicToolTip").val();
+            
 		}
 
 		function save_question_grade_for_student(){
@@ -334,7 +339,7 @@
 			var assignment_id="{{$assignment_id}}";
 			var selected=$('#status').val();
 			var status=null;
-			var user_id=$('#status').val();
+			// var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
 			if (user_id>0){
 			$.ajax({
@@ -348,7 +353,10 @@
 					$.each(ans_label , function(i, val) {
 						if(ans_label [i]!="YES"){
 							$('#'+i).removeClass('label-danger');
+							$('#incomplete_status'+question_id).show();
+						$('#complete_status'+question_id).hide();
 						}
+
 					});
 					if(question_type=="Multiple Choice - Single Answer"){
 						$.each(response , function(i, val) {
@@ -381,9 +389,10 @@
 
 							selected_multi_answer.push(val);
 							selected_multi_answer_text[val]=($('#'+val).text());
-							$('#incomplete_status'+question_id).hide();
-            $('#complete_status'+question_id).show();
+							
 						});
+						$('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 					}
 					else if(question_type == "Essay"){
 						$.each(response,function(score,text){
@@ -410,6 +419,8 @@
 						if(jQuery.isEmptyObject(response)){
                 			$('#fib_score'+question_id).val(0);
             			}
+            			$('#incomplete_status'+question_id).hide();
+            $('#complete_status'+question_id).show();
 					}
 					if(status==1){
 						$('#incomplete_status'+question_id).hide();
