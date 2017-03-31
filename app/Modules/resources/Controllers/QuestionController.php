@@ -115,24 +115,6 @@ class QuestionController extends BaseController {
 		return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
 	}
 
-
-	public function questionlist()
-	{
-		$post = Input::All();
-		dd($post);
-		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
-				->leftjoin('passage','questions.passage_id','=','passage.id')
-				->where('questions.institute_id','=',$post['institution'])
-				->where('questions.category_id','=',$post['category'])
-				->where('questions.subject_id','=',$post['subject'])
-				->where('questions.lesson_id','=',$post['lessons'])
-				->where('questions.question_type_id','=',$post['question_type'])
-				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
-				->orderby('qid')
-				->get();
-		/*return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));*/
-	}
-
 	public function questionadd()
 	{
 		//dd(Input::all());
@@ -147,7 +129,6 @@ class QuestionController extends BaseController {
 
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$name = '';
-		$title='Create Questions';
 
 		// old answers listing
 		$oldAnswers =$answerIds=$explanation=$is_correct= array(); //
@@ -166,7 +147,7 @@ class QuestionController extends BaseController {
 			$question_type=QuestionType::find($type_id)->qst_type_text;
 			
 		}
-		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation','question_type','title'));
+		$answersListing = view('resources::question.partial.listing_answers', compact('oldAnswers','answerIds','is_correct','explanation','question_type', 'title'));
 		//dd($answersListing);
 
 		$questions = Question::get()->toArray();
@@ -183,7 +164,6 @@ public function questionedit($id = 0)
 		$lessons = $this->lesson->getLesson($questions[0]['subject_id']);
         $passage = $this->passage->getPassage($questions[0]['subject_id']);
 		$qtypes = $this->question_type->getQuestionTypes();
-		$title='Modify Questions';
 		if(isset($id) && $id > 0)
 		{
 			$obj = $this->question->find($id);
@@ -192,13 +172,11 @@ public function questionedit($id = 0)
 			$subject_id = $obj->subject_id;
 			$category_id = $obj->category_id;
 			$name = $obj->name;
-			$title='Modify Questions';
 		}
 		else
 		{
 			$id = $institution_id = $subject_id = $category_id = 0;
 			$name = '';
-			$title='Modify Questions';
 		}
 		$oldAnswers=QuestionAnswer::join('questions','question_answers.question_id','=','questions.id')
 				->where('question_answers.question_id',$id)
@@ -675,7 +653,6 @@ public function questionedit($id = 0)
 	public function questionBulkUpload()
 	{
 		$InstitutionObj = new Institution();
-		
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$qtypes = $this->question_type->getQuestionTypes();
 		return view('resources::question.question_bulkupload',compact('inst_arr','qtypes'));
