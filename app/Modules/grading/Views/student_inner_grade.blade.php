@@ -179,7 +179,7 @@
                                                                         Score:
                                                                         </label>
 
-                                                                        <input type="number" class="essay_score_field" name="essay_score" id="essay_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}}>/{{$quest['essayanswerpoint']}}
+                                                                        <input type="number" class="essay_score_field" name="essay_score" id="essay_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} min=0 value="0">/{{$quest['essayanswerpoint']}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -250,7 +250,7 @@
                                                                         <div class="form-group">
                                                                         <label class="control-label col-md-2">Score:</label>
 
-                                                                        <input type="number" name="fib_score" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} class="fib_score_field">/{{$quest['essayanswerpoint']}}
+                                                                        <input type="number" name="fib_score" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} min="0" class="fib_score_field">/{{$quest['essayanswerpoint']}}
                                                                         </div>
                                                                          </div>
                                                                         
