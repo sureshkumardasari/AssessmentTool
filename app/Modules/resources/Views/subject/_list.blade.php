@@ -20,7 +20,7 @@
 				        <tbody>
 				            @foreach( $subjectcategory as $id => $name )
  				            <tr>
- 				                <td>{{ $name->id }}</td>
+ 				                <td>{{ $name->s_id}}</td>
 								<td>{{ $name->cat_name }}</td>
 				                <td>{{ $name->subject_name }}</td>
  				                <td>
