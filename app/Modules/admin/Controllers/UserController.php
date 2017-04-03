@@ -299,7 +299,7 @@ class UserController extends BaseController
 			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
 			'gender' => 'required',
 			'state' => 'required|not_in:0',
-			'country' => 'required|not_in:0'];
+			'country_id' => 'required|not_in:0'];
 
 		if ($post['id'] > 0) {
 			//$rules['name'] = 'required|min:3|unique:users,name,' . $post['id'];
