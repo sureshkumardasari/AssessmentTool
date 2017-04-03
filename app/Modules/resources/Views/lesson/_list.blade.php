@@ -12,6 +12,7 @@
 	<table class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 						<thead>
 				            <tr>
+				                <th>Id</th>
 								<th>Category</th>
 								<th>Subject</th>
 								<th>Lesson</th>
@@ -21,6 +22,7 @@
 				        <tbody>
 				            @foreach( $lessons as $id => $name )
 				            <tr>
+				                 <td>{{ $name->id }}</td>
 								<td>{{ $name->cat_name }}</td>
 								<td>{{ $name->subject_name }}</td>
 								<td>{{ $name->l_name }}</td>

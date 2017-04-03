@@ -11,6 +11,7 @@
 				<table class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
+				                <th>Id</th>
 								<th>Category</th>
 				                <th>Subject</th>
  				                <th style="visibility: hidden;"></th>
@@ -19,6 +20,7 @@
 				        <tbody>
 				            @foreach( $subjectcategory as $id => $name )
  				            <tr>
+ 				                <td>{{ $name->id }}</td>
 								<td>{{ $name->cat_name }}</td>
 				                <td>{{ $name->subject_name }}</td>
  				                <td>

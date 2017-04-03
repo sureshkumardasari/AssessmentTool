@@ -118,6 +118,7 @@
 					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
+				                <th>Id</th>
 				                <th>Question Title</th>
 				                <th>Question Type</th>
 				                 <th>Question Passage</th>
@@ -127,7 +128,8 @@
 				        <tbody id="question_list_filer">
 				            @foreach( $list as $id => $value )
 				            <tr>
-				                <td>{{ $value['question_title'] }}</td>
+				                 <td>{{ $value['qid'] }}</td>
+				                 <td>{{ $value['question_title'] }}</td>
 				                 <td>{{ $value['question_type'] }}</td>
 								 <td>{{ $value['passage_title'] }}</td>
 				                <td>
