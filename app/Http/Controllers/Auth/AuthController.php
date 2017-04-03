@@ -4,12 +4,15 @@ use App\Http\Controllers\Controller;
 use App\Modules\Admin\Models\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
+use Illuminate\Contracts\Auth\state;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth\routes;
 use Input;
 use Validator;
 use Redirect;
 use Mail;
+use DB;
 class AuthController extends Controller {
 
 	/*
@@ -174,7 +177,7 @@ class AuthController extends Controller {
 	}
 	 function state($country_id=0)
     {
-    	dd($country_id);
+    	//dd($country_id);
     	
         $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
           return $state_arr;    
