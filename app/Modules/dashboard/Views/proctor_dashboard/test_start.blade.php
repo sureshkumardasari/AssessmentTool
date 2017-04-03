@@ -13,8 +13,8 @@
                         <table id="student_table" class="table table-striped table-bordered parent-grid" ><ion-content overflow-scroll="false">
                             <caption style="color:red"><center><b>Students Not Started</b></center></caption>
                             <thead>
-                            <td style="height:14px;"></td>
-                            <td style="height:14px;"></td>
+                            <th style="height:14px;"></th>
+                            <th style="height:14px;">Student Name</th>
                             </thead>
                             <tbody>
                             @foreach($assignment_not_started_users as $user)
@@ -36,8 +36,8 @@
                         <table id="student_selected_table" class="table table-striped table-bordered students-selected-parent-grid"><ion-content overflow-scroll="false">
                             <caption style="color:red"><center><b>Students Started</b></center></caption>
                             <thead>
-                            <td style="height:14px;"></td>
-                            <td style="height:14px;"></td>
+                            <th style="height:14px;"></th>
+                            <th style="height:14px;">Student Name</th>
                             </thead>
                             <tbody class="child-grid">
                             @foreach($assignment_started_users as $user)
