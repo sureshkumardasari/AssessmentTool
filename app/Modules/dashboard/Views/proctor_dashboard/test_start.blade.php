@@ -14,7 +14,7 @@
                             <caption style="color:red"><center><b>Students Not Started</b></center></caption>
                             <thead>
                             <td style="height:14px;"></td>
-                            <td style="height:14px;"></td>
+                            <td style="height:14px;">Student Name</td>
                             </thead>
                             <tbody>
                             @foreach($assignment_not_started_users as $user)
@@ -37,7 +37,7 @@
                             <caption style="color:red"><center><b>Students Started</b></center></caption>
                             <thead>
                             <td style="height:14px;"></td>
-                            <td style="height:14px;"></td>
+                            <td style="height:14px;">Student Name</td>
                             </thead>
                             <tbody class="child-grid">
                             @foreach($assignment_started_users as $user)
