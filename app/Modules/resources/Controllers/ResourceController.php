@@ -416,7 +416,23 @@ class ResourceController extends BaseController
 
         }
     }
+public function categoryList($id){
+        $category=  Institution::join('category','institution.id','=','category.institution_id')
+                ->where('institution.id','=',$id)
+                ->select('category.id','category.name')
+                ->get();
 
+        return $category;
+    }
+    public function subjectList($id){
+        $id=explode(',',$id);
+        $subject=   Category::join('subject','category.id','=','subject.category_id')
+                ->whereIn('category.id',$id)
+                ->select('subject.id','subject.name')
+                ->get();
+        return $subject;
+    }
+    
     public function lessonsearch($institution_id = 0, $category_id = 0, $subject_id = 0)
     {
         $params = Input::All();

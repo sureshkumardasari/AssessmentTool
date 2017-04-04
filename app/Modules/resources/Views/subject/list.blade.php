@@ -33,7 +33,7 @@
 								<label class="col-md-4 control-label">Institution</label>
 								<div class="col-md-6">
 									<input type="hidden" name="page" id="page" value="subject">
-								<select class="form-control" name="institution_id" id="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
 										<option value="0">--Select--</option>
 										@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
@@ -48,12 +48,12 @@
 									<select class="form-control" name="category_id" id="category_id">
 										<option value="0">--Select--</option>
 
-										{{--<option value="0">--Select--</option>--}}
+										<!-- {{--<option value="0">--Select--</option>--}}
 										@if(getRole()!="administrator")
 										@foreach($category as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach
-											@endif
+											@endif -->
 									</select>
 								</div>
 							</div>	
@@ -83,6 +83,9 @@
      }, 5000);
  })
  </script>
+ <?php
+$path = url()."/resources/";
+?>
 <script>
   	var searchRoute = "{{URL::route('subject-search')}}";
   	var categoryRoute = "{{URL::route('getcategory')}}";
@@ -93,5 +96,28 @@
                 alert("please select all the fields");
             }
     }
+    function change_institution(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+							$('#category_id').empty();
+							
+							
+							var opt = new Option('--Select Category--', '');
+							//opt.addClass('selected','disabled','hidden');
+							$('#category_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#category_id').append(opt);
+							}
+						}
+					});
+	}
     </script>
 @endsection

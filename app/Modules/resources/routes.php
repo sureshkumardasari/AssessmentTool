@@ -118,6 +118,8 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('assignedusersjson', array('as'=>'assignedusersjson','uses'=>'AssignmentController@getAssignUsersInfo'));
     Route::get('unassignedusersjson', array('as'=>'unassignedusersjson','uses'=>'AssignmentController@getunAssignUsersInfo'));
     Route::get('CategoryBulkUpload', array('as' => 'categoryBulkUpload', 'uses'=>'ResourceController@categoryBulkUpload'));
+     Route::post('categoryList/{id}', array('as' => 'categoryList', 'uses'=>'ResourceController@categoryList'));
+     Route::post('subjectList/{id}', array('as' => 'subjectList', 'uses'=>'ResourceController@subjectList'));
     Route::get('BulkCategoryTemplate', array('as'=>'bulkcategoryTemplate','uses'=>'ResourceController@bulkcategoryTemplate'));
     Route::post('BulkCategoryUpload', array('as'=>'bulkcategoryUpload','uses'=>'ResourceController@bulkcategoryUpload'));
 

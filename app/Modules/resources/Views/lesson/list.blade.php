@@ -36,7 +36,7 @@
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<input type="hidden" name="page" id="page" value="lesson">
-								<select class="form-control" name="institution_id" id="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
 										<option value="0">--Select--</option>
 									@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
@@ -48,13 +48,13 @@
 							<div class="form-group required col-md-12">
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
-									<select class="form-control" name="category_id" id="category_id">
+									<select class="form-control" name="category_id" id="category_id" onchange="change_category()">
 										<option value="0">--Select--</option>
-										@if(getRole()!="administrator")
+										<!-- @if(getRole()!="administrator")
 											@foreach($category as $id=>$val)
 												<option value="{{ $id }}">{{ $val }}</option>
 											@endforeach
-										@endif
+										@endif -->
 									</select>
 								</div>
 							</div>
@@ -63,9 +63,9 @@
 								<div class="col-md-6">
 									<select class="form-control" name="subject_id" id="subject_id">
 										<option value="0">--Select--</option>
-										@foreach($subjects as $id=>$val)
+										<!-- @foreach($subjects as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
-										@endforeach--}}
+										@endforeach--}} -->
 									</select>
 								</div>
 							</div>
@@ -96,6 +96,9 @@
      }, 5000);
  })
  </script>
+ <?php
+$path = url()."/resources/";
+?>
 <script>
 
 
@@ -110,5 +113,53 @@
                 alert("please select all the fields");
             }
     }
+    function change_institution(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+							$('#category_id').empty();
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
+							var opt = new Option('--Select Category--', '');
+							//opt.addClass('selected','disabled','hidden');
+							$('#category_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#category_id').append(opt);
+							}
+						}
+					});
+	}
+
+	function change_category(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}subjectList/'+$('#category_id').val(),
+					type:'post',
+					success:function(response) {
+						var a = response.length;
+							$('#subject_id').empty();
+							$('#lessons_id').empty();
+							var opt = new Option('--Select Subject--', '');
+							$('#subject_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+								$('#subject_id').append(opt);
+							}
+						}
+					});
+		
+	}
+	
+
     </script>
 @endsection
