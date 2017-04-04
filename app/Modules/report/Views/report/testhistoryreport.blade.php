@@ -16,9 +16,9 @@
 
                         <!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?> -->
                         <div class="form-group required">
-                        <label class="col-md-2 control-label" id="mandatory" style="margin:0px 0 0 225px">Institution:</label>
+                        <label class="col-md-2 control-label col-md-offset-2" id="mandatory">Institution:</label>
                         <div class="col-md-6">
-                        <select name="inst_id" class='form-control' id="institution_id" style="margin-left:-50px;">
+                        <select name="inst_id" class='form-control' id="institution_id" >
                        <option value="0" selected>--Select--</option>
                         @foreach($inst_arr as $id=>$val)
 
@@ -30,8 +30,8 @@
                         </div>
                         </div>
                         <div class="form-group col-md-12">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6" style="padding-left: 90px;"> 
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6"> 
                                 @if(getRole()=="administrator")
                                 <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                     @else
