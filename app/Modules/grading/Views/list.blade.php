@@ -180,5 +180,5 @@
 	    });
 	});
 	@endif
-
+	</script>
 @endsection
