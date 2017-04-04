@@ -57,7 +57,6 @@ $path = url()."/resources/";
 	}
 
 	function ajax(url,data,csrf){
-
 		$.ajax(
 				{
 					url:url,
@@ -93,9 +92,11 @@ $path = url()."/resources/";
 
 					            $('#QuestionIds').prop('checked', allChecked);
 					    });
+
 					}
 				}
 		);
+
 	}
 
 	function selected_qst_ajax(url,data,csrf){
@@ -214,6 +215,7 @@ $path = url()."/resources/";
 if (count($errors) > 0){?>
 <script>
 	var oldvalues = '{{old('institution_id')}}';
+
 	var catoldvalues = '{{old('category_id')}}';
 	{{--var suboldvalues = '{{old('subject_id[]')}}';--}}
 	{{--var lessonoldvalues = '{{old('lessons_id[]')}}';--}}
@@ -352,6 +354,7 @@ if (count($errors) > 0){?>
 		clear_selected();
 	});
 	function clear_selected(){
+		
 
 		$('#question_table').dataTable().fnDestroy();
 		$('#selected-questions').dataTable().fnDestroy();
@@ -369,6 +372,12 @@ if (count($errors) > 0){?>
 		$('#subjects_list').empty();
 		$('#lessons_list').empty();
 		$('#question_type').val('');
+		$('#institution_id').val('');
+		$('#category_id').val('');
+		
+				$('.multipleSelect').val('');
+		$('#subject_id').multiselect('refresh');
+		$('#lessons_id').multiselect('refresh');
 		var myForm = document.forms.assessment_form;
 		var question_id = myForm.elements['QuestionIds[]'];
 		if(question_id) {
@@ -402,12 +411,12 @@ if (count($errors) > 0){?>
 			var institution_id=$('#passage_institution_id').val();
 		}
 		else if(type=="question"){
+
 			var institution_id=$('#institution_id').val();
 
+
 		}
-		//if(change_institute!=1){
-			clear_selected();
-		//}
+
 		//change_institute=2;
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
@@ -450,6 +459,7 @@ if (count($errors) > 0){?>
 					}
 				}
 		);
+		
 	}
 
 	function change_category(type){
@@ -461,7 +471,7 @@ if (count($errors) > 0){?>
 			//alert(category_id);
 		}
 		//if(change_categry !=1){
-			clear_selected();
+			
 		//}
 		//change_categry = 2;
 
@@ -512,7 +522,8 @@ if (count($errors) > 0){?>
 						}
 					}
 				}
-		)
+		);
+		
 	}
 
 	function change_lessons(type){
@@ -565,13 +576,15 @@ if (count($errors) > 0){?>
 						}
 					}
 				}
-		)
+		);
+		
 	}
 
 	function change_question_type(){
 		var csrf=$('Input#csrf_token').val();
 		passage_Ids=[];
 		var passage_id=document.getElementsByName('passageIds[]');
+		
 		for (var i = 0; i < passage_id.length; i++) {
 			passage_Ids.push(passage_id[i].value);
 		}
@@ -611,7 +624,8 @@ if (count($errors) > 0){?>
 						 $('#question_type').multiselect('refresh');*/
 					}
 				}
-		)
+		);
+		
 	}
 	function filter_passage() {
 		//question_Ids=[];
@@ -622,6 +636,7 @@ if (count($errors) > 0){?>
 		// 	question_Ids.push(question_id[i].value);
 		// }
 		var passage_id=document.getElementsByName('passageIds[]');
+
 		for (var i = 0; i < passage_id.length; i++) {
 			passage_Ids.push(passage_id[i].value);
 		}
@@ -660,6 +675,7 @@ if (count($errors) > 0){?>
 					}
 				}
 		);
+		
 
 
 	}
