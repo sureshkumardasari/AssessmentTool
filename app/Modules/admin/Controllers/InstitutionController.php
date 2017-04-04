@@ -176,7 +176,7 @@ class InstitutionController extends BaseController {
 	public function bulkInstitutionTemplate(Request $request){
 
 			$userType = $request->input('userType');
-			$filename = 'institution_template_' . $userType . '_' . date('Y-m-d') . '.xls';
+			$filename = 'institution_template_' . date('Y-m-d') . '.xls';
 			$save = $this->institution->bulkInstitutionTemplate($filename, $userType);
 			if ($save == null) {
 				return Response::json(array('file_name' => "../data/tmp/$filename"));

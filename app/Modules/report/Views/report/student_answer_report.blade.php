@@ -12,9 +12,9 @@
                         
         
                         <div class="form-group required">
-                        <label class="col-md-2 control-label" id="mandatory" style="margin:0px 0 0 225px">Institution:</label>
+                        <label class="col-md-2 control-label col-md-offset-2" id="mandatory">Institution:</label>
                         <div class="col-md-6">
-                        <select name="inst_id" class='form-control' id="institution_id" style="margin-left:-50px;">
+                        <select name="inst_id" class='form-control' id="institution_id">
                         <option value="0" selected >--Select--</option>
                         @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
@@ -23,9 +23,9 @@
                         </div>
                         </div>
                               <div class="form-group required">
-                                    <label class="col-md-4 control-label"    style="margin:0px 0 0 225px">Assignment:</label>
+                                    <label class="col-md-2 control-label col-md-offset-2">Assignment:</label>
                                     <div class="col-md-6">
-                                        <select name="assign_id" class='form-control' id="assign_student" style="margin:-15px 0 0 359px" onchange="assignmt_change()">
+                                        <select name="assign_id" class='form-control' id="assign_student" onchange="assignmt_change()">
                                             <option value="0" selected >--Select--</option>
                                             @if(getRole()!="administrator")
                                                <!--  @foreach($assignments as $id=>$ass)
@@ -37,9 +37,9 @@
                             </div>
                             <br><br>
                              <div class="form-group required">
-                                <label class="col-md-4 control-label"  style="margin:0px 0 0 225px">Student:</label>
+                            <label class="col-md-2 control-label col-md-offset-2">Student:</label>
                                 <div class="col-md-6">
-                                    <select name="student_id" class='form-control' id="student" style="margin:-15px 0 0 359px">
+                                    <select name="student_id" class='form-control' id="student">
                                         <option value="0" selected >--Select--</option>
                                         {{--@if(getRole()!="administrator")--}}
                                             {{--@foreach($users as $user)--}}
@@ -50,8 +50,8 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6" style="padding-left: 93px;">
+                                <div class="col-md-2 col-md-offset-2"></div>
+                                <div class="col-md-6">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()">Go</button>
                                 </div>
                             </div>                 

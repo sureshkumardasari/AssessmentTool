@@ -11,7 +11,7 @@
 
                          <!--    <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, 'col-md-12','All'); ?>  -->
                             <div class="form-group required">
-                                <label class="col-md-2 control-label" id="mandatory" style="margin-left: 225px"> Institution:</label>
+                                <label class="col-md-2 control-label col-md-offset-2" id="mandatory"> Institution:</label>
                                 <div class="col-md-6">
                                    <select name="inst_id" class='form-control' id="institution_id" >
                                         <option value="0" selected >--Select--</option>
@@ -23,9 +23,9 @@
                            </div><br><br>
 
                          <div class="form-group required" >
-                            <label class="col-md-4 control-label"  style="margin-left: 225px"> Assignment:</label>
+                            <label class="col-md-2 control-label col-md-offset-2" > Assignment:</label>
                             <div class="col-md-6">
-                                <select name="assessment_id" class='form-control' id="assignment" style="margin:-25px 0 0 410px">
+                                <select name="assessment_id" class='form-control' id="assignment" >
                                     <option value="0" selected >--Select--</option>
                                     @if(getRole()!="administrator")
                                         <!-- @foreach($assignment as $ass)
@@ -36,9 +36,9 @@
                             </div>
                         </div><br><br>
                          <div class="form-group required">
-                            <label class="col-md-4 control-label"  style="margin-left: 225px"> Subject:</label>
+                            <label class="col-md-2 control-label col-md-offset-2"> Subject:</label>
                             <div class="col-md-6">
-                                <select name="subject_id" class='form-control' id="subject" style="margin:-25px 0 0 410px">
+                                <select name="subject_id" class='form-control' id="subject">
                                     <option value="0" selected >--Select--</option>
                                     @if(getRole()!="administrator")
 
@@ -49,7 +49,7 @@
 
                             <div class="form-group col-md-12">
                                 <label class="col-md-4 control-label"></label>
-                                <div class="col-md-6" style="padding-left: 52px;">
+                                <div class="col-md-6">
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="inst_change()"> Go</button>
                                 </div>
                             </div>
