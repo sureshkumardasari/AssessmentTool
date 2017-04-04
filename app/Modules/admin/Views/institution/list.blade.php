@@ -34,8 +34,8 @@
 				                <td>{{ $id }}</td>				                
 				                <td>{{ $name }}</td>
 				                <td>
-				                	<a href="{{ url('/user/institutionedit/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="javascript:;" data-ref="{{ url('/user/institutiondel/'.$id) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+				                	<a href="{{ url('/user/institutionedit/'.$id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
+									<a href="javascript:;" data-ref="{{ url('/user/institutiondel/'.$id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
 				            @endforeach				            

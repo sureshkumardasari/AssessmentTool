@@ -34,7 +34,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<label class="col-md-3 control-label" >Institution</label>
 				<div class="col-md-9">
 					<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')">
-						<option value="0">--Select Institution--</option>
+						<option value="">--Select Institution--</option>
 						@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 						@endforeach
@@ -55,7 +55,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<div class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Subject</label>
 				<div class="col-md-9">
-					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
+					<select class="form-control multipleSelect" name="subject_id[]" id="subject_id"   multiple="multiple" onchange="change_lessons('question')">
 						<option value="0">--Select Subject--</option>
 						<!-- @foreach($subjects as $id=>$val)
 								<option value="{{ $id }}" {{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -97,8 +97,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
                 </div> -->
 			<div class="form-group">
 				<div class="col-md-2 " >
-					<!-- <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button>  -->
-					 <button type="reset" value="Reset" id="reset" class="btn btn-danger">Clear</button>
+					 <button type="button" class="btn btn-danger btn-sm" id="clear_filters">Clear</button>  
+					 <!-- <button type="reset" value="Reset" id="reset" class="btn btn-danger">Clear</button> -->
 				</div>
 			</div>
 		</div>
