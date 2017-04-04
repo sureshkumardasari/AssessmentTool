@@ -517,15 +517,15 @@ public function questionedit($id = 0)
 				->get();
 		return $subject;
 	}
-	public function lessonsList($id){
-		$id=explode(',',$id);
-		//dd($id);
-		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
-				->whereIn('subject.id',$id)
-				->select('lesson.id','lesson.name')
-				->get();
-		return $lessons;
-	}
+	// public function lessonsList($id){
+	// 	$id=explode(',',$id);
+	// 	//dd($id);
+	// 	$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
+	// 			->whereIn('subject.id',$id)
+	// 			->select('lesson.id','lesson.name')
+	// 			->get();
+	// 	return $lessons;
+	// }
 	public function passageList($id){
 		$id=explode(',',$id);
 		//dd($id);

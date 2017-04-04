@@ -777,9 +777,14 @@ class GradingController extends BaseController {
 		if(getRole()=="administrator"){
 			$institution_arr=Institution::lists('name','id');
 		}
+		if(getRole()=="teacher"){
+			$institution_arr=Institution::where('id',Auth::user()->institution_id)->lists('name','id');
+			$assignments_arr=Assignment::where('institution_id',Auth::user()->institution_id)->lists('name','id');
+		}
+
 		else{
 			$institution_id=Auth::user()->institution_id;
-			$assignments_arr=Assignment::where('institution_id',$institution_id)->lists('name','id');
+			$assignments_arr=Assignment::where('institution_id',$institution_arr)->lists('name','id');
 		}
 		
 		//dd($assignments);
