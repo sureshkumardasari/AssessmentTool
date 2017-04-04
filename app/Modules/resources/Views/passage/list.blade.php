@@ -40,9 +40,9 @@
 				                <td>{{ $id }}</td>				                
 				                <td>{{ $name }}</td>
 				                <td>
-									<a href="{{ url('/resources/passageview/'.$id) }}" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-				                	<a href="{{ url('/resources/passageedit/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="javascript:;" data-ref="{{ url('/resources/passagedel/'.$id) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+									<a href="{{ url('/resources/passageview/'.$id) }}" class="btn btn-default btn-sm" title="Details"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+				                	<a href="{{ url('/resources/passageedit/'.$id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
+									<a href="javascript:;" data-ref="{{ url('/resources/passagedel/'.$id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
 				            @endforeach				            
