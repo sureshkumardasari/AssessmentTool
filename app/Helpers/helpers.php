@@ -100,12 +100,12 @@ function breadcrumb($displayName = '', $urlSlug = '') {
         'useradd' => array(
             'displayName' => 'Create User',
             'route' => 'useradd',
-            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'userlist' => 'Users'), //
         ),
         'useredit' => array(
             'displayName' => 'Modify User',
             'route' => 'useredit',
-            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'userlist' => 'User'), //
+            'postfix' => array('mainhome' => 'Home', 'branding-view' => 'Administration', 'userlist' => 'Users'), //
         ),
         //--------institutions-------------
         'institution-list' => array(
