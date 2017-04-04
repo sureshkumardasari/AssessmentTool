@@ -224,14 +224,19 @@ text-align: left !important;
 .gobtn{
   margin-left: -20px;
 }
-.btnexp{
+/*.btnexp{
   margin-left: 25em;
   margin-top: 13em;
   margin-bottom: -34px;
 }
 .btnexx{
   margin-left: 32em;
+}*/
+.textname {
+    white-space: nowrap;
+    width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
 
 
