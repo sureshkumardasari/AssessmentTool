@@ -501,7 +501,7 @@ class ResourceController extends BaseController
 
 
         $institution_id = $request->input('institution_id');
-        $filename = 'category_template_' . $categoryType . '_' . date('Y-m-d') . '.xls';
+        $filename = 'category_template_' . date('Y-m-d') . '.xls';
         //dd($filename);
 
         $save = $this->category->bulkcategoryTemplate($filename, $categoryType, $institution_id, false, true);
@@ -646,7 +646,7 @@ class ResourceController extends BaseController
 
 
         $institution_id = $request->input('institution_id');
-        $filename = 'subject_template_' . $subjectType . '_' . date('Y-m-d') . '.xls';
+        $filename = 'subject_template_' . date('Y-m-d') . '.xls';
         //dd($filename);
 
         $save = $this->subject->bulksubjectTemplate($filename, $subjectType, $institution_id, false, true);
@@ -798,7 +798,7 @@ class ResourceController extends BaseController
         $category_id = $request->input('category_id');
         $subject_id=$request->input('subject_id');
 
-        $filename = 'lesson_template_' . $lessonType. '_' . date('Y-m-d') . '.xls';
+        $filename = 'lesson_template_' . date('Y-m-d') . '.xls';
         //dd($filename);
 
         $save = $this->lesson->bulklessonTemplate($filename, $lessonType, $institution_id,$category_id,$subject_id);

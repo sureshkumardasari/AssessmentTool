@@ -670,7 +670,7 @@ public function questionedit($id = 0)
 		//dd($category_id.$subject_id.$lesson_id.$question_type);
 		$data=$request->Input();
 		//dd($institution_id);
- 		$filename = 'question_template_' . $userType . '_' . date('Y-m-d') . '.xls';
+ 		$filename = 'question_template_' . date('Y-m-d') . '.xls';
 
 		$save = $this->question->questionBulkTemplate($data,$filename, $userType,$institution_id, false, true);
 		if ($save == null) {
