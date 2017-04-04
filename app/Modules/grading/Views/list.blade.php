@@ -39,7 +39,7 @@
 					Grading		
 					<!-- <a  href="#bulk_import" class="btn btn-sm btn-primary pull-right">Bulk import Grades</a>	 -->	
 
-					<a href="{{ route('gradesBulkImport') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk import Grades</a>	
+					<a href="{{ route('gradesBulkImport') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload</a>	
 				</div>
 
                 <?php   $sessRole = getRole() ;
