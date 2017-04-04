@@ -23,13 +23,15 @@
 					<table id="institutionstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
+				                <th>Id</th>
 				                <th>Name</th>
 				                <th></th>
 				            </tr>
 				        </thead>
 				        <tbody>
 				            @foreach( $institutions as $id => $name )
-				            <tr>				                
+				            <tr>
+				                <td>{{ $id }}</td>				                
 				                <td>{{ $name }}</td>
 				                <td>
 				                	<a href="{{ url('/user/institutionedit/'.$id) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
