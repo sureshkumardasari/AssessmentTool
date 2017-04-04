@@ -473,7 +473,7 @@ class UserController extends BaseController
 		$userType = $request->input('userType');
 		$institution_id = $request->input('institution_id');
 
-		$filename = 'user_template_' . $userType . '_' . date('Y-m-d') . '.xls';
+		$filename = 'user_template_' . date('Y-m-d') . '.xls';
 
 		$save = $this->user->bulkUserTemplate($filename, $userType,$institution_id, false, true);
 		if ($save == null) {
