@@ -93,9 +93,9 @@ class GradingController extends BaseController {
 		return view('grading::student_grade', compact('ass_usrs','assignment_id','assessment_id'));
 	}
 
-	public function studentGradeListingAjax($student_id){
+	public function studentGradeListingAjax($student_id=0,$assignment_id=0){
 
-		$ass_usrs = $this->grade->getUsersById($student_id);
+		$ass_usrs = $this->grade->getUsersById($student_id=0,$assignment_id);
 		// dd($ass_usrs);
 		return $ass_usrs;
 
