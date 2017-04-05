@@ -24,7 +24,7 @@ $path = url()."/grading/";
 		$.ajax(
 				{
 					headers: {"X-CSRF-Token": csrf},
-					url:'{{$path}}list-student-ajax/'+$('#user').val()+'/'+$('#assignmentid').val(),
+					url:'{{$path}}list-student-ajax/'+$('#user').val(),
 					type:'post',
 					success:function(response){
  						$('.student_list').empty();
