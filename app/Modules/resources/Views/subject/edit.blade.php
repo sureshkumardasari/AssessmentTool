@@ -32,11 +32,42 @@
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/subjectupdate') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
+						@if ($id > 0)
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<input type="hidden" name="page" id="page" value="subjectedit">
-								<select class="form-control" name="institution_id" id="institution_id">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+									<option value="0">--Select--</option>
+									@foreach($inst_arr as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Category</label>
+							<div class="col-md-6">
+								<select class="form-control" name="category_id" id="category_id">
+									<option value="0">--Select--</option>
+									@foreach($category as $id=>$val)
+									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-md-4 control-label">Name</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="name" value="{{ $name }}">
+							</div>
+						</div>
+                       @else
+                       <div class="form-group required">
+							<label class="col-md-4 control-label">Institution</label>
+							<div class="col-md-6">
+								<input type="hidden" name="page" id="page" value="subjectedit">
+								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
 									<option value="0">--Select--</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -61,7 +92,7 @@
 								<input type="text" class="form-control" name="name" value="{{ $name }}">
 							</div>
 						</div>
-
+						@endif
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
@@ -84,7 +115,35 @@
      }, 5000);
  })
  </script>
+ <?php
+$path = url()."/resources/";
+?>
 <script>
   	var categoryRoute = "{{URL::route('getcategory')}}";
+  	function change_institution(){
+		var csrf=$('Input#csrf_token').val();
+		$.ajax(
+				{
+
+					headers: {"X-CSRF-Token": csrf},
+					url:'{{$path}}categoryList/'+$('#institution_id').val(),
+					type:'post',
+					success:function(response){
+						var a=response.length;
+							// $('#category_id').empty();
+							
+							
+							var opt = new Option('--Select Category--', '');
+							//opt.addClass('selected','disabled','hidden');
+							// $('#category_id').empty();
+							$('#category_id').append(opt);
+							for (i = 0; i < a; i++) {
+								var opt = new Option(response[i].name, response[i].id);
+
+								$('#category_id').append(opt);
+							}
+						}
+					});
+	}
 </script>
 @endsection

@@ -36,7 +36,7 @@
      <form class="form-horizontal" role="form" method="POST" action="{{ url('/resources/passageupdate') }}">
       <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="id" value="{{ $passage->id }}">
-
+      @if ($passage->id > 0)
       <div class="form-group required">
        <label class="col-md-2 control-label">Institution</label>
        <div class="col-md-10">
@@ -81,9 +81,6 @@
         </select>
        </div>
       </div>
-      
-
-
       <div class="form-group required">
        <label class="col-md-2 control-label" >Passage Title</label>
        <div class="col-md-10">
@@ -109,6 +106,77 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0"> Inactive
        </div>
       </div>
+      @else
+      <div class="form-group required">
+       <label class="col-md-2 control-label">Institution</label>
+       <div class="col-md-10">
+        <select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+         <option value="0">--Select Institution--</option>
+          @foreach($inst_arr as $id=>$val)
+         <option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+         @endforeach 
+        </select>
+       </div>
+      </div>
+      <div class="form-group required">
+       <label class="col-md-2 control-label">Category</label>
+       <div class="col-md-10">
+        <select class="form-control" name="category_id" id="category_id" onchange="change_category()">
+         <option value="0">--Select Category--</option>
+         <!--  @foreach($category as $id=>$val)
+         <option value="{{ $id }}" {{ ($id == $sCategory) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+         @endforeach -->
+        </select>
+       </div>
+      </div>
+      <div class="form-group required">
+       <label class="col-md-2 control-label">Subject</label>
+       <div class="col-md-10">
+        <select class="form-control" name="subject_id" id="subject_id" onchange="change_lessons()">
+         <option value="0">--Select Subject--</option>
+         <!--  @foreach($subjects as $id=>$val)
+         <option value="{{ $id }}" {{ ($id == $sSubject) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+         @endforeach -->
+        </select>
+       </div>
+      </div>
+      <div class="form-group required">
+       <label class="col-md-2 control-label">Lessons</label>
+       <div class="col-md-10">
+        <select class="form-control" name="lessons_id" id="lessons_id">
+         <option value="0">--Select Lessons--</option>
+         <!-- @foreach($lessons as $id=>$val)
+         <option value="{{ $id }}" {{ ($id == $sLesson) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+         @endforeach -->
+        </select>
+       </div>
+      </div>
+      <div class="form-group required">
+       <label class="col-md-2 control-label" >Passage Title</label>
+       <div class="col-md-10">
+        <input type="text" class="form-control" name="passage_title" id="passage_title" value="{{ $passage->title }}">
+       </div>
+      </div>
+      <div class="form-group required">
+       <label class="col-md-2 control-label" >Passage Text</label>
+       <div class="col-md-6">
+        <textarea class="form-control" id="passagetext"   name="passage_text"  style="max-width: 150% !important;" >{{ $passage->passage_text }}</textarea>
+       </div>
+      </div>
+       <div class="form-group required">
+       <label class="col-md-2 control-label">Passage Lines</label>
+       <div class="col-md-6">
+        <textarea class="form-control" id="passagelines" name="passage_lines" style="max-width: 150% !important;">{{ $passage->passage_lines }}</textarea>
+       </div>
+      </div>
+      <div class="form-group required">
+       <label class="col-md-2 control-label">Status</label>
+       <div class="col-md-6">
+        <input type="radio" class="" name="status" id="status_yes" value="1" checked="checked"> Active
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0"> Inactive
+       </div>
+      </div>
+      @endif
       <div class="form-group">
        <div class="col-md-6 col-md-offset-4">
        <button  class="btn btn-primary  fancybox fancybox.ajax" onclick="popup()"> Preview </button>
