@@ -61,7 +61,7 @@
 
 
 				<div class="panel-body">
-				 <table  class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+				 <table id="grade_table" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 
 
 				        <thead>
@@ -70,7 +70,7 @@
 				                <th>Assignment Name</th>
 				                <th>Status</th>
 				                
-				                @if(Auth::user()->role_id ==3)
+				                @if(Auth::user()->role_id == 3)
 				                <th>Action</th>
 				                @endif
 				            </tr>
@@ -96,7 +96,7 @@
 					                @endif
 
 				                </td>
-				                @if(Auth::user()->role_id ==3)
+				                @if(Auth::user()->role_id == 3)
 				                <td>
 				                <!-- 	<a href="{{ url('/resources/assignmentedit/'.$id) }}" class="btn btn-default btn-sm" title="Grade">
 				                	<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
@@ -142,7 +142,7 @@
 						url:loadurl + $('#institution_id').val(),
 						type: 'get',
 						success: function (response) {
-							  $('#assignmentstable').dataTable().fnDestroy();
+							  $('#grade_table').dataTable().fnDestroy();
 							$('#assignbody').empty();
 							var tr;
 							for (var i = 0; i < response.length; i++) {
@@ -150,11 +150,13 @@
 								tr.append("<td>" + response[i].assessment_name + "");
 								tr.append("<td>" + response[i].name + "");
 								tr.append("<td>" + response[i].gradestatus + "");
+								@if(Auth::user()->role_id == 3)
 								tr.append("<td>"+ "</td>");
+								@endif
 								$('#assignbody').append(tr);
 
 							}
-							  $('#assignmentstable').dataTable();
+							  $('#grade_table').dataTable();
 						}
 					});
 
