@@ -51,7 +51,7 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('questionadd', array('as' => 'question-add', 'uses'=>'QuestionController@questionadd'));
     Route::get('questionview/{id}', array('as' => 'edit', 'uses'=>'QuestionController@questionview'));
     Route::get('questionedit/{id}', array('as' => 'question-edit', 'uses'=>'QuestionController@questionedit'));
-    Route::post('question_list_filer', array('as' => 'question-edit', 'uses'=>'QuestionController@questionlist'));
+    Route::post('question_list_filter', array('as' => 'question-edit', 'uses'=>'QuestionController@questionlist'));
     Route::get('questiondel/{id}', array('as' => 'delete', 'uses'=>'QuestionController@questiondelete'));
     Route::get('launch-file-browser/{backet}', array('as' => 'launchFileBrowser', 'uses'=>'QuestionController@launchFileBrowser'));
     Route::post('file-browser-upload-file', array('as' => 'fileBrowserUploadFile', 'uses' => 'QuestionController@fileBrowserUploadFile'));

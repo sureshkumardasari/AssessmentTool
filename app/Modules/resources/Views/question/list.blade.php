@@ -94,9 +94,9 @@
 						<div class="col-md-6">
 							<div class="move-arrow-box">
 
-								<button class="btn btn-primary" onclick="filter()" href="javascript:;">Go</button> 
+								 <button class="btn btn-primary" onclick="filter()" href="javascript:;">Go</button> 
 
-						<!-- 		<a class="btn btn-primary"  href="javascript:;" onclick="question_change()">Go</a> -->
+							 <!-- <a class="btn btn-primary"  href="javascript:;" onclick="question_change()">Go</a>   -->
 
 							</div>
 						</div>
@@ -182,8 +182,8 @@ function filter(){
         else
             {
              var data={'institution':institution_id,'category':category_id,'subject':subject_id,'lessons':lessons_id,'question_type':question_type};
-    var url="question_list_filer";
-    ajax(url,data,csrf);
+				  var url="question_list_filter";
+				  ajax(url,data,csrf);
             }
   
  }
@@ -199,9 +199,13 @@ function filter(){
 						var tr;
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
-							tr.append("<td>" + response[i].title + "");
-							tr.append("<a href='assessmentedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
-							tr.append("<a href='assessmentdel/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							tr.append("<td>" + response[i].qid + "");
+							tr.append("<td>" + response[i].question_title + "");
+							tr.append("<td>" + response[i].question_type + "");
+							tr.append("<td>" + response[i].passage_title + "");
+							tr.append("<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
+							tr.append("<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							tr.append("<a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a></td>");
 							$('#question_list_filer').append(tr);
 						}
 					}

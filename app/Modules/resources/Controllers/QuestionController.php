@@ -114,6 +114,48 @@ class QuestionController extends BaseController {
 		//dd($list);
 		return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
 	}
+	public function questionlist()
+	{
+
+		$post = Input::All();
+		//dd($post);
+		$institution=$post['institution'];
+		$category=$post['category'];
+		$subject=$post['subject'];
+		$lessons=$post['lessons'];
+		$questions=$post['question_type'];
+		//dd($questions);
+		$obj=Question::join('question_type','questions.question_type_id','=','question_type.id')
+				->leftjoin('passage','questions.passage_id','=','passage.id');
+
+		if($institution > 0){
+			$obj->where("questions.institute_id", $institution);
+		}
+		if($category > 0){
+			$obj->where("questions.category_id", $category);
+		}
+		if($subject > 0){
+			$obj->where("questions.subject_id", $subject);
+		}
+		if($lessons > 0){
+			$obj->where("questions.lesson_id", $lessons);
+		}
+		if($questions=$post['question_type']){
+			$obj->where("question_type.qst_type_text",$questions);
+		}
+		
+
+
+
+		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+				->orderby('qid')
+				->get();
+		//$question_list = $this->question->getQuestionFilter($institution);
+				        
+//dd($list);
+		return $list;
+
+	}
 
 	public function questionadd()
 	{
