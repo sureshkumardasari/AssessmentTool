@@ -1,12 +1,12 @@
 					<table id="userstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
-				                <th>Name<a><img src="..public\images\Sort.png"></a></th>
-				                <th>Email<a><img src="..public\images\Sort.png"></a></th>
-				                <th>Institution<a><img src="..public\images\Sort.png"></a></th>
-				                <th>Role<a><img src="..public\images\Sort.png"></a></th>
-				                <th>Status<a><img src="..public\images\Sort.png"></a></th>
-				                <th>Action</th>
+				                <th>Name</th>
+				                <th>Email</th>
+				                <th>Institution</th>
+				                <th>Role</th>
+				                <th>Status</th>
+				                <th style="visibility: hidden;"></th>
 				            </tr>
 				        </thead>
 				        <tbody>
