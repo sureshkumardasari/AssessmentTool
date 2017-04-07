@@ -38,7 +38,13 @@ class AdminController extends BaseController {
 	public function index()
 	{
 //            var_dump(EntrustFacade::hasRole('admin'));
+		 if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
             return view('admin::profile');
 	}
     
-}
+
+else
+    {
+   return view('permission');
+    }
+	}

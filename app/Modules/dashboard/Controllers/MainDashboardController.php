@@ -64,7 +64,7 @@ class MainDashboardController extends BaseController
         } 
      }
     public function getAdministratorDetails(){
-
+ 
     	//mahesh
     	$assignments_user = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
@@ -213,6 +213,7 @@ class MainDashboardController extends BaseController
 	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
 	       
     }public function getStudentDetails(){
+    	
 	$user_id=\Auth::user()->id;
 	//dd($user_id);
 	$now=date('Y-m-d h:i:s');
@@ -240,8 +241,12 @@ class MainDashboardController extends BaseController
 	//return view('home');
 		//close mallikarjun
 		return view('dashboard::dashboard.student_dashboard',compact('user','completed_assignments','upcoming_assignments','percentage'));
-    }public function getTeacherAndAdminDetails(){
+	}
+		
+    
+    public function getTeacherAndAdminDetails(){
    // dd('dgcg');
+    	if(Auth::user()->role_id != 2){
     	$ins= \Auth::user()->institution_id;
     	$assignments_user = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
@@ -402,11 +407,16 @@ class MainDashboardController extends BaseController
         //close
 	     	  // dd($class_students);
 	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
-	       
+	  }     
+    
+else
+    {
+   return view('permission');
     }
-
+	
+    }
 	public function student_assignment_reports(){
-
+if(Auth::user()->role_id != 2){
 		$user_id=\Auth::user()->id;
 		//dd($user_id);
 		$now=date('Y-m-d h:i:s');
@@ -427,5 +437,10 @@ class MainDashboardController extends BaseController
 
 	return view('dashboard::dashboard.student_report_lists',compact('user','completed_assignments','upcoming_assignments','percentage'));
 }
+else
+    {
+   return view('permission');
+    }
+	}
 
 }

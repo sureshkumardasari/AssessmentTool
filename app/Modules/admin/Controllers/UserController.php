@@ -63,7 +63,7 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
-		
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		        $inst_arr=[];
         $roles_arr=[];
         //dd($institution_id);
@@ -129,9 +129,16 @@ class UserController extends BaseController
 		return view('admin::user.list', compact('inst_arr', 'roles_arr'))
 			->nest('usersList', 'admin::user._list', compact('users'));
 	}
+        else
+            {
+           return view('permission');
+           }
+	}
 
+	
 	public function usersJson($institution_id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$params = Input::All();
 		//dd($params);
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : 0;
@@ -144,9 +151,14 @@ class UserController extends BaseController
 
 		return json_encode($users);
 	}
-
+ else
+            {
+           return view('permission');
+           }
+	}
 	public function searchByInstitution($institution_id = 0, $role_id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$params = Input::All();
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
 		$role_id = (isset($params['role_id'])) ? $params['role_id'] : $role_id;
@@ -157,15 +169,26 @@ class UserController extends BaseController
 		$from = 'search';
 		return view('admin::user._list', compact('users', 'from'));
 	}
-
+ else
+            {
+           return view('permission');
+           }
+	}
 	public function profile()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$userid = Auth::user()->id;
 		$this->edit($userid);
-	}
 
+	}
+    else
+            {
+           return view('permission');
+           }
+	}
 	public function add()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
@@ -182,6 +205,11 @@ class UserController extends BaseController
 		 
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+	}
+         else
+            {
+           return view('permission');
+           }
 	}
 
 	public function edit($userid = 0)
@@ -227,7 +255,7 @@ class UserController extends BaseController
 		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}*/
-
+        
 		$userid = ($userid > 0) ? $userid : Auth::user()->id;
 		$params = Input::All();
 		$InstitutionObj = new Institution();
@@ -271,17 +299,25 @@ class UserController extends BaseController
 
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 	}
+
 	function state($country_id=0)
     {
     	//dd($country_id);
-    	
+    	if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
         $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
-          return $state_arr;    
+          return $state_arr; 
+      }
+       else
+           {
+           return view('permission');
+           }
+	   
     }
 
 
 	public function update($institutionId = 0)
 	{
+		
 		$post = Input::All();
 		//dd($post);
 
@@ -349,16 +385,12 @@ class UserController extends BaseController
 		}
 
 		}
-		/*
-        $params = Input::All();
-        //var_dump($params);
-        $this->user->updateUser($params);
-
-        return redirect('/user');*/
+		
 	}
-
+       
 	public function delete($userid)
 	{
+		   if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 			$assign = AssignmentUser::where('user_id', $userid)->count();
 			//dd($assign);
 			if ($assign == null ) {
@@ -373,24 +405,43 @@ class UserController extends BaseController
 
 			}
 	}
+	else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function roleslist()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$roles = Role::lists('name', 'id');
 		return view('admin::role.list',compact('roles'));
 	}
-
+    else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function roleadd()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$id = 0;
 		$name = '';
 		return view('admin::role.edit',compact('id','name'));
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function roleedit($id = 0)
 	{
+         if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){  
 		if(isset($id) && $id > 0)
 		{
-			$Obj = Role::find($id);
+            $Obj = Role::find($id);
 			$id = $Obj->id;
 			$name = $Obj->name;
 		}
@@ -402,9 +453,15 @@ class UserController extends BaseController
 
 		return view('admin::role.edit',compact('id','name'));
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function roleupdate($id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$post = Input::All();
 		$rules = [
 			'name' => 'required|min:3|unique:roles',
@@ -429,22 +486,34 @@ class UserController extends BaseController
 			return redirect('/user/role');
 		}
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function roleupdateold($id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$params = Input::All();
 		//var_dump($params);
 		$this->user->updateRole($params);
 
 		return redirect('/user/role');
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function roledelete($id)
 	{
 		/*if($id > 0)
 		{
 			$this->user->deleteRole($id);
 		}*/
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$users = User::where('role_id', $id)->count();
 		//dd($users);
 		if ($users == null ) {
@@ -460,16 +529,28 @@ class UserController extends BaseController
 		}
 	//	return redirect('/user/role');
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function userBulkUpload()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		return view('admin::user.bulkupload',compact('inst_arr'));
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function bulkUserTemplate(Request $request)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$userType = $request->input('userType');
 		$institution_id = $request->input('institution_id');
 
@@ -482,9 +563,14 @@ class UserController extends BaseController
 			return Response::json(array('file_name' => false));
 		}
 	}
-
+else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function bulkUserUpload(Request $request) {
-
+         if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$institutionId = $request->input('institutionId');
 		$userType = $request->input('userType');
 
@@ -524,6 +610,12 @@ class UserController extends BaseController
 		return  $some=$this->fileupload($destPath,$destFileName, $institutionId, $userType);
 		// return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
 	}
+	else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function fileupload($destPath,$destFileName, $institutionId, $userType){
 		//dd($userType);
 		$role_id = 0;
@@ -736,6 +828,7 @@ class UserController extends BaseController
 	}
 	public function downloadExcel($type)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$post = Input::all();
 		$data = Institution::join('users', 'institution.id', '=', 'users.institution_id')
 			->join('roles', 'roles.id', '=', 'users.role_id')
@@ -758,6 +851,12 @@ class UserController extends BaseController
 			});
 		})->download($type);
 	}
+	else
+           {
+           return view('permission');
+           }
+	   
+    }
 	public function download()
 	{
 		$InstitutionObj = new Institution();

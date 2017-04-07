@@ -34,5 +34,10 @@ class HomeController extends Controller {
 		return Redirect::to('/dashboard/home');
 		return view(url('/dashboard/home'));
 	}
+	public function permission()
+ {
+  return view('permission');
+
+ }
 
 }

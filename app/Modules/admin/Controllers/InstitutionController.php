@@ -56,13 +56,26 @@ class InstitutionController extends BaseController {
 	 */
 	public function index($parent_id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		$institutions = $this->institution->getInstitutions($parent_id);
         return view('admin::institution.list',compact('institutions'));
+    }
+    else
+    {
+   return view('permission');
+    }
 	}
-    
+
+    public function permission()
+ {
+ 	// dd('gjyhgyjugh');
+  return view('permission');
+
+ }
 	public function add()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$state_arr = $this->user->getstates();
@@ -72,9 +85,14 @@ class InstitutionController extends BaseController {
         
 		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode','inst_arr'));
 	}
-
+ else
+    {
+   return view('permission');
+    }
+	}
 	public function edit($id = 0)
 	{	
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$state_arr = $this->user->getstates();
 		$country_arr = $this->institution->getcountries();
 		if(isset($id) && $id > 0)
@@ -101,9 +119,14 @@ class InstitutionController extends BaseController {
 
 		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode'));
 	}
-
+ else
+    {
+   return view('permission');
+    }
+	}
 	public function update($id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$post = Input::All();
 		$messages=[
 			'phoneno.required'=>'The Phone no field is required',
@@ -141,18 +164,28 @@ class InstitutionController extends BaseController {
 			return redirect('/user/institution');
 		}
 	}
-	
+	else
+    {
+   return view('permission');
+    }
+	}
 	public function updateold($id = 0)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$params = Input::All();
 		//var_dump($params);
 		$this->institution->updateInstitution($params);
 
 		return redirect('/user/institution');
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	public function delete($id )
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$users = User::where('institution_id', $id)->count();
 
 		$cat=Category::where('institution_id',$id)->count();
@@ -168,13 +201,23 @@ class InstitutionController extends BaseController {
 
 		}
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	public function InstitutionsBulkUpload()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		return view('admin::institution.bulkupload');
 	}
+	else
+    {
+   return view('permission');
+    }
+	}
 	public function bulkInstitutionTemplate(Request $request){
-
+              if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 			$userType = $request->input('userType');
 			$filename = 'institution_template_' . date('Y-m-d') . '.xls';
 			$save = $this->institution->bulkInstitutionTemplate($filename, $userType);
@@ -185,10 +228,14 @@ class InstitutionController extends BaseController {
 			}
 
 	}
-
+ else
+    {
+   return view('permission');
+    }
+	}
     public function bulkInstitutionUpload(Request $request) {
 
-
+        if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
         $userType = $request->input('userType');
         $uploadSuccess = false;
         $file = $request->file('file');
@@ -222,9 +269,15 @@ class InstitutionController extends BaseController {
         return  $some=$this->fileupload($destPath,$destFileName,$userType);
         // return $sucessarray = array('status' => 'success', 'msg' => 'Uploaded Successfully');
     }
+    else
+    {
+   return view('permission');
+    }
+	}
     public function fileupload($destPath,$destFileName,$userType){
         //dd($userType);
         //dd($role_id );
+        
         $uploadSuccess = false;
         $orignalHeaders = ['institution_id','institution_name','address1','address2','address3','city','state','phone','pin','country'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
