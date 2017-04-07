@@ -120,6 +120,9 @@ class AssessmentController extends BaseController {
 
 	public function assessmentcreate(){
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+		if (getRole() == "student") {
+     return view('permission');
+    }
 		$id = $institution_id = $subject_id = $category_id = 0;
 		$inst_arr = $this->institution->getInstitutions();
 		$id=Auth::user()->id;
@@ -143,7 +146,7 @@ class AssessmentController extends BaseController {
  			return view('resources::assessment.add',compact('inst_passages_list','inst_questions_list','inst_arr', 'id','institution_id','questions','subjects','category','lesson','question_type'));
 	}
 	public function assessmentInsert(){
-
+      
 		$post = Input::All();
 		//dd($post);
 		if(!isset($post['passageIds'])){
@@ -573,6 +576,9 @@ class AssessmentController extends BaseController {
 
 	public function assessmentview($id=0)
 	{
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 		$title=DB::table('assessment')->where('id','=',$id)->select('assessment.name')->get();
 		//dd($title);
 		if(isset($id) && $id > 0)
@@ -587,7 +593,12 @@ class AssessmentController extends BaseController {
 		}
 		return view('resources::assessment.view',compact('assessments','title'));
 	}
+	}
 	public function assessmentedit($id=0){
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
+
 		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
@@ -644,6 +655,7 @@ class AssessmentController extends BaseController {
 				        // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assessment.edit',compact('passages_list_not','lesson','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));
+	}
  	}
 	public function assessmentupdate($id=0){
  		$post = Input::All();

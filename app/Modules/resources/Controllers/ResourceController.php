@@ -97,6 +97,9 @@ class ResourceController extends BaseController
 
     public function subjectadd()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $id = $institution_id = $category_id = 0;
         $name = '';
         $title='Create Subject';
@@ -110,9 +113,13 @@ class ResourceController extends BaseController
 
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id','title'));
     }
+    }
 
      public function subjectedit($id = 0)
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
 
         if (isset($id) && $id > 0) {
             $obj = $this->subject->find($id);
@@ -135,6 +142,7 @@ class ResourceController extends BaseController
         // \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::subject.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'category', 'category_id','title'));
+    }
     }
 
     public function subjectupdate($id = 0)
@@ -214,6 +222,9 @@ class ResourceController extends BaseController
 
     public function lessonadd()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $institution_id = (old('institution_id') != NULL && old('institution_id') > 0) ? old('institution_id') : 0;
         $category_id = (old('category_id') != NULL && old('category_id') > 0) ? old('category_id') : 0;
         $subject_id = (old('subject_id') != NULL && old('subject_id') > 0) ? old('subject_id') : 0;
@@ -230,9 +241,13 @@ class ResourceController extends BaseController
 
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id','title'));
     }
+    }
 
     public function lessonedit($id = 0)
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $inst_arr = $this->institution->getInstitutions();
         $subjects = $this->subject->getSubject();
 // dd($subjects);
@@ -263,6 +278,7 @@ class ResourceController extends BaseController
                 // \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::lesson.edit', compact('id', 'institution_id', 'name', 'inst_arr', 'subjects', 'subject_id', 'category', 'category_id','title'));
+    }
     }
 
      public function lessonupdate($id = 0)
@@ -343,6 +359,9 @@ class ResourceController extends BaseController
 
     public function categoryadd()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $inst_arr = $this->institution->getInstitutions();
 
         $id = $institution_id = 0;
@@ -352,9 +371,13 @@ class ResourceController extends BaseController
 
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr','title'));
     }
+    }
 
    public function categoryedit($id = 0)
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
 
         $inst_arr = $this->institution->getInstitutions();
 
@@ -372,6 +395,7 @@ class ResourceController extends BaseController
                 // \Session::flash('flash_message','Information saved successfully.');
 
         return view('resources::category.edit', compact('id', 'institution_id', 'name', 'inst_arr','title'));
+    }
     }
 
 
