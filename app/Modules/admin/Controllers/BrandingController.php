@@ -39,7 +39,7 @@ class BrandingController extends Controller {
 			'button_text_color' => $post['buttontc'],
 			'institution_id' => $post['institution_id'],
 		];*/
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		 
 		$brandingInstitutions=Branding::lists('institution_id');
 		//dd($brandingInstitutions);
 		$brandingIds=Branding::lists('id','institution_id');
@@ -54,15 +54,12 @@ class BrandingController extends Controller {
 			$InstitutionObj = new Institution();
 			$inst_arr = $InstitutionObj->getInstitutions();
 		}
+	
 		//$branding = Branding::create($createArr);
 		//$inst_arr=Institution::get();
 		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions','brandingIds'));
-	}
- else
-    {
-   return view('permission');
-    }
-	}
+	
+ }
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -70,7 +67,7 @@ class BrandingController extends Controller {
 	 */
 	public function create( Request $request)
 	{
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		
 		$post = Input::All();
 		//dd($post);
 		$messages = [
@@ -147,11 +144,7 @@ class BrandingController extends Controller {
 		return Redirect::route('mainhome');
 	}
 
-else
-    {
-   return view('permission');
-    }
-	}
+
 
 	/**
 	 * Store a newly created resource in storage.
@@ -195,7 +188,9 @@ else
 //		$branding=Branding::join('institution as i','brandings.institution_id','=','i.id')
 //		->select('i.id as institution_id','brandings.id','i.name as institution_name','brandings.title')->get();
 //		return view('admin::branding.brandview',compact('branding'));
-
+if (getRole() == "student" || getRole() == "teacher") {
+     return view('permission');
+    }
 		$role=getRole();
 		$inst=\Auth::user()->institution_id;
 		if($role=="administrator"){
@@ -228,7 +223,10 @@ else
 	 */
 	public function edit($id)
 	{
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		if (getRole() == "student" || getRole() == "teacher") {
+     return view('permission');
+    }else
+    {
 		$InstitutionObj = new Institution();
 		//$inst_arr = $InstitutionObj->getInstitutions();
 		$branding=Branding::find($id);
@@ -239,10 +237,7 @@ else
 		return view('admin::branding.brandedit', compact('branding', 'institution'));
 
 	}
-	else
-    {
-   return view('permission');
-    }
+	
 	}
 	/*public function brandingscript($id)
 	{
