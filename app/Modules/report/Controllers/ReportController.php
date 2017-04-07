@@ -97,6 +97,9 @@ class ReportController extends Controller
 
     public function studentAnswerReport()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $users = Array();
         $assignments=[];
         if (getRole() != "administrator") {
@@ -110,9 +113,13 @@ class ReportController extends Controller
         $inst_arr = $InstitutionObj->getInstitutions();
         return view('report::report.student_answer_report', compact('inst_arr', 'assignments'));
     }
+    }
 
     public function answer()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
         $assignment =[];
@@ -121,6 +128,7 @@ class ReportController extends Controller
             $assignment = Assignment::where('institution_id', $ids[0])->select('assignment.name', 'assignment.id')->get();
         }
         return view('report::report.answer', compact('inst_arr','assignment'));
+    }
 
     }
 
@@ -517,9 +525,13 @@ class ReportController extends Controller
 // test history class average report home page...
     public function TestHistoryReport()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
         return view('report::report.testhistoryreport', compact('inst_arr'));
+    }
 
     }
 
@@ -887,6 +899,9 @@ class ReportController extends Controller
 
     public function leastscore()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $ins = \Auth::user()->institution_id;
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
@@ -932,6 +947,7 @@ class ReportController extends Controller
         }
 //dd($report_data2);
         return view('report::report.least_score', compact('report_data', 'report_data1', 'report_data2', 'assignmentname','length'));
+    }
     }
 
     public function dashboard()
