@@ -37,7 +37,11 @@ class ReportController extends Controller
          $message = "You don't have permission";
            \Session::put("success", $message);
             return redirect()->route('home');*/
+            if (getRole() == "student") {
+     return view('permission');
+    }else{
         return view('report::report.report');
+    }
     }
 
 
@@ -48,6 +52,9 @@ class ReportController extends Controller
          $message = "You don't have permission";
            \Session::put("success", $message);
             return redirect()->route('home');*/
+            if (getRole() == "student") {
+     return view('permission');
+    }else{
         $ins = \Auth::user()->institution_id;
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
@@ -58,6 +65,7 @@ class ReportController extends Controller
 //			$assessments=
 //		}
         return view('report::report.class_average_and_student_scores_report', compact('inst_arr', 'assignments'));
+    }
     }
 
     public function assignment()
@@ -714,6 +722,9 @@ class ReportController extends Controller
 
     public function wholeclassscorereport()
     {
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $ins = \Auth::user()->institution_id;
         $InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
@@ -722,6 +733,7 @@ class ReportController extends Controller
         $subjects = $subjectObj->getSubject();  //dd($subjects);
 
         return view('report::report.wholeclassscorereport', compact('inst_arr', 'subjects', 'assignment'));
+        }
     }
 
     public function subject_change($assi_id)

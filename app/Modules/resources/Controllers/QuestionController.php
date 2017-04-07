@@ -99,6 +99,9 @@ class QuestionController extends BaseController {
 	public function question()
 	{
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
@@ -113,6 +116,7 @@ class QuestionController extends BaseController {
 				->get();
 		//dd($list);
 		return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
+	}
 	}
 	public function questionlist()
 	{

@@ -77,7 +77,11 @@ class PassageController extends BaseController {
 	public function passage($parent_id = 0)
 	{
 		$passages = $this->passage->getPassage();
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
         return view('resources::passage.list',compact('passages'));
+    }
 	}
 
 	public function passageadd()

@@ -72,6 +72,9 @@ class ResourceController extends BaseController
     public function subject($parent_id = 0)
     {
         //$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+         if (getRole() == "student") {
+     return view('permission');
+    }else{
         $inst_arr = $this->institution->getInstitutions();
 //      if(getRole()=="administrator"){
 //          $category = $this->category->getCategory();
@@ -89,6 +92,7 @@ class ResourceController extends BaseController
         $subjectcategory = $this->subject->getSubjectCategory();
         return view('resources::subject.list', compact('inst_arr', 'category', 'subjectcategory'))
             ->nest("subjectsList", 'resources::subject._list', compact('subjects', 'category', 'subjectcategory'));
+        }
     }
 
     public function subjectadd()
@@ -194,6 +198,9 @@ class ResourceController extends BaseController
     public function lesson($parent_id = 0)
     {
         //$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+         if (getRole() == "student") {
+     return view('permission');
+    }else{
         $inst_arr = $this->institution->getInstitutions();
         $subjects = $this->subject->getSubject();
         $category = $this->category->getCategory();
@@ -202,6 +209,7 @@ class ResourceController extends BaseController
         //return view('resources::lesson.list',compact('inst_arr', 'lessons','subjects','category'));
         return view('resources::lesson.list', compact('inst_arr', 'subjects', 'category'))
             ->nest("lessonsList", 'resources::lesson._list', compact('lessons'));
+        }
     }
 
     public function lessonadd()
@@ -320,6 +328,9 @@ class ResourceController extends BaseController
     public function category($parent_id = 0)
     {
         //$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
         $inst_arr = $this->institution->getInstitutions();
         $category = $this->category->getCategory();
         //return view('resources::category.list',compact('inst_arr','category'));
@@ -327,6 +338,7 @@ class ResourceController extends BaseController
 
         return view('resources::category.list', compact('inst_arr'))
             ->nest("categoryList", 'resources::category._list', compact('category'));
+            }
     }
 
     public function categoryadd()

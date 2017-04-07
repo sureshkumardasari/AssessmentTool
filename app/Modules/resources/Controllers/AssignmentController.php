@@ -71,6 +71,9 @@ class AssignmentController extends BaseController {
 	}
 	public function assignment($parent_id = 0)
 	{
+		if (getRole() == "student") {
+     return view('permission');
+    }
 		if(getRole()!= "administrator") {
 			$uid = \Auth::user()->institution_id;
 			//dd($uid);

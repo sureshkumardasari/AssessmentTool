@@ -92,7 +92,10 @@ class AssessmentController extends BaseController {
 	public function index()
 	{
 		
-		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;		
+		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;	
+		if (getRole() == "student") {
+     return view('permission');
+    }else{	
 		$inst_arr = $this->institution->getInstitutions();	
 		$subjects = $this->subject->getSubject();	
 		$category = $this->category->getCategory();
@@ -110,6 +113,7 @@ class AssessmentController extends BaseController {
 		}
 			$institution_id='';
         return view('resources::assessment.list'  ,compact('assessment','institution_id','inst_arr', 'questions','subjects','category', 'templates'));
+    }
 	}
 
 	
