@@ -75,6 +75,7 @@ class GradingController extends BaseController {
 	}
 
 	public function assignment(){
+		
 		$inst_arr = $this->institution->getInstitutions();
 		$assignments = $this->grade->getGradeAssignment();
 		$grading_status= $this->grade->getAssignmentGradeStatus();
@@ -87,20 +88,29 @@ class GradingController extends BaseController {
 	public function studentGradeListing($assignment_id,$assessment_id){
 		 //print_r($assignment_id=0);
 		//$assignment_id=$assignment_id;
+		if(Auth::user()->role_id == 3){
 		$ass_usrs = $this->grade->getUsersByAssignment($assignment_id);
 
 		// dd($ass_usrs);
 		return view('grading::student_grade', compact('ass_usrs','assignment_id','assessment_id'));
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	public function studentGradeListingAjax($student_id=0){
-
+        if(Auth::user()->role_id == 3){
 		$ass_usrs = $this->grade->getUsersById($student_id);
 		// dd($ass_usrs);
 		return $ass_usrs;
 
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 
 	public function questionGradeListing($assignment_id,$assessment_id){
 	/*	$ids = explode("-", $iid);
@@ -108,13 +118,20 @@ class GradingController extends BaseController {
 		$assessment_id = $ids[1];*/
 
 		// print_r($assignment_id);
+		if(Auth::user()->role_id == 3){
 		$ass_qst = $this->grade->loadAssignmentQuestion($assignment_id, $assessment_id);
 		//$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
 		//dd($ass_qst);
 		return view('grading::question_grade_list', compact('ass_qst', 'assignment_id', 'assessment_id'));
 	}
+	else
+    {
+   return view('permission');
+    }
+	}
 
 	public function questionGrade($iid){
+		if(Auth::user()->role_id == 3){
 		$ids = explode("-", $iid);
 		$assignment_id = $ids[0];
 		$assessment_id = $ids[1];
@@ -133,10 +150,14 @@ class GradingController extends BaseController {
 		//dd($ass_qst);
 		return view('grading::question_grade', compact('ass_qst', 'assignmentUsersArr', 'assignment_id', 'assessment_id', 'qst_id'));
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	public function studentQuestionList($id,$assignment_id,$assessment_id)
 	{
-
+         if(Auth::user()->role_id == 3){
 		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);
 		$user_id=$id;
 		$institute=User::select('institution_id')->where('id',$id)->first();
@@ -185,18 +206,29 @@ class GradingController extends BaseController {
 		$student_id=$id;
 		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','student_id','first_student_answers','question_type','institution_name','details'));
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	public function studentGradingInner($assignment_id){
+       if(Auth::user()->role_id == 3){
 		return 'studentGradingInner';
+
 		// print_r($assignment_id);
 		$ass_qst = $this->assignmentqst->getQuestionsByAssessment($assignment_id);
 		// dd($ass_qst);
 		return view('grading::student_question_list', compact('ass_qst'));
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	// Save answers for students by Grade By Question method.....
 	public function saveAnswerByQuestionGrade($question_id=0)
 	{
+		if(Auth::user()->role_id == 3){
 		$post = Input::all();
 		//dd($post);
 		if (($post['question_type'] != "Essay") && ($post['question_type'] != "Fill in the blank")) {
@@ -257,6 +289,7 @@ class GradingController extends BaseController {
 							return "All students graded";
 						}
 						return $post['user_id'];
+					}
 					} else {
 						$users_already_answered = QuestionUserAnswer::where('assessment_id', $post['assessment_id'])->where('assignment_id', $post['assignment_id'])
 							->where('question_id', $question_id)->lists('user_id');
@@ -494,6 +527,7 @@ class GradingController extends BaseController {
 
 	}
 
+	
 
 	public function nextStudentAnswersForQuestionGrade($user_id=0,$ids=0){
 
