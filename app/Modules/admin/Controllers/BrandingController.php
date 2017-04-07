@@ -39,6 +39,7 @@ class BrandingController extends Controller {
 			'button_text_color' => $post['buttontc'],
 			'institution_id' => $post['institution_id'],
 		];*/
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$brandingInstitutions=Branding::lists('institution_id');
 		//dd($brandingInstitutions);
 		$brandingIds=Branding::lists('id','institution_id');
@@ -57,7 +58,11 @@ class BrandingController extends Controller {
 		//$inst_arr=Institution::get();
 		return view('admin::branding.brand',compact('inst_arr','brandingInstitutions','brandingIds'));
 	}
-
+ else
+    {
+   return view('permission');
+    }
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -65,6 +70,7 @@ class BrandingController extends Controller {
 	 */
 	public function create( Request $request)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$post = Input::All();
 		//dd($post);
 		$messages = [
@@ -141,7 +147,11 @@ class BrandingController extends Controller {
 		return Redirect::route('mainhome');
 	}
 
-
+else
+    {
+   return view('permission');
+    }
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -218,6 +228,7 @@ class BrandingController extends Controller {
 	 */
 	public function edit($id)
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		//$inst_arr = $InstitutionObj->getInstitutions();
 		$branding=Branding::find($id);
@@ -227,6 +238,11 @@ class BrandingController extends Controller {
         //\Session::flash('flash_message','Information saved successfully.');
 		return view('admin::branding.brandedit', compact('branding', 'institution'));
 
+	}
+	else
+    {
+   return view('permission');
+    }
 	}
 	/*public function brandingscript($id)
 	{
@@ -242,7 +258,7 @@ class BrandingController extends Controller {
 	 */
 	public function update($id, Request $request)
 	{
-
+        if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$post = Input::All();
 		$messages = [
 			'institution_id.required' => ' Institution Name  is required',
@@ -316,7 +332,11 @@ class BrandingController extends Controller {
 
 		return Redirect::route('mainhome');
 	}
-
+else
+    {
+   return view('permission');
+    }
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *
