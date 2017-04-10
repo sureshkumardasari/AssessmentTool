@@ -60,11 +60,7 @@
                                 </div>
                             </div>
 
-                        <!-- <div class="form-group col-md-12">
-                            <div class="col-md-6 col-md-offset-8">
-                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
-                        </div></div> -->
+                        
                     </form>
                     <div id="wholescore">
 
