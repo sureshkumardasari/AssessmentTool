@@ -106,7 +106,8 @@
 							<div class="col-md-2">{{ $assignmentUsersArr[$i]->username}}</div>
 							<div class="col-md-2">{{ $starr[$assignmentUsersArr[$i]->status]}}</div>
 							
-							<div class="col-md-3">{{ ($assignmentUsersArr[$i]->status == 'completed') ? date($dtFormat, strtotime($assignmentUsersArr[$i]->takendate)) : '' }}</div>
+							<div class="col-md-3">{{ ($assignmentUsersArr[$i]->status == 'completed') ? ($assignmentUsersArr[$i]->takendate) : '' }}</div>
+
 							<div class="col-md-1">{{ ($assignmentUsersArr[$i]->status == 'completed') ? $assignmentUsersArr[$i]->rawscore : ''}}</div>
 							
 
