@@ -1,7 +1,7 @@
 <div class="form-group col-md-12">
                             <div class="col-md-6 col-md-offset-8">
-                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
+                            <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
                         </div></div>
 
 <table class="table table-bordered table-hover table-striped" id="report">
@@ -48,23 +48,7 @@
 <div id="chart-1">FusionCharts XT will load here!</div>
 
 <script type="text/javascript">
-    function reports(){
-            
-                $.ajax(
-                        {
-
-                            headers: {"X-CSRF-Token": csrf},
-                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
-                            type: 'post',
-                            success: function (response) {
-                                $('#report').empty();
-                                $('#report').append(response);
-                                $('#report').prepend($('.average'));
-                            }
-                        }
-                )
-            
-        }
+    
         $('#pdf').on('click',function(){
 
             var inst_id=$('#institution_id').val();
