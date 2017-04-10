@@ -9,7 +9,7 @@
 <div class="Container">
 
 <div> 
-  <h3 style="text-align: center;color: red"> you don't have permission to this page</h3>
+  <h3 style="text-align: center;color: red">Access to the page denied</h3>
   
 </div>
 </div>
