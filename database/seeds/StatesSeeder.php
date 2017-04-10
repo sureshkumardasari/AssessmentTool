@@ -41,14 +41,7 @@ class StatesSeeder extends Seeder {
             'updated_at' => new DateTime,
                         
             ]);
-        DB::table('states')->insert([
-            'country_id' => '2',
-            'id' => '5',
-            'state_name' =>'Dallas',
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime,
-                        
-            ]);
+        
 
 
 
