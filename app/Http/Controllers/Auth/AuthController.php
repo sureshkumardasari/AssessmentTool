@@ -163,7 +163,11 @@ class AuthController extends Controller {
 		}
         return view('auth.registersuccessmsg');
 	}
+public function permission()
+ {
+  return view('grading::permission');
 
+ }
 	public function getRegister()
 	{
 		$stateObj =new User();
