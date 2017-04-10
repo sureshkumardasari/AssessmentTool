@@ -75,7 +75,11 @@ class GradingController extends BaseController {
 	}
 
 	public function assignment(){
-		
+
+		if(Auth::user()->role_id == 2)
+		{
+			return view('permission');
+		}else{
 		$inst_arr = $this->institution->getInstitutions();
 		$assignments = $this->grade->getGradeAssignment();
 		$grading_status= $this->grade->getAssignmentGradeStatus();
@@ -83,6 +87,7 @@ class GradingController extends BaseController {
 		//$grading_status=AssignmentUser::select()->where('gradestatus','completed')->lists('assignment_id');
 		// dd($assignments);
 		return view('grading::list',compact('assignments', 'inst_arr','grading_status'));
+	}
 	}
 
 	public function studentGradeListing($assignment_id,$assessment_id){
