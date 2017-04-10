@@ -38,7 +38,7 @@ $path = url()."/grading/";
 						var str = v1+"-"+v2+"-"+v3;
 						//alert(str);
 						for (var i = 0; i < response.length; i++) {
-							str = v1+"-"+v2+"-"+v3;
+							//str = v1+"-"+v2+"-"+v3;
 							//alert(str);
 							tr = $('<tr/>');
  							tr.append("<td>" + response[i].first_name +'\t'+ response[i].last_name +"</td>");
