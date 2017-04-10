@@ -1,5 +1,6 @@
-<div class="form-group col-md-12">
-                            <div class="col-md-6 col-md-offset-8">
+<div class="form-group col-md-12 gobutton">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
                             <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
                             <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
                         </div></div>
@@ -38,9 +39,9 @@
     </tbody>
 </table>
 @if(count($students)>0)
-<table class="table average">
+<table class="table average" style="border-bottom: 1px solid lightgray;">
     <tr>
-        <td>class average score:</td>
+        <td><strong>class average score:</strong></td>
         <td style="width: 50%;"> {{$all_users_count/(count($students))}}</td>
     </tr>
 </table>
@@ -59,7 +60,8 @@
                             success: function (response) {
                                 $('#report').empty();
                                 $('#report').append(response);
-                                $('#report').prepend($('.average'));
+                                //$('#report').before($('.average'));
+                                $('#report').prepend($('.gobutton'));
                             }
                         }
                 )
