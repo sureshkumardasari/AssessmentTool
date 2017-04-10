@@ -68,7 +68,7 @@
             window.open("{{ url('report/wholeclassscoreexportXLS/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
         });
 function reports(){
-            
+             var csrf=$('Input#csrf_token').val();
                 $.ajax(
                         {
 
