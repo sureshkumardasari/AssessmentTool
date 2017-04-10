@@ -5,6 +5,8 @@ class StatesSeeder extends Seeder {
 
 	public function run()
 	{
+		DB::table('states')->delete();
+
 		DB::table('states')->insert([
 			            'country_id' => '1',
 
@@ -41,7 +43,7 @@ class StatesSeeder extends Seeder {
             'updated_at' => new DateTime,
                         
             ]);
-        
+       
 
 
 
