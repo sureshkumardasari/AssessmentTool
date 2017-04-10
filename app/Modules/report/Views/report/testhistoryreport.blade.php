@@ -40,18 +40,7 @@
                             </div>
 
                         </div>
-                        <div class="form-group col-md-12">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
-                            @if(getRole()=="administrator")
-                            <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
-                                @else
-                                <a href="#" class="btn btn-primary pull-right" id="pdf" style="margin: 2px !important;" >Export PDF</a>
-                                <a href="#" class="btn btn-primary pull-right" id="xls" style="margin: 2px !important;" >Export XLS</a>
-                                @endif
-                                </div>
-                        </div>
+                        
                     </div>
                     <div id="report">
 
@@ -88,14 +77,6 @@
             )
         }
     }
-        $('#pdf').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            window.open("{{ url('report/testhistoryexportPDF/')}}/"+inst_id);
-        });
-        $('#xls').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            window.open("{{ url('report/testhistoryexportXLS/')}}/"+inst_id);
-        });
          /*function reports(){
             
                 $.ajax(

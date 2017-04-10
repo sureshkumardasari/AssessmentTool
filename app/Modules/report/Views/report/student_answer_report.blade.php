@@ -55,11 +55,7 @@
                                     <button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="student_change()">Go</button>
                                 </div>
                             </div>                 
-                   <div class="form-group col-md-12">
-                                <div class="col-md-7"></div><div class="col-md-5">
-                        <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
-                        <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
-                    </div></div>
+                   
  
                     <div id="report">
 
@@ -165,18 +161,7 @@
             )
 
         }
-        $('#pdf').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assign_id=$('#assign_student').val();
-            var student_id=$('#student').val();
-            window.open("{{ url('report/SAR_PDF/')}}/"+inst_id+"/"+assign_id+"/"+student_id);
-        });
-        $('#xls').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assign_id=$('#assign_student').val();
-            var student_id=$('#student').val();
-            window.open("{{ url('report/SAR_XLS/')}}/"+inst_id+"/"+assign_id+"/"+student_id);
-        });
+       
         /* function reports(){
             
                 $.ajax(

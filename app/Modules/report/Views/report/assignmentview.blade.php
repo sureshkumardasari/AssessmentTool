@@ -1,4 +1,8 @@
-
+<div class="form-group col-md-12">
+                            <div class="col-md-6 col-md-offset-8">
+                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
+                        </div></div>
 
 <table class="table table-bordered table-hover table-striped" id="report">
     <thead>
@@ -42,6 +46,59 @@
 </table>
 @endif
 <div id="chart-1">FusionCharts XT will load here!</div>
+
+<script type="text/javascript">
+    function reports(){
+            
+                $.ajax(
+                        {
+
+                            headers: {"X-CSRF-Token": csrf},
+                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
+                            type: 'post',
+                            success: function (response) {
+                                $('#report').empty();
+                                $('#report').append(response);
+                                $('#report').prepend($('.average'));
+                            }
+                        }
+                )
+            
+        }
+        $('#pdf').on('click',function(){
+
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment_id').val();
+
+            if(inst_id==0 || assign_id==0)
+            {
+                          alert("please select all the fields");
+                          return false;
+                           
+            }
+            else
+            {
+                window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
+            }
+          
+        });
+        $('#xls').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assign_id=$('#assignment_id').val();
+
+            if(inst_id==0 || assign_id==0)
+            {
+                          alert("please select all the fields");
+                          return false;
+
+                           
+            }
+            else
+            {
+            window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
+        }
+        });
+</script>
 <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
 <script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
 <script>
