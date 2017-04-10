@@ -27,13 +27,22 @@ $path = url()."/grading/";
 					url:'{{$path}}list-student-ajax/'+$('#user').val(),
 					type:'post',
 					success:function(response){
+						
+						//alert(str);
 						$('#assignmentstable').dataTable().fnDestroy();
  						$('.student_list').empty();
 						var tr;
+						var v1 = $('#user').val();
+						var v2 = $('#assignmentid').val();
+						var v3 = $('#assessmentid').val();
+						var str = v1+"-"+v2+"-"+v3;
+						//alert(str);
 						for (var i = 0; i < response.length; i++) {
+							str = v1+"-"+v2+"-"+v3;
+							//alert(str);
 							tr = $('<tr/>');
- 							tr.append("<td>" + response[i].first_name +'\t'+ response[i].last_name + "</td>");
-  							tr.append("<td><a href=''><i class='icons ico-grade'></i></a></td>");
+ 							tr.append("<td>" + response[i].first_name +'\t'+ response[i].last_name +"</td>");
+  							tr.append("<td><a href='{{$path}}list-student-question/"+str+"'><i class='icons ico-grade'></i></a></td>");
  							$('.student_list').append(tr);
 						}
 						$('#assignmentstable').dataTable();
