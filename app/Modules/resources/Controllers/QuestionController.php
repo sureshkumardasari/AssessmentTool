@@ -165,6 +165,9 @@ class QuestionController extends BaseController {
 	{
 		//dd(Input::all());
 		//dd(\Session::get('question_type'));
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 		$question_type="";
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
@@ -201,8 +204,12 @@ class QuestionController extends BaseController {
 
 		return view('resources::question.edit',compact('id','institution_id','name','inst_arr', 'subjects','lessons','subject_id','category','passage','category_id', 'qtypes', 'answersListing','questions','question_type','title'));
 	}
+	}
 public function questionedit($id = 0)
 	{
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 		$questions = Question::where('id',$id)->get()->toArray();
 		$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject($questions[0]['category_id']);
@@ -242,6 +249,7 @@ public function questionedit($id = 0)
         // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type','title'));
+	}
 
 
 //
@@ -472,7 +480,9 @@ public function questionedit($id = 0)
 
 	public function questionview($id = 0)
 	{
-
+       if (getRole() == "student") {
+     return view('permission');
+    }else{
 		if(isset($id) && $id > 0)
 		{
 			$question = $this->question->getDetails($id);
@@ -495,6 +505,7 @@ public function questionedit($id = 0)
 
 
 		return view('resources::question.question_view',compact('question','oldAnswers','qstn'));
+	}
 	}
 
 	

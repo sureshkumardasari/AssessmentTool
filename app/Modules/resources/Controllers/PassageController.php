@@ -85,7 +85,10 @@ class PassageController extends BaseController {
 	}
 
 	public function passageadd()
-	{		
+	{	$passages = $this->passage->getPassage();
+		if (getRole() == "student") {
+     return view('permission');
+    }else{	
 		$institution_id=0;
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
@@ -105,16 +108,24 @@ class PassageController extends BaseController {
 
 		return view('resources::passage.edit',compact('passage','sCategory','sLesson','sSubject','passages','inst_arr','institution_id','category','lessons','subjects'));
 	}
+	}
 	public function passageview($id = 0)
 	{
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 		$passages=Passage::where('id','=',$id)->get();
 		//dd($passages);
 
 		return view('resources::passage.view',compact('passages'));
 	}
+	}
 
 	public function passageedit($id = 0)
-	{		
+	{		$passages = $this->passage->getPassage();
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 		$passages = Passage::where('id',$id)->get()->toArray();
 		$sCategory=$passages[0]['category_id'];
 		$sSubject=$passages[0]['subject_id'];
@@ -146,6 +157,7 @@ class PassageController extends BaseController {
 				      // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::passage.edit',compact('id','sCategory','sLesson','sSubject','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id','lessons_id'));
+	}
 	}
 
 	public function passageupdate($id = 0)

@@ -97,6 +97,9 @@ class AssignmentController extends BaseController {
 		
 		//dd("123");
 		//$inst_arr = $this->institution->getInstitutions();
+		if (getRole() == "student") {
+     return view('permission');
+    }else{
 
 		$id = 0;
 		$assignment = new assignment();
@@ -132,6 +135,7 @@ class AssignmentController extends BaseController {
 		        \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assignment.edit',compact('assignment','grader_id','grader','assessments_arr','assessment_id','proctor_arr','proctor_id','institution_arr','institution_id','assignmentUsersJson'));
+		}
 	}
 
 	public function GraderList($id)
@@ -152,6 +156,9 @@ class AssignmentController extends BaseController {
 	public function assignmentedit($id = 0)
 	{		
 		//$inst_arr = $this->assignment->getAssignments();
+       if (getRole() == "student") {
+     return view('permission');
+    }else{
 
 		if(isset($id) && $id > 0)
 		{
@@ -177,11 +184,14 @@ class AssignmentController extends BaseController {
 
 		return view('resources::assignment.edit',compact('assignment','grader','assessments_arr','proctor_arr','institution_arr','assignmentUsersJson'));
 	}
+	}
 
 	public function assignmentview($id = 0)
 	{		
 		//$inst_arr = $this->assignment->getAssignments();
-
+        if (getRole() == "student") {
+     return view('permission');
+    }else{
 		if(isset($id) && $id > 0)
 		{
 			$assignment = $this->assignment->getDetails($id);
@@ -208,9 +218,11 @@ class AssignmentController extends BaseController {
 		
 		return view('resources::assignment.view',compact('assignment','assignmentUsersArr'));
 	}
+	}
 
 	public function assignmentupdate($id = 0)
 	{
+
 		$params = Input::All();
    		$rules = [
 			'name' => 'required|min:3',
