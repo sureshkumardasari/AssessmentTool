@@ -1510,9 +1510,25 @@ class ReportController extends Controller
 //
                     }
                 }
+                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'))->render();
+                $fileName = 'wholeclassscorereportpdf';
+                /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
+                $name=explode('/',$fileFullUrl);
+                $name=$name[5];
+                //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
+                return response()->Download(public_path()."/data/reports/".$name);*/
+                $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
+                if($name == url('data/error.pdf'))
+                {
+                    return response()->download(public_path()."/data/error.pdf");    
+                }
+                else
+                {
+                    return response()->download(public_path()."/data/reports/".$name);
+                }
 
                 //  dd($subject_score);
-                return view('report::report.wholescoreview_duplicate', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));
+               /* return view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));*/
             }
             case 2 : {
                 $type = "lessons";
@@ -1654,9 +1670,16 @@ class ReportController extends Controller
 //
                     }
                 }
+                return Excel::create('Assessment report', function ($excel) use ($type, $subjects, $assignment, $students, $subject_score, $penality) {
+                    $excel->sheet('mySheet', function ($sheet) use ($type, $subjects, $assignment, $students, $subject_score, $penality) {
+                        //$sheet->loadView($students);
+                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "subjects" => $subjects, "assignment" => $assignment, "students" => $students, "subject_score" => $subject_score, "penality" => $penality));
+                        //$sheet->fromArray($students);
+                    });
+                })->download("xls");
 
                 //  dd($subject_score);
-                return view('report::report.wholescoreview_duplicate', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));
+                return view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));
             }
             case 2 : {
                 $type = "lessons";
