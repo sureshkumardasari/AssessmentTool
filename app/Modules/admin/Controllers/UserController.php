@@ -63,7 +63,7 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		if(Auth::user()->role_id != 2){
 		        $inst_arr=[];
         $roles_arr=[];
         //dd($institution_id);
@@ -376,7 +376,7 @@ class UserController extends BaseController
                     
                    
 			}
-			\Session::flash('flash_message','Information saved successfully.');
+			\Session::flash('flash_message','Information updated successfully.');
             if(Auth::user()->role_id == 1){
             	return redirect('/user');
 			}
