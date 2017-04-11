@@ -253,7 +253,7 @@ if (getRole() == "student" || getRole() == "teacher") {
 	 */
 	public function update($id, Request $request)
 	{
-        if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+       if(getRole() == "admin" || getRole() == "administrator" ){
 		$post = Input::All();
 		$messages = [
 			'institution_id.required' => ' Institution Name  is required',
