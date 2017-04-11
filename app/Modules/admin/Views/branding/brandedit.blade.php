@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="form-group required">
-                                <label class="col-md-4 " style="text-align: right;">Header Logo</label>
+                                <label class="col-md-4 ">Header Logo</label>
                                 <div class="col-md-5">
                                     <input type="file" name="image" accept="image/*"/>
                                     @if($branding->filepath != "")
@@ -98,7 +98,7 @@
                                 <!-- <button type="reset" class="btn btn-default">Reset</button> -->
                                 <button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-default">Reset
                                 </button>
-                                <a class="btn btn-default" href="@if(getRole()=='administrator'){{  url('user/brandings') }}@else {{url('/home')}} @endif">Cancel</a>
+                                <a class="btn btn-danger" href="@if(getRole()=='administrator'){{  url('user/brandings') }}@else {{url('/home')}} @endif">Cancel</a>
                             </div>
                         </form>
                     </div>

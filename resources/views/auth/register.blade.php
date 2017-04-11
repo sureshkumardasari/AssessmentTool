@@ -56,7 +56,7 @@
 								</div>
 							</div>
 							<div class="form-group required">
-								<label class="col-md-4 control-label">Enrollment No</label>
+								<label class="col-md-4 control-label">Enrollment No.</label>
 								<div class="col-md-6">
 									<input type="text" class="form-control" name="enrollno" value="{{ old('enrollno') }}">
 								</div>

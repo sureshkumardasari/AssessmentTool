@@ -59,9 +59,12 @@
                                        
                                 </div>
                             </div>
-                            
 
-                        
+                        <!-- <div class="form-group col-md-12">
+                            <div class="col-md-6 col-md-offset-8">
+                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
+                        </div></div> -->
                     </form>
                     <div id="wholescore">
 
@@ -212,8 +215,21 @@
                     }
             )
         });
-      
-
+        /*$('#pdf').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assi_id=$('#assignment_id').val();
+            var sub_id=$('#subject_id').val();
+            var less_id=$('#lesson_id').val();
+            window.open("{{ url('report/wholeclassscoreexportPDF/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
+        });
+        $('#xls').on('click',function(){
+            var inst_id=$('#institution_id').val();
+            var assi_id=$('#assignment_id').val();
+            var sub_id=$('#subject_id').val();
+            var less_id=$('#lesson_id').val();
+            window.open("{{ url('report/wholeclassscoreexportXLS/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
+        });
+*/
       /*  function inst_change(){
 
             var csrf=$('Input#csrf_token').val();
