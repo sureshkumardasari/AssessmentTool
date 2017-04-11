@@ -327,6 +327,7 @@
 						//$("#status option:eq(" + (index + 1) + ")").attr("selected", "selected");
 						$("#status").val(nextuserid);
 						change_user_answers();
+						//$('#status').empty();
 					}
 
 				}
@@ -339,11 +340,12 @@
 			var assignment_id="{{$assignment_id}}";
 			var selected=$('#status').val();
 			var status=null;
-			// var user_id=$('#status').val();
+			var user_id=$('#status').val();
 			var csrf=$('Input#csrf_token').val();
 			if (user_id>0){
 			$.ajax({
 				headers: {"X-CSRF-Token": csrf},
+				
 				url:'next_student_answers_for_grade_by_question/'+user_id+'/'+question_type+','+assessment_id+','+assignment_id+','+'{{$qst_id}}',
 				type:'get',
 				success:function(response){
