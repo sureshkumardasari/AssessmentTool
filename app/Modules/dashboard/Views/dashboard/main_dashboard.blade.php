@@ -72,7 +72,7 @@
             }
         }).render();
     });
-     FusionCharts.ready(function(){
+      FusionCharts.ready(function(){
         var salesChart = new FusionCharts({
             type: 'column2d',
             dataFormat: 'json',
@@ -88,15 +88,27 @@
                     "numberPrefix": "",
                     "theme": "fint"
                 },
-
-                "data": [
-                        @foreach($assignments as $user_id => $assignment)
-                        {
-                        'label' : '{{$assignment->assign_name}}',
-                        'value' : '{{$marks[$assignment->assign_id]}}%'
-                    },
-                    @endforeach
-            // ]
+                // "categories": [
+                //     {
+                //         "category": [
+                //          @foreach($assignments as $user_id => $assignment)
+                //          {
+                //             'label' : '{{$assignment->assign_name}}'
+                //         },
+                //         @endforeach
+                //     ]
+                //     }
+                // ],
+                // "dataset": [
+                //     {
+                        "data": [
+                                @foreach($assignments as $user_id => $assignment)
+                                {
+                                    'label' : '{{$assignment->assign_name}}',
+                                'value' : '{{$marks[$assignment->assign_id]}}%'
+                            },
+                            @endforeach
+                    // ]
                     // }
                 ]
             }
