@@ -80,6 +80,7 @@
                     </div>
                 </div>
             </div> -->
+
 		</div>
 		</div>
 	</div>
@@ -251,16 +252,36 @@
 </div>
 
 <script type="text/javascript">
+//desible show entires & pagination in datatables
 $(document).ready(function() {
-    $('#question_table').DataTable( {
-        "lengthMenu": [[-1], ["All"]]
-    } );
+$('#question_table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
 
+$('#selected-questions').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+$('#passage_table').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
 
-    $('#selected-questions').DataTable( {
-        "lengthMenu": [[-1], ["All"]]
-    } );
-} );
+                $('#selected-passage').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
+});
+
 	$(document).ready(function() {
 		
 		//alert(JSON.stringify(subjects_list));
