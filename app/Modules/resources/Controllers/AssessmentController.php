@@ -664,8 +664,7 @@ class AssessmentController extends BaseController {
  		$passage_id=[];
   		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
-  			//'subjects_list.required'=>'Please add atleast one passage',
-  			//'lessons_list.required'=>'The lessons is required',
+  			'subjects_list.required'=>'Please add atleast one passage',
 		];
 		$rules = [
 			'name' => 'required',
@@ -673,7 +672,7 @@ class AssessmentController extends BaseController {
 			'essayanswerpoint'=>array('required','numeric'),
  			'QuestionIds' => 'required',
  			'subjects_list' => 'required',
- 			'lessons_list' => 'required',
+
  			];
 		if(!isset($post['never_expires'])){
 			$rules['total_time'] = 'required';
@@ -729,7 +728,7 @@ class AssessmentController extends BaseController {
 				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
 			}}
-					        \Session::flash('flash_message','Information updated successfully.');
+					        \Session::flash('flash_message','Information saved successfully.');
 
 			return Redirect::route('template', ['id' =>  $post['id'] /*, 'tplId' => $newOrder*/]);
 			//return redirect('/resources/assessment');
