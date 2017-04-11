@@ -218,7 +218,16 @@ function filter(){
 
 $( document ).ready(function() {
 	$('.searchfilter').on("click",function(e){    	
-    	//console.log('searchfilter ');
+    	$('#institution_id').val('0');
+    	var category_id=$('#category_id').val();
+  var subject_id=$('#subject_id').val();
+  var lessons_id=$('#lessons_id').val();
+  var question_type=$('#question_type').val();
+  if(subject_id=='')subject_id=0;
+  if(institution_id=='')institution_id=0;
+  if(category_id=='')category_id=0;
+  if(lessons_id=='')lessons_id=0;
+  if(question_type=='')question_type=0;
     	$(".searchfilter span")
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
         $('.searchfilter-body').toggleClass('hide show');
