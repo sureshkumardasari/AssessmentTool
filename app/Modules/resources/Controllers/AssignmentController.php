@@ -282,7 +282,7 @@ class AssignmentController extends BaseController {
 				return Redirect::back()->withInput()->withErrors("Assignment already entered");
 			} 
 			$this->assignment->updateassignment($params);
-					        \Session::flash('flash_message','Information saved successfully.');
+					        \Session::flash('flash_message','Information updated successfully.');
 
 			return redirect('/resources/assignment');
 		}		

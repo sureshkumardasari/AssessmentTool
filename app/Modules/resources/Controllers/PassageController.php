@@ -202,7 +202,7 @@ class PassageController extends BaseController {
 		}
 		else{
 		$this->passage->updatepassage($post);
-		        \Session::flash('flash_message','Information saved successfully.');
+		        \Session::flash('flash_message','Information updated successfully.');
 
 		return redirect('/resources/passage');
 	    }

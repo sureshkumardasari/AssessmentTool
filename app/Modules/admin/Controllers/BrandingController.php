@@ -317,7 +317,7 @@ if (getRole() == "student" || getRole() == "teacher") {
 			$updateArr['filepath'] = $filename;
 
 		$record = Branding::where('id', $id)->update($updateArr);
-		\Session::flash('flash_message','Information saved successfully.');
+		\Session::flash('flash_message','Information updated successfully.');
 		//dd($record);
 		if(getRole()=="administrator"){
 			return Redirect::route('branding-view');

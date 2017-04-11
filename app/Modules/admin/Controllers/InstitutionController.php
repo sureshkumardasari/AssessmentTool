@@ -159,7 +159,7 @@ class InstitutionController extends BaseController {
 			$params = Input::All();
 			//var_dump($params);
 			$this->institution->updateInstitution($params);
-        \Session::flash('flash_message','Information saved successfully.');
+        \Session::flash('flash_message','Information updated successfully.');
 
 			return redirect('/user/institution');
 		}
