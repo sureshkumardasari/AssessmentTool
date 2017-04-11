@@ -90,12 +90,12 @@
 		<table id="question_table" class="table table-striped table-bordered   parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" id="" value="" class="check-all-question"></th>
+				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
 				<th>Question Name</th>
 
 			</tr>
 			</thead>
-			<tbody  id="questions-list">
+			<tbody  id="questions-list" class="test">
 			{{--@foreach( $question_title_remove_ids as $name )--}}
 				{{--<tr>--}}
 					{{--<td>--}}
@@ -119,11 +119,11 @@
 		<table id="selected-questions" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" name="" class="check-all-selected-question" value=""></th>
+				<th><input type="checkbox" name="" class="check-all-selected-question" value="" id="QuestionIds11"></th>
 				<th>Question Name</th>
 			</tr>
 			</thead>
-			<tbody class="child-grid">
+			<tbody class="child-grid selectall">
 			<?php
 			if (count($errors) > 0){
 			if(old('QuestionIds'))
@@ -251,33 +251,20 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function() {
+    $('#question_table').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+    } );
+
+
+    $('#selected-questions').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+    } );
+} );
 	$(document).ready(function() {
 		
 		//alert(JSON.stringify(subjects_list));
-		$('#question_table').DataTable( {
-
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
-		$('#passage_table').DataTable( {
-
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
-		$('#selected-questions').DataTable( {
-
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
-		$('#selected-passage').DataTable( {
-
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
+		
 		{{--//$('#subject_id').val({{$subject_id}});--}}
 		{{--var a={{$subject_id}};--}}
 		// alert(a);
