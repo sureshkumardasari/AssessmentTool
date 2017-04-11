@@ -1,12 +1,6 @@
 <html>
 <h3 align="center">Whole Class Score Report</h3>
 <head>
-    <style>
-        table, th, td {
-            border: 0px solid #04060e;
-            border-collapse: collapse;
-        }
-    </style>
 </head>
 <body>
 @if($type == "subjects")
