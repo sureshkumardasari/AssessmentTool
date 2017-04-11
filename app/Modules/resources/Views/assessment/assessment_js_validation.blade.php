@@ -52,7 +52,14 @@ $path = url()."/resources/";
 			var url4='{{$path}}get_assessment_remove_old_pass';
 			var data4={'passages':passage_Ids};
 			// selected_remove_old_pass_ajax(url4,data4,csrf);
+			$('#question_table').DataTable( {
+					        "lengthMenu": [[-1], ["All"]]
+					    } );
+					    $('#selected-questions').DataTable( {
+					        "lengthMenu": [[-1], ["All"]]
+					    } );
 		}
+		
 
 	}
 
@@ -80,6 +87,12 @@ $path = url()."/resources/";
 //							}
  						$('#QuestionIds').prop('checked', false);
 						}
+						$('#question_table').DataTable( {
+					        "lengthMenu": [[-1], ["All"]]
+					    } );
+					    $('#selected-questions').DataTable( {
+					        "lengthMenu": [[-1], ["All"]]
+					    } );
 						$('#question_table').dataTable();
 						$('#selected-questions').dataTable();
 						//alert('ttt');
@@ -145,6 +158,13 @@ $path = url()."/resources/";
 							}
 
 						}
+						 $('#questions_table').DataTable( {
+						        "lengthMenu": [[ 50, -1], [ 50, "All"]]
+						    } );
+						    $('#selected-questions').DataTable( {
+						        "lengthMenu": [[ 50, -1], [ 50, "All"]]
+						    } );
+						
 						$('#selected-questions').dataTable();
 
 					}

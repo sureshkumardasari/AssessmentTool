@@ -1399,6 +1399,14 @@ function addOrRemoveInGrid(elem, type) {
 
 
             });
+             $('#question_table').DataTable( {
+                "lengthMenu": [[-1], [ "All"]]
+                } );
+
+
+                $('#selected-questions').DataTable( {
+                    "lengthMenu": [[-1], ["All"]]
+                } );
 
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
@@ -1512,6 +1520,14 @@ function addOrRemoveInGrid(elem, type) {
                 $( "#QuestionIds11" ).prop( "checked", false );
 
             });
+             $('#question_table').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+    } );
+
+
+    $('#selected-questions').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+    } );
             //alert(JSON.stringify(selected_question_ids));
            // alert(RemoveQuestionIds);
             $('#question_table').dataTable();

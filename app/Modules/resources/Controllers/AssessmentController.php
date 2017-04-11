@@ -664,12 +664,17 @@ class AssessmentController extends BaseController {
  		$passage_id=[];
   		$messages=[
   			'QuestionIds.required'=>'The Questions is required',
+  			//'subjects_list.required'=>'Please add atleast one passage',
+  			//'lessons_list.required'=>'The lessons is required',
 		];
 		$rules = [
 			'name' => 'required',
 			'mcsingleanswerpoint'=>array('required','numeric'),
 			'essayanswerpoint'=>array('required','numeric'),
- 			'QuestionIds' => 'required',];
+ 			'QuestionIds' => 'required',
+ 			'subjects_list' => 'required',
+ 			'lessons_list' => 'required',
+ 			];
 		if(!isset($post['never_expires'])){
 			$rules['total_time'] = 'required';
 		}

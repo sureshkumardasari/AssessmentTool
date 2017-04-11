@@ -416,7 +416,7 @@ else
 	
     }
 	public function student_assignment_reports(){
-if(Auth::user()->role_id != 2){
+
 		$user_id=\Auth::user()->id;
 		//dd($user_id);
 		$now=date('Y-m-d h:i:s');
@@ -437,10 +437,6 @@ if(Auth::user()->role_id != 2){
 
 	return view('dashboard::dashboard.student_report_lists',compact('user','completed_assignments','upcoming_assignments','percentage'));
 }
-else
-    {
-   return view('permission');
-    }
-	}
+
 
 }

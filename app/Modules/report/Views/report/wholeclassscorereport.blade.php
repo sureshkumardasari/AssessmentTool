@@ -59,6 +59,7 @@
                                        
                                 </div>
                             </div>
+                            
 
                         
                     </form>
@@ -211,21 +212,8 @@
                     }
             )
         });
-        /*$('#pdf').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assi_id=$('#assignment_id').val();
-            var sub_id=$('#subject_id').val();
-            var less_id=$('#lesson_id').val();
-            window.open("{{ url('report/wholeclassscoreexportPDF/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
-        });
-        $('#xls').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assi_id=$('#assignment_id').val();
-            var sub_id=$('#subject_id').val();
-            var less_id=$('#lesson_id').val();
-            window.open("{{ url('report/wholeclassscoreexportXLS/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
-        });
-*/
+      
+
       /*  function inst_change(){
 
             var csrf=$('Input#csrf_token').val();
