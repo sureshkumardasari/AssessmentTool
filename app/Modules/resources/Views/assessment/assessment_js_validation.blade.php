@@ -52,7 +52,26 @@ $path = url()."/resources/";
 			var url4='{{$path}}get_assessment_remove_old_pass';
 			var data4={'passages':passage_Ids};
 			// selected_remove_old_pass_ajax(url4,data4,csrf);
+
+			//desible show entires & pagination in datatables
+			$('#question_table').dataTable({
+				    "bPaginate": false,
+				    "bLengthChange": false,
+				    "bFilter": true,
+				    "bInfo": true,
+				    "bAutoWidth": false });
+
+				$('#selected-questions').dataTable({
+				    "bPaginate": false,
+				    "bLengthChange": false,
+				    "bFilter": true,
+				    "bInfo": true,
+				    "bAutoWidth": false });
+				
+
+
 		}
+		
 
 	}
 
@@ -80,6 +99,21 @@ $path = url()."/resources/";
 //							}
  						$('#QuestionIds').prop('checked', false);
 						}
+						//desible show entires & pagination in datatables
+						$('#question_table').dataTable({
+				    "bPaginate": false,
+				    "bLengthChange": false,
+				    "bFilter": true,
+				    "bInfo": true,
+				    "bAutoWidth": false });
+
+				$('#selected-questions').dataTable({
+				    "bPaginate": false,
+				    "bLengthChange": false,
+				    "bFilter": true,
+				    "bInfo": true,
+				    "bAutoWidth": false });
+				
 						$('#question_table').dataTable();
 						$('#selected-questions').dataTable();
 						//alert('ttt');
@@ -145,6 +179,36 @@ $path = url()."/resources/";
 							}
 
 						}
+						//desible show entires & pagination in datatables
+						$('#question_table').dataTable({
+				    "bPaginate": false,
+				    "bLengthChange": false,
+				    "bFilter": true,
+				    "bInfo": true,
+				    "bAutoWidth": false });
+
+				$('#selected-questions').dataTable({
+				    "bPaginate": false,
+				    "bLengthChange": false,
+				    "bFilter": true,
+				    "bInfo": true,
+				    "bAutoWidth": false });
+
+				$('#passage_table').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
+
+                $('#selected-passage').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
+
+						
 						$('#selected-questions').dataTable();
 
 					}
@@ -177,6 +241,19 @@ $path = url()."/resources/";
 						url4='{{$path}}get_assessment_remove_old_pass';
 						data4={'passages':remove_passage_ids};
 						csrfT=$('Input#csrf_token').val();
+						$('#passage_table').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
+
+                $('#selected-passage').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
 
 						//selected_remove_old_pass_ajax(url4,data4,csrfT);
 						$('#selected-passage').dataTable();
@@ -352,23 +429,19 @@ if (count($errors) > 0){?>
 	//var change_categry=1;
 	$('#clear_filters').on('click',function(){
 		clear_selected();
+
+
 	});
 	function clear_selected(){
 		
 
-		$('#question_table').dataTable().fnDestroy();
-		$('#selected-questions').dataTable().fnDestroy();
-		$('#selected-passage').dataTable().fnDestroy();
-		$('#passage_table').dataTable().fnDestroy();
+		
 		$('#questions-list').empty();
 		$('#selected-questions .child-grid').empty();
 		$('#passages-list').empty();
 		$('#passages-list').empty();
 		$('#selected-passage .child-grid').empty();
-		$('#question_table').dataTable();
-		$('#selected-questions').dataTable();
-		$('#selected-passage').dataTable();
-		$('#passage_table').dataTable();
+		
 		$('#subjects_list').empty();
 		$('#lessons_list').empty();
 		$('#question_type').val('');
@@ -402,7 +475,7 @@ if (count($errors) > 0){?>
 //			}
 
 		}
-		subjects_list=[];
+				subjects_list=[];
 		lessons_list=[];
 	}
 
@@ -618,6 +691,12 @@ if (count($errors) > 0){?>
 							tr.append("<td>" + val['passage_title'] + "</td>");
 							$('#passages-list').append(tr);
 						});
+						$('#passage_table').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
 						//$('#question_table').dataTable();
 						$('#passage_table').dataTable();
 						/*$('#question_type').multiselect();
@@ -628,6 +707,7 @@ if (count($errors) > 0){?>
 		
 	}
 	function filter_passage() {
+		//alert('hi');
 		//question_Ids=[];
 		passage_Ids=[];
 		var csrf=$('Input#csrf_token').val();
@@ -669,6 +749,19 @@ if (count($errors) > 0){?>
 							tr.append("<td>" + response[i].passage_title + "</td>");
 							$('#passages-list').append(tr);
 						}
+						$('#passage_table').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
+
+                $('#selected-passage').dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": true,
+                    "bAutoWidth": false });
 						$('#passage_table').dataTable();
 
 						$('#selected-passage').dataTable();

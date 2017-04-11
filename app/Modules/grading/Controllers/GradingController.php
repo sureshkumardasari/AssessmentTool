@@ -102,7 +102,7 @@ else
 	public function studentGradeListingAjax($student_id=0){
         if(Auth::user()->role_id == 3){
 		$ass_usrs = $this->grade->getUsersById($student_id);
-		// dd($ass_usrs);
+		//dd($ass_usrs);
 		return $ass_usrs;
 
 	}

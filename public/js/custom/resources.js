@@ -110,10 +110,17 @@ $( document ).ready(function() {
 
     $('.searchfilter').on("click",function(e){     
      //console.log('searchfilter ');
+     $('#institution_id').val('0');
+      $('#category_id').val('0');
+      $('#subject_id').val('0');
+      $('#lessons_id').val('0');
+    $('#question_type').val('0');
      $(".searchfilter span")
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
         $('.searchfilter-body').toggleClass('hide show');
     });
+
+
 
  
 });

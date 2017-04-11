@@ -168,7 +168,7 @@ class ResourceController extends BaseController
                 return Redirect::back()->withInput()->withErrors("Subject already entered");
             }
             $this->subject->updateSubject($params);
-                    \Session::flash('flash_message','Information saved successfully.');
+                    \Session::flash('flash_message','Information updated successfully.');
 
             return redirect('/resources/subject');
         }
@@ -308,7 +308,7 @@ class ResourceController extends BaseController
                 return Redirect::back()->withInput()->withErrors("lesson already entered");
             }
             $this->lesson->updatelesson($params);
-        \Session::flash('flash_message','Information saved successfully.');
+        \Session::flash('flash_message','Information updated successfully.');
 
             return redirect('/resources/lesson');
         }
@@ -422,7 +422,7 @@ class ResourceController extends BaseController
             }
             //var_dump($params);
             $this->category->updatecategory($params);
-        \Session::flash('flash_message','Information saved successfully.');
+        \Session::flash('flash_message','Information updated successfully.');
 
             return redirect('/resources/category');
         }

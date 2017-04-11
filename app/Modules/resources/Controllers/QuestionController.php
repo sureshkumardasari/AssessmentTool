@@ -471,7 +471,7 @@ public function questionedit($id = 0)
 			}else{
 
 			}
-			        \Session::flash('flash_message','Information saved successfully.');
+			        \Session::flash('flash_message','Information updated successfully.');
 
 			return redirect('/resources/question');
 		}

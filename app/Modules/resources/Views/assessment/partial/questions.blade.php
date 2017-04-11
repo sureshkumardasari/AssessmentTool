@@ -244,6 +244,47 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
+//desible show entires & pagination in datatables
+$(document).ready(function() {
+$('#question_table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+
+$('#selected-questions').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+$('#passage_table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+
+$('#selected-passage').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+
+
+});
+/*$(document).ready(function() {
+    $('#question_table').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+    } );
+
+
+    $('#selected-questions').DataTable( {
+        "lengthMenu": [[-1], ["All"]]
+    } );
+} );*/
 $('#reset').on('click',function(){
 	$('#institution_id').val('');
 	$('#category_id').val('');
@@ -265,38 +306,9 @@ function uncheck(){
 }
 
 
+
 	$(document).ready(function() {
-		$('#question_table').DataTable( {
-			order: [],
-			columnDefs: [ { orderable: false, targets: [0] } ],
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
 		
-		$('#passage_table').DataTable( {
-			order: [],
-			columnDefs: [ { orderable: false, targets: [0] } ],
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
-
-		$('#selected-questions').DataTable( {
-			order: [],
-			columnDefs: [ { orderable: false, targets: [0] } ],
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
-
-		$('#selected-passage').DataTable( {
-			order: [],
-			columnDefs: [ { orderable: false, targets: [0] } ],
-			"scrollY":        "850px",
-			"scrollCollapse": true,
-			"paging":         true
-		} );
 		$('#subject_id').multiselect();
 		  $('#lessons_id').multiselect();
 		$('#passage_subject_id').multiselect();

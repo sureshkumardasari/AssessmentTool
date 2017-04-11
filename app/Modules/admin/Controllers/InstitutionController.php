@@ -78,7 +78,7 @@ class InstitutionController extends BaseController {
 		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-		$state_arr = $this->user->getstates();
+		 $state_arr = [];
 		$country_arr = $this->institution->getcountries();
 		$id = $parent_id = $country_id = 0;
 		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
@@ -107,6 +107,7 @@ class InstitutionController extends BaseController {
 			$address3 = $institution->address3; 
 			$city = $institution->city; 
 			$state = $institution->state; 
+
 			$phoneno = $institution->phoneno;
 			$pincode = $institution->pincode;
 		}
@@ -116,7 +117,7 @@ class InstitutionController extends BaseController {
 			$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 		}
         
-
+        
 		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode'));
 	}
  else
@@ -159,7 +160,7 @@ class InstitutionController extends BaseController {
 			$params = Input::All();
 			//var_dump($params);
 			$this->institution->updateInstitution($params);
-        \Session::flash('flash_message','Information saved successfully.');
+        \Session::flash('flash_message','Information updated successfully.');
 
 			return redirect('/user/institution');
 		}

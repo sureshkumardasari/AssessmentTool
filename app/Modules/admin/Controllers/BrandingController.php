@@ -253,7 +253,7 @@ if (getRole() == "student" || getRole() == "teacher") {
 	 */
 	public function update($id, Request $request)
 	{
-        if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+       if(getRole() == "admin" || getRole() == "administrator" ){
 		$post = Input::All();
 		$messages = [
 			'institution_id.required' => ' Institution Name  is required',
@@ -317,7 +317,7 @@ if (getRole() == "student" || getRole() == "teacher") {
 			$updateArr['filepath'] = $filename;
 
 		$record = Branding::where('id', $id)->update($updateArr);
-		\Session::flash('flash_message','Information saved successfully.');
+		\Session::flash('flash_message','Information updated successfully.');
 		//dd($record);
 		if(getRole()=="administrator"){
 			return Redirect::route('branding-view');

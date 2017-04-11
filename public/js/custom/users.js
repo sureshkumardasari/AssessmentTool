@@ -20,7 +20,10 @@ $( document ).ready(function() {
 			}
 		});
     });
-    $('.searchfilter').on("click",function(e){    	
+    $('.searchfilter').on("click",function(e){ 
+    $('#institution_id').val('0');
+    $('#role_id').val('0');
+       	
     	//console.log('searchfilter ');
     	$(".searchfilter span")
         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');

@@ -507,10 +507,10 @@ class Grade extends Model {
         {
             $query->where("asn.assignment_id", $assignment_id);
         }
-            $query->select(DB::raw('u.id, first_name, last_name'));
+            $query->select(DB::raw('u.id, first_name, last_name,asn.assessment_id,asn.assignment_id'));
             
         $asign_users = $query->get();
-        return $asign_users;
+        return $asign_users; 
     }
     public function getUsersById($student_id=0){
         //dd($student_id);

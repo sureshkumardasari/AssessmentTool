@@ -63,7 +63,7 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		if(Auth::user()->role_id != 2){
 		        $inst_arr=[];
         $roles_arr=[];
         //dd($institution_id);
@@ -176,7 +176,7 @@ class UserController extends BaseController
 	}
 	public function profile()
 	{
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1 ){
 		$userid = Auth::user()->id;
 		$this->edit($userid);
 
@@ -266,7 +266,10 @@ class UserController extends BaseController
 
 		$pic_data = [];
 		if (isset($userid) && $userid > 0) {
+
+
 			$user = $this->user->find($userid);
+			//dd($user);
 			$id = $user->id;
 			$role_id = $user->role_id;
 			$institution_id = $user->institution_id;
@@ -302,15 +305,11 @@ class UserController extends BaseController
 
 	function state($country_id=0)
     {
-    	//dd($country_id);
-    	if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+    	
+    	
         $state_arr=DB::table('states')->where('country_id','=',$country_id)->select('id','state_name as name')->get();
           return $state_arr; 
-      }
-       else
-           {
-           return view('permission');
-           }
+     
 	   
     }
 
@@ -376,7 +375,7 @@ class UserController extends BaseController
                     
                    
 			}
-			\Session::flash('flash_message','Information saved successfully.');
+			\Session::flash('flash_message','Information updated successfully.');
             if(Auth::user()->role_id == 1){
             	return redirect('/user');
 			}
