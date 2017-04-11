@@ -244,7 +244,38 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
+//desible show entires & pagination in datatables
 $(document).ready(function() {
+$('#question_table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+
+$('#selected-questions').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+$('#passage_table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+
+$('#selected-passage').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    "bAutoWidth": false });
+
+
+});
+/*$(document).ready(function() {
     $('#question_table').DataTable( {
         "lengthMenu": [[-1], ["All"]]
     } );
@@ -253,7 +284,7 @@ $(document).ready(function() {
     $('#selected-questions').DataTable( {
         "lengthMenu": [[-1], ["All"]]
     } );
-} );
+} );*/
 $('#reset').on('click',function(){
 	$('#institution_id').val('');
 	$('#category_id').val('');

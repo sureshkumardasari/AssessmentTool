@@ -586,13 +586,11 @@ class ReportController extends Controller
     //Generating pdf...
     public function exportPDF($inst_id = 0, $assi_id = 0)
     {
-        //dd('test');
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
         //dd($inst);
         $assi = Assignment::where('id', '=', $assi_id)->select('name')->get();
         //dd($assi);
         $assignment = Assignment::find($assi_id);
-        //dd($assignment);
         if ($assignment) {
             $marks = Assessment::find($assignment->assessment_id);
             //dd($marks);
@@ -624,19 +622,17 @@ class ReportController extends Controller
             //dd($assignment);
             $assignment = Assignment::find($assi_id);
             if ($assignment) {
-                $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
-                    ->leftjoin('user_assignment_result', function($join){
-                            $join->on('user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id');
-                            $join->on('user_assignment_result.user_id', '=', 'assignment_user.user_id');
-                        })
-                    ->where('assignment_user.assignment_id', '=', $assi_id)
+                $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+                    ->join('users', 'users.id', '=', 'assignment_user.user_id')
+                    ->where('user_assignment_result.assignment_id', '=', $assi_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
                     ->get();
             } else {
+
                 $students = [];
             }
-             // dd($students);
+             //dd($students);
 
             $htmlForPdf = view('report::report.pdf', compact('inst', 'students', 'assi'))->render();
             // dd($htmlForPdf);
@@ -665,7 +661,6 @@ class ReportController extends Controller
 
     public function exportXLS($inst_id = 0, $assi_id = 0)
     {
-        //dd('test');
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
 
         $assi = Assignment::where('id', '=', $assi_id)->select('name')->get();
@@ -701,12 +696,9 @@ class ReportController extends Controller
 
             $assignment = Assignment::find($assi_id);
             if ($assignment) {
-                $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
-                    ->leftjoin('user_assignment_result', function($join){
-                            $join->on('user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id');
-                            $join->on('user_assignment_result.user_id', '=', 'assignment_user.user_id');
-                        })
-                    ->where('assignment_user.assignment_id', '=', $assi_id)
+                $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
+                    ->join('users', 'users.id', '=', 'assignment_user.user_id')
+                    ->where('user_assignment_result.assignment_id', '=', $assi_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
                     ->get();
@@ -1220,7 +1212,7 @@ class ReportController extends Controller
         $question = [];
         if ($assessment) {
 
-            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
+            $question = AssessmentQuestion::where('assessment_id', $assessment->id)->lists('question_id');
             //dd( $question);
         }
         $ques = Question::whereIn('id', $question)->lists('title', 'id');
@@ -1510,25 +1502,9 @@ class ReportController extends Controller
 //
                     }
                 }
-                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'))->render();
-                $fileName = 'wholeclassscorereportpdf';
-                /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
-                $name=explode('/',$fileFullUrl);
-                $name=$name[5];
-                //return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
-                return response()->Download(public_path()."/data/reports/".$name);*/
-                $name = createPdfForReport($fileName, $htmlForPdf,'','only-name');
-                if($name == url('data/error.pdf'))
-                {
-                    return response()->download(public_path()."/data/error.pdf");    
-                }
-                else
-                {
-                    return response()->download(public_path()."/data/reports/".$name);
-                }
 
                 //  dd($subject_score);
-               /* return view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));*/
+                return view('report::report.wholescoreview_duplicate', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));
             }
             case 2 : {
                 $type = "lessons";
@@ -1670,16 +1646,9 @@ class ReportController extends Controller
 //
                     }
                 }
-                return Excel::create('Assessment report', function ($excel) use ($type, $subjects, $assignment, $students, $subject_score, $penality) {
-                    $excel->sheet('mySheet', function ($sheet) use ($type, $subjects, $assignment, $students, $subject_score, $penality) {
-                        //$sheet->loadView($students);
-                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "subjects" => $subjects, "assignment" => $assignment, "students" => $students, "subject_score" => $subject_score, "penality" => $penality));
-                        //$sheet->fromArray($students);
-                    });
-                })->download("xls");
 
                 //  dd($subject_score);
-                return view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));
+                return view('report::report.wholescoreview_duplicate', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality'));
             }
             case 2 : {
                 $type = "lessons";

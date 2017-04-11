@@ -33,7 +33,7 @@
     <thead>
     <tr>
         <th>Student Name</th>
-        <th>marks</th>
+        <th>Marks</th>
         <th>Percentage(%)</th>
     </tr>
     </thead>

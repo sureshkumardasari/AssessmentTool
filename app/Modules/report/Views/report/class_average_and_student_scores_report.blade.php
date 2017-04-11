@@ -47,12 +47,7 @@
                     <div id="report">
                         
                     </div>
-<!-- <div class="form-group col-md-12">
-                        <div class="col-md-8"></div>
-                        <div class="col-md-4">
-                        <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                        <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
-                    </div></div> -->
+ 
 
                     
 </div>
@@ -78,7 +73,8 @@
                             success: function (response) {
                                 $('#report').empty();
                                 $('#report').append(response);
-                                $('#report').prepend($('.average'));
+                                //$('#report').before($('.average'));
+                                $('#report').prepend($('.gobutton'));
                             }
                         }
                 )

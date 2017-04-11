@@ -5,8 +5,6 @@ class StatesSeeder extends Seeder {
 
 	public function run()
 	{
-		
-        DB::table('states')->delete();
 		DB::table('states')->insert([
 			            'country_id' => '1',
 
@@ -35,7 +33,7 @@ class StatesSeeder extends Seeder {
 			'updated_at' => new DateTime,
 						
 			]);
-	    DB::table('states')->insert([
+		        DB::table('states')->insert([
             'country_id' => '1',
             'id' => '4',
             'state_name' =>'Tamil Nadu',
@@ -43,7 +41,14 @@ class StatesSeeder extends Seeder {
             'updated_at' => new DateTime,
                         
             ]);
-       
+        DB::table('states')->insert([
+            'country_id' => '2',
+            'id' => '5',
+            'state_name' =>'Dallas',
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime,
+                        
+            ]);
 
 
 
