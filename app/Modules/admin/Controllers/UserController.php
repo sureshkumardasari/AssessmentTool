@@ -157,7 +157,7 @@ class UserController extends BaseController
 
 	public function add()
 	{
-		if(Auth::user()->role_id != 2){
+		if(Auth::user()->role_id == 1 || Auth::user()->role_id == 4){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
@@ -175,10 +175,11 @@ class UserController extends BaseController
 		 else{
 			return view('permission');
 		}
+		\Session::flash('flash_message','Information saved successfully.');
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 
-		\Session::flash('flash_message','Information saved successfully.');
+		
 	}
 
 	public function edit($userid = 0)
@@ -265,9 +266,9 @@ class UserController extends BaseController
 			$name = $email = $status = $enrollno = $password = $password_confirmation = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}      
-
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 		\Session::flash('flash_message','Information updated successfully.');
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		
 	}
 	function state($country_id=0)
     {
@@ -336,15 +337,17 @@ class UserController extends BaseController
                     
                    
 			}
-			\Session::flash('flash_message','Information updated successfully.');
-            if(Auth::user()->role_id == 1)
+			
+            if((Auth::user()->role_id == 1) || (Auth::user()->role_id == 3) )
 
             {
+            	//dd('test');
             	
-            
+            \Session::flash('flash_message','Information updated successfully.');
 			return redirect('/user');
 			}
 		else{
+			\Session::flash('flash_message','Information updated successfully.');
 			return redirect('/dashboard/home');
 		}
 		}
