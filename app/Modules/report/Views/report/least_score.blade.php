@@ -127,7 +127,7 @@ $class="col-md-12";
                           <div class="col-md-6">
                         <a href="#" class="btn btn-primary" id="pdf" style="margin:7px;">Export Pdf</a>
                         
-                        <a href="#" class="btn btn-primary" id="xls">Export xls</a>
+                        <a href="#" class="btn btn-primary" id="xls">Export Xls</a>
                         </div>
                     </div> 
                
