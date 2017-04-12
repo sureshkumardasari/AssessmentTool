@@ -204,9 +204,10 @@ function filter(){
 							tr.append("<td>" + response[i].question_title + "");
 							tr.append("<td>" + response[i].question_type + "");
 							tr.append("<td>" + response[i].passage_title + "");
+							tr.append("<a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a></td>");
 							tr.append("<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
 							tr.append("<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
-							tr.append("<a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a></td>");
+							
 							tr.append("<td>"+ "</td>");
 							$('#question_list_filer').append(tr);
 						}
