@@ -45,7 +45,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group required col-md-4">
+                        <div class="form-group required col-md-3">
                             <label class="col-md-2 control-label ">Lesson:</label>
                             <div class="col-md-6 col-md-offset-1">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
