@@ -103,8 +103,9 @@ class Institution extends Model {
 		$obj->address2 = $params['address2'];
 		$obj->address3 = $params['address3'];
 		$obj->city = $params['city'];
+				$obj->country_id = $params['country_id'];
+
 		$obj->state = $params['state'];
-		$obj->country_id = $params['country_id'];
 		$obj->phoneno = $params['phoneno'];
 		$obj->pincode = $params['pincode'];
 
@@ -129,10 +130,11 @@ class Institution extends Model {
 				'Address2' => array(),
 				'Address3' => array(),
 				'City' => array(),
+				'Country' => array('options' => $countries),
 				'State'=>array('options'=>$states),
 				'Phone' => array(),
 				'Pin' => array(),
-				'Country' => array('options' => $countries),
+				
 		);
 
 		$firstRow = false;
@@ -257,8 +259,9 @@ class Institution extends Model {
 				'address1' => 'required|max:100',
 			// 'city' => 'max:50|required',
 				'city' => 'required|max:50',
-				'state' => 'required',
 				'country' => 'required',
+				'state' => 'required',
+				
 				'pin' => 'required|regex:/\b\d{6}\b/',
 		];
 
@@ -292,10 +295,12 @@ class Institution extends Model {
 		$obj->address2 = $row->address2;
 		$obj->address3 = $row->address3;
 		$obj->city = $row->city;
+		$obj->country_id = $country_id->id;
 		$obj->state = $state_id->id;
+		
 		$obj->phoneno = $row->phone;
 		$obj->pincode = $row->pin;
-		$obj->country_id = $country_id->id;
+		
 		$obj->parent_id=$a;
 		$obj->updated_by = Auth::user()->id;
 		$obj->added_by = Auth::user()->id;

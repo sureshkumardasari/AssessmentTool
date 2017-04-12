@@ -157,10 +157,11 @@ class User extends Model {
 		$obj->address2 = (isset($params['address2'])) ? $params['address2'] : '';
 		$obj->address3 = (isset($params['address3'])) ? $params['address3'] : '';
 		$obj->city = $params['city'];
+			$obj->country_id = $params['country_id'];
 		$obj->state = $params['state'];
 		$obj->phoneno = $params['phoneno'];
 		$obj->pincode = $params['pincode'];
-		$obj->country_id = $params['country_id'];
+	
 		$obj->profile_picture = $params['profile_picture'];
 		$obj->pic_coords = $params['pic_coords'];
 
@@ -265,8 +266,9 @@ class User extends Model {
 	        'Status' => array('options' => array('Active', 'Inactive')),
 	        'Address' => array(),
 	        'City' => array(),
+	        'Country' =>array('options' => $countries),
 	        'State' => array('options'=>$states),
-			'Country' =>array('options' => $countries),
+			
 	        'Pin' => array(),
 	        'Role' => array('options' => ['student','teacher'])
 	    );
@@ -410,8 +412,9 @@ class User extends Model {
 	        'address' => 'required|max:100',
 	        // 'city' => 'max:50|required',
 	        'city' => 'required|max:50',
-	         'state' => 'required',
 	         'country' => 'required',
+	         'state' => 'required',
+	        
 	        // 'zip' => 'numeric|max:999999|required',
 	        'pin' => 'required|regex:/\b\d{6}\b/',
 	        'role' => 'required',
@@ -458,10 +461,11 @@ class User extends Model {
 		$obj->last_name = $row->last_name;
 		$obj->address1 = $row->address;
 		$obj->city = $row->city;
+		$obj->country_id = $country_id->id;
 		$obj->state = $state_id->id;
 		$obj->phoneno = $row->phone;
 		$obj->pincode = $row->pin;
-		$obj->country_id = $country_id->id;
+		
 
 		$obj->save();
 		$roleobj = DB::table('role_user')->insert(['user_id'=>$obj->id,'role_id'=>$obj->role_id]);
