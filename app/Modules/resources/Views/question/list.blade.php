@@ -122,7 +122,7 @@
 				                <th>Question Title</th>
 				                <th>Question Type</th>
 				                 <th>Question Passage</th>
-								<th style="visibility: hidden;"></th>
+								<th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody id="question_list_filer">

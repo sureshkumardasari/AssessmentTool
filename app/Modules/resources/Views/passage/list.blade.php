@@ -31,7 +31,7 @@
 				            <tr>
 				                <th>Id</th>
 				                <th>Name</th>
-				                <th style="visibility: hidden;"></th>
+				                <th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
