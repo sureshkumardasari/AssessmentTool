@@ -67,7 +67,12 @@ $( document ).ready(function() {
      }     
     });
 
- $("#applyFiltersBtn").on("click",function(e){    
+ $("#applyFiltersBtn").on("click",function(e){  
+  if($('#institution_id').val()==0 || ($('#category_id').val()==0 || ($('#subject_id').val()==0 || ($('#lessons_id').val()==0 || ($('#question_type').val()==0))))){
+                alert("please select all the fields");
+            }
+            else{
+
   
      var institution_id = $('#institution_id').val();
      var category_id = $('#category_id').val();
@@ -106,6 +111,7 @@ $( document ).ready(function() {
     $("#loadingdiv").html('');
    }
   });
+     }
  });
 
     $('.searchfilter').on("click",function(e){     

@@ -108,11 +108,7 @@ $path = url()."/resources/";
   	var subjectRoute = "{{url('/resources/getsubject/')}}";
 </script>
 <script type="text/javascript">
- function subject_change(){
-            if($('#institution_id').val()==0 || ($('#category_id').val()==0 || ($('#subject_id').val()==0))){
-                alert("please select all the fields");
-            }
-    }
+ 
     function change_institution(){
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
