@@ -110,7 +110,7 @@
 							<div class="col-md-1">{{ ($assignmentUsersArr[$i]->status == 'completed') ? $assignmentUsersArr[$i]->rawscore : ''}}</div>
 							
 
-							<!-- @if($assignment->status != 'completed')
+							@if($assignment->status != 'completed')
 							<div class="col-md-3"><select id="auid_{{$assignmentUsersArr[$i]->auid}}">
 								<?php
 								foreach ($starr as $key => $value) {
@@ -120,7 +120,7 @@
 							</select>
 							<button type="button" id="btn_{{$assignmentUsersArr[$i]->auid}}" value="{{$assignmentUsersArr[$i]->auid}}" class="btn btn-primary btnStatusUpdate">Update</button>
 							</div>
-							@endif -->
+							@endif 
 						</div>
 						@endfor											
 					</div>
