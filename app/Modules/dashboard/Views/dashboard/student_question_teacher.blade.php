@@ -162,7 +162,7 @@
 <style>
     #text,th
     {
-        width: 285px;
+        width: 350px;
         border: 0px solid #000000;
         word-break: break-word;
     }
