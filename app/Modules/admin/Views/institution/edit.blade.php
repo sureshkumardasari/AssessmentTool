@@ -76,8 +76,9 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Country</label>
 							<div class="col-md-6">
-								<select class="form-control" name="country_id">
-									<option value="0">Select</option>
+							<select class="form-control" id="country_id" name="country_id" onchange="change_user()">
+
+									<option value="0">--Select--</option>
 									@foreach($country_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $country_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -88,8 +89,8 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">State</label>
 							<div class="col-md-6">
-								<select class="form-control" name="state">
-									<option value="0">Select</option>
+                                <select class="form-control" id="state" name="state">
+									<option value="0">--Select--</option>
 									   @foreach($state_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									   @endforeach
@@ -136,4 +137,32 @@
      }, 5000);
  })
  </script>
+ <script>
+        function change_user(){
+            //alert('hai');
+        var csrf=$('Input#csrf_token').val();
+        var loadurl = "{{  url('/user/state') }}/" ;
+        $.ajax(
+                {
+
+                    headers: {"X-CSRF-Token": csrf},
+                    
+                    url:loadurl+$('#country_id').val(),
+                    type:'get',
+                    success:function(response) {
+                        var a = response.length;
+                        $('#state').empty();
+                        var opt = new Option('--Select--', '0');
+                        $('#state').append(opt);
+                        for (i = 0; i < a; i++) {
+                            var opt = new Option(response[i].name, response[i].id);
+                            $('#state').append(opt);
+                        }
+                    }
+                }
+        )
+
+    }
+
+</script>
 @endsection
