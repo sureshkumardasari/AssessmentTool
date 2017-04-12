@@ -1205,14 +1205,17 @@ class ReportController extends Controller
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
         $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
         $sub = Subject::where('id', '=', $sub_id)->select('name')->get();
-        //dd($inst);
+
 
         $assessment = Assignment::find($assign_id);
-       // dd($assessment);
+        //dd($assessment);
+
+
+
+
         $question = [];
         if ($assessment) {
-
-            $question = AssessmentQuestion::where('assessment_id', $assessment->id)->lists('question_id');
+            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
             //dd( $question);
         }
         $ques = Question::whereIn('id', $question)->lists('title', 'id');
@@ -1222,7 +1225,6 @@ class ReportController extends Controller
             $questions->where('subject_id', '=', $sub_id);
         }
         $questions = $questions->lists('id');
-
         $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
         $user_answered_correct_count = QuestionUserAnswer::whereIn('question_id', $questions)->where('assignment_id', $assign_id)->where('is_correct', 'Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
 
