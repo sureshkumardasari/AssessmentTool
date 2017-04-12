@@ -71,11 +71,4 @@
      }, 5000);
  })
  </script>
- <script type="text/javascript">
- function instituton_change(){
-            if($('#institution_id').val()==0){
-                alert("please select the field");
-            }
-    }
-    </script>
 @endsection

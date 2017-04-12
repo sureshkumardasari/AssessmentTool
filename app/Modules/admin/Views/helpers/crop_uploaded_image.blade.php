@@ -73,7 +73,7 @@
             </div>
             <div class="btns_all fltL mL0 mt5 mb25 clr">
                 <a href="javascript:;" id='saveImage' class="btn btn-primary btn-sm upload_btn" >Save</a>
-                <a href="javascript:;" onclick='$.fancybox.close()'  class="btn btn-primary btn-sm cncl_link popup-img-cancel">Cancel</a>
+                <a href="javascript:;" onclick='$.fancybox.close()'  class="btn btn-danger btn-sm cncl_link popup-img-cancel">Cancel</a>
             </div>
         </div>
         <div class="col-md-6">
