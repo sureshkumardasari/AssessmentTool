@@ -728,7 +728,7 @@ class AssessmentController extends BaseController {
 				$assessment_question->passage_id=isset( $value['passage_id'] ) ? $value['passage_id'] : 0;
 				$assessment_question->save();
 			}}
-					        \Session::flash('flash_message','Information update successfully.');
+					        \Session::flash('flash_message','Information updated successfully.');
 
 			return Redirect::route('template', ['id' =>  $post['id'] /*, 'tplId' => $newOrder*/]);
 			//return redirect('/resources/assessment');
