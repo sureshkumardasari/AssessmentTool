@@ -188,8 +188,11 @@ class BrandingController extends Controller {
 //		$branding=Branding::join('institution as i','brandings.institution_id','=','i.id')
 //		->select('i.id as institution_id','brandings.id','i.name as institution_name','brandings.title')->get();
 //		return view('admin::branding.brandview',compact('branding'));
-if (getRole() == "student" || getRole() == "teacher") {
+/*if (getRole() == "student" || getRole() == "teacher") {
      return view('permission');
+    }*/
+    if(getRole() == "student" || getRole() == "teacher"){
+    	return view('permission');
     }
 		$role=getRole();
 		$inst=\Auth::user()->institution_id;
