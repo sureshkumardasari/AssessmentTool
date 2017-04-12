@@ -6,7 +6,7 @@
 				                <th>Institution</th>
 				                <th>Role</th>
 				                <th>Status</th>
-				                <th style="visibility: hidden;"></th>
+				                <th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
