@@ -268,7 +268,7 @@ class User extends Model {
 	        'State' => array('options'=>$states),
 			'Country' =>array('options' => $countries),
 	        'Pin' => array(),
-	        'Role' => array('options' => ['student'])
+	        'Role' => array('options' => ['student','teacher'])
 	    );
 
 	    $firstRow = false;
