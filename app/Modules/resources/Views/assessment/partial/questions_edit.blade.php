@@ -175,12 +175,12 @@
 				<table id="passage_table" class="table table-striped table-bordered assess  parent-grid" cellspacing="0" width="100%">
 			<thead>
 			<tr>
-				<th><input type="checkbox" name="" id="" value="" class="check-all-passage"></th>
+				<th><input type="checkbox" name="passageid" id="passageid" value="" class="check-all-passage"></th>
 				<th>Passage Name</th>
 
 			</tr>
 			</thead>
-			<tbody id="passages-list">
+			<tbody id="passages-list" class="test1">
 			{{--@foreach( $passages_list_not as $id => $name )--}}
 				{{--<tr>--}}
 					{{--<td>--}}
@@ -206,7 +206,7 @@
 			<table id="selected-passage" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 				<thead>
 				<tr>
-					<th><input type="checkbox" name="" class="check-all-selected-passage" value=""></th>
+					<th><input type="checkbox" name="passageid1" id="passageid1" class="check-all-selected-passage" value=""></th>
 					<th>Passage Name</th>
 				</tr>
 				</thead>
@@ -235,7 +235,7 @@
 				@endforeach
 				<?php }
 				?>
-				<tbody class="child-grid">
+				<tbody class="child-grid selectall1" >
 				</tbody>
 			</table>
 
