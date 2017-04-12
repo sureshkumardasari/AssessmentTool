@@ -9,9 +9,11 @@
     </style>
 </head>
 <body>
+
 <table class="table" width="100%">
     <thead>
     <tr>
+    <th>Assignment Name</th>
     <th>Student Name</th>
     <th>Score</th>
     </tr>
@@ -20,6 +22,7 @@
     @if(count($report_data)>0)
         @foreach($report_data as $assignment)
             <tr>
+             <td>{{$assignment->assignment_name}}</td>
                 <td>{{$assignment->user_name}}</td>
                 <td>{{$assignment->rawscore}}</td>
             </tr>
@@ -35,6 +38,7 @@
 <table class="table" width="100%">
     <thead>
     <tr>
+    <th>Assignment Name</th>
     <th>Student Name</th>
     <th>Score</th>
     </tr>
@@ -43,6 +47,7 @@
     @if(count($report_data1)>0)
         @foreach($report_data1 as $assignment)
             <tr>
+            <td>{{$assignment->assignment_name}}</td>
                 <td>{{$assignment->user_name}}</td>
                 <td>{{$assignment->rawscore}}</td>
             </tr>
@@ -58,6 +63,7 @@
 <table class="table" width="100%">
     <thead>
     <tr>
+    <th>Assignment Name</th>
     <th>Student Name</th>
     <th>Score</th>
     </tr>
@@ -66,6 +72,7 @@
     @if(count($report_data2)>0)
         @foreach($report_data2 as $assignment)
             <tr>
+             <td>{{$assignment->assignment_name}}</td>
                 <td>{{$assignment->user_name}}</td>
                 <td>{{$assignment->rawscore}}</td>
             </tr>
