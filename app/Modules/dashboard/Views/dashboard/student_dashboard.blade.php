@@ -124,7 +124,7 @@
                         "caption": "Latest Five Assignments Percentage",
                         "subCaption": "",
                         "xAxisName": "Assignment",
-                        "yAxisName": "Precentage Gained",
+                        "yAxisName": "Percentage Gained",
                         "showValues": "0",
                         "numberPrefix": "",
                         "numberSuffix": "%",

@@ -1,6 +1,6 @@
 
 <div class="panel panel-default">
-    <div class="panel-heading">Bulk Import Users
+    <div class="panel-heading">Bulk Import Institutions
     </div>
     <div class="panel-body">
         <ul>
