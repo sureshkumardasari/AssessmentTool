@@ -157,6 +157,7 @@ class UserController extends BaseController
 
 	public function add()
 	{
+		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
@@ -170,9 +171,13 @@ class UserController extends BaseController
 
 		$profile_picture = $this->getProfilePicURL();
 		$pic_data = [];
-		 
+		 }
+		 else{
+			return view('permission');
+		}
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+
 		\Session::flash('flash_message','Information saved successfully.');
 	}
 
@@ -262,6 +267,7 @@ class UserController extends BaseController
 		}      
 
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		\Session::flash('flash_message','Information updated successfully.');
 	}
 	function state($country_id=0)
     {
@@ -301,7 +307,7 @@ class UserController extends BaseController
 		} else {
 			$rules['role_id'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
-			$rules['conform password'] = 'required';
+			// $rules['conform password'] = 'required';
 		}
 
 		$validator = Validator::make($post, $rules);
