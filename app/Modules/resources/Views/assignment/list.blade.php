@@ -23,9 +23,9 @@
 				        <thead>
 				            <tr>
 				                <th>Name</th>
-								<th>AssessmentName</th>
-								<th>StartDateTime</th>
-								<th>EndDateTime</th>
+								<th>Assessment Name</th>
+								<th>StartDate Time</th>
+								<th>EndDate Time</th>
 								<th>Status</th>
 				                <th>Action</th>
 				            </tr>
