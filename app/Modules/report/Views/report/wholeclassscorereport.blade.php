@@ -35,17 +35,18 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group required">
-                            <label class="col-md-2 control-label col-md-offset-2">Subject:</label>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
+                            <div class="form-group required col-md-6">
+                            <label class="col-md-2 control-label col-md-offset-4">Subject:</label>
+                            <div class="col-md-4 col-md-offset-2" style="padding-left: 2em;">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
 <!--                                     <option value="0" selected>--Select Subject--</option>
  -->                                  
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group required">
-                            <label class="col-md-2 control-label col-md-offset-2">Lesson:</label>
+                        <div class="form-group required col-md-6">
+                            <label class="col-md-4 control-label col-md-offset-2">Lesson:</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="lesson_id" id="lesson_id" class="multipleSelect" multiple="multiple">
 <!--                                     <option value="0" selected>--Select Lesson--</option>
@@ -53,8 +54,9 @@
                                 </select>
                             </div>
                         </div>
+                        </div>
                              <div class="form-group">
-                               <div class="col-md-5 gobtn">
+                               <div class="col-md-7">
                                     <button type="button" class="btn btn-primary  pull-right"  id="applyFiltersBtn" onclick="update()"><b>Go</b></button>
                                        
                                 </div>
