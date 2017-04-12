@@ -14,7 +14,7 @@
 				                <th>Id</th>
 								<th>Category</th>
 				                <th>Subject</th>
- 				                <th style="visibility: hidden;"></th>
+ 				                <th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
