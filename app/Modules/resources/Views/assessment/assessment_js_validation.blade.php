@@ -690,6 +690,14 @@ if (count($errors) > 0){?>
 //							tr.append("<input type='hidden' value='"+response[i].id+"' name='QuestionIds[]' id='QuestionIds'>");
 							tr.append("<td>" + val['passage_title'] + "</td>");
 							$('#passages-list').append(tr);
+							 $( "#passageid" ).prop( "checked", false );
+							 $('.test1 input[type="checkbox"]').on('change', function () 
+                        		{
+                        			//alert('1');
+                                var allChecked = $(' .test1 input:checked').length === $(' .test1 input').length;
+
+                                $('#passageid').prop('checked', allChecked);
+                       			 });
 						});
 						$('#passage_table').dataTable({
                     "bPaginate": false,

@@ -1396,7 +1396,13 @@ function addOrRemoveInGrid(elem, type) {
                 selected.append("<input type='hidden' value="+value+" name='QuestionIds[]' id='QuestionIds'>");
                 //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
                 $('#selected-questions'+' .child-grid').append(selected);
+                $('.selectall input[type="checkbox"]').on('change', function () 
+                    {
+                        //alert($(' .selectall input:checked').length);
+                         var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
+                         $('#QuestionIds11').prop('checked', allChecked);
 
+                    });
 
             });
             //desible show entires & pagination in datatables
@@ -1417,17 +1423,14 @@ function addOrRemoveInGrid(elem, type) {
             $('#question_table').dataTable();
             $('#selected-questions').dataTable();
             //alert('test');
-            $('.selectall input[type="checkbox"]').on('change', function () 
-            {
-                                var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
-                                $('#QuestionIds11').prop('checked', allChecked);
 
-            });
             
            
 
         }
         else if(checkboxName == "passage"){
+            //alert('test');
+
             $('#passage_table').dataTable().fnDestroy();
             $('#selected-passage').dataTable().fnDestroy();
             $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
@@ -1453,6 +1456,16 @@ function addOrRemoveInGrid(elem, type) {
                 }
                 selected.append("<input type='hidden' value='"+value+"' name='passageIds[]' id='passageIds'>");
                 $('#selected-passage'+' .child-grid').append(selected);
+                $( "#passageid" ).prop( "checked", false );
+
+                $('.selectall1 input[type="checkbox"]').on('change', function () 
+                    {
+                        //alert($(' .selectall1 input').length);
+                         var allChecked = $(' .selectall1 input:checked').length === $(' .selectall1 input').length/2;
+                         $('#passageid1').prop('checked', allChecked);
+
+                    });
+
                 //$('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
             });
             $('#passage_table').dataTable({
@@ -1537,6 +1550,15 @@ function addOrRemoveInGrid(elem, type) {
                     }
                 }
                 $( "#QuestionIds11" ).prop( "checked", false );
+                $('.test input[type="checkbox"]').on('change', function () 
+                        {
+                            //alert($(' .test input').length);
+                
+                                var allChecked = $(' .test input:checked').length === $(' .test input').length/2;
+
+                                $('#QuestionIds').prop('checked', allChecked);
+                        });
+               
 
             });
             //desible show entires & pagination in datatables
@@ -1605,6 +1627,16 @@ function addOrRemoveInGrid(elem, type) {
                 $(this).closest('tr').remove();
                 $('#passages'+' .parent-grid').append(selected);
                 selected_question_ids[$(this).val()]=[];
+
+                 $( "#passageid1" ).prop( "checked", false );
+
+                $('.test1 input[type="checkbox"]').on('change', function () 
+                  {
+                        var allChecked = $(' .test1 input:checked').length === $(' .test1 input').length/2;
+
+                        $('#passageid').prop('checked', allChecked);
+                    });
+
                 //alert($(this).val());
                // selected_passage_ids[1]=[];
                 //$.each(QuestionIds, function( index, value ) {
