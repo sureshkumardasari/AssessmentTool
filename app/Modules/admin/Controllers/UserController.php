@@ -157,7 +157,7 @@ class UserController extends BaseController
 
 	public function add()
 	{
-		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
+		if(Auth::user()->role_id != 2){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
@@ -336,7 +336,7 @@ class UserController extends BaseController
                     
                    
 			}
-			\Session::flash('flash_message','Information saved successfully.');
+			\Session::flash('flash_message','Information updated successfully.');
             if(Auth::user()->role_id == 1)
 
             {
