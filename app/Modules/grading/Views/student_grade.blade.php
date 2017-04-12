@@ -30,7 +30,7 @@
 				            <tr>
 				                <th>Student Name</th>
 				                
-				                <th style="visibility: hidden;">Action</th>
+				                <th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody class="student_list">
