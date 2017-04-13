@@ -6,7 +6,7 @@
 				                <th>Institution</th>
 				                <th>Role</th>
 				                <th>Status</th>
-				                <th>Action</th>
+				                <th style="width: 60px !important;">Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
