@@ -13,7 +13,7 @@
                     @endforeach
                 </select><span class="UserImportInstitutionId" style="font-weight: bolder;"></span>
             </li>
-            <li>2. Download the <a href="javascript:;" onclick="downloadTemplate('student')">bulk import template</a> for Student use </li>            
+            <li>2. Download the <a href="javascript:;" onclick="downloadTemplate('student')">bulk import template</a> for Student and Teacher use </li>            
             <li>3. Click “Browse” to choose the saved file.</li>
             <li>4. Click “Upload” to upload the file.</li>
         </ul>
