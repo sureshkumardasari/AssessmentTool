@@ -203,6 +203,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 			<div class="clearfix"></div>
+			<div class="col-md-12">
 			<b>{{"Selected Passages"}}</b>
 			<table id="selected-passage" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 				<thead>
@@ -236,6 +237,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 
 	</div>
