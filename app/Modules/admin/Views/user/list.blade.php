@@ -29,12 +29,12 @@
 				</div>
 				
 				<div class="panel-body">
-
+                      @if (Auth::user()->id == 1)
 					<div class="panel panel-default">
 						<div class="panel-heading searchfilter pointer">Advanced Filters
 							<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
 						</div>
-
+                         
 						<div class="panel-body searchfilter-body hide">
 							<div class="form-group col-md-6  required">
 								<label class="col-md-6 control-label">Select Institution</label>
@@ -63,7 +63,7 @@
 							</div>
 						</div>
 					</div>
-					
+					@endif
 					<div id="user-list"> {!! $usersList !!} </div>					
 				</div>
 			</div>
