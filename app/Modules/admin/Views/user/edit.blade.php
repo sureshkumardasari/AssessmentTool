@@ -93,6 +93,7 @@
 						<input type="hidden" value="{{ !empty($pic_data['image'])?$pic_data['image']:'' }}" name="profile_picture" id="profile_picture">
 						<input type="hidden" value="{{ !empty($pic_data['id'])?$pic_data['id'] : 0 }}" name="image_user_id" id="image_user_id">
 						<div class="form-group required">
+						@if (Auth::user()->id == 1)
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id">
@@ -103,9 +104,7 @@
 								</select>								
 							</div>
 						</div>
-						
-						
-						@if( (Auth::user()->id != $user_id) || $user_id == 1)
+		
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Role</label>
 							<div class="col-md-6">
@@ -117,8 +116,7 @@
 								</select>
 							</div>
 						</div>
-						@endif
-
+		                 @endif
 						<div class="form-group required">
 							<label class="col-md-4 control-label">First Name</label>
 							<div class="col-md-6">

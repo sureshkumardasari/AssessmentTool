@@ -78,17 +78,7 @@ class AssessmentAssignmentController extends BaseController {
 
     public function myassignment($user_id = 0)
     {
-       /*
-
-
-
-
-
-
-
-
-       */
-        $myassignment = $this->assignment->getMyTestList();
+            $myassignment = $this->assignment->getMyTestList();
         //var_dump($myassignment);
         
         return view('assessment::myallassignment', compact('myassignment'));
