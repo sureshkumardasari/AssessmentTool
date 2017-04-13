@@ -76,7 +76,13 @@ class UserController extends BaseController
             ->leftjoin('roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
             })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
-            $query->where("u.role_id", $role_id->id);
+              if(Auth::user()->role_id!=1)
+              	{
+               $query->where('u.institution_id','=',Auth::user()->institution_id);
+                               $query->where("u.role_id",3);
+
+            }else         
+         $query->where("u.role_id", $role_id->id);
         $users = $query->get();
         return view('admin::user.list', compact('inst_arr', 'roles_arr'))
             ->nest('usersList', 'admin::user._list', compact('users'));
@@ -92,11 +98,14 @@ class UserController extends BaseController
             //})->select('Users.name', 'Users.email','institution.name', 'Roles.name')->get();
             //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
             })->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
+              if(Auth::user()->role_id!=1)
+              	{
+               $query->where('u.institution_id','=',Auth::user()->institution_id);
+                               $query->where("u.role_id",2);
 
+            }else   
 
-    
-       
-            $query->where("u.role_id", $role_id->id);
+         $query->where("u.role_id", $role_id->id);
       
         $users = $query->get();
       
@@ -175,7 +184,7 @@ class UserController extends BaseController
 		 else{
 			return view('permission');
 		}
-		\Session::flash('flash_message','Information saved successfully.');
+		// \Session::flash('flash_message','Information saved successfully.');
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 
@@ -266,7 +275,7 @@ class UserController extends BaseController
 			$name = $email = $status = $enrollno = $password = $password_confirmation = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}      
-		\Session::flash('flash_message','Information updated successfully.');
+		// \Session::flash('flash_message','Information updated successfully.');
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 		
 	}
