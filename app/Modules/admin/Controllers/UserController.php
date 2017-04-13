@@ -342,8 +342,7 @@ class UserController extends BaseController
 
             {
             	//dd('test');
-            	
-            \Session::flash('flash_message','Information updated successfully.');
+           \Session::flash('flash_message','Information updated successfully.');
 			return redirect('/user');
 			}
 		else{
