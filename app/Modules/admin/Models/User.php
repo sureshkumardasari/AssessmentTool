@@ -447,13 +447,16 @@ class User extends Model {
 		//dd($row);
 		$country_id=countries::select('id')->where('country_name',$row->country)->first();
 		$state_id=states::select('id')->where('state_name',$row->state)->first();
+		$roles_id=DB::table('roles')->select('id')->where('name',$row->role)->first();
+		
 		$obj = new self;
 		$obj->password = bcrypt($row->password);
 		$obj->added_by = Auth::user()->id;
 		$obj->name = $row->first_name . ' ' . $row->last_name;
 		$obj->email =  $row->email;
 		$obj->enrollno = $row->enrollment_no;
-		$obj->role_id = $role_id;
+		$obj->role_id = $roles_id->id;
+
 		$obj->institution_id = $row->institutionid;
 		$obj->status = $row->status;
 		$obj->gender =$row->gender;
