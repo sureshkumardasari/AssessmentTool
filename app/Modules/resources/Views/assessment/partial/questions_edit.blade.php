@@ -202,6 +202,7 @@
 
 
 			<div class="clearfix"></div>
+			<div class="col-md-12">
 			<b>{{"Selected Passages"}}</b>
 			<table id="selected-passage" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 				<thead>
@@ -245,6 +246,7 @@
 						<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "remove");' href="javascript:;">Remove Passage</a>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 
