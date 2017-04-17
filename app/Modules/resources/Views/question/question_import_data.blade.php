@@ -109,9 +109,17 @@ if (count($errors) > 0){?>
 						success:function(response){
  							var a=response.length;
  							$('#category_id_filter').empty();
-							var opt=new Option('--Select Category--','');
-							//opt.addClass('selected','disabled','hidden');
+ 							$('#subject_id_filter').empty();
+ 							$('#lessons_id_filter').empty();
+ 							$('#question_type_filter').val("0");
+ 							var opt=new Option('--Select Category--','');
 							$('#category_id_filter').append(opt);
+							var opt1=new Option('--Select Subject--','');
+							$('#subject_id_filter').append(opt1);
+							var opt2=new Option('--Select Lesson--','');
+							$('#lessons_id_filter').append(opt2);
+							//opt.addClass('selected','disabled','hidden');
+
  							for(i=0;i<a;i++){
 								var opt=new Option(response[i].name,response[i].id);
 								$('#category_id_filter').append(opt);

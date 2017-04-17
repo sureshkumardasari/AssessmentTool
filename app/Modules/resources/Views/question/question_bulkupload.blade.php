@@ -16,7 +16,7 @@
                     @foreach($inst_arr as $id=>$val)
                     <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
-                </select>
+                </select><span class="institution_id_filter" style="font-weight: bolder;"></span>
                     
                 </div>
             </div>
@@ -24,18 +24,18 @@
                 <label class="col-md-2 control-label">Category</label>
                 <div class="col-md-10">
                    <select class="form-control" name="category_id_filter" id="category_id_filter" onchange="change_category()">
-                        {{--<option value="0">--Select Category--</option>--}}
+                       <option value="0">--Select Category--</option>
                       
-                    </select>
+                    </select><span class="category_id_filter" style="font-weight: bolder;"></span>
                 </div>
             </div>
             <div class="form-group col-md-6 required">
                 <label class="col-md-2 control-label">Subject</label>
                 <div class="col-md-10">
                    <select class="form-control" name="subject_id_filter" id="subject_id_filter" onchange="change_lessons()">
-                        {{--<option value="0">--Select Subject--</option>--}}
+                        <option value="0">--Select Subject--</option>
                        
-                    </select>
+                    </select><span class="subject_id_filter" style="font-weight: bolder;"></span>
 
                 </div>
             </div>
@@ -43,10 +43,10 @@
                 <label class="col-md-2 control-label">Lessons</label>
                 <div class="col-md-10">
                     <select class="form-control" name="lessons_id_filter" id="lessons_id_filter"  >
-                        {{--<option value="0">--Select Lessons--</option>--}}
+                        <option value="0">--Select Lessons--</option>
                        
 
-                    </select>
+                    </select><span class="lessons_id_filter" style="font-weight: bolder;"></span>
                 </div>
             </div>
             <div id="question_type_div"class="form-group col-md-6 required">
@@ -57,7 +57,7 @@
                         @foreach($qtypes as $id=>$val)
                                     <option value="{{ $id }}">{{ $val }}</option> 
                                     @endforeach
-                    </select>
+                    </select><span class="question_type_filter" style="font-weight: bolder;"></span>
 
                 </div>
             </div>
@@ -123,11 +123,61 @@
     questionBulkTemplate    = "{{route('questionBulkTemplate')}}";
     questionBulkUploadFile      = "{{route('questionBulkUploadFile')}}";
 
-    $('#userimport_institution_id').on("change",function(){
+    $('#institution_id_filter').on("change",function(){
         //console.log('userimport_institution_id ');
-        var thisVal = $('#userimport_institution_id').val();
+        var thisVal = $('#institution_id_filter').val();
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
-        $(".UserImportInstitutionId").html(msg);        
+        if (thisVal > 0){
+        $(".institution_id_filter").html(msg);   
+        }
+        else{
+            $(".institution_id_filter").html(""); 
+            $(".category_id_filter").html("");  
+            $(".subject_id_filter").html(""); 
+            $(".lessons_id_filter").html("");      
+            $(".question_type_filter").html("");    
+        }
+
+    });
+     $('#category_id_filter').on("change",function(){
+        var thisVal = $('#category_id_filter').val();
+        var msg = (thisVal > 0) ? 'Category Id is <u>"' +thisVal+ '</u>"' : "";
+        if (thisVal > 0){
+        $(".category_id_filter").html(msg);     
+        }
+        else{
+             $(".subject_id_filter").html(""); 
+            $(".lessons_id_filter").html("");      
+            $(".question_type_filter").html("");   
+        }   
+    });
+      $('#subject_id_filter').on("change",function(){
+        var thisVal = $('#subject_id_filter').val();
+        var msg = (thisVal > 0) ? 'Subject Id is <u>"' +thisVal+ '</u>"' : "";
+         if (thisVal > 0){
+        $(".subject_id_filter").html(msg);   
+        }else{  
+        $(".subject_id_filter").html(""); 
+        $(".lessons_id_filter").html("");      
+            $(".question_type_filter").html("");   
+        }  
+
+    });
+       $('#lessons_id_filter').on("change",function(){
+        var thisVal = $('#lessons_id_filter').val();
+        var msg = (thisVal > 0) ? 'Lesson Id is <u>"' +thisVal+ '</u>"' : "";
+        if (thisVal>0){
+        $(".lessons_id_filter").html(msg);   
+        }
+        else{
+             $(".lessons_id_filter").html("");      
+            $(".question_type_filter").html("");   
+        }     
+    });
+        $('#question_type_filter').on("change",function(){
+        var thisVal = $('#question_type_filter').val();
+        var msg = (thisVal > 0) ? 'Question Type is <u>"' +thisVal+ '</u>"' : "";
+        $(".question_type_filter").html(msg);        
     });
 </script>  
 {!! HTML::script(asset('/js/custom/question_bulk_upload.js')) !!}
