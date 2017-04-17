@@ -253,6 +253,8 @@ $('#question_table').dataTable({
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
     "bAutoWidth": false });
 
 $('#selected-questions').dataTable({
@@ -260,12 +262,16 @@ $('#selected-questions').dataTable({
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
     "bAutoWidth": false });
 $('#passage_table').dataTable({
     "bPaginate": false,
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
     "bAutoWidth": false });
 
 $('#selected-passage').dataTable({
@@ -273,6 +279,8 @@ $('#selected-passage').dataTable({
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
     "bAutoWidth": false });
 
 

@@ -59,6 +59,8 @@ $path = url()."/resources/";
 				    "bLengthChange": false,
 				    "bFilter": true,
 				    "bInfo": true,
+				    order: [],
+						columnDefs: [ { orderable: false, targets: [0] } ],
 				    "bAutoWidth": false });
 
 				$('#selected-questions').dataTable({
@@ -66,6 +68,8 @@ $path = url()."/resources/";
 				    "bLengthChange": false,
 				    "bFilter": true,
 				    "bInfo": true,
+				   order: [],
+					columnDefs: [ { orderable: false, targets: [0] } ],
 				    "bAutoWidth": false });
 				
 
@@ -105,6 +109,8 @@ $path = url()."/resources/";
 				    "bLengthChange": false,
 				    "bFilter": true,
 				    "bInfo": true,
+				    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
 				    "bAutoWidth": false });
 
 				$('#selected-questions').dataTable({
@@ -112,6 +118,8 @@ $path = url()."/resources/";
 				    "bLengthChange": false,
 				    "bFilter": true,
 				    "bInfo": true,
+				   order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
 				    "bAutoWidth": false });
 				
 						$('#question_table').dataTable();
@@ -185,6 +193,8 @@ $path = url()."/resources/";
 				    "bLengthChange": false,
 				    "bFilter": true,
 				    "bInfo": true,
+				    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
 				    "bAutoWidth": false });
 
 				$('#selected-questions').dataTable({
@@ -192,6 +202,8 @@ $path = url()."/resources/";
 				    "bLengthChange": false,
 				    "bFilter": true,
 				    "bInfo": true,
+				    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
 				    "bAutoWidth": false });
 
 				$('#passage_table').dataTable({
@@ -199,6 +211,8 @@ $path = url()."/resources/";
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-passage').dataTable({
@@ -206,6 +220,8 @@ $path = url()."/resources/";
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
 						
@@ -246,6 +262,8 @@ $path = url()."/resources/";
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-passage').dataTable({
@@ -253,6 +271,8 @@ $path = url()."/resources/";
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
 						//selected_remove_old_pass_ajax(url4,data4,csrfT);
@@ -702,6 +722,8 @@ if (count($errors) > 0){?>
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 						//$('#question_table').dataTable();
 						$('#passage_table').dataTable();
@@ -760,6 +782,8 @@ if (count($errors) > 0){?>
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-passage').dataTable({
@@ -767,6 +791,8 @@ if (count($errors) > 0){?>
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+					columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 						$('#passage_table').dataTable();
 

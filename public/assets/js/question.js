@@ -1332,7 +1332,7 @@ var selected_question_ids={};
 var subjects_list=[];
 var lessons_list=[];
 function addOrRemoveInGrid(elem, type) {
-
+    
     var selectedTab = $('li.tab.active').children('a').attr('data-tab');
     window.selectedTab =selectedTab;
     var checkboxName = window.selectedTab.split('-')[0];
@@ -1411,6 +1411,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-questions').dataTable({
@@ -1418,6 +1420,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
             $('#question_table').dataTable();
@@ -1473,6 +1477,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                   order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-passage').dataTable({
@@ -1480,6 +1486,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                   order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
             $('#passage_table').dataTable();
@@ -1567,6 +1575,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                   order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-questions').dataTable({
@@ -1574,6 +1584,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                    $('#passage_table').dataTable({
@@ -1581,6 +1593,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                   order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-passage').dataTable({
@@ -1588,6 +1602,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                   order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
             //alert(JSON.stringify(selected_question_ids));
            // alert(RemoveQuestionIds);
@@ -1649,6 +1665,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
 
                 $('#selected-passage').dataTable({
@@ -1656,6 +1674,8 @@ function addOrRemoveInGrid(elem, type) {
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": true,
+                    order: [],
+    columnDefs: [ { orderable: false, targets: [0] } ],
                     "bAutoWidth": false });
             $('#passage_table').dataTable();
             $('#selected-passage').dataTable();
