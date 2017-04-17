@@ -436,19 +436,17 @@ if (count($errors) > 0){?>
 		
 
 		
-		$('#questions-list').empty();
+		/*$('#questions-list').empty();
 		$('#selected-questions .child-grid').empty();
 		$('#passages-list').empty();
 		$('#passages-list').empty();
 		$('#selected-passage .child-grid').empty();
-		
 		$('#subjects_list').empty();
-		$('#lessons_list').empty();
+		$('#lessons_list').empty();*/
 		$('#question_type').val('');
 		$('#institution_id').val('');
-		$('#category_id').val('');
-		
-				$('.multipleSelect').val('');
+		$('#category_id').val('');		
+		$('.multipleSelect').val('');
 		$('#subject_id').multiselect('refresh');
 		$('#lessons_id').multiselect('refresh');
 		var myForm = document.forms.assessment_form;
