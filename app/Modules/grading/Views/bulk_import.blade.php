@@ -76,8 +76,16 @@
         var csrf=$('Input#csrf_token').val();
         var thisVal = $('#gradesimport_institution_id').val();
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
-        $(".gradesimport_institution_id").html(msg);    
+         if(thisVal > 0){
+        $(".gradesimport_institution_id").html(msg); 
+        }
+        else{
+             $(".gradesimport_institution_id").html(""); 
+              $(".gradesimport_assignment_id").html("");     
+        }   
+
          var loadurl = "{{ url('/report/assessment_inst/') }}/" ;
+        
         $.ajax({
             headers: {"X-CSRF-Token": csrf},
             url:loadurl+ $('#gradesimport_institution_id').val(),
@@ -98,7 +106,9 @@
         //console.log('userimport_institution_id ');
         var thisVal = $('#gradesimport_assignment_id').val();
         var msg = (thisVal > 0) ? 'Assignment Id is <u>"' +thisVal+ '</u>"' : "";
-        $(".gradesimport_assignment_id").html(msg);        
+        
+        $(".gradesimport_assignment_id").html(msg);    
+         
     });
 </script>  
 {!! HTML::script(asset('/js/custom/grades_bulk_import.js')) !!}

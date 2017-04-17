@@ -69,7 +69,14 @@
         //console.log('userimport_institution_id ');
         var thisVal = $('#lessonimport_institution_id').val();
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
+        if(thisVal > 0){
         $(".lessonimport_institution_id").html(msg);
+        }
+        else{
+             $(".lessonimport_institution_id").html("");
+             $(".lessonimport_category_id").html("");
+                $(".lessonimport_subject_id").html("");
+        }
     });
 
     function change_institution(){
@@ -126,7 +133,13 @@
         //console.log('userimport_institution_id ');
         var thisVal = $('#lessonimport_category_id').val();
         var msg = (thisVal > 0) ? 'category Id is <u>"' +thisVal+ '</u>"' : "";
+        if(thisVal > 0){
         $(".lessonimport_category_id").html(msg);
+        }
+        else{
+            $(".lessonimport_category_id").html("");
+              $(".lessonimport_subject_id").html("");
+        }
     });
     $('#lessonimport_subject_id').on("change",function(){
         //console.log('userimport_institution_id ');
