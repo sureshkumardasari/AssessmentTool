@@ -1,12 +1,7 @@
                         <div>
-                            @if(Session::has('flash_message'))
-                                <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-                            @endif
-                        </div>
-                        <div>
-                            @if(Session::has('flash_message_failed'))
-                                <div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-                            @endif
+                           @if (Session::has('flash_message'))
+    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
+							@endif
                         </div>
 
                         <table id="categorytable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
@@ -51,4 +46,12 @@
 	});
 	@endif
 </script>
+<script type="text/javascript">
+     $(document).ready(function(){
+     setTimeout(function(){
+         var csrf=$('Input#csrf_token').val();
+         $('#flash').fadeOut();
+     }, 1000);
+ })
+ </script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}

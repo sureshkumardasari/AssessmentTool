@@ -15,15 +15,11 @@
 				<div class="panel-heading">Passages
 					<a href="{{ url('/resources/passageadd/') }}" class="btn btn-primary  btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
-<div>
-		@if(Session::has('flash_message'))
-			<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-		@endif
-	</div>
+
 	<div>
-		@if(Session::has('flash_message_failed'))
-			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-		@endif
+		@if (Session::has('flash_message'))
+    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
+							@endif
 	</div>
 				<div class="panel-body">
 					<table id="passagestable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
@@ -58,7 +54,7 @@
      setTimeout(function(){
          var csrf=$('Input#csrf_token').val();
          $('#flash').fadeOut();
-     }, 5000);
+     }, 1000);
  })
  </script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}

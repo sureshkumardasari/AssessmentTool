@@ -80,7 +80,7 @@
      setTimeout(function(){
          var csrf=$('Input#csrf_token').val();
          $('#flash').fadeOut();
-     }, 5000);
+     }, 1000);
  })
  </script>
  <?php
