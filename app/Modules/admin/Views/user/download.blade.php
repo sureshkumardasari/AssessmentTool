@@ -7,7 +7,9 @@
         <ul>
             <li>1. Select Institution
                 <select class="form-control" name="institution_id" id="userimport_institution_id" style="width:150px">
+                  @if(Auth::user()->role_id == 1)
                     <option value="0">All</option>
+                  @endif
                     @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
@@ -17,10 +19,15 @@
         <ul>
             <li>2. Select Role
             <select class="form-control" name="role_id" id="role_id" style="width:150px">
+                @if(Auth::user()->role_id == 1)
                 <option value="0">All</option>
                 @foreach($roles_arr as $id=>$val)
                     <option value="{{ $id }}">{{ $val }}</option>
                 @endforeach
+                @else
+                <option value="2">student</option>
+                 
+                @endif
             </select>
             </li>
         </ul>
