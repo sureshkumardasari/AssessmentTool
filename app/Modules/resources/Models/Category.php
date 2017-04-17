@@ -31,7 +31,7 @@ class Category extends Model {
 	public function getCategory($institution_id = 0)
 	{
 		//$obj = new Category();
-		$obj = DB::table('category'); 
+		/*$obj = DB::table('category'); 
 		
 		if($institution_id > 0)
 		{
@@ -39,7 +39,29 @@ class Category extends Model {
 		}			
 		$category = $obj->lists('name', 'id');
 		
-		return $category;
+		return $category;*/
+		 $obj = DB::table('category'); 
+  
+  if($institution_id > 0)
+  {
+   $obj->where('institution_id', $institution_id);
+   $category = $obj->lists('name', 'id');       
+  }   
+  
+  else
+  {
+   $sessRole = getRole() ;
+   if($sessRole != 'administrator')
+   {
+    $category = $obj->where('institution_id','=' , Auth::user()->institution_id)->lists('name', 'id');
+   }
+   else{
+
+    $category = $obj->lists('name', 'id');
+   }   
+  }
+  //dd($category);
+  return $category;
 	}
 
 	public function getCategoryInfo($id = 0)

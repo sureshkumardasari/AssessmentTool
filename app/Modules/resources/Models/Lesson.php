@@ -42,10 +42,12 @@ class Lesson extends Model {
 		else
 		{
 			$lessons = $obj->lists('name', 'id');
-		}
+		
+	}
 		//dd($lessons);
 		return $lessons;
-	}public function getSubjectCategoryLesson($institution_id = 0, $category_id = 0, $subject_id = 0)
+	}
+	public function getSubjectCategoryLesson($institution_id = 0, $category_id = 0, $subject_id = 0)
 	{
 		//$users = User::get();
  		$obj = DB::table('lesson as l'); //new Lesson();
@@ -68,6 +70,12 @@ class Lesson extends Model {
 		}
 		else
 		{
+				$sessRole = getRole() ;
+		   if($sessRole != 'administrator')
+		   {
+			$lessons = $obj->where('l.institution_id','=' , Auth::user()->institution_id);
+			//dd($subjects);
+		   }
 			$lessons  = $obj->select('l.category_id as l_cat_id', 's.category_id as s_cat_id','l.name as l_name', 's.name as subject_name','c.name as cat_name', 'l.id as l_id','c.id')->get();
 		}
 

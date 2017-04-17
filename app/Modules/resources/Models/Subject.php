@@ -35,19 +35,14 @@ class Subject extends Model {
 		$obj = DB::table('subject');
 		if($category_id > 0)
 		{
-			//$subjects = $obj->where("institution_id", $institution_id)->where("category_id", $category_id)->lists('name', 'id');
-			
-					$obj->where('category_id', $category_id);					
-
-			  $subjects = $obj->lists('name', 'id');
-			//dd($subjects);
-
+			$obj->where('category_id', $category_id);					
+			 $subjects = $obj->lists('name', 'id');
 		}
 		else
 		{
 			$subjects = $obj->lists('name', 'id');
-		}
-
+				}
+		
 		return $subjects;
 	}
 
@@ -72,6 +67,12 @@ class Subject extends Model {
           }
           else
           {
+          	$sessRole = getRole() ;
+		   if($sessRole != 'administrator')
+		   {
+			$subjects = $obj->where('s.institution_id','=' , Auth::user()->institution_id);
+			//dd($subjects);
+		   }
               $subjects = $obj->select('s.name as subject_name','c.name as cat_name', 's.id as s_id','c.id','category_id')->get();
           }
             return $subjects;

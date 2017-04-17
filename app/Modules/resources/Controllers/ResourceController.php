@@ -89,7 +89,9 @@ class ResourceController extends BaseController
 
 //      $categorylist = $this->category->getCategoryList();
         $subjects = $this->subject->getSubject();
+        //dd($subjects);
         $subjectcategory = $this->subject->getSubjectCategory();
+        //dd($subjectcategory);
         return view('resources::subject.list', compact('inst_arr', 'category', 'subjectcategory'))
             ->nest("subjectsList", 'resources::subject._list', compact('subjects', 'category', 'subjectcategory'));
         }
@@ -456,6 +458,7 @@ public function categoryList($id){
         $category=  Institution::join('category','institution.id','=','category.institution_id')
                 ->where('institution.id','=',$id)
                 ->select('category.id','category.name')
+                
                 ->get();
 
         return $category;
@@ -525,6 +528,7 @@ public function categoryList($id){
         $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
         $category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
         $subjects = $this->subject->getSubject($category_id);
+        //dd($subjects);
         return json_encode($subjects);
     }
 
