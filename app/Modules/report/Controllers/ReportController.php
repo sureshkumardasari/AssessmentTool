@@ -270,7 +270,9 @@ class ReportController extends Controller
     //class average and student scores report through ajax call......
     public function class_average_and_student_scores($inst_id = 0, $assign_id = 0)
     {
+        //
         $assignment = Assignment::find($assign_id);
+        //dd( $assignment);
         if ($assignment) {
             $marks = Assessment::find($assignment->assessment_id);
             //dd($marks);
@@ -584,13 +586,14 @@ class ReportController extends Controller
     }
 
     //Generating pdf...
-    public function exportPDF($inst_id = 0, $assi_id = 0)
+    public function exportPDF($inst_id = 0, $assign_id = 0)
     {
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
         //dd($inst);
-        $assi = Assignment::where('id', '=', $assi_id)->select('name')->get();
+        $assi = Assignment::where('id', '=', $assign_id)->select('name')->get();
         //dd($assi);
-        $assignment = Assignment::find($assi_id);
+        $assignment = Assignment::find($assign_id);
+        //dd( $assignment);
         if ($assignment) {
             $marks = Assessment::find($assignment->assessment_id);
             //dd($marks);
@@ -619,17 +622,18 @@ class ReportController extends Controller
                 $type[3] = [0];
             }
             $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
-            //dd($assignment);
-            $assignment = Assignment::find($assi_id);
+            $assignment = Assignment::find($assign_id);
             if ($assignment) {
-                $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-                    ->join('users', 'users.id', '=', 'assignment_user.user_id')
-                    ->where('user_assignment_result.assignment_id', '=', $assi_id)
+                $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
+                    ->leftjoin('user_assignment_result', function($join){
+                            $join->on('user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id');
+                            $join->on('user_assignment_result.user_id', '=', 'assignment_user.user_id');
+                        })
+                    ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
                     ->get();
             } else {
-
                 $students = [];
             }
              //dd($students);
@@ -659,12 +663,13 @@ class ReportController extends Controller
         return Redirect::route('class_average_and_student_scores_report');
     }
 
-    public function exportXLS($inst_id = 0, $assi_id = 0)
+    public function exportXLS($inst_id = 0, $assign_id = 0)
     {
         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
 
-        $assi = Assignment::where('id', '=', $assi_id)->select('name')->get();
-        $assignment = Assignment::find($assi_id);
+        $assi = Assignment::where('id', '=', $assign_id)->select('name')->get();
+        $assignment = Assignment::find($assign_id);
+        //dd( $assignment);
         if ($assignment) {
             $marks = Assessment::find($assignment->assessment_id);
             //dd($marks);
@@ -693,12 +698,14 @@ class ReportController extends Controller
                 $type[3] = [0];
             }
             $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
-
-            $assignment = Assignment::find($assi_id);
+            $assignment = Assignment::find($assign_id);
             if ($assignment) {
-                $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-                    ->join('users', 'users.id', '=', 'assignment_user.user_id')
-                    ->where('user_assignment_result.assignment_id', '=', $assi_id)
+                $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
+                    ->leftjoin('user_assignment_result', function($join){
+                            $join->on('user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id');
+                            $join->on('user_assignment_result.user_id', '=', 'assignment_user.user_id');
+                        })
+                    ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
                     ->get();
