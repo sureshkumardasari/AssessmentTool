@@ -175,7 +175,7 @@ class UserController extends BaseController
 */        $state_arr = [];
 
 		$id = $institution_id = $role_id = $country_id = $state = 0;
-		$name = $email = $status = $gender = $enrollno = $password = '';
+		$name = $email = $status = $gender = $enrollno = $password ='';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 
 		$profile_picture = $this->getProfilePicURL();
@@ -275,7 +275,6 @@ class UserController extends BaseController
 			$name = $email = $status = $enrollno = $password = $password_confirmation = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}      
-		// \Session::flash('flash_message','Information updated successfully.');
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
 		
 	}
@@ -301,7 +300,10 @@ class UserController extends BaseController
 			'address1' => 'required',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
+			'password_confirmation'=>'required',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
+					 //'password_confirmation' =>'required|confirmed|min:6',
+
 			'phoneno' => array('required', 'numeric', 'regex: /^\d{10}$/'),
 			'gender' => 'required',
 			'state' => 'required|not_in:0',
@@ -317,7 +319,6 @@ class UserController extends BaseController
 		} else {
 			$rules['role_id'] = 'required|not_in:0';
 			$rules['password'] = 'required|confirmed|min:6';
-			// $rules['conform password'] = 'required';
 		}
 
 		$validator = Validator::make($post, $rules);
@@ -700,6 +701,7 @@ class UserController extends BaseController
 	 * @author Sireesha
 	 */
 	public function saveCrop(Request $request) {
+		//alert('hi');
 		$inputs = $request->input();
 		$savePath = 'data/uploaded_images/croped/';
 		if (!file_exists('data/uploaded_images/croped/')) {

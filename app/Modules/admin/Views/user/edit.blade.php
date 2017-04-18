@@ -178,7 +178,7 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Enrollment#</label>
+							<label class="col-md-4 control-label">Enrollno</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
 							</div>
@@ -240,7 +240,7 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Phone#</label>
+							<label class="col-md-4 control-label">Phoneno</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}" maxlength="10">
 							</div>
