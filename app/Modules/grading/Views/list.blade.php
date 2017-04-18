@@ -136,7 +136,15 @@
 ]
  });
 });
-	
+	$('#grade_table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [0] } ],
+    "bAutoWidth": false });
+
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
 			 var loadurl = "{{ url('/resources/assignments') }}/" ;
