@@ -37,8 +37,8 @@
                             </div>
                             <div class="col-md-12">
                             <div class="form-group required col-md-6">
-                            <label class="col-md-2 control-label col-md-offset-4">Subject:</label>
-                            <div class="col-md-4 col-md-offset-2" style="padding-left: 2em;">
+                            <label class="col-md-4 control-label col-md-offset-4">Subject:</label>
+                            <div class="col-md-4 " style="padding-left: 2em;">
                                 <select class="form-control" name="subject_id" id="subject_id" class="multipleSelect" multiple="multiple">
 <!--                                     <option value="0" selected>--Select Subject--</option>
  -->                                  
