@@ -33,7 +33,26 @@
                                 <td>{{$row->assessment_name}}</td>
 								<td>{{date('Y/m/d g:i:s A', strtotime($row->startdatetime))}}</td>
 								<td>{{($row->neverexpires == 1) ? 'Never expires' : date('Y/m/d g:i:s A', strtotime($row->enddatetime))}}  </td>
-								<td>{{$row->status}}</td>
+								<td>
+								<?php
+									$now     = date('Y-m-d H:i:s');
+									$endDateTime = ($row->neverexpires == 1) ? 'Never expires' : $row->enddatetime;
+							        if (($endDateTime != 'Never expires') && ($endDateTime< $now)) 
+							        {
+							            $row->status = 'timeout';
+							        }
+							        else if($endDateTime != 'Never expires')
+							        {
+							            $row->status = 'upcoming';//$params['status'];
+							        }
+							        else
+							        {
+							        	$row->status = $row->status;
+							        }
+							        ?>
+								{{$row->status}}
+
+								</td>
 									<td>
 				                	<a href="{{ url('/resources/assignmentview/'.$row->id) }}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>	
 				                	@if($row->status=="upcoming")
