@@ -9,7 +9,7 @@ class StatesSeeder extends Seeder {
 			            'country_id' => '1',
 
 			'id' => '1',
-			'state_name' =>'Andhra Pradhesh',
+			'state_name' =>'Andhra Pradesh',
 			'created_at' => new DateTime,
 			'updated_at' => new DateTime,
 			
