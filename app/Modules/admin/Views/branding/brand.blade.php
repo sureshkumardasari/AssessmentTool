@@ -37,7 +37,7 @@
 								</div>
 							</div>
 							<div class="form-group required">
-								<label class="col-md-4" >Header Logo</label>
+								<label class="col-md-4" style="padding-left: 15em;" >Header Logo</label>
 								<div class="col-md-5">
 									<input type="file" name="image" accept="image/*"/>
 								</div>
