@@ -24,7 +24,7 @@
 	$phoneno = (old('phoneno') != NULL)? old('phoneno') : $phoneno;
 	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
 	$status = (old('status') != NULL) ? old('status') : $status; 
-	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
+	$gender = (old('gender') != NULL) ? old('gender') : $gender;  
 
 	/*if($profile_picture != NULL)
 	{
@@ -79,6 +79,8 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<img src="{{ $profile_picture }}" width="128" height="128" alt="profile image" id="photo" />
+							<span class="dsply_b pt16"><br>You can upload a JPG, JPEG, GIF or PNG file(File size limit  is 4MB)<br/>
+                			</span>
 						</div>
 						<div class="form-group">
 							{!! cropUploadedImage($pic_data) !!}
