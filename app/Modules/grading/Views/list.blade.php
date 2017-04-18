@@ -61,7 +61,7 @@
 
 
 				<div class="panel-body">
-				 <table id="grade_table" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+				 <table id="grade_table" class="table table-striped table-bordered " cellspacing="0" width="100%">
 
 
 				        <thead>
@@ -126,11 +126,17 @@
 </div>
 
 	<script>
-	$(document).ready(function(){
-		var loadurl = "{{ url('/resources/assignments') }}/" ;
-		 $('#assignmentstable').dataTable();
-	});
-		
+	$(document).ready(function() {
+    $('#grade_table').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});
+	
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
 			 var loadurl = "{{ url('/resources/assignments') }}/" ;
@@ -163,24 +169,5 @@
 		}
 	</script>
 	{!! HTML::script(asset('/js/custom/confirm.js')) !!}
-	<script>
-  	@if(isset($from) && $from == 'search')
-  	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
-	</script>
+	
 @endsection

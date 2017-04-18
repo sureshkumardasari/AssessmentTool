@@ -25,7 +25,7 @@
 						</div>
 				</div>
 				<div class="panel-body">
-					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="assignmentstable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Student Name</th>
@@ -48,5 +48,17 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#assignmentstable').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});
+</script>
 @include('resources::grading.grading_js')
 @endsection
