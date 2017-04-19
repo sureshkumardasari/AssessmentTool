@@ -264,8 +264,11 @@ class Assignment extends Model {
 // get its child subsections
           //  $subsectionIds += Subsection::whereIn('ParentId', $subsectionIds)->where('SubjectId', '<>', '0')->lists("Id");
 // get all questions that belong to that assignment
-            $questionIds = AssessmentQuestion::where('assessment_id', $this->id)->lists('question_id');
+            //$questionIds = AssessmentQuestion::where('assessment_id', $this->id)->lists('question_id');
+            //dd( $this->id);
+            $assessmentIds = Assignment::where('id', $this->id)->lists('assessment_id');
 
+            //dd($assessmentIds);
             //$questions = \App\Modules\Resources\Models\Question::whereIn('Id', $questionIds)->with(['QuestionType', 'QuestionAnswer'])->get();
 
         $questions = DB::table('assessment_question as aq')
@@ -273,12 +276,13 @@ class Assignment extends Model {
                         ->join("questions as q", 'aq.question_id', '=', 'q.id')
                         ->join("question_type as qt", 'q.question_type_id', '=', 'qt.id')
                         ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
-                        ->where("aq.assessment_id","=", $this->id)
+                        ->whereIn("aq.assessment_id",$assessmentIds)
                         ->where("qa.is_correct","=", 'Yes')//qa.is_correct='Yes'
-                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id")
+                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","qa.order_id as order_id")
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
+                       //dd($questions);
                        //echo $questions->toSql();
 
             foreach ($questions as $question) {
@@ -307,8 +311,23 @@ class Assignment extends Model {
                     }
                     $_correctAns = implode(', ', $_correctAns);*/
 
-                    $dataset[$counter][] =  $question->answer_id;
-                    $counter++;
+                    //$dataset[$counter][] =  $question->order_id;
+                    $order = $question->order_id;
+                 if( $order == 1)
+                 {
+                    $dataset[$counter][] = 'A';
+                 }
+                 elseif ($order == 2) {
+                    $dataset[$counter][] = 'B';
+                 }
+                 elseif ($order == 3) {
+                    $dataset[$counter][] = 'C';
+                 }
+                 elseif ($order == 4) {
+                    $dataset[$counter][] = 'D';
+                 }
+                $counter++; 
+                    
                 } /*elseif ($question->questionType->Option == 'Essay') {
                     $constraints = $question->constraints()->first();
                     $display = Option::where('Id', $constraints->TypeId)->first()->Display;
