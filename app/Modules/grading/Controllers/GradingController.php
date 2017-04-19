@@ -73,6 +73,14 @@ class GradingController extends BaseController {
 	{
 
 	}
+	public function student($student_id=0,$assessment_id=0,$assignment_id=0)
+    {
+    	
+
+    	$student_arr=DB::table('assignment_user')->where('user_id','=',$student_id)->where('assessment_id','=',$assessment_id)->where('assignment_id','=',$assignment_id)->select('takendate','gradeddate')->get();
+    	
+        return $student_arr;
+    }
 
 	public function assignment(){
 		
@@ -157,6 +165,7 @@ else
 	}
 	public function studentQuestionList($id,$assignment_id,$assessment_id)
 	{
+		//dd($assessment_id);
          if(Auth::user()->role_id == 3){
 		$assignmentUsersArr = 	$this->assignmentuser->getAssignUsersInfo($assignment_id);
 		$user_id=$id;
@@ -204,7 +213,12 @@ else
 		$first_student_answers = $this->studentAnswers($assessment_id,$assignment_id,$id);
 		//dd($first_student_answers);
 		$student_id=$id;
-		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','student_id','first_student_answers','question_type','institution_name','details'));
+		$takendate=DB::table('assignment_user')->where('user_id','=',$id)->where('assessment_id','=',$assessment_id)->where('assignment_id','=',$assignment_id)->select('takendate')->get();
+		$gradeddate=DB::table('assignment_user')->where('user_id','=',$id)->where('assessment_id','=',$assessment_id)->where('assignment_id','=',$assignment_id)->select('gradeddate')->get();
+		//dd($takendate);
+
+		
+		return view('grading::student_inner_grade', compact( 'user_list','user_list_detail', 'questionss_list','qst','qst_select','assessment_id','assignment_id','student_id','first_student_answers','question_type','institution_name','details','takendate','gradeddate'));
 	}
 else
     {

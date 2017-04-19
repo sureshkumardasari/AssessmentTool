@@ -76,11 +76,11 @@
                 </div>
                <div class="panel-body">
                     <div class="form-group">
-                        <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}" >
                         <div class="form-group">
                             <label class="col-md-2 control-label">Student:</label>
                             <div class="col-md-4">
-                                <select name="student" id="student">
+                                <select name="student" id="student" onchange="change_date_type()">
                                     @foreach($user_list as $id=>$name)
                                         <option value="{{$id}}">{{$name}}</option>
                                     @endforeach
@@ -512,7 +512,7 @@
             });
         });
         function change_question_type(){
-            // alert(question_types);
+            //alert(question_types);
             $.each(question_types,function(index,val){
                 $('#question_type'+val).hide();
             });
@@ -811,6 +811,40 @@
                 })
             }
             
+        }
+        function change_date_type()
+        {
+              var student=$('#student').val();
+              var assessment_id="{{$assessment_id}}";
+             
+              var assignment_id="{{$assignment_id}}";
+              
+
+               var loadurl = "{{  url('/grading/student') }}/" ;
+
+        $.ajax(
+                {
+
+                    //headers: {"X-CSRF-Token": csrf},
+                    
+                    url:loadurl+$('#student').val()+"/"+assessment_id+"/"+assignment_id,
+                    type:'get',
+                    success:function(response) {
+                        var a = response.length;
+                         $('#date_taken').empty();
+                          $('#graded_date').empty();
+                        for (i = 0; i < a; i++) {
+
+                            var opt = new Option(response[i].takendate);
+                            var opt1 = new Option(response[i].gradeddate);
+                            $('#date_taken').append(opt);
+                             $('#graded_date').append(opt1);
+                        }
+                    }
+                }
+        )
+
+          
         }
 
         function  user_fib_answers(){
