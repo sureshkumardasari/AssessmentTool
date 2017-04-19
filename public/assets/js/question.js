@@ -1492,7 +1492,7 @@ function addOrRemoveInGrid(elem, type) {
             $('#selected-passage').dataTable();
         }
 
-            addPassageforQuestion(this, "add","questions",passage);
+            // addPassageforQuestion(this, "add","questions",passage);
     }
     else {
         //alert('bbb');
