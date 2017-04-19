@@ -249,7 +249,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 //desible show entires & pagination in datatables
 $(document).ready(function() {
 $('#question_table').dataTable({
-    "bPaginate": false,
+    "bPaginate": true,
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
@@ -258,7 +258,7 @@ $('#question_table').dataTable({
     "bAutoWidth": false });
 
 $('#selected-questions').dataTable({
-    "bPaginate": false,
+    "bPaginate": true,
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
@@ -266,7 +266,7 @@ $('#selected-questions').dataTable({
 	columnDefs: [ { orderable: false, targets: [0] } ],
     "bAutoWidth": false });
 $('#passage_table').dataTable({
-    "bPaginate": false,
+    "bPaginate": true,
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
@@ -329,11 +329,17 @@ function uncheck(){
 //      for showing the question type filter
 		$('#questions_tab').on('click',function(){
 			$('#question_type_div').show();
+			$('#question_table_length').hide();
+			$('#selected-questions_length').hide();
+
 		});
 
 // 		for hiding the question type filter
 		$('#passages_tab').on('click',function(){
 			$('#question_type_div').hide();
+			$('#passage_table_length').hide();
+			$('#selected-passage_length').hide();
+
 		});
 	} );
 
