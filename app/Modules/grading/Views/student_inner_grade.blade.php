@@ -139,7 +139,7 @@
                                             
                                                 {{--//for displaying that the question is graded or not?--}}
                                                 <span class="glyphicon glyphicon-ok completed essay_complete_status" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted essay_incomplete_status" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>
-                                                Q.{{$quest['Title']}}
+                                                Q.{{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
                                                 
 
                                             
@@ -222,7 +222,7 @@
                                                 @foreach($qst[$key] as $quest)
                                                     <tr>
                                                         {{--//for displaying that the question is graded or not?--}}
-                                                        <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="fib_complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="fib_incomplete_status{{$quest['Id']}}"></span>Q.  {{$quest['Title']}}</td>
+                                                        <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="fib_complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="fib_incomplete_status{{$quest['Id']}}"></span>Q.  {{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}</td>
                                                     
 
                                                     </tr>
@@ -295,7 +295,7 @@
                                             </script>
                                             <tr>
                                                 {{--//for displaying that the question is graded or not?--}}
-                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>Q.{{$quest['Title']}}</td>
+                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>Q.{{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}</td>
                                                
 
                                             </tr>
@@ -396,8 +396,14 @@
                                             </script>
                                             <tr>
                                                 {{--//for displaying that the question is graded or not?--}}
-                                                <td><span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>Q.{{$quest['Title']}}</td>
-                                                
+                                                <td>
+                                               
+                                                <span class="glyphicon glyphicon-ok completed" style="color:green" id="complete_status{{$quest['Id']}}"></span>
+                                                 
+                                                <span class="glyphicon glyphicon-remove incompleted" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>Q.{{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
+
+                                               </td>
+                                               
 
                                             </tr>
                                             <tr>
@@ -512,7 +518,7 @@
             });
         });
         function change_question_type(){
-            //alert(question_types);
+            // alert(question_types);
             $.each(question_types,function(index,val){
                 $('#question_type'+val).hide();
             });
