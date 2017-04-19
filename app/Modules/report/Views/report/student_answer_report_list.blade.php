@@ -32,7 +32,9 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
         <td> 
         @if($assignment->is_correct=="No")
            <p style="color:red;font:bold;">{{$assignment->your_answer}}&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span></p> 
-        @else
+        @elseif($assignment->is_correct=="Open")
+          <p style="font:bold;">{{$assignment->your_answer}}&nbsp;&nbsp;<span >Null</span></p>
+        @elseif($assignment->is_correct=="Yes")
             <p style="color:green;font:bold;"><b>{{$assignment->your_answer}} &nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></b></p>
         @endif
         </td>
