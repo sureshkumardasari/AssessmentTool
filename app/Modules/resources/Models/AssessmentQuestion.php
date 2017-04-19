@@ -26,6 +26,7 @@ class AssessmentQuestion extends Model {
 									->where('qua.assessment_id','=', $aId)
 									->where('qua.user_id','=', Auth::user()->id)
 									->get();
+
 		$user_answers = [];
 		foreach ($que_user_answer as $key => $row) {
 			$user_answers[$row->question_id][] = ['QuestionAnswerId'=> $row->question_answer_id, 'QuestionAnswerText'=>$row->question_answer_text];
@@ -49,8 +50,9 @@ class AssessmentQuestion extends Model {
 						->leftjoin("question_answers as qa", 'qa.question_id', '=', 'q.id')
 						->where("aq.assessment_id","=", $aId)
 						->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id")
-						->orderby('aq.id', 'ASC')
-						->orderby('qa.order_id', 'ASC')
+						//->orderby('aq.id', 'ASC')
+						//->orderby('qa.order_id', 'ASC')
+						//->orderby('qt.id', 'ASC')
 						->get();
 		//dd($results);
 		$questions = [];				
