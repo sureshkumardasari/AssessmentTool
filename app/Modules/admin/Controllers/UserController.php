@@ -146,6 +146,20 @@ class UserController extends BaseController
 
 		return json_encode($users);
 	}
+	public function usersJson1($institution_id = 0)
+	{
+		$params = Input::All();
+		//dd($params);
+		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : 0;
+		//$institution_id = ($institution_id > 0) ? $institution_id :	Auth::user()->institution_id;
+		if ($institution_id > 0) {
+			$users = $this->user->getUsers1($institution_id, 2);
+		} else {
+			$users = [];
+		}
+
+		return json_encode($users);
+	}
 
 	public function searchByInstitution($institution_id = 0, $role_id = 0)
 	{

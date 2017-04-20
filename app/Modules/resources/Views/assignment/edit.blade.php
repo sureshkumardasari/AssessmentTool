@@ -157,7 +157,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							<label class="col-md-3 control-label" ></label>
 							<div class="col-md-6">
 								<div id="dual-list-box" class="form-group row">
-						            <select id="student_ids" name="student_ids[]" multiple="multiple" data-title="Students" data-source="{{ url('/user/usersjson') }}" data-value="id" data-text="username" data-horizontal="false">
+						            <select id="student_ids" name="student_ids[]" multiple="multiple" data-title="Students" data-source="{{ url('/user/usersjson1') }}" data-value="id" data-text="username" data-horizontal="false">
 
 						            </select>
 						        </div>
@@ -300,7 +300,7 @@ $('#grader_id').val("{{$grader_id}}");
        		}
        		else
        		{
-       			var loadurl = "{{ url('/user/usersjson') }}" ;//+ $(this).val(); 
+       			var loadurl = "{{ url('/user/usersjson1') }}" ;//+ $(this).val(); 
        			var postdata = { institution_id: $("#institution_id").val() };
        		}
             
