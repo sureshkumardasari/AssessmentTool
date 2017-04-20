@@ -26,7 +26,7 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('bulkusertemplate', array('as'=>'bulkUserTemplate','uses'=>'UserController@bulkUserTemplate'));
     Route::post('bulkuserupload', array('as'=>'bulkUserUpload','uses'=>'UserController@bulkUserUpload'));
     Route::get('downloadExcelforusers/{type}', 'UserController@downloadExcel');
-    Route::get('download', array('as' => 'download', 'uses'=>'UserController@download'));
+    Route::get('download/{type}', array('as' => 'download', 'uses'=>'UserController@download'));
 
     Route::post('upload_image', array('as' => 'upload_image', 'uses' => 'UserController@uploadImage'));
     Route::post('save_crop', array('as' => 'save_crop', 'uses' => 'UserController@saveCrop'));

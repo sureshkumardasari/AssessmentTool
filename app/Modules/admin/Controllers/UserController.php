@@ -84,7 +84,7 @@ class UserController extends BaseController
             }else         
          $query->where("u.role_id", $role_id->id);
         $users = $query->get();
-        return view('admin::user.list', compact('inst_arr', 'roles_arr'))
+        return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
             ->nest('usersList', 'admin::user._list', compact('users'));
         }
         else if($institution_id === "student"){
@@ -109,7 +109,7 @@ class UserController extends BaseController
       
         $users = $query->get();
       
-        return view('admin::user.list', compact('inst_arr', 'roles_arr'))
+        return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
             ->nest('usersList', 'admin::user._list', compact('users'));
         }
 
@@ -126,7 +126,7 @@ class UserController extends BaseController
 
 
 		//return view('admin::user.list',compact('users'));
-		return view('admin::user.list', compact('inst_arr', 'roles_arr'))
+		return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
 			->nest('usersList', 'admin::user._list', compact('users'));
 	}
 
@@ -771,11 +771,11 @@ class UserController extends BaseController
 			});
 		})->download($type);
 	}
-	public function download()
+	public function download($inst_id=0)
 	{
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
-		return view('admin::user.download', compact('inst_arr','roles_arr'));
+		return view('admin::user.download', compact('inst_arr','roles_arr','inst_id'));
 	}
 }
