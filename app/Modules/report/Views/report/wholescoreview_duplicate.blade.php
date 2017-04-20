@@ -67,23 +67,6 @@
             var less_id=$('#lesson_id').val();
             window.open("{{ url('report/wholeclassscoreexportXLS/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
         });
-function reports(){
-            
-                $.ajax(
-                        {
-
-                            headers: {"X-CSRF-Token": csrf},
-                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
-                            type: 'post',
-                            success: function (response) {
-                                $('#report').empty();
-                                $('#report').append(response);
-                                $('#report').prepend($('.average'));
-                            }
-                        }
-                )
-            
-        }
 
 </script>
 @endif

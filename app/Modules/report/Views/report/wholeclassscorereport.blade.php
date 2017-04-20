@@ -61,13 +61,6 @@
                                 </div>
                             </div>
                         </div>
-                             
-
-                        <!-- <div class="form-group col-md-12">
-                            <div class="col-md-6 col-md-offset-8">
-                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
-                        </div></div> -->
                     </form>
                     <div id="wholescore">
 
@@ -76,9 +69,11 @@
             </div>
         </div>
     </div>
+    
 
 
     <script>
+
         var loadurl = "{{ url('/report/assignment_wholeclass/') }}/" ;
 
         $( document ).ready(function() {
@@ -93,10 +88,7 @@
         if($('#institution_id').val()==0 || $('#assignment_id').val()==0 || $('#lesson_id').val()==null || $('#subject_id').val()==null){
                 alert("please select all the fields");
             }
-// else if($('#subject_id').val==0 || $('#lesson_id').val==0)
-// {
-//     alert("please select all the fields");
-// }
+
             else {
                  // alert($('#lesson_id').val()); return'';
             var csrf=$('Input#csrf_token').val();
@@ -218,143 +210,7 @@
                     }
             )
         });
-        /*$('#pdf').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assi_id=$('#assignment_id').val();
-            var sub_id=$('#subject_id').val();
-            var less_id=$('#lesson_id').val();
-            window.open("{{ url('report/wholeclassscoreexportPDF/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
-        });
-        $('#xls').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assi_id=$('#assignment_id').val();
-            var sub_id=$('#subject_id').val();
-            var less_id=$('#lesson_id').val();
-            window.open("{{ url('report/wholeclassscoreexportXLS/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
-        });
-*/
-      /*  function inst_change(){
-
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-
-                        headers: {"X-CSRF-Token": csrf},
-                        url:loadurl+ $('#institution_id').val(),
-                        type: 'post',
-                        success: function (response) {
-                            var a = response.length;
-                            $('#assignment').empty();
-                            var opt = new Option('--Select Assignment--', '');
-                            $('#assignment').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#assignment').append(opt);
-                            }
-                        }
-                    }
-            )
-
-        }*/
-         
-       /* function assignment_change(){
-
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-
-                        headers: {"X-CSRF-Token": csrf},
-                        url:loadurl+ $('#assignment').val(),
-                        type: 'post',
-                        success: function (response) {
-                            var a = response.length;
-                            $('#subject_id').empty();
-                            var opt = new Option('--Select Subject--', '');
-                            $('#subject_id').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#subject_id').append(opt);
-                            }
-                        }
-                    }
-            )
-
-        }*/
- /*function reports(){
-            
-                $.ajax(
-                        {
-
-                            headers: {"X-CSRF-Token": csrf},
-                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
-                            type: 'post',
-                            success: function (response) {
-                                $('#report').empty();
-                                $('#report').append(response);
-                                $('#report').prepend($('.average'));
-                            }
-                        }
-                )
-            
-        }*/
-/*
-        $('#institution_id').on('change',function(){
-            var csrf=$('Input#csrf_token').val();
-            $.ajax(
-                    {
-
-                        headers: {"X-CSRF-Token": csrf},
-                        url:loadurl+ $('#institution_id').val(),
-                        type: 'post',
-                        success: function (response) {
-                            $('#report').empty();
-                            var a = response.length;
-                            $('#assignment_id').empty();
-                            var opt = new Option('--Select Assignment--', '0');
-                            $('#assignment_id').append(opt);
-                            for (i = 0; i < a; i++) {
-                                var opt = new Option(response[i].name, response[i].id);
-                                $('#assignment_id').append(opt);
-                            }
-                        }
-                    }
-            )
-        });
-
-        $('#pdf').on('click',function(){
-
-            var inst_id=$('#institution_id').val();
-            var assign_id=$('#assignment_id').val();
-
-            if(inst_id==0 || assign_id==0)
-            {
-                          alert("please select all the fields");
-                                                    return false;
-
-                           
-            }
-            else
-            {
-                window.open("{{ url('report/exportPDF/')}}/"+inst_id+"/"+assign_id);
-            }
-          
-        });
-        $('#xls').on('click',function(){
-            var inst_id=$('#institution_id').val();
-            var assign_id=$('#assignment_id').val();
-
-            if(inst_id==0 || assign_id==0)
-            {
-                          alert("please select all the fields");
-                                                    return false;
-
-                           
-            }
-            else
-            {
-            window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
-        }
-        });*/
+        
     </script> 
     <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
 
