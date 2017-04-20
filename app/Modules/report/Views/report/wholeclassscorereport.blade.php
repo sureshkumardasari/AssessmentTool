@@ -88,19 +88,13 @@
           //  $('#lesson_id').multiselect('refresh');
         });
         function update(){
-          /* var $subject_id = ('#subject_id').val();
-            alert($subject_id);*/
         if($('#institution_id').val()==0 || $('#assignment_id').val()==0 || $('#lesson_id').val()==null || $('#subject_id').val()==null){
                 alert("please select all the fields");
+                 return false;
             }
-// else if($('#subject_id').val==0 || $('#lesson_id').val==0)
-// {
-//     alert("please select all the fields");
-// }
-            else {
-                 // alert($('#lesson_id').val()); return'';
-            var csrf=$('Input#csrf_token').val();
 
+            else {
+            var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
 
@@ -110,14 +104,13 @@
                             success:function(response){
                                 $('#wholescore').empty();
                                 $('#wholescore').append(response);
-                                $('#wholescore').prepend($('.average'));
+                                // $('#wholescore').prepend($('.average'));
                         }
                     }
             )
         }
     }
         $('#institution_id').on('change',function(){
-
             var csrf=$('Input#csrf_token').val();
             $.ajax(
                     {
@@ -128,13 +121,15 @@
                         success: function (response) {
                             var a = response.length;
                             $('#assignment_id').empty();
-                            $('#subject_id').multiselect('destroy');
+
                             $('#subject_id').empty();
+                            $('#subject_id').multiselect('destroy');
                             $('#subject_id').multiselect();
-                             $('#lesson_id').multiselect('destroy');
+
                             $('#lesson_id').empty();
+                            $('#lesson_id').multiselect('destroy');
                             $('#lesson_id').multiselect();
-                            //$('#lesson_id').empty();
+
                             var opt = new Option('--Select Assignment--', '0');
                             $('#assignment_id').append(opt);
                             for (i = 0; i < a; i++) {
@@ -211,7 +206,7 @@
                                 $('#lesson_id').append(opt);
                             });
 
-                            $('#lesson_id').multiselect();
+                            // $('#lesson_id').multiselect();
                             $('#lesson_id').multiselect('refresh');
                             $('#subject_id').multiselect('refresh');
                         }
@@ -355,6 +350,28 @@
             window.open("{{ url('report/exportXLS/')}}/"+inst_id+"/"+assign_id);
         }
         });*/
+         $('#institution_id').on('change',function(){
+            var csrf=$('Input#csrf_token').val();
+            $.ajax(
+                    {
+
+                        headers: {"X-CSRF-Token": csrf},
+                        url:loadurl+ $('#institution_id').val(),
+                        type: 'post',
+                        success: function (response) {
+                            $('#wholescore').empty();
+                            var a = response.length;
+                            $('#assignment_id').empty();
+                            var opt = new Option('--Select Assignment--', '0');
+                            $('#assignment_id').append(opt);
+                            for (i = 0; i < a; i++) {
+                                var opt = new Option(response[i].name, response[i].id);
+                                $('#assignment_id').append(opt);
+                            }
+                        }
+                    }
+            )
+        });
     </script> 
     <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
 
