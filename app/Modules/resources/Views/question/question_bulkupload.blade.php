@@ -24,7 +24,7 @@
                 <label class="col-md-2 control-label">Category</label>
                 <div class="col-md-10">
                    <select class="form-control" name="category_id_filter" id="category_id_filter" onchange="change_category()">
-                       <option value="0">--Select Category--</option>
+                       <option value="">--Select Category--</option>
                       
                     </select><span class="category_id_filter" style="font-weight: bolder;"></span>
                 </div>
@@ -33,7 +33,7 @@
                 <label class="col-md-2 control-label">Subject</label>
                 <div class="col-md-10">
                    <select class="form-control" name="subject_id_filter" id="subject_id_filter" onchange="change_lessons()">
-                        <option value="0">--Select Subject--</option>
+                        <option value="">--Select Subject--</option>
                        
                     </select><span class="subject_id_filter" style="font-weight: bolder;"></span>
 
@@ -42,8 +42,8 @@
             <div class="form-group col-md-6 required">
                 <label class="col-md-2 control-label">Lessons</label>
                 <div class="col-md-10">
-                    <select class="form-control" name="lessons_id_filter" id="lessons_id_filter"  >
-                        <option value="0">--Select Lessons--</option>
+                    <select class="form-control" name="lessons_id_filter" id="lessons_id_filter" onchange="change_question_type()" >
+                        <option value="">--Select Lessons--</option>
                        
 
                     </select><span class="lessons_id_filter" style="font-weight: bolder;"></span>
@@ -53,10 +53,10 @@
                 <label class="col-md-2 control-label">Question Type</label>
                 <div class="col-md-10">
                     <select class="form-control" name="question_type_filter" id="question_type_filter">
-                        <option value="0">--Select Question Type--</option>
-                        @foreach($qtypes as $id=>$val)
+                        <option value="">--Select Question Type--</option>
+                       <!--  @foreach($qtypes as $id=>$val)
                                     <option value="{{ $id }}">{{ $val }}</option> 
-                                    @endforeach
+                                    @endforeach -->
                     </select><span class="question_type_filter" style="font-weight: bolder;"></span>
 
                 </div>
@@ -132,10 +132,10 @@
         }
         else{
             $(".institution_id_filter").html(""); 
-            $(".category_id_filter").html("");  
+            $(".category_id_filter").html(""); 
             $(".subject_id_filter").html(""); 
             $(".lessons_id_filter").html("");      
-            $(".question_type_filter").html("");    
+             
         }
 
     });
@@ -146,9 +146,11 @@
         $(".category_id_filter").html(msg);     
         }
         else{
+             $(".category_id_filter").html(""); 
              $(".subject_id_filter").html(""); 
+             $("#subject_id_filter").html(""); 
             $(".lessons_id_filter").html("");      
-            $(".question_type_filter").html("");   
+           
         }   
     });
       $('#subject_id_filter').on("change",function(){
@@ -158,27 +160,28 @@
         $(".subject_id_filter").html(msg);   
         }else{  
         $(".subject_id_filter").html(""); 
-        $(".lessons_id_filter").html("");      
-            $(".question_type_filter").html("");   
+        $(".lessons_id_filter").html("");
+        $("#lessons_id_filter").html("");       
+             
         }  
 
     });
        $('#lessons_id_filter').on("change",function(){
         var thisVal = $('#lessons_id_filter').val();
+        //alert(thisVal);
         var msg = (thisVal > 0) ? 'Lesson Id is <u>"' +thisVal+ '</u>"' : "";
         if (thisVal>0){
         $(".lessons_id_filter").html(msg);   
         }
         else{
              $(".lessons_id_filter").html("");      
-            $(".question_type_filter").html("");   
+            $(".question_type_filter").html("");  
+           $("#question_type_filter").html(""); 
+
+
         }     
     });
-        $('#question_type_filter').on("change",function(){
-        var thisVal = $('#question_type_filter').val();
-        var msg = (thisVal > 0) ? 'Question Type is <u>"' +thisVal+ '</u>"' : "";
-        $(".question_type_filter").html(msg);        
-    });
+        
 </script>  
 {!! HTML::script(asset('/js/custom/question_bulk_upload.js')) !!}
 @include('resources::question.question_import_data')

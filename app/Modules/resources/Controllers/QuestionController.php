@@ -597,7 +597,7 @@ public function questionedit($id = 0)
 		$passage_Ids=isset( $post['passages'] ) ? $post['passages'] : [0];
 		$questiontype['question_type']= Question::join('lesson','questions.lesson_id','=','lesson.id')
 				->join('question_type','questions.question_type_id','=','question_type.id')
-				->whereIn('questions.lesson_id',$id)
+				
 				->select('question_type.qst_type_text','questions.question_type_id','questions.title')
 				->groupBy('question_type.qst_type_text')
 				->get();

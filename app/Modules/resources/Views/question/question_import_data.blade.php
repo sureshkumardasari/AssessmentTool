@@ -111,7 +111,7 @@ if (count($errors) > 0){?>
  							$('#category_id_filter').empty();
  							$('#subject_id_filter').empty();
  							$('#lessons_id_filter').empty();
- 							$('#question_type_filter').val("0");
+ 							$('#question_type_filter').val("");
  							var opt=new Option('--Select Category--','');
 							$('#category_id_filter').append(opt);
 							var opt1=new Option('--Select Subject--','');
@@ -170,6 +170,7 @@ if (count($errors) > 0){?>
 				}
 		)
 	}
+	
 		function change_question_type(){
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
@@ -180,6 +181,7 @@ if (count($errors) > 0){?>
 					type:'post',
 					success:function(response){
 						var a=response['question_type'].length;
+						//alert(a);
 						$('#question_type_filter').empty();
 						var opt=new Option('--Select Question Type--','');
 						$('#question_type_filter').append(opt);
