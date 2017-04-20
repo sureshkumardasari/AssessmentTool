@@ -665,13 +665,13 @@
         }
 
         function save_student_single_answers(){
-            alert("successfully graded student");
             var user_id=$('#student').val();
             var next_student=2;
             var question_type="Multiple Choice - Single Answer";
            // alert(JSON.stringify(Question_selected_single_answers));
             if(Object.keys(Question_selected_single_answers).length!=0){
-
+            alert("successfully graded student");
+                 
                 var csrf=$('Input#csrf_token').val();
                 $.ajax({
                     headers: {"X-CSRF-Token": csrf},
@@ -690,13 +690,13 @@
 
         }
         function save_student_multi_answers(){
-            alert("successfully graded student");
             var user_id=$('#student').val();
             var next_student=0;
             var question_type="Multiple Choice - Multi Answer";
             // alert(JSON.stringify(Question_selected_multi_answers));
             if(Object.keys(Question_selected_multi_answers).length!=0){
-
+            alert("successfully graded student");
+                    
                 var csrf=$('Input#csrf_token').val();
                 $.ajax({
                     headers: {"X-CSRF-Token": csrf},
