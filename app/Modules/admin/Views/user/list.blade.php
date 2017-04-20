@@ -18,13 +18,15 @@
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<input type="hidden" name="_token" class="hidden-token" value="{{csrf_token()}}">
+								
 				<div class="panel-heading">Users
+
 				@if (Auth::user()->id == 1)
 					<a href="{{ url('/user/add/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add </a>
 					<a href="{{ route('userBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
-					<a href="{{ URL::to('user/download') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
+					<a href="{{ URL::to('user/download/'.$institution_id) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
 					@else
-					<a href="{{ URL::to('user/download') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
+					<a href="{{ URL::to('user/download/'.$institution_id) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax">Download XLS</a>
 					@endif
 				</div>
 				
