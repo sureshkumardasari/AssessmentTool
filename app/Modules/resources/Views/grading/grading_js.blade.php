@@ -45,9 +45,19 @@ $path = url()."/grading/";
   							tr.append("<td><a href='{{$path}}list-student-question/"+str+"'><i class='icons ico-grade'></i></a></td>");
  							$('.student_list').append(tr);
 						}
-						$('#assignmentstable').dataTable();
+						$('#assignmentstable').DataTable({
+				aoColumnDefs: [
+			  {
+			     bSortable: false,
+			     aTargets: [ -1 ]
+			  }
+			]
+			 });
  					}
 				}
+
+			    
+
 		)
 	}
 
