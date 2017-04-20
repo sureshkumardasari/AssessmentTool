@@ -1,8 +1,8 @@
 <div class="form-group col-md-12">
                             <div class="col-md-6 col-md-offset-8">
-                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
-                        </div></div>
+                            <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                        </div>
 @if($type == "subjects")
 
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
