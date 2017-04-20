@@ -65,14 +65,14 @@
                 assignmentId = $('#gradesimport_assignment_id').val();
                 //alert(assignmentId);
                 //userType = 'student';
-                if(institutionId == 0){
-                    $('.error-log').html("<p class='error'>Please select an institution</p>");
+                if(institutionId == 0 || assignmentId == 0){
+                    $('.error-log').html("<p class='error'>Please select all the fields</p>");
                     return;
                 }
-                if(assignmentId==0 || assignmentId == "null" || assignmentId == "undefined"){
-                    $('.error-log').html("<p class='error'>Please select an Assignment</p>");
-                    return;
-                }
+                // if(assignmentId==0 || assignmentId == "null" || assignmentId == "undefined"){
+                //     $('.error-log').html("<p class='error'>Please select an Assignment</p>");
+                //     return;
+                // }
                 if($('.user-file').val() == ''){
                     $('.error-log').html("<p class='error'>Please select a file to upload</p>");
                     return;
