@@ -63,8 +63,10 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
-		        $inst_arr=[];
-        $roles_arr=[];
+		$InstitutionObj = new Institution();
+        $inst_arr = $InstitutionObj->getInstitutions();
+        $roles_arr = $this->user->getRoles();
+
 
         if($institution_id === "teacher"){
             //dd();
