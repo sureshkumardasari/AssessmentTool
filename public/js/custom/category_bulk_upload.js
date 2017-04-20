@@ -49,7 +49,7 @@ $('.uploadBtn').off("click").on("click",function(){
     institutionId = $("#categoryimport_institution_id").val();
     categoryType = 'categoryType';
     if(institutionId == 0){
-        $('.error-log').html("<p class='error'>Please select an institution</p>");
+        $('.error-log').html("<p class='error'>Please select the field</p>");
         return;
     }
     if($('.category-file').val() == ''){

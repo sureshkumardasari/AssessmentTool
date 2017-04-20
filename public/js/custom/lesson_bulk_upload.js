@@ -56,9 +56,12 @@ function downloadTemplate(type) {
 $('.uploadBtn').off("click").on("click",function(){
 
     institutionId = $("#lessonimport_institution_id").val();
+    categoryId = $("#lessonimport_category_id").val();
+    subjectId = $("#lessonimport_subject_id").val();
+
     lessonType = 'lessonType';
-    if(institutionId == 0){
-        $('.error-log').html("<p class='error'>Please select an institution</p>");
+    if(institutionId == 0 || categoryId == 0 || subjectId == 0){
+        $('.error-log').html("<p class='error'>Please select all the fields</p>");
         return;
     }
     if($('.lesson-file').val() == ''){

@@ -48,9 +48,13 @@
             $('.uploadBtn').off("click").on("click",function(){
                             
                 institutionId = $("#userimport_institution_id").val();
+                categoryId = $("#category_id_filter").val();
+                subjectId = $("#subject_id_filter").val();
+                lessonsId = $("#lessons_id_filter").val();
+                question_typeId = $("#question_type_filter").val();
                 userType = 'student';
-                if(institutionId == 0){
-                    $('.error-log').html("<p class='error'>Please select an institution</p>");
+                if(institutionId == 0 || categoryId == 0 || subjectId == 0 || lessonsId == 0 || question_typeId == 0 ||){
+                    $('.error-log').html("<p class='error'>Please select all the fields</p>");
                     return;
                 }
                 if($('.user-file').val() == ''){
