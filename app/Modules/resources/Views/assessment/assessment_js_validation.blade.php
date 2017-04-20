@@ -537,8 +537,8 @@ if (count($errors) > 0){?>
 							$('#subject_id').multiselect();
 							$('#lessons_id').multiselect('destroy');
 							$('#lessons_id').empty();
-							$('#question_type').empty();
 							$('#lessons_id').multiselect();
+							//$('#question_type').empty();
 							var opt = new Option('--Select Category--', '');
 							//opt.addClass('selected','disabled','hidden');
 							$('#category_id').append(opt);
@@ -599,7 +599,7 @@ if (count($errors) > 0){?>
 							$('#subject_id').empty();
 							$('#lessons_id').multiselect('destroy');
 							$('#lessons_id').empty();
-							$('#question_type').empty();
+							//$('#question_type').empty();
 							$('#lessons_id').multiselect();
 							//	var opt = new Option('--Select Subject--', '');
 							//	$('#subject_id').append(opt);
@@ -652,7 +652,7 @@ if (count($errors) > 0){?>
 							$('#lessons_id').multiselect('destroy');
 							$('#lessons_id').empty();
 							//$('#question_type').multiselect('destroy');
-							$('#question_type').empty();
+							//$('#question_type').empty();
 							//$('#question_type').multiselect();
 							//var opt=new Option('-Select Lesson--','');
 							//$('#lessons_id').append(opt);

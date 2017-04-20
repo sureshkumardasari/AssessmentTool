@@ -70,7 +70,34 @@ class User extends Model {
         $users = $query->get();
 		return $users;
 	}
+public function getUsers1($institution_id = 0, $role_id = 0)
+	{
+		if( getRole() != 'administrator')
+		{
+			$institution_id = ($institution_id > 0) ? $institution_id : Auth::user()->institution_id;
+		}
+		
+          $query=DB::table('users as u')->leftjoin('institution as i','i.id', '=', 'u.institution_id')
+          								->leftjoin('roles as r','r.id', '=', 'u.role_id')
+          								->where('u.status','=','Active')
+            						->select(DB::raw('u.name as username, u.email, i.name as Instname, r.name as rolename, u.status, u.id'));
 
+
+        if($institution_id > 0)
+        {
+        	$query->where("u.institution_id", $institution_id);
+        }
+        if(is_array($role_id)){
+			$query->whereIn("u.role_id", $role_id);
+        }
+        else if($role_id > 0)
+        {
+        	$query->where("u.role_id", $role_id);
+        }
+
+        $users = $query->get();
+		return $users;
+	}
 	public function getUsersOptionList($institution_id = 0, $role_id = 0)
 	{
 		$data = array();
