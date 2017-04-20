@@ -45,7 +45,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<label class="col-md-3 control-label">Category</label>
 				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
-					<option value="0">--Select Category--</option>
+					<option value="">--Select Category--</option>
 						<!-- @foreach($category as $id=>$val)
 								<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 								@endforeach -->
@@ -80,7 +80,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 				<label class="col-md-3 control-label">Question Type</label>
 				<div class="col-md-9">
 					<select class="form-control" name="question_type" id="question_type"  onchange="filter()" >
-						<option value="0">--Select Question Type--</option>
+						<option value="">--Select Question Type--</option>
 					</select>
 
 				</div>
