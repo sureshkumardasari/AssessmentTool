@@ -1,7 +1,7 @@
 <div class="form-group col-md-12">
                             <div class="col-md-6 col-md-offset-8">
-                            <a href="#" class="btn btn-primary" id="pdf">Export PDF</a>
-                            <a href="#" class="btn btn-primary" id="xls">Export XLS</a>
+                            <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
+                            <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
                         </div>
 @if($type == "subjects")
 
@@ -51,6 +51,24 @@
         </tbody>
     </table>
 <script type="text/javascript">
+        function reports(){
+            
+                $.ajax(
+                        {
+
+                            headers: {"X-CSRF-Token": csrf},
+                            url: loadurl + $('#institution_id').val() + '/' + $('#assignment_id').val(),
+                            type: 'post',
+                            success: function (response) {
+                                $('#report').empty();
+                                $('#report').append(response);
+                                $('#report').prepend($('.average'));
+                            }
+                        }
+                )
+            
+        }
+
    var loadurl = "{{ url('/report/assignment_wholeclass/') }}/" ;
 
     $('#pdf').on('click',function(){
@@ -67,6 +85,7 @@
             var less_id=$('#lesson_id').val();
             window.open("{{ url('report/wholeclassscoreexportXLS/')}}/"+inst_id+"/"+assi_id+"/"+sub_id+"/"+less_id);
         });
+
 
 </script>
 @endif
