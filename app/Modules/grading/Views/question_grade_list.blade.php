@@ -21,12 +21,13 @@
 				</div>	
 
 				<div class="panel-body">
-					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					
+					<table id="assignmentstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Question Title</th>
 				                <th>Status</th>
-				                <th>Action</th>
+				                <th >Action</th>
 				            </tr>
 				        </thead>
 				        <tbody id="assignbody">
@@ -63,34 +64,16 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {    
+	$('#assignmentstable').dataTable({
+    "bPaginate": true,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [2] } ],
+    "bAutoWidth": false });
+});
+</script>
 @endsection
-// <script type="text/javascript">
-// 	function change_status(){
-// 			var csrf=$('Input#csrf_token').val();
-// 			 var loadurl = "{{ url('/resources/assignments/grading') }}/" ;
-
-// 			$.ajax(
-// 					{
-
-// 						headers: {"X-CSRF-Token": csrf},
-// 						url:loadurl + $('#status').val(),
-// 						type: 'get',
-// 						success: function (response) {
-// 							 $('#assignmentstable').dataTable().fnDestroy();
-// 							$('#assignbody').empty();
-// 							var tr;
-// 							for (var i = 0; i < response.length; i++) {
-// 								tr = $('<tr/>');
-// 								tr.append("<td>" + response[i].assessment_name + "");
-// 								tr.append("<td>" + response[i].name + "");
-// 								tr.append("<td>" + response[i].gradestatus + "");
-// 								tr.append("<td>"+ "</td>");
-// 								$('#assignbody').append(tr);
-
-// 							}
-// 							 $('#assignmentstable').dataTable();
-// 						}
-// 					});
-
-// 		}
-// </script>
