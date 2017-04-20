@@ -6306,3 +6306,7 @@ footer {
     text-align: center;
     width: 100%;
 }
+#password:after { 
+   content:"*";
+   color:red;
+}
