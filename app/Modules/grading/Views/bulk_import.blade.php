@@ -81,7 +81,8 @@
         }
         else{
              $(".gradesimport_institution_id").html(""); 
-              $(".gradesimport_assignment_id").html("");     
+              $("#gradesimport_assignment_id").val("0");
+              $(".gradesimport_assignment_id").html("");      
         }   
 
          var loadurl = "{{ url('/report/assessment_inst/') }}/" ;
@@ -106,8 +107,13 @@
         //console.log('userimport_institution_id ');
         var thisVal = $('#gradesimport_assignment_id').val();
         var msg = (thisVal > 0) ? 'Assignment Id is <u>"' +thisVal+ '</u>"' : "";
-        
-        $(".gradesimport_assignment_id").html(msg);    
+         if(thisVal > 0){
+        $(".gradesimport_assignment_id").html(msg);   
+        }
+        else{
+             $(".gradesimport_institution_id").html(""); 
+             $('#gradesimport_assignment_id').html("");      
+        } 
          
     });
 </script>  
