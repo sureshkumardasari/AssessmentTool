@@ -300,6 +300,7 @@ class UserController extends BaseController
 			'address1' => 'required',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
+			'password'=>'required',
 			'password_confirmation'=>'required',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
 					 //'password_confirmation' =>'required|confirmed|min:6',

@@ -143,28 +143,28 @@
 						</div>
 						@if ($user_id == 0)			
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Password</label>
+							<label class="col-md-4 control-label password" id="password">Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
 
 						<div class="form-group required">
-							<label class="col-md-4 control-label">Confirm Password</label>
+							<label class="col-md-4 control-label password" id="password">Confirm Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>
 						</div>
 						@else
 						<div class="form-group ">
-							<label class="col-md-4 control-label">Password</label>
+							<label class="col-md-4 control-label" id="password"> Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
 
 						<div class="form-group ">
-							<label class="col-md-4 control-label">Confirm Password</label>
+							<label class="col-md-4 control-label" id="password">Confirm Password</label>
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password_confirmation">
 							</div>

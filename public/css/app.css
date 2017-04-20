@@ -6263,11 +6263,20 @@ label,
    content:"*";
    color:red;
 }
+/*.form-control.required .password:after{
+    content:"*";
+   color:red;
+}
+*/
 .form-control.required .guessing_penality:after{
    content:" ";
   color:white !important;
 }
 
+#password:after { 
+   content:"*";
+   color:red;
+}
 #never_expires:after{
   content:" ";
   color:white !important;
