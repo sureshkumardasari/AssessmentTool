@@ -1,11 +1,10 @@
-<div class="form-group col-md-12">
+<div class="form-group col-md-12 gobutton">
                             <div class="col-md-6 col-md-offset-8">
                             <a href="#" class="btn btn-primary" id="pdf" onclick="reports()">Export PDF</a>
                             <a href="#" class="btn btn-primary" id="xls" onclick="reports()">Export XLS</a>
                         </div></div>
 @if($type == "subjects")
-
-    <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
+  <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
     <table class="table table-bordered table-hover table-striped" id="wholescore">
         <caption><center><b>Subjects</b></center></caption>
         <thead>
