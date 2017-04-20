@@ -193,7 +193,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 						</div> -->
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">							
-								<button type="submit" class="btn btn-primary">Submit</button>
+								<button type="submit" class="btn btn-primary" onclick=" return DateCheck();">Submit</button>
 									<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/assignment/') }}">Cancel</a>
 							</div>
 						</div>
@@ -412,5 +412,18 @@ function getProctor()
 		)
 
 	}
+	function DateCheck()
+{
+  var StartDate= document.getElementById('startdatetime').value;
+  var EndDate= document.getElementById('enddatetime').value;
+  var eDate = new Date(EndDate);
+  var sDate = new Date(StartDate);
+  if(StartDate!= '' && StartDate!= '' && sDate > eDate)
+    {
+    alert("Please ensure that the End Date is greater than Start Date.");
+    return false;
+    }
+}
+
   </script>
 @endsection
