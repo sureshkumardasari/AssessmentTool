@@ -21,7 +21,8 @@
 				</div>	
 
 				<div class="panel-body">
-					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<!-- <table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%"> -->
+					 <table id="assignmentstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Question Title</th>
@@ -63,6 +64,19 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#assignmentstable').dataTable({
+    "bPaginate": true,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": true,
+    order: [],
+	columnDefs: [ { orderable: false, targets: [2] } ],
+    "bAutoWidth": false });
+
+	});
+</script>
 @endsection
 // <script type="text/javascript">
 // 	function change_status(){
