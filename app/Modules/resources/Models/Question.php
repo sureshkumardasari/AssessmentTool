@@ -40,15 +40,22 @@ class Question extends Model {
 	{
 		//$users = User::get();
 		$obj = new Question();
-		if($institution_id > 0 || $subject_id > 0 || $subject_id > 0)
+		if($institution_id > 0 || $category_id > 0 || $subject_id > 0 || $lesson_id >0)
 		{
-			$questions = $obj->where("subject_id", $subject_id)->orWhere('institution_id', $institution_id)->orWhere('category_id', $category_id)->orwhere('lesson_id',$lesson_id)->lists('title', 'id');
+			$questions = $obj->where('institute_id', $institution_id)->orWhere("subject_id", $subject_id)->orWhere('category_id', $category_id)->orwhere('lesson_id',$lesson_id);
 		}
 		else
 		{
+			$sessRole = getRole() ;
+           if($sessRole != 'administrator')
+           {
+            $questions = $obj->where('institute_id','=' , Auth::user()->institution_id);
+           
+           }
+
 			$questions = $obj->lists('title', 'id');
 		}
-		
+		 //dd($questions);
 		return $questions;
 	}
 

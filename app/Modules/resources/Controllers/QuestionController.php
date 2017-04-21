@@ -101,8 +101,9 @@ class QuestionController extends BaseController {
 		//$parent_id = ($parent_id > 0) ? $parent_id : Auth::user()->institution_id;
 		if (getRole() == "student") {
      return view('permission');
-    }else{
-		$inst_arr = $this->institution->getInstitutions();
+    }elseif(getRole() == "administrator")
+           {
+           	$inst_arr = $this->institution->getInstitutions();
 		$subjects = $this->subject->getSubject();
 		$category = $this->category->getCategory();
 		$questions = $this->question->getQuestions();
@@ -111,12 +112,33 @@ class QuestionController extends BaseController {
 		$lessons = $this->lesson->getLesson();
 		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
 				->leftjoin('passage','questions.passage_id','=','passage.id')
+				//->leftjoin('institution','questions.institute_id','=','institution.id')
 				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
 				->orderby('qid')
+				//->groupBy('institution')
 				->get();
 		//dd($list);
+			}else{
+				$inst_arr = $this->institution->getInstitutions();
+		$subjects = $this->subject->getSubject();
+		$category = $this->category->getCategory();
+		$questions = $this->question->getQuestions();
+		$questions_type=$this->question_type->getQuestionTypes();
+		$passages=$this->passage->getPassage();
+		$lessons = $this->lesson->getLesson();
+				$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
+				->where("questions.institute_id", Auth::user()->institution_id)
+				->leftjoin('passage','questions.passage_id','=','passage.id')
+				//->leftjoin('institution','questions.institute_id','=','institution.id')
+				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+				->orderby('qid')
+ 				->get();
+		//dd($list);
+				          
+
+			}
 		return view('resources::question.list',compact('inst_arr', 'questions','subjects','category','lessons','questions_type','passages','list'));
-	}
+	
 	}
 	public function questionlist()
 	{

@@ -26,10 +26,17 @@ class Passage extends Model {
 		$obj = new Passage();
 		if($passage_id > 0)
 		{
-			$passages = $obj->where("id", $passage_id)->lists('title', 'id');
+			$passages = $obj->where("id", $passage_id);
 		}
 		else
 		{
+		   $sessRole = getRole() ;
+           if($sessRole != 'administrator')
+           {
+            $passages = $obj->where('institute_id','=' , Auth::user()->institution_id);
+            //dd(Auth::user()->institution_id);
+           }
+
 			$passages = $obj->lists('title', 'id');
 		}
 		

@@ -79,9 +79,17 @@ class PassageController extends BaseController {
 		$passages = $this->passage->getPassage();
 		if (getRole() == "student") {
      return view('permission');
-    }else{
-        return view('resources::passage.list',compact('passages'));
     }
+    elseif(getRole() == "teacher") {
+    	// $passages =Passage::where('passages.institute_id',Auth::user()->institution_id);
+    	             $passages =Passage::where('institute_id','=' , Auth::user()->institution_id)->lists('title', 'id');
+    	             //dd($passages);
+
+
+    }
+        	 return view('resources::passage.list',compact('passages'));
+
+
 	}
 
 	public function passageadd()
