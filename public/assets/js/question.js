@@ -1347,8 +1347,7 @@ function addOrRemoveInGrid(elem, type) {
     if (type == 'add') {
        
         if(checkboxName=="question"){
-            $('#question_table').dataTable().fnDestroy();
-            $('#selected-questions').dataTable().fnDestroy();
+    
             $('#questions'+' .parent-grid tr').find('.check-question:checked').each(function () {
                 $(this).removeClass('check-question').addClass('check-selected-question');
                 var closestUl = $(this).closest('tr');
@@ -1396,6 +1395,7 @@ function addOrRemoveInGrid(elem, type) {
                 selected.append("<input type='hidden' value="+value+" name='QuestionIds[]' id='QuestionIds'>");
                 //selected.append('<input>').attr('type','hidden').attr('id','QuestionIds').attr('name','QuestionIds[]').attr('value',$(this).val());
                 $('#selected-questions'+' .child-grid').append(selected);
+                $('#QuestionIds').prop('checked', false);
                 $('.selectall input[type="checkbox"]').on('change', function () 
                     {
                         //alert($(' .selectall input:checked').length);
@@ -1406,25 +1406,7 @@ function addOrRemoveInGrid(elem, type) {
 
             });
             //desible show entires & pagination in datatables
-             $('#question_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-                $('#selected-questions').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-            $('#question_table').dataTable();
-            $('#selected-questions').dataTable();
+           
             //alert('test');
 
             
@@ -1434,8 +1416,7 @@ function addOrRemoveInGrid(elem, type) {
         else if(checkboxName == "passage"){
             //alert('test');
 
-            $('#passage_table').dataTable().fnDestroy();
-            $('#selected-passage').dataTable().fnDestroy();
+           
             $('#passages'+' .parent-grid tr').find('.check-passage:checked').each(function () {
                 $(this).removeClass('check-passage').addClass('check-selected-passage');
                 var closestUl = $(this).closest('tr');
@@ -1471,25 +1452,7 @@ function addOrRemoveInGrid(elem, type) {
 
                 //$('<input>').attr('type','hidden').attr('id','passageIds').attr('name','passageIds[]').attr('value',$(this).val()).appendTo('#selected-passage'+' .child-grid');
             });
-            $('#passage_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-                $('#selected-passage').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-            $('#passage_table').dataTable();
-            $('#selected-passage').dataTable();
+            
         }
 
             // addPassageforQuestion(this, "add","questions",passage);
@@ -1498,10 +1461,7 @@ function addOrRemoveInGrid(elem, type) {
         //alert('bbb');
          var removeIds=[];
         if(checkboxName == "question"){
-            $('#question_table').dataTable().fnDestroy();
-            $('#selected-questions').dataTable().fnDestroy();
-            $('#selected-passage').dataTable().fnDestroy();
-            $('#passage_table').dataTable().fnDestroy();
+           
             $('.parent-selected-grid tr').find('.check-selected-question:checked').each(function () {
 
                 var myForm = document.forms.assessment_form;
@@ -1568,53 +1528,12 @@ function addOrRemoveInGrid(elem, type) {
 
             });
             //desible show entires & pagination in datatables
-             $('#question_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-$('#selected-questions').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-$('#passage_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-$('#selected-passage').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-
-            //alert(JSON.stringify(selected_question_ids));
-           // alert(RemoveQuestionIds);
-            $('#question_table').dataTable();
-            $('#selected-questions').dataTable();
-            $('#selected-passage').dataTable();
-            $('#passage_table').dataTable();
+            
            // addPassageforQuestion(this, "remove","question",RemoveQuestionIds);
 
         }
         else if(checkboxName == "passage"){
-            $('#passage_table').dataTable().fnDestroy();
-            $('#selected-passage').dataTable().fnDestroy();
+           
             var removeIds=[];
             $('.parent-selected-grid tr').find('.check-selected-passage:checked').each(function () {
 
@@ -1658,25 +1577,7 @@ $('#selected-passage').dataTable({
                 //});
                 //$('<input>').attr('type','hidden').attr('name','QuestionIds[]').attr('value',RemoveQuestionIds).appendTo('#selected-questions'+' .child-grid');
             });
-            $('#passage_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-$('#selected-passage').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-    columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-            $('#passage_table').dataTable();
-            $('#selected-passage').dataTable();
+           
             //alert(JSON.stringify(selected_question_ids));
             addOrRemoveInPassage(this, "remove",removePassage);
         }
@@ -1776,7 +1677,7 @@ function addOrRemoveInPassage(elem, type,id) {
                     //alert(JSON.stringify(response));
                     subjects_list=[];
                     lessons_list=[];
-                    $('#selected-questions').dataTable().fnDestroy();
+                   
                     $('#selected-questions .child-grid').empty();
                     var tr;
                     for (var i = 0; i < response.length; i++) {
@@ -1795,7 +1696,7 @@ function addOrRemoveInPassage(elem, type,id) {
                         }
 
                     }
-                    $('#selected-questions').dataTable();
+                    
                     $.ajax(
                         {
                             url:url_question_append,
@@ -1804,7 +1705,7 @@ function addOrRemoveInPassage(elem, type,id) {
                             data:{id:id,flag:flag,QuestionIds:question_Ids},
                             success:function(response){
                               //  alert(JSON.stringify(response));
-                                $('#question_table').dataTable().fnDestroy();
+                               
                               //  $('#questions-list').empty();
                                 //$('#selected-questions'+' .child-grid').empty();
                                 var tr;
@@ -1815,7 +1716,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                     //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                     $('#questions-list').append(tr);
                                 }
-                                $('#question_table').dataTable();
+                               
                             }
                         }
 
@@ -1874,7 +1775,7 @@ function addOrRemoveInPassage(elem, type,id) {
                     data:{QuestionIds:question_Ids},
                     success:function(response){
                         var tr;
-                        $('#selected-passage').dataTable().fnDestroy();
+                        
                         $('#selected-passage .child-grid').empty();
                         for (var i = 0; i < response.length; i++) {
                             tr = $('<tr id=passage_'+response[i].id + '/>');
@@ -1884,7 +1785,7 @@ function addOrRemoveInPassage(elem, type,id) {
                             $('#selected-passage .child-grid').append(tr);
                             append_passage_ids.push(""+ response[i].id +"");
                          }
-                        $('#selected-passage').dataTable();
+                       
                         var lessons=$('#lessons_id').val();
                         $.ajax(
                                 {
@@ -1894,7 +1795,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                 data:{passage_Ids:append_passage_ids,'lessons':lessons},
                                 success:function(response){
                                     var tr;
-                                    $('#passage_table').dataTable().fnDestroy();
+                                   
                                     $('#passages-list').empty();
                                     for (var i = 0; i < response.length; i++) {
                                         tr = $('<tr/>');
@@ -1903,7 +1804,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                         // tr.append('<input type="hidden" id="passageIds" name="passageIds[]" id="" value="'+response[i].id+'">')
                                         $('#passages-list').append(tr);
                                     }
-                                    $('#passage_table').dataTable()
+                                   
                                 }
                                 }
 
@@ -1926,7 +1827,7 @@ function addOrRemoveInPassage(elem, type,id) {
                             selected_question_ids[idd]=[];
                         });
                     var tr;
-                        $('#selected-questions').dataTable().fnDestroy();
+                       
                         subjects_list=[];
                         lessons_list=[];
                     for (var i = 0; i < response.length; i++) {
@@ -1949,7 +1850,7 @@ function addOrRemoveInPassage(elem, type,id) {
 
                      }
                        // alert(JSON.stringify(selected_question_ids));
-                        $('#selected-questions').dataTable();
+                       
                        var lessons= $('#lessons_id').val();
                         var qtype= $('#question_type').val();
                      $.ajax(
@@ -1959,7 +1860,7 @@ function addOrRemoveInPassage(elem, type,id) {
                             type:"post",
                             data:{question_Ids:get_remain_passage ,'lessons':lessons,'qtype':qtype},
                             success:function(response){
-                                $('#question_table').dataTable().fnDestroy();
+                               
                                 $('#questions-list').empty();
                                     var tr;
                                     var length=response.length;
@@ -1970,7 +1871,7 @@ function addOrRemoveInPassage(elem, type,id) {
                                         //tr.append('<input type="hidden" id="QuestionIds" name="QuestionIds[]" id="" value="'+response[i].id+'">')
                                         $('#questions-list').append(tr);
                                     }
-                                $('#question_table').dataTable();
+                                
                                  }
                         }
                     );

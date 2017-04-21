@@ -255,34 +255,7 @@
 
 <script type="text/javascript">
 //desible show entires & pagination in datatables
-$(document).ready(function() {
-$('#question_table').dataTable({
-    "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    "bAutoWidth": false });
 
-$('#selected-questions').dataTable({
-    "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    "bAutoWidth": false });
-$('#passage_table').dataTable({
-                    "bPaginate": false,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bInfo": true,
-                    "bAutoWidth": false });
-
-                $('#selected-passage').dataTable({
-                    "bPaginate": false,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bInfo": true,
-                    "bAutoWidth": false });
-});
 
 	$(document).ready(function() {
 		

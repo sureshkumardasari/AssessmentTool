@@ -131,7 +131,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 		 <div class="col-md-4">
 		<div class="move-arrow-box">
-			<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add"), uncheck();' href="javascript:;" id="#btnn">Add Question</a>
+			<a class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add")' href="javascript:;" id="#btnn">Add Question</a>
 				</div>
 			</div>
 		</div>
@@ -248,53 +248,8 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 <script type="text/javascript">
 //desible show entires & pagination in datatables
 $(document).ready(function() {
-$('#question_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-	columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-$('#selected-questions').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-	columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-$('#passage_table').dataTable({
-    "bPaginate": true,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-	columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
-
-$('#selected-passage').dataTable({
-    "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": true,
-    order: [],
-	columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
 
 
-});
-/*$(document).ready(function() {
-    $('#question_table').DataTable( {
-        "lengthMenu": [[-1], ["All"]]
-    } );
-
-
-    $('#selected-questions').DataTable( {
-        "lengthMenu": [[-1], ["All"]]
-    } );
-} );*/
 $('#reset').on('click',function(){
 	$('#institution_id').val('');
 	$('#category_id').val('');
@@ -341,6 +296,8 @@ function uncheck(){
 			$('#selected-passage_length').hide();
 
 		});
+
+	} );
 	} );
 
 		
