@@ -148,6 +148,12 @@ if (count($errors) > 0){?>
 						$('#subject_id_filter').empty();
 						var opt=new Option('--Select Subject--','');
  						$('#subject_id_filter').append(opt);
+ 						$('#lessons_id_filter').empty();
+ 						var opt2=new Option('--Select Lesson--','');
+							$('#lessons_id_filter').append(opt2);
+							$('#question_type_filter').empty();
+							 var opt3=new Option('--Select Question Type--','');
+                             $('#question_type_filter').append(opt3);
 						for(i=0;i<a;i++){
 							var opt=new Option(response[i].name,response[i].id);
 							$('#subject_id_filter').append(opt);
@@ -172,6 +178,9 @@ if (count($errors) > 0){?>
 						$('#lessons_id_filter').empty();
 						var opt=new Option('--Select Lesson--','');
 						$('#lessons_id_filter').append(opt);
+						$('#question_type_filter').empty();
+							 var opt3=new Option('--Select Question Type--','');
+                             $('#question_type_filter').append(opt3);
 						for(i=0;i<a;i++){
 							var opt=new Option(response[i].name,response[i].id);
 							$('#lessons_id_filter').append(opt);

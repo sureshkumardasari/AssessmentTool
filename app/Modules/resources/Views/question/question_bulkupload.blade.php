@@ -128,7 +128,11 @@
         var thisVal = $('#institution_id_filter').val();
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
         if (thisVal > 0){
-        $(".institution_id_filter").html(msg);   
+        $(".institution_id_filter").html(msg);  
+        $(".category_id_filter").html(""); 
+            $(".subject_id_filter").html(""); 
+            $(".lessons_id_filter").html("");      
+            $('.question_type_filter').html(""); 
         }
         else{
             $(".institution_id_filter").html(""); 
@@ -136,6 +140,7 @@
             $(".subject_id_filter").html(""); 
             $(".lessons_id_filter").html("");      
             $('.question_type_filter').html("");
+            
             var opt=new Option('--Select Category--','');
                             $('#category_id_filter').append(opt);
                             var opt1=new Option('--Select Subject--','');
@@ -152,28 +157,46 @@
         var thisVal = $('#category_id_filter').val();
         var msg = (thisVal > 0) ? 'Category Id is <u>"' +thisVal+ '</u>"' : "";
         if (thisVal > 0){
-        $(".category_id_filter").html(msg);     
+        $(".category_id_filter").html(msg);  
+         $(".subject_id_filter").html(""); 
+            $(".lessons_id_filter").html("");      
+            $('.question_type_filter').html("");    
         }
         else{
              $(".category_id_filter").html(""); 
              $(".subject_id_filter").html(""); 
              $("#subject_id_filter").html(""); 
-            $(".lessons_id_filter").html("");      
+            $(".lessons_id_filter").html("");
+             $("#lessons_id_filter").html(""); 
+             $(".question_type_filter").html("");
+             $("#question_type_filter").html("");       
            var opt=new Option('--Select Subject--','');
                         $('#subject_id_filter').append(opt);
+                         var opt2=new Option('--Select Lesson--','');
+                            $('#lessons_id_filter').append(opt2);
+                            var opt3=new Option('--Select Question Type--','');
+                             $('#question_type_filter').append(opt3);
         }   
     });
       $('#subject_id_filter').on("change",function(){
         var thisVal = $('#subject_id_filter').val();
         var msg = (thisVal > 0) ? 'Subject Id is <u>"' +thisVal+ '</u>"' : "";
          if (thisVal > 0){
-        $(".subject_id_filter").html(msg);   
+        $(".subject_id_filter").html(msg);  
+           $(".lessons_id_filter").html("");      
+            $('.question_type_filter').html("");  
+            $(".question_type_filter").html("");
+             $("#question_type_filter").html("");    
         }else{  
         $(".subject_id_filter").html(""); 
         $(".lessons_id_filter").html("");
-        $("#lessons_id_filter").html("");       
+        $("#lessons_id_filter").html("");   
+         $(".question_type_filter").html("");
+             $("#question_type_filter").html("");        
             var opt=new Option('--Select Lesson--','');
                         $('#lessons_id_filter').append(opt); 
+                        var opt3=new Option('--Select Question Type--','');
+                             $('#question_type_filter').append(opt3);
         }  
 
     });
@@ -183,6 +206,7 @@
         var msg = (thisVal > 0) ? 'Lesson Id is <u>"' +thisVal+ '</u>"' : "";
         if (thisVal>0){
         $(".lessons_id_filter").html(msg);   
+                    $('.question_type_filter').html("");    
         }
         else{
              $(".lessons_id_filter").html("");      
