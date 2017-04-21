@@ -19,11 +19,11 @@
         @endif
     </div>
                 <div class="panel-body">
-                    <table id="rolestable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+                    <table id="rolestable" class="table table-striped table-bordered " cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Institution Name</th>
-                                <th style="visibility: hidden;"></th>
+                                <th >Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,14 +43,18 @@
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript">
-     $(document).ready(function(){
-     setTimeout(function(){
-         var csrf=$('Input#csrf_token').val();
-         $('#flash').fadeOut();
-     }, 5000);
- })
- </script> -->
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#rolestable').DataTable({
+    aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});
+</script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}.
 
 @endsection

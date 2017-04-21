@@ -20,12 +20,12 @@
 					@endif
 				</div>
 				<div class="panel-body">
-					<table id="institutionstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="institutionstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
 				                <th>Name</th>
-				                <th style="visibility: hidden;"></th>
+				                <th >Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
@@ -47,6 +47,18 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#institutionstable').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});
+</script>
 <script type="text/javascript">
      $(document).ready(function(){
      setTimeout(function(){
