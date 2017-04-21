@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bulk Import Lesson
+    <div class="panel-heading">Bulk Import Lessons
     </div>
     <div class="panel-body">
         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">

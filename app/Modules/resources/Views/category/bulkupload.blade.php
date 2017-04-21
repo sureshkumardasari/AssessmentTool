@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bulk Import Category
+    <div class="panel-heading">Bulk Import Categories
     </div>
     <div class="panel-body">
         <ul>
