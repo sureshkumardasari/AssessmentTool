@@ -97,8 +97,10 @@ if (count($errors) > 0){?>
 <?php }?>
 <script>
 	function change_institution(){
- 		var url='{{$path}}categoryList/'+$('#institution_id_filter').val();
   		var csrf=$('Input#csrf_token').val();
+  		var url='{{$path}}categoryList/'+$('#institution_id_filter').val();
+	if($('#institution_id_filter').val()!=""){
+
    		// alert($('#institution_id_filter').val());
 			$.ajax(
 					{
@@ -111,13 +113,15 @@ if (count($errors) > 0){?>
  							$('#category_id_filter').empty();
  							$('#subject_id_filter').empty();
  							$('#lessons_id_filter').empty();
- 							$('#question_type_filter').val("");
+ 							$('#question_type_filter').empty();
  							var opt=new Option('--Select Category--','');
 							$('#category_id_filter').append(opt);
 							var opt1=new Option('--Select Subject--','');
 							$('#subject_id_filter').append(opt1);
 							var opt2=new Option('--Select Lesson--','');
 							$('#lessons_id_filter').append(opt2);
+							 var opt3=new Option('--Select Question Type--','');
+                             $('#question_type_filter').append(opt3);
 							//opt.addClass('selected','disabled','hidden');
 
  							for(i=0;i<a;i++){
@@ -128,8 +132,11 @@ if (count($errors) > 0){?>
 					}
 			)
 		}
+		}
 	function change_category(){
 		var csrf=$('Input#csrf_token').val();
+				if($('#category_id_filter').val()!=""){
+
    		$.ajax(
 				{
 
@@ -148,9 +155,12 @@ if (count($errors) > 0){?>
 					}
 				}
 		)
+   	}
 	}
 	function change_lessons(){
 		var csrf=$('Input#csrf_token').val();
+		if($('#subject_id_filter').val()!=""){
+
 		$.ajax(
 				{
 
@@ -170,13 +180,21 @@ if (count($errors) > 0){?>
 				}
 		)
 	}
+	}
 	
 		function change_question_type(){
+
+			//alert($('#lessons_id_filter').val());
 		var csrf=$('Input#csrf_token').val();
+		if($('#lessons_id_filter').val()!=""){
+
+		//alert($('#lessons_id_filter').val());
 		$.ajax(
 				{
 
+
 					headers: {"X-CSRF-Token": csrf},
+
 					url:'{{$path}}questiontypeList/'+$('#lessons_id_filter').val(),
 					type:'post',
 					success:function(response){
@@ -192,6 +210,7 @@ if (count($errors) > 0){?>
 					}
 				}
 		)
+	}
 	}
   
 </script>

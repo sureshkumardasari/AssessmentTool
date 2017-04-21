@@ -12,7 +12,7 @@
                 <label class="col-md-2 control-label" >Institution</label>
                 <div class="col-md-10">
                  <select class="form-control" name="institution_id_filter" id="institution_id_filter" onchange="change_institution()">
-                    <option value="0">Select</option>
+                    <option value="0">--Select Institution--</option>
                     @foreach($inst_arr as $id=>$val)
                     <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
@@ -135,7 +135,16 @@
             $(".category_id_filter").html(""); 
             $(".subject_id_filter").html(""); 
             $(".lessons_id_filter").html("");      
-             
+            $('.question_type_filter').html("");
+            var opt=new Option('--Select Category--','');
+                            $('#category_id_filter').append(opt);
+                            var opt1=new Option('--Select Subject--','');
+                            $('#subject_id_filter').append(opt1);
+                            var opt2=new Option('--Select Lesson--','');
+                            $('#lessons_id_filter').append(opt2);
+                            var opt3=new Option('--Select Question Type--','');
+                             $('#question_type_filter').append(opt3);
+
         }
 
     });
@@ -150,7 +159,8 @@
              $(".subject_id_filter").html(""); 
              $("#subject_id_filter").html(""); 
             $(".lessons_id_filter").html("");      
-           
+           var opt=new Option('--Select Subject--','');
+                        $('#subject_id_filter').append(opt);
         }   
     });
       $('#subject_id_filter').on("change",function(){
@@ -162,7 +172,8 @@
         $(".subject_id_filter").html(""); 
         $(".lessons_id_filter").html("");
         $("#lessons_id_filter").html("");       
-             
+            var opt=new Option('--Select Lesson--','');
+                        $('#lessons_id_filter').append(opt); 
         }  
 
     });
@@ -175,8 +186,29 @@
         }
         else{
              $(".lessons_id_filter").html("");      
-            $(".question_type_filter").html("");  
-           $("#question_type_filter").html(""); 
+            $(".question_type_filter").html("");
+            $("#question_type_filter").html("");  
+            //$("#question_type_filter").val(""); 
+            var opt=new Option('--Select Question Type--','');
+            $('#question_type_filter').append(opt);
+
+
+        }     
+    });
+       $('#question_type_filter').on("change",function(){
+        var thisVal = $('#question_type_filter').val();
+        //alert(thisVal);
+        var msg = (thisVal > 0) ? 'Question_type Id is <u>"' +thisVal+ '</u>"' : "";
+        if (thisVal>0){
+        $(".question_type_filter").html(msg);   
+        }
+        else{
+             
+            $(".question_type_filter").html("");
+            //$("#question_type_filter").html("");  
+            //$("#question_type_filter").val(""); 
+            var opt=new Option('--Select Question Type--','');
+            $('#question_type_filter').append(opt);
 
 
         }     
