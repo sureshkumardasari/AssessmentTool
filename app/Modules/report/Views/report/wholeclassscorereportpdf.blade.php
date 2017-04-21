@@ -20,29 +20,50 @@
         @foreach($assign as $val)
             <td>{{$val->name}}</td>
         @endforeach
-        @foreach($sub as $val)
-            <td>{{$val->name}}</td>
-        @endforeach
+        @foreach($sub1 as $val)
+                <td>{{$val->name}}</td>
+            @endforeach
             @foreach($less as $val)
                 <td>{{$val->name}}</td>
             @endforeach
     </tr>
     </tbody>
-</table><br>
+</table>
+    @if($type == "subjects")
 
+  <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
+    <table class="table table-bordered table-hover table-striped" id="wholescore">
+        <caption><center><b>Subjects</b></center></caption>
+        <thead>
+        <th>Student Name</th>
 
+        @foreach($subjects as $sub)
+            <th>{{$sub}}</th>
+        @endforeach
+        </thead>
+        <tbody>
+        @foreach($subject_score as $stud_id=>$subject)
+            <tr>
+                <td>{{$students[$stud_id]}}</td>
+                @foreach($subject as $id=>$score)
+    <?php $sum=(($score[0]->sum == "null")||($score[0]->sum == ""))?0:$score[0]->sum;?>
+                <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
+                @endforeach
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@elseif($type== "lessons")
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
-    <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p><br>
+    <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p>
 
-    <table class="table table-bordered table-hover table-striped" id="wholescore" width="100%">
+    <table class="table table-bordered table-hover table-striped" id="wholescore">
         <caption><center><b>Lessons</b></center></caption>
         <thead>
-        <tr>
         <th>Student Name</th>
         @foreach($lessons as $id=>$lesson)
             <th>{{$lesson}}</th>
         @endforeach
-        </tr>
         </thead>
         <tbody>
         @foreach($lesson_score as $stud_id=>$lesson)
@@ -50,11 +71,13 @@
                 <td>{{$students[$stud_id]}}</td>
                 @foreach($lesson as $score)
                     <?php $sum=(($score[0]->sum == "null")||($score[0]->sum == ""))?0:$score[0]->sum;?>
-                    <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assignment->guessing_panality}}/{{$score[0]->total}}</td>
+                    <td>{{$sum - ($penality[$stud_id][$id]['multi_single'] )*$assessment->guessing_panality}}/{{$score[0]->total}}</td>
                 @endforeach
             </tr>
-        @endforeach
+        @endforeach 
         </tbody>
-    </table><br>
+    </table>
+
+@endif
 </body>
 </html>
