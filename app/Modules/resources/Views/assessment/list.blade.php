@@ -68,7 +68,7 @@
 						{{--</div>--}}
 					{{--</div>--}}
 					{{--<div class="clearfix"> </div>--}}
-					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="example" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Name</th>
@@ -106,6 +106,18 @@
 		</div>
 	</div>
 </div>
+<script>
+  	$(document).ready(function() {
+    $('#example').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});	
+</script>
 <script type="text/javascript">
      $(document).ready(function(){
      setTimeout(function(){

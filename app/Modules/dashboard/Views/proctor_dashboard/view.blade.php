@@ -15,7 +15,7 @@
                     </div>
                     <div class="panel-body">
                         <div>
-                            <table class="table table-striped table-bordered datatableclass">
+                            <table class="table table-striped table-bordered " id="example">
                                 <thead>
                                 <td>Assignments</td>
                                 <td>Status</td>
@@ -59,6 +59,18 @@
         </div>
     </div>
     {{--@endif--}}
+    <script type="text/javascript">
+    $(document).ready(function() {
+    $('#example').DataTable({
+    aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});
+</script>
 
 @endsection
 {{--No newline at end of file--}}

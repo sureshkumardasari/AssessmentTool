@@ -4,7 +4,7 @@
     						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
 							@endif
 				</div>
-				<table class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
@@ -31,24 +31,16 @@
 
 
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
-
 <script>
-  	@if(isset($from) && $from == 'search')
   	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
+    $('#example').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});	
 </script>
+

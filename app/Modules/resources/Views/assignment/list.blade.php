@@ -15,7 +15,7 @@
 							@endif
 	</div>
 				<div class="panel-body">
-					<table id="assignmentstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="assignmentstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Name</th>
@@ -69,6 +69,18 @@
 		</div>
 	</div>
 </div>
+<script>
+  	$(document).ready(function() {
+    $('#assignmentstable').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});	
+</script>
 <script type="text/javascript">
      $(document).ready(function(){
      setTimeout(function(){

@@ -4,7 +4,7 @@
 							@endif
                         </div>
 
-                        <table id="categorytable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+                        <table id="categorytable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
@@ -27,24 +27,16 @@
 				    </table>
 
 <script>
-  	@if(isset($from) && $from == 'search')
-  	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
+  $(document).ready(function() {
+    $('#categorytable').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});	
 </script>
 <script type="text/javascript">
      $(document).ready(function(){

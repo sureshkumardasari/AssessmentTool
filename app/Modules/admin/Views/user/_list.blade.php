@@ -1,4 +1,4 @@
-					<table id="userstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table id="userstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Name</th>
@@ -6,7 +6,7 @@
 				                <th>Institution</th>
 				                <th>Role</th>
 				                <th>Status</th>
-				                <th style="width: 60px !important;">Action</th>
+				                <th style="width: 80px !important;">Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
@@ -26,25 +26,17 @@
 				        </tbody>
 				    </table>
 
-<script>
-  	@if(isset($from) && $from == 'search')
-  	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#userstable').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});
 </script>
 <!-- <script>
 	$(document).ready(function(){
