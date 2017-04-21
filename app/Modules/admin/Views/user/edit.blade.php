@@ -62,6 +62,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
+
 			
 			<div class="panel panel-default">
 				<div class="panel-heading">User Information</div>
@@ -90,6 +91,7 @@
 					<div class="col-md-6">
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/user/update') }}">
 						<input type="hidden" name="_token" class="hidden-token" value="{{ csrf_token() }}">
+						<input type="hidden" name="role_name" value="{{$role_name}}"/>
 						<input type="hidden" name="id" value="{{ $user_id }}">
 						<input type="hidden" value="{{ !empty($pic_data['coords'])?$pic_data['coords']:'' }}" name="pic_coords" id="pic_coords">
 						<input type="hidden" value="{{ !empty($pic_data['image'])?$pic_data['image']:'' }}" name="profile_picture" id="profile_picture">

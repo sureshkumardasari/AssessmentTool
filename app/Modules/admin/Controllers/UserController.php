@@ -66,6 +66,8 @@ class UserController extends BaseController
 		$InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
         $roles_arr = $this->user->getRoles();
+        $role_name = $institution_id;
+        //dd($role_name);
 
 
         if($institution_id === "teacher"){
@@ -87,7 +89,7 @@ class UserController extends BaseController
          $query->where("u.role_id", $role_id->id);
         $users = $query->get();
         return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
-            ->nest('usersList', 'admin::user._list', compact('users'));
+            ->nest('usersList', 'admin::user._list', compact('users','role_name'));
         }
         else if($institution_id === "student"){
         $role_id=DB::table('roles')->where('name',"student")->select('id')->first();
@@ -112,7 +114,7 @@ class UserController extends BaseController
         $users = $query->get();
       
         return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
-            ->nest('usersList', 'admin::user._list', compact('users'));
+            ->nest('usersList', 'admin::user._list', compact('users','role_name'));
         }
 
 		//$institution_id = Auth::user()->institution_id;
@@ -129,7 +131,7 @@ class UserController extends BaseController
 
 		//return view('admin::user.list',compact('users'));
 		return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
-			->nest('usersList', 'admin::user._list', compact('users'));
+			->nest('usersList', 'admin::user._list', compact('users','role_name'));
 	}
 
 	public function usersJson($institution_id = 0)
@@ -189,7 +191,7 @@ class UserController extends BaseController
 		$country_arr = $this->user->getcountries();
 		/*$state_arr = $this->user->getstates();
 */        $state_arr = [];
-
+		$role_name = '';
 		$id = $institution_id = $role_id = $country_id = $state = 0;
 		$name = $email = $status = $gender = $enrollno = $password ='';
 		$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
@@ -202,12 +204,12 @@ class UserController extends BaseController
 		}
 		// \Session::flash('flash_message','Information saved successfully.');
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
-			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data','role_name'));
 
 		
 	}
 
-	public function edit($userid = 0)
+	public function edit($userid = 0,$role_name = 0)
 	{
 		/*$post = Input::All();
 		$messages = [
@@ -250,9 +252,10 @@ class UserController extends BaseController
 		if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}*/
-
+        //dd($role_name);
 		$userid = ($userid > 0) ? $userid : Auth::user()->id;
 		$params = Input::All();
+		//dd($role_name);
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
@@ -291,7 +294,7 @@ class UserController extends BaseController
 			$name = $email = $status = $enrollno = $password = $password_confirmation = '';
 			$first_name = $last_name = $address1 = $address2 = $address3 = $city = $phoneno = $pincode = $state = $profile_picture = '';
 		}      
-		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data'));
+		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password','password_confirmation' ,'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data','role_name'));
 		
 	}
 	function state($country_id=0)
@@ -305,6 +308,8 @@ class UserController extends BaseController
 	{
 		$post = Input::All();
 		//dd($post);
+		$role_name = $post['role_name'];
+
 
 		$rules = [
 			'institution_id' => 'required|not_in:0',
@@ -364,6 +369,14 @@ class UserController extends BaseController
                     });}
                     
                    
+			}
+			if($role_name == 'student')
+			{
+              return redirect('/user/users_list/student');
+			}
+			if($role_name == 'teacher')
+			{
+				return redirect('/user/users_list/teacher');
 			}
 			
             if((Auth::user()->role_id == 1) || (Auth::user()->role_id == 3) )
