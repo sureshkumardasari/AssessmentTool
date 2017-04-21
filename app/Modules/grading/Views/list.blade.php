@@ -41,7 +41,7 @@
 
 					<a href="{{ route('gradesBulkImport') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload</a>	
 				</div>
-
+                 <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                 <?php   $sessRole = getRole() ;
                 if($sessRole == 'administrator'){?>
 				<input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">

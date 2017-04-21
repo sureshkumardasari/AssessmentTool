@@ -22,13 +22,16 @@
         
             <li>{{$i++}}. Select  to get Assignment ID in Download template                               
                 <select class="form-control" name="assignment_id" id="gradesimport_assignment_id" style="width:150px">
-                    @if($role != "administrator")
+                 <option value="0">--Select--</option>
+                   <!--  @if($role != "administrator")
                     <option value="0">--Select--</option>
                     @foreach($assignments_arr as $id=>$val)
                     <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
-                    @endif
-                </select><span class="gradesimport_assignment_id" style="font-weight: bolder;"></span>
+                    @endif -->
+
+                </select>
+                <span class="gradesimport_assignment_id" style="font-weight: bolder;"></span>
             </li>
             <?php  if($role =='administrator' ){
                         $param="administrator";
@@ -74,6 +77,7 @@
     $('#gradesimport_institution_id').on("change",function(){
         //console.log('userimport_institution_id ');
         var csrf=$('Input#csrf_token').val();
+        //alert(csrf);
         var thisVal = $('#gradesimport_institution_id').val();
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
          if(thisVal > 0){
