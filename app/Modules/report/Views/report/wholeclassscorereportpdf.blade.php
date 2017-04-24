@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-<table border="0" width="100%">
+<table border="1" width="100%">
     <thead>
     <tr>
         <th>Selected Institution</th>
