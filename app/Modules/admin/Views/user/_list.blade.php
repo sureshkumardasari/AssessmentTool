@@ -1,4 +1,4 @@
-					<table id="userstable" class="table table-striped table-bordered " cellspacing="0" width="100%">
+					<table id="userstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 
 				        <thead>
 				            <tr>
@@ -29,7 +29,7 @@
 				        </tbody>
 				    </table>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 	$(document).ready(function() {
     $('#userstable').DataTable({
 	aoColumnDefs: [
@@ -40,7 +40,7 @@
 ]
  });
 });
-</script>
+</script>-->
 <!-- <script>
 	$(document).ready(function(){
 		var loadurl = "{{ url('/user') }}/" ;

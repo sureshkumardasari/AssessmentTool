@@ -111,7 +111,12 @@
     						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
 							@endif
 	</div>	
-					<table id="example" class="table table-striped table-bordered " cellspacing="0" width="100%">
+	<div>
+		@if(Session::has('flash_message_failed'))
+			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
+		@endif
+	</div>
+					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
@@ -128,10 +133,10 @@
 				                 <td>{{ $value['question_title'] }}</td>
 				                 <td>{{ $value['question_type'] }}</td>
 								 <td>{{ $value['passage_title'] }}</td>
-				                <td>
+				                 <td>
 									<a href="{{ url('/resources/questionview/'.$value['qid']) }}"  class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-				                	<a href="{{ url('/resources/questionedit/'.$value['qid']) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-									<a href="javascript:;" data-ref="{{ url('/resources/questiondel/'.$value['qid']) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+				                	<a href="{{ url('/resources/questionedit/'.$value['qid']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+									<a href="javascript:;" data-ref="{{ url('/resources/questiondel/'.$value['qid']) }}" class="btn btn-default btn-sm confirm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
 				            @endforeach
@@ -143,7 +148,7 @@
 		</div>
 	</div>
 </div>
-<script>
+<!--  <script>
   	$(document).ready(function() {
     $('#example').DataTable({
 	aoColumnDefs: [
@@ -154,7 +159,7 @@
 ]
  });
 });	
-</script>
+</script> -->
 <script type="text/javascript">
      $(document).ready(function(){
      setTimeout(function(){
