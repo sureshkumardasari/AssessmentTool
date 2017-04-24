@@ -76,7 +76,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Question Type</label>
 							<div class="col-md-10">
 								<select class="form-control" name="question_type" id="question_type" >
@@ -103,13 +103,13 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Question Title</label>
 							<div class="col-md-10">
   								<input type="text" class="form-control" name="question_title" id="question_title" value="{{ $questions[0]['title']}}">
  							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group required">
 							<label class="col-md-2 control-label">Question Text</label>
 							<div class="col-md-10">
 								@foreach($questions as $questions_text)
