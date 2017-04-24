@@ -14,7 +14,7 @@
                 </select><span class="subjectimport_institution_id" style="font-weight: bolder;"></span>
             </li>
             <li>2. Select Category to get Category ID in Download template</br>
-                <select class="form-contro2" name="category_id" id="subjectimport_category_id" style="width:150px">
+                <select class="form-control" name="category_id" id="subjectimport_category_id" style="width:150px">
                     <option value="0">--Select Category--</option>
                     {{--@foreach($cate_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
