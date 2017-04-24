@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-<table border="1" width="100%">
+<table border-collapse: collapse; width="100%">
     <thead>
     <tr>
         <th>Selected Institution</th>
@@ -57,7 +57,7 @@
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
     <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p>
 
-    <table class="table table-bordered table-hover table-striped" id="wholescore">
+    <table class="table table-bordered table-hover table-striped" id="wholescore" border-collapse: collapse;>
         <caption><center><b>Lessons</b></center></caption>
         <thead>
         <th>Student Name</th>
