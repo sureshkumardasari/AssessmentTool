@@ -1,9 +1,19 @@
 <html>
 <h3 align="center">Whole Class Score Report</h3>
 <head>
+<style>
+    table{
+        border-collapse: collapse;
+    }
+
+    table, th , td{
+        border: 1px solid black;
+    }
+
+</style>
 </head>
 <body>
-<table border-collapse: collapse; width="100%">
+<table  width="100%">
     <thead>
     <tr>
         <th>Selected Institution</th>
@@ -57,7 +67,7 @@
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
     <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p>
 
-    <table class="table table-bordered table-hover table-striped" id="wholescore" border-collapse: collapse;>
+    <table class="table table-bordered table-hover table-striped" id="wholescore">
         <caption><center><b>Lessons</b></center></caption>
         <thead>
         <th>Student Name</th>
