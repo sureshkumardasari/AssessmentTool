@@ -286,10 +286,9 @@
         ?>
     
         <script type="text/javascript">
-        $(".btn_save_and_close").on("click", function(event){
-          event.stopPropagation();
-          // alert("this should only appear once");
-         });
+        $(".btn_save_and_close").unbind().click(function() {
+    //Stuff
+})
             $(document).on('click', '.cross_icon', function (e) {
                 e.preventDefault();
                 $.fancybox.close();
