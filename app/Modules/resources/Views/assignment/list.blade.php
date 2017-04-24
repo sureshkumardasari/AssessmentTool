@@ -23,7 +23,7 @@
 								<th>StartDate Time</th>
 								<th>EndDate Time</th>
 								<th>Status</th>
-				                <th>Action</th>
+				                <th style="width: 113px;">Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
