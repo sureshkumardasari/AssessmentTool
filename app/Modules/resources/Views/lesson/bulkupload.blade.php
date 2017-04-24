@@ -1,20 +1,20 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bulk Import Lesson
+    <div class="panel-heading">Bulk Import Lessons
     </div>
     <div class="panel-body">
         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
         <ul>
             <li>1. Select Institution to get Institution ID in Download template
                 <select class="form-control" name="institution_id" id="lessonimport_institution_id" style="width:150px" onchange="change_institution()">
-                    <option value="0">--Select--</option>
+                    <option value="0">--Select Institution--</option>
                     @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
                 </select><span class="lessonimport_institution_id" style="font-weight: bolder;"></span>
             </li>
             <li>2. Select Category to get Category ID in Download template</br>
-                <select class="form-contro2" name="category_id" id="lessonimport_category_id" style="width:150px" onchange="change_category()">
-                    <option value="0">--Select--</option>
+                <select class="form-control" name="category_id" id="lessonimport_category_id" style="width:150px" onchange="change_category()">
+                    <option value="0">--Select Category--</option>
                     {{--@foreach($cate_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach--}}
@@ -22,7 +22,7 @@
             </li>
             <li>3. Select subject to get subject ID in Download template
                 <select class="form-control" name="subject_id" id="lessonimport_subject_id" style="width:150px" >
-                    <option value="0">--Select--</option>
+                    <option value="0">--Select Subject--</option>
                     {{--@foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach--}}
@@ -71,6 +71,8 @@
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
         if(thisVal > 0){
         $(".lessonimport_institution_id").html(msg);
+        $(".lessonimport_category_id").html("");
+                $(".lessonimport_subject_id").html("");
         }
         else{
              $(".lessonimport_institution_id").html("");
@@ -135,6 +137,7 @@
         var msg = (thisVal > 0) ? 'category Id is <u>"' +thisVal+ '</u>"' : "";
         if(thisVal > 0){
         $(".lessonimport_category_id").html(msg);
+         $(".lessonimport_subject_id").html("");
         }
         else{
             $(".lessonimport_category_id").html("");

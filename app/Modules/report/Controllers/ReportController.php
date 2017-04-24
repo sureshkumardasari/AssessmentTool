@@ -1569,7 +1569,7 @@ class ReportController extends Controller
 //
                     }
                 }
-                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub','less','type', 'lessons', 'assignment','assessment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'))->render();
+                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub1','less','type', 'lessons', 'assignment','assessment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'))->render();
                 $fileName = 'wholeclassscorereportpdf';
                 /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
                 $name=explode('/',$fileFullUrl);

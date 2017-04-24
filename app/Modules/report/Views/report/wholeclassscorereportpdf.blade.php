@@ -1,9 +1,19 @@
 <html>
 <h3 align="center">Whole Class Score Report</h3>
 <head>
+<style>
+    table{
+        border-collapse: collapse;
+    }
+
+    table, th , td{
+        border: 1px solid black;
+    }
+
+</style>
 </head>
 <body>
-<table border="0" width="100%">
+<table  width="100%">
     <thead>
     <tr>
         <th>Selected Institution</th>

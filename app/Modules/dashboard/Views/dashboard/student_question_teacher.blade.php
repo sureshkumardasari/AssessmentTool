@@ -43,7 +43,7 @@
                         <tbody id="question_list_filer">
                             @foreach( $slist as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/user/edit/'.$value['id']) }}">{{ $value['name'] }}</a></td>
+                                <td><a href="{{ url('/user/edit/'.$value['id'].'/'.$stud) }}">{{ $value['name'] }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -69,7 +69,7 @@
                         <tbody id="question_list_filer">
                             @foreach( $tlist as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/user/edit/'.$value['uid']) }}">{{ $value['uname'] }}</a></td>
+                                <td><a href="{{ url('/user/edit/'.$value['uid'].'/'.$tech) }}">{{ $value['uname'] }}</a></td>
                                  
                             </tr>
                             @endforeach

@@ -11,7 +11,7 @@
         @if($role =="administrator" || $role =="teacher")
          <li>{{$i++}}. Select Institution to get Institution ID's in Download Template                               
                 <select class="form-control" name="institution_id" id="gradesimport_institution_id" style="width:150px">
-                    <option value="0">--Select--</option>
+                    <option value="0">--Select Institution--</option>
                     @foreach($institution_arr as $id=>$val)
                     <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach
@@ -22,7 +22,7 @@
         
             <li>{{$i++}}. Select  to get Assignment ID in Download template                               
                 <select class="form-control" name="assignment_id" id="gradesimport_assignment_id" style="width:150px">
-                 <option value="0">--Select--</option>
+                 <option value="0">--Select Assignment--</option>
                    <!--  @if($role != "administrator")
                     <option value="0">--Select--</option>
                     @foreach($assignments_arr as $id=>$val)
@@ -81,7 +81,8 @@
         var thisVal = $('#gradesimport_institution_id').val();
         var msg = (thisVal > 0) ? 'Institution Id is <u>"' +thisVal+ '</u>"' : "";
          if(thisVal > 0){
-        $(".gradesimport_institution_id").html(msg); 
+        $(".gradesimport_institution_id").html(msg);
+        $(".gradesimport_assignment_id").html("");   
         }
         else{
              $(".gradesimport_institution_id").html(""); 
@@ -97,7 +98,7 @@
             type:"post",
             success:function(response){
                 $('#gradesimport_assignment_id').empty();
-                var option = new Option('--Please Select--',0);
+                var option = new Option('--Select Assignment--',0);
                 $('#gradesimport_assignment_id').append(option);
                 $.each(response,function(index,val){
                     var option= new Option(val['name'],val['id']);
