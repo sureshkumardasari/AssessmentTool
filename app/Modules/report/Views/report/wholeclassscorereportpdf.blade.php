@@ -2,18 +2,15 @@
 <h3 align="center">Whole Class Score Report</h3>
 <head>
 <style>
-    table{
-        border-collapse: collapse;
-    }
-
-    table, th , td{
-        border: 1px solid black;
-    }
-
-</style>
+        table, th, td {
+            border: 0px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<table  width="100%">
+<table border="0" width="100%">
     <thead>
     <tr>
         <th>Selected Institution</th>
