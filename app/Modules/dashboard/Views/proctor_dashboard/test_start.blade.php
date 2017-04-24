@@ -161,13 +161,13 @@
                                 "paging": false,
                           "scrollY": 300
                             });
-                            $('<caption style="color:red"/>').html("<center><b>Students Not Started</b></center>").prependTo('#student_table');
+                            $('').html("<center></center>");
                             $('#student_selected_table').DataTable({
                                 "dom": '<"top">rt<"bottom"i><"clear">',
                                 "paging": false,
                                 "scrollY": 300
                             });
-                            $('<caption style="color:red"/>').html("<center><b>Students Started</b></center>").prependTo('#student_selected_table');
+                            $('').html("<center></center>");
                             hide_or_show_buttons();
                         }
                         else if(response == "no"){
@@ -245,8 +245,7 @@
                                 "paging": false,
                                 "scrollY": 300
                             });
-                            $('<caption style="color:red"/>').html("<center><b>students started</b></center>").prependTo('#student_selected_table');
-                            hide_or_show_buttons();
+                            $('').html("");
                         }
 //                        else if (response == "Assignment Completed") {
 //                            alert("Assignment Completed");
