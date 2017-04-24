@@ -49,7 +49,7 @@ $('.uploadBtn').off("click").on("click",function(){
     institutionId = $("#subjectimport_institution_id").val();
     subjectType = 'subjectType';
     if(institutionId == 0){
-        $('.error-log').html("<p class='error'>Please select an institution</p>");
+        $('.error-log').html("<p class='error'>Please select all the fields</p>");
         return;
     }
     if($('.subject-file').val() == ''){

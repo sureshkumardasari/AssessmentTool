@@ -20,38 +20,38 @@
 				<div class="panel-body">	
 					<div class="row">					
 						<div>
-							<label class="col-md-3 control-label">Assignment Name </label>
+							<label class="col-md-3 control-label">Assignment Name :</label>
 							<div class="col-md-3 control-label">{{ $assignment->name }}</div>
 						</div>
 						<div>
-							<label class="col-md-3 control-label">Assessment Name </label>
+							<label class="col-md-3 control-label">Assessment Name :</label>
 							<div class="col-md-3 control-label">{{ $assignment->assessment_name }}</div>
 						</div>						
 					</div>
 
 					<div class="row">					
 						<div>
-							<label class="col-md-3 control-label">Description </label>
+							<label class="col-md-3 control-label">Description :</label>
 							<div class="col-md-3 control-label">{{ $assignment->description }}</div>
 						</div>
 						<div>
-							<label class="col-md-3 control-label">Institution  </label>
+							<label class="col-md-3 control-label">Institution :</label>
 							<div class="col-md-3 control-label">{{ $assignment->institution_name }}</div>
 						</div>						
 					</div>
 					<div class="row">
 						<div>
-							<label class="col-md-3 control-label">Start Date Time  </label>
+							<label class="col-md-3 control-label">Start Date Time :</label>
 							<div class="col-md-3 control-label">{{ ($assignment->startdatetime) ? date($dtFormat, strtotime($assignment->startdatetime)) : ''}}</div>
 						</div>
 						@if(($assignment->neverexpires == 1 ))	
 						<div>
-							<label class="col-md-3 control-label">End Date Time </label>
+							<label class="col-md-3 control-label">End Date Time :</label>
 							<div class="col-md-3 control-label">Never Expires</div>
 						</div>
 						@else				
 						<div>
-							<label class="col-md-3 control-label">End Date Time </label>
+							<label class="col-md-3 control-label">End Date Time :</label>
 							<div class="col-md-3 control-label">{{ ($assignment->enddatetime) ? date($dtFormat, strtotime($assignment->enddatetime)) : ''}}</div>
 						</div>
 						@endif
@@ -59,22 +59,22 @@
 
 					<div class="row">					
 						<div>
-							<label class="col-md-3 control-label">Launch Type </label>
+							<label class="col-md-3 control-label">Launch Type :</label>
 							<div class="col-md-3 control-label">{{ $assignment->launchtype }}</div>
 						</div>						
 						<div>
-							<label class="col-md-3 control-label">Delivery Method  </label>
+							<label class="col-md-3 control-label">Delivery Method :</label>
 							<div class="col-md-3 control-label">{{ $assignment->delivery_method }}</div>
 						</div>
 					</div>
 					@if($assignment->launchtype == 'proctor')
 					<div class="row">
 						<div>
-							<label class="col-md-3 control-label">Proctor </label>
+							<label class="col-md-3 control-label">Proctor :</label>
 							<div class="col-md-3 control-label">{{ $assignment->proctor_name }}</div>
 						</div>					
 						<div>
-							<label class="col-md-3 control-label">Proctor Instructions </label>
+							<label class="col-md-3 control-label">Proctor Instructions :</label>
 							<div class="col-md-3 control-label">{{ $assignment->proctor_instructions }}</div>
 						</div>						
 					</div>
@@ -82,7 +82,7 @@
 					
 					<div class="row">					
 						<div>
-							<label class="col-md-3 control-label">Selected Students:</label>							
+							<label class="col-md-3 control-label">Selected Students :</label>							
 						</div>						
 					</div>
 					<div class="row" style="width: 95%; margin-left: 10px;">						

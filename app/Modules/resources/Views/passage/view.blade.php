@@ -15,7 +15,7 @@
                             <div class="row panel-body">
                                 <label class="col-md-3 control-label"><b>Passage Title:</b></label>
 
-                                <div class="col-md-3 control-label">{{ strip_tags(htmlspecialchars_decode($passage->title)) }}</div>
+                                <div class="col-md-9 control-label">{{ strip_tags(htmlspecialchars_decode($passage->title)) }}</div>
 
                             </div>
                             <div class="row panel-body">
@@ -33,7 +33,7 @@
                                  <div class="row panel-body">
                                      <div>
                                          <label class="col-md-3 control-label"><b>Passage Status:</b></label>
-                                         <div  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->status)? "Active" : "InActive") }}</div>
+                                         <div class="col-md-9"  style="word-break: break-all">{{ strip_tags(htmlspecialchars_decode($passage->status)? "Active" : "InActive") }}</div>
                                      </div>
                                 </div>
                         @endforeach

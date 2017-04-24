@@ -62,7 +62,7 @@
 								@endforeach
 							@endif
 				            <div>
-				                	<div class="form-group col-md-offset-2">
+				                	<div class="form-group">
 				                	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Edit</button>
 				                	</div>
 
