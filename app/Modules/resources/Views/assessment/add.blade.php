@@ -32,7 +32,7 @@
 					
 
 					<div class="form-group required">
-						<label class="col-md-4 control-label">Name</label>
+						<label class="col-md-4 control-label">Title</label>
 						<div class="col-md-6">
 							<input type="text" class="form-control" name="name" value="{{old('name')}}">
 							<?php
@@ -71,8 +71,8 @@
 							<input type="number" name="total_time" id="total_time"  min="0"><span><p style="color:blue">(in minutes)</p></span>
 						</div>
 					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label" id="never_expires">Never Expires</label>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Never Expires</label>
 						<div class="col-md-6">
 							<input type="checkbox" name="never_expires" id="never_expires">
 						</div>
@@ -81,8 +81,8 @@
 					<div class="col-md-12">
 						@include('resources::assessment.partial.questions')
                     </div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label1" >Guessing_Penalty:</label>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Guessing_Penality</label>
 						<div class="col-md-6">
 							<select class="form-control" name="guessing_penality" id="guessing_penality">
 								<option value="1">0</option>
@@ -90,14 +90,14 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label1"  >MC SingleAnswerPoint:</label>
+					<div class="form-group">
+						<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
 						<div class="col-md-6">
 							<textarea class="form-control numeric" name="mcsingleanswerpoint">{{old('mcsingleanswerpoint')}}</textarea>
 						</div>
 					</div>
-					<div class="form-group required">
-						<label class="col-md-4 control-label1"  > Essay AnswerPoint:</label>
+					<div class="form-group">
+						<label class="col-md-4 control-label"> Essay AnswerPoint</label>
 						<div class="col-md-6">
 							<textarea class="form-control numeric" name="essayanswerpoint">{{old('essayanswerpoint')}}</textarea>
 						</div>
@@ -111,7 +111,7 @@
 						<button id="submit" type="submit" class="btn btn-primary">
 							Submit
 						</button>
-							<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/assessment/') }}">Cancel</a>
+						<a type="Cancel"  class="btn btn-danger"  href="{{  url('/resources/assessment/') }}">Cancel</a>
 					</div>
 				</div>
 			</form>
@@ -120,14 +120,6 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-     $(document).ready(function(){
-     setTimeout(function(){
-         var csrf=$('Input#csrf_token').val();
-         $('#flash').fadeOut();
-     }, 5000);
- })
- </script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
 $( document ).ready(function() {
@@ -139,7 +131,8 @@ $( document ).ready(function() {
     });
 	$('#never_expires').on("click",function(){
 		if($(this).is(':checked')){
-			$('#total_time').val('');
+			$('#total_time').removeAttr('value');
+            $('#total_time').val('');
 			$('#total_time').prop('disabled',true);
 		}
 		else{

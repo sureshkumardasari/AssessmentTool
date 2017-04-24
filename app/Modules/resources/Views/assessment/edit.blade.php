@@ -13,7 +13,7 @@
 			<div class="col-md-10 col-md-offset-1">
 
 				<div class="panel panel-default">
-					<div class="panel-heading">Modify Assessment
+					<div class="panel-heading">Edit Assessment
 						<a href="{{ url('/resources/assessment/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> BACK</a>
 					</div>
 					<div class="panel-body">
@@ -71,8 +71,8 @@
 							<input type="number" name="total_time" id="total_time"  min="0" value="{{$assessment_details['totaltime']}}" @if($assessment_details['unlimitedtime']==1)disabled @endif><span><p style="color:blue">(in minutes)</p></span>
 						</div>
 					</div>
-					<div class="form-group required">
-                        <label class="col-md-4 control-label" id="never_expires">Never Expires</label>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Never Expires</label>
 						<div class="col-md-6">
 
 							<input type="checkbox" name="never_expires" id="never_expires"  @if($assessment_details['unlimitedtime']==1)checked @endif >
@@ -84,8 +84,8 @@
 							<div class="col-md-12">
 								@include('resources::assessment.partial.questions_edit')
 							</div>
-							<div class="form-group ">
-								<label class="col-md-4 control-label">Guessing_Penalty</label>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Guessing_Penality</label>
 								<div class="col-md-6">
 									<select class="form-control" name="guessing_penality" id="guessing_penality"  value="">{{$assessment_details['guessing_panality']}}
 										<option value="1">0</option>
@@ -93,13 +93,13 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group ">
+							<div class="form-group">
 								<label class="col-md-4 control-label">MC SingleAnswerPoint</label>
 								<div class="col-md-6">
 									<textarea class="form-control numeric" name="mcsingleanswerpoint"  value="">{{$assessment_details['mcsingleanswerpoint']}}</textarea>
 								</div>
 							</div>
-							<div class="form-group ">
+							<div class="form-group">
 								<label class="col-md-4 control-label"> Essay AnswerPoint</label>
 								<div class="col-md-6">
 									<textarea class="form-control numeric" name="essayanswerpoint"  value="">{{$assessment_details['essayanswerpoint']}}</textarea>
@@ -121,14 +121,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-     $(document).ready(function(){
-     setTimeout(function(){
-         var csrf=$('Input#csrf_token').val();
-         $('#flash').fadeOut();
-     }, 5000);
- })
- </script>
 
 	{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
@@ -141,11 +133,14 @@ $( document ).ready(function() {
     });
 	$('#never_expires').on("click",function(){
 		if($(this).is(':checked')){
-			$('#total_time').val('');
+			$('#total_time').removeAttr('value');
+ 		    $('#total_time').val('');
 			$('#total_time').prop('disabled',true);
+			$(this).val(1);
 		}
 		else{
 			$('#total_time').prop('disabled',false);
+			$(this).val(0);
 		}
 
 	});
