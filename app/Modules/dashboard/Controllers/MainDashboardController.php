@@ -204,13 +204,15 @@ class MainDashboardController extends BaseController
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students->get();
+	     $stud='student';
+	     $tech='teacher';
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	   //dd($students);
 	      // dd($assignments_user);
 	     	  }
         
-	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
+	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
 	       
     }public function getStudentDetails(){
     	
@@ -404,9 +406,12 @@ class MainDashboardController extends BaseController
 	  // dd($subject);
 	     //dd($sun);
 	     	  }
+	     	   $stud='student';
+	     $tech='teacher';
+	     	  
         //close
 	     	  // dd($class_students);
-	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students'));
+	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
 	  }     
     
 else
