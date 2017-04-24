@@ -90,7 +90,7 @@
                         "caption": "Your Performance Graph",
                         "subCaption": "",
                         "xAxisName": "Assignment",
-                        "yAxisName": "Precentage Gained",
+                        "yAxisName": "percentage Gained",
                         "showValues": "0",
                         "numberPrefix": "",
                         "numberSuffix": "%",
