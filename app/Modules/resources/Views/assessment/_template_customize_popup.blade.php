@@ -284,11 +284,15 @@
         <?php
         $path = url()."/resources/";
         ?>
-    
+    <script type="text/javascript">
+    $(function(){
+        $('#btn_save_and_close').click(function() {
+            $(this).hide();
+            alert("please wait...")
+        });
+    });
+</script>
         <script type="text/javascript">
-        $(".btn_save_and_close").unbind().click(function() {
-    //Stuff
-})
             $(document).on('click', '.cross_icon', function (e) {
                 e.preventDefault();
                 $.fancybox.close();
