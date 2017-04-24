@@ -608,9 +608,10 @@ public function questionedit($id = 0)
 	public function passageList($id){
 		$id=explode(',',$id);
 		//dd($id);
-		$passage=DB::table('passage')->whereIn('lesson_id',$id)
+		$passage=DB::table('passage')->whereIn('lesson_id',$id)->where('status', '=', 1)
 				->select('id','title')
 				->get();
+				//dd($passage);
 		return $passage;
 	}
 	public function questiontype($idd){
