@@ -117,7 +117,13 @@
 								@endforeach
 							</div>
 						</div>
-
+                        <div class="form-group required">
+                        <label class="col-md-2 control-label">Status</label>
+                         <div class="col-md-6">
+                            <input type="radio" class="" name="status" id="status_yes" value="1" checked="checked"> Active
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0"> Inactive
+                         </div>
+                         </div>
 						<div class="form-group">
 						<p class="mb18 mr0">
 			            	<label class="mr20 mt8 w200"></label>

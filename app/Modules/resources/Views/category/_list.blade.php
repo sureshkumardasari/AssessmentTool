@@ -1,15 +1,15 @@
                         <div>
-                            @if(Session::has('flash_message'))
-                                <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-                            @endif
-                        </div>
-                        <div>
+					@if (Session::has('flash_message'))
+    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
+							@endif
+				</div>
+                        <!-- <div>
                             @if(Session::has('flash_message_failed'))
                                 <div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
                             @endif
-                        </div>
+                        </div> -->
 
-                        <table id="categorytable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+                       <table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
@@ -32,25 +32,18 @@
 				            @endforeach				            
 				        </tbody>
 				    </table>
-
-<script>
-  	@if(isset($from) && $from == 'search')
-  	$(document).ready(function() {
-	    $('.datatableclass').DataTable({
-	    	language: {
-		        paginate: {
-		            previous: '‹',
-		            next:     '›'
-		        },
-		        aria: {
-		            paginate: {
-		                previous: 'Previous',
-		                next:     'Next'
-		            }
-		        }
-		    }
-	    });
-	});
-	@endif
-</script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
+				    
+ <script>
+  	$(document).ready(function() {
+    $('#example').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});	
+</script>
+

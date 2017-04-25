@@ -15,16 +15,12 @@
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
 					<a href="{{ url('/resources/assessmentcreate/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Assessment</a>
 				</div>
-            <div>
-		@if(Session::has('flash_message'))
-			<div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! Session('flash_message') !!}</em></div>
-		@endif
-  </div>
-	<div>
-		@if(Session::has('flash_message_failed'))
-			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-		@endif
-	</div>
+           <div>
+					@if (Session::has('flash_message'))
+    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
+							@endif
+				</div>
+				
 				<div class="panel-body">
 					{{--<div class="form-group">--}}
 						{{--<label class="col-md-4 control-label">Institution</label>--}}
@@ -70,7 +66,7 @@
 						{{--</div>--}}
 					{{--</div>--}}
 					{{--<div class="clearfix"> </div>--}}
-					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Name</th>
@@ -106,15 +102,19 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-     $(document).ready(function(){
-     setTimeout(function(){
-         var csrf=$('Input#csrf_token').val();
-         $('#flash').fadeOut();
-     }, 1000);
- })
- </script>
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
+ <script>
+  	$(document).ready(function() {
+    $('#example').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1 ]
+  }
+]
+ });
+});	
+</script>
 <?php
 if (count($errors) > 0){?>
 <script>

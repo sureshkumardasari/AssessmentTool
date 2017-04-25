@@ -106,17 +106,12 @@
 				</div>	
 					<div class="clearfix"></div>
 					
-	<div>
-		@if (Session::has('flash_message'))
+	                 <div>
+					@if (Session::has('flash_message'))
     						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
 							@endif
-	</div>	
-	<div>
-		@if(Session::has('flash_message_failed'))
-			<div class="alert alert-danger"><span class="glyphicon glyphicon-remove"></span><em> {!! Session('flash_message_failed') !!}</em></div>
-		@endif
-	</div>
-					<table id="example" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+				</div>
+				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
@@ -148,7 +143,8 @@
 		</div>
 	</div>
 </div>
-<!--  <script>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+ <script>
   	$(document).ready(function() {
     $('#example').DataTable({
 	aoColumnDefs: [
@@ -159,7 +155,7 @@
 ]
  });
 });	
-</script> -->
+</script>
 <script type="text/javascript">
      $(document).ready(function(){
      setTimeout(function(){
@@ -168,7 +164,6 @@
      }, 1000);
  })
  </script>
-{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <?php
 $path = url()."/resources/";
 ?>

@@ -49,6 +49,7 @@
 		</div>
 	</div>
 </div>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
   	$(document).ready(function() {
     $('#passagestable').DataTable({
@@ -69,5 +70,4 @@
      }, 1000);
  })
  </script>
-{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 @endsection
