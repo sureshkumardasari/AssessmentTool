@@ -39,6 +39,16 @@
                                 <label class="col-md-2 control-label" align="right">Passage Title:  </label>
                                 <div class="col-md-2 control-label" style="word-break: break-all">{{ $question->psg_title }}</div>
                             </div>
+                            <div class="row">
+                                <label class="col-md-2 control-label" align="right">Status:  </label>
+                                @if($question->status == 1)
+                                <div class="col-md-2 control-label" style="word-break: break-all">Active</div>
+                                @else
+                                <div class="col-md-2 control-label" style="word-break: break-all">Inactive</div>
+                                @endif
+
+                            </div>
+
 
                         <div class="answers mt20 col-md-12">
                             <div class="row">

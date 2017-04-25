@@ -247,6 +247,7 @@ public function questionedit($id = 0)
 			$subject_id = $obj->subject_id;
 			$category_id = $obj->category_id;
 			$name = $obj->name;
+			$status = $obj->status;
 		}
 		else
 		{
@@ -270,7 +271,7 @@ public function questionedit($id = 0)
 		//dd($answersLisitng);
         // \Session::flash('flash_message','Information saved successfully.');
 
-		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type','title'));
+		return view('resources::question.question_edit',compact('id','institution_id','name','inst_arr', 'subjects','subject_id','category','passage','category_id','questions', 'lessons', 'qtypes', 'oldAnswers','answersLisitng','question_type','title','status'));
 	}
 
 
@@ -468,6 +469,7 @@ public function questionedit($id = 0)
 				$obj->lesson_id = $params['lessons_id'];
 				$obj->passage_id = isset($params['passage'])?$params['passage']:0;
 				$obj->institute_id = $params['institution_id'];
+				$obj->status = $params['status'];
 				if($obj->save());{
 					$explanation = $params['explanation'];
 					$is_correct = $params['is_correct'];

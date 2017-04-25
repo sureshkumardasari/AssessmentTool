@@ -120,8 +120,14 @@
                         <div class="form-group required">
                         <label class="col-md-2 control-label">Status</label>
                          <div class="col-md-6">
+                        @if($status == 1)
                             <input type="radio" class="" name="status" id="status_yes" value="1" checked="checked"> Active
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0"> Inactive
+                        @else
+                         <input type="radio" class="" name="status" id="status_yes" value="1" > Active
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="" name="status" id="status_no" value="0" checked="checked"> Inactive
+                        @endif
+
                          </div>
                          </div>
 						<div class="form-group">

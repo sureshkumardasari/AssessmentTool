@@ -88,6 +88,7 @@ class Question extends Model {
 	}
 	public function getDetails($id=0){
 
+
         $question=DB::table('questions')
             ->join('category', 'category.id', '=', 'questions.category_id')
             ->join('subject', 'subject.id', '=', 'questions.subject_id')
@@ -98,7 +99,7 @@ class Question extends Model {
             ->leftjoin('passage','passage.id','=','questions.passage_id')
             ->where('questions.id', $id)
 			//->where('question_answers.is_correct','like','yes')
-            ->select('questions.id as id','question_answers.ans_text','lesson.name as lesson_name','questions.title as qstn_title','questions.qst_text','category.name as category_name','subject.name as subject_name','institution.name as inst_name','question_type.qst_type_text','passage.title as psg_title')
+            ->select('questions.id as id','questions.status as status','question_answers.ans_text','lesson.name as lesson_name','questions.title as qstn_title','questions.qst_text','category.name as category_name','subject.name as subject_name','institution.name as inst_name','question_type.qst_type_text','passage.title as psg_title')
             ->first();
 		//dd($question);
         return $question;

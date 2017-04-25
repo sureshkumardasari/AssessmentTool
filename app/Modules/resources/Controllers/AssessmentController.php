@@ -852,10 +852,13 @@ class AssessmentController extends BaseController {
 
 			//if ($post['question_type'] > 0) {
 				$obj->where("question_type.id", (int)$post['question_type']);
+				$obj->where("questions.status", '=','1');
+
 			//}
 			$list['questions'] = $obj->select('questions.id as qid', 'questions.title as question_title','questions.subject_id as sub_id','questions.lesson_id as less_id', 'passage.id as pid', 'passage.title as passage_title', 'question_type.qst_type_text as question_type')
 				->orderby('qid')
 				->get();
+
 		}
 		//dd($list);
 		//$question_list = $this->question->getQuestionFilter($institution);
