@@ -64,6 +64,7 @@
 				 <table id="grade_table" class="table table-striped table-bordered " cellspacing="0" width="100%">
 
 
+
 				        <thead>
 				            <tr>
 				                <th>Assessment Name</th>
@@ -128,22 +129,17 @@
 	<script>
 	$(document).ready(function() {
     $('#grade_table').DataTable({
-	aoColumnDefs: [
-  {
-     bSortable: false,
-     aTargets: [ -1 ],
-  }
-]
+	
  });
 });
-	$('#grade_table').dataTable({
+	/*$('#grade_table').dataTable({
     "bPaginate": false,
     "bLengthChange": false,
     "bFilter": true,
     "bInfo": true,
     order: [],
 	columnDefs: [ { orderable: false, targets: [0] } ],
-    "bAutoWidth": false });
+    "bAutoWidth": false });*/
 
 		function getAssignmentsforgrading(){
 			var csrf=$('Input#csrf_token').val();
