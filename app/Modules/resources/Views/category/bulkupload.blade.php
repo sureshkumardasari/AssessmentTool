@@ -4,8 +4,8 @@
     <div class="panel-body">
         <ul>
             <li>1. Select Institution to get Institution ID in Download templace
-                <select class="form-control" name="institution_id" id="categoryimport_institution_id" style="width:150px">
-                    <option value="0">--Select--</option>
+                <select class="form-control" name="institution_id" id="categoryimport_institution_id" style="width:170px">
+                    <option value="0">--Select Institution--</option>
                     @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
                     @endforeach

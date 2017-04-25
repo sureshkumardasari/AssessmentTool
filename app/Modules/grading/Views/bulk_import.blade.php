@@ -10,7 +10,7 @@
         ?>
         @if($role =="administrator" || $role =="teacher")
          <li>{{$i++}}. Select Institution to get Institution ID's in Download Template                               
-                <select class="form-control" name="institution_id" id="gradesimport_institution_id" style="width:150px">
+                <select class="form-control" name="institution_id" id="gradesimport_institution_id" style="width:170px">
                     <option value="0">--Select Institution--</option>
                     @foreach($institution_arr as $id=>$val)
                     <option value="{{ $id }}">{{ $val }}</option>
@@ -21,7 +21,7 @@
    
         
             <li>{{$i++}}. Select  to get Assignment ID in Download template                               
-                <select class="form-control" name="assignment_id" id="gradesimport_assignment_id" style="width:150px">
+                <select class="form-control" name="assignment_id" id="gradesimport_assignment_id" style="width:170px">
                  <option value="0">--Select Assignment--</option>
                    <!--  @if($role != "administrator")
                     <option value="0">--Select--</option>

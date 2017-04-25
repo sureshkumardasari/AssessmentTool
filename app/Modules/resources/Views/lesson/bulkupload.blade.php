@@ -5,7 +5,7 @@
         <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
         <ul>
             <li>1. Select Institution to get Institution ID in Download template
-                <select class="form-control" name="institution_id" id="lessonimport_institution_id" style="width:150px" onchange="change_institution()">
+                <select class="form-control" name="institution_id" id="lessonimport_institution_id" style="width:170px" onchange="change_institution()">
                     <option value="0">--Select Institution--</option>
                     @foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
@@ -13,7 +13,7 @@
                 </select><span class="lessonimport_institution_id" style="font-weight: bolder;"></span>
             </li>
             <li>2. Select Category to get Category ID in Download template</br>
-                <select class="form-control" name="category_id" id="lessonimport_category_id" style="width:150px" onchange="change_category()">
+                <select class="form-control" name="category_id" id="lessonimport_category_id" style="width:170px" onchange="change_category()">
                     <option value="0">--Select Category--</option>
                     {{--@foreach($cate_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
@@ -21,7 +21,7 @@
                 </select><span class="lessonimport_category_id" style="font-weight: bolder;"></span>
             </li>
             <li>3. Select subject to get subject ID in Download template
-                <select class="form-control" name="subject_id" id="lessonimport_subject_id" style="width:150px" >
+                <select class="form-control" name="subject_id" id="lessonimport_subject_id" style="width:170px" >
                     <option value="0">--Select Subject--</option>
                     {{--@foreach($inst_arr as $id=>$val)
                         <option value="{{ $id }}">{{ $val }}</option>
