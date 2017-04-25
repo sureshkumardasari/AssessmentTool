@@ -189,8 +189,8 @@ class UserController extends BaseController
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 		$country_arr = $this->user->getcountries();
-		/*$state_arr = $this->user->getstates();
-*/        $state_arr = [];
+		$state_arr = $this->user->getstates();
+      //$state_arr = [];
 		$role_name = '';
 		$id = $institution_id = $role_id = $country_id = $state = 0;
 		$name = $email = $status = $gender = $enrollno = $password ='';
@@ -202,6 +202,7 @@ class UserController extends BaseController
 		 else{
 			return view('permission');
 		}
+		//dd($state_arr);
 		// \Session::flash('flash_message','Information saved successfully.');
 		return view('admin::user.edit', compact('id', 'institution_id', 'role_id', 'name', 'email', 'status', 'gender', 'enrollno', 'inst_arr', 'roles_arr', 'password'
 			, 'address1', 'address2', 'address3', 'city', 'state', 'state_arr', 'phoneno', 'pincode', 'country_id', 'country_arr', 'first_name', 'last_name', 'profile_picture', 'pic_data','role_name'));
