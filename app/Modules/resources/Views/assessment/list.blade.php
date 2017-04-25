@@ -13,7 +13,7 @@
 			</ul>
 			<div class="panel panel-default">
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
-					<a href="{{ url('/resources/assessmentcreate/') }}" class="btn btn-default btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Assessment</a>
+					<a href="{{ url('/resources/assessmentcreate/') }}" class="btn btn-primary  btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Assessment</a>
 				</div>
            <div>
 					@if (Session::has('flash_message'))
