@@ -79,7 +79,7 @@ class UserController extends BaseController
             })
             ->leftjoin('roles as r', function($join){
                 $join->on('r.id', '=', 'u.role_id');
-            })->select(DB::raw('u.name as username, u.email, i.name as Institutionname, r.name as rolename, u.status, u.id'));
+            })->select(DB::raw('u.name as username, u.email, i.name as Institution_name, r.name as rolename, u.status, u.id'));
               if(Auth::user()->role_id!=1)
               	{
                $query->where('u.institution_id','=',Auth::user()->institution_id);
@@ -101,7 +101,7 @@ class UserController extends BaseController
                 $join->on('r.id', '=', 'u.role_id');
             //})->select('Users.name', 'Users.email','institution.name', 'Roles.name')->get();
             //})->select(DB::raw('u.name as username, u.email,u.status, u.id'));
-            })->select(DB::raw('u.name as username, u.email, i.name as Institutionname, r.name as rolename, u.status, u.id'));
+            })->select(DB::raw('u.name as username, u.email, i.name as Institution_name, r.name as rolename, u.status, u.id'));
               if(Auth::user()->role_id!=1)
               	{
                $query->where('u.institution_id','=',Auth::user()->institution_id);
@@ -791,7 +791,7 @@ class UserController extends BaseController
 		if($post['role_id']!=0){
 			$data->where('users.role_id',$post['role_id']);
 		}
-		$data=$data->select('email','institution.name as Institutionname','roles.name as rolesname',
+		$data=$data->select('email','institution.name as Institution_name','roles.name as rolesname',
 			'country_name', 'first_name','last_name','status','gender', 'enrollno','users.created_at',
 			'users.address1','users.city','state_name','users.phoneno','users.pincode')
 			->get()->toArray();
