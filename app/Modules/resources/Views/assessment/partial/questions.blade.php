@@ -29,6 +29,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 	<div class="panel panel-default">
 		<div class="panel-heading searchfilter pointer">Filters
 		</div>
+
 		<div class="panel-body searchfilter-body">
 			<div class="form-group col-md-6 required">
 				<label class="col-md-3 control-label" >Institution</label>
@@ -291,9 +292,15 @@ function uncheck(){
 
 // 		for hiding the question type filter
 		$('#passages_tab').on('click',function(){
+
 			$('#question_type_div').hide();
 			$('#passage_table_length').hide();
 			$('#selected-passage_length').hide();
+			$('#institution_id').val('');
+			$('#category_id').val('');
+			$('.multipleSelect').val('');
+			$('#subject_id').multiselect('refresh');
+			$('#lessons_id').multiselect('refresh');
 
 		});
 

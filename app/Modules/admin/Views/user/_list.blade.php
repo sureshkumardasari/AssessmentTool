@@ -3,6 +3,7 @@
     						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
 							@endif
 				</div>
+				<input type="hidden" name="action" id="action" value="{{$role_name}}">
 				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 
 				        <thead>
@@ -33,18 +34,34 @@
 				            @endforeach				            
 				        </tbody>
 				    </table>
+				 
+ 
 
-{!! HTML::script(asset('/js/custom/confirm.js')) !!}
 <script>
   	$(document).ready(function() {
+  		var role_name=$('#action').val();
+  	if((role_name == "student") || (role_name == "teacher"))
+  	{
+  	$('#example').DataTable({
+	aoColumnDefs: [
+  {
+     bSortable: false,
+     aTargets: [ -1,-3]
+  }
+]
+ });
+  	}else{	 
     $('#example').DataTable({
 	aoColumnDefs: [
   {
      bSortable: false,
-     aTargets: [ -1 ]
+     aTargets: [ -1]
   }
 ]
  });
+
+}
+
 });	
 </script>
 <!-- <script>

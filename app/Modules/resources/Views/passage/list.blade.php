@@ -27,18 +27,20 @@
 				            <tr>
 				                <th>Id</th>
 				                <th>Name</th>
+				                <th>Status</th>
 				                <th>Action</th>
 				            </tr>
 				        </thead>
 				        <tbody>
-				            @foreach( $passages as $id => $name )
+				            @foreach( $passages as $pas  )
 				            <tr>
-				                <td>{{ $id }}</td>				                
-				                <td>{{ $name }}</td>
+				                <td>{{ $pas->id }}</td>				                
+				                <td>{{ $pas->title }}</td>
+				                <td><?php echo $st = ($pas->status=='1')?'Active':'Inactive';?></td>
 				                <td>
-									<a href="{{ url('/resources/passageview/'.$id) }}" class="btn btn-default btn-sm" title="Details"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-				                	<a href="{{ url('/resources/passageedit/'.$id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
-									<a href="javascript:;" data-ref="{{ url('/resources/passagedel/'.$id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+									<a href="{{ url('/resources/passageview/'.$pas->id) }}" class="btn btn-default btn-sm" title="Details"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+				                	<a href="{{ url('/resources/passageedit/'.$pas->id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
+									<a href="javascript:;" data-ref="{{ url('/resources/passagedel/'.$pas->id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
 				            @endforeach				            

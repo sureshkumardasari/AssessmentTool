@@ -118,6 +118,7 @@
 				                <th>Question Title</th>
 				                <th>Question Type</th>
 				                 <th>Question Passage</th>
+				                 <th>Status</th>
 								<th>Action</th>
 				            </tr>
 				        </thead>
@@ -128,6 +129,7 @@
 				                 <td>{{ $value['question_title'] }}</td>
 				                 <td>{{ $value['question_type'] }}</td>
 								 <td>{{ $value['passage_title'] }}</td>
+								 <td><?php echo $st = ($value['status']=='1')?'Active':'Inactive';?></td>
 				                 <td>
 									<a href="{{ url('/resources/questionview/'.$value['qid']) }}"  class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
 				                	<a href="{{ url('/resources/questionedit/'.$value['qid']) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
@@ -212,6 +214,12 @@ function filter(){
 							tr.append("<td>" + response[i].question_title + "");
 							tr.append("<td>" + response[i].question_type + "");
 							tr.append("<td>" + response[i].passage_title + "");
+							if((response[i].status=='1')?'Active':'Inactive'){
+							tr.append("<td>Active");
+							}
+							else{
+								tr.append("<td>Inactive ");
+							}
 							tr.append("<a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a></td>");
 							tr.append("<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
 							tr.append("<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
@@ -219,9 +227,17 @@ function filter(){
 							tr.append("<td>"+ "</td>");
 							$('#question_list_filer').append(tr);
 						}
-						$('#example').dataTable();
+						$('#example').DataTable({
+							aoColumnDefs: [
+						  {
+						     bSortable: false,
+						     aTargets: [ -1 ]
+						  }
+						]
+						 });
 					}
 				}
+
 		);
 	}
 

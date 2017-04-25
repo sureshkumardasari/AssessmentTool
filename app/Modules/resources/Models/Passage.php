@@ -22,6 +22,7 @@ class Passage extends Model {
 
 	public function getpassage($passage_id = 0)
 	{
+
 		//$users = User::get();
 		$obj = new Passage();
 		if($passage_id > 0)
@@ -34,12 +35,13 @@ class Passage extends Model {
            if($sessRole != 'administrator')
            {
             $passages = $obj->where('institute_id','=' , Auth::user()->institution_id);
-            //dd(Auth::user()->institution_id);
            }
 
-			$passages = $obj->lists('title', 'id');
+
+			$passages = $obj->select('id','status','title')->get();
+			//dd($passages);
 		}
-		
+		//dd($passages);
 		return $passages;
 	}
 
