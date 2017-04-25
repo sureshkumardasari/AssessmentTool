@@ -68,7 +68,7 @@
 	$(document).ready(function() {
 		$('#assignmentstable').dataTable({
     "bPaginate": true,
-    "bLengthChange": false,
+    "bLengthChange": true,
     "bFilter": true,
     "bInfo": true,
     order: [],
