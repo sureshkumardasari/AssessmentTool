@@ -379,7 +379,7 @@ class UserController extends BaseController
 				return redirect('/user/users_list/teacher');
 			}
 			
-            if((Auth::user()->role_id == 1) || (Auth::user()->role_id == 3) )
+            if(Auth::user()->role_id != 2) 
 
             {
             	//dd('test');
