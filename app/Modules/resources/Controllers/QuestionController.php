@@ -616,7 +616,9 @@ public function questionedit($id = 0)
 	}
 	public function questiontype($idd){
 		$post=Input::all();
+
 		$id=explode(',',$idd);
+		//dd($id);
 		$passage_Ids=isset( $post['passages'] ) ? $post['passages'] : [0];
 		$questiontype['question_type']= Question::join('lesson','questions.lesson_id','=','lesson.id')
 				->join('question_type','questions.question_type_id','=','question_type.id')
@@ -631,7 +633,8 @@ public function questionedit($id = 0)
 		//if($passage_Ids > 0){
 			$pass->wherenotin("passage.id", $passage_Ids);
 		//}
-		$questiontype['passages']=$pass->select('passage.id as pid','passage.title as passage_title')->groupBy('pid')->orderby('pid')->get();
+		$questiontype['passages']=$pass->select('passage.id as pid','passage.title as passage_title')->where('passage.status','=',1)->groupBy('pid')->orderby('pid')->get();
+		//dd($questiontype);
 		//$questiontype['passages']=\DB::table('passage')->selectRaw('id as pid, title as passage_title  where lesson_id in('.$idd.') and where id not in('.implode(',',$passage_Ids).')')->get();
 		return $questiontype;
 	}

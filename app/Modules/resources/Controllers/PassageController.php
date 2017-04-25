@@ -130,7 +130,9 @@ class PassageController extends BaseController {
 	}
 
 	public function passageedit($id = 0)
-	{		$passages = $this->passage->getPassage();
+	{
+
+		$passages = $this->passage->getPassage();
 		if (getRole() == "student") {
      return view('permission');
     }else{
@@ -155,16 +157,18 @@ class PassageController extends BaseController {
 			$subject_id = $passage->subject_id; 
 			$category_id = $passage->category_id;
 			$lessons_id=$passage->lesson_id;
+			$status=$passage->status;
 		}
 		else
 		{
 			$id = $institution_id = $subject_id = $category_id = 0;
 			$name = '';
+			$status = '';
 		}
 		//dd($passages);
 				      // \Session::flash('flash_message','Information saved successfully.');
 
-		return view('resources::passage.edit',compact('id','sCategory','sLesson','sSubject','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id','lessons_id'));
+		return view('resources::passage.edit',compact('id','sCategory','sLesson','sSubject','passage','inst_arr','institution_id','category','lessons','subjects','passages','category_id','subject_id','lessons_id','status'));
 	}
 	}
 
