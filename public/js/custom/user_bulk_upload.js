@@ -20,6 +20,7 @@
             
             function downloadTemplate(type){
                 var institution_id = $('#userimport_institution_id').val();
+                if(institution_id > 0){
                 $('.error-log').empty();
                 $.ajax({
                 type: "GET",
@@ -35,7 +36,7 @@
                   }
               });
             }
-
+           }
 
             $('.uploadBtn').off("click").on("click",function(){
                             
