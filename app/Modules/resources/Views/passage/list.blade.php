@@ -36,7 +36,7 @@
 				            <tr>
 				                <td>{{ $pas->id }}</td>				                
 				                <td>{{ $pas->title }}</td>
-				                <td><?php echo $st = ($pas->status=='1')?'Active':'Disabled';?></td>
+				                <td><?php echo $st = ($pas->status=='1')?'Active':'Inactive';?></td>
 				                <td>
 									<a href="{{ url('/resources/passageview/'.$pas->id) }}" class="btn btn-default btn-sm" title="Details"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
 				                	<a href="{{ url('/resources/passageedit/'.$pas->id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>					
