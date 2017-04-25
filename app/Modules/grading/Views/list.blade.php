@@ -49,7 +49,7 @@
                 <div class="panel-body">
 					<label class="col-md-2 control-label">Institution</label>
 					<div class="col-md-4">
-						<select class="form-control" name="institution_id" id="institution_id" onchange="getAssignmentsforgrading()">
+						<select class="form-control" name="institution_id" id="institution_id">
 							<option value="0">--All--</option>
 							@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}">{{ $val }}</option>
@@ -57,6 +57,14 @@
 						</select>
 					</div>				
 				</div>
+				<div class="form-group col-md-12">
+				 <div class="col-md-6 col-md-offset-4">
+					<button type="button" class="btn btn-primary" id="applyFiltersBtn" onclick="getAssignmentsforgrading()">
+							Go
+					</button>
+				 </div>
+				</div>
+			  <div class="form-group" id="loadingdiv"></div>	
                 <?php }?>
 
 
