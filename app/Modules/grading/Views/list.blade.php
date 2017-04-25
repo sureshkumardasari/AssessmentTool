@@ -131,7 +131,7 @@
 	aoColumnDefs: [
   {
      bSortable: false,
-     aTargets: [ -3 ],
+     aTargets: [ -1 ],
   }
 ]
  });
