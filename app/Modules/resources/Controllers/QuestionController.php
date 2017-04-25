@@ -113,7 +113,7 @@ class QuestionController extends BaseController {
 		$list=Question::join('question_type','questions.question_type_id','=','question_type.id')
 				->leftjoin('passage','questions.passage_id','=','passage.id')
 				//->leftjoin('institution','questions.institute_id','=','institution.id')
-				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type','questions.status as status')
 				->orderby('qid')
 				//->groupBy('institution')
 				->get();
@@ -130,7 +130,7 @@ class QuestionController extends BaseController {
 				->where("questions.institute_id", Auth::user()->institution_id)
 				->leftjoin('passage','questions.passage_id','=','passage.id')
 				//->leftjoin('institution','questions.institute_id','=','institution.id')
-				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+				->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type','questions.status as status')
 				->orderby('qid')
  				->get();
 		//dd($list);

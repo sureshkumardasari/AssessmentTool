@@ -82,7 +82,7 @@ class PassageController extends BaseController {
     }
     elseif(getRole() == "teacher") {
     	// $passages =Passage::where('passages.institute_id',Auth::user()->institution_id);
-    	             $passages =Passage::where('institute_id','=' , Auth::user()->institution_id)->lists('title', 'id');
+    	             $passages =Passage::where('institute_id','=' , Auth::user()->institution_id)->select('title', 'id','status')->get();
     	             //dd($passages);
 
 
