@@ -1,4 +1,9 @@
-					<table id="userstable" class="table table-striped table-bordered datatableclass" cellspacing="0" width="100%">
+					<div>
+					@if (Session::has('flash_message'))
+    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
+							@endif
+				</div>
+				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 
 				        <thead>
 				            <tr>
@@ -29,9 +34,10 @@
 				        </tbody>
 				    </table>
 
-<!--<script type="text/javascript">
-	$(document).ready(function() {
-    $('#userstable').DataTable({
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+<script>
+  	$(document).ready(function() {
+    $('#example').DataTable({
 	aoColumnDefs: [
   {
      bSortable: false,
@@ -39,8 +45,8 @@
   }
 ]
  });
-});
-</script>-->
+});	
+</script>
 <!-- <script>
 	$(document).ready(function(){
 		var loadurl = "{{ url('/user') }}/" ;
