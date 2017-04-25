@@ -173,7 +173,7 @@ class QuestionController extends BaseController {
 
 
 
-		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+		$list=	$obj->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type','questions.status as status')
 				->orderby('qid')
 				->get();
 		//$question_list = $this->question->getQuestionFilter($institution);
