@@ -255,6 +255,16 @@
 
 <script type="text/javascript">
 //desible show entires & pagination in datatables
+$( "#QuestionIds" ).prop( "checked", false );
+                $('.selectall input[type="checkbox"]').on('change', function () 
+                        {
+                            //alert($(' .test input').length);
+                
+                                var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
+
+                                $('#QuestionIds11').prop('checked', allChecked);
+                        });
+
 
 
 	$(document).ready(function() {
