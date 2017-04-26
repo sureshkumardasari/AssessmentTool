@@ -38,7 +38,7 @@
 							<div class="col-md-6">
 								<input type="hidden" name="page" id="page" value="subjectedit">
 								<select class="form-control" name="institution_id" id="institution_id">
-									<option value="0">--Select--</option>
+									<option value="0">--Select Institution--</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -49,7 +49,7 @@
 							<label class="col-md-4 control-label">Category</label>
 							<div class="col-md-6">
 								<select class="form-control" name="category_id" id="category_id">
-									<option value="0">--Select--</option>
+									<option value="0">--Select Category--</option>
 									@if($institution_id > 0)
 									@foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -70,7 +70,7 @@
 							<div class="col-md-6">
 								<input type="hidden" name="page" id="page" value="subjectedit">
 								<select class="form-control" name="institution_id" id="institution_id" >
-									<option value="0">--Select--</option>
+									<option value="0">--Select Institution--</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -81,7 +81,7 @@
 							<label class="col-md-4 control-label">Category</label>
 							<div class="col-md-6">
 								<select class="form-control" name="category_id" id="category_id">
-									<option value="0">--Select--</option>
+									<option value="0">--Select Category--</option>
 									@if($institution_id > 0)
 									 @foreach($category as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>

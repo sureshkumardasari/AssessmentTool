@@ -28,7 +28,7 @@
 								<div class="col-md-6">
 									<select class="form-control" name="institution_id" id="institution_id" >
 										@if(getRole()=="administrator")
-										<option value="0" data-id="0">--Select--</option>
+										<option value="0" data-id="0">--Select Institution--</option>
 										@endif
 										@foreach($inst_arr as $id => $name)
 											<option value="{{$id}}" data-id="{{(isset($brandingIds[$id]))? $brandingIds[$id] : 0 }}">{{$name}}</option>

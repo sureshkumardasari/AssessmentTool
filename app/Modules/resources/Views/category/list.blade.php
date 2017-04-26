@@ -34,7 +34,7 @@
 								<div class="col-md-6">
 									<input type="hidden" name="page" id="page" value="category">
 								<select class="form-control" name="institution_id" id="institution_id">
-										<option value="0">--Select--</option>
+										<option value="0">--Select Institution--</option>
 										@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach

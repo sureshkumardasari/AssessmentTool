@@ -113,7 +113,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							<label class="col-md-3 control-label" >Assessment</label>
 							<div class="col-md-6">
 								<select class="form-control" name="assessment_id" id="assessment_id" >
-									<option value="0">Select</option>
+									<option value="0">Select Assessment</option>
 									@foreach($assessments_arr as $assess_id=>$val)
 										<option value="{{ $assess_id }}" {{ ($assess_id == $assessment_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach

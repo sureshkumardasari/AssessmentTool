@@ -34,7 +34,7 @@
 								<div class="col-md-6">
 									<input type="hidden" name="page" id="page" value="subject">
 								<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
-										<option value="0">--Select--</option>
+										<option value="0">--Select Institution--</option>
 										@foreach($inst_arr as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
 										@endforeach
@@ -46,9 +46,9 @@
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
 									<select class="form-control" name="category_id" id="category_id">
-										<option value="0">--Select--</option>
+										<option value="0">--Select Category--</option>
 
-										<!-- {{--<option value="0">--Select--</option>--}}
+										<!-- {{--<option value="0">--Select Category--</option>--}}
 										@if(getRole()!="administrator")
 										@foreach($category as $id=>$val)
 										<option value="{{ $id }}">{{ $val }}</option>
