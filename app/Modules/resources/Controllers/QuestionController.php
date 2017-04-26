@@ -751,7 +751,7 @@ public function questionedit($id = 0)
 		$category_id=$request->input('category_name');
 		$subject_id=$request->input('subject_name');
 		$lesson_id=$request->input('lesson_name');
-		$question_type=$request->input('question_name');
+		$question_type=$request->input('question_type');
 		//dd($category_id.$subject_id.$lesson_id.$question_type);
 		$data=$request->Input();
 		//dd($institution_id);

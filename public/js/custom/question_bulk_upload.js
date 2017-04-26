@@ -21,10 +21,10 @@
             function downloadTemplate(type){
 
                 var institution_id = $('#institution_id_filter').val();
-                var category_id= $('#category_id_filter option:selected').text();
-                var subject_id = $('#subject_id_filter option:selected').text();
-                var lessons_id = $('#lessons_id_filter option:selected').text();
-                var question_type= $('#question_type_filter option:selected').text(); 
+                var category_id= $('#category_id_filter option:selected').val();
+                var subject_id = $('#subject_id_filter option:selected').val();
+                var lessons_id = $('#lessons_id_filter option:selected').val();
+                var question_type= $('#question_type_filter option:selected').val(); 
                // alert(institution_id);
                 $('.error-log').empty();
                 $.ajax({

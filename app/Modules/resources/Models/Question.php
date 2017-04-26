@@ -82,7 +82,9 @@ class Question extends Model {
 	}
 	public function getpassages($data)
 	{
-		$lesson_id  = DB::table('lesson')->where('name','=',$data['lesson_name'])->lists('id');
+		// dd($data['lesson_name']);
+		$lesson_id  = DB::table('lesson')->where('id','=',$data['lesson_name'])->lists('id');
+		 // dd($lesson_id);
 		$passages  = DB::table('passage')->where('lesson_id','=',$lesson_id)->lists('title','id');
 		return $passages;
 	}
