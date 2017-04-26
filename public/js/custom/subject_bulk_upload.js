@@ -23,16 +23,18 @@ function downloadTemplate(type){
 
 
     var institution_id = $('#subjectimport_institution_id').val();
-    //alert(institution_id);
+    var category_id=$('#subjectimport_category_id').val();
+    //alert(category_id);
     $('.error-log').empty();
     $.ajax({
         type: "GET",
         url: bulksubjectTemplate,
-        data: {subjectType:type, institution_id:institution_id},
+        data: {subjectType:type, institution_id:institution_id,category_id: category_id},
         dataType: 'json',
         success: function( data ){
             //alert(JSON.stringify(data));
             if ( data ) {
+                //alert(data);
                 if(data.file_name != false){
 
                     window.location.href = data.file_name;
