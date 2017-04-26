@@ -100,7 +100,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							<label class="col-md-3 control-label" >Institution </label>
 							<div class="col-md-6">
 								<select class="form-control" name="institution_id" id="institution_id" onchange="getGrader(),getassessment(),getProctor()" >@if(getRole() == "administrator")
-									<option value="0">Select</option>
+									<option value="0">Select Institution</option>
 									@endif
 									@foreach($institution_arr as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
