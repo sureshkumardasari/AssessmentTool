@@ -198,12 +198,12 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 		<div class="form-group">
 			<div class="col-md-2">
 				<button type="button" class="btn btn-primary" onclick='addOrRemoveInGrid(this, "add");' href="javascript:;">
-					Add passage
+					Add Passage
 				</button>
 			</div>
 
 
-			<div class="clearfix"></div>
+			<div class="clearfix"></div><br>
 			<div class="col-md-12">
 			<b>{{"Selected Passages"}}</b>
 			<table id="selected-passage" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
