@@ -21,7 +21,7 @@
 				            <tr>				                
 				                <td>{{ $user->username }}</td>
 				                <td>{{ $user->email }}</td>
-				                <td>{{ $user->Institution_name }}</td>
+				                <td>{{ $user->Institutionname }}</td>
 				                <td>{{ $user->rolename }}</td>
 				                <td>{{ $user->status }}</td>
 				                <td>
