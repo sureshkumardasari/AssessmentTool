@@ -93,13 +93,14 @@
             else{
      var institution_id = $('#institution_id').val();
      var role_id = $('#role_id').val();
+     var  role_name=$('#role_name').val();
        console.log( "ready!" ); 
 
      
       $targetList = $('div#user-list'); 
    
      
-     var data = $( "#institution_id, #role_id").serializeArray();
+     var data = $( "#institution_id, #role_id ,#role_name").serializeArray();
      //console.log('selecte instId ' + instId);
      $targetList.html('');
      $("#loadingdiv").html('<img src="/images/fancybox_loading.gif" border="0"> Loading...');
