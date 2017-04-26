@@ -8,7 +8,7 @@
 
 
             <div class="panel-body searchfilter-body">
-            <div class="form-group col-md-6 required">
+            <div class="form-group required">
                 <label class="col-md-2 control-label" >Institution</label>
                 <div class="col-md-10">
                  <select class="form-control" name="institution_id_filter" id="institution_id_filter" onchange="change_institution()">
@@ -20,7 +20,7 @@
                     
                 </div>
             </div>
-            <div class="form-group col-md-6 required">
+            <div class="form-group required">
                 <label class="col-md-2 control-label">Category</label>
                 <div class="col-md-10">
                    <select class="form-control" name="category_id_filter" id="category_id_filter" onchange="change_category()">
@@ -29,7 +29,7 @@
                     </select><span class="category_id_filter" style="font-weight: bolder;"></span>
                 </div>
             </div>
-            <div class="form-group col-md-6 required">
+            <div class="form-group required">
                 <label class="col-md-2 control-label">Subject</label>
                 <div class="col-md-10">
                    <select class="form-control" name="subject_id_filter" id="subject_id_filter" onchange="change_lessons()">
@@ -39,7 +39,7 @@
 
                 </div>
             </div>
-            <div class="form-group col-md-6 required">
+            <div class="form-group  required">
                 <label class="col-md-2 control-label">Lessons</label>
                 <div class="col-md-10">
                     <select class="form-control" name="lessons_id_filter" id="lessons_id_filter" onchange="change_question_type()" >
@@ -49,7 +49,7 @@
                     </select><span class="lessons_id_filter" style="font-weight: bolder;"></span>
                 </div>
             </div>
-            <div id="question_type_div"class="form-group col-md-6 required">
+            <div id="question_type_div"class="form-group required">
                 <label class="col-md-2 control-label">Question Type</label>
                 <div class="col-md-10">
                     <select class="form-control" name="question_type_filter" id="question_type_filter">

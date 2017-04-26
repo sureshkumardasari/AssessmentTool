@@ -20,7 +20,7 @@
 				<label class="col-md-3 control-label" >Institution</label>
 				<div class="col-md-9">
 					<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')">
-						<option value="0">--Select Institution--</option>
+						<option value="">--Select Institution--</option>
 						@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 						@endforeach
@@ -31,32 +31,32 @@
 				<label class="col-md-3 control-label">Category</label>
 				<div class="col-md-9">
 					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
-						<option value="0">--Select Category--</option>
-						@foreach($category as $id=>$val)
+						<option value="">--Select Category--</option>
+						<!-- @foreach($category as $id=>$val)
 							<option value="{{ $id }}" >{{ $val }}</option>
-						@endforeach
+						@endforeach -->
 					</select>
 				</div>
 			</div>
 			<div class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Subject</label>
 				<div class="col-md-9">
-					<select class="form-control" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
+					<select class="form-control multipleSelect" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
 						{{--<option value="0">--Select Subject--</option>--}}
-						@foreach($subjects as $id=>$val)
+						<!-- @foreach($subjects as $id=>$val)
 							<option value="{{ $id }}"{{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-						@endforeach
+						@endforeach -->
 					</select>
 				</div>
 			</div>
 			<div class="form-group col-md-6 ">
 				<label class="col-md-3 control-label">Lessons</label>
 				<div class="col-md-9">
-					<select class="form-control" name="lessons_id[]" id="lessons_id" multiple onchange="change_question_type('question')">
+					<select class="form-control multipleSelect" name="lessons_id[]" id="lessons_id" multiple onchange="change_question_type('question')">
 						{{--<option value="0">--Select Lessons--</option>--}}
-						@foreach($lesson as $id=>$val)
+						<!-- @foreach($lesson as $id=>$val)
 							<option value="{{ $id }}" {{($id == $lessons_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-						@endforeach
+						@endforeach -->
 					</select>
 				</div>
 			</div>
@@ -65,9 +65,9 @@
 				<div  class="col-md-9">
 					<select class="form-control" name="question_type" id="question_type" onchange="filter()">
 						{{--<option value="0">--Select Question Type--</option>--}}
-						@foreach($questiontype as $id=>$val)
+						<!-- @foreach($questiontype as $id=>$val)
 							<option value="{{ $id }}" {{($id == $question_type_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-						@endforeach
+						@endforeach -->
 					</select>
 				</div>
 			</div>
@@ -284,8 +284,8 @@ $( "#QuestionIds" ).prop( "checked", false );
 		$('#filters_show').hide();
 		$('.edit_assessment').show();
 	});
-	$('#institution_id').val({{$institution_id}});
-	$('#category_id').val({{$category_id}});
+	$('#institution_id').val('');
+	$('#category_id').val('');
 	$('#questions_tab').on('click',function(){
 			$('#question_type_div').show();
 		});
@@ -293,6 +293,11 @@ $( "#QuestionIds" ).prop( "checked", false );
 // 		for hiding the question type filter
 		$('#passages_tab').on('click',function(){
 			$('#question_type_div').hide();
+			$('#institution_id').val('');
+			$('#category_id').val('');
+			$('.multipleSelect').val('');
+			$('#subject_id').multiselect('refresh');
+			$('#lessons_id').multiselect('refresh');
 		});
 	// $('#passage_lessons_id').multiselect();
 </script>

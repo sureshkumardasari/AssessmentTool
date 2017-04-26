@@ -113,7 +113,7 @@ class UserController extends BaseController
       
         $users = $query->get();
       
-        return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
+        return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id','role_name'))
             ->nest('usersList', 'admin::user._list', compact('users','role_name'));
         }
 
@@ -163,7 +163,7 @@ class UserController extends BaseController
 		return json_encode($users);
 	}
 
-	public function searchByInstitution($institution_id = 0, $role_id = 0)
+	public function searchByInstitution($institution_id = 0, $role_id = 0,$role_name = 0)
 	{
 		$params = Input::All();
 		$institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
@@ -173,7 +173,7 @@ class UserController extends BaseController
 		//dd($users);
 
 		$from = 'search';
-		return view('admin::user._list', compact('users', 'from'));
+		return view('admin::user._list', compact('users', 'from','role_name'));
 	}
 
 	public function profile()

@@ -37,16 +37,16 @@
     </tbody>
 </table>
     @if($type == "subjects")
-
   <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
-    <table class="table table-bordered table-hover table-striped" id="wholescore">
+    <table class="table table-bordered table-hover table-striped">
         <caption><center><b>Subjects</b></center></caption>
         <thead>
+        <tr>
         <th>Student Name</th>
-
         @foreach($subjects as $sub)
-            <th>{{$sub}}</th>
+        <th>{{$sub}}</th>
         @endforeach
+        </tr>
         </thead>
         <tbody>
         @foreach($subject_score as $stud_id=>$subject)
@@ -64,13 +64,15 @@
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
     <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p>
 
-    <table class="table table-bordered table-hover table-striped" id="wholescore">
+    <table class="table table-bordered table-hover table-striped" >
         <caption><center><b>Lessons</b></center></caption>
         <thead>
+        <tr>
         <th>Student Name</th>
         @foreach($lessons as $id=>$lesson)
             <th>{{$lesson}}</th>
         @endforeach
+        </tr>
         </thead>
         <tbody>
         @foreach($lesson_score as $stud_id=>$lesson)
