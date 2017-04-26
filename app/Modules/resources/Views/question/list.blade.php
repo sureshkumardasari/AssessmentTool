@@ -205,6 +205,7 @@ function filter(){
 					type:"post",
 					data:data,
 					success:function(response){
+						//alert(response[i].status);
 						$('#example').dataTable().fnDestroy();
 						$('#question_list_filer').empty();
 						var tr;
@@ -214,7 +215,9 @@ function filter(){
 							tr.append("<td>" + response[i].question_title + "");
 							tr.append("<td>" + response[i].question_type + "");
 							tr.append("<td>" + response[i].passage_title + "");
-							if((response[i].status=='1')?'Active':'Inactive'){
+							
+							//alert(response[i].status);
+							if(response[i].status== '1'){
 							tr.append("<td>Active");
 							}
 							else{
