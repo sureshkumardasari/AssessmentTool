@@ -120,14 +120,16 @@ class Subject extends Model {
 		$category = ['1' => 'Compititive'];
 		return $category;
 	}
-	public function bulksubjectTemplate($filename, $subjectType, $instituteId = null, $addSubjects = false, $findInstituteId = false)
+	public function bulksubjectTemplate($filename, $subjectType, $instituteId = null,$categoryId = null,  $findInstituteId = false)
 	{
+
 		$objPHPExcel = new PHPExcel();
-		/*$institution_name="";*/
-		$category_id=Category::where('institution_id','=',$instituteId)->lists('id');
+	    $institution_name="";
+		$category_name=Category::where('institution_id','=',$instituteId)->lists('id');
 		if($instituteId != null){
 			$institution_name = Institution::find($instituteId)->id;
 		}
+
 		$institue = new Institution();
 
 		$madeDataValidationColumn = array();
@@ -148,10 +150,11 @@ class Subject extends Model {
 		$indexSchool = 1;
 		$indexState = 1;
 		$exportFields = array(
-			'InstitutionID' => array('value'=>[$institution_name]),
-			'category_id' => array('options'=>$category_id),
-			'subject_name' => array(),
+			'institutionId' => array('value'=>[$institution_name]),
+			'categoryId' => array('options'=>$category_name),
+			'subjectId' => array(),
 		);
+		//dd($exportFields);
 		$firstRow = false;
 		$celli = 'A';
 		$rowsToFill = 100;
@@ -211,9 +214,13 @@ class Subject extends Model {
 
 			$celli++;
 		}
-		if($findInstituteId && !empty($institues[0])){
-			$objPHPExcel->getActiveSheet()->setCellValueExplicit('A2', $institues[0], \PHPExcel_Cell_DataType::TYPE_STRING);
+		if( !empty($instituteId)){
+			$objPHPExcel->getActiveSheet()->setCellValueExplicit('A2', $instituteId, \PHPExcel_Cell_DataType::TYPE_STRING);
 		}
+		if( !empty($categoryId)){
+			$objPHPExcel->getActiveSheet()->setCellValueExplicit('B2', $categoryId, \PHPExcel_Cell_DataType::TYPE_STRING);
+		}
+		
 		$highestColumn = User::createColumnsArray($objPHPExcel->getActiveSheet()->getHighestColumn());
 		foreach ($highestColumn as $columnID) {
 			$objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
@@ -226,6 +233,7 @@ class Subject extends Model {
 			chmod(public_path() . '/data/tmp', 0777);
 		}
 		$save = $objWriter->save(public_path() . '/data/tmp/' . $filename);
+		//dd($save);
 		return $save;
 	}
 	public static function validateBulUpload($fileType, $data, $index) {

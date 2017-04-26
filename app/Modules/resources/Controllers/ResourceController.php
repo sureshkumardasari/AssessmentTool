@@ -702,10 +702,12 @@ public function categoryList($id){
 
 
         $institution_id = $request->input('institution_id');
+         $category_id = $request->input('category_id');
+         //dd($category_id);
         $filename = 'subject_template_' . date('Y-m-d') . '.xls';
-        //dd($filename);
+        //dd($category_id);
 
-        $save = $this->subject->bulksubjectTemplate($filename, $subjectType, $institution_id, false, true);
+        $save = $this->subject->bulksubjectTemplate($filename, $subjectType, $institution_id,$category_id);
         //dd($save);
         if ($save == null) {
             return Response::json(array('file_name' => url() . "/data/tmp/$filename"));
