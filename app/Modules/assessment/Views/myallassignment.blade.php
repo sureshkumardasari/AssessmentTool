@@ -1,6 +1,6 @@
 @extends('default')
 @section('content')
-    <div class="container">
+    
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
@@ -26,9 +26,12 @@
                                     <?php
                                     $isVisible = false;
                                     $startDateTime     = date('Y-m-d H:i:s', strtotime($assignment->StartDateTime));
+                                   // dd( $startDateTime );
                                     $endDateTime     = date('Y-m-d H:i:s', strtotime($assignment->EndDateTime));
+                                    
+                                    //echo  $now;
 
-                                    $now     = date('Y-m-d H:i:s');
+                                    //$now     = date('Y-m-d H:i:s');
                                     //dd($now.",".$endDateTime.",".$assignment->AssignmentName);
                                     if($assignment->Expires != "1"){
                                      //   $isVisible = false;
@@ -50,7 +53,23 @@
 
                 <?php
                 $isAlreadyStarted = false;
-                if($assignment->AssignmentStatus == "upcoming"){
+                $time_now=mktime(date('h')+5,date('i')+30,date('s'));
+               $now = date('d-m-Y H:i:sa', $time_now);
+               //dd($now);
+               //dd( $assignment->StartDateTime);
+               if($now != $assignment->StartDateTime)
+               {
+                 $status = 'upcoming';
+                  //dd($status);
+               }
+              
+
+               if($now > $assignment->StartDateTime || $now == $assignment->StartDateTime )
+               {
+                 $status = 'instructions';
+                  //dd($status);
+               }
+                else if($assignment->AssignmentStatus == "upcoming"){
                     $status = 'upcoming';
                 }else if($assignment->AssignmentStatus == "instructions"){
                     if($assignment->AssignmentUserStatus == "upcoming" || $assignment->AssignmentUserStatus == "instructions" ){
@@ -140,14 +159,18 @@
                     $status="upcoming";
                 }
                 else if($assignment->AssignmentUserStatus=="upcoming" && $startDateTime < $now){
+                    if($startDateTime != $now)
+                    {
+                       $status = 'upcoming';  
+                    }
                     if($endDateTime!=false){
-                        if($endDateTime >= $now)
+                        if($endDateTime >= $now )
                             $status='available';
                         else $status='completed';
                         }
 
                     else $status='available';
-
+                    
                     }else if ( $assignment->AssignmentUserStatus == "instructions" || ($startDateTime < $now && $now <= $endDateTime && $assignment->AssignmentUserStatus != "completed")) {
                         $status = 'inprogress';
 
