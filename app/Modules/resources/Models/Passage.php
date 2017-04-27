@@ -21,30 +21,30 @@ class Passage extends Model {
 	protected $primaryKey = 'id';
 
 	public function getpassage($passage_id = 0)
-	{
+ {
+  //dd($passage_id);
 
-		//$users = User::get();
-		$obj = new Passage();
-		if($passage_id > 0)
-		{
-			$passages = $obj->where("id", $passage_id);
-		}
-		else
-		{
-		   $sessRole = getRole() ;
+  //$users = User::get();
+  $obj = DB::table('passage');
+  if($passage_id > 0 || $passage_id == 0)
+  {
+   $passages = $obj->where("id", $passage_id)->lists('title','id');
+  }
+  else
+  {
+     $sessRole = getRole() ;
            if($sessRole != 'administrator')
            {
             $passages = $obj->where('institute_id','=' , Auth::user()->institution_id);
            }
 
 
-			$passages = $obj->select('id','status','title')->get();
-			//dd($passages);
-		}
-		//dd($passages);
-		return $passages;
-	}
-
+   $passages = $obj->lists('title','id');
+   //dd($passages);
+  }
+  //dd($passages);
+  return $passages;
+ }
 	public function getpassageInfo($id = 0)
 	{
 		$passage = Passage::find($id);
