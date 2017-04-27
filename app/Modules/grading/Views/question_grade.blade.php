@@ -43,7 +43,7 @@
 
 				            <div class="form-group">				                
 				                <div class="col-md-2"><b style="color:green">Question Text:</b></div>
-				                <div class="col-md-10"><b>{{$ass_qst['qst_text']}}</b></div>
+				                <div class="col-md-10"><b> {{$ass_qst['qst_text']}}</b></div>
 				            </div> 
 				            <div></div>	
 				            {{--*/ $i = 0 /*--}}
@@ -183,7 +183,9 @@
 	var selected_answer_score=null;
 		var is_correct="YES";
 	$(function(){
-		$('.completed').hide();
+		
+		$('.completed').show();
+	    $('.incompleted').hide();    
 	});
 		$(document).on('click','#save',function(e){
 			e.preventDefault();
@@ -259,8 +261,8 @@
 							//     //window.location.href=url;
 							//    else
 							//        sendRequest('delete',id);
-							 $('#incomplete_status'+question_id).show();
-            $('#complete_status'+question_id).hide();
+							 // $('#incomplete_status'+question_id).show();
+        //     $('#complete_status'+question_id).hide();
 						}
 					}, 
 					{
@@ -319,9 +321,9 @@
 					if(response=="All students graded"){
 						alert("all students graded successfully");
 					}
-					else if(response=="No data given"){
-						alert("please add atleast one  answer");
-					}
+					// else if(response=="No data given"){
+					// 	alert("please add atleast one  answer");
+					// }
 					else {
 					//	var index = $("#status option:selected").index();
 						//$("#status option:eq(" + (index + 1) + ")").attr("selected", "selected");
