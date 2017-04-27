@@ -322,9 +322,9 @@ class UserController extends BaseController
 			'address1' => 'required',
 			'city' => 'required',
 			'pincode' => 'required|regex:/\b\d{6}\b/',
-			            'password'=>'required',
+			//  'password'=>'required',
 
-			'password_confirmation'=>'required',
+			// 'password_confirmation'=>'required',
 			//'phoneno' => 'regex: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/|required',
 					 //'password_confirmation' =>'required|confirmed|min:6',
 
@@ -338,7 +338,7 @@ class UserController extends BaseController
 			$rules['email'] = 'required|email|max:255|unique:users,email,' . $post['id'];
 
 			if ($post['password'] != NULL) {
-				$rules['password'] = 'confirmed|min:6';
+				// $rules['password'] = 'confirmed|min:6';
 			}
 		} else {
 			$rules['role_id'] = 'required|not_in:0';
