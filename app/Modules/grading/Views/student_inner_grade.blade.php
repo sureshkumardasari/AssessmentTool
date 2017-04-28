@@ -562,16 +562,15 @@
             
         }
         function change_single_answer(question_id){
-            // var myControls=$('input[type="radio"][name=ans_val'+question_id+']');
-            // // alert(myControls)
-            // $.each(myControls , function(i, val) {
-            //     var answer=val.value;
-            //     if($.inArray(answer,Question_actual_answer[question_id])==-1)
-            //     {
-            //         $('#'+answer).removeClass('label-danger');
-            //     }
+            var myControls=$('input[type="radio"][name=ans_val'+question_id+']');
+            $.each(myControls , function(i, val) {
+                var answer=val.value;
+                if($.inArray(answer,Question_actual_answer[question_id])==-1)
+                {
+                    $('#'+answer).removeClass('label-danger');
+                }
 
-            // });
+            });
             var id=$('input[type="radio"][name=ans_val'+question_id+']:checked').val();
             if(id=="undefined"){id=0;}
             Question_selected_single_answers[question_id]=id;
@@ -672,7 +671,6 @@
         }
 
         function save_student_single_answers(){
-            // alert("test");
             var user_id=$('#student').val();
             var next_student=2;
             var question_type="Multiple Choice - Single Answer";
