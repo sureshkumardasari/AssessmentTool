@@ -202,17 +202,11 @@
                                                         <div class="col-md-offset-4">
                                         <button type="button" class="btn btn-primary" onclick="save_student_essay_answers()">Save</button>
                                         <a class="btn btn-danger" href="{{ url('/grading/list-student/'.$assignment_id.'-'.$assessment_id) }}">Cancel</a>
-                                        <button type="button" class="btn btn-primary grade">Grade</button>
-                                    </div>
-                                            </div>    
-                                            
-                                        
-                         
-
-                                
-                                    
-                                   
-                         </div>
+                                        <button type="button" class="btn btn-primary grade">Grade
+                                        </button>
+                                            </div>
+                                      </div>    
+                                </div>
                                         
                                     
                      
@@ -762,10 +756,11 @@
                 var input= $('input[type="checkbox"][value='+val+']');
                 input.prop('checked',true);
                 var question=input.attr('question');
-                $('#incomplete_status'+question).hide();
-                $('#complete_status'+question).show();
-                if($.inArray(val.toString(),correct_answers)<0){
+                
+                if($.inArray(val.toString(),correct_answers)>0){
                     $('#'+val).addClass('label-danger');
+                    $('#incomplete_status'+question).show();
+                $('#complete_status'+question).hide();
                 }
             });
 
@@ -784,8 +779,8 @@
                 input.prop('checked',true);
                 var question=input.attr('question');
                 //alert(question);
-                $('#incomplete_status'+question).hide();
-                $('#complete_status'+question).show();
+                // $('#incomplete_status'+question).hide();
+                // $('#complete_status'+question).show();
                 if($.inArray(val.toString(),correct_answers)<0){
                     $('span#'+selected_student_answers[i]).addClass('label-danger');
 
@@ -804,7 +799,7 @@
             $.each(Essay_answers, function(id,val){
                 $('#incomplete_status'+id).hide();
                 $('#complete_status'+id).show();
-                //$('#essay'+id).html(''); 
+                $('#essay'+id).html(''); 
                 if(val !=""){
                 $('#essay'+id).html(val);        
                 }
