@@ -309,20 +309,31 @@ function breadcrumb($displayName = '', $urlSlug = '') {
             'route' => 'studentGrading',
             'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'),//
         ),
-         'studentQuestion' => array(
+         /*'studentQuestion' => array(
             'displayName' => 'Student Questions',
             'route' => 'studentQuestion',
             'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading', 'studentGrading' => 'Grade By Student'), //
+        ),*/
+        'studentQuestion' => array(
+            'displayName' => 'Student Questions',
+            'route' => 'studentQuestion',
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'), //
         ),
         'questionGrading' => array(
             'displayName' => 'Grade By Question',
             'route' => 'questionGrading',
             'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'), //
         ),
-         'questiongrade' => array(
+         /*'questiongrade' => array(
             'displayName' => 'Questions Grade',
             'route' => 'questiongrade',
             'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading', 'questionGrading' => 'Grade By Question'), //
+        ),*/
+
+        'questiongrade' => array(
+            'displayName' => 'Questions Grade',
+            'route' => 'questiongrade',
+            'postfix' => array('mainhome' => 'Home','allassignment' => 'Grading'), //
         ),
          //------------------reports------------------
          'report' => array(
