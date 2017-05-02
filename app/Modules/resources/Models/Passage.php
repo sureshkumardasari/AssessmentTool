@@ -37,7 +37,29 @@ class Passage extends Model {
            }
    			$passages = $obj->select('id','title','status')->get();
   }
-  //dd($passages);
+  // dd($passages);
+  return $passages;
+ }
+ public function getpassage1($passage_id = 0)
+ {
+
+  $obj = DB::table('passage');
+  if($passage_id > 0 || $passage_id == 0)
+  {
+   		$passages = $obj->where("id", $passage_id)->lists('title','id');
+
+  }
+  else
+  {
+     		$sessRole = getRole() ;
+           if($sessRole != 'administrator')
+           {
+            $passages = $obj->where('institute_id','=' , Auth::user()->institution_id);
+           }
+   			   $passages = $obj->lists('title','id');
+
+  }
+  // dd($passages);
   return $passages;
  }
 	public function getpassageInfo($id = 0)
