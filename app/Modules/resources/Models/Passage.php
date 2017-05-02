@@ -22,25 +22,20 @@ class Passage extends Model {
 
 	public function getpassage($passage_id = 0)
  {
-  //dd($passage_id);
 
-  //$users = User::get();
   $obj = DB::table('passage');
-  if($passage_id > 0 || $passage_id == 0)
+  if($passage_id > 0)
   {
-   $passages = $obj->where("id", $passage_id)->lists('title','id');
+   		 $obj->where('id', $passage_id);
   }
   else
   {
-     $sessRole = getRole() ;
+     		$sessRole = getRole() ;
            if($sessRole != 'administrator')
            {
             $passages = $obj->where('institute_id','=' , Auth::user()->institution_id);
            }
-
-
-   $passages = $obj->lists('title','id');
-   //dd($passages);
+   			$passages = $obj->select('id','title','status')->get();
   }
   //dd($passages);
   return $passages;
