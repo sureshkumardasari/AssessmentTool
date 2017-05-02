@@ -278,7 +278,7 @@ class Assignment extends Model {
                         ->join("question_answers as qa", 'qa.question_id', '=', 'q.id')
                         ->whereIn("aq.assessment_id",$assessmentIds)
                         ->where("qa.is_correct","=", 'Yes')//qa.is_correct='Yes'
-                        ->select("q.id","q.title","qt.qst_type_text as question_type","qa.id as answer_id","qa.order_id as order_id")
+                        ->select("q.id","q.qst_text","qt.qst_type_text as question_type","qa.id as answer_id","qa.order_id as order_id")
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
@@ -288,7 +288,7 @@ class Assignment extends Model {
             foreach ($questions as $question) {
 
                 $dataset[$counter][] = $question->id;
-                $questionText = empty($question->title) ? '' : strip_tags($question->title);
+                $questionText = empty($question->qst_text) ? '' : strip_tags($question->qst_text);
                 $questionText = str_replace('�', '\'', $questionText);
                 $questionText = str_replace('�', '"', $questionText);
                 $questionText = str_replace('�', '"', $questionText);
@@ -346,7 +346,7 @@ class Assignment extends Model {
             }
         }
 
-        //dd($dataset);
+        dd($dataset);
         return $dataset;
     }
 }
