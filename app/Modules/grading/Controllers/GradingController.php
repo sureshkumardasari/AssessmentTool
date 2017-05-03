@@ -616,12 +616,17 @@ else
 			}
 			else if($post['question_type']=="Multiple Choice - Single Answer"){
 				foreach($post['question_selected_answers'] as $question_id=>$answer) {
+					if (in_array((int)$question_id,$user_already_entered_answers)){
+						QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
+								->delete();//['question_answer_id'=>$answer]);
+					}
 					if(isset($post['user_selected_correct_answers'][$question_id])){
 						$user_selected_correct_answers=$post['user_selected_correct_answers'][$question_id];
 					}
 					else{
 						$user_selected_correct_answers=[];
 					}
+					//dd($user_selected_correct_answers);
 					if(in_array($answer,$user_selected_correct_answers)){
 						$grade_s = "Do u want to grade student?";
 						$is_correct = "Yes";
@@ -744,7 +749,7 @@ else
 			//dd($essay_answer);
 			if(in_array($key,$questions_list)){
 				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
-					->update(['points'=>$essay_answer/*,'question_answer_text'=>$essay_answer*/]);
+					->update(['points'=>$essay_answer,'question_answer_text'=>$essay_answer]);
 
 			}
 			else{
