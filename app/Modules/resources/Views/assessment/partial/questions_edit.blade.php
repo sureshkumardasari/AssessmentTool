@@ -272,7 +272,18 @@ $(document).ready(function() {
 	    $('#passageid1').prop('checked', allChecked);
 	});
 
-	 
+	 $('#passageid1').change(function(){
+    if($(this).prop('checked')){
+    	//alert('siva');
+        $('tbody tr td input[type="checkbox"]').each(function(){
+            $(this).prop('checked', true);
+        });
+    }else{
+        $('tbody tr td input[type="checkbox"]').each(function(){
+            $(this).prop('checked', false);
+        });
+    }
+});
 
 	
 
@@ -288,22 +299,23 @@ $(document).ready(function() {
 	});
 	$('#institution_id').val('');
 	$('#category_id').val('');
+	//tabs
 	$('#questions_tab').on('click',function(){
 			$('#question_type_div').show();
 		});
+	$('#passages_tab').on('click',function(){
+		$('#question_type_div').hide();
+		$('#institution_id').val('');
+		$('#category_id').val('');
+		$('.multipleSelect').val('');
+		$('#subject_id').multiselect('refresh');
+		$('#lessons_id').multiselect('refresh');
+		$( "#passageid" ).prop( "checked", false );
+	});
+});
 
-// 		for hiding the question type filter
-		$('#passages_tab').on('click',function(){
-			$('#question_type_div').hide();
-			$('#institution_id').val('');
-			$('#category_id').val('');
-			$('.multipleSelect').val('');
-			$('#subject_id').multiselect('refresh');
-			$('#lessons_id').multiselect('refresh');
-		});
-	// $('#passage_lessons_id').multiselect();
+
 </script>
-
 @include('resources::assessment.assessment_js_validation')
 
 
