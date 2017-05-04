@@ -618,7 +618,7 @@ else
 				foreach($post['question_selected_answers'] as $question_id=>$answer) {
 					if (in_array((int)$question_id,$user_already_entered_answers)){
 						QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('question_id',$question_id)->where('user_id',$post['user_id'])
-								->delete();//['question_answer_id'=>$answer]);
+								->update(['question_answer_id'=>(int)$answer]);//['question_answer_id'=>$answer]);
 					}
 					if(isset($post['user_selected_correct_answers'][$question_id])){
 						$user_selected_correct_answers=$post['user_selected_correct_answers'][$question_id];
@@ -749,7 +749,7 @@ else
 			//dd($essay_answer);
 			if(in_array($key,$questions_list)){
 				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
-					->update(['points'=>$essay_answer,'question_answer_text'=>$essay_answer]);
+					->update(['points'=>$essay_answer/*,'question_answer_text'=>$essay_answer*/]);
 
 			}
 			else{
@@ -772,16 +772,10 @@ else
 
 	public function submit_fib_score($assessment_id,$assignment_id,$user_id=0){
 		$post=Input::all();
-		//dd($post);
-		//dd($assessment_id);
-		//dd($assignment_id);
-		//dd($user_id);
-		//dd($post);
+		dd($post);
 		$questions_list=QuestionUserAnswer::where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('user_id',(int)$user_id)->lists('question_id');
-		//dd($questions_list);
 		$qua=new QuestionUserAnswer();
-		foreach($post['fib_answer_scores'] as $key=>$fib_answer){
-			//dd($fib_answer);
+		foreach($post['fib_answer_scores'] as $key=>$fib_answer){ 
 			if(in_array($key,$questions_list)){
 				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
 						->update(['points'=>$fib_answer/*,'question_answer_text'=>$essay_answer*/]);
