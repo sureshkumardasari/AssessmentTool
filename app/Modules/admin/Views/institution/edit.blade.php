@@ -51,26 +51,26 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Name</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ $name }}">
+								<input type="text" class="form-control" name="name" value="{{Input::old('name', $name)}}">
 							</div>
 						</div>
 
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Address1</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="address1" value="{{ $address1 }}">
+								<input type="text" class="form-control" name="address1" value="{{Input::old('address1', $address1)}}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">Address2</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="address2" value="{{ $address2 }}">
+								<input type="text" class="form-control" name="address2" value="{{Input::old('address2', $address2)}}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">Address3</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="address3" value="{{ $address3 }}">
+								<input type="text" class="form-control" name="address3" value="{{Input::old('address3', $address3)}}">
 							</div>
 						</div>
 						<div class="form-group required">
@@ -100,19 +100,19 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">City</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="city" value="{{ $city }}">
+								<input type="text" class="form-control" name="city" value="{{Input::old('city', $city)}}">
 							</div>
 						</div>
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Pincode</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="pincode" value="{{ $pincode }}">
+								<input type="text" class="form-control" name="pincode" value="{{Input::old('pincode', $pincode)}}">
 							</div>
 						</div>
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Phone No.</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}" maxlength="10">
+								<input type="text" class="form-control" name="phoneno" value="{{Input::old('phoneno', $phoneno)}}" maxlength="10">
 							</div>
 						</div>
 						<div class="form-group">

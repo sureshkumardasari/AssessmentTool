@@ -9,6 +9,7 @@
 @section('content')
 
 <?php
+//echo " ===> ".Input::old('first_name');
 	$user_id = $id;
 	$role_id = (old('role_id') != NULL) ? old('role_id') : $role_id; 
 	$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $institution_id; 
@@ -24,16 +25,12 @@
 	$phoneno = (old('phoneno') != NULL)? old('phoneno') : $phoneno;
 	$country_id=(old('country_id')!=NULL)? old('country_id'):$country_id;
 	$status = (old('status') != NULL) ? old('status') : $status; 
-	$gender = (old('gender') != NULL) ? old('gender') : $gender;  
-
-	/*if($profile_picture != NULL)
+	$gender = (old('gender') != NULL) ? old('gender') : $gender; 
+	/*if($_POST['submit'])
 	{
-		$profile_picture = asset('/data/uploaded_images/128x128/'.$profile_picture);
-	}
-	else
-	{
-		$profile_picture = asset('/images/profile_pic.jpg');	
-	}*/	
+		$first_name=old('first_name');
+	}*/
+						
 ?>
 <style>
 		.image_add{
@@ -122,25 +119,29 @@
 							</div>
 						</div>
 						@endif
+						
 
 						<div class="form-group required">
 							<label class="col-md-4 control-label">First Name</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="first_name" value="{{ $first_name }}">
+								<input type="text" class="form-control" name="first_name" value="{{Input::old('first_name', $first_name)}}">
 							</div>
+							
+
+
 						</div>
 
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Last Name</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="last_name" value="{{ $last_name }}">
+								<input type="text" class="form-control" name="last_name" value="{{Input::old('last_name', $last_name)}}">
 							</div>
 						</div>
 
 						<div class="form-group required">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ $email }}">
+								<input type="email" class="form-control" name="email" value="{{Input::old('email', $email)}}">
 							</div>
 						</div>
 						@if ($user_id == 0)			
@@ -182,26 +183,26 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Enrollno</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="enrollno" value="{{ $enrollno }}">
+								<input type="text" class="form-control" name="enrollno" value="{{Input::old('enrollno', $enrollno)}}">
 							</div>
 						</div>
 						<!--  -->
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Address1</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="address1" value="{{ $address1 }}">
+								<input type="text" class="form-control" name="address1" value="{{Input::old('address1', $address1)}}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">Address2</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="address2" value="{{ $address2 }}">
+								<input type="text" class="form-control" name="address2" value="{{Input::old('address2', $address2)}}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">Address3</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="address3" value="{{ $address3 }}">
+								<input type="text" class="form-control" name="address3" value="{{Input::old('address3', $address3)}}">
 							</div>
 						</div>
 						<div class="form-group required">
@@ -231,20 +232,20 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">City</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="city" value="{{ $city }}">
+								<input type="text" class="form-control" name="city" value="{{Input::old('city', $city)}}">
 							</div>
 						</div>
 						
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Pincode</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="pincode" value="{{ $pincode }}" maxlength="6">
+								<input type="text" class="form-control" name="pincode" value="{{Input::old('pincode', $pincode)}}" maxlength="6">
 							</div>
 						</div>
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Phoneno</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="phoneno" value="{{ $phoneno }}" maxlength="10">
+								<input type="text" class="form-control" name="phoneno" value="{{Input::old('phoneno', $phoneno)}}" maxlength="10">
 							</div>
 						</div>
 						<!--  -->
@@ -261,7 +262,7 @@
 						@endif					
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-primary" class="submit" id="submit"  name="submit"> 
 									Submit
 								</button>
 
