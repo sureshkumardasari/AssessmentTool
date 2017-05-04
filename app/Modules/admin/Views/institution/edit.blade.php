@@ -36,7 +36,7 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">Parent Institution</label>
 							<div class="col-md-6">
-								<select class="form-control" name="parent_id">
+								<select class="form-control" name="parent_id" id="parent_id">
 									<option value="0">--Select--</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $parent_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -136,6 +136,9 @@
          $('#flash').fadeOut();
      }, 5000);
  })
+     $(document).ready(function () {
+    $("#parent_id option[value='0']").prop("selected", true);
+    });
  </script>
  <script>
         function change_user(){

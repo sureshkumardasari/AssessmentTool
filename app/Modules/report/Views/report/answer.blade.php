@@ -68,6 +68,9 @@
     </div>
 
     <script>
+    $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
         var loadurl = "{{ url('/report/assignment_qstn/') }}/" ;
         function inst_change(){
             if($('#institution_id').val()==0 || $('#assignment').val()==0|| $('#subject').val()==0){

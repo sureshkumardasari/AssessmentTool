@@ -79,6 +79,9 @@
 
 
     <script>
+    $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
         var loadurl = "{{ url('/report/assignment_wholeclass/') }}/" ;
 
         $( document ).ready(function() {

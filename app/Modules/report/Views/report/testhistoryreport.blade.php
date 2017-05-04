@@ -51,6 +51,10 @@
         </div>
     </div>
     <script>
+
+    $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
         //$("#institution_id option[value=0]").remove();
         var op=new Option('select',0)
         //$("#institution_id").append(op);

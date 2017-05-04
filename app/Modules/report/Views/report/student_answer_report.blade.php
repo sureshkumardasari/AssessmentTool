@@ -66,6 +66,9 @@
     </div>
 
     <script>
+    $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
         var loadurl = "{{ url('/report/students_inst/') }}/" ;
         var assignmturl = "{{ url('/report/assignmt_inst/') }}/" ;
         var studentturl = "{{ url('/report/student_assignmt_inst/') }}/" ;

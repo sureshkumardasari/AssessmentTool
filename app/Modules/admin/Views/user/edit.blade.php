@@ -96,7 +96,8 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id">
+								<select class="form-control" name="institution_id" id=
+								"institution_id">
 									<option value="0">Select</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -293,6 +294,9 @@
 	}
 </script>
     <script>
+    $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
         function change_user(){
             //alert('hai');
         var csrf=$('Input#csrf_token').val();

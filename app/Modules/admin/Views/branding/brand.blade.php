@@ -115,7 +115,14 @@
 	
 	<script src="{{ asset('assets/js/bootstrap-colorpicker.min.js')}}"></script>
 	<link href="{{ asset('css/bootstrap-colorpicker.min.css') }}" rel='stylesheet' type='text/css'>
-	<script> $(function() {
+	<script> 
+$(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
+
+
+	
+	$(function() {
 			$('.jscolor').colorpicker({ color: '#000000', format: 'hex' }); });
 		var branding_institutions=[];
 

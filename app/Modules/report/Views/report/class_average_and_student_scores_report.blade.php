@@ -56,7 +56,11 @@
         </div>
     </div>
     <script>
-        var loadurl = "{{ url('/report/assessment_inst/') }}/" ;
+
+    $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+});
+          var loadurl = "{{ url('/report/assessment_inst/') }}/" ;
         function report(){
             if($('#institution_id').val()==0 || $('#assignment_id').val()==0){
                 alert("please select all the fields");
@@ -99,6 +103,7 @@
                             for (i = 0; i < a; i++) {
                                 var opt = new Option(response[i].name, response[i].id);
                                 $('#assignment_id').append(opt);
+
                             }
                         }
                     }

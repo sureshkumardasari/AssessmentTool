@@ -159,6 +159,9 @@
          $('#flash').fadeOut();
      }, 5000);
  })
+     $(document).ready(function () {
+    $("#institution_id option[value='0']").prop("selected", true);
+    });
  </script>
 <script>
 $('#question_type').change(function () {
