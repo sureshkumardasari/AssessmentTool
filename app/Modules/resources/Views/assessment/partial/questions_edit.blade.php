@@ -207,10 +207,12 @@
 			<table id="selected-passage" class="table table-striped table-bordered   parent-selected-grid" cellspacing="0" width="100%">
 				<thead>
 				<tr>
-					<th><input type="checkbox" name="passageid1" id="passageid1" class="check-all-selected-passage" value=""></th>
+					<th><input type="checkbox" name="passageid1" id="passageid1" class="check-all-selected-passage" value=""   ></th>
 					<th>Passage Name</th>
 				</tr>
 				</thead>
+				
+				<tbody class="child-grid selectall1" >
 				<?php
 				if (count($errors) > 0){
 				if(old('QuestionIds'))
@@ -236,7 +238,6 @@
 				@endforeach
 				<?php }
 				?>
-				<tbody class="child-grid selectall1" >
 				</tbody>
 			</table>
 
@@ -254,29 +255,30 @@
 </div>
 
 <script type="text/javascript">
-//desible show entires & pagination in datatables
-$( "#QuestionIds" ).prop( "checked", false );
-                $('.selectall input[type="checkbox"]').on('change', function () 
-                        {
-                            //alert($(' .test input').length);
-                
-                                var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
+//checkbox select all functionality
+$(document).ready(function() {
 
-                                $('#QuestionIds11').prop('checked', allChecked);
-                        });
+	$( "#QuestionIds" ).prop( "checked", false );
+	$('.selectall input[type="checkbox"]').on('change', function () 
+	{
+	    var allChecked = $(' .selectall input:checked').length === $(' .selectall input').length/2;
+	    $('#QuestionIds11').prop('checked', allChecked);
+	});
+	$( "#passageid" ).prop( "checked", false );
+	$('.child-grid input[type="checkbox"]').on('change', function () 
+	{
+		//alert('test');
+	    var allChecked = $(' .child-grid input:checked').length === $(' .child-grid input').length/2;
+	    $('#passageid1').prop('checked', allChecked);
+	});
+
+	 
+
+	
 
 
-
-	$(document).ready(function() {
-		
-		//alert(JSON.stringify(subjects_list));
-		
-		{{--//$('#subject_id').val({{$subject_id}});--}}
-		{{--var a={{$subject_id}};--}}
-		// alert(a);
-		//alert($('#subject_id').val())
-		$('.edit_assessment').hide();
-	} );
+	
+	$('.edit_assessment').hide();
 	$('#subject_id').multiselect();
 	 $('#lessons_id').multiselect();
 	$('#passage_subject_id').multiselect();
