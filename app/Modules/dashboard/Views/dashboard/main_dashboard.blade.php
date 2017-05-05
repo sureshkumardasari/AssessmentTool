@@ -11,19 +11,19 @@
  </style>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-lg-4 col-sm-7  ">
             <h5><b>Class Average and Student Scores Report:<b></h5>
             <div id="chart-2">
             FusionCharts XT will load here!
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-sm-7 ">
             <h5><b>Test History Class Averages:<b></h5>
             <div id="chart-1">    
             FusionCharts XT will load here!
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-sm-7 ">
             <h5><b>Whole Class Score Report:<b></h5>
             <div id="recentupdated">    
             FusionCharts XT will load here! 
