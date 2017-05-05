@@ -96,8 +96,7 @@
 						<div class="form-group required">
 							<label class="col-md-4 control-label">Institution</label>
 							<div class="col-md-6">
-								<select class="form-control" name="institution_id" id=
-								"institution_id">
+								<select class="form-control" name="institution_id">
 									<option value="0">Select</option>
 									@foreach($inst_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -105,7 +104,6 @@
 								</select>								
 							</div>
 						</div>
-						
 						
 						@if( (Auth::user()->id != $user_id) || $user_id == 1)
 						<div class="form-group required">
