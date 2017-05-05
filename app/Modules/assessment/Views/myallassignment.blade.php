@@ -31,7 +31,7 @@
                                     
                                     //echo  $now;
 
-                                    //$now     = date('Y-m-d H:i:s');
+                                    $now     = date('Y-m-d H:i:s');
                                     //dd($now.",".$endDateTime.",".$assignment->AssignmentName);
                                     if($assignment->Expires != "1"){
                                      //   $isVisible = false;
