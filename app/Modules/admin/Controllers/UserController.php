@@ -692,14 +692,15 @@ class UserController extends BaseController
 		$dimensions = getimagesize($file);
 		$fileName = time() . '.' . $extension;
 		$destinationPath = public_path('/data/uploaded_images/orignal/');
-
+        if($file < 4*1024){
 		if (!file_exists('data/uploaded_images/orignal/')) {
 			mkdir('data/uploaded_images/orignal/', 0777, true);
 		}
+	}
 		$file->move($destinationPath, $fileName);
 
 		$resizePath = public_path() . '/data/uploaded_images/400x400/';
-		if ($dimensions[0] > 400 || $dimensions[1] > 400) {
+		if ($dimensions[0] > 200 || $dimensions[1] > 200) {
 			resizeImage($destinationPath, $fileName, $resizePath, 400, 400, $ratio = true);
 		} else {
 			copy($destinationPath . $fileName, $resizePath . $fileName);
