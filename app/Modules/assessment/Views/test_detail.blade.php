@@ -70,6 +70,7 @@
 {!! HTML::script(asset('plugins/jquery-backward-timer.min.js')) !!}
 {!! HTML::script(asset('plugins/jPaginate.js')) !!}
 <script type="text/javascript">
+
     $(document).ready(function() {
         var _token = $(".hidden-token").val();
         var _ids = '{{ $id }}';
@@ -348,7 +349,45 @@
     $(document).ready(function(){
          window.essay_isDirty = false;
     });
+   /* window.onbeforeunload = function() { return "Are you sure you want to leave this page."; };*/
+</script>
+    <script type="text/javascript">
+    (function (global) { 
 
-window.onbeforeunload = function() { return "Are you sure you want to leave this page."; };
+    if(typeof (global) === "undefined") {
+        throw new Error("window is undefined");
+    }
+
+    var _hash = "!";
+    var noBackPlease = function () {
+        global.location.href += "#";
+
+        // making sure we have the fruit available for juice (^__^)
+        global.setTimeout(function () {
+            global.location.href += "!";
+        }, 50);
+    };
+
+    global.onhashchange = function () {
+        if (global.location.hash !== _hash) {
+            global.location.hash = _hash;
+        }
+    };
+
+    global.onload = function () {            
+        noBackPlease();
+
+        // disables backspace on page except on input fields and textarea..
+        document.body.onkeydown = function (e) {
+            var elm = e.target.nodeName.toLowerCase();
+            if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')) {
+                e.preventDefault();
+            }
+            // stopping event bubbling up the DOM tree..
+            e.stopPropagation();
+        };          
+    }
+
+})(window);
 </script>
 @endsection
