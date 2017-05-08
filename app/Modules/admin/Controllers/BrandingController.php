@@ -203,7 +203,7 @@ class BrandingController extends Controller {
 		}
 		elseif($role=="admin"){
 			if(Branding::where('institution_id',$inst)->count()==0){
-				\Session::flash('flash_message','Information saved successfully.');
+				// \Session::flash('flash_message','Information saved successfully.');
 				return $this->add($inst);
 			}
 			else{

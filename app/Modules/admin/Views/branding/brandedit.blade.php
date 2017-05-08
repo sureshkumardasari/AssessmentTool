@@ -98,7 +98,7 @@
                                 <!-- <button type="reset" class="btn btn-default">Reset</button> -->
                                 <button type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-default">Reset
                                 </button>
-                                <a class="btn btn-danger" href="@if(getRole()=='administrator'){{  url('user/brandings') }}@else {{url('/home')}} @endif">Cancel</a>
+                                <a class="btn btn-default" href="@if(getRole()=='administrator'){{  url('user/brandings') }}@else {{url('/home')}} @endif">Cancel</a>
                             </div>
                         </form>
                     </div>
