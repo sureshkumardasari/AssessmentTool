@@ -223,7 +223,7 @@ function filter(){
 							else{
 								tr.append("<td>Inactive ");
 							}
-							tr.append("<td><a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a><a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a><a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
+							tr.append("<td><a href='questionview/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a>&nbsp;<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>&nbsp;<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
 							/*tr.append("<a href='questionedit/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
 							tr.append("<a href='questiondel/"+ response[i].qid +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");*/
 							
