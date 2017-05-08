@@ -112,7 +112,7 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 			<thead>
 			<tr>
 				<th><input type="checkbox" id="QuestionIds" value="" class="check-all-question"></th>
-				<th>Question Name</th>
+				<th>Question Title</th>
 
 			</tr>
 			</thead>
