@@ -139,7 +139,7 @@
 
 			            <?php if(!$value){?>
 			      
-			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary mb10 mr5 mt10 fltR create_answer">Add New Answer</a>
+			                <a href="javascript:void(0)" class="upload_btn clr btn btn-primary mb10 mr5 mt10 fltR create_answer" style="margin-right: 10px;">Add New Answer</a>
 			     			@if($question_type == "Fill in the blank")
 			                <script>
 			                $('.create_answer').hide();
