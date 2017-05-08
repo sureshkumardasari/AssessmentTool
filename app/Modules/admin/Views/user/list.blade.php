@@ -41,7 +41,7 @@
 									</select>
 								</div>
 							</div>
-							<br><br>
+							<br>
 							<!-- <?php getInstitutionsSelectBox('institution_id', 'institution_id', 0, '','All'); ?>  -->
 							<br><br>
 							<div class="form-group col-md-6">
