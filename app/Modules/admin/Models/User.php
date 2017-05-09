@@ -137,7 +137,10 @@ public function getUsers1($institution_id = 0, $role_id = 0)
 
 	public function getRoles()
 	{
-		$roles = DB::table('roles')->lists('name', 'id');
+		if(Auth::user()->role_id!=1)
+		$roles = DB::table('roles')->where('id','<>','1')->lists('name', 'id');
+        else
+        	$roles = DB::table('roles')->lists('name', 'id');
 		return $roles;
 	}
 

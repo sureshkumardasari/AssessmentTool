@@ -37,31 +37,17 @@
 				 
  
 
-<script>
+{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+ <script>
   	$(document).ready(function() {
-  		var role_name=$('#action').val();
-  	if((role_name == "student") || (role_name == "teacher"))
-  	{
-  	$('#example').DataTable({
-	aoColumnDefs: [
-  {
-     bSortable: false,
-     aTargets: [ -1,-3]
-  }
-]
- });
-  	}else{	 
     $('#example').DataTable({
 	aoColumnDefs: [
   {
      bSortable: false,
-     aTargets: [ -1]
+     aTargets: [ -1 ]
   }
 ]
  });
-
-}
-
 });	
 </script>
 <!-- <script>
@@ -112,4 +98,4 @@
 		}
 		
 	</script> -->
-{!! HTML::script(asset('/js/custom/confirm.js')) !!}
+<!-- {!! HTML::script(asset('/js/custom/confirm.js')) !!} -->

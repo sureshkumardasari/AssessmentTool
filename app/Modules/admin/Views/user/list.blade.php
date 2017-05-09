@@ -19,7 +19,7 @@
 				</div>
 				
 				<div class="panel-body">
-                      @if (Auth::user()->id == 1)
+                      
 					<div class="panel panel-default">
 						<div class="panel-heading searchfilter pointer">Advanced Filters
 							<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>
@@ -65,7 +65,7 @@
 							</div>
 						</div>
 					</div>
-					@endif
+					
 					<div id="user-list" style="min-height:50px;"> {!! $usersList !!} </div>					
 				</div>
 			</div>
