@@ -10,8 +10,9 @@
                 <div class="panel-body">
                     <input type="hidden" name="_token" id="csrf_token" value="{{ csrf_token() }}">
                     <div class="col-md-5">
+                     <span style="color:red"><center><b>Students Not Started</b></center></span>
                         <table id="student_table" class="table table-striped table-bordered parent-grid" ><ion-content overflow-scroll="false">
-                            <caption style="color:red"><center><b>Students Not Started</b></center></caption>
+                           <!--  <caption style="color:red"><center><b>Students Not Started</b></center></caption> -->
                             <thead>
                             <th style="height:14px;"></th>
                             <th style="height:14px;">Student Name</th>
@@ -33,8 +34,9 @@
                         </table>
                     </div>
                     <div class="col-md-5">
+                    <span style="color:red"><center><b>Students Started</b></center></span>
                         <table id="student_selected_table" class="table table-striped table-bordered students-selected-parent-grid"><ion-content overflow-scroll="false">
-                            <caption style="color:red"><center><b>Students Started</b></center></caption>
+                            <!-- <caption style="color:red"><center><b>Students Started</b></center></caption> -->
                             <thead>
                             <th style="height:14px;"></th>
                             <th style="height:14px;">Student Name</th>
@@ -241,7 +243,7 @@
                                 $(this).closest('tr').remove();
                             });
                             $('#student_selected_table').DataTable({
-                                "dom": '<"top">rt<"bottom"i><"clear">',
+                                "dom": '<"top">rt<"bottom"i>',
                                 "paging": false,
                                 "scrollY": 300
                             });
