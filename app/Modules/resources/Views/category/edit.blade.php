@@ -64,8 +64,8 @@
          $('#flash').fadeOut();
      }, 5000);
  })
-     $(document).ready(function () {
-    $("#institution_id option[value='0']").prop("selected", true);
-    });
+    //  $(document).ready(function () {
+    // $(".fcontrol option[value='0']").prop("selected", true);
+    // });
  </script>
 @endsection

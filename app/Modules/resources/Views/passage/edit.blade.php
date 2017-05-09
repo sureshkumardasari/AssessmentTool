@@ -115,7 +115,7 @@
       <div class="form-group required">
        <label class="col-md-2 control-label">Institution</label>
        <div class="col-md-10">
-        <select class="form-control" name="institution_id" id="institution_id" onchange="change_institution()">
+        <select class="form-control" name="institution_id" id="institution_id"onchange="change_institution()">
          <option value="0">--Select Institution--</option>
           @foreach($inst_arr as $id=>$val)
          <option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
@@ -213,9 +213,9 @@
          $('#flash').fadeOut();
      }, 5000);
  })
-     $(document).ready(function () {
-    $("#institution_id option[value='0']").prop("selected", true);
-    });
+    //  $(document).ready(function () {
+    // $("#institution_id option[value='0']").prop("selected", true);
+    // });
  </script>
  {!! HTML::script(asset('js/custom/passage.js')) !!}
 @include('resources::question.qst_js_validation')
