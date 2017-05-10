@@ -18,6 +18,12 @@ class ProctorDashboard extends Controller {
 	public function index()
 	{
 		$proctor= Auth::user();
+		//dd($proctor);
+		if (Auth::user()->role_id == 4) {
+			$proctor_assignments=Assignment::where('institution_id','=',$proctor->institution_id)->where('proctor_user_id',$proctor->role_id)->where('status','<>',"completed")->get();
+			//dd($proctor_assignments);
+		}else
+		{
 
 		//$ass=Assignment::where('proctor_user_id',$proctor->id)->lists('id');//->get();
 
@@ -26,6 +32,7 @@ class ProctorDashboard extends Controller {
 		//$now=date("Y-m-d H:i:s");
 		//dd($proctor_assignments.",".$now);
 //        }
+		}
 		   if (Auth::user()->role_id == 2) {
          $message = "You don't have permission";
            \Session::put("success", $message);
