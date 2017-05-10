@@ -131,18 +131,20 @@
                     "theme": "fint"
                 },
                
+                
                 "dataset": [
                     {
                         "data": [
                         @foreach($students as $user_id => $assignment)
                         {
                         'label' : '{{$assignment->sname}}',
+                        'value' : '{{$score}}'
                          },
                     @endforeach
-                               {
+                          //      {
                                
-                                'value' : '{{$score}}'
-                          }
+                          //       'value' : '{{$score}}'
+                          // }
                     ]
                     }
                 ]

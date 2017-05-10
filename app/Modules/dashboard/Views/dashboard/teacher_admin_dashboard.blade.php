@@ -122,12 +122,16 @@
                 "dataset": [
                     {
                         "data": [
-                        @foreach($class_students as $user_id => $student)
-                                {
-                        'label':'{{$student->sname}}',
-                        'value' : '{{$student->score}}'
-                    },
+                        @foreach($assignments as $user_id => $assignment)
+                        {
+                        'label' : '{{$assignment->sname}}',
+                        'value' : '{{$score}}'
+                         },
                     @endforeach
+                          //      {
+                               
+                          //       'value' : '{{$score}}'
+                          // }
                     ]
                     }
                 ]
