@@ -21,25 +21,92 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
      </tr>
     </thead>
     <tbody> 
+    <tr>
+    <?php 
+        $pre_qid = '';
+
+        $temp_your_ans = [];
+        $pre_right_ans = [];
+    ?>
     @foreach($assignments as $assignment)
-    <tr> 
-        <td>
-            {{$assignment->question_title}}
-        </td>
-        <td> 
-            {{$arr[$assignment->correct_answer]}}
-        </td>
-        <td> 
-        @if($assignment->is_correct=="No")
-           <p style="color:red;font:bold;">{{$assignment->your_answer}}&nbsp;&nbsp;<span class="glyphicon glyphicon-remove"></span></p> 
-        @elseif($assignment->is_correct=="Open")
-          <p style="color:green;font:bold;">{{$assignment->your_answer}}&nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></p>
-        @elseif($assignment->is_correct=="Yes")
-            <p style="color:green;font:bold;">{{$assignment->your_answer}} &nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></p>
-        @endif
-        </td>
-    </tr>
+        <?php
+            $right_ans = [];
+        ?>
+        @foreach($correct_answers as $key => $correct_answer )
+            @if($key == $assignment->questionid)
+            @foreach($correct_answer as $key1 => $value )
+                <?php
+                    
+                    $right_ans[] = $arr[$value];
+                ?>
+            @endforeach
+            @endif
         @endforeach
+
+        <?php
+
+        if($pre_qid=='' || $pre_qid!=$assignment->questionid){
+            if($pre_qid!='' && $pre_qid!=$assignment->questionid){
+
+                echo '<td>';
+                foreach ($temp_your_ans as $key => $value) {
+                    if(in_array($value, $pre_right_ans)){
+                        echo '<span class="glyphicon glyphicon-ok"></span>'.($value)."&nbsp;&nbsp;&nbsp;";
+                    }else
+                echo '<span class="glyphicon glyphicon-remove"></span>'.($value)."&nbsp;&nbsp;&nbsp;";
+
+                
+                }
+
+                
+                echo '</td> </tr><tr>';
+
+                $temp_your_ans = [];
+            }
+
+            echo '<td>'
+                .$assignment->question_title.'
+            </td>
+            <td>'.implode(',', $right_ans).'             
+            </td>';
+            
+            
+
+        }
+
+            $temp_your_ans[] = $assignment->your_answer;
+            $pre_right_ans = $right_ans;
+
+        ?>
+        
+                 
+
+        <?php
+
+        $pre_qid = $assignment->questionid;
+        ?>
+
+        @endforeach
+        <?php
+        if($pre_qid!=''){
+          
+
+            echo '<td>';
+                foreach ($temp_your_ans as $key => $value) {
+                    if(in_array($value, $right_ans)){
+                        echo '<span class="glyphicon glyphicon-ok"></span>'.($value)."&nbsp;&nbsp;&nbsp;";
+                    }else
+                echo '<span class="glyphicon glyphicon-remove"></span>'.($value)."&nbsp;&nbsp;&nbsp;";
+
+                
+                }
+
+                
+                echo '</td> ';
+
+        }
+        ?>
+        </tr>
     </tbody>
      @else
      <tbody>

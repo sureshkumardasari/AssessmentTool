@@ -414,21 +414,47 @@ class ReportController extends Controller
 
     public function studentAnsList($inst_id, $assign_id, $student_id)
     {
-        $assignments = DB::table('assignment_user')
-            ->join('assignment', 'assignment.id', '=', 'assignment_user.assignment_id')
-            ->join('assessment', 'assessment.id', '=', 'assignment_user.assessment_id')
-            ->leftjoin('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id', 'and', 'assignment_user.assignment_id', '=', 'question_user_answer.assignment_id')
-            ->leftjoin('questions', 'questions.id', '=', 'question_user_answer.question_id')
-            ->leftjoin('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
+        $assignments = DB::table('question_user_answer')
+            ->join('questions', 'questions.id', '=', 'question_user_answer.question_id')
+            ->join('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
             ->where('question_user_answer.assignment_id', '=', $assign_id)
-            ->where('assignment_user.user_id', '=', $student_id)
-            ->where('question_answers.is_correct', '=', 'YES')
-            ->select('questions.title as question_title', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'assignment.id as id', 'question_user_answer.id as qid')
-            ->groupby('questions.id')
+            ->where('question_user_answer.user_id', '=', $student_id)
+            ->select('questions.title as question_title','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid')
+            ->groupby('qid')
             ->get();
-        //dd($assignments);
-        return view('report::report.student_answer_report_list', compact('assignments'));
+        $correct_answer = [];
+        $question_ids = [];
+        foreach ($assignments as $key => $assignment) {
+            $question_ids[] = $assignment->questionid;
+        }
+        $qids = array_unique($question_ids);
+        //dd($qids);
+        $correct_answers = $this->getQuestionAnswers($qids);
+        //dd($correct_answer);
+        //$correct_ans = array_push($correct_answer,$correct_answer["order_id"]);
+        //dd($correct_ans);
+
+        return view('report::report.student_answer_report_list', compact('assignments','correct_answers'));
     }
+
+
+    public function getQuestionAnswers($question_Ids=0)
+    {
+        $obj = DB::table('question_answers');
+        $answers=[];
+        
+            if($question_Ids > 0){
+                $obj->whereIn("question_id", $question_Ids);
+            }
+            $answers = $obj->where("is_correct", 'YES')->select('question_id','order_id')->get();
+        $correct_answer = [];
+        foreach ($answers as $key => $answer) {
+            $correct_answer[$answer->question_id][] = $answer->order_id;
+        }
+        //dd($answers);
+        return $correct_answer;
+    }
+
 
     public function SAR_pdf($inst_id, $assign_id, $student_id)
     { //dd($student_id);
