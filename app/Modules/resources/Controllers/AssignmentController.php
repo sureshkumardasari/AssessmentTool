@@ -106,7 +106,7 @@ class AssignmentController extends BaseController {
 
 		$assessments_arr =[];// Assessment::lists('name','id');
 		$users=Auth::user();
-		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','student')->lists('id');
+		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','admin')->where('name','!=','student')->lists('id');
 
 		$assessment_id = 0;
 		$institution_id = 0;
@@ -140,7 +140,7 @@ class AssignmentController extends BaseController {
 
 	public function GraderList($id)
 	{
-		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','student')->lists('id');
+		$teacher_and_admin_role_id=Role::where('name','!=','administrator')->where('name','!=','admin')->where('name','!=','student')->lists('id');
 		$grader=$this->user->getGrader($id,$teacher_and_admin_role_id);
 		// dd($grader);
 		return $grader;
