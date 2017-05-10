@@ -1016,7 +1016,7 @@ class ReportController extends Controller
         }
         $assignments = Assignment::join('assessment', 'assignment.assessment_id', '=', DB::raw('assessment.id && assignment.institution_id =' . $uid))->select('assignment.name as assign_name', 'assignment.id as assign_id', 'assessment.name as assess_name')
             ->orderby('startdatetime', 'desc')
-            ->take(5)
+            ->take(2)
             ->get();
         //dd($assignments);
         $assessment_arr = array_unique($lists);
@@ -1112,8 +1112,7 @@ class ReportController extends Controller
         foreach ($completed_users as $completed_user) {
             $complete_users[$completed_user->assignment_id] = $completed_user->count;
         }
-        $assignments = Assignment::join('assessment', 'assignment.assessment_id', '=', DB::raw('assessment.id && assignment.institution_id =' . $id))->select('assignment.name as assign_name', 'assignment.id as assign_id', 'assessment.name as assess_name')
-        ->take(5)->get();
+        $assignments = Assignment::join('assessment', 'assignment.assessment_id', '=', DB::raw('assessment.id && assignment.institution_id =' . $id))->select('assignment.name as assign_name', 'assignment.id as assign_id', 'assessment.name as assess_name')->get();
         $assessment_arr = array_unique($lists);
         foreach ($assessment_arr as $arr) {
             $counts[$arr] = AssessmentQuestion::where('assessment_id', $arr)->count('question_id');
@@ -1176,8 +1175,7 @@ class ReportController extends Controller
         foreach ($completed_users as $completed_user) {
             $complete_users[$completed_user->assignment_id] = $completed_user->count;
         }
-        $assignments = Assignment::join('assessment', 'assignment.assessment_id', '=', DB::raw('assessment.id && assignment.institution_id =' . $id))->select('assignment.name as assign_name', 'assignment.id as assign_id', 'assessment.name as assess_name')
-        ->take(5)->get();
+        $assignments = Assignment::join('assessment', 'assignment.assessment_id', '=', DB::raw('assessment.id && assignment.institution_id =' . $id))->select('assignment.name as assign_name', 'assignment.id as assign_id', 'assessment.name as assess_name')->get();
         $assessment_arr = array_unique($lists);
         foreach ($assessment_arr as $arr) {
             $counts[$arr] = AssessmentQuestion::where('assessment_id', $arr)->count('question_id');
