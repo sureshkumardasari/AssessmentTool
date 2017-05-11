@@ -247,31 +247,6 @@ $passage_lessons_id =  (old('passage_lessons_id') != NULL && old('passage_lesson
 
 
 <script type="text/javascript">
-//desible show entires & pagination in datatables
-$(document).ready(function() {
-
-
-$('#reset').on('click',function(){
-	$('#institution_id').val('');
-	$('#category_id').val('');
-	$('#subject_id').multiselect('refresh');
-	$('#lessons_id').multiselect('refresh');
-	$('#passage_subject_id').multiselect('refresh');
-	$('#passage_lessons_id').multiselect('refresh');
-	
-	$('#question_type').val('');
-	
-	});
-
-
-function uncheck(){
-	//alert('Hi');
-	
-	$("#QuestionId").attr('checked', false);
-	$("#QuestionIds").attr('checked', false);
-}
-
-
 
 	$(document).ready(function() {
 		
@@ -296,16 +271,10 @@ function uncheck(){
 			$('#question_type_div').hide();
 			$('#passage_table_length').hide();
 			$('#selected-passage_length').hide();
-			$('#institution_id').val('');
-			$('#category_id').val('');
-			$('.multipleSelect').val('');
-			$('#subject_id').multiselect('refresh');
-			$('#lessons_id').multiselect('refresh');
-
 		});
 
 	} );
-	} );
+
 
 		
 

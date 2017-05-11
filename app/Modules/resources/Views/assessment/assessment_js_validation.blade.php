@@ -377,6 +377,10 @@ if (count($errors) > 0){?>
 		$('.multipleSelect').val('');
 		$('#subject_id').multiselect('refresh');
 		$('#lessons_id').multiselect('refresh');
+		$('#question_table .test').empty();
+		$('#selected-questions .child-grid').empty();
+		$('#selected-passage .child-grid').empty();
+		$('#passage_table .test1').empty();
 		var myForm = document.forms.assessment_form;
 		var question_id = myForm.elements['QuestionIds[]'];
 		if(question_id) {
