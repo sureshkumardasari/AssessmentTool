@@ -21,7 +21,7 @@
   							$logopath = asset('/images/logo.png');
   						}
 				?>
-		<a class="navbar-brand" ><img class="logo-img" src="{{ $logopath }}" ></a>
+		<a class="navbar-brand" style="max-width: 600%;max-height: 300%;"><img class="logo-img" src="{{ $logopath }}" ></a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="top-navbar-collapse-1">
