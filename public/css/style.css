@@ -238,5 +238,10 @@ text-align: left !important;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+.logo-img{
+  max-width: 100%;
+  max-height: 300%;
+  width: 50%;
+  margin-top: -11px;
+}
 
