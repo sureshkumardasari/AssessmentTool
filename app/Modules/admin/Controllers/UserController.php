@@ -699,9 +699,9 @@ class UserController extends BaseController
 	}
 		$file->move($destinationPath, $fileName);
 
-		$resizePath = public_path() . '/data/uploaded_images/200x200/';
-		if ($dimensions[0] > 200 || $dimensions[1] > 200) {
-			resizeImage($destinationPath, $fileName, $resizePath, 200, 200, $ratio = true);
+		$resizePath = public_path() . '/data/uploaded_images/200x180/';
+		if ($dimensions[0] > 200 || $dimensions[1] > 180) {
+			resizeImage($destinationPath, $fileName, $resizePath, 200, 180, $ratio = true);
 		} else {
 			copy($destinationPath . $fileName, $resizePath . $fileName);
 		}
@@ -710,7 +710,7 @@ class UserController extends BaseController
 		$orignalFilePath = $destinationPath.$fileName;
 		$resizedFilePath = $resizePath.$fileName;
 
-		$resized_pic_url = asset('/data/uploaded_images/200x200/'.$fileName);
+		$resized_pic_url = asset('/data/uploaded_images/200x180/'.$fileName);
 		if(getenv('s3storage'))
 		{
 			$s3 = new \App\Models\S3();
