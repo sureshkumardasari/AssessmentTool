@@ -27,7 +27,28 @@ class QuestionUserAnswer extends Model {
                                     ->where('user_id', '=', $userId)
                                     ->where('assignment_id', '=', $assignmentId)
                                     ->get();
+            $answers=[];
+            $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];                      
+            $obj = DB::table('question_answers')->where("question_id", $questionPoint['question_id']);    
+            $answers = $obj->where("is_correct", 'YES')->select('question_id','order_id')->get();
+            $correct_answers = [];
+            foreach ($answers as $key => $answer) {
+                $correct_answers[$answer->question_id][] = $answer->order_id;
+            }
+            //dd($correct_answer);
+            foreach($correct_answers as $key => $correct_answer ){
+                    if($key == $questionPoint['question_id'])
+                    {
+                    foreach($correct_answer as $key1 => $value ){
+                        
+                            $right_ans[] = $arr[$value];
+                    }
 
+                    
+                   }
+                }
+
+                //dd($right_ans);
             // Create an entry for the answer if the answer wasn't available
             if ( count($userAnswers) === 0 ) {
 
@@ -44,8 +65,15 @@ class QuestionUserAnswer extends Model {
             } else {
                 // Iterate the answers and keep updating the points for each answer
                 foreach ($userAnswers as $userAnswer) {
+                    //dd($userAnswer->answer_option);
+                    
                     $userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
-                    $userAnswer->is_correct = $questionPoint['is_correct'];
+                    if(in_array($userAnswer->answer_option, $right_ans)){
+                       $userAnswer->is_correct = 'Yes';
+                    }else
+                    {
+                        $userAnswer->is_correct = 'No';
+                    }
                     $userAnswer->save();
                 }
             }
