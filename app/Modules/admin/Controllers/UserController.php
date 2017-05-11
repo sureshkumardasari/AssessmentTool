@@ -699,9 +699,9 @@ class UserController extends BaseController
 	}
 		$file->move($destinationPath, $fileName);
 
-		$resizePath = public_path() . '/data/uploaded_images/400x400/';
+		$resizePath = public_path() . '/data/uploaded_images/200x200/';
 		if ($dimensions[0] > 200 || $dimensions[1] > 200) {
-			resizeImage($destinationPath, $fileName, $resizePath, 400, 400, $ratio = true);
+			resizeImage($destinationPath, $fileName, $resizePath, 200, 200, $ratio = true);
 		} else {
 			copy($destinationPath . $fileName, $resizePath . $fileName);
 		}
@@ -710,14 +710,14 @@ class UserController extends BaseController
 		$orignalFilePath = $destinationPath.$fileName;
 		$resizedFilePath = $resizePath.$fileName;
 
-		$resized_pic_url = asset('/data/uploaded_images/400x400/'.$fileName);
+		$resized_pic_url = asset('/data/uploaded_images/200x200/'.$fileName);
 		if(getenv('s3storage'))
 		{
 			$s3 = new \App\Models\S3();
 			$s3->uploadByPath( $orignalFilePath, 'user_profile_pic_orignal');
-			$s3->uploadByPath( $resizedFilePath, 'user_profile_pic_400');
+			$s3->uploadByPath( $resizedFilePath, 'user_profile_pic_200');
 			$orignal_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_orignal');
-			$resized_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_400');
+			$resized_pic_url = $s3->getFileUrl($fileName, 'user_profile_pic_200');
 
 			unlink($orignalFilePath);
 			unlink($resizedFilePath);
