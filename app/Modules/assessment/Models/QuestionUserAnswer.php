@@ -21,7 +21,6 @@ class QuestionUserAnswer extends Model {
 
 	public function saveUserPoints( $questionPoints,$userId, $assignmentId ){
         // return $questionPoints ;             // Step 1: Save the question points
-        //dd($questionPoints);
         foreach ($questionPoints as $questionPoint) {
             
             $userAnswers = QuestionUserAnswer::where('question_id', '=', $questionPoint['question_id'])
@@ -36,7 +35,7 @@ class QuestionUserAnswer extends Model {
             foreach ($answers as $key => $answer) {
                 $correct_answers[$answer->question_id][] = $answer->order_id;
             }
-            //dd($correct_answers);
+            //dd($correct_answer);
             foreach($correct_answers as $key => $correct_answer ){
                     if($key == $questionPoint['question_id'])
                     {
@@ -49,7 +48,7 @@ class QuestionUserAnswer extends Model {
                    }
                 }
 
-                //dd($userAnswers);
+                //dd($right_ans);
             // Create an entry for the answer if the answer wasn't available
             if ( count($userAnswers) === 0 ) {
 
@@ -65,28 +64,8 @@ class QuestionUserAnswer extends Model {
                 $uAnswer->save();
             } else {
                 // Iterate the answers and keep updating the points for each answer
-                //dd($userAnswers);
                 foreach ($userAnswers as $userAnswer) {
-                if($userAnswer->answer_option == "")
-                {
-                    $uAnswer = new QuestionUserAnswer();
-
-                $uAnswer->question_id = $questionPoint['question_id'];
-                $uAnswer->user_id = $userId;
-                $uAnswer->assignment_id = $assignmentId;
-                $uAnswer->question_answer_id = 0;
-                $uAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
-                $uAnswer->is_correct = isset( $questionPoint['is_correct'] ) ? $questionPoint['is_correct'] : 'Open';
-
-                $uAnswer->save();
-                }
-                elseif($userAnswer->answer_option != "")
-                {
-
-                
                    $userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
-                     //dd($userAnswer->answer_option);
-                    //dd($userAnswer->points);
                     //for other types
                     if(($questionPoint['type'] == 'singleanswer') || ($questionPoint['type'] == 'fib') ||($questionPoint['type'] == 'essay'))
                     {    
@@ -94,25 +73,17 @@ class QuestionUserAnswer extends Model {
                     }           
                     else
                     {
-                        //for multi answer
-                        
-                        
-                            //dd('hai');
-                            if(in_array($userAnswer->answer_option, $right_ans))
-                            {
-                               $userAnswer->is_correct = 'Yes';
-                            }
-                            else
-                            {
-                                $userAnswer->is_correct = 'No';
-                            }  
-                        
-                       
+                        //for mulyi answer
+                       if(in_array($userAnswer->answer_option, $right_ans)){
+                           $userAnswer->is_correct = 'Yes';
+                        }else
+                        {
+                            $userAnswer->is_correct = 'No';
+                        }  
                     }
                     
                     $userAnswer->save();
                 }
-            }
             }
         }
     }
