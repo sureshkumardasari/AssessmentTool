@@ -123,15 +123,15 @@ use Mail;
         if( isset( $filters['status']) && !empty($filters['status']) ){
           $results->status = $filters['status'];
           
-          if($results->takendate != "0000-00-00 00:00:00"){
-            $results->takendate = date('Y-m-d H:i:s');
-          }  
+          // if($results->takendate != "0000-00-00 00:00:00"){
+          //   $results->takendate = date('Y-m-d H:i:s');
+          // }  
         } else {
             $grade = 'inprogress';
         }
         $results->gradestatus = $grade;
         $results->gradeddate = date('Y-m-d H:i:s'); 
-        $results->takendate = date('Y-m-d H:i:s');
+        // $results->takendate = date('Y-m-d H:i:s');
         return $results->save();
 
     }
