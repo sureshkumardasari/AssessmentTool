@@ -28,7 +28,8 @@ use Response;
 use App\Modules\Admin\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Modules\Admin\Models\RoleUser;
-use Request;
+// use Request;
+use Illuminate\Http\Request;
 use Session;
 
 
@@ -685,8 +686,9 @@ public function questionedit($id = 0)
 	public function fileBrowserUploadFile(Request $request){
 		$fileName = '';
 		$file = Request::file('item');
+//		dd($file);
 		$bucket = Request::get('bucket', 'question_attachments');
-		$bucket = 'message-attachments'?'messages_path':'question_attachments';
+		$bucket = $bucket == 'message-attachments'?'messages_path':'question_attachments';
 		$extension = $file->getClientOriginalExtension();
 		$name = $file->getClientOriginalName();
 		$size = $file->getSize();
@@ -764,8 +766,11 @@ public function questionedit($id = 0)
 	}
 
 	public function questionBulkUploadFile(Request $request) {
+
  		$institutionId = $request->input('institutionId');
+
 		$userType = $request->input('userType');
+		
 
 		if (empty($institutionId)) {
 			$institutionId = Auth::user()->institution_id;
