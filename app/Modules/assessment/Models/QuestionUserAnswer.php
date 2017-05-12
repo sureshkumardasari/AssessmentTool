@@ -65,15 +65,23 @@ class QuestionUserAnswer extends Model {
             } else {
                 // Iterate the answers and keep updating the points for each answer
                 foreach ($userAnswers as $userAnswer) {
-                    //dd($userAnswer->answer_option);
-                    
-                    $userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
-                    if(in_array($userAnswer->answer_option, $right_ans)){
-                       $userAnswer->is_correct = 'Yes';
-                    }else
+                   $userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
+                    //for other types
+                    if(($questionPoint['type'] == 'singleanswer') || ($questionPoint['type'] == 'fib') ||($questionPoint['type'] == 'essay'))
+                    {    
+                        $userAnswer->is_correct = $questionPoint['is_correct'];
+                    }           
+                    else
                     {
-                        $userAnswer->is_correct = 'No';
+                        //for mulyi answer
+                       if(in_array($userAnswer->answer_option, $right_ans)){
+                           $userAnswer->is_correct = 'Yes';
+                        }else
+                        {
+                            $userAnswer->is_correct = 'No';
+                        }  
                     }
+                    
                     $userAnswer->save();
                 }
             }
