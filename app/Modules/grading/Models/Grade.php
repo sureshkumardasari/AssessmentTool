@@ -517,7 +517,7 @@ class Grade extends Model {
                     $youranswers = []; 
                     $points = 0;                                   
                     foreach ($fibs as $key2 => $fib) {
-                        $youranswers[$fib->question_id] = strtolower($fib->question_answer_text);
+                        $youranswers[$fib->question_id] = isset($fib->question_answer_text)?strtolower($fib->question_answer_text):'';
                     }
                      $correctanswer = strtolower($question['answers'][0]['ans_text']);
                      //dd($youranswers[$question['Id']]);
