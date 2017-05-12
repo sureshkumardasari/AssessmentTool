@@ -423,6 +423,7 @@ class Grade extends Model {
                         }
 
                         $iscorrect = [];
+                        $points = 0;
                         foreach ($uAnswers as $uAnswer) {
                             
                                if(in_array($uAnswer->answer_option, $right_ans)){

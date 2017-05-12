@@ -740,6 +740,7 @@ else
 
 	public function submit_essay_score($assessment_id,$assignment_id,$user_id=0){
 		$post=Input::all();
+		$essay_answer = 0;
        // dd($post);
 		//dd($assessment_id);
 		//dd($assessment_id);
@@ -776,7 +777,8 @@ else
 
 	public function submit_fib_score($assessment_id,$assignment_id,$user_id=0){
 		$post=Input::all();
-		dd($post);
+		$fib_answer = 0;
+		//dd($post);
 		$questions_list=QuestionUserAnswer::where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('user_id',(int)$user_id)->lists('question_id');
 		$qua=new QuestionUserAnswer();
 		foreach($post['fib_answer_scores'] as $key=>$fib_answer){ 
