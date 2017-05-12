@@ -425,7 +425,7 @@ public function getUsers1($institution_id = 0, $role_id = 0)
 	        //'username' => 'required|unique:users,UserName|max:50|regex:/^[a-zA-Z0-9@._]+$/',
 	        'enrollment_no' => 'required',
 	        'email' => 'required|email|max:50|unique:users',
-	        'password' => ['required','min:8','max:50','at_least_one_upper_case','at_least_one_lower_case','at_least_one_number','not_contains:'.$dataArr['first_name'].','.$dataArr['last_name']],
+	        'password' => ['required','min:8','max:50','at_least_one_upper_case','at_least_one_lower_case','at_least_one_number'/*,'not_contains:'.$dataArr['first_name'].','.$dataArr['last_name']*/],
 	        'first_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
 	        //'middle_name' => 'max:50|regex:/^[a-zA-Z\s-\']+$/',
 	        'last_name' => 'required|max:50|regex:/^[a-zA-Z\s-\']+$/',
@@ -458,7 +458,7 @@ public function getUsers1($institution_id = 0, $role_id = 0)
 	        'password.at_least_one_upper_case' => 'The :attribute field must have at least one uppercase character',
 	        'password.at_least_one_lower_case' => 'The :attribute field must have at least one lowercase character',
 	        'password.at_least_one_number' => 'The :attribute field must have at least one number',
-	        'password.not_contains' => 'The :attribute field must not contains first name, last name or username',
+	        /*'password.not_contains' => 'The :attribute field must not contains first name, last name or username',*/
 	    ];
 
 	    $validator = Validator::make($dataArr, $validationRule, $messages);
