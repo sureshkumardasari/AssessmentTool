@@ -766,8 +766,11 @@ public function questionedit($id = 0)
 	}
 
 	public function questionBulkUploadFile(Request $request) {
+
  		$institutionId = $request->input('institutionId');
+
 		$userType = $request->input('userType');
+		
 
 		if (empty($institutionId)) {
 			$institutionId = Auth::user()->institution_id;

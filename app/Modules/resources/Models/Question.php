@@ -569,19 +569,20 @@ class Question extends Model {
 		}
 		$category_id = 0;
 		if(isset($row->category)){
-			$category_id=Category::where('name',$row->category)->first()->id;
+			$category_id=Category::where('id',$row->category)->first()->id;
+			
 		}
 		$subject_id = 0;
 		if(isset($row->subject)){
-			$subject_id=Subject::where('name',$row->subject)->first()->id;
+			$subject_id=Subject::where('id',$row->subject)->first()->id;
 		}
 	$lesson_id = 0;
 		if(isset($row->lessons)){
-			$lesson_id=Lesson::where('name',$row->lessons)->first()->id;
+			$lesson_id=Lesson::where('id',$row->lessons)->first()->id;
 		}
 	$question_type_id = 0;
 		if(isset($row->question_type)){
-			$question_type_id=QuestionType::where('qst_type_text',$row->question_type)->first()->id;
+			$question_type_id=QuestionType::where('id',$row->question_type)->first()->id;
 		}
 		//$passage_id = null;
 		if(empty($row->passage)){
@@ -709,9 +710,9 @@ class Question extends Model {
 		/*if (isset($ans_text) != "") {
 						
 					}	*/		
-	    $question_type_id=QuestionType::where('qst_type_text',$data->question_type)->first()->id;
-	     //  dd($question_type_id);
-	  if($question_type_id==3)
+	    $question_type_id=QuestionType::where('id',$data->question_type)->first()->id;
+	      //dd($question_type_id);
+	  if($question_type_id == 3)
 	   {
 			$data->{'answer_text'.$i}=array();
 			 $data->{'explanation'.$i}=array();

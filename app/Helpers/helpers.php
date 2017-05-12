@@ -50,9 +50,21 @@ function multiKeyExists(Array $array, $key) {
     return false;
 }
 function swapValue($value) {
+    //dd($value);
     if ($value == "No Response" || $value == "no-response") {
         return "Open";
     } else if ($value == "correct") {
+        return "Yes";
+    } else {
+        return "No";
+    }
+}
+
+function swapValueMul($value) {
+    //dd($value);
+    if (count($value) == 0) {
+        return "Open";
+    } else if (in_array('correct', $value)) {
         return "Yes";
     } else {
         return "No";

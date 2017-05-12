@@ -49,11 +49,13 @@ class Grade extends Model {
         $assessment = Assessment::find(  $params['assessment_id']  );
         //get the point of each question that is assigned to the user 
            
-
-        $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
+        //dd($params);
+        if( !isset($params['essay_grade'])) 
+        {
+            $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
+        
         $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
-        if( !isset($params['essay_grade'])) {
-
+        
 
             if (multiKeyExists($AssignmentQstUsrAnws, 'essay')) {
                 $assessmentAssignmentUser->updateUserGradeStatus(array(
@@ -288,8 +290,9 @@ class Grade extends Model {
                         ->orderby('aq.id', 'ASC')
                         ->orderby('qa.order_id', 'ASC')
                         ->get();
-        // dd($results);
-        $questions = [];                
+        //dd($results);
+        $questions = [];  
+        $pre_qid = '';
         foreach ($results as $key => $row) {
             $questions[$row->id]['Id'] = $row->id;
             $questions[$row->id]['qtype_id'] = $row->qtype_id;
@@ -303,8 +306,31 @@ class Grade extends Model {
             $questions[$row->id]['essayanswerpoint'] = $row->essayanswerpoint;
             $questions[$row->id]['answers'][] = ['Id' => $row->answer_id,'ans_text'=>$row->ans_text , 'is_correct' => $row->is_correct];
 
-            if($row->is_correct == 'YES')
-            $questions[$row->id]['correctanswers'][] = $row->answer_id;
+
+            
+            if($row->question_type == 'Multiple Choice - Multi Answer')
+            {
+                if($pre_qid != $row->id ){
+                    $obj = DB::table('question_answers');
+                    $answers=[];
+                        if($row->id > 0){
+                            $obj->where("question_id", $row->id);
+                        }
+                        $answers = $obj->where("is_correct", 'YES')->select('question_id','order_id')->get();
+                    $correct_answer = [];
+                    foreach ($answers as $key => $answer) {
+                        $correct_answer[$answer->question_id][] = $answer->order_id;
+                    }
+                    $questions[$row->id]['correctanswers'] = $correct_answer;
+                }
+            }
+            else
+            {
+                if($row->is_correct == 'YES')
+                $questions[$row->id]['correctanswers'][] = $row->answer_id;
+            }
+            
+            $pre_qid = $row->id;
         }
         //dd($questions);
         return $questions;  
@@ -315,12 +341,12 @@ class Grade extends Model {
         $sQuAnws     = (isset($params['retake']) && $params['retake'] == '1') ? new QuestionUserAnswerRetake() : new QuestionUserAnswer();
         $userAnswers = $sQuAnws->getUserAssignmentAnswers( $params['user_id'], $params['assignment_id'] );
         $assignmentq =   $this->loadAssignmentQuestion( $params['assignment_id'], $params['assessment_id'] );
-        
+        //dd($assignmentq);
         $questionAnwerPoint = [];
         foreach ( $assignmentq as $key => $question) {
+            //dd($question['correctanswers']);
             if(isset($question['question_type'])){
-                if( ( $question['question_type'] == 'Multiple Choice - Multi Answer')  || 
-                        ( $question['question_type'] == 'Multiple Choice - Single Answer') ||
+                if( ( $question['question_type'] == 'Multiple Choice - Single Answer') ||
                         ( $question['question_type'] == 'Selection')
                 ) {
                     $userAnswerStatus = 'no-response';
@@ -333,11 +359,12 @@ class Grade extends Model {
                         foreach( $userAnswers[ $question['Id'] ] as $userAnswer ) {
                           $userAnswerIds[] = $userAnswer->question_answer_id;
                         }
-
+                        //dd($question['correctanswers']);
                         $userAnswerStatus = 'correct';
 
                         // If any of the correct answers was not selected by the user
                         foreach( $question['correctanswers'] as $i => $correctAnswerId ) {
+                            //dd($correctAnswerId[$i]);
                           if ( !in_array($correctAnswerId, $userAnswerIds) ) {
                             $userAnswerStatus = 'wrong';
                           }
@@ -345,13 +372,14 @@ class Grade extends Model {
 
                         // If the number of answers selected by user was greater than or 
                         // less than the correct answer count? Wrong Answer!
+                        //dd( count($userAnswerIds ));
                         if ( count($question['correctanswers']) !== count($userAnswerIds) ) {
                           $userAnswerStatus = 'wrong';
                         }
 
                         if ( $userAnswerStatus == 'correct' ) 
                         {
-                            $points = 1;
+                            $points = $question['mcsingleanswerpoint'];
                         } 
                         else if ( $userAnswerStatus == 'wrong' ) 
                         {
@@ -363,16 +391,167 @@ class Grade extends Model {
                     $questionAnwerPoint[$key]['question_id'] = $question['Id'];
                     $questionAnwerPoint[$key]['points']      = $points;
                     $questionAnwerPoint[$key]['is_correct']  = swapValue($userAnswerStatus);
-                }      
+                    $questionAnwerPoint[$key]['type']  = "singleanswer";
+
+                }
+
+                elseif (( $question['question_type'] == 'Multiple Choice - Multi Answer')) {
+                    
+                    $uAnswers = QuestionUserAnswer::where('question_id', '=', $question['Id'])
+                                    ->where('user_id', '=', $params['user_id'])
+                                    ->where('assignment_id', '=', $params['assignment_id'])
+                                    ->get();
+                    $answers=[];
+                    $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];                      
+                    $obj = DB::table('question_answers')->where("question_id", $question['Id']);    
+                    $answers = $obj->where("is_correct", 'YES')->select('question_id','order_id')->get();
+                    $correct_answers = [];
+                    foreach ($answers as $key3 => $answer) {
+                        $correct_answers[$answer->question_id][] = $answer->order_id;
+                    }
+                    //dd($correct_answer);
+                    foreach($correct_answers as $key0 => $correct_answer ){
+                            if($key0 == $question['Id'])
+                            {
+                            foreach($correct_answer as $key1 => $value ){
+                                
+                                    $right_ans[] = $arr[$value];
+                            }
+
+                            
+                           }
+                        }
+
+                        $iscorrect = [];
+                        foreach ($uAnswers as $uAnswer) {
+                            
+                               if(in_array($uAnswer->answer_option, $right_ans)){
+                                   $is_correct[$uAnswer->answer_option] = 'Yes';
+                                   $points = $question['mcsingleanswerpoint'];
+                                }else
+                                {
+                                    $is_correct[$uAnswer->answer_option] = 'No';
+                                    if (  $question['guessing_panality'] == 0.25) {
+                                            $points = '-' . $question['guessing_panality'];
+                                        }
+                                }  
+                        }
+
+
+                        //dd($is_correct);
+
+
+
+                    /*$userAnswerStatus = 'no-response';
+                    $points = 0;
+                    $userAnswerIds = [];
+
+                    if( !empty( $userAnswers[ $question['Id'] ]) ) {
+
+                        // Prepare the User Answer Ids in an array
+                        foreach( $userAnswers[ $question['Id'] ] as $userAnswer ) {
+                          $userAnswerIds[] = $userAnswer->question_answer_id;
+                        }
+                        //dd($question['correctanswers']);
+                        $userAnswerStatus = [];
+                        
+                        // If any of the correct answers was not selected by the user
+                        foreach( $question['correctanswers'] as $i => $correctAnswerId ) {
+                            //dd($i);
+
+                            
+                            foreach ($correctAnswerId as $key1 => $value) {
+                                //dd($userAnswerIds);
+                            
+                                  if ( !in_array($value, $userAnswerIds) ) 
+                                  {
+                                    $userAnswerStatus[] = 'wrong';
+                                    if (  $question['guessing_panality'] == 0.25) {
+                                            $points = '-' . $question['guessing_panality'];
+                                        }
+                                  }
+                                  else{
+                                    $userAnswerStatus[] = 'correct';
+                                    $points = $question['mcsingleanswerpoint'];
+                                }
+                                //dd($userAnswerStatus);
+                               
+
+                              }  
+                       
+
+                        }
+                        // If the number of answers selected by user was greater than or 
+                        // less than the correct answer count? Wrong Answer! 
+                    }
+
+                    if ( in_array('correct', $userAnswerStatus)) 
+                    {
+                        $points = $question['mcsingleanswerpoint'];
+                    } 
+                    else 
+                    {
+                       $points = '-' . $question['guessing_panality'];
+                    }*/
+
+                    //dd($userAnswerStatus);
+                    $questionAnwerPoint[$key]['question_id'] = $question['Id'];
+                    $questionAnwerPoint[$key]['points']      = $points;
+                    $questionAnwerPoint[$key]['is_correct']  = $is_correct;
+                    $questionAnwerPoint[$key]['type']  = "multianswer";
+                }
+
+                
+                elseif( ($question['question_type'] == "Fill in the blank" )){
+
+
+
+                    $fibs=QuestionUserAnswer::join('questions','questions.id','=','question_user_answer.question_id')
+                                                       ->join('question_type','question_type.id','=','questions.question_type_id') 
+                                                        ->where('user_id',$params['user_id'])
+                                                        ->where('question_type.id',4)
+                                                        ->where('assessment_id',$params['assessment_id'])
+                                                        ->where('assignment_id',$params['assignment_id'])
+                                                        ->get();
+                    $youranswers = []; 
+                    $points = 0;                                   
+                    foreach ($fibs as $key2 => $fib) {
+                        $youranswers[$fib->question_id] = strtolower($fib->question_answer_text);
+                    }
+                     $correctanswer = strtolower($question['answers'][0]['ans_text']);
+                     //dd($youranswers[$question['Id']]);
+
+                     if(trim($youranswers[$question['Id']]) == trim($correctanswer))
+                     {
+                        $iscorrect = "Yes";
+                        $points = $question['mcsingleanswerpoint'];
+                     }
+                    else
+                    {
+                        $iscorrect = "No";
+                        if (  $question['guessing_panality'] == 0.25) {
+                                $points = '-' . $question['guessing_panality'];
+                            }
+                    }
+
+                     $questionAnwerPoint[$key]['question_id'] = $question['Id'];
+                     $questionAnwerPoint[$key]['points']  = $points;
+                     $questionAnwerPoint[$key]['is_correct'] = $iscorrect;
+                     $questionAnwerPoint[$key]['type']  = "fib";
+                     //dd("fill in the blanks");
+                }
+
                 elseif( ($question['question_type'] == 'Essay') || ($question['question_type'] == "Fill in the blank" )){
                     $essay_points=QuestionUserAnswer::where('user_id',$params['user_id'])->where('assessment_id',$params['assessment_id'])->where('assignment_id',$params['assignment_id'])->first()->points;
                      $questionAnwerPoint[$key]['question_id'] = $question['Id'];
-                     $questionAnwerPoint[$key]['points']               = ($essay_points == null)? 0:$essay_points;
-                     $questionAnwerPoint[$key]['is_correct']            = 'Open';
-                     $questionAnwerPoint[$key]['essay'] =              "";
+                     $questionAnwerPoint[$key]['points']  = ($essay_points == null)? 0:$essay_points;
+                     $questionAnwerPoint[$key]['is_correct'] = 'Open';
+                     $questionAnwerPoint[$key]['type']  = "essay";
+                     $questionAnwerPoint[$key]['essay'] = "";
                 }
             }
         }
+        //dd($questionAnwerPoint);
         return $questionAnwerPoint;
         
    }
@@ -405,7 +584,7 @@ class Grade extends Model {
         $sqstAns = $AssignQstAns->whereIn('question_id',$questionId)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->whereNotNull('points')->groupBy('question_id','points')->select(DB::Raw('min(id)'),'points', DB::Raw('is_correct as IsCorrect'))->get();
 
         $count = $AssignQstAns->whereIn('question_id',$questionId)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->whereNotNull('points')->distinct()->count('question_id'); 
-
+        //dd($sqstAns);
         if(count($questionId) == $count){
             $gradeAllQuestion = true;
 
@@ -434,16 +613,20 @@ class Grade extends Model {
         $totalPoints = 0;
 
         $assignmentq =   $this->loadAssignmentQuestion( $assignment_id, $assessment_id );
-        
+        //dd($assignmentq);
         foreach($assignmentq as $question){
             $questionType = $question['question_type'];
             if($questionType == "Essay"){
                 $totalPoints= $totalPoints+$question['essayanswerpoint'];
             }
-            if($questionType=="Multiple Choice - Multi Answer"||$questionType=="Multiple Choice - Single Answer" || $questionType=="Selection" || $questionType == "Fill in the blank"){
+            if($questionType=="Multiple Choice - Single Answer" || $questionType=="Selection" || $questionType == "Fill in the blank"){
                 $totalPoints= $totalPoints+$question['mcsingleanswerpoint'];
-            }            
+            }
+            if($questionType =="Multiple Choice - Multi Answer"){
+                $totalPoints= $totalPoints+$question['mcsingleanswerpoint'];
+            }           
         }
+        //dd($totalPoints);
         return $totalPoints;
     }
     /**
@@ -469,9 +652,7 @@ class Grade extends Model {
     }
 
 
-    /**
 
-    */
     public function getGradeAssignment($instute_id=0){
 
         $query = DB::table('assignment as asn')

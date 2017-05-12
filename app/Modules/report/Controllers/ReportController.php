@@ -355,6 +355,7 @@ class ReportController extends Controller
                     ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
+                    ->take(5)
                     ->get();
             } else {
                 $students = [];

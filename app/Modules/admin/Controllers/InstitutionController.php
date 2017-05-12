@@ -78,7 +78,7 @@ class InstitutionController extends BaseController {
 		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
 		$InstitutionObj = new Institution();
 		$inst_arr = $InstitutionObj->getInstitutions();
-		 $state_arr = [];
+		$state_arr = $this->institution->getstates();
 		$country_arr = $this->institution->getcountries();
 		$id = $parent_id = $country_id = 0;
 		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
@@ -93,7 +93,7 @@ class InstitutionController extends BaseController {
 	public function edit($id = 0)
 	{	
 		if(Auth::user()->role_id == 4 || Auth::user()->role_id == 1){
-		$state_arr = $this->user->getstates();
+		$state_arr = $this->institution->getstates();
 		$country_arr = $this->institution->getcountries();
 		if(isset($id) && $id > 0)
 		{
