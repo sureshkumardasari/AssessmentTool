@@ -91,7 +91,7 @@
                         <thead>
                              <tr>
                                <th >Name </th>
-                                <th>StartDateTime</th>
+                                <th style="width: 50%;">StartDateTime</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,7 +162,7 @@
 <style>
     #text,th
     {
-        width: 315px;
+        /*width: 315px;*/
         border: 0px solid #000000;
         word-break: break-word;
     }
