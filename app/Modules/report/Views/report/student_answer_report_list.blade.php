@@ -15,7 +15,7 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
     <thead>
     @if($assignments)
     <tr>
-        <th>Questions</th>
+        <th>Question</th>
         <th>Correct Answer</th>
         <th>Your Answer</th>
      </tr>
@@ -65,7 +65,7 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
             }
 
             echo '<td>'
-                .$assignment->question_title.'
+                .$assignment->qst_text.'
             </td>
             <td>'.implode(',', $right_ans).'             
             </td>';
