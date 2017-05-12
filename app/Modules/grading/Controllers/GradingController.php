@@ -606,9 +606,11 @@ else
 						$uAnswer->user_id = $post['user_id'];
 						if(in_array($answer,$user_selected_correct_answers)){
 							$uAnswer->is_correct = "Yes";
+							$uAnswer->points = 1;
 						}
 						else{
 							$uAnswer->is_correct = "No";
+							$uAnswer->points = 0;
 						}
 						$uAnswer->save();
 					}
@@ -630,14 +632,16 @@ else
 					if(in_array($answer,$user_selected_correct_answers)){
 						$grade_s = "Do u want to grade student?";
 						$is_correct = "Yes";
+						$points = 1;
 					}
 					else{
 						$is_correct = "No";
+						$points = 0;
 					}
 					$uAnswer=new QuestionUserAnswer();
 					if (in_array((int)$question_id,$user_already_entered_answers)){
 						$uAnswer->where('assessment_id',(int)$assessment_id)->where('assignment_id',(int)$assignment_id)->where('question_id',(int)$question_id)->where('user_id',(int)$post['user_id'])
-								->update(['question_answer_id'=>(int)$answer,'is_correct'=>$is_correct]);
+								->update(['question_answer_id'=>(int)$answer,'is_correct'=>$is_correct,'points'=>$points]);
 					}
 					else{
 						$uAnswer->assessment_id = $assessment_id;
