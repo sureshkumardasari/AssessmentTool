@@ -50,9 +50,12 @@ class Grade extends Model {
         //get the point of each question that is assigned to the user 
            
         //dd($params);
-        $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
+        if( !isset($params['essay_grade'])) 
+        {
+            $AssignmentQstUsrAnws =  $this->calculateQuestionPoints( $params );
+        
         $sQuAnws->saveUserPoints($AssignmentQstUsrAnws,$params['user_id'],$params['assignment_id']);
-        if( !isset($params['essay_grade'])) {
+        
 
             if (multiKeyExists($AssignmentQstUsrAnws, 'essay')) {
                 $assessmentAssignmentUser->updateUserGradeStatus(array(
