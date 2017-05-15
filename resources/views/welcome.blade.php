@@ -156,14 +156,13 @@
   background-repeat: no-repeat;
 }
 .fade-carousel .slides .slide-1 {
-  background-image: url(http://successforkidswithhearingloss.com/wp-content/uploads/2013/03/Depositphotos_1005884_original.jpg); 
+  background-image: url("images/image3.jpg"); 
 }
 .fade-carousel .slides .slide-2 {
-  background-image: url(http://www.indiamr.com/images/banner.jpg);
+  background-image: url("images/banner.jpg");
 }
 .fade-carousel .slides .slide-3 {
-  background-image: url(https://www.um.edu.mt/__data/assets/image/0009/282078/varieties/banner.jpg
-  	);
+  background-image: url("images/banner (1).jpg");
 }
 
 /********************************/
