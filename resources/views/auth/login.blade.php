@@ -1,8 +1,15 @@
 @extends('default')
 
 @section('content')
+<style type="">
+	
+	.middle_content_top {
+    padding: 0px 0 0px;
+}
+</style>
+<div class="loginbg">
 <div class="container-fluid">
-	<div class="row">
+	<div class="row logrow">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading">Login</div>
@@ -57,5 +64,6 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 @endsection

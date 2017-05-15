@@ -11,6 +11,7 @@
 		<div class="pull-right">
 			<button type="button" class="btn btn-danger" id="filters_show" style="margin-top: 5px;">Show Filters</button>
 		</div>
+		
 		<div class="edit_assessment">
 		<div class="panel-heading searchfilter pointer">Filters
 			{{--<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>--}}
@@ -18,9 +19,11 @@
 		<div class="panel-body searchfilter-body">
 			<div class="form-group col-md-6 required" >
 				<label class="col-md-3 control-label" >Institution</label>
+                
 				<div class="col-md-9">
-					<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')">
+					<select class="form-control" name="institution_id" id="institution_id" onchange="change_institution('question')" disabled="true">
 						<option value="">--Select Institution--</option>
+
 						@foreach($inst_arr as $id=>$val)
 							<option value="{{ $id }}" {{ ($id == $institution_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 						@endforeach
@@ -30,11 +33,11 @@
 			<div class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Category</label>
 				<div class="col-md-9">
-					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')">
+					<select class="form-control" name="category_id" id="category_id" onchange="change_category('question')" disabled="true">
 						<option value="">--Select Category--</option>
-						<!-- @foreach($category as $id=>$val)
-							<option value="{{ $id }}" >{{ $val }}</option>
-						@endforeach -->
+						@foreach($category as $id=>$val)
+							<option value="{{ $id }}" {{ ($id == $category_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
+						@endforeach 
 					</select>
 				</div>
 			</div>
@@ -42,10 +45,9 @@
 				<label class="col-md-3 control-label">Subject</label>
 				<div class="col-md-9">
 					<select class="form-control multipleSelect" name="subject_id[]" id="subject_id"  class="multipleSelect" multiple="multiple" onchange="change_lessons('question')">
-						{{--<option value="0">--Select Subject--</option>--}}
-						<!-- @foreach($subjects as $id=>$val)
-							<option value="{{ $id }}"{{($id == $subject_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
-						@endforeach -->
+						 @foreach($subjects as $id=>$val)
+							<option value="{{ $id }}" >{{ $val }}</option>
+						@endforeach 
 					</select>
 				</div>
 			</div>
@@ -257,6 +259,7 @@
 <script type="text/javascript">
 //checkbox select all functionality
 $(document).ready(function() {
+	
 
 	$( "#QuestionIds" ).prop( "checked", false );
 	$('.selectall input[type="checkbox"]').on('change', function () 
@@ -297,8 +300,8 @@ $(document).ready(function() {
 		$('#filters_show').hide();
 		$('.edit_assessment').show();
 	});
-	$('#institution_id').val('');
-	$('#category_id').val('');
+	/*$('#institution_id').val('');
+	$('#category_id').val('');*/
 	//tabs
 	$('#questions_tab').on('click',function(){
 			$('#question_type_div').show();

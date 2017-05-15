@@ -599,8 +599,10 @@ class AssessmentController extends BaseController {
      return view('permission');
     }else{
 
+
 		$question_id_passage=$id;
    		$inst_arr = $this->institution->getInstitutions();
+   		//dd($inst_arr);
 		$subjects = $this->subject->getSubject();
 		//var_dump($subjects);exit;
 
@@ -641,17 +643,20 @@ class AssessmentController extends BaseController {
 		$questions_lists=Question::wherein('id',$questions_list)->get();
 		$passages_lists=Passage::wherein('id',$passages_list)->get();
 		//$passages_list_not=Passage::wherenotin('id',$passages_list)->get();
-
+           
 		$id = $assessment_details->id; 
-			$institution_id = $assessment_details->institution_id; 
+			$institution_id = $assessment_details->institution_id;
+
 			$category_id=$assessment_details->category_id;
+			$subjects = $this->subject->getSubjectCategory($institution_id,$category_id);
+			//dd($subjects);
 			$subject_id=$assessment_details->subject_id;
 			$lessons_id=$assessment_details->lesson_id;
 			$question_type_id=$assessment_details->questiontype_id;
 		$subjects=Subject::where('category_id',$category_id)->lists('name','id');
 		$lesson = $this->lesson->getLesson($subject_id);
 		$category = $this->category->getCategory($institution_id);
-		//dd($institution_id);
+		//dd($inst_arr);
 				        // \Session::flash('flash_message','Information saved successfully.');
 
 		return view('resources::assessment.edit',compact('passages_list_not','lesson','questions_lists','passages_lists','question_title_remove_ids','passages_list','question_tilte_details','assessment_details','inst_arr','id','institution_id', 'questions','subjects','category','category_id','subject_id','lesson','lessons_id','question_type_id','questiontype'));

@@ -257,7 +257,7 @@ class MainDashboardController extends BaseController
     	$assignments_user = DB::table('assignment')
 					->join('assessment', 'assessment.id', '=', 'assignment.assessment_id')
 					->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.created_at as created_at','assignment.startdatetime as startdatetime','assignment.status');
-		if(getRole()!="admin")
+		if(getRole()!= 4)
 		{
 			$assignments_user = $assignments_user->where('assignment.institution_id','=',$ins);
 		}

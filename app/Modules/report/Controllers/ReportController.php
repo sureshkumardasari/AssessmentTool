@@ -192,7 +192,7 @@ class ReportController extends Controller
             $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
         }
         //dd($question);
-        $ques = Question::whereIn('id', $question)->lists('title', 'id');
+        $ques = Question::whereIn('id', $question)->lists('qst_text', 'id');
 
         $questions = Question::whereIn('id', $question);
         if ($sub_id != 0) {
@@ -394,6 +394,7 @@ class ReportController extends Controller
             ->where('assignment_user.assignment_id', '=', $assign_id)
             ->select('users.name', 'users.id')
             ->get();
+            //dd($student_list);
         return $student_list;
     }
 
@@ -420,7 +421,7 @@ class ReportController extends Controller
             ->join('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
             ->where('question_user_answer.assignment_id', '=', $assign_id)
             ->where('question_user_answer.user_id', '=', $student_id)
-            ->select('questions.title as question_title','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid')
+            ->select('questions.title as question_title','questions.qst_text as qst_text ','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid')
             ->groupby('qid')
             ->get();
         $correct_answer = [];
@@ -1080,7 +1081,7 @@ class ReportController extends Controller
         $uid = \Auth::user()->id;
         $role = \Auth::user()->role_id;
         if (getRole() != "administrator" && "teacher") {
-            dd();
+        
             $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
             // dd($assign_id);
             $subjects = Assessment::join('assignment', 'assessment.id', '=', 'assignment.assessment_id')

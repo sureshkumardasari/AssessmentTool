@@ -422,7 +422,8 @@ class Grade extends Model {
                            }
                         }
 
-                        $iscorrect = [];
+                        $is_correct = [];
+                        $points = 0;
                         foreach ($uAnswers as $uAnswer) {
                             
                                if(in_array($uAnswer->answer_option, $right_ans)){
@@ -494,18 +495,20 @@ class Grade extends Model {
                        $points = '-' . $question['guessing_panality'];
                     }*/
 
-                    //dd($userAnswerStatus);
+                   
                     $questionAnwerPoint[$key]['question_id'] = $question['Id'];
                     $questionAnwerPoint[$key]['points']      = $points;
-                    $questionAnwerPoint[$key]['is_correct']  = $is_correct;
+                    $questionAnwerPoint[$key]['is_correct']  = 'No';
                     $questionAnwerPoint[$key]['type']  = "multianswer";
+                    //dd($questionAnwerPoint);
                 }
 
                 
                 elseif( ($question['question_type'] == "Fill in the blank" )){
 
 
-
+                    $youranswers = [];
+                    $youranswers[$question['Id']] = ''; 
                     $fibs=QuestionUserAnswer::join('questions','questions.id','=','question_user_answer.question_id')
                                                        ->join('question_type','question_type.id','=','questions.question_type_id') 
                                                         ->where('user_id',$params['user_id'])
@@ -513,11 +516,13 @@ class Grade extends Model {
                                                         ->where('assessment_id',$params['assessment_id'])
                                                         ->where('assignment_id',$params['assignment_id'])
                                                         ->get();
-                    $youranswers = []; 
+                    //dd($fibs);
+                    
                     $points = 0;                                   
                     foreach ($fibs as $key2 => $fib) {
                         $youranswers[$fib->question_id] = strtolower($fib->question_answer_text);
                     }
+                    //if()
                      $correctanswer = strtolower($question['answers'][0]['ans_text']);
                      //dd($youranswers[$question['Id']]);
 
