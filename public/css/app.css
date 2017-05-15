@@ -4475,7 +4475,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   line-height: 1;
   color: #ffffff;
   text-align: center;
-  white-space: pre-wrap;
+  white-space:normal;
   vertical-align: baseline;
   border-radius: .25em;
 }
