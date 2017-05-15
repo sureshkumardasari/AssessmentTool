@@ -16,6 +16,8 @@
 		<div class="panel-heading searchfilter pointer">Filters
 			{{--<a href="javascript:;"><span class="glyphicon glyphicon-chevron-up right " aria-hidden="true"></span></a>--}}
 		</div>
+		<input type="hidden"  name="institution_id" value="{{$institution_id}}">
+		<input type="hidden"  name="category_id" value="{{$category_id}}">
 		<div class="panel-body searchfilter-body">
 			<div class="form-group col-md-6 required" >
 				<label class="col-md-3 control-label" >Institution</label>
