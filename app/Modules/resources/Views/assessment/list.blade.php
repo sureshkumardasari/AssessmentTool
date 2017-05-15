@@ -80,7 +80,8 @@
 				                <td>
 	
 
-									<a target="_blank" href="{{url('/resources/assessmentview/'.$name['id'])}}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+									<a href="{{url('/resources/assessmentview/'.$name['id'])}}" class="btn btn-default btn-sm" title="Details" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+
 									<a href="{{ url('/resources/assessmentedit/'.$name['id']) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
 				                	<!-- <a href="{{ url('/resources/assessmentpdf/'.$name['id']) }}" class="btn btn-default btn-sm" title="PDF" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a> -->
@@ -89,8 +90,8 @@
 				                	if(isset($templates[$name['id']]))$tplId=$templates[$name['id']];            				                	
 				                	/* --}}
 				                	
-				                	<!-- <a href="{{ url('/resources/template/'.$name['id'].'/'.$tplId) }}" class="btn btn-default btn-sm" title="Template" ><span class="glyphicon glyphicon-text-size" aria-hidden="true">T</span></a>  -->
-
+				                <!-- 	<a href="{{ url('/resources/template/'.$name['id'].'/'.$tplId) }}" class="btn btn-default btn-sm" title="Template" ><span class="glyphicon glyphicon-text-size" aria-hidden="true">T</span></a> 
+ -->
 									<a href="javascript:;" data-ref="{{ url('/resources/assessmentdel/'.$name['id']) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 								</td>
 				            </tr>
@@ -295,6 +296,7 @@ if (count($errors) > 0){?>
 						for (var i = 0; i < response.length; i++) {
 							tr = $('<tr/>');
 							tr.append("<td>" + response[i].title + "");
+								tr.append("<a href='assessmentview/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-eye-open'' aria-hidden='true'></span></a>");
 							tr.append("<a href='assessmentedit/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></a>");
 							tr.append("<a href='assessmentdel/"+ response[i].id +"' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash'' aria-hidden='true'></span></a></td>");
 							$('#question_list_filer').append(tr);
