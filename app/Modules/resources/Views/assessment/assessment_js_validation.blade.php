@@ -496,8 +496,8 @@ if (count($errors) > 0){?>
 							$('#passage_subject_id').empty();
 							//	$('#passage_lessons_id').multiselect('destroy');
 							$('#passage_lessons_id').empty();
-							//var opt = new Option('--Select Subject--', '');
-							//$('#passage_subject_id').append(opt);
+							$('#passages-list').empty();
+		                    $('#selected-passage .child-grid').empty();
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#passage_subject_id').append(opt);
@@ -517,8 +517,8 @@ if (count($errors) > 0){?>
 							$('#lessons_id').empty();
 							//$('#question_type').empty();
 							$('#lessons_id').multiselect();
-							//	var opt = new Option('--Select Subject--', '');
-							//	$('#subject_id').append(opt);
+							$('#questions-list').empty();
+		                    $('#selected-questions .child-grid').empty();
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#subject_id').append(opt);
