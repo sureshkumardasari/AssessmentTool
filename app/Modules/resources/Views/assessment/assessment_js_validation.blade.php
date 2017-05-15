@@ -434,6 +434,8 @@ if (count($errors) > 0){?>
 							$('#passage_category_id').empty();
 							$('#passage_subject_id').empty();
 							$('#passage_lessons_id').empty();
+							$('#passages-list').empty();
+		                    $('#selected-passage .child-grid').empty();
 							var opt = new Option('--Select Category--', '');
 							//opt.addClass('selected','disabled','hidden');
 							$('#passage_category_id').append(opt);
@@ -450,6 +452,8 @@ if (count($errors) > 0){?>
 							$('#lessons_id').multiselect('destroy');
 							$('#lessons_id').empty();
 							$('#lessons_id').multiselect();
+							$('#questions-list').empty();
+		                    $('#selected-questions .child-grid').empty();
 							//$('#question_type').empty();
 							var opt = new Option('--Select Category--', '');
 							//opt.addClass('selected','disabled','hidden');
