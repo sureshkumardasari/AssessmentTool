@@ -8,7 +8,7 @@
     <thead>
     <tr>
         <th>Question</th>
-        <th>Accuracy Percentage</th>
+        <th>Accuracy Percentage(%)</th>
     </tr>
     </thead>
     <tbody>
@@ -19,8 +19,9 @@
 
         {{ strip_tags(htmlspecialchars_decode($question)) }}
         </td>
+       
         <td>
-            {{isset($user_answered_correct_count[$id])?(($user_answered_correct_count[$id]/$user_count[$id])*100).'%':'no one answer the question'}}
+            {{round(isset($user_answered_correct_count[$id])?(($user_answered_correct_count[$id]/$user_count[$id])*100):'').'%'}}
         </td>
     </tr>
         @endforeach
