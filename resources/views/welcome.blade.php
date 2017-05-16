@@ -81,18 +81,18 @@
 /********************************/
 .hero {
     position: absolute;
-    top: 60%;
-    left: 83%;
+    top: 50%;
+    left: 50%;
     z-index: 3;
     color: #fff;
     text-align: center;
     text-transform: uppercase;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.50);
-      -webkit-transform: translate3d(-100%,-100%,0);
-         -moz-transform: translate3d(-100%,-100%,0);
-          -ms-transform: translate3d(-100%,-100%,0);
-           -o-transform: translate3d(-100%,-100%,0);
-              transform: translate3d(-100%,-100%,0);
+    text-shadow: 1px 1px 0 rgba(0,0,0,.75);
+      -webkit-transform: translate3d(-50%,-50%,0);
+         -moz-transform: translate3d(-50%,-50%,0);
+          -ms-transform: translate3d(-50%,-50%,0);
+           -o-transform: translate3d(-50%,-50%,0);
+              transform: translate3d(-50%,-50%,0);
 }
 .hero h1 {
     font-size: 6em;    
@@ -169,10 +169,43 @@
 /*          Media Queries       */
 /********************************/
 @media screen and (min-width: 980px){
-    .hero { width: 980px; }    
+    .hero { width: 980px; }   
+    .hero{
+    position: absolute;
+    top: 60%;
+    /*left: 100%;*/
+    z-index: 3;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.75);
+      -webkit-transform: translate3d(-50%,-50%,0);
+         -moz-transform: translate3d(-50%,-50%,0);
+          -ms-transform: translate3d(-50%,-50%,0);
+           -o-transform: translate3d(-50%,-50%,0);
+              transform: translate3d(-50%,-50%,0);
+  }
 }
-@media screen and (max-width: 640px){
-    .hero h1 { font-size: 4em; }    
+@media screen and (max-width: 768px){
+   /* .hero {margin-right: 2em;}
+    .hero h1 { font-size: 4em; text-align: center;margin-right: 2em; } 
+    .hero h3 {margin-right: 2em;}
+    .hero .btn-hero{margin-right: 2em;} */
+    .hero{
+    position: absolute;
+    top: 60%;
+    left: 75%;
+    z-index: 3;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.50);
+    -webkit-transform: translate3d(-100%,-100%,0);
+    -moz-transform: translate3d(-100%,-100%,0);
+    -ms-transform: translate3d(-100%,-100%,0);
+    -o-transform: translate3d(-100%,-100%,0);
+    transform: translate3d(-100%,-100%,0); 
+    } 
 }
 .navbar {
     position: relative;
@@ -209,7 +242,7 @@
     <div class="item slides active">
         <div class="overlay"></div>
       <div class="slide-1"></div>
-      <div class="hero">
+      <div class="hero ">
         <hgroup>
             <h1>Smart Kidstar</h1>        
             <h3>Play,Explore and Learn</h3>
@@ -220,7 +253,7 @@
     <div class="item slides">
         <div class="overlay"></div>
       <div class="slide-2"></div>
-      <div class="hero">        
+      <div class="hero ">        
         <hgroup>
             <h1>Young Talents</h1>        
             <h3>Inspiration,Innovation and Discover</h3>
@@ -231,7 +264,7 @@
     <div class="item slides">
         <div class="overlay"></div>
       <div class="slide-3"></div>
-      <div class="hero">        
+      <div class="hero ">        
         <hgroup>
             <h1>Dream World</h1>        
             <h3>Work,Acheive and Succeed</h3>
