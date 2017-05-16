@@ -359,11 +359,19 @@ class MainDashboardController extends BaseController
 			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
 			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
 			if($rec[$list][0]->mcsingleanswerpoint!=0){
-			$marks[$key]=isset($complete_users[$key])?($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100:0;	
-			}
-			else{
-				$marks[$key]=0;
-			} 
+			                if(isset($complete_users[$key])){
+                 if($complete_users[$key]>0 && $counts[$list]>0)
+                 $marks[$key]=($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100;
+                 else
+                  $marks[$key]=0;
+                }else
+                 $marks[$key]=0;
+                
+               }
+               else{
+                $marks[$key]=0;
+               }
+
 		}
         //close sive krishna
         //kaladhar
