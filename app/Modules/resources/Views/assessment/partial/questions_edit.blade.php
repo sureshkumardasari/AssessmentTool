@@ -53,7 +53,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group col-md-6 ">
+			<div class="form-group col-md-6 required">
 				<label class="col-md-3 control-label">Lessons</label>
 				<div class="col-md-9">
 					<select class="form-control multipleSelect" name="lessons_id[]" id="lessons_id" multiple onchange="change_question_type('question')">
@@ -68,7 +68,7 @@
 				<label class="col-md-3 control-label">Question Type</label>
 				<div  class="col-md-9">
 					<select class="form-control" name="question_type" id="question_type" onchange="filter()">
-						{{--<option value="0">--Select Question Type--</option>--}}
+						<option value="">--Select Question Type--</option>
 						<!-- @foreach($questiontype as $id=>$val)
 							<option value="{{ $id }}" {{($id == $question_type_id)? 'selected = "selected"' : '' }}>{{ $val }}</option>
 						@endforeach -->
