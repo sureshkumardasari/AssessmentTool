@@ -91,9 +91,9 @@
 							<div class="col-md-6">
                                 <select class="form-control" id="state" name="state">
 									<option value="0">--Select--</option>
-									   @foreach($state_arr as $id=>$val)
+									  <!--  @foreach($state_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									   @endforeach
+									   @endforeach -->
 								</select>
 							</div>
 						</div>
