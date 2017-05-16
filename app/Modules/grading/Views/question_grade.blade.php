@@ -58,7 +58,7 @@
 									{{$ans_arr[$i]}}. <span id="{{$a['Id']}}" class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
 									
 								</div>
-								 
+								 {{--*/ $i++ /*--}}
 								@endforeach
 							@endif
 				            <div>
@@ -98,7 +98,7 @@
 														<span class="label label-{{$ans_label}}">{{$a['ans_text']}}</span>
 
 													</div>
-													
+													{{--*/ $i++ /*--}}
 													@endforeach
 												@elseif($ass_qst['question_type']=="Fill in the blank" )
 													<div>
