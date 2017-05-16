@@ -58,7 +58,9 @@
 				                	@if($row->status=="upcoming")
 										<a href="{{ url('/resources/assignmentedit/'.$row->id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 										@endif
-									<a href="javascript:;" data-ref="{{ url('/resources/assignmentdel/'.$row->id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>					
+									@if($row->status=="upcoming")
+									<a href="javascript:;" data-ref="{{ url('/resources/assignmentdel/'.$row->id) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+										@endif					
 								</td>
 				            </tr>
 							@endforeach
