@@ -574,7 +574,9 @@ class ReportController extends Controller
         $lists = Assignment::where('institution_id', '=', $id)->lists('assessment_id', 'id');
         $assignments = array_keys($lists);
         $users = AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->whereIn('assignment_id', $assignments)->GroupBy('assignment_id')->get();
+            // dd($users);
         $completed_users = AssignmentUser::selectRaw('assignment_id, count(assignment_id) as count')->GroupBy('assignment_id')->where('status', 'completed')->get();
+         // dd($completed_users);
         foreach ($users as $user) {
             $All_users[$user->assignment_id] = $user->count;
         }
@@ -594,23 +596,39 @@ class ReportController extends Controller
             array_push($rec[$record['id']], $record);
         }
         $a = Array();
-        $marks = Array();
+        $marks = 0;
+        $mark = [];
         foreach ($lists as $key => $list) {
-            $correct = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'Yes')->count();
-            $wrong = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'No')->count();
-            //dd($wrong);
-            $lost_marks[$key] = (float)($wrong) * ($rec[$list][0]->guessing_panality);
-
-            $mark = ((float)$correct * $rec[$list][0]->mcsingleanswerpoint) - (float)$lost_marks[$key];
-            //dd($mark);
-            $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
+            $correct = db::table('user_assignment_result')->where('assessment_id', $list)->where('assignment_id', $key)->selectRaw('assignment_id,percentage')->get();
+            //dd($correct);
+            foreach ($correct as $corrects) {
+            $marks += $corrects->percentage;
+            // $marks = +$corrects;
+           
         }
-//		dd($rec);
+    //Test history students percentage//
+        //dd($marks);
+        // dd((float)$marks);
+            // dd($correct);
+            // $wrong = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'No')->count();
+            // // dd($correct);
+            // $lost_marks[$key] = (float)($wrong) * ($rec[$list][0]->guessing_panality);
+            //     // dd($lost_marks[$key]);
+            // $mark = ((float)$correct * $rec[$list][0]->mcsingleanswerpoint) - (float)$lost_marks[$key];
+            // // dd($mark);
+            // $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
+        //dd($All_users);
+        $mark[$key] = (float)$marks/(float)$All_users[$key];
+              
+        $marks = 0;    
+            // round($mark);
+        }
+		 // dd($mark);
 //		dd($counts);
 //		dd($complete_users);
 		//dd($lost_marks);
-		//dd($marks);
-        return view('report::report.testhistory', compact('assignments', 'marks', 'All_users', 'complete_users'));
+		  // dd($mark);
+        return view('report::report.testhistory', compact('assignments', 'mark', 'All_users', 'complete_users'));
 
     }
 

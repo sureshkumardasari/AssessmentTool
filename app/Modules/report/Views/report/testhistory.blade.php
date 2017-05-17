@@ -22,11 +22,11 @@
     @if(count($assignments)>0)
     @foreach($assignments as $assignment)
         <tr>
-            <td>{{$assignment->assign_name}}</td>
-            <td>{{$assignment->assess_name}}</td>
-            <td>{{$All_users[$assignment->assign_id]}}</td>
+            <td>{{html_entity_decode($assignment->assign_name)}}</td>
+            <td>{{html_entity_decode($assignment->assess_name)}}</td>
+            <td>{{$All_users[($assignment->assign_id)]}}</td>
             <td>{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
-            <td>{{round($marks[$assignment->assign_id]).'%'}}</td>
+            <td>{{$mark[($assignment->assign_id)].'%'}}</td>
         </tr>
         @endforeach
         @else
@@ -79,7 +79,7 @@
                                 @foreach($assignments as $user_id => $assignment)
                                 {
                                     'label' : '{{$assignment->assign_name}}',
-                                'value' : '{{$marks[$assignment->assign_id]}}%'
+                                'value' : '{{$mark[($assignment->assign_id)]}}%'
                             },
                             @endforeach
                     // ]
