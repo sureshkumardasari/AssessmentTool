@@ -43,7 +43,7 @@
 <table class="table average" style="border-bottom: 1px solid lightgray;">
     <tr>
         <td><strong>class average score:</strong></td>
-        <td style="width: 50%;">{{($all_users_count/(count($students))).'%'}}</td>
+        <td style="width: 50%;"> {{round($all_users_count/(count($students))).'%'}}</td>
     </tr>
 </table>
 @endif
