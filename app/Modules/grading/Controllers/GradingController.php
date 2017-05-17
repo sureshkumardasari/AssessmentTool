@@ -754,7 +754,7 @@ else
 			//dd($essay_answer);
 			if(in_array($key,$questions_list)){
 				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
-					->update(['points'=>$essay_answer/*,'question_answer_text'=>$essay_answer*/]);
+					->update(['points'=>$essay_answer,'is_correct'=>'Open']);
 
 			}
 			else{
@@ -762,6 +762,7 @@ else
 				$qua->assignment_id=$assignment_id;
 				$qua->user_id=$user_id;
 				$qua->question_id=$key;
+				$qua->is_correct = 'Open';
 				//$qua->question_answer_text=$essay_answer;
 				$qua->points=$essay_answer;
 				$qua->save();
@@ -783,15 +784,31 @@ else
 		$qua=new QuestionUserAnswer();
 		foreach($post['fib_answer_scores'] as $key=>$fib_answer){ 
 			if(in_array($key,$questions_list)){
-				$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
-						->update(['points'=>$fib_answer/*,'question_answer_text'=>$essay_answer*/]);
-
+				if($fib_answer > 0)
+				{
+					$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
+						->update(['points'=>$fib_answer,'is_correct'=>'Yes']);
+				}
+				else
+				{
+					$answer=QuestionUserAnswer::where('assessment_id',$assessment_id)->where('assignment_id',$assignment_id)->where('user_id',$user_id)->where('question_id',$key)
+						->update(['points'=>$fib_answer,'is_correct'=>'No']);
+				}
+				
             }
 			else{
 				$qua->assessment_id=$assessment_id;
 				$qua->assignment_id=$assignment_id;
 				$qua->user_id=$user_id;
 				$qua->question_id=$key;
+				if($fib_answer > 0)
+				{
+					$qua->is_correct = 'Yes';
+				}
+				else
+				{
+					$qua->is_correct = 'No';
+				}
 				//$qua->question_answer_text=$essay_answer;
 				$qua->points=$fib_answer;
 				$qua->save();

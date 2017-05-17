@@ -70,7 +70,8 @@ class Grade extends Model {
                 $gradeAllQuestion = $this->gradedQuestion($params['assessment_id'], $params['assignment_id'], $params['user_id'], (isset($params['retake']) ? $params['retake'] : ''));
                 $netScore = $this->totolQuestionPoints($params['assessment_id'], $params['assignment_id']);
                 $rawscore = $gradeAllQuestion['rawscore'];
-
+                //dd($netScore);
+                //dd($rawscore);
                 // To make it not throw divide by zero exception
                 if ($netScore != 0) {
                     $percentage = ($rawscore / $netScore) * 100;
@@ -139,14 +140,15 @@ class Grade extends Model {
           // dd($gradeAllQuestion);
             $netScore = $this->totolQuestionPoints($params['assessment_id'], $params['assignment_id']);
             $rawscore = $gradeAllQuestion['rawscore'];
-
+            //dd($netScore);
+            //dd($rawscore);
             // To make it not throw divide by zero exception
             if ($netScore != 0) {
                 $percentage = ($rawscore / $netScore) * 100;
             } else {
                 $percentage = 0;
             }
-
+            //dd($percentage);
             $netSectionPercentage += $percentage;
 
             // Default values
@@ -602,6 +604,7 @@ class Grade extends Model {
                     }
             }
         }
+        //dd($wrongCount);
         $rawScore=$rawScore-$wrongCount;
         
         //dd($rawScore);

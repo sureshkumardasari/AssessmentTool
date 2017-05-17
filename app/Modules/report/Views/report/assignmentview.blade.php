@@ -22,10 +22,11 @@
         </td>
         <td>
         {{$student->score}}
-            <?php $all_users_count+=$student->score;?>
+            
         </td>
         <td>
             {{round($student->percentage).'%'}}
+            <?php $all_users_count+=$student->percentage;?>
         </td>
        {{-- --}}{{--<td>--}}{{--
         --}}{{--{{$student->answers_count}}--}}{{--
@@ -42,11 +43,12 @@
 <table class="table average" style="border-bottom: 1px solid lightgray;">
     <tr>
         <td><strong>class average score:</strong></td>
-        <td style="width: 50%;"> {{round($all_users_count/(count($students))).'%'}}</td>
+        <td style="width: 50%;">{{($all_users_count/(count($students))).'%'}}</td>
     </tr>
 </table>
 @endif
-<div id="chart-1">FusionCharts XT will load here!</div>
+<!-- graph commented to display all students -->
+<!-- <div id="chart-1">FusionCharts XT will load here!</div> -->
 
 <script type="text/javascript">
     function reports(){
