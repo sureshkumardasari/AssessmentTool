@@ -82,8 +82,9 @@ class InstitutionController extends BaseController {
 		$country_arr = $this->institution->getcountries();
 		$id = $parent_id = $country_id = 0;
 		$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
+		$inst_id =0;
         
-		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode','inst_arr'));
+		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode','inst_arr','inst_id'));
 	}
  else
     {
@@ -99,6 +100,7 @@ class InstitutionController extends BaseController {
 		{
 			$institution = $this->institution->find($id);
 			$id = $institution->id; 
+
 			$parent_id = $institution->parent_id; 
 			$name = $institution->name;
 			$country_id = $institution->country_id; 
@@ -116,9 +118,10 @@ class InstitutionController extends BaseController {
 			$id = $parent_id = $country_id = 0;
 			$name = $address1 = $address2 = $address3 = $city = $state = $phoneno = $pincode = '';
 		}
-        
-        
-		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode'));
+        $inst_id =$id;
+
+       
+		return view('admin::institution.edit',compact('id','parent_id','name','country_id','address1','address2','address3','city','state_arr','state','country_arr','phoneno','pincode','inst_id'));
 	}
  else
     {

@@ -216,15 +216,17 @@
 								</select>
 							</div>
 						</div>
-						
+					
 						<div class="form-group required">
 							<label class="col-md-4 control-label">State</label>
 							<div class="col-md-6">
                                 <select class="form-control" id="state" name="state">
 									<option value="0">--Select--</option>
-									   <!-- @foreach($state_arr as $id=>$val)
+									@if ($user_id > 0)	
+									   @foreach($state_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									   @endforeach -->
+									@endif
 								</select>
 							</div>
 						</div>

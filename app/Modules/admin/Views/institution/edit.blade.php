@@ -32,6 +32,7 @@
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/user/institutionupdate') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="id" value="{{ $id }}">
+						
 						@if($id == 0)
 						<div class="form-group">
 							<label class="col-md-4 control-label">Parent Institution</label>
@@ -91,9 +92,12 @@
 							<div class="col-md-6">
                                 <select class="form-control" id="state" name="state">
 									<option value="0">--Select--</option>
-									  <!--  @foreach($state_arr as $id=>$val)
+									@if($inst_id > 0)
+									   @foreach($state_arr as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $state) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
-									   @endforeach -->
+									   @endforeach
+									@endif
+									
 								</select>
 							</div>
 						</div>
