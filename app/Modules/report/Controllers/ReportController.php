@@ -314,7 +314,18 @@ class ReportController extends Controller
             } else {
                 $type[3] = [0];
             }
-            $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+            if (isset($type[1])) {
+                $single_total_count = count($type[1]);
+            } else {
+                $type[1] = [0];
+            }
+            if (isset($type[4])) {
+                $fib_total_count = count($type[4]);
+            } else {
+                $type[4] = [0];
+            }
+            //dd($essay_total_count);
+            $total_marks = (($multi_total_count + $single_total_count + $fib_total_count) * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
             //dd($total_marks);
             /*
         //dd($type);
@@ -369,7 +380,7 @@ class ReportController extends Controller
                     ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
-                    ->take(5)
+                    //->take(5)
                     ->get();
             } else {
                 $students = [];
@@ -432,12 +443,13 @@ class ReportController extends Controller
     {
         $assignments = DB::table('question_user_answer')
             ->join('questions', 'questions.id', '=', 'question_user_answer.question_id')
-            ->join('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
+            ->leftjoin('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
             ->where('question_user_answer.assignment_id', '=', $assign_id)
             ->where('question_user_answer.user_id', '=', $student_id)
-            ->select('questions.title as question_title','questions.qst_text as qst_text ','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid')
+            ->select('questions.title as question_title','questions.qst_text as qst_text ','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid', 'questions.question_type_id as qtype', 'question_user_answer.question_answer_text as answer_text', 'question_user_answer.points as essaypoints')
             ->groupby('qid')
             ->get();
+            //dd($assignments);
         $correct_answer = [];
         $question_ids = [];
         foreach ($assignments as $key => $assignment) {
@@ -446,7 +458,7 @@ class ReportController extends Controller
         $qids = array_unique($question_ids);
         //dd($qids);
         $correct_answers = $this->getQuestionAnswers($qids);
-        //dd($correct_answer);
+        //dd($correct_answers);
         //$correct_ans = array_push($correct_answer,$correct_answer["order_id"]);
         //dd($correct_ans);
 
@@ -456,18 +468,30 @@ class ReportController extends Controller
 
     public function getQuestionAnswers($question_Ids=0)
     {
-        $obj = DB::table('question_answers');
+        $obj = DB::table('question_answers')
+                    ->join('questions','questions.id','=','question_answers.question_id');
         $answers=[];
         
             if($question_Ids > 0){
                 $obj->whereIn("question_id", $question_Ids);
             }
-            $answers = $obj->where("is_correct", 'YES')->select('question_id','order_id')->get();
+            $answers = $obj->where("is_correct", 'YES')->select('question_id','order_id','question_type_id','ans_text')->get();
         $correct_answer = [];
-        foreach ($answers as $key => $answer) {
-            $correct_answer[$answer->question_id][] = $answer->order_id;
-        }
         //dd($answers);
+        foreach ($answers as $key => $answer) {
+            if(($answer->question_type_id == 1) || ($answer->question_type_id == 2) )
+            {
+            $correct_answer[$answer->question_id][] = $answer->order_id;
+            }
+            elseif ($answer->question_type_id == 3) {
+                $correct_answer[$answer->question_id][] = 'essay';
+            }
+            else
+            {
+                $correct_answer[$answer->question_id][] = $answer->ans_text;
+            }
+        }
+        //dd($correct_answer);
         return $correct_answer;
     }
 
