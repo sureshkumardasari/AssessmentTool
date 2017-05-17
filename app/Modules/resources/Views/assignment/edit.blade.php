@@ -14,7 +14,7 @@ $dtFormat = 'Y/m/d g:i:s A';
 $id = (old('id') != NULL) ? old('id') : $assignment->id;
 $grader_id=(old('grader_id') != NULL) ? old('grader_id') : $assignment->grader_id;
 //dd($grader_id);
-$institution_id = (old('institution_id') != NULL) ? old('institution_id') : $assignment->institution_id; 
+$institution_id = (old('institution_id') != NULL) ? 0 : $assignment->institution_id; 
 $name =  (old('name') != NULL) ? old('name') : $assignment->name;
 $description = (old('assignment_text') != NULL) ? old('assignment_text') : $assignment->description; 
 $assessment_id = (old('assessment_id') != NULL) ? old('assessment_id') : $assignment->assessment_id; 
@@ -168,7 +168,7 @@ $delivery_method =  (old('delivery_method') != NULL) ? old('delivery_method') : 
 							<label class="col-md-3 control-label" >Grader </label>
 							<div class="col-md-6">
 								<select class="form-control" id="grader_id" name="grader_id">
-									<option value="0">Select</option>
+									<option value="0">--Select Grader--</option>
 									@foreach($grader as $id=>$val)
 										<option value="{{ $id }}" {{ ($id == $grader_id) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach
@@ -289,8 +289,8 @@ $('input:radio[name="launchtype"]').change(
 		$('#enddatetime').prop('readonly', true);
 
 <?php   }     ?>
-$('#grader_id').val("{{$grader_id}}"); 
-
+/*$('#grader_id').val("{{$grader_id}}"); 
+*/
         function loadunselectedusers(id)
         {
        		//usersListChange(); //refer to function stated in the original question

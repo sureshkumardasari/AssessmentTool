@@ -320,7 +320,7 @@
                                                     </td>
 
                                                 </tr>
-                                                {{--*/ $i++ /*--}}
+                                               
                                             @endforeach
                                             <tr>
                                                 <td>
@@ -353,7 +353,7 @@
                                                                             <span  class="label label-{{$ans_label}}">{{strip_tags(htmlspecialchars_decode($a['ans_text']))}}</span>
 
                                                                         </div>
-                                                                        {{--*/ $i++ /*--}}
+                                                                       
                                                                     @endforeach
 
                                                                     <div>
