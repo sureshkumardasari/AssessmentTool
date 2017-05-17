@@ -299,9 +299,9 @@
                                                
 
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
-                                            </tr>
+                                            </tr> -->
                                             <?php
                                             $i=0;
                                             ?>
@@ -336,7 +336,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</p>
+                                                                    <p>Q. {{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
@@ -406,9 +406,9 @@
                                                
 
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>{{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</td>
-                                            </tr>
+                                            </tr> -->
                                             <?php
                                             $i=0;
                                             ?>
@@ -444,7 +444,8 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{ strip_tags(htmlspecialchars_decode($quest['ans_text'])) }}</p>
+                                                                    <p>Q. {{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
+                                                                    </p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
