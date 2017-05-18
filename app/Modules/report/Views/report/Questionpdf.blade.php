@@ -33,24 +33,27 @@
       </tr>
     </tbody>
 </table><br>
-<table class="table table-bordered table-hover table-striped" id="report" width="100%">
+<table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
-        <th>Question Id </th>
-        <th>Accuracy Percentage</th>
+        <th>Question</th>
+        <th>Accuracy Percentage(%)</th>
     </tr>
     </thead>
     <tbody>
     @foreach($ques as $id=>$question )
-        <tr>
-            <td>
-                {{$question}}
-            </td>
-            <td>
-                {{isset($user_answered_correct_count[$id])?(($user_answered_correct_count[$id]/$user_count[$id])*100).'%':'no one answer the question'}}
-            </td>
-        </tr>
-    @endforeach
+    <tr>
+        <td style="width:82%">
+       <!--  {{$question}} -->
+
+        {{ strip_tags(htmlspecialchars_decode($question)) }}
+        </td>
+       
+        <td>
+            {{round(isset($user_answered_correct_count[$id])?(($user_answered_correct_count[$id]/$user_count[$id])*100):'').'%'}}
+        </td>
+    </tr>
+        @endforeach
     </tbody>
 </table><br>
 </body>

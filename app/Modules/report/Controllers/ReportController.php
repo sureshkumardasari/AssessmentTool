@@ -1339,31 +1339,36 @@ class ReportController extends Controller
     public function QuestionsexportPDF($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {
 
-        $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
-        $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
-        $sub = Subject::where('id', '=', $sub_id)->select('name')->get();
-
-
-        $assessment = Assignment::find($assign_id);
-        //dd($assessment);
-
-
-
-
+              $assessment = Assignment::find($assign_id);
+     
         $question = [];
         if ($assessment) {
-            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
-            //dd( $question);
-        }
-        $ques = Question::whereIn('id', $question)->lists('title', 'id');
 
+            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
+            
+        }
+        $ques = Question::whereIn('id', $question)->lists('qst_text', 'id');
+
+       
         $questions = Question::whereIn('id', $question);
+       
         if ($sub_id != 0) {
+
             $questions->where('subject_id', '=', $sub_id);
         }
         $questions = $questions->lists('id');
-        $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
-        $user_answered_correct_count = QuestionUserAnswer::whereIn('question_id', $questions)->where('assignment_id', $assign_id)->where('is_correct', 'Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
+      
+        $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(DISTINCT user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
+      
+
+        $user_answered_correct_count = QuestionUserAnswer::where('assignment_id', $assign_id)->whereIn('is_correct', array('Yes','Open'))->selectRaw('question_id,count(DISTINCT user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
+
+
+
+        
+        $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
+        $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
+        $sub = Subject::where('id', '=', $sub_id)->select('name')->get();
 
         $htmlForPdf = view('report::report.Questionpdf', compact('ques', 'user_answered_correct_count', 'user_count', 'inst', 'assign','sub'))->render();
 
@@ -1386,31 +1391,36 @@ class ReportController extends Controller
     }
     public function QuestionsexportXLS($inst_id = 0, $assign_id = 0, $sub_id = 0)
     {
-        $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
-        $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
-        $sub = Subject::where('id', '=', $sub_id)->select('name')->get();
-
-
-        $assessment = Assignment::find($assign_id);
-        //dd($assessment);
-
-
-
-
+               $assessment = Assignment::find($assign_id);
+     
         $question = [];
         if ($assessment) {
-            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
-            //dd( $question);
-        }
-        $ques = Question::whereIn('id', $question)->lists('title', 'id');
 
+            $question = AssessmentQuestion::where('assessment_id', $assessment->assessment_id)->lists('question_id');
+            
+        }
+        $ques = Question::whereIn('id', $question)->lists('qst_text', 'id');
+
+       
         $questions = Question::whereIn('id', $question);
+       
         if ($sub_id != 0) {
+
             $questions->where('subject_id', '=', $sub_id);
         }
         $questions = $questions->lists('id');
-        $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
-        $user_answered_correct_count = QuestionUserAnswer::whereIn('question_id', $questions)->where('assignment_id', $assign_id)->where('is_correct', 'Yes')->selectRaw('question_id,count(user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
+      
+        $user_count = QuestionUserAnswer::where('assignment_id', $assign_id)->selectRaw('question_id,count(DISTINCT user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
+      
+
+        $user_answered_correct_count = QuestionUserAnswer::where('assignment_id', $assign_id)->whereIn('is_correct', array('Yes','Open'))->selectRaw('question_id,count(DISTINCT user_id) as count')->groupBy('question_id')->lists('count', 'question_id');
+
+
+
+        
+        $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
+        $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
+        $sub = Subject::where('id', '=', $sub_id)->select('name')->get();
         return Excel::create('Assessment report', function ($excel) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
             $excel->sheet('mySheet', function ($sheet) use ($ques, $user_answered_correct_count, $user_count, $inst, $assign, $sub) {
                 //$sheet->loadView($students);
