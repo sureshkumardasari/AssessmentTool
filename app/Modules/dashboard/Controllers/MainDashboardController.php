@@ -182,8 +182,7 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	     ->join('subject','subject.id','=','assessment.subject_id')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
-	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->groupby('subject.name');
+	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage');	     
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     //dd($score);
 	     $user=$students->count('users.name');
@@ -205,7 +204,7 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname')
-	     ->orderby('assignment_user.gradeddate', 'desc');
+	     ->groupby('subject.name');
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students
