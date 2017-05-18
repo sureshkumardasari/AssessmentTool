@@ -81,7 +81,8 @@ class MainDashboardController extends BaseController
 				->join('users', 'users.id', '=', 'assignment_user.user_id')
 				->where('gradestatus','=','completed')
 				->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-				->orderby('assignment_user.gradeddate', 'desc')
+				// ->orderby('assignment_user.gradeddate', 'desc')
+				->groupBy('users.name')
 				->take(2)
 				->get();
 
@@ -145,27 +146,22 @@ class MainDashboardController extends BaseController
 			$rec[$record['id']]=Array();
 			array_push($rec[$record['id']],$record);
 		}
-		$a=Array();
-		$marks=Array();
- 		foreach($lists as $key=>$list){
-			$correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
-			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
-			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
-			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key]; 
-			if($rec[$list][0]->mcsingleanswerpoint!=0){
-			    if(isset($complete_users[$key])){
-			     if($complete_users[$key]>0 && $counts[$list]>0)
-			     $marks[$key]=($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100;
-			     else
-			      $marks[$key]=0;
-			    }else
-			     $marks[$key]=0;
-			    
-			   }
-			   else{
-			    $marks[$key]=0;
-			   }
-		}
+		 $a = Array();
+        $marks = 0;
+        $mark = [];
+        foreach ($lists as $key => $list) {
+            $correct = db::table('user_assignment_result')->where('assessment_id', $list)->where('assignment_id', $key)->selectRaw('assignment_id,percentage')->get();
+            //dd($correct);
+            foreach ($correct as $corrects) {
+            $marks += $corrects->percentage;
+            // $marks = +$corrects;
+           
+        }
+        $mark[$key] = (float)$marks/(float)$All_users[$key];
+              
+        $marks = 0;    
+            // round($mark);
+        }
          //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
@@ -223,7 +219,7 @@ class MainDashboardController extends BaseController
 	      // dd($assignments_user);
 	     	  }
         
-	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
+	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','mark','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
 	       
     }public function getStudentDetails(){
     	
