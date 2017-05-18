@@ -25,12 +25,7 @@
 				<div class="panel-heading">&nbsp;<!-- Lessons -->
 					<a href="{{ url('/resources/assessmentcreate/') }}" class="btn btn-primary  btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Assessment</a>
 				</div>
-           <div>
-					@if (Session::has('flash_message'))
-    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
-							@endif
-				</div>
-				
+
 				<div class="panel-body">
 					{{--<div class="form-group">--}}
 						{{--<label class="col-md-4 control-label">Institution</label>--}}

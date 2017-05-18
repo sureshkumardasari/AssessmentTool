@@ -301,11 +301,11 @@ class AssignmentController extends BaseController {
 			$assignment = AssignmentUser::find($value['id']);
 			$assignment->delete();
 			}
-			\Session::flash('flash_message', 'Assignment successfully deleted!');
+			\Session::flash('flash_message', 'delete!');
         	}elseif($assignment->status=='completed'){
-	            \Session::flash('flash_message_failed', 'Assignment completed Cont able to Delete!');
+	            \Session::flash('flash_message_failed', 'Assignment completed Can not able to Delete!');
 	        }else{
-	            \Session::flash('flash_message_failed', 'Assignment Inprocess Cont able to Delete!');
+	            \Session::flash('flash_message_failed', 'Assignment Inprocess Can not able to Delete!');
 	        }
 				
 		}

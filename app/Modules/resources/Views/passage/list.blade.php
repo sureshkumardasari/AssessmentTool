@@ -26,11 +26,6 @@
 					<a href="{{ url('/resources/passageadd/') }}" class="btn btn-primary  btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</a>
 				</div>
 
-	<div>
-		@if (Session::has('flash_message'))
-    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
-							@endif
-	</div>
 				<div class="panel-body">
 					<table id="passagestable" class="table table-striped table-bordered " cellspacing="0" width="100%">
 				        <thead>
