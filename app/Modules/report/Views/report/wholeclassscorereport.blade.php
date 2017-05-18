@@ -195,7 +195,7 @@
                     {
 
                         headers: {"X-CSRF-Token": csrf},
-                        url:'assignment_lesson/'+ $('#subject_id').val(),
+                        url:'assignment_lesson/'+ $('#subject_id').val()+'/'+$('#assignment_id').val(),
                         type: 'post',
                         success: function (response) {
                             var b = response.length;
