@@ -691,6 +691,8 @@ class AssessmentController extends BaseController {
 			$params = Input::All();
 			//dd($params);
 			$questions = Question::wherein('id',$post['QuestionIds'])->get();
+			$subjects = Question::wherein('id',$post['QuestionIds'])->groupBy('subject_id')->lists('subject_id','id');
+			$lessons = Question::wherein('id',$post['QuestionIds'])->groupBy('lesson_id')->lists('lesson_id','id');
 			if(!isset($post['never_expires'])){
 				$totaltime = $post['total_time'];
 				$unlimitedtime = 0;
@@ -700,8 +702,9 @@ class AssessmentController extends BaseController {
 				$unlimitedtime = 1;
 			}
 			//dd($questions);
-			$sub=implode(',',$post['subjects_list']);
-			$less=implode(',',$post['lessons_list']);
+			$sub=implode(',',$subjects);
+			$less=implode(',',$lessons);
+			//dd($less);
   			$assessment_details = Assessment::where('id',$post['id'])->update([
   				'name'=>$post['name'],
   				'institution_id'=>$post['institution_id'],

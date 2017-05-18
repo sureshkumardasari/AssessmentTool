@@ -292,20 +292,33 @@ class AssignmentController extends BaseController {
 	{
 		if($id > 0)
 		{
+			//dd($id);
 			$assignment=$this->assignment->deleteassignment($id);
+			$student_assignment_status = AssignmentUser::where('assignment_id',$id)->where('status','=','completed')->get();
+			
+			//dd($assignment);
   			if($assignment->status=='upcoming'){
-    	  	$assignment = Assignment::find($id);
-			$assignment->delete();
-			$assignment_users=AssignmentUser::where('assignment_user.assignment_id','=',$id)->select('id')->get();
-			foreach ($assignment_users as $key => $value) {
-			$assignment = AssignmentUser::find($value['id']);
-			$assignment->delete();
+  			if(count($student_assignment_status) > 0)
+  			{
+  				\Session::flash('flash_message_failed', 'One or More users completed this assignment.Can not able to Delete!');
+  			}
+  			else
+  			{
+  				$assignment = Assignment::find($id);
+				$assignment->delete();
+				$assignment_users=AssignmentUser::where('assignment_user.assignment_id','=',$id)->select('id')->get();
+				foreach ($assignment_users as $key => $value) {
+				$assignment = AssignmentUser::find($value['id']);
+				$assignment->delete();
+  			}
+    	  	\Session::flash('flash_message', 'delete!');
 			}
-			\Session::flash('flash_message', 'delete!');
+
+			
         	}elseif($assignment->status=='completed'){
 	            \Session::flash('flash_message_failed', 'Assignment completed Can not able to Delete!');
 	        }else{
-	            \Session::flash('flash_message_failed', 'Assignment Inprocess Can not able to Delete!');
+	            \Session::flash('flash_message_failed', 'Assignment Inprogress Can not able to Delete!');
 	        }
 				
 		}
