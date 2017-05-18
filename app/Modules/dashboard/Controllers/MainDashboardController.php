@@ -183,7 +183,7 @@ class MainDashboardController extends BaseController
 	     ->join('subject','subject.id','=','assessment.subject_id')
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->orderby('assignment_user.gradeddate', 'desc');
+	     ->groupby('subject.name');
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     //dd($score);
 	     $user=$students->count('users.name');
