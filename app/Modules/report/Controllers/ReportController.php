@@ -1207,19 +1207,24 @@ class ReportController extends Controller
             $rec[$record['id']] = Array();
             array_push($rec[$record['id']], $record);
         }
-        $a = Array();
-        $marks = Array();
+         $a = Array();
+        $marks = 0;
+        $mark = [];
         foreach ($lists as $key => $list) {
-            $correct = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'Yes')->count();
-            $wrong = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'No')->count();
-            $lost_marks[$key] = (float)($wrong) * ($rec[$list][0]->guessing_panality);
-            $mark = ((float)$correct * $rec[$list][0]->mcsingleanswerpoint) - (float)$lost_marks[$key];
-            //dd($mark);
-            $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
+            $correct = db::table('user_assignment_result')->where('assessment_id', $list)->where('assignment_id', $key)->selectRaw('assignment_id,percentage')->get();
+            //dd($correct);
+            foreach ($correct as $corrects) {
+            $marks += $corrects->percentage;
+            // $marks = +$corrects;
+           
         }
-
+          $mark[$key] = (float)$marks/(float)$All_users[$key];
+              
+        $marks = 0;    
+            // round($mark);
+        }
         //$footerHtml = view('layouts.pdf_partials.footer', compact('footerMeta'))->render();
-        $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'marks', 'All_users', 'complete_users', 'inst'))->render();
+        $htmlForPdf = view('report::report.testhistorypdf', compact('assignments', 'mark', 'All_users', 'complete_users', 'inst'))->render();
        // dd($htmlForPdf);
         $fileName = 'testhistoryreport';
         /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
@@ -1271,19 +1276,25 @@ class ReportController extends Controller
             array_push($rec[$record['id']], $record);
         }
         $a = Array();
-        $marks = Array();
+        $marks = 0;
+        $mark = [];
         foreach ($lists as $key => $list) {
-            $correct = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'Yes')->count();
-            $wrong = db::table('question_user_answer')->where('assessment_id', $list)->where('assignment_id', $key)->where('is_correct', 'No')->count();
-            $lost_marks[$key] = (float)($wrong) * ($rec[$list][0]->guessing_panality);
-            $mark = ((float)$correct * $rec[$list][0]->mcsingleanswerpoint) - (float)$lost_marks[$key];
-            //dd($mark);
-            $marks[$key] = isset($complete_users[$key]) ? ($mark / ($complete_users[$key] * $counts[$list] * $rec[$list][0]->mcsingleanswerpoint)) * 100 : 0;
+            $correct = db::table('user_assignment_result')->where('assessment_id', $list)->where('assignment_id', $key)->selectRaw('assignment_id,percentage')->get();
+            //dd($correct);
+            foreach ($correct as $corrects) {
+            $marks += $corrects->percentage;
+            // $marks = +$corrects;
+           
         }
-        return Excel::create('Assessment report', function ($excel) use ($assignments, $marks, $All_users, $complete_users, $inst) {
-            $excel->sheet('mySheet', function ($sheet) use ($assignments, $marks, $All_users, $complete_users, $inst) {
+        $mark[$key] = (float)$marks/(float)$All_users[$key];
+              
+        $marks = 0;    
+            // round($mark);
+        }
+        return Excel::create('Assessment report', function ($excel) use ($assignments, $mark, $All_users, $complete_users, $inst) {
+            $excel->sheet('mySheet', function ($sheet) use ($assignments, $mark, $All_users, $complete_users, $inst) {
                 //$sheet->loadView($students);
-                $sheet->loadView('report::report.testhistorypdf', array("assignments" => $assignments, "marks" => $marks, "All_users" => $All_users, "complete_users" => $complete_users, "inst" => $inst));
+                $sheet->loadView('report::report.testhistorypdf', array("assignments" => $assignments, "mark" => $mark, "All_users" => $All_users, "complete_users" => $complete_users, "inst" => $inst));
                 //$sheet->fromArray($students);
             });
         })->download("xls");

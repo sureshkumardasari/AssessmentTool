@@ -42,7 +42,7 @@
                 <td>{{$assignment->assess_name}}</td>
                 <td>{{$All_users[$assignment->assign_id]}}</td>
                 <td>{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
-                <td>{{$mark[($assignment->assign_id)]}}%</td>
+                <td>{{$mark[($assignment->assign_id)].'%'}}</td>
             </tr>
         @endforeach
     @else
