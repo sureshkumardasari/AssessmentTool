@@ -1,6 +1,6 @@
 @extends('default')
 @section('content')
-
+<input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">

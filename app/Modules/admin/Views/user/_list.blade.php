@@ -1,9 +1,10 @@
 					<div>
-					@if (Session::has('flash_message'))
+					<!-- @if (Session::has('flash_message'))
     						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
-							@endif
+							@endif -->
 				</div>
 				<input type="hidden" name="action" id="action" value="{{$role_name}}">
+				<input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 
 				        <thead>
@@ -27,7 +28,9 @@
 				                <td>
 				                
                                  <a href="{{ url('/user/edit/'.$user->id.'/'.$role_name) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                 <a href="javascript:;" data-ref="{{ url('/user/del/'.$user->id ) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                  <a href="javascript:;" data-ref="{{ url('/user/del/'.$user->id ) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+  <!-- 
+                                 <button href="javascript:;" id="delete_user" class="btn btn-default btn-sm" title="Delete" onclick="delete_user({{$user->id}})"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button> -->
 				                 
 								</td>
 				            </tr>
@@ -38,6 +41,25 @@
  
 
 {!! HTML::script(asset('/js/custom/confirm.js')) !!}
+<!-- <script type="text/javascript">
+
+function delete_user($id)
+{
+	var csrf=$('#_token').val();
+	//alert(csrf);
+	 $.ajax(
+        {
+        	headers: {"X-CSRF-Token": csrf},
+            url: "user/del/"+$id,
+            type: 'get',
+            success: function ()
+            {
+                console.log("it Work");
+            }
+        });
+
+}
+</script> -->
  <script>
   	$(document).ready(function() {
     $('#example').DataTable({
