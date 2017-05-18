@@ -502,20 +502,24 @@ class ReportController extends Controller
         $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
         $user = User::where('id', '=', $student_id)->select('name')->get();
 
-        $assignments = DB::table('assignment_user')
-            ->join('assignment', 'assignment.id', '=', 'assignment_user.assignment_id')
-            ->join('assessment', 'assessment.id', '=', 'assignment_user.assessment_id')
-            ->leftjoin('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id', 'and', 'assignment_user.assignment_id', '=', 'question_user_answer.assignment_id')
-            ->leftjoin('questions', 'questions.id', '=', 'question_user_answer.question_id')
+        $assignments = DB::table('question_user_answer')
+            ->join('questions', 'questions.id', '=', 'question_user_answer.question_id')
             ->leftjoin('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
             ->where('question_user_answer.assignment_id', '=', $assign_id)
-            ->where('assignment_user.user_id', '=', $student_id)
-            ->where('question_answers.is_correct', '=', 'YES')
-            ->select('questions.title as question_title', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'assignment.id as id', 'question_user_answer.id as qid')
-            ->groupby('questions.id')
+            ->where('question_user_answer.user_id', '=', $student_id)
+            ->select('questions.title as question_title','questions.qst_text as qst_text ','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid', 'questions.question_type_id as qtype', 'question_user_answer.question_answer_text as answer_text', 'question_user_answer.points as essaypoints')
+            ->groupby('qid')
             ->get();
-
-        $htmlForPdf = view('report::report.SAR_pdf', compact('assignments', 'inst', 'assign','user'))->render();
+            //dd( $assignments);
+            $correct_answer = [];
+        $question_ids = [];
+        foreach ($assignments as $key => $assignment) {
+            $question_ids[] = $assignment->questionid;
+        }
+        $qids = array_unique($question_ids);
+        //dd($qids);
+        $correct_answers = $this->getQuestionAnswers($qids);
+        $htmlForPdf = view('report::report.SAR_pdf', compact('assignments', 'inst', 'assign','user','correct_answers'))->render();
         $fileName = 'sar_pdf';
         /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
         $name=explode('/',$fileFullUrl);
@@ -539,7 +543,7 @@ class ReportController extends Controller
         $assign = Assignment::where('id', '=', $assign_id)->select('name')->get();
         $user = User::where('id', '=', $student_id)->select('name')->get();
 
-        $assignments = DB::table('assignment_user')
+        /*$assignments = DB::table('assignment_user')
             ->join('assignment', 'assignment.id', '=', 'assignment_user.assignment_id')
             ->join('assessment', 'assessment.id', '=', 'assignment_user.assessment_id')
             ->leftjoin('question_user_answer', 'assignment_user.user_id', '=', 'question_user_answer.user_id', 'and', 'assignment_user.assignment_id', '=', 'question_user_answer.assignment_id')
@@ -552,10 +556,30 @@ class ReportController extends Controller
             ->groupby('questions.id')
             ->get();
 
-        return Excel::create('Assessment report', function ($excel) use ($assignments, $inst, $assign, $user) {
-            $excel->sheet('mySheet', function ($sheet) use ($assignments, $inst, $assign, $user) {
+
+*/
+            $assignments = DB::table('question_user_answer')
+            ->join('questions', 'questions.id', '=', 'question_user_answer.question_id')
+            ->leftjoin('question_answers', 'question_answers.question_id', '=', 'question_user_answer.question_id')
+            ->where('question_user_answer.assignment_id', '=', $assign_id)
+            ->where('question_user_answer.user_id', '=', $student_id)
+            ->select('questions.title as question_title','questions.qst_text as qst_text ','question_user_answer.question_id as questionid', 'question_user_answer.answer_option as your_answer', 'question_answers.order_id as correct_answer', 'question_user_answer.is_correct as is_correct', 'question_user_answer.assignment_id as id', 'question_user_answer.id as qid', 'questions.question_type_id as qtype', 'question_user_answer.question_answer_text as answer_text', 'question_user_answer.points as essaypoints')
+            ->groupby('qid')
+            ->get();
+            //dd( $assignments);
+            $correct_answer = [];
+        $question_ids = [];
+        foreach ($assignments as $key => $assignment) {
+            $question_ids[] = $assignment->questionid;
+        }
+        $qids = array_unique($question_ids);
+        //dd($qids);
+        $correct_answers = $this->getQuestionAnswers($qids);
+            //dd($correct_answers);
+        return Excel::create('Assessment report', function ($excel) use ($assignments, $inst, $assign, $user,$correct_answers) {
+            $excel->sheet('mySheet', function ($sheet) use ($assignments, $inst, $assign, $user,$correct_answers) {
                 //$sheet->loadView($students);
-                $sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments, "inst" => $inst, "assign" => $assign, "user" => $user));
+                $sheet->loadView('report::report.SAR_pdf', array("assignments" => $assignments, "inst" => $inst, "assign" => $assign, "user" => $user,"correct_answers" => $correct_answers));
                 //$sheet->fromArray($students);
             });
         })->download("xls");
