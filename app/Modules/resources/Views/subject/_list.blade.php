@@ -1,10 +1,4 @@
-				
-				<div>
-					@if (Session::has('flash_message'))
-    						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
-							@endif
-				</div>
-				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
+<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
 				        <thead>
 				            <tr>
 				                <th>Id</th>
