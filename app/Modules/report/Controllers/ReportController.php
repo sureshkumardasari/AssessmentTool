@@ -730,7 +730,20 @@ class ReportController extends Controller
             } else {
                 $type[3] = [0];
             }
-            $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+            if (isset($type[1])) {
+                $single_total_count = count($type[1]);
+            } else {
+                $type[1] = [0];
+            }
+            if (isset($type[4])) {
+                $fib_total_count = count($type[4]);
+            } else {
+                $type[4] = [0];
+            }
+            //dd($essay_total_count);
+            $total_marks = (($multi_total_count + $single_total_count + $fib_total_count) * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+          
+
             $assignment = Assignment::find($assign_id);
             if ($assignment) {
                 $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
@@ -741,6 +754,7 @@ class ReportController extends Controller
                     ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
+                    //->take(5)
                     ->get();
             } else {
                 $students = [];
@@ -753,7 +767,7 @@ class ReportController extends Controller
             $fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
             //dd($fileFullUrl);
             $name=explode('/',$fileFullUrl);
-            $name=$name[5];
+            $name=$name[4];
             // return url($fileFullUrl);
             // return response()->Download($fileFullUrl);
             //  return response()->Download("/var/www/AssessmentTool/public/data/reports/".$name);
@@ -774,9 +788,10 @@ class ReportController extends Controller
 
     public function exportXLS($inst_id = 0, $assign_id = 0)
     {
-        $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
-
+         $inst = Institution::where('id', '=', $inst_id)->select('name')->get();
+        //dd($inst);
         $assi = Assignment::where('id', '=', $assign_id)->select('name')->get();
+        //dd($assi);
         $assignment = Assignment::find($assign_id);
         //dd( $assignment);
         if ($assignment) {
@@ -806,7 +821,20 @@ class ReportController extends Controller
             } else {
                 $type[3] = [0];
             }
-            $total_marks = ($multi_total_count * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+            if (isset($type[1])) {
+                $single_total_count = count($type[1]);
+            } else {
+                $type[1] = [0];
+            }
+            if (isset($type[4])) {
+                $fib_total_count = count($type[4]);
+            } else {
+                $type[4] = [0];
+            }
+            //dd($essay_total_count);
+            $total_marks = (($multi_total_count + $single_total_count + $fib_total_count) * $marks->mcsingleanswerpoint) + ($essay_total_count * $marks->essayanswerpoint);
+          
+
             $assignment = Assignment::find($assign_id);
             if ($assignment) {
                 $students = AssignmentUser::join('users', 'users.id', '=', 'assignment_user.user_id')
@@ -817,6 +845,7 @@ class ReportController extends Controller
                     ->where('assignment_user.assignment_id', '=', $assign_id)
                     ->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
                     ->groupby('users.name')
+                    //->take(5)
                     ->get();
             } else {
                 $students = [];

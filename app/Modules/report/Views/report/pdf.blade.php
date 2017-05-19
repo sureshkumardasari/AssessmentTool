@@ -29,7 +29,7 @@
     </tr>
     </tbody>
 </table><br>
-<table class="table table-bordered table-hover table-striped" id="report" width="100%">
+<table class="table table-bordered table-hover table-striped" id="report">
     <thead>
     <tr>
         <th>Student Name</th>
@@ -38,31 +38,38 @@
     </tr>
     </thead>
     <tbody>
-    <?php $all_users_count=0; ?>
-    @foreach($students as $student )
-        <tr>
-            <td>
-                {{$student->name}}
-            </td>
-            <td>
-                {{$student->score}}
-                <?php $all_users_count+=$student->score;?>
-            </td>
-            <td>
-                {{$student->percentage}}
-            </td>
-        </tr>
-    @endforeach
+<?php $all_users_count=0; ?>
+        @foreach($students as $student )
+    <tr>
+        <td>
+        {{$student->name}}
+        </td>
+        <td>
+        {{$student->score}}
+            
+        </td>
+        <td>
+            {{round($student->percentage).'%'}}
+            <?php $all_users_count+=$student->percentage;?>
+        </td>
+       {{-- --}}{{--<td>--}}{{--
+        --}}{{--{{$student->answers_count}}--}}{{--
+        --}}{{--</td>--}}{{--
+        --}}{{--<td>--}}{{--
+        --}}{{--{{($student->answers_count/$student->total_count)*100}}%--}}{{--
+        --}}{{--</td>--}}
+    </tr>
+        @endforeach
 
     </tbody>
-</table><br>
+</table>
 @if(count($students)>0)
-    <table class="table average" width="100%">
-        <tr>
-            <td>class average score:</td>
-            <td> {{$all_users_count/(count($students))}}</td>
-        </tr>
-    </table><br>
+<table class="table average" style="border-bottom: 1px solid lightgray;">
+    <tr>
+        <td><strong>class average score:</strong></td>
+        <td style="width: 50%;"> {{round($all_users_count/(count($students))).'%'}}</td>
+    </tr>
+</table>
 @endif
 </body>
 </html>
