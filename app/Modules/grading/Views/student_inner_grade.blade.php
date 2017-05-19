@@ -132,6 +132,7 @@
                         @foreach($qst_select as $key=>$question)
                             @if($question =="Essay")
                                 <div id="question_type{{$key}}">
+                                <input type="hidden" name="essaypoints" id="essaypoints" value="{{$quest['essayanswerpoint']}}">
                                 <div>
                                     
                                         @foreach($qst[$key] as $quest)
@@ -218,6 +219,8 @@
                      
                           @elseif($question =="Fill in the blank")
                                         <div id="question_type{{$key}}" style="padding:15px;">
+                                        <input type="hidden" name="fibpoints" id="fibpoints" value="{{$quest['mcsingleanswerpoint']}}">
+
                                             <table>
                                                 @foreach($qst[$key] as $quest)
                                                     <tr>
@@ -252,8 +255,7 @@
                                                                              <div>
                                                                         <div class="form-group">
                                                                         <label class="control-label col-md-2">Score:</label>
-
-                                                                        <input type="number" name="fib_score" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['essayanswerpoint']}} min="0" class="fib_score_field">/{{$quest['essayanswerpoint']}}
+                                                                        <input type="number" name="fib_score" class="fib_score_field" id="fib_score{{$quest["Id"]}}" question="{{$quest['Id']}}" max={{$quest['mcsingleanswerpoint']}} min="0" class="fib_score_field">/{{$quest['mcsingleanswerpoint']}}
                                                                         </div>
                                                                          </div>
                                                                         
@@ -967,6 +969,57 @@
 
             });
         });
+
+$('.essay_score_field').focus(function () {
+    var $this = $(this)
+    var essaypoints = $('#essaypoints').val();
+    //alert(fibpoints);
+    t = setInterval(
+    function () {
+        if (($this.val() < 0 || $this.val() > essaypoints) && $this.val().length != 0) {
+            if ($this.val() < 0) {
+                $this.val(0)
+            }
+            if ($this.val() > essaypoints) {
+                $this.val(essaypoints)
+            }
+            /*$('p').fadeIn(1000, function () {
+                $(this).fadeOut(500)
+            })*/
+        }
+    }, 50)
+})
+$('.essay_score_field').blur(function () {
+    if (t != false) {
+        window.clearInterval(t)
+        t = false;
+    }
+})
+$('.fib_score_field').focus(function () {
+    var $this = $(this)
+    var fibpoints = $('#fibpoints').val();
+    //alert(fibpoints);
+    t = setInterval(
+    function () {
+        if (($this.val() < 0 || $this.val() > fibpoints) && $this.val().length != 0) {
+            if ($this.val() < 0) {
+                $this.val(0)
+            }
+            if ($this.val() > fibpoints) {
+                $this.val(fibpoints)
+            }
+            /*$('p').fadeIn(1000, function () {
+                $(this).fadeOut(500)
+            })*/
+        }
+    }, 50)
+})
+$('.fib_score_field').blur(function () {
+    if (t != false) {
+        window.clearInterval(t)
+        t = false;
+    }
+})
 
     </script>
 @endsection
