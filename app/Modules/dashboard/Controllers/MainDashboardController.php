@@ -281,6 +281,7 @@ class MainDashboardController extends BaseController
             // ->where('institution_id','=',$ins)
 			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage','subject.name as sname')
 			->orderby('assignment_user.gradeddate', 'desc')
+			->groupBy('users.name')
 			->take(2)
 			->get();
 
@@ -330,6 +331,7 @@ class MainDashboardController extends BaseController
 		}
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->join('subject','subject.id','=','assessment.subject_id')
 		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
+				->groupby('sname')
 				->orderby('startdatetime','desc')
 				->take(2)
 				->get();
