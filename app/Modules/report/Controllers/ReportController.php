@@ -1647,9 +1647,11 @@ class ReportController extends Controller
         $subjects = Subject::whereIn('id', $subjects)->lists('name', 'id');
         $multi_answer_type_id = DB::table('question_type')->where('qst_type_text', "Multiple Choice - Multi Answer")->first()->id;
         $single_answer_type_id = DB::table('question_type')->where('qst_type_text', "Multiple Choice - Single Answer")->first()->id;
+        $fib_answer_type_id = DB::table('question_type')->where('qst_type_text', "Fill in the blank")->first()->id;
         $essay_answer_type_id = DB::table('question_type')->where('qst_type_text', "Essay")->first()->id;
         $subject_questions = [];
-
+        $answerpoints = Assessment::where('id',$assignment->assessment_id)->select('mcsingleanswerpoint','essayanswerpoint')->get();
+        //dd($answerpoints);
         //dd($subject_questions);
         $students = AssignmentUser::join('users', 'assignment_user.user_id', '=', DB::raw('users.id and assignment_user.assignment_id =' . $assi_id))
             ->select('users.name', 'users.id')
@@ -1662,9 +1664,10 @@ class ReportController extends Controller
                     $subject_questions[$key]['multi_or_single_answer_type'] = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', 'questions.id')
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $key)
-                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id])
+                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id,$fib_answer_type_id])
                         ->select('questions.id')
                         ->lists('id');
+
                     $subject_questions[$key]['essay_answer_type'] = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', 'questions.id')
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $key)
@@ -1672,6 +1675,7 @@ class ReportController extends Controller
                         ->select('questions.id')
                         ->lists('id');
                 }
+                //dd($subject_questions);
                 $subject_score = [];
                 $penality = [];
                 foreach ($students as $stud_id => $student) {
@@ -1688,6 +1692,7 @@ class ReportController extends Controller
                         //     ->where('is_correct',"Open")
                         //     ->count();
                         // dd($penality);
+                    $totalpoints[$key] = (((count($subject_questions[$key]['multi_or_single_answer_type'])) * $assessment->mcsingleanswerpoint) + (count($subject_questions[$key]['essay_answer_type']) * $assessment->essayanswerpoint));
 //
                     }
                 }
@@ -1719,9 +1724,12 @@ class ReportController extends Controller
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $sub_id)
                         ->where('questions.lesson_id', $key)
-                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id])
+                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id,$fib_answer_type_id])
                         ->select('questions.id')
                         ->lists('id');
+
+                    //dd(count($lesson_questions[$key]['multi_or_single_answer_type']) * $assessment->mcsingleanswerpoint);
+
                     $lesson_questions[$key]['essay_answer_type'] = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', 'questions.id')
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $sub_id)
@@ -1729,8 +1737,9 @@ class ReportController extends Controller
                         ->where('questions.question_type_id', $essay_answer_type_id)
                         ->select('questions.id')
                         ->lists('id');
+                    //dd(count($lesson_questions[$key]['essay_answer_type']) * $assessment->essayanswerpoint);
                 }
-                // dd($lessons);
+                // dd($lesson_questions);
                 $lesson_score = [];
                 $penality = [];
                 foreach ($students as $stud_id => $student) {
@@ -1741,7 +1750,9 @@ class ReportController extends Controller
                         $penality[$stud_id][$key]['multi_single'] = QuestionUserAnswer::where('assignment_id', $assi_id)->where('user_id', $stud_id)
                             ->whereIn('question_id', $lesson_questions[$key]['multi_or_single_answer_type'])
                             ->where('is_correct', "No")
+                            //->groupby('question_id')
                             ->count();
+                        $totalpoints[$key] = (((count($lesson_questions[$key]['multi_or_single_answer_type'])) * $assessment->mcsingleanswerpoint) + (count($lesson_questions[$key]['essay_answer_type']) * $assessment->essayanswerpoint));
                         // $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
                         //     ->whereIn('question_id',$lesson_questions[$key]['essay_answer_type'])
                         //     ->where('is_correct',"Open")
@@ -1749,7 +1760,7 @@ class ReportController extends Controller
 //
                     }
                 }
-                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub1','less','type', 'lessons', 'assignment','assessment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'))->render();
+                $htmlForPdf =view('report::report.wholeclassscorereportpdf', compact('inst','assign','sub1','less','type', 'lessons', 'assignment','assessment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality','totalpoints'))->render();
                 $fileName = 'wholeclassscorereportpdf';
                 /*$fileFullUrl = createPdfForReport($fileName, $htmlForPdf);
                 $name=explode('/',$fileFullUrl);
@@ -1809,9 +1820,11 @@ class ReportController extends Controller
         $subjects = Subject::whereIn('id', $subjects)->lists('name', 'id');
         $multi_answer_type_id = DB::table('question_type')->where('qst_type_text', "Multiple Choice - Multi Answer")->first()->id;
         $single_answer_type_id = DB::table('question_type')->where('qst_type_text', "Multiple Choice - Single Answer")->first()->id;
+        $fib_answer_type_id = DB::table('question_type')->where('qst_type_text', "Fill in the blank")->first()->id;
         $essay_answer_type_id = DB::table('question_type')->where('qst_type_text', "Essay")->first()->id;
         $subject_questions = [];
-
+        $answerpoints = Assessment::where('id',$assignment->assessment_id)->select('mcsingleanswerpoint','essayanswerpoint')->get();
+        //dd($answerpoints);
         //dd($subject_questions);
         $students = AssignmentUser::join('users', 'assignment_user.user_id', '=', DB::raw('users.id and assignment_user.assignment_id =' . $assi_id))
             ->select('users.name', 'users.id')
@@ -1820,14 +1833,14 @@ class ReportController extends Controller
         switch ($case) {
             case  1 : {
                 $type = "subjects";
-
                 foreach ($subjects as $key => $sub) {
                     $subject_questions[$key]['multi_or_single_answer_type'] = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', 'questions.id')
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $key)
-                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id])
+                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id,$fib_answer_type_id])
                         ->select('questions.id')
                         ->lists('id');
+
                     $subject_questions[$key]['essay_answer_type'] = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', 'questions.id')
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $key)
@@ -1835,6 +1848,7 @@ class ReportController extends Controller
                         ->select('questions.id')
                         ->lists('id');
                 }
+                //dd($subject_questions);
                 $subject_score = [];
                 $penality = [];
                 foreach ($students as $stud_id => $student) {
@@ -1851,6 +1865,7 @@ class ReportController extends Controller
                         //     ->where('is_correct',"Open")
                         //     ->count();
                         // dd($penality);
+                    $totalpoints[$key] = (((count($subject_questions[$key]['multi_or_single_answer_type'])) * $assessment->mcsingleanswerpoint) + (count($subject_questions[$key]['essay_answer_type']) * $assessment->essayanswerpoint));
 //
                     }
                 }
@@ -1858,10 +1873,10 @@ class ReportController extends Controller
                 //  dd($subject_score);
                 /*return view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality','inst','assign','sub','less'));*/
 //dd($sub);
-                return Excel::create('Assessment report', function ($excel) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score) {
-                    $excel->sheet('mySheet', function ($sheet) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score) {
+                return Excel::create('Assessment report', function ($excel) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score,$totalpoints) {
+                    $excel->sheet('mySheet', function ($sheet) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score,$totalpoints) {
                         //$sheet->loadView($students);
-                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "assignment" => $assignment, "students" => $students,  "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,"inst" =>$inst,"assign"=>$assign,"sub1"=>$sub1,"less"=>$less,'subject_score' => $subject_score));
+                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "assignment" => $assignment, "students" => $students,  "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,"inst" =>$inst,"assign"=>$assign,"sub1"=>$sub1,"less"=>$less,'subject_score' => $subject_score, 'totalpoints' => $totalpoints));
                         //$sheet->fromArray($students);
                     });
                 })->download("xls");
@@ -1874,9 +1889,12 @@ class ReportController extends Controller
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $sub_id)
                         ->where('questions.lesson_id', $key)
-                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id])
+                        ->whereIn('questions.question_type_id', [$multi_answer_type_id, $single_answer_type_id,$fib_answer_type_id])
                         ->select('questions.id')
                         ->lists('id');
+
+                    //dd(count($lesson_questions[$key]['multi_or_single_answer_type']) * $assessment->mcsingleanswerpoint);
+
                     $lesson_questions[$key]['essay_answer_type'] = AssessmentQuestion::join('questions', 'assessment_question.question_id', '=', 'questions.id')
                         ->where('assessment_question.assessment_id', $assignment->assessment_id)
                         ->where('questions.subject_id', $sub_id)
@@ -1884,8 +1902,9 @@ class ReportController extends Controller
                         ->where('questions.question_type_id', $essay_answer_type_id)
                         ->select('questions.id')
                         ->lists('id');
+                    //dd(count($lesson_questions[$key]['essay_answer_type']) * $assessment->essayanswerpoint);
                 }
-                // dd($lessons);
+                // dd($lesson_questions);
                 $lesson_score = [];
                 $penality = [];
                 foreach ($students as $stud_id => $student) {
@@ -1896,20 +1915,21 @@ class ReportController extends Controller
                         $penality[$stud_id][$key]['multi_single'] = QuestionUserAnswer::where('assignment_id', $assi_id)->where('user_id', $stud_id)
                             ->whereIn('question_id', $lesson_questions[$key]['multi_or_single_answer_type'])
                             ->where('is_correct', "No")
+                            //->groupby('question_id')
                             ->count();
+                        $totalpoints[$key] = (((count($lesson_questions[$key]['multi_or_single_answer_type'])) * $assessment->mcsingleanswerpoint) + (count($lesson_questions[$key]['essay_answer_type']) * $assessment->essayanswerpoint));
                         // $penality[$stud_id][$key]['essay']=QuestionUserAnswer::where('assignment_id',$assi_id)->where('user_id',$stud_id)
                         //     ->whereIn('question_id',$lesson_questions[$key]['essay_answer_type'])
                         //     ->where('is_correct',"Open")
                         //     ->count();
-//
                     }
                 }
                 // dd($lesson_score);
                 // return view('report::report.wholescoreview_duplicate', compact('type', 'lessons', 'assignment', 'students', 'lesson_score', 'subjects', 'sub_id', 'penality'));
-                return Excel::create('Assessment report', function ($excel) use ($type, $lessons, $assignment, $students, $lesson_score, $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$assessment) {
-                    $excel->sheet('mySheet', function ($sheet) use ($type, $lessons, $assignment, $students, $lesson_score, $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$assessment) {
+                return Excel::create('Assessment report', function ($excel) use ($type, $lessons, $assignment, $students, $lesson_score, $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$assessment,$totalpoints) {
+                    $excel->sheet('mySheet', function ($sheet) use ($type, $lessons, $assignment, $students, $lesson_score, $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$assessment,$totalpoints) {
                         //$sheet->loadView($students);
-                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "lessons" => $lessons, "assignment" => $assignment, "students" => $students, "lesson_score" => $lesson_score, "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,"inst" =>$inst,"assign"=>$assign,"sub1"=>$sub1,"less"=>$less,"assessment" => $assessment));
+                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "lessons" => $lessons, "assignment" => $assignment, "students" => $students, "lesson_score" => $lesson_score, "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,"inst" =>$inst,"assign"=>$assign,"sub1"=>$sub1,"less"=>$less,"assessment" => $assessment,"totalpoints" => $totalpoints));
                         //$sheet->fromArray($students);
                     });
                 })->download("xls");
