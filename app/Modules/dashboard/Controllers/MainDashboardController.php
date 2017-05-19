@@ -97,7 +97,7 @@ class MainDashboardController extends BaseController
 			
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
-                ->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+                ->select('questions.id as qid','questions.qst_text as question_qst_text','passage.title as passage_title','question_type.qst_type_text as question_type')
                 ->orderby('qid')
                 ->take(5)
                 ->get();
@@ -294,7 +294,7 @@ class MainDashboardController extends BaseController
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
 
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
-                ->select('questions.id as qid','questions.title as question_title','passage.title as passage_title','question_type.qst_type_text as question_type')
+                ->select('questions.id as qid','questions.qst_text as question_qst_text','passage.title as passage_title','question_type.qst_type_text as question_type')
                 ->where('questions.institute_id','=',$ins)
                 ->orderby('qid')
                 ->take(5)

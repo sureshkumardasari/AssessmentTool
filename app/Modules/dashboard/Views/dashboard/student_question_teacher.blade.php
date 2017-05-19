@@ -1,5 +1,42 @@
+<?php
+
+/**
+ * Function to ellipse-ify text to a specific length
+ *
+ * @param string $text   The text to be ellipsified
+ * @param int    $max    The maximum number of characters (to the word) that should be allowed
+ * @param string $append The text to append to $text
+ * @return string The shortened text
+ * @author Brenley Dueck
+ * @link   http://www.brenelz.com/blog/2008/12/14/creating-an-ellipsis-in-php/
+ */
+function ellipsis($text, $max=100, $append='&hellip;') {
+    if (strlen($text) <= $max) return $text;
+
+    $replacements = array(
+        '|<br /><br />|' => ' ',
+        '|&nbsp;|' => ' ',
+        '|&rsquo;|' => '\'',
+        '|&lsquo;|' => '\'',
+        '|&ldquo;|' => '"',
+        '|&rdquo;|' => '"',
+    );
+
+    $patterns = array_keys($replacements);
+    $replacements = array_values($replacements);
 
 
+    $text = preg_replace($patterns, $replacements, $text); // convert double newlines to spaces
+    $text = strip_tags($text); // remove any html.  we *only* want text
+    $out = substr($text, 0, $max);
+    if (strpos($text, ' ') === false) return $out.$append;
+    return preg_replace('/(\W)&(\W)/', '$1&amp;$2', (preg_replace('/\W+$/', ' ', preg_replace('/\w+$/', '', $out)))) . $append;
+}
+// $t = " The maximum testtttt number of characters (to the word) that should be allowed";
+// $tt = ellipsis($t, 30);
+// echo $tt;
+
+?>
 <div class="container">
         <div class="row" style="margin:-33px -15px -33px -33px;">
             <div class="col-md-4">
@@ -11,13 +48,18 @@
                     <table id="text">
                         <thead>
                             <tr>
-                               <th>Question Title</th>
+                               <th>Question Discription</th>
                             </tr>
                         </thead>
                         <tbody id="question_list_filer">
                             @foreach( $list_details as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}">{{ $value['question_title'] }}</a></td>
+                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}">
+                                <?php
+                                $tt = ellipsis($value['question_qst_text'], 15);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
                                  
                             </tr>
                             @endforeach
@@ -97,7 +139,12 @@
                         <tbody>
                              @foreach( $assignments_user as $id => $row )
                                 <tr>
-                                    <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}">{{  $row->name }}</a></td>
+                                    <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}">
+                                    <?php
+                                $tt = ellipsis($row->name, 15);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
                                     <td>{{$row->startdatetime}}</td>
                                 </tr>
                             @endforeach
@@ -122,7 +169,12 @@
                        <tbody id="question_list_filer">
                         @foreach( $assessment as $name )
                             <tr>
-                                <td><a href="{{ url('/resources/assessmentview/'.$name['id']) }}">{{ $name['name'] }}</a></td>
+                                <td><a href="{{ url('/resources/assessmentview/'.$name['id']) }}">
+                                 <?php
+                                $tt = ellipsis($name['name'], 15);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
                             </tr>
                         @endforeach
                      </tbody>
@@ -146,7 +198,12 @@
                         <tbody>
                             @foreach( $list_lession as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/resources/lessonedit/'.$id) }}">{{ $value }}</a></td>
+                                <td><a href="{{ url('/resources/lessonedit/'.$id) }}">
+                                 <?php
+                                $tt = ellipsis($value, 15);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
                                  
                             </tr>
                             @endforeach
