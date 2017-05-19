@@ -2,8 +2,9 @@
                             <div class="col-md-6 col-md-offset-8">
                             <a href="#" class="btn btn-primary" id="pdf" >Export PDF</a>
                             <a href="#" class="btn btn-primary" id="xls" >Export XLS</a>
-                        </div></div>
+                        </div></div><br><br><br>
 @if($type == "subjects")
+
   <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
     <table class="table table-bordered table-hover table-striped" id="wholescore">
         <caption><center><b>Subjects</b></center></caption>
@@ -26,6 +27,7 @@
         </tbody>
     </table>
 @elseif($type== "lessons")
+
     <p align="center"><b>Assignment:: </b>{{$assignment->name}}</p><br>
     <p align="center"><b>Subject:: </b>{{$subjects[$sub_id]}}</p>
 
