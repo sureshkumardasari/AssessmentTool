@@ -132,7 +132,7 @@
                         @foreach($qst_select as $key=>$question)
                             @if($question =="Essay")
                                 <div id="question_type{{$key}}">
-                                <input type="hidden" name="essaypoints" id="essaypoints" value="{{$quest['essayanswerpoint']}}">
+
                                 <div>
                                     
                                         @foreach($qst[$key] as $quest)
@@ -140,7 +140,7 @@
                                             
                                                 {{--//for displaying that the question is graded or not?--}}
                                                 <span class="glyphicon glyphicon-ok completed essay_complete_status" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted essay_incomplete_status" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>
-                                                Q.{{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
+                                                Q.{{$quest['Title']}}
                                                 
 
                                             

@@ -54,7 +54,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <tbody id="question_list_filer">
                             @foreach( $list_details as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ $value['question_qst_text'] }}" data-toggle="tooltip">
+                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ strip_tags(htmlspecialchars_decode($value['question_qst_text'])) }}" data-toggle="tooltip">
                                 <?php
                                 $tt = ellipsis($value['question_qst_text'], 49);
                                   echo $tt;
