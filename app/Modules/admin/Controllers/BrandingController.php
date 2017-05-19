@@ -289,14 +289,68 @@ class BrandingController extends Controller {
 		if($request->hasFile('image')) {
 
 			$file = Input::file('image');
+			$filetype = $file->getClientOriginalExtension();
 			$filename = time() . '.' . $file->getClientOriginalExtension();
-			if (!is_dir(public_path('/data/brandingimages/'))) {
+			if($filetype != 'xls' && $filetype!= 'pdf'&& $filetype!= 'csv'&& $filetype!= 'txt'&& $filetype!= 'doc'&& $filetype!= 'docx'&& $filetype!= 'xlsx')
+		{
+			list($originalWidth, $originalHeight) = getimagesize($file);
+		//dd($originalHeight);
+		//$originalImage =
+		/*$targetHeight=60;
+		$targetWidth = 120;
+
+			if($originalHeight > 60)
+			{		
+		        $targetHeight=60;        
+                $targetWidth = ($originalWidth * $targetHeight) / $originalHeight;
+                if($targetWidth > 280)
+                {
+                	$targetWidth=60;
+
+                }
+            }*/
+
+            $flag =0;
+            if($originalHeight > 60)
+            {
+            	//dd($originalHeight);
+            	$flag = 1;
+            	$targetHeight=60;        
+                $targetWidth = ($originalWidth * $targetHeight) / $originalHeight; 
+                //dd($targetWidth);
+
+            }
+            if($targetWidth > 220)
+            {
+            	$flag = 2;
+            	$targetWidth = 220;            	        
+                $targetHeight = ($originalHeight * $targetWidth) / $originalWidth; 
+                //original height * new width / original width = new height;
+
+            }
+            if($flag = 1 )
+            {
+			$filename = time(). '-' . $file->getClientOriginalName();
+			//dd($targetWidth);
+			$filename = preg_replace('/\s+/', '_', $filename);
+			Image::make($file)->resize($targetWidth, $targetHeight)->save(public_path().'/data/brandingimages/'.$filename);
+		    }
+		    if($flag = 2 )
+		     {
+		     	$filename = time(). '-' . $file->getClientOriginalName();
+			//dd($targetWidth);
+			 $filename = preg_replace('/\s+/', '_', $filename);
+			  Image::make($file)->resize($targetWidth, $targetHeight)->save(public_path().'/data/brandingimages/'.$filename);
+		     }	    
+
+			}
+			/*f (!is_dir(public_path('/data/brandingimages/'))) {
 				@mkdir(public_path('/data/brandingimages/', 0777, true));
 			}
 			$path = public_path('/data/brandingimages/' . $filename);
 
 
-			Image::make($file->getRealPath())->resize(200, 200)->save($path);
+			Image::make($file->getRealPath())->resize(200, 200)->save($path);*/
 		}
 
 		$branding = Branding::join('institution as i', 'brandings.institution_id', '=', 'i.id')
