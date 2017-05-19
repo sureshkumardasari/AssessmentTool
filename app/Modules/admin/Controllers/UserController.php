@@ -63,6 +63,7 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
+		$test_alert =0;
 		$InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
         $roles_arr = $this->user->getRoles();
@@ -212,6 +213,7 @@ class UserController extends BaseController
 
 	public function edit($userid = 0,$role_name = 0)
 	{
+		$test_alert =0;
 		/*$post = Input::All();
 		$messages = [
 			'institution_id.required' => ' Institution Name  is required',
