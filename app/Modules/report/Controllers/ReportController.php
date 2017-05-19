@@ -646,7 +646,7 @@ class ReportController extends Controller
             $complete_users[$completed_user->assignment_id] = $completed_user->count;
         }
         $assignments = Assignment::join('assessment', 'assignment.assessment_id', '=', DB::raw('assessment.id && assignment.institution_id =' . $id))->select('assignment.name as assign_name', 'assignment.id as assign_id', 'assessment.name as assess_name')
-        ->take(5)->get();
+        ->get();
         $assessment_arr = array_unique($lists);
         foreach ($assessment_arr as $arr) {
             $counts[$arr] = AssessmentQuestion::where('assessment_id', $arr)->count('question_id');
