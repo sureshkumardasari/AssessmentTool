@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use View;
+use Session;
 use App\Modules\Admin\Models\User;
 use App\Modules\Admin\Models\Institution;
 use App\Modules\Resources\Models\Assignment;
@@ -60,7 +61,7 @@ class AssessmentAssignmentController extends BaseController {
 	 */
 	public function index()
 	{
-		
+		Session::set('starttestT', 0);
 	}    
 
 	public function assignment($parent_id = 0)
@@ -78,6 +79,7 @@ class AssessmentAssignmentController extends BaseController {
 
     public function myassignment($user_id = 0)
     {
+            Session::set('starttestT', 0);
             $myassignment = $this->assignment->getMyTestList();
         //var_dump($myassignment);
         
@@ -131,10 +133,13 @@ class AssessmentAssignmentController extends BaseController {
     	return view('assessment::test_instructions', compact('instructions', 'id', 'flag', 'assessmentType','launchType', 'from'));
     }
     public function testDetail($id) {
-        
+        Session::set('starttestT', 1);
+        //dd(Session::get('starttest'));
+        //Session::get('starttest');
     	$ids = explode('-', $id);
         $aId    = $ids[0];      // assessment id
         $aAId   = $ids[1];  // assessment assignment id
+ //$endInstructions = Assessment::find($aId)->end_instruction;
 
         //getting Assessment
         $assessment = Assessment::find($aId);
@@ -155,7 +160,7 @@ class AssessmentAssignmentController extends BaseController {
             $message = ($status == 'completed') ? 'Test is already completed...!' : 'Test not found...!';
             return view('assessment::test_error', compact('message'));
         }
-        $AssignmentUser->complete($aId, $aAId, 'inprogress');
+        $AssignmentUser->complete($aId, $aAId, 'completed');// 'inprogress'
 
         $assessmentType = '';
 
@@ -163,19 +168,21 @@ class AssessmentAssignmentController extends BaseController {
 
     	$filesArr = $this->getFiles($id);
         $filesCount = $this->getFilesCount($id);
-        // dd($filesArr);
+         //dd($filesCount);
 
     	$bulletType = '';
     	// get question based on subsection id
     	$qbank = new AssessmentQuestion();
-    	$questions = $qbank->getQuestionsByAssessment($aId, $aAId);        
 
+    	$questions = $qbank->getQuestionsByAssessment($aId, $aAId);        
         $retaking = false;
         View::share('retaking', $retaking);
         //dd($questions);
-
+        $session=Session::get('starttestT');
+//dd($session);
     	$ansPanel = view('assessment::partial._answer_panel', compact('questions', 'bulletType'));
     	return view('assessment::test_detail', compact( 'secs', 'id', 'filesArr', 'filesCount', 'path', 'ansPanel', 'aId', 'assessment'));
+        
     }
 
     private function getFiles($id) {
@@ -242,6 +249,7 @@ class AssessmentAssignmentController extends BaseController {
                 return 0;
             }
         }
+        //dd(count($files));
     	return count($files);
     }
 
@@ -421,7 +429,7 @@ class AssessmentAssignmentController extends BaseController {
         if($allusers==$completed_users){
             Assignment::where('id',$aAId)->update(['status'=>"completed"]); 
         }
-
+       Session::set('starttestT', 0);
         // check if assessment type was fixed form
         return route('myassignment');
     }

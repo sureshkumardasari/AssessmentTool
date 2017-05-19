@@ -549,11 +549,11 @@ class Grade extends Model {
                 }
 
                 elseif( ($question['question_type'] == 'Essay') || ($question['question_type'] == "Fill in the blank" )){
-                    $essay_points=QuestionUserAnswer::where('user_id',$params['user_id'])->where('assessment_id',$params['assessment_id'])->where('assignment_id',$params['assignment_id'])->first()->points;
+                     $essay_points=QuestionUserAnswer::where('user_id',$params['user_id'])->where('assessment_id',$params['assessment_id'])->where('assignment_id',$params['assignment_id'])->select('points')->first();
+
                      $questionAnwerPoint[$key]['question_id'] = $question['Id'];
-                     $questionAnwerPoint[$key]['points']  = ($essay_points == null)? 0:$essay_points;
+                     $questionAnwerPoint[$key]['points']  = ($essay_points['points'] == null)? 0:$essay_points['points'];
                      $questionAnwerPoint[$key]['is_correct'] = 'Open';
-                     $questionAnwerPoint[$key]['type']  = "essay";
                      $questionAnwerPoint[$key]['essay'] = "";
                 }
             }

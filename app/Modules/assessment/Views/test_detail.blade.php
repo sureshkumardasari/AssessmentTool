@@ -1,3 +1,4 @@
+
 @extends('default')
 @section('content')
 <style type="text/css">
@@ -21,6 +22,7 @@
     section .tab_panel{ margin-top: 0px; }
 </style>
 <script>window.replacements = [];</script>
+<!-- <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script> -->
 
 <div class="container">
   
@@ -57,7 +59,8 @@
             </div> 
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
-                    <a href="{{ route('submit-confirm-popup', array('id' => $id)) }}" class="btn btn-primary fancybox fancybox_no_close_click fancybox.ajax" id='btn-submit'>Submit</a>                      
+                    <a href="{{ route('submit-confirm-popup', array('id' => $id)) }}" class="btn btn-primary fancybox fancybox_no_close_click fancybox.ajax" id='btn-submit'>Submit</a>   
+
                 </div>
             </div>           
           <!--  -->
@@ -71,6 +74,38 @@
 {!! HTML::script(asset('plugins/jPaginate.js')) !!}
 <script type="text/javascript">
 
+function getAlert(){
+   //   alert($('#alert').val());
+     var retVal = confirm("Exam will be submitted if you perform this action?");
+               if( retVal == true ){
+                 // document.write ("User wants to continue!");
+                 //return true;
+                  stopTicking();
+                    var _token = $(".hidden-token").val();
+                    
+         
+                    $.ajax({
+                        url: "{{ route('submit-test') }}",
+                        data: {id: "{{$id}}", retaking: '{{ $retaking }}',_token: _token},
+                        method: "POST",
+                        success: function(response) {
+
+                            var redirectUrl = response;
+                            @if (!empty($from) && $from == 'lessons')
+                                <?php $_id=getFirstTestTypeId(); ?>
+                                redirectUrl = "{{ route('resourcelisting',array('student',$_id))}}";
+                            @endif
+                            window.location.href = redirectUrl;
+                        }
+                    });
+               }
+               else{
+                  //document.write ("User does not want to continue!");
+                  return false;
+               }
+
+
+}
     $(document).ready(function() {
         var _token = $(".hidden-token").val();
         var _ids = '{{ $id }}';
@@ -348,6 +383,7 @@
     }
     $(document).ready(function(){
          window.essay_isDirty = false;
+
     });
    /* window.onbeforeunload = function() { return "Are you sure you want to leave this page."; };*/
 </script>
@@ -389,5 +425,99 @@
     }
 
 })(window);
+/*window.onbeforeunload = function() {
+            return "you can not refresh the page";
+        }*/
+        //window.onbeforeunload = function () {return false;}
 </script>
+
+<Script>
+/*function disableKey(event) {
+  if (!event) event = window.event;
+  if (!event) return;
+ 
+  var keyCode = event.keyCode ? event.keyCode : event.charCode;
+ 
+  //window.status = keyCode;
+  //alert(keyCode);
+  
+  // keyCode for F% on Opera is 57349 ?!
+  
+  if (keyCode == 116) {
+   window.status = "F5 key detected! Attempting to disabling default response.";
+   window.setTimeout("window.status='';", 2000);
+ 
+   // Standard DOM (Mozilla):
+   if (event.preventDefault) event.preventDefault();
+ 
+   //IE (exclude Opera with !event.preventDefault):
+   if (document.all && window.event && !event.preventDefault) {
+     event.cancelBubble = true;
+     event.returnValue = false;
+     event.keyCode = 0;
+   }
+ 
+   return false;
+  }
+} 
+ 
+function setEventListener(eventListener) {
+  if (document.addEventListener) document.addEventListener('keypress', eventListener, true);
+  else if (document.attachEvent) document.attachEvent('onkeydown', eventListener);
+  else document.onkeydown = eventListener;
+}
+ 
+function unsetEventListener(eventListener) {
+  if (document.removeEventListener) document.removeEventListener('keypress', eventListener, true);
+  else if (document.detachEvent) document.detachEvent('onkeydown', eventListener);
+  else document.onkeydown = null;
+}*/
+/*function checkKeyCode(evt)
+{
+
+var evt = (evt) ? evt : ((event) ? event : null);
+var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+if(event.keyCode==116)
+{
+evt.keyCode=0;
+return false
+}
+}
+document.onkeydown=checkKeyCode;*/
+/*function disable_f5(e)
+{
+  if ((e.which || e.keyCode) == 116)
+  {
+      e.preventDefault();
+  }
+}
+
+$(document).ready(function(){
+    $(document).bind("keydown", disable_f5);    
+});*/
+
+/*$(function() {
+  if (!navigator.userAgent.toLowerCase().match(/iphone|ipad|ipod|opera/)) {
+    return;
+  }
+  $('a').bind('click', function(evt) {
+    var href = $(evt.target).closest('a').attr('href');
+    if (href !== undefined && !(href.match(/^#/) || href.trim() == '')) {
+      var response = $(window).triggerHandler('beforeunload', response);
+      if (response && response != "") {
+        var msg = response + "\n\n"
+          + "Press OK to leave this page or Cancel to stay.";
+        if (!confirm(msg)) {
+          return false;
+        }
+      }
+      window.location.href = href;
+      return false;
+     }
+  });
+});*/
+</script>
+
 @endsection
+<?php session()->forget('starttest');
+?>

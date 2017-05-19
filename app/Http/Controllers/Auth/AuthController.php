@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Contracts\Auth\state;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Session;
 use Illuminate\Support\Facades\Auth\routes;
 use Input;
 use Validator;
@@ -54,6 +55,7 @@ class AuthController extends Controller {
 		$this->validate($request, [
 			'email' => 'required|email', 'password' => 'required',
 		]);
+		Session::set('starttestT', 0);
 
 		$credentials = $request->only('email', 'password');
 		$credentials['status'] = 'Active';
@@ -64,7 +66,7 @@ class AuthController extends Controller {
                 @mkdir(public_path('data/'), 0777 ,true);
                 @chmod(public_path('data/'), 0777 ,true);
             }
-
+            Session::set('starttestT', 0);
             return redirect()->intended($this->redirectPath());
 		}
 
