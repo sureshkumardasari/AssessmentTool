@@ -130,17 +130,17 @@ $session=Session::get('starttestT');
 				<ul class="nav navbar-nav">
 					@if($session == 1 )
 					<input type="hidden" id="alert" name="alert" value="">
-					<li><a href="javascript:void(0);" onclick="getAlert(); return false;">Home=={{$session}}</a></li>
+					<li><a href="javascript:void(0);" onclick="getAlert(); return false;">Home</a></li>
 				@elseif($session == 0)
-				<li><a href="{{ url('/') }}">Home--{{$session}}</a></li>
+				<li><a href="{{ url('/') }}">Home</a></li>
 				@endif	
 					
 				
 					@if($session == 1)
 					<input type="hidden" id="alert" name="alert" value="">
-					<li><a href="javascript:void(0);" onclick="getAlert(); return false;">My Assignments=={{$session}}</a></li>
+					<li><a href="javascript:void(0);" onclick="getAlert(); return false;">My Assignments</a></li>
 					@elseif($session == 0)
-					<li><a href="{{ url('/assessment/myassignment') }}">My Assignments--{{$session}}</a></li>
+					<li><a href="{{ url('/assessment/myassignment') }}">My Assignments</a></li>
  				
  					@endif
 				</ul>
