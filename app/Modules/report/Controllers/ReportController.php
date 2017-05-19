@@ -1873,10 +1873,10 @@ class ReportController extends Controller
                 //  dd($subject_score);
                 /*return view('report::report.wholeclassscorereportpdf', compact('type', 'subjects', 'assignment', 'subject_score', 'students', 'penality','inst','assign','sub','less'));*/
 //dd($sub);
-                return Excel::create('Assessment report', function ($excel) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score,$totalpoints) {
-                    $excel->sheet('mySheet', function ($sheet) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score,$totalpoints) {
+                return Excel::create('Assessment report', function ($excel) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score,$assessment,$totalpoints) {
+                    $excel->sheet('mySheet', function ($sheet) use ($type, $assignment, $students,  $subjects, $sub_id, $penality,$inst,$assign,$sub1,$less,$subject_score,$assessment,$totalpoints) {
                         //$sheet->loadView($students);
-                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "assignment" => $assignment, "students" => $students,  "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,"inst" =>$inst,"assign"=>$assign,"sub1"=>$sub1,"less"=>$less,'subject_score' => $subject_score, 'totalpoints' => $totalpoints));
+                        $sheet->loadView('report::report.wholeclassscorereportpdf', array("type" => $type, "assignment" => $assignment, "students" => $students,  "subjects" => $subjects, "sub_id" => $sub_id, "penality" => $penality,"inst" =>$inst,"assign"=>$assign,"sub1"=>$sub1,"less"=>$less,'subject_score' => $subject_score, 'assessment' => $assessment , 'totalpoints' => $totalpoints));
                         //$sheet->fromArray($students);
                     });
                 })->download("xls");
