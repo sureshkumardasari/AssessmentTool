@@ -43,7 +43,7 @@
                 {!! $questionText !!}
             </div>
             <div class="fib-area">
-                <textarea class="fib-text" cols="50" role="80" maxlength="5000" name="fib_text" data-subsecquestionid="{{ $subSecQuestionId }}">@if(!empty($oldEssay)) {!! str_replace("<br />", "\n", $oldEssay->question_answer_text) !!} @endif</textarea>
+                <textarea class="fib-text" cols="50" role="80" maxlength="5000" name="fib_text" data-subsecquestionid="{{ $subSecQuestionId }}"></textarea>
             </div>
             <div class="clr mL30">
                 <a href="javascript:void(0)" class="upload_btn pL50 pR50 mL0 mt0 fltL" id="btn-fib-save">Save</a>

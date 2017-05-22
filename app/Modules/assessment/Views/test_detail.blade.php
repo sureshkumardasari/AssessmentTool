@@ -11,7 +11,7 @@
         max-width: 350px;
     }
     .test-form .two-column .column.column-count {width: 817px;}
-    #slide-show-container p img {display: block; margin: auto;width: 100%;}
+    #slide-show-container p img {display: block; margin: auto;width: 90%;}
     .pagination {display: none;}
     .test-form .two-column .column .ans-sheet li {float: left; padding: 5px 9px 5px 0; } 
     .sc_1 {padding: 5px 5px 5px 0 !important;}

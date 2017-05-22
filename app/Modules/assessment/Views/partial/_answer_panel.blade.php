@@ -4,7 +4,6 @@
     #question-answers{background-color: #eeeeee;}
     .ans-sheet > li {   
         display: inline;
-        padding: 5px;
     }
     .ans-sheet label{font-weight: bold;}
     .ans-sheet { /*background-color: #dddddd;*/
@@ -142,6 +141,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         $('.reset-answer').on('click', function(){
             var a = $(this).closest('ul').first().find('input[type=radio]:checked').prop('checked', false);;
             console.log(a);

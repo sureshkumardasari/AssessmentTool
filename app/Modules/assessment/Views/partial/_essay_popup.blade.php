@@ -43,7 +43,7 @@
                 {!! $questionText !!}
             </div>
             <div class="essay-area">
-                <textarea class="essay-text" cols="50" role="80" maxlength="5000" name="essay_text" data-subsecquestionid="{{ $subSecQuestionId }}">@if(!empty($oldEssay)) {!! str_replace("<br />", "\n", $oldEssay->question_answer_text) !!} @endif</textarea>
+                <textarea class="essay-text" cols="50" role="80" maxlength="5000" name="essay_text" data-subsecquestionid="{{ $subSecQuestionId }}"></textarea>
             </div>
             <div class="clr mL30">
                 <a href="javascript:void(0)" class="upload_btn pL50 pR50 mL0 mt0 fltL" id="btn-save">Save</a>
