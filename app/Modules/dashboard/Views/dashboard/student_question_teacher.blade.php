@@ -56,7 +56,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                             <tr>
                                 <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ strip_tags(htmlspecialchars_decode($value['question_qst_text'])) }}" data-toggle="tooltip">
                                 <?php
-                                $tt = ellipsis($value['question_qst_text'], 49);
+                                $tt = ellipsis($value['question_qst_text'], 30);
                                   echo $tt;
                                 ?> 
                                 </a></td>
@@ -133,7 +133,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <thead>
                              <tr>
                                <th >Name </th>
-                                <th style="width: 50%;">StartDateTime</th>
+                                <th style="width: 47%;">StartDateTime</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -141,11 +141,11 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                                 <tr>
                                     <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}" title="{{ $row->name }}" data-toggle="tooltip">
                                     <?php
-                                $tt = ellipsis($row->name, 15);
+                                $tt = ellipsis($row->name, 26);
                                   echo $tt;
                                 ?> 
                                 </a></td>
-                                    <td>{{$row->startdatetime}}</td>
+                                    <td><div class="time">{{$row->startdatetime}}</td></div>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -223,6 +223,9 @@ function ellipsis($text, $max=100, $append='&hellip;') {
         border: 0px solid #000000;
         word-break: break-word;
     }
+    .time{
+        font-weight: normal;
+  }
 </style>
 <script>
 $(document).ready(function(){
