@@ -69,7 +69,7 @@ class QuestionUserAnswer extends Model {
                    
                    $userAnswer->points = ( trim($questionPoint['points']) === '-'  ? 0 : $questionPoint['points'] );
                     //for multi answer 
-                    if(($questionPoint['type'] == 'multianswer'))
+                    if(($questionPoint['points'] == 'multianswer'))
                     {   
                         if(in_array($userAnswer->answer_option, $right_ans)){
                             $userAnswer->is_correct = 'Yes';
