@@ -132,6 +132,7 @@
                         @foreach($qst_select as $key=>$question)
                             @if($question =="Essay")
                                 <div id="question_type{{$key}}">
+                                <input type="hidden" name="essaypoints" id="essaypoints" value="{{$quest['essayanswerpoint']}}">
 
                                 <div>
                                     
@@ -140,9 +141,8 @@
                                             
                                                 {{--//for displaying that the question is graded or not?--}}
                                                 <span class="glyphicon glyphicon-ok completed essay_complete_status" style="color:green" id="complete_status{{$quest['Id']}}"></span><span class="glyphicon glyphicon-remove incompleted essay_incomplete_status" style="color:red" id="incomplete_status{{$quest['Id']}}"></span>
-                                                Q.{{$quest['Title']}}
-                                                
 
+                                             Q.{{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
                                             
                                         </div>
                                         <div class="form-group">
@@ -338,7 +338,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}</p>
+                                                                    <p>Q.  {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}</p>
                                                                     {{--*/ $i = 0 /*--}}
 
                                                                     @foreach($quest['answers'] as $a )
@@ -446,7 +446,7 @@
                                                                     <h4 class="modal-title">{{$quest['Title']}} </h4>
                                                                 </div>
                                                                 <div class="modal-body" id="{{$j}}">
-                                                                    <p>Q. {{$quest['Title']}} {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
+                                                                    <p>Q.  {{ strip_tags(htmlspecialchars_decode($quest['qst_text']))}}
                                                                     </p>
                                                                     {{--*/ $i = 0 /*--}}
 

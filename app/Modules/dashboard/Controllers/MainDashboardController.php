@@ -330,7 +330,7 @@ class MainDashboardController extends BaseController
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->join('subject','subject.id','=','assessment.subject_id')
-		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
+		  ->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
 				->groupby('sname')
 				->orderby('startdatetime','desc')
 				->take(2)
@@ -348,28 +348,22 @@ class MainDashboardController extends BaseController
 			$rec[$record['id']]=Array();
 			array_push($rec[$record['id']],$record);
 		}
-		$a=Array();
-		$marks=Array();
-		foreach($lists as $key=>$list){
-			$correct=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','Yes')->count();
-			$wrong=db::table('question_user_answer')->where('assessment_id',$list)->where('assignment_id',$key)->where('is_correct','No')->count();
-			$lost_marks[$key]=(float)($wrong)*($rec[$list][0]->guessing_panality);
-			$mark=((float)$correct*$rec[$list][0]->mcsingleanswerpoint)-(float)$lost_marks[$key];
-			if($rec[$list][0]->mcsingleanswerpoint!=0){
-			                if(isset($complete_users[$key])){
-                 if($complete_users[$key]>0 && $counts[$list]>0)
-                 $marks[$key]=($mark/($complete_users[$key]*$counts[$list]*$rec[$list][0]->mcsingleanswerpoint))*100;
-                 else
-                  $marks[$key]=0;
-                }else
-                 $marks[$key]=0;
-                
-               }
-               else{
-                $marks[$key]=0;
-               }
-
-		}
+		$a = Array();
+        $marks = 0;
+        $mark = [];
+        foreach ($lists as $key => $list) {
+            $correct = db::table('user_assignment_result')->where('assessment_id', $list)->where('assignment_id', $key)->selectRaw('assignment_id,percentage')->get();
+            //dd($correct);
+            foreach ($correct as $corrects) {
+            $marks += $corrects->percentage;
+            // $marks = +$corrects;
+           
+        }
+        $mark[$key] = (float)$marks/(float)$All_users[$key];
+              
+        $marks = 0;    
+            // round($mark);
+        }
         //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
@@ -391,11 +385,11 @@ class MainDashboardController extends BaseController
 	     ->where('gradestatus','=','completed')
 	     ->where('institution_id','=',$ins)
 	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
-	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-	     ->orderby('assignment_user.gradeddate', 'desc')
+	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage');
+	     $score=$students->sum('user_assignment_result.rawscore');
+           $students=$students
 	     ->take(2)
-		->get();
- 	     $score=$students->sum('user_assignment_result.rawscore');
+		 ->get();
 	     $user=$students->count('users.name');
 	     $students=$students;
 	     
@@ -415,26 +409,27 @@ class MainDashboardController extends BaseController
 
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     //->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
-	              ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname','students')
+	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname')
 
-	     ->orderby('assignment_user.gradeddate', 'desc')
+	     ->groupby('subject.name');
+	    $score=$students->sum('user_assignment_result.rawscore');
+         $user=$students->count('users.name');
+	     $students=$students
 	     ->take(2)
-		->get();
-	     $score=$students->sum('user_assignment_result.rawscore');
-	     $user=$students->count('users.name');
-	     $students=$students;
+		 ->get();
 	     
 	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	  // dd($subject);
 	     //dd($sun);
 	     	  }
-	     	   $stud='student';
+	     $stud='student';
 	     $tech='teacher';
+	     
 	     	  
         //close
 	     	  // dd($class_students);
-	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
+	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','mark','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
 	  }     
     
 else

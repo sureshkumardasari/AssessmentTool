@@ -93,7 +93,7 @@
                         @foreach($assignments as $user_id => $assignment)
                         {
                         'label' : '{{$assignment->assign_name}}',
-                        'value' : '{{$marks[$assignment->assign_id]}}%'
+                        'value' : '{{round($mark[($assignment->assign_id)],2)}}%'
                     },
                     @endforeach
             // ]
@@ -126,6 +126,7 @@
                         {
                         'label' : '{{$assignment->sname}}',
                         'value' : '{{$score}}'
+
                          },
                     @endforeach
                           //      {

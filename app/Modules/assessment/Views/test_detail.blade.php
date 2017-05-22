@@ -20,6 +20,11 @@
     .ssi-tip {z-index: 10000;}
     .questions_passage p {line-height: 28px; margin: 0 0 17px;}    
     section .tab_panel{ margin-top: 0px; }
+    .ans-sheet {
+    /* background-color: #dddddd; */
+    line-height: 25px;
+    padding-left: 0px;
+}
 </style>
 <script>window.replacements = [];</script>
 <!-- <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script> -->
