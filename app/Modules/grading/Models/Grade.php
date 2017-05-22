@@ -554,6 +554,7 @@ class Grade extends Model {
                      $questionAnwerPoint[$key]['question_id'] = $question['Id'];
                      $questionAnwerPoint[$key]['points']  = ($essay_points['points'] == null)? 0:$essay_points['points'];
                      $questionAnwerPoint[$key]['is_correct'] = 'Open';
+                     $questionAnwerPoint[$key]['type']  = "essay";
                      $questionAnwerPoint[$key]['essay'] = "";
                 }
             }
