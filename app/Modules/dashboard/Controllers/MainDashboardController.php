@@ -434,7 +434,7 @@ class MainDashboardController extends BaseController
 	     	  
         //close
 	     	  // dd($class_students);
-	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','marks','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
+	    return view('dashboard::dashboard.teacher_admin_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','mark','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
 	  }     
     
 else
