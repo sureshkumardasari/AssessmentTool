@@ -56,7 +56,7 @@ class ProctorDashboard extends Controller {
     }
 	
 	}
-	public function startTest($assignment_id){
+	public function startTestT($assignment_id){
 		if(Auth::user()->role_id == 3){
 		$status=['inprogress','test'];
 		$assignment_not_started_users=AssignmentUser::join('users',"assignment_user.user_id",'=',"users.id")->where("assignment_id",$assignment_id)->where('assignment_user.status',"instructions")->select('user_id','assignment_user.status','users.name as user_name')->get();
