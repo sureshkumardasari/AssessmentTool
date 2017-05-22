@@ -61,7 +61,7 @@ class AssessmentAssignmentController extends BaseController {
 	 */
 	public function index()
 	{
-		Session::set('starttestT', 0);
+		//Session::set('starttestT', 0);
 	}    
 
 	public function assignment($parent_id = 0)
@@ -79,7 +79,7 @@ class AssessmentAssignmentController extends BaseController {
 
     public function myassignment($user_id = 0)
     {
-            Session::set('starttestT', 0);
+            //Session::set('starttestT', 0);
             $myassignment = $this->assignment->getMyTestList();
         //var_dump($myassignment);
         

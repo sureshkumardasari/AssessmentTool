@@ -147,8 +147,7 @@ $session=Session::get('starttestT');
 				@endif
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						<!-- <li><a href="{{ url('/auth/login') }}">Login</a></li> -->
-						<!-- <li><a href="{{ url('/auth/register') }}">Register</a></li> -->
+						
 					@else
 					<?php
 					if(Auth::user()->profile_picture != NULL)
@@ -167,8 +166,6 @@ $session=Session::get('starttestT');
 						$profile_picture = asset('/images/profile_pic.jpg');	
 					}
 					?>
-					<!-- <li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img width="50" height="50" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a> -->
                     <li class="dropdown">
 						<a href="#" class="dropdown-toggle textname" data-toggle="dropdown" role="button" aria-expanded="false"><img width="35" height="35" alt="{{ Auth::user()->name }}" src="{{ $profile_picture }}" class="img-circle"> {{ ucwords(Auth::user()->name) }} <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">

@@ -31,7 +31,7 @@
                         </div>
 
                         @foreach($assessments as $passage_id => $questionsdata)
-
+                        
                             @if($passage_id > 0)
                                     <div class="row">
                                         <label class="col-md-3 control-label"><b>Passage Title:</b> </label>
@@ -42,8 +42,7 @@
                                         <div class="col-md-6">{!! strip_tags(htmlspecialchars_decode($questionsdata['psg_txt'])) !!}</div>
                                     </div>
                                 @endif
-                                <?php
-                                  
+                                <?php 
                                 $num_arr = [];
                                 for($n=0; $n<count($questionsdata['questions'] ); $n++){
                                     $num_arr[$n+1] = $n+1;
@@ -52,9 +51,7 @@
                                // print_r($num_arr);
                                 ?>
                         @foreach($questionsdata['questions'] as $questions)
-                            <?php $i=0;
-                             
-                            ?>
+                            <?php $i=0;?>
                         <div class="row">
                             <label class="col-md-3 control-label"><b><b>
                             {{$b++}}<b>.Question Title:</b> </label>
