@@ -132,6 +132,7 @@
                         @foreach($qst_select as $key=>$question)
                             @if($question =="Essay")
                                 <div id="question_type{{$key}}">
+                                <input type="hidden" name="essaypoints" id="essaypoints" value="{{$quest['essayanswerpoint']}}">
 
                                 <div>
                                     

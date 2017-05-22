@@ -126,6 +126,7 @@
                         {
                         'label' : '{{$assignment->sname}}',
                         'value' : '{{$score}}'
+
                          },
                     @endforeach
                           //      {
