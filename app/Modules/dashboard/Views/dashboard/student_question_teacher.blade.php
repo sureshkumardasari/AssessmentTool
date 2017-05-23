@@ -132,8 +132,8 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                     <table id="text">
                         <thead>
                              <tr>
-                               <th >Name </th>
-                                <th style="width: 47%;">StartDateTime</th>
+                               <th style="width: 45%;">Name </th>
+                                <th style="width: 30%;">StartDateTime</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -145,7 +145,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                                   echo $tt;
                                 ?> 
                                 </a></td>
-                                    <td><div class="time">{{$row->startdatetime}}</td></div>
+                                    <td><div class="time">{{$row->startdatetime}}</div></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -224,7 +224,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
         word-break: break-word;
     }
     .time{
-        font-weight: normal;
+        font-weight: normal;      
   }
 </style>
 <script>
