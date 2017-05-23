@@ -41,25 +41,20 @@ function ellipsis($text, $max=100, $append='&hellip;') {
         <div class="row" style="margin:-33px -15px -33px -33px;">
             <div class="col-md-4">
                 <div class="panel panel-default">
-                <div class="panel-heading">List Of Questions
-                </div> 
+                 <div class="panel-heading">List Of Teachers
+                </div>
                 <div class="panel-body">
 
                     <table id="text">
                         <thead>
                             <tr>
-                               <th>Question Discription</th>
+                               <th>Teacher Title</th>
                             </tr>
                         </thead>
                         <tbody id="question_list_filer">
-                            @foreach( $list_details as $id => $value )
+                            @foreach( $tlist as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ strip_tags(htmlspecialchars_decode($value['question_qst_text'])) }}" data-toggle="tooltip">
-                                <?php
-                                $tt = ellipsis($value['question_qst_text'], 30);
-                                  echo $tt;
-                                ?> 
-                                </a></td>
+                                <td><a href="{{ url('/user/edit/'.$value['uid'].'/'.$tech) }}">{{ $value['uname'] }}</a></td>
                                  
                             </tr>
                             @endforeach
@@ -67,7 +62,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                     </table>
                 </div>
                 </div>
-                        <center><a class="btn btn-info" role="button" href="{{ url('/resources/question') }}">View More</a></center>
+                      <center><a class="btn btn-info" role="button" href="{{  url('user/users_list/teacher')  }}">View More</a></center> 
                   
             </div>
             <div class="col-md-4">
@@ -97,21 +92,26 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                          
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
-                <div class="panel-heading">List Of Teachers
-                </div>
+                <div class="panel panel-default">               
+                <div class="panel-heading">List Of Questions
+                </div> 
                 <div class="panel-body">
 
                     <table id="text">
                         <thead>
                             <tr>
-                               <th>Teacher Title</th>
+                               <th>Question Discription</th>
                             </tr>
                         </thead>
                         <tbody id="question_list_filer">
-                            @foreach( $tlist as $id => $value )
+                            @foreach( $list_details as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/user/edit/'.$value['uid'].'/'.$tech) }}">{{ $value['uname'] }}</a></td>
+                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ strip_tags(htmlspecialchars_decode($value['question_qst_text'])) }}" data-toggle="tooltip">
+                                <?php
+                                $tt = ellipsis($value['question_qst_text'], 30);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
                                  
                             </tr>
                             @endforeach
@@ -119,70 +119,10 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                     </table>
                 </div>
                 </div>
-                    <center><a class="btn btn-info" role="button" href="{{  url('user/users_list/teacher')  }}">View More</a></center>
+                 <center><a class="btn btn-info" role="button" href="{{ url('/resources/question') }}">View More</a></center>
+                    
             </div>
             <div class="row" style="margin-bottom:20px;"> </div>
-
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                <div class="panel-heading">List Of Assignments
-                </div>
-                <div class="panel-body">
-
-                    <table id="text">
-                        <thead>
-                             <tr>
-                               <th style="width: 45%;">Name </th>
-                                <th style="width: 30%;">StartDateTime</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                             @foreach( $assignments_user as $id => $row )
-                                <tr>
-                                    <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}" title="{{ $row->name }}" data-toggle="tooltip">
-                                    <?php
-                                $tt = ellipsis($row->name, 26);
-                                  echo $tt;
-                                ?> 
-                                </a></td>
-                                    <td><div class="time">{{$row->startdatetime}}</div></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                </div>
-              <center><a class="btn btn-info" role="button" href="{{ url('/resources/assignment') }}">View More</a></center>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                <div class="panel-heading">List Of Assessments
-                </div>
-                <div class="panel-body">
-
-                    <table id="text">
-                        <thead>
-                            <tr>
-                               <th>Name</th>
-                            </tr>
-                        </thead>
-                       <tbody id="question_list_filer">
-                        @foreach( $assessment as $name )
-                            <tr>
-                                <td><a href="{{ url('/resources/assessmentview/'.$name['id']) }}" title="{{ $name['name'] }}" data-toggle="tooltip">
-                                 <?php
-                                $tt = ellipsis($name['name'], 30);
-                                  echo $tt;
-                                ?> 
-                                </a></td>
-                            </tr>
-                        @endforeach
-                     </tbody>
-                    </table>
-                </div>
-                </div>
-                    <center><a class="btn btn-info" role="button" href="{{ url('/resources/assessment') }}">View More</a></center>
-            </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
                 <div class="panel-heading">List Of Lessons
@@ -212,6 +152,68 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                 </div>
                 </div>
                     <center><a class="btn btn-info" role="button" href="{{  url('/resources/lesson')  }}">View More</a></center>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                <div class="panel-heading">List Of Assessments
+                </div>
+                <div class="panel-body">
+
+                    <table id="text">
+                        <thead>
+                            <tr>
+                               <th>Name</th>
+                            </tr>
+                        </thead>
+                       <tbody id="question_list_filer">
+                        @foreach( $assessment as $name )
+                            <tr>
+                                <td><a href="{{ url('/resources/assessmentview/'.$name['id']) }}" title="{{ $name['name'] }}" data-toggle="tooltip">
+                                 <?php
+                                $tt = ellipsis($name['name'], 30);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
+                            </tr>
+                        @endforeach
+                     </tbody>
+                    </table>
+                </div>
+                </div>
+                    <center><a class="btn btn-info" role="button" href="{{ url('/resources/assessment') }}">View More</a></center>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                <div class="panel-heading">List Of Assignments
+                </div>
+                <div class="panel-body">
+
+                    <table id="text">
+                        <thead>
+                             <tr>
+                               <th style="width: 45%;">Name </th>
+                                <th style="width: 30%;">Start DateTime</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             @foreach( $assignments_user as $id => $row )
+                                <tr>
+                                    <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}" title="{{ $row->name }}" data-toggle="tooltip">
+                                    <?php
+                                $tt = ellipsis($row->name, 26);
+                                  echo $tt;
+                                ?> 
+                                </a></td>
+                                    <td><div class="time">{{$row->startdatetime}}</div></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+              <center><a class="btn btn-info" role="button" href="{{ url('/resources/assignment') }}">View More</a></center>
             </div>
         </div>
 
