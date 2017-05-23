@@ -71,10 +71,10 @@ class MainDashboardController extends BaseController
 					->select('assignment.id','assignment.name','assessment.name as assessment_name','assignment.created_at as created_at','assignment.startdatetime as startdatetime','assignment.status')
 					/*->groupBy('startdatetime')*/
 					->orderBy('startdatetime', 'desc')
-					->take(5)
+					->take(8)
 					->get();
 					// dd($assignments_user);
-		$assessment=Assessment::take(5)->get();
+		$assessment=Assessment::take(8)->get();
 		//close mahesh
 		//soma sekhar
 		$class_students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
@@ -91,7 +91,7 @@ class MainDashboardController extends BaseController
 		//eswar
 			$tech=DB::table('roles')->where('name', 'teacher')->first();
 			$stu=DB::table('roles')->where('name', 'student')->first();
-			$list_lession=DB::table('lesson')->orderby('updated_at','desc')->take(5)->lists('name','id')
+			$list_lession=DB::table('lesson')->orderby('updated_at','desc')->take(8)->lists('name','id')
 		     ;//->get();
 			// dd($list_lession);
 			
@@ -99,17 +99,17 @@ class MainDashboardController extends BaseController
                 ->leftjoin('passage','questions.passage_id','=','passage.id')
                 ->select('questions.id as qid','questions.qst_text as question_qst_text','passage.title as passage_title','question_type.qst_type_text as question_type')
                 ->orderby('qid')
-                ->take(5)
+                ->take(8)
                 ->get();
         $slist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$stu->id)
                 ->select('users.name','users.id')
-                ->take(5)
+                ->take(8)
                 ->get();
         $tlist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$tech->id)
                 ->select('users.name as uname','users.id as uid')
-                ->take(5)
+                ->take(8)
                 ->get();
 		//close eswar
         //siva krishna
@@ -169,7 +169,7 @@ class MainDashboardController extends BaseController
 	  if(getRole()=="admin" || getRole()=="teacher") {
 	  	// dd();
  	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
-	  // dd($assign_id);
+	   // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
 				->join('subject','assessment.subject_id','=','subject.id')
 				->where('assignment.id','=',$assign_id)
@@ -235,7 +235,7 @@ class MainDashboardController extends BaseController
 		//->where('uar.user_id',2)
 		//->where('auser.status',"completed")
 		->orderby('uar.updated_at','desc')
-		->limit(5)
+		->limit(8)
 		->select('ass.name','uar.rawscore','uar.percentage');
 	$completed_assignments=$query->get();
 	$percentage=$query->lists('uar.percentage','uar.name');
@@ -266,9 +266,9 @@ class MainDashboardController extends BaseController
 					/*->groupBy('startdatetime')*/
 					// dd($assignments_user);
 			$assignments_user = $assignments_user->orderBy('startdatetime', 'desc')
-					->take(5)
+					->take(8)
 					->get();
-		$assessment=Assessment::where('institution_id','=',$ins)->take(5)->get();
+		$assessment=Assessment::where('institution_id','=',$ins)->take(8)->get();
 		//close mahesh
 		//soma sekhar
 	//dd($assessment);
@@ -289,7 +289,7 @@ class MainDashboardController extends BaseController
 		//eswar
 			$tech=DB::table('roles')->where('name', 'teacher')->first();
 			$stu=DB::table('roles')->where('name', 'student')->first();
-			$list_lession=DB::table('lesson')->where('institution_id','=',$ins)->take(5)->lists('name','id');//->
+			$list_lession=DB::table('lesson')->where('institution_id','=',$ins)->take(8)->lists('name','id');//->
 			// dd($tech);
 		$list_details=Question::join('question_type','questions.question_type_id','=','question_type.id')
 
@@ -297,19 +297,19 @@ class MainDashboardController extends BaseController
                 ->select('questions.id as qid','questions.qst_text as question_qst_text','passage.title as passage_title','question_type.qst_type_text as question_type')
                 ->where('questions.institute_id','=',$ins)
                 ->orderby('qid')
-                ->take(5)
+                ->take(8)
                 ->get();
         $slist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$stu->id)
                 ->where('institution_id','=',$ins)
                 ->select('users.name','users.id')
-                ->take(5)
+                ->take(8)
                 ->get();
        $tlist=User::join('roles','users.role_id','=','roles.id')
                 ->where('roles.id','=',$tech->id)
                 ->where('institution_id','=',$ins)
                 ->select('users.name as uname','users.id as uid')
-                ->take(5)
+                ->take(8)
                 ->get();
 		//close eswar
         //siva krishna
@@ -330,13 +330,13 @@ class MainDashboardController extends BaseController
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->join('subject','subject.id','=','assessment.subject_id')
-		  ->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
-				->groupby('sname')
+		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
+				   // ->groupby('sname')
 				->orderby('startdatetime','desc')
 				->take(2)
 				->get();
 
-		//dd($assignments);
+		// dd($assignments);
 		$assessment_arr=array_unique($lists);
 		foreach($assessment_arr as $arr){
 			$counts[$arr]=AssessmentQuestion::where('assessment_id',$arr)->count('question_id');
@@ -348,7 +348,7 @@ class MainDashboardController extends BaseController
 			$rec[$record['id']]=Array();
 			array_push($rec[$record['id']],$record);
 		}
-		$a = Array();
+		 $a = Array();
         $marks = 0;
         $mark = [];
         foreach ($lists as $key => $list) {
@@ -364,34 +364,36 @@ class MainDashboardController extends BaseController
         $marks = 0;    
             // round($mark);
         }
+
+		
         //close sive krishna
         //kaladhar
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
 	  if(getRole()=="admin" || getRole()=="teacher") {
 	  	//dd();
- 	   $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
-	  // dd($assign_id);
+ 	    $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.grader_id', '=', $uid)->groupby('assignment_id')->get();
+	    // dd($assign_id);
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
 				->join('subject','assessment.subject_id','=','subject.id')
 				->where('assignment.id','=',$assign_id)
 				->select('subject.name as subject','assignment.name as assignmentname')
-				->groupby('subject.id')
-				->take(2)
+				->groupby('subject.id')			
 				->get();
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
-	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
-		//->join('subject','subject.id','=','assessment.subject_id')
-	     ->where('gradestatus','=','completed')
-	     ->where('institution_id','=',$ins)
-	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
-	     ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage');
-	     $score=$students->sum('user_assignment_result.rawscore');
-           $students=$students
-	     ->take(2)
-		 ->get();
+	      ->join('users', 'users.id', '=', 'assignment_user.user_id')
+	      ->join('assessment','assignment_user.assessment_id','=','assessment.id')
+	      ->where('gradestatus','=','completed')
+	      ->join('subject','subject.id','=','assessment.subject_id')	     
+	      ->where('user_assignment_result.assignment_id', '=', $assign_id)	     	
+	      ->select('users.name as user', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage');
+	        // dd($students);
+	    $score=$students->sum('user_assignment_result.rawscore');
+	       // dd($score);
 	     $user=$students->count('users.name');
-	     $students=$students;
+	     $students=$students
+	     ->take(2)
+	     ->get();
 	     
 	     //dd($sun);
 
@@ -405,27 +407,25 @@ class MainDashboardController extends BaseController
 	     ->join('users', 'users.id', '=', 'assignment_user.user_id')
 	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
 	     ->join('subject','subject.id','=','assessment.subject_id')
+	     ->where('user_assignment_result.assignment_id', '=', $assign_id)
 	     ->where('gradestatus','=','completed')
-
+           
 	   //   ->where('user_assignment_result.assignment_id','=',$assign_id);
 	     //->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id')
-	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname')
-
-	     ->groupby('subject.name');
-	    $score=$students->sum('user_assignment_result.rawscore');
-         $user=$students->count('users.name');
+	      ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname')    
+	    ->groupby('subject.name');
+	     $score=$students->sum('user_assignment_result.rawscore');
+	     $user=$students->count('users.name');
 	     $students=$students
 	     ->take(2)
-		 ->get();
-	     
-	    // $subject=DB::table('subject')->where('id',$students->assessment.subject_id)->lists('id','name');
+	     ->get();
+	    // $subject=DB::table('subject')->where('id',$students->assessment.'subject_id')->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';
 	  // dd($subject);
 	     //dd($sun);
 	     	  }
 	     $stud='student';
 	     $tech='teacher';
-	     
 	     	  
         //close
 	     	  // dd($class_students);
@@ -442,7 +442,7 @@ else
 
 		$user_id=\Auth::user()->id;
 		//dd($user_id);
-		$now=date('Y-m-d h:i:s');
+		$now=date('Y/m/d g:i:s A');
 		//dd($now);
 		$upcoming_assignments=Assignment::where('status',"upcoming")->where('startdatetime','>',$now)->where('enddatetime','!<=',$now)->get();
 		$available_assignments=Assignment::where('startdatetime','<=',$now)->where('enddatetime','!<=',$now)->get();
