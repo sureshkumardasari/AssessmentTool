@@ -79,10 +79,10 @@ class MainDashboardController extends BaseController
 		//soma sekhar
 		$class_students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
 				->join('users', 'users.id', '=', 'assignment_user.user_id')
-				->where('gradestatus','=','completed')
+				->where('assignment_user.gradestatus','=','completed')
 				->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
-				// ->orderby('assignment_user.gradeddate', 'desc')
-				->groupBy('users.name')
+				 ->orderby('assignment_user.assignment_id', 'desc')
+				//->groupBy('users.name')
 				->take(2)
 				->get();
 
@@ -130,7 +130,7 @@ class MainDashboardController extends BaseController
 		}
 		//dd($complete_users);
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=', 'assessment.id')
-              
+           ->where('assignment.gradestatus','=','completed')
 			->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
 			->orderby('assignment.id','desc')
 			->take(2)
@@ -276,12 +276,12 @@ class MainDashboardController extends BaseController
 			->join('users', 'users.id', '=', 'assignment_user.user_id')
 			->join('assessment','assignment_user.assessment_id','=','assessment.id')
 	     	->join('subject','subject.id','=','assessment.subject_id')
-			->where('gradestatus', '=', 'completed')
+			->where('assignment_user.gradestatus', '=', 'completed')
 			->where('users.institution_id','=',$ins)
             // ->where('institution_id','=',$ins)
 			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage','subject.name as sname')
-			->orderby('assignment_user.gradeddate', 'desc')
-			->groupBy('users.name')
+			->orderby('assignment_user.assignment_id', 'desc')
+			//->groupBy('users.name')
 			->take(2)
 			->get();
 
@@ -330,9 +330,10 @@ class MainDashboardController extends BaseController
 			$complete_users[$completed_user->assignment_id]=$completed_user->count;
 		}
 		$assignments=Assignment::join('assessment','assignment.assessment_id','=',DB::raw('assessment.id && assignment.institution_id ='. $uid))->join('subject','subject.id','=','assessment.subject_id')
+		->where('assignment.gradestatus','=','completed')
 		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
 				   // ->groupby('sname')
-				->orderby('startdatetime','desc')
+				->orderby('assignment.id','desc')
 				->take(2)
 				->get();
 
