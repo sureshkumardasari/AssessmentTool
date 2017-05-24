@@ -9,22 +9,28 @@
 
     }
  </style>
+  <?php 
+    $graph1 = 'ca';
+    $graph2 = 'wc';
+    $graph3 = 'th';
+
+ ?>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <h5><b>Class Average and Student Scores Report:<b></h5>
+           <h5><a href="{{ URL('dashboard/ClassAverage/'.$graph1) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"> <b>Class Average and Student Scores Report:<b> </a></h5>
             <div id="chart-2">
             FusionCharts XT will load here!
             </div>
         </div>
         <div class="col-md-4">
-            <h5><b>Test History Class Averages:<b></h5>
+            <h5><a href="{{ URL('dashboard/ClassAverage/'.$graph3) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"> <b>Test History Class Averages:</b></a></h5>
             <div id="chart-1">    
             FusionCharts XT will load here!
             </div>
         </div>
         <div class="col-md-4">
-            <h5><b>Whole Class Score Report:<b></h5>
+            <h5><a href="{{ URL('dashboard/ClassAverage/'.$graph2) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax" <b>Whole Class Score Report:</b></a></h5>
             <div id="recentupdated">    
             FusionCharts XT will load here! 
             </div> 

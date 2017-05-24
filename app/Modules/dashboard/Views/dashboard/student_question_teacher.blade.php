@@ -38,7 +38,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
 
 ?>
 <div class="container">
-        <div class="row" style="margin:-33px -15px -33px -33px;">
+        <div class="row" style="margin:10px -15px -33px -33px;">
             <div class="col-md-4">
                 <div class="panel panel-default">
                  <div class="panel-heading">List Of Teachers
