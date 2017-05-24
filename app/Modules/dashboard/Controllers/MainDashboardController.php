@@ -373,12 +373,13 @@ class MainDashboardController extends BaseController
         $uid= \Auth::user()->id;
 	  $role=\Auth::user()->role_id;
 	  if(getRole()=="admin" || getRole()=="teacher") {
-	  	//dd('test');
- 	    $assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.grader_id', '=', $uid)->groupby('assignment_id')->get();
-	     //dd($assign_id);
+
+ 	    $assign_id = AssignmentUser::where('assignment_user.grader_id', '=', $uid)->groupby('assignment_id')->lists('assignment_id');
+
+ 	    
 	   $subjects=Assessment::join('assignment','assessment.id','=','assignment.assessment_id')
 				->join('subject','assessment.subject_id','=','subject.id')
-				->where('assignment.id','=',$assign_id)
+				->whereIn('assignment.id',$assign_id)
 				->select('subject.name as subject','assignment.name as assignmentname')
 				->groupby('subject.id')			
 				->get();
@@ -388,22 +389,21 @@ class MainDashboardController extends BaseController
 	     ->join('assessment','assignment_user.assessment_id','=','assessment.id')
 	     ->join('subject','subject.id','=','assessment.subject_id')
 	     ->where('assignment_user.gradestatus','=','completed')
-	     //->where('user_assignment_result.assignment_id','=',$assign_id)
+	     ->whereIn('user_assignment_result.assignment_id',$assign_id)
 	     ->select('user_assignment_result.assignment_id','users.name as user', 'user_assignment_result.rawscore as score','assessment.subject_id as sub_id','subject.name as sname')
 	     ->orderBy('assignment_user.assignment_id','desc');
-	    // ->groupby('subject.name');
+	     //->groupby('subject.name');
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students
 	     ->take(2)
 	     ->get();
 	     
-	     //dd($sun);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
 	  }
 	  else{
-	  	//dd();
+	  	
 	  	//$assign_id = AssignmentUser::select('assignment_id')->where('assignment_user.user_id', '=', $uid)->orderby('created_at', 'desc')->get();
 
 	   $students = AssignmentUser::join('user_assignment_result', 'user_assignment_result.assignment_id', '=', 'assignment_user.assignment_id')
