@@ -3,6 +3,7 @@
     						<div class="alert alert-info" id="flash" align="center">{{ Session::get('flash_message') }}</div>
 							@endif -->
 				</div>
+                
 				<input type="hidden" name="action" id="action" value="{{$role_name}}">
 				<input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 				<table class="table table-striped table-bordered " id="example"cellspacing="0" width="100%">
@@ -26,10 +27,17 @@
 				                <td>{{ $user->rolename }}</td>
 				                <td>{{ $user->status }}</td>
 				                <td>
-				                
-                                 <a href="{{ url('/user/edit/'.$user->id.'/'.$role_name) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+				                @if($role_name == 'user')
+                                 <a href="{{ url('/user/edit/'.$user->id) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                   <a href="javascript:;" data-ref="{{ url('/user/del/'.$user->id ) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-  <!-- 
+                               @else
+
+                               <a href="{{ url('/user/edit/'.$user->id.'/'.$role_name) }}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                  <a href="javascript:;" data-ref="{{ url('/user/del/'.$user->id ) }}" class="btn btn-default btn-sm confirm" title="Delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                              @endif
+                               
+
+  <!--                         
                                  <button href="javascript:;" id="delete_user" class="btn btn-default btn-sm" title="Delete" onclick="delete_user({{$user->id}})"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button> -->
 				                 
 								</td>

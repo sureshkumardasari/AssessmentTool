@@ -63,14 +63,14 @@ class UserController extends BaseController
 	 */
 	public function index($institution_id = 0)
 	{
+
 		//$test_alert =0;
 		Session::set('starttestT', 0);
 		$InstitutionObj = new Institution();
         $inst_arr = $InstitutionObj->getInstitutions();
         $roles_arr = $this->user->getRoles();
         $role_name = $institution_id;
-        //dd($role_name);
-
+        
 
         if($institution_id === "teacher"){
             //dd();
@@ -90,6 +90,7 @@ class UserController extends BaseController
             }else         
          $query->where("u.role_id", $role_id->id);
         $users = $query->get();
+
         return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
             ->nest('usersList', 'admin::user._list', compact('users','role_name'));
         }
@@ -130,7 +131,10 @@ class UserController extends BaseController
 		$inst_arr = $InstitutionObj->getInstitutions();
 		$roles_arr = $this->user->getRoles();
 
-
+        if($role_name == 0)
+        {
+        	$role_name = 'user';
+        }
 		//return view('admin::user.list',compact('users'));
 		return view('admin::user.list', compact('inst_arr', 'roles_arr','institution_id'))
 			->nest('usersList', 'admin::user._list', compact('users','role_name'));
