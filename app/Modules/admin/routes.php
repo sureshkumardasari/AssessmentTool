@@ -19,6 +19,7 @@ Route::group(array('module'=>'admin', 'prefix' => 'user', 'middleware' => 'auth'
     Route::get('state/{id}', array('as' => 'useredit', 'uses'=>'UserController@state'));
 
     Route::get('edit/{id}/{role_name}', array('as' => 'useredit', 'uses'=>'UserController@edit'));
+    Route::get('edit/{id}', array('as' => 'useredit', 'uses'=>'UserController@edit'));
     
     Route::get('del/{id}', array('as' => 'userdelete', 'uses'=>'UserController@delete'));
     Route::post('update', array('as' => 'userupdate', 'uses'=>'UserController@update'));
