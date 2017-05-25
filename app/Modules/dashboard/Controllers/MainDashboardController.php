@@ -83,7 +83,7 @@ class MainDashboardController extends BaseController
 				->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 				 ->orderby('assignment_user.assignment_id', 'desc')
 				//->groupBy('users.name')
-				->take(2)
+				->take(10)
 				->get();
 
 		//return view('report::report.dashboard',compact('students'));
@@ -133,7 +133,7 @@ class MainDashboardController extends BaseController
            ->where('assignment.gradestatus','=','completed')
 			->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
 			->orderby('assignment.id','desc')
-			->take(2)
+			->take(10)
 			->get();
 		//dd($assignments);
 		$assessment_arr=array_unique($lists);
@@ -187,9 +187,9 @@ class MainDashboardController extends BaseController
 	     //dd($score);
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(2)
+	     ->take(5)
 	     ->get();
-	     // dd($students);
+	     //dd($students);
 
 	   $student_whole=isset($students[0])?$students[0]:'';
 	  }
@@ -208,7 +208,7 @@ class MainDashboardController extends BaseController
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(2)
+	     ->take(10)
 	     ->get();
 	     $stud='student';
 	     $tech='teacher';
@@ -217,7 +217,7 @@ class MainDashboardController extends BaseController
 	   //dd($students);
 	      // dd($assignments_user);
 	     	  }
-	     	  
+	     	  //dd($students);
         
 	    return view('dashboard::dashboard.main_dashboard',compact('class_students','user','assignments_user','assessment','list_details','slist','tlist','assignments','mark','All_users','complete_users','student_whole','score','user','list_lession','students','stud','tech'));
 	       
@@ -283,7 +283,7 @@ class MainDashboardController extends BaseController
 			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage','subject.name as sname')
 			->orderby('assignment_user.assignment_id', 'desc')
 			//->groupBy('users.name')
-			->take(2)
+			->take(10)
 			->get();
 
 	//close soma sekhar
@@ -335,7 +335,7 @@ class MainDashboardController extends BaseController
 		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
 				   // ->groupby('sname')
 				->orderby('assignment.id','desc')
-				->take(2)
+				->take(10)
 				->get();
 
 		// dd($assignments);
@@ -394,7 +394,7 @@ class MainDashboardController extends BaseController
 	       // dd($score);
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(2)
+	     ->take(5)
 	     ->get();
 	     
 	     //dd($sun);
