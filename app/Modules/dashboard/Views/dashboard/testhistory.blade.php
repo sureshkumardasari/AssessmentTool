@@ -1,22 +1,5 @@
 
 @if(Auth::user()->role_id==1)
-
-<div class="container">
-    <div class="row">
-    <select style="align:left;" id="change">
-              <option value="10" id="var">10</option>
-              <option value="20" id="var">20</option>
-              <option value="30" id="var">30</option>
-              <option value="40" id="var">40</option>
-            </select>
-        <div class="col-lg-4 col-sm-6 ">
-            <h5><b>Class Average and Student Scores Report:</b></h5>
-            <div id="second">
-            FusionCharts XT will load here!
-            </div>
-        </div>
-    </div>
- </div>
  <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
 <script type="text/javascript" src="{{asset('/js/fusion/js/themes/fusioncharts.theme.ocean.js')}}"></script>
 <script>
@@ -112,6 +95,22 @@
      <?php
 $path = url()."/dashboard/";
 ?>
+<div class="container">
+    <div class="row">
+    <select style="align:left;" id="change">
+              <option value="10" id="var">10</option>
+              <option value="20" id="var">20</option>
+              <option value="30" id="var">30</option>
+              <option value="40" id="var">40</option>
+            </select>
+        <div class="col-lg-4 col-sm-6 ">
+            <h5><b>Class Average and Student Scores Report:</b></h5>
+            <div id="second">
+            FusionCharts XT will load here!
+            </div>
+        </div>
+    </div>
+ </div>
     <script type="text/javascript">
          $(document).ready(function($) {
 
