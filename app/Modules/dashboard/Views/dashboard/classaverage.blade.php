@@ -38,8 +38,15 @@ function ellipsis4($text, $max=100, $append='') {
 // echo $tt;
 
 ?>
+
 <div class="container">
     <div class="row">
+    <select style="align:left;" id="change">
+              <option value="10" id="var">10</option>
+              <option value="20" id="var">20</option>
+              <option value="30" id="var">30</option>
+              <option value="40" id="var">40</option>
+            </select>
         <div class="col-lg-4 col-sm-6 ">
             <h5><b>Class Average and Student Scores Report:</b></h5>
             <div id="first">
@@ -90,6 +97,31 @@ function ellipsis4($text, $max=100, $append='') {
         }).render();
     });
     </script>
+    <?php
+$path = url()."/dashboard/";
+?>
+    <script type="text/javascript">
+         $(document).ready(function($) {
+
+    $("#change").change(function() {
+        
+        var search_id = $(this).val();
+        
+        var ca='ca';
+        
+        $.ajax({
+           
+            url:'{{$path}}ClassLists/'+ca+'/'+search_id ,
+            type:'get',
+            success: function (response) {
+               $( "#second" ).remove();
+              $("#first").append(response);  
+                
+            }
+        });
+    });
+});
+</script>
     @elseif(Auth::user()->role_id==3 ||Auth::user()->role_id==4)
     <?php
 

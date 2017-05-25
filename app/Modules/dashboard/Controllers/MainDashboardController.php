@@ -465,8 +465,13 @@ else
 
 
 
-public function AdminPopup($ca){
-	  // dd($ca);
+public function AdminPopup($ca =0,$id =0){
+       //dd($ca );
+
+	  if($id == 0)
+	  {
+	  	$id = 10;
+	  }
 
     	$role=\Auth::user()->role_id;
 	  if(getRole()=="administrator") {
@@ -486,9 +491,9 @@ public function AdminPopup($ca){
 				->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage')
 				// ->orderby('assignment_user.gradeddate', 'desc')
 				->groupBy('users.name')
-				->take(15)
+				->take($id)
 				->get();
-
+            //d($class_students );
 		
 			$tech=DB::table('roles')->where('name', 'teacher')->first();
 			$stu=DB::table('roles')->where('name', 'student')->first();
@@ -533,7 +538,7 @@ public function AdminPopup($ca){
               
 			->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name')
 			->orderby('assignment.id','desc')
-			->take(15)
+			->take($id)
 			->get();
 		//dd($assignments);
 		$assessment_arr=array_unique($lists);
@@ -587,7 +592,7 @@ public function AdminPopup($ca){
 	     //dd($score);
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(15)
+	     ->take($id)
 	     ->get();
 	     // dd($students);
 
@@ -608,7 +613,7 @@ public function AdminPopup($ca){
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(15)
+	     ->take($id)
 	     ->get();
 	     $stud='student';
 	     $tech='teacher';
@@ -662,7 +667,7 @@ public function AdminPopup($ca){
 			->select('users.name', 'user_assignment_result.rawscore as score', 'user_assignment_result.percentage','subject.name as sname')
 			->orderby('assignment_user.gradeddate', 'desc')
 			->groupBy('users.name')
-			->take(15)
+			->take($id)
 			->get();
 
 	//close soma sekhar
@@ -713,10 +718,10 @@ public function AdminPopup($ca){
 		->select('assignment.name as assign_name','assignment.id as assign_id','assessment.name as assess_name','subject.name as sname')
 				   // ->groupby('sname')
 				->orderby('startdatetime','desc')
-				->take(15)
+				->take($id)
 				->get();
 
-		// dd($assignments);
+		//dd($assignments);
 		$assessment_arr=array_unique($lists);
 		foreach($assessment_arr as $arr){
 			$counts[$arr]=AssessmentQuestion::where('assessment_id',$arr)->count('question_id');
@@ -772,7 +777,7 @@ public function AdminPopup($ca){
 	       // dd($score);
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(15)
+	     ->take($id)
 	     ->get();
 	     
 	     //dd($sun);
@@ -797,7 +802,7 @@ public function AdminPopup($ca){
 	     $score=$students->sum('user_assignment_result.rawscore');
 	     $user=$students->count('users.name');
 	     $students=$students
-	     ->take(15)
+	     ->take($id)
 	     ->get();
 	    // $subject=DB::table('subject')->where('id',$students->assessment.'subject_id')->lists('id','name');
 	       $student_whole=isset($students[0])?$students[0]:'';

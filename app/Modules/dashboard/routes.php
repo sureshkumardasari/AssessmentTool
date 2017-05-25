@@ -19,6 +19,7 @@ Route::group(array('module'=>'Dashboard', 'prefix'=>'dashboard' ,'middleware' =>
 
     Route::get('ClassAverage/{ca}', array('as' => 'ClassAverage', 'uses'=>'MainDashboardController@AdminPopup'));
    
+    Route::get('ClassLists/{ca}/{id}', array('as' => 'ClassLists', 'uses'=>'MainDashboardController@AdminPopup'));
 
     
 });
