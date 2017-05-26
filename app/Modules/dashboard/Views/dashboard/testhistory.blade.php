@@ -191,7 +191,7 @@ $path = url()."/dashboard/";
             url:'{{$path}}ClassLists/'+th+'/'+search_id ,
             type:'get',
             success: function (response) {
-               $( "#third" ).remove();
+               
               $("#second").append(response);  
                 
             }

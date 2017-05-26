@@ -17,7 +17,7 @@
 			<div class="panel panel-default">
 				<input type="hidden" name="_token" class="hidden-token" value="{{csrf_token()}}">
 				<div class="panel-heading">Users
-				 @if(Auth::user()->role_id==1)
+				 @if(Auth::user()->role_id==1 ||Auth::user()->role_id==4)
 					<a href="{{ url('/user/add/') }}" class="btn btn-primary btn-sm right"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add </a>
 					<a href="{{ route('userBulkUpload') }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Bulk Upload </a>
                   @endif 
