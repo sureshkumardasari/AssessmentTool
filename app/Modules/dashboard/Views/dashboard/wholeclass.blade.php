@@ -59,7 +59,7 @@ function ellipsis4($text, $max=100, $append='') {
     <div class="row">
         <div class="col-md-4">
             <h5><b>Whole Class Score Report:</b></h5>
-            <div id="second">
+            <div id="third">
            
             </div>
         </div>
@@ -120,7 +120,7 @@ function ellipsis4($text, $max=100, $append='') {
     <div class="row">
         <div class="col-md-4">
             <h5><b>Whole Class Score Report:</b></h5>
-            <div id="second">
+            <div id="third">
            
             </div>
         </div>
@@ -182,6 +182,8 @@ function ellipsis4($text, $max=100, $append='') {
               <option value="20" id="var">20</option>
               <option value="30" id="var">30</option>
               <option value="40" id="var">40</option>
+              <option value="50" id="var">50</option>
+              <option value="all" id="var">All</option>
             </select>
         <div class="col-lg-4 col-sm-6 ">
             <h5><b>Select Number Of Subjects:</b></h5>

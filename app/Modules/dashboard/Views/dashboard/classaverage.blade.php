@@ -53,7 +53,7 @@ function ellipsis4($text, $max=100, $append='') {
     border-radius: 4px;
     width: 100%!important;
 }
-</style>
+</style> 
 @if(Auth::user()->role_id==1)
 <div class="container">
     <div class="row">
@@ -168,10 +168,13 @@ function ellipsis4($text, $max=100, $append='') {
  <label class="col-md-4 control-label"><b>Select Number of Students</b></label>
     <div class="col-md-6">
     <select class="col-md-6" id="change">
+
               <option value="10" id="var">10</option>
               <option value="20" id="var">20</option>
               <option value="30" id="var">30</option>
               <option value="40" id="var">40</option>
+              <option value="50" id="var">50</option>
+              <option value="all" id="var">All</option>
             </select>
         <div class="col-md-6 ">
             
@@ -198,7 +201,7 @@ $path = url()."/dashboard/";
             url:'{{$path}}ClassLists/'+ca+'/'+search_id ,
             type:'get',
             success: function (response) {
-               $( "#second" ).remove();
+               
               $("#first").append(response);  
                 
             }
