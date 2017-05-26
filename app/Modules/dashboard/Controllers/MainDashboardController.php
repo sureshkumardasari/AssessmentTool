@@ -465,13 +465,18 @@ else
 
 
 
-public function AdminPopup($ca =0,$id =0){
-       //dd($ca );
+public function AdminPopup($ca =0,$id = '10'){
+       // dd($id );
 
-	  if($id == 0)
+	  if($id == '10')
 	  {
 	  	$id = 10;
 	  }
+	  elseif($id == 'all')
+	  {
+	  		$id = 0;
+	  }
+	  else{}
 
     	$role=\Auth::user()->role_id;
 	  if(getRole()=="administrator") {
