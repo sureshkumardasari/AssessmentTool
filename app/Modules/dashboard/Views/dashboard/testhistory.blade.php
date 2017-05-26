@@ -37,6 +37,23 @@ function ellipsis4($text, $max=100, $append='') {
 // echo $tt;
 
 ?>
+<style type="text/css">
+    .fancybox-inner {
+    position: relative;
+    width: 770px!important;
+    overflow-x: hidden!important;
+}
+   .fancybox-skin {
+    position: relative;
+    background: #f9f9f9;
+    color: #444;
+    text-shadow: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    width: 100%!important;
+}
+</style>
 
 @if(Auth::user()->role_id==1)
 <div class="container">
@@ -164,13 +181,10 @@ $path = url()."/dashboard/";
 <div class="container">
     <div class="row">
     <select style="align:left;" id="change">
-
               <option value="10" id="var">10</option>
               <option value="20" id="var">20</option>
               <option value="30" id="var">30</option>
               <option value="40" id="var">40</option>
-              <option value="50" id="var">50</option>
-              <option value="all" id="var">All</option>
             </select>
         <div class="col-lg-4 col-sm-6 ">
             <h5><b>Select Number Of Assignments:</b></h5>
@@ -194,7 +208,7 @@ $path = url()."/dashboard/";
             url:'{{$path}}ClassLists/'+th+'/'+search_id ,
             type:'get',
             success: function (response) {
-               
+               $( "#third" ).remove();
               $("#second").append(response);  
                 
             }

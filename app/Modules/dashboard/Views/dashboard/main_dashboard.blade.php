@@ -57,7 +57,7 @@ function ellipsis4($text, $max=100, $append='') {
  ?>
 <div class="container">
     <div class="row">
-        <div class="col-lg-4 col-sm-6  ">
+        <div class="col-lg-4 col-sm-6" style="margin-top: -10px">
             <h5><!-- <a href="{{ URL('dashboard/ClassAverage/'.$graph1) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"> <b>Class Average and Student Scores Report:<b> </a> --></h5>
             <div id="chart-2">
           
