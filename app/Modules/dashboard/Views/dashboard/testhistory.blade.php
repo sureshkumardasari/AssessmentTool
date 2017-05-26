@@ -185,6 +185,8 @@ $path = url()."/dashboard/";
               <option value="20" id="var">20</option>
               <option value="30" id="var">30</option>
               <option value="40" id="var">40</option>
+               <option value="50" id="var">50</option>
+              <option value="all" id="var">All</option>
             </select>
         <div class="col-lg-4 col-sm-6 ">
             <h5><b>Select Number Of Assignments:</b></h5>
