@@ -79,7 +79,7 @@
                                 @foreach($assignments as $user_id => $assignment)
                                 {
                                     'label' : '{{$assignment->assign_name}}',
-                                'value' : '{{round($mark[($assignment->assign_id)],2)}}%'
+                                'value' : '{{ceil(round($mark[($assignment->assign_id)],2))}}%'
                             },
                             @endforeach
                     // ]

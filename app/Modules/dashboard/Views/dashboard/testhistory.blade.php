@@ -110,7 +110,7 @@ function ellipsis4($text, $max=100, $append='') {
                                  
                                 ?> 
                                     'label' : '{{$tt}}',
-                                'value' : '{{round($mark[($assignment->assign_id)],2)}}%'
+                                'value' : '{{ceil(round($mark[($assignment->assign_id)],2))}}%'
 
                             },
                             @endforeach
@@ -164,7 +164,7 @@ function ellipsis4($text, $max=100, $append='') {
                                  
                                 ?> 
                         'label' : '{{$tt}}',
-                        'value' : '{{round($mark[($assignment->assign_id)],2)}}%'
+                        'value' : '{{ceil(round($mark[($assignment->assign_id)],2))}}%'
                     },
                     @endforeach
             // ]

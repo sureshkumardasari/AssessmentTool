@@ -100,7 +100,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                     <table id="text">
                         <thead>
                             <tr>
-                               <th>Question Discription</th>
+                               <th>Question Description</th>
                             </tr>
                         </thead>
                         <tbody id="question_list_filer">
