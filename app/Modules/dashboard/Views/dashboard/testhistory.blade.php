@@ -37,6 +37,23 @@ function ellipsis4($text, $max=100, $append='') {
 // echo $tt;
 
 ?>
+<style type="text/css">
+    .fancybox-inner {
+    position: relative;
+    width: 770px!important;
+    overflow-x: hidden!important;
+}
+   .fancybox-skin {
+    position: relative;
+    background: #f9f9f9;
+    color: #444;
+    text-shadow: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    width: 100%!important;
+}
+</style>
 
 @if(Auth::user()->role_id==1)
 <div class="container">
