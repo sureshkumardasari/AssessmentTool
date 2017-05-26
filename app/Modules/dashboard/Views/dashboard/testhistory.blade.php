@@ -58,31 +58,12 @@ function ellipsis4($text, $max=100, $append='') {
 @if(Auth::user()->role_id==1)
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h5><b>Test History Class Average:</b></h5>
             <div id="second">
            
             </div>
         </div>
-         <div class="form-group col-md-7">
- <label class="col-md-4 control-label"><b>Select Number of Students</b></label>
-    <div class="col-md-6">
-    <select class="col-md-6" id="change">
-              <option value="10" id="var">10</option>
-              <option value="20" id="var">20</option>
-              <option value="30" id="var">30</option>
-              <option value="40" id="var">40</option>
-              <option value="50" id="var">50</option>
-              <option value="all" id="var">ALL</option>
-            </select>
-        <div class="col-md-6 ">
-            
-            <div id="first">
-           
-            </div>
-        </div>
-    </div>
- </div>
 </div>
 </div>
  <script src="{{ asset('/js/fusion/js/fusioncharts.js') }}"></script>
@@ -197,7 +178,22 @@ function ellipsis4($text, $max=100, $append='') {
      <?php
 $path = url()."/dashboard/";
 ?>
-
+<div class="container">
+    <div class="row">
+    <select style="align:left;" id="change">
+              <option value="10" id="var">10</option>
+              <option value="20" id="var">20</option>
+              <option value="30" id="var">30</option>
+              <option value="40" id="var">40</option>
+            </select>
+        <div class="col-lg-4 col-sm-6 ">
+            <h5><b>Select Number Of Assignments:</b></h5>
+            <div id="second">
+           
+            </div>
+        </div>
+    </div>
+ </div>
     <script type="text/javascript">
          $(document).ready(function($) {
 
