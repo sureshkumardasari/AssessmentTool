@@ -280,9 +280,17 @@ $( document ).ready(function() {
 							$('#category_id').empty();
 							$('#subject_id').empty();
 							$('#lessons_id').empty();
+							$('#question_type').empty();
 							var opt = new Option('--Select Category--', '');
 							//opt.addClass('selected','disabled','hidden');
 							$('#category_id').append(opt);
+							var opt1 = new Option('--Select Subject--', '');
+								$('#subject_id').append(opt1);
+							var opt2 = new Option('--Select Lesson--', '');
+							$('#lessons_id').append(opt2);
+							var opt3 = new Option('--Select QuestionType--', '');
+							$('#question_type').append(opt3);
+
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#category_id').append(opt);
@@ -293,18 +301,25 @@ $( document ).ready(function() {
 
 	function change_category(){
 		var csrf=$('Input#csrf_token').val();
+		
 		$.ajax(
 				{
 
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}subjectList/'+$('#category_id').val(),
-					type:'post',
+					type:'get',
 					success:function(response) {
 						var a = response.length;
 							$('#subject_id').empty();
 							$('#lessons_id').empty();
+							$('#question_type').empty();
 							var opt = new Option('--Select Subject--', '');
 							$('#subject_id').append(opt);
+							var opt4 = new Option('--Select Lesson--', '');
+							$('#lessons_id').append(opt4);
+							var opt5 = new Option('--Select QuestionType--', '');
+							$('#question_type').append(opt5);
+
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#subject_id').append(opt);
@@ -321,13 +336,15 @@ $( document ).ready(function() {
 
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}lessonsList/'+$('#subject_id').val(),
-					type:'post',
+					type:'get',
 					success:function(response){
 						var a=response.length	
 							$('#lessons_id').empty();
 							$('#question_type').empty();
 							var opt=new Option('--Select Lesson--','');
 							$('#lessons_id').append(opt);
+							var opt3 = new Option('--Select QuestionType--', '');
+							$('#question_type').append(opt3);
 							for(i=0;i<a;i++){
 								var opt=new Option(response[i].name,response[i].id);
 								$('#lessons_id').append(opt);
@@ -350,11 +367,12 @@ $( document ).ready(function() {
 
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}questiontypeList/'+$('#lessons_id').val(),
-					type:'post',
+					type:'get',
 					data:{'passages':passage_Ids},
 					success:function(response){
 						var a=response['question_type'].length;
 						//$('#question_type').multiselect('destroy');
+
 						$('#question_type').empty();
 						$('#passage_table').dataTable().fnDestroy();
 						$('#passages-list').empty();
@@ -363,6 +381,7 @@ $( document ).ready(function() {
 						var opt=new Option('Select QuestionType','');
 						$('#question_type').append(opt);
 						for(i=0;i<a;i++){
+							
 							var opt=new Option(response['question_type'][i].qst_type_text,response['question_type'][i].question_type);
 							$('#question_type').append(opt);
 						}
@@ -399,4 +418,5 @@ $( document ).ready(function() {
             }
     }
     </script>
+
 @endsection
