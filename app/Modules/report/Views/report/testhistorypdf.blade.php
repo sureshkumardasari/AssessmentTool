@@ -27,11 +27,11 @@
 <table class="table table-bordered table-hover table-striped" id="report" width="100%">
     <thead>
      <tr>
-      <th>Assignment</th>
-      <th>Assessment</th>
-      <th>Total Students</th>
-      <th>Students attended</th>
-      <th>Average of Assignment for Completed users</th>
+      <th width="50%">Assignment</th>
+      <th width="50%">Assessment</th>
+      <th width="30%">Total Students</th>
+      <th width="30%">Students attended</th>
+      <th width="50%">Average of Assignment for Completed users</th>
      </tr>
     </thead>
     <tbody>
@@ -40,9 +40,9 @@
             <tr>
                 <td>{{$assignment->assign_name}}</td>
                 <td>{{$assignment->assess_name}}</td>
-                <td>{{$All_users[$assignment->assign_id]}}</td>
-                <td>{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
-                <td>{{round($mark[($assignment->assign_id)]).'%'}}</td>
+                <td align="center">{{$All_users[$assignment->assign_id]}}</td>
+                <td align="center">{{isset($complete_users[$assignment->assign_id])?$complete_users[$assignment->assign_id]:0}}</td>
+                <td align="center">{{round($mark[($assignment->assign_id)]).'%'}}</td>
             </tr>
         @endforeach
     @else
