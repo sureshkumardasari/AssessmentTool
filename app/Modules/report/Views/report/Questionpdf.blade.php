@@ -16,7 +16,7 @@
     <tr>
         <th>Selected Institution</th>
         <th>Selected Assignment</th>
-        <th>Selected Subject</th>
+        <th width="40%">Selected Subject</th>
     </tr>
     </thead>
     <tbody>
@@ -37,7 +37,7 @@
     <thead>
     <tr>
         <th>Question </th>
-        <th>Accuracy Percentage</th>
+        <th width="50%">Accuracy Percentage</th>
     </tr>
     </thead>
     <tbody>
