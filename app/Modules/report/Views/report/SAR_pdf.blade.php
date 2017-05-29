@@ -9,14 +9,14 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
             border: 0px solid black;
             border-collapse: collapse;
         }
-    </style>
+    </style> 
 </head>
 <table border="0" width="100%">
     <thead>
     <tr>
-        <th>Selected Institution</th>
-        <th>Selected Assignment</th>
-        <th>Selected Student</th>
+        <th width="50%">Selected Institution</th>
+        <th width="50%">Selected Assignment</th>
+        <th width="50%">Selected Student</th>
     </tr>
     </thead>
     <tbody>
@@ -37,9 +37,9 @@ $arr=[1=>'A',2=>'B',3=>'C',4=>'D',5=>'E'];
     <thead>
     @if($assignments)
     <tr>
-        <th>Question</th>
-        <th>Correct Answer</th>
-        <th>Your Answer</th>
+        <th width="100%">Question</th>
+        <th width="50%">Correct Answer</th>
+        <th width="50%">Your Answer</th>
      </tr>
     </thead>
     <tbody> 
