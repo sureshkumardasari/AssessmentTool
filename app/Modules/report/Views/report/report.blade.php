@@ -21,9 +21,9 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-2" ></div>
-                        {{--<div class="rcorners1  col-md-6 " >--}}
-                            {{--<a href="{{ url('/report/student') }}">Scores By Students</a>--}}
-                        {{--</div>--}}
+                        <div class="rcorners1  col-md-6 " >
+                            <a href="{{ url('/report/Subject_wise') }}">Subject wise Report</a>
+                       </div>
                         <div class="col-md-3 col-sm-1" ></div>
                         <div class="rcorners1  col-md-6 col-sm-6" >
                             <a href="{{ url('/report/answer') }}">Questions & Answers</a>
