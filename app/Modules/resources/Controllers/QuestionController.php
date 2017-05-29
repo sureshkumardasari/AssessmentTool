@@ -582,7 +582,7 @@ public function questionedit($id = 0)
 		//return redirect('/resources/question');
 	}
 
-	public function categoryList($id = 0){
+	public function categoryList($id){
 		$category=	Institution::join('category','institution.id','=','category.institution_id')
 				->where('institution.id','=',$id)
 				->select('category.id','category.name')
@@ -590,26 +590,21 @@ public function questionedit($id = 0)
 
 		return $category;
 	}
-	public function subjectList($id = 0){
+	public function subjectList($id){
 		$id=explode(',',$id);
-	
-		$subject =	Category::join('subject','category.id','=','subject.category_id')
+		$subject=	Category::join('subject','category.id','=','subject.category_id')
 				->whereIn('category.id',$id)
 				->select('subject.id','subject.name')
 				->get();
-			
 		return $subject;
 	}
-	public function lessonsList($id = 0){
+	public function lessonsList($id){
 		$id=explode(',',$id);
 		//dd($id);
-		
 		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
 				->whereIn('subject.id',$id)
 				->select('lesson.id','lesson.name')
 				->get();
-
-				
 		return $lessons;
 	}
 	public function passageList($id){
@@ -621,12 +616,11 @@ public function questionedit($id = 0)
 				//dd($passage);
 		return $passage;
 	}
-	public function questiontype($idd = 0){
+	public function questiontype($idd){
 		$post=Input::all();
 
 		$id=explode(',',$idd);
 		//dd($id);
-			if($idd > 0){
 		$passage_Ids=isset( $post['passages'] ) ? $post['passages'] : [0];
 		$questiontype['question_type']= Question::join('lesson','questions.lesson_id','=','lesson.id')
 				->join('question_type','questions.question_type_id','=','question_type.id')
@@ -635,10 +629,7 @@ public function questionedit($id = 0)
 				->groupBy('question_type.qst_type_text')
 				->get();
 						//dd($questiontype);
-			}else{
-	$passage_Ids = '';
-	$questiontype['question_type'] = '';
-			}
+
 		$pass=Passage::join('questions','questions.passage_id','=','passage.id')->whereIn('passage.lesson_id',$id);
 		//$pass->whereIn('lesson_id',$id);
 		//if($passage_Ids > 0){
