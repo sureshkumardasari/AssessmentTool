@@ -53,29 +53,13 @@
 
                 <?php
                 $isAlreadyStarted = false;
-                $time_now=mktime(date('h')+5,date('i')+30,date('s'));
-               $now = date('d-m-Y H:i:sa', $time_now);
-               //dd($now);
-               //dd( $assignment->StartDateTime);
-               if($now != $assignment->StartDateTime)
-               {
-                 $status = 'upcoming';
-                  //dd($status);
-               }
-              
-
-               if($now > $assignment->StartDateTime || $now == $assignment->StartDateTime )
-               {
-                 $status = 'instructions';
-                  //dd($status);
-               }
-                else if($assignment->AssignmentStatus == "upcoming"){
+                if($assignment->AssignmentStatus == "upcoming"){
                     $status = 'upcoming';
                 }else if($assignment->AssignmentStatus == "instructions"){
                     if($assignment->AssignmentUserStatus == "upcoming" || $assignment->AssignmentUserStatus == "instructions" ){
                         $status = 'instructions';
                     }
-                }/*else if($assignment->AssignmentStatus == "inprogress"){
+                }else if($assignment->AssignmentStatus == "inprogress"){
                     if( $assignment->AssignmentUserStatus == "instructions" ){
                         $status = 'instructions';
                     }else if($assignment->AssignmentUserStatus == "test"){
@@ -88,7 +72,7 @@
                         $status="completed";
                     }
 
-                }*/else if($assignment->AssignmentStatus == "completed"){
+                }else if($assignment->AssignmentStatus == "completed"){
                     $status="completed";
                 }
                 else {
@@ -106,12 +90,10 @@
                                         @else
                                             @if ($status == 'instructions')
                                                 <td><span class="text"><a class="anchar" href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId))}}?flag=instructions&type=proctor">Instructions</a></span></td>
-                                                <!-- $status == 'inprogress' &&  -->
-                                            @elseif ($isAlreadyStarted == false)
+                                            @elseif ($status == 'inprogress' && $isAlreadyStarted == false)
                                                 <td><span class="text"><a href="{{ route('tests-instructions', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId )) }}?type=proctor" class="btn btn-primary">Start Test</a></span></td>
                                                 <!-- <td><span class="text">{!! $status !!}</span></td> -->
-                                                <!-- $status == 'inprogress' &&  -->
-                                            @elseif ($isAlreadyStarted == true)
+                                            @elseif ($status == 'inprogress' && $isAlreadyStarted == true)
                                                 <td><span class="text"><a href="{{ route('tests-detail', array('id' => $assignment->AssessmentsId.'-'.$assignment->AssignmentId )) }}" class="btn btn-primary">Resume Test</a></span></td>
 
                                             @elseif ($status == 'completed')
