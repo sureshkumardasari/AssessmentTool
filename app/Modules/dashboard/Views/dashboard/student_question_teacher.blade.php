@@ -54,7 +54,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <tbody id="question_list_filer">
                             @foreach( $tlist as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/user/edit/'.$value['uid'].'/'.$tech) }}">{{ $value['uname'] }}</a></td>
+                                <td><b><a href="{{ url('/user/edit/'.$value['uid'].'/'.$tech) }}">{{ $value['uname'] }}</a></b></td>
                                  
                             </tr>
                             @endforeach
@@ -80,7 +80,7 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <tbody id="question_list_filer">
                             @foreach( $slist as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/user/edit/'.$value['id'].'/'.$stud) }}">{{ $value['name'] }}</a></td>
+                                <td><b><a href="{{ url('/user/edit/'.$value['id'].'/'.$stud) }}">{{ $value['name'] }}</a></b></td>
                                  
                             </tr>
                             @endforeach
@@ -106,12 +106,12 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <tbody id="question_list_filer">
                             @foreach( $list_details as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ strip_tags(htmlspecialchars_decode($value['question_qst_text'])) }}" data-toggle="tooltip">
+                                <td><b><a href="{{ url('/resources/questionview/'.$value['qid']) }}" title="{{ strip_tags(htmlspecialchars_decode($value['question_qst_text'])) }}" data-toggle="tooltip">
                                 <?php
                                 $tt = ellipsis($value['question_qst_text'], 30);
                                   echo $tt;
                                 ?> 
-                                </a></td>
+                                </a></b></td>
                                  
                             </tr>
                             @endforeach
@@ -138,12 +138,12 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <tbody>
                             @foreach( $list_lession as $id => $value )
                             <tr>
-                                <td><a href="{{ url('/resources/lessonedit/'.$id) }}" title="{{ $value }}" data-toggle="tooltip">
+                                <td><b><a href="{{ url('/resources/lessonedit/'.$id) }}" title="{{ $value }}" data-toggle="tooltip">
                                  <?php
                                 $tt = ellipsis($value, 30);
                                   echo $tt;
                                 ?> 
-                                </a></td>
+                                </a></b></td>
                                  
                             </tr>
                             @endforeach
@@ -169,12 +169,12 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                        <tbody id="question_list_filer">
                         @foreach( $assessment as $name )
                             <tr>
-                                <td><a href="{{ url('/resources/assessmentview/'.$name['id']) }}" title="{{ $name['name'] }}" data-toggle="tooltip">
+                                <td><b><a href="{{ url('/resources/assessmentview/'.$name['id']) }}" title="{{ $name['name'] }}" data-toggle="tooltip">
                                  <?php
                                 $tt = ellipsis($name['name'], 30);
                                   echo $tt;
                                 ?> 
-                                </a></td>
+                                </a></b></td>
                             </tr>
                         @endforeach
                      </tbody>
@@ -200,12 +200,12 @@ function ellipsis($text, $max=100, $append='&hellip;') {
                         <tbody>
                              @foreach( $assignments_user as $id => $row )
                                 <tr>
-                                    <td><a href="{{ url('/resources/assignmentview/'.$row->id) }}" title="{{ $row->name }}" data-toggle="tooltip">
+                                    <td><b><a href="{{ url('/resources/assignmentview/'.$row->id) }}" title="{{ $row->name }}" data-toggle="tooltip">
                                     <?php
                                 $tt = ellipsis($row->name, 26);
                                   echo $tt;
                                 ?> 
-                                </a></td>
+                                </a></b></td>
                                     <td><div class="time">{{$row->startdatetime}}</div></td>
                                 </tr>
                             @endforeach
