@@ -56,7 +56,7 @@ function ellipsis1($text, $max=100, $append='') {
  ?>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-lg-4 col-sm-6" style="margin-top: -10px">
            <h5><!-- <a href="{{ URL('dashboard/ClassAverage/'.$graph1) }}" class="btn btn-primary btn-sm right fancybox fancybox.ajax"> <b>Class Average and Student Scores Report:<b> </a> --></h5>
             <div id="chart-2">
             FusionCharts XT will load here!
@@ -79,7 +79,6 @@ function ellipsis1($text, $max=100, $append='') {
         </div>
      </div>
    
-    <div class="clearfix" style="padding:20px"></div> 
    
      <div style="margin-bottom:20px;"> 
         @include('dashboard::dashboard.student_question_teacher')
