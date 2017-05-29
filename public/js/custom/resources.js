@@ -23,7 +23,7 @@ $( document ).ready(function() {
        window.location.reload();
        return false;
       }
-      var optionsdata = '<option value="0">Select</option>';
+      var optionsdata = '<option value="0">--Select category--</option>';
       if(data != ''){    
        var arr = $.parseJSON(data);
        $.each(arr, function (index, value) {
@@ -33,7 +33,7 @@ $( document ).ready(function() {
       }
       $targetFilter.html(optionsdata);
  		//var optionsdata = '<option value="0">Select</option>';
-      $('select#subject_id').html('<option value="0">Select</option>');
+      $('select#subject_id').html('<option value="0">--Select subject--</option>');
      }
     }); 
       }
@@ -53,7 +53,7 @@ $( document ).ready(function() {
        window.location.reload();
        return false;
       }
-      var optionsdata = '<option value="0">Select</option>';
+      var optionsdata = '<option value="0">--Select subject--</option>';
       if(data != ''){  
        var arr = $.parseJSON(data);
        $.each(arr, function (index, value) {

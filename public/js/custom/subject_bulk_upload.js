@@ -26,6 +26,9 @@ function downloadTemplate(type){
     var category_id=$('#subjectimport_category_id').val();
     //alert(category_id);
     $('.error-log').empty();
+    if($('#subjectimport_category_id').val() == ''){
+        alert('Input can not be left blank');
+    }
     $.ajax({
         type: "GET",
         url: bulksubjectTemplate,
@@ -49,8 +52,9 @@ function downloadTemplate(type){
 $('.uploadBtn').off("click").on("click",function(){
 
     institutionId = $("#subjectimport_institution_id").val();
+    var category_id=$('#subjectimport_category_id').val();
     subjectType = 'subjectType';
-    if(institutionId == 0){
+    if(institutionId == 0 || category_id == 0){
         $('.error-log').html("<p class='error'>Please select all the fields</p>");
         return;
     }
