@@ -56,7 +56,7 @@
 								<label class="col-md-4 control-label">Category</label>
 								<div class="col-md-6">
 									<select class="form-control" name="category_id" id="category_id">
-										<option value="0">--Select Category--      </option>
+										<option value="0">--Select Category--</option>
 
 										<!-- {{--<option value="0">--Select Category--</option>--}}
 										@if(getRole()!="administrator")
@@ -113,11 +113,13 @@ $path = url()."/resources/";
 					success:function(response){
 						var a=response.length;
 							$('#category_id').empty();
+							
 							$('#subject_id').empty();
 							
 							var opt = new Option('--Select Category--', '');
 							//opt.addClass('selected','disabled','hidden');
 							$('#category_id').append(opt);
+							
 							var opt1 = new Option('--Select Subject--', '');
 							$('#subject_id').append(opt1);
 							

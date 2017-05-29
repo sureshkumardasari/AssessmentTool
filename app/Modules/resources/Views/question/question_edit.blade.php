@@ -81,6 +81,7 @@
 							<div class="col-md-10">
 								<select class="form-control" name="question_type" id="question_type" >
 									<option value="0">--Select Question Type--</option>
+									
  									<!-- @foreach($qtypes as $id=>$val)
 									<option value="{{ $id }}" {{ ($id == $questions[0]['question_type_id']) ? 'selected = "selected"' : '' }}>{{ $val }}</option>
 									@endforeach -->

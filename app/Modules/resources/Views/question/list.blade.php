@@ -271,7 +271,6 @@ $( document ).ready(function() {
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
 				{
-
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}categoryList/'+$('#institution_id').val(),
 					type:'post',
@@ -290,7 +289,6 @@ $( document ).ready(function() {
 							$('#lessons_id').append(opt2);
 							var opt3 = new Option('--Select QuestionType--', '');
 							$('#question_type').append(opt3);
-
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#category_id').append(opt);
@@ -319,7 +317,6 @@ $( document ).ready(function() {
 							$('#lessons_id').append(opt4);
 							var opt5 = new Option('--Select QuestionType--', '');
 							$('#question_type').append(opt5);
-
 							for (i = 0; i < a; i++) {
 								var opt = new Option(response[i].name, response[i].id);
 								$('#subject_id').append(opt);
@@ -333,7 +330,6 @@ $( document ).ready(function() {
 		var csrf=$('Input#csrf_token').val();
 		$.ajax(
 				{
-
 					headers: {"X-CSRF-Token": csrf},
 					url:'{{$path}}lessonsList/'+$('#subject_id').val(),
 					type:'get',
@@ -381,7 +377,6 @@ $( document ).ready(function() {
 						var opt=new Option('Select QuestionType','');
 						$('#question_type').append(opt);
 						for(i=0;i<a;i++){
-							
 							var opt=new Option(response['question_type'][i].qst_type_text,response['question_type'][i].question_type);
 							$('#question_type').append(opt);
 						}
@@ -418,5 +413,4 @@ $( document ).ready(function() {
             }
     }
     </script>
-
 @endsection

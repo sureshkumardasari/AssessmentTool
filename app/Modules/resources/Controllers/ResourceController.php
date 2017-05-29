@@ -458,12 +458,10 @@ public function categoryList1($id){
         $category=  Institution::join('category','institution.id','=','category.institution_id')
                 ->where('institution.id','=',$id)
                 ->select('category.id','category.name')
-                
                 ->get();
-
         return $category;
     }
-   /* public function subjectList1($id = 0){
+ public function subjectList1($id = 0){
         $id=explode(',',$id);
         if($id > 0){
         $subject=   Category::join('subject','category.id','=','subject.category_id')
@@ -475,7 +473,7 @@ public function categoryList1($id){
             }
 
         return $subject;
-    }*/
+    }
     
     public function lessonsearch($institution_id = 0, $category_id = 0, $subject_id = 0)
     {
@@ -523,14 +521,14 @@ public function categoryList1($id){
     {
         $params = Input::All();
         $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
+
         if($institution_id > 0){
         $category = $this->category->getCategory($institution_id);
         }else{
             $category = '' ;
         }
         return json_encode($category);
-    
-    
+
     }
 
     public function getsubject($institution_id = 0, $category_id = 0)
@@ -538,6 +536,7 @@ public function categoryList1($id){
         $params = Input::All();
         $institution_id = (isset($params['institution_id'])) ? $params['institution_id'] : $institution_id;
         $category_id = (isset($params['category_id'])) ? $params['category_id'] : $category_id;
+        
         if($category_id > 0){
         $subjects = $this->subject->getSubject($category_id);
         //dd($subjects);

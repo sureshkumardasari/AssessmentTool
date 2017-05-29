@@ -64,9 +64,12 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
       Route::post('questionBulkUploadFile', array('as'=>'questionBulkUploadFile','uses'=>'QuestionController@questionBulkUploadFile'));
       
     Route::post('categoryList/{id}', array('as' => 'categoryList', 'uses'=>'QuestionController@categoryList'));
+
     Route::get('subjectList/{id?}', array('as' => 'subjectList', 'uses'=>'QuestionController@subjectList'));
+
     Route::get('lessonsList/{id?}', array('as' => 'lessonsList', 'uses'=>'QuestionController@lessonsList'));
     Route::post('passageList/{id}', array('as' => 'passageList', 'uses'=>'QuestionController@passageList'));
+
     Route::get('questiontypeList/{id?}', array('as' => 'questiontypeList', 'uses'=>'QuestionController@questiontype'));
     //assessmentst
     Route::get('assessment', array('as' => 'assessmentlist', 'uses'=>'AssessmentController@index'));
@@ -118,7 +121,9 @@ Route::group(array('module'=>'resources', 'prefix' => 'resources', 'middleware' 
     Route::get('assignedusersjson', array('as'=>'assignedusersjson','uses'=>'AssignmentController@getAssignUsersInfo'));
     Route::get('unassignedusersjson', array('as'=>'unassignedusersjson','uses'=>'AssignmentController@getunAssignUsersInfo'));
     Route::get('CategoryBulkUpload', array('as' => 'categoryBulkUpload', 'uses'=>'ResourceController@categoryBulkUpload'));
-     Route::post('categoryList1/{id}', array('as' => 'categoryList1', 'uses'=>'ResourceController@categoryList1'));
+
+     Route::post('categoryList1/{id?}', array('as' => 'categoryList1', 'uses'=>'ResourceController@categoryList1'));
+
      Route::post('subjectList1/{id?}', array('as' => 'subjectList1', 'uses'=>'ResourceController@subjectList1'));
     Route::get('BulkCategoryTemplate', array('as'=>'bulkcategoryTemplate','uses'=>'ResourceController@bulkcategoryTemplate'));
     Route::post('BulkCategoryUpload', array('as'=>'bulkcategoryUpload','uses'=>'ResourceController@bulkcategoryUpload'));

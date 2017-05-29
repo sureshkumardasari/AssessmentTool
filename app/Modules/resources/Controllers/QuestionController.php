@@ -581,7 +581,6 @@ public function questionedit($id = 0)
 		}
 		//return redirect('/resources/question');
 	}
-
 	public function categoryList($id = 0){
 		$category=	Institution::join('category','institution.id','=','category.institution_id')
 				->where('institution.id','=',$id)
@@ -592,24 +591,19 @@ public function questionedit($id = 0)
 	}
 	public function subjectList($id = 0){
 		$id=explode(',',$id);
-	
 		$subject =	Category::join('subject','category.id','=','subject.category_id')
 				->whereIn('category.id',$id)
 				->select('subject.id','subject.name')
-				->get();
-			
+				->get();		
 		return $subject;
 	}
 	public function lessonsList($id = 0){
 		$id=explode(',',$id);
-		//dd($id);
-		
+		//dd($id);	
 		$lessons=	Lesson::join('subject','lesson.subject_id','=','subject.id')
 				->whereIn('subject.id',$id)
 				->select('lesson.id','lesson.name')
-				->get();
-
-				
+				->get();			
 		return $lessons;
 	}
 	public function passageList($id){
@@ -623,10 +617,9 @@ public function questionedit($id = 0)
 	}
 	public function questiontype($idd = 0){
 		$post=Input::all();
-
 		$id=explode(',',$idd);
 		//dd($id);
-			if($idd > 0){
+		if($idd > 0){
 		$passage_Ids=isset( $post['passages'] ) ? $post['passages'] : [0];
 		$questiontype['question_type']= Question::join('lesson','questions.lesson_id','=','lesson.id')
 				->join('question_type','questions.question_type_id','=','question_type.id')

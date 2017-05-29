@@ -23,6 +23,7 @@ function downloadTemplate(type){
 
 
     var institution_id = $('#subjectimport_institution_id').val();
+
     var category_id=$('#subjectimport_category_id').val();
     //alert(category_id);
     $('.error-log').empty();
@@ -54,6 +55,7 @@ $('.uploadBtn').off("click").on("click",function(){
     institutionId = $("#subjectimport_institution_id").val();
     var category_id=$('#subjectimport_category_id').val();
     subjectType = 'subjectType';
+    
     if(institutionId == 0 || category_id == 0){
         $('.error-log').html("<p class='error'>Please select all the fields</p>");
         return;
