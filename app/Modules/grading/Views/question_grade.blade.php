@@ -5,7 +5,14 @@
 	{!! HTML::script(asset('assets/js/grade.js')) !!}
 @stop
 @section('content')
-
+<style type="text/css">
+	.tip-container{
+		top:3px !important;
+	}
+	.tip-btn-list{
+		padding-left: 0px;
+	}
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
@@ -286,6 +293,7 @@
 			$("input.orderTopicToolTip").val(val);
 //            $('.ssi-tip').attr('style','top: 483px; left: 1048.5px;');
 //            var val = $("input.orderTopicToolTip").val();
+//			$('.tip-container').attr('style','top: 3px!important;');
             
 		}
 
