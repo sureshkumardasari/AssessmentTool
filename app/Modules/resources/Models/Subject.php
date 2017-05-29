@@ -152,7 +152,7 @@ class Subject extends Model {
 		$exportFields = array(
 			'institutionId' => array('value'=>[$institution_name]),
 			'categoryId' => array('options'=>$category_name),
-			'subjectId' => array(),
+			'subjectname' => array(),
 		);
 		//dd($exportFields);
 		$firstRow = false;
@@ -240,11 +240,11 @@ class Subject extends Model {
 		$error = array();
 
 		$dataArr = $data->toArray();
-//		dd($dataArr);
+		//dd($dataArr);
 		$validationRule = [
 				'institutionid' => 'required|numeric|exists:institution,id',
-				'category_id'=>'required',
-		        'subject_name'=>'required|min:3',
+				'categoryid'=>'required',
+		        'subjectname'=>'required|min:3',
 		];
 		$messages = [
 		];
@@ -252,11 +252,11 @@ class Subject extends Model {
 		$validator = Validator::make($dataArr, $validationRule, $messages);
 		$messages = $validator->messages();
 		$error=[];
-		$data = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_id'])
-			->where('name', $dataArr['subject_name'])->select('name')->first();
-		if($dataArr['subject_name']==$data['name']){
-			$num = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['category_id'])
-				->where('name', $dataArr['subject_name'])->count();
+		$data = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['categoryid'])
+			->where('name', $dataArr['subjectname'])->select('name')->first();
+		if($dataArr['subjectname']==$data['name']){
+			$num = Subject::where('institution_id', $dataArr['institutionid'])->where('category_id',$dataArr['categoryid'])
+				->where('name', $dataArr['subjectname'])->count();
 			if ($num > 0) {
  				$error[] = array('subject already found');
 			}else{
@@ -280,8 +280,8 @@ class Subject extends Model {
 
 		$obj = new Subject();
 		$obj->institution_id = $institutionId;
-		$obj->category_id = $row->category_name;
-		$obj->name = $row->subject_name;
+		$obj->category_id = $row->categoryid;
+		$obj->name = $row->subjectname;
 		$obj->save();
 	}
 }

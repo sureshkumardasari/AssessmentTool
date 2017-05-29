@@ -761,14 +761,16 @@ public function categoryList($id){
     public function subjectfileupload($destPath, $destFileName, $institutionId, $subjectType)
     {
         $uploadSuccess = false;
-        $orignalHeaders = ['institutionid','category_id','subject_name','id'];
+        $orignalHeaders = ['institutionid','categoryid','subjectname'];
         $getFirstRow = Excel::load($destPath . '/' . $destFileName)->first()->toArray();
-
+        //dd($getFirstRow[0]);
         $uploadedFileHeaders = [];
         if (!empty($getFirstRow[0])) {
             $uploadedFileHeaders = array_keys(array_only($getFirstRow[0], $orignalHeaders));
         }
+        //dd($uploadedFileHeaders);
         $headerDifference = array_diff($orignalHeaders, $uploadedFileHeaders);
+        //dd($headerDifference);
         if (!empty($headerDifference)) {
             $error = array('status' => 'error', 'msg' => 'Invalid file.');
             return json_encode($error);
